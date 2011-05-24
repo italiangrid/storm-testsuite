@@ -3,7 +3,8 @@ Thanks for downloading tstorm.
 To install it, make sure you have Python 2.4 or greater installed. Then run
 this command from the command prompt:
 
-    python setup.py install
+    python setup.py install (as root)
+    python setup.py install --prefix=<path location> --install-data=<path location>
 
 AS AN ALTERNATIVE, you can just copy the entire "tstorm" directory to Python's
 site-packages directory, which is located wherever your Python installation
@@ -11,6 +12,14 @@ lives. Some places you might check are:
 
     /usr/lib/python2.5/site-packages (Unix, Python 2.5)
     /usr/lib/python2.4/site-packages (Unix, Python 2.4)
+
+To create binary tar.gz file, run this command:
+
+    python setup.py bdist --format=gztar
+
+To create rpm file, run this command:
+
+    
 
 ~
 

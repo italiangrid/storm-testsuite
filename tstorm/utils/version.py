@@ -1,3 +1,5 @@
+__author__ = 'Elisabetta Ronchieri'
+
 import tstorm
 import os.path
 import re

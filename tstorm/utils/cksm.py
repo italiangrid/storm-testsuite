@@ -1,7 +1,4 @@
-'''
-File: CksmLf.py
-Authors: Elisabetta Ronchieri
-'''
+__author__ = 'Elisabetta Ronchieri'
 
 import sys
 from zlib import adler32

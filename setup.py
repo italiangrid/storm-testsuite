@@ -58,14 +58,18 @@ version = __import__('tstorm').get_version()
 if u'SVN' in version:
     version = ' '.join(version.split(' ')[:-1])
 
+name = "tstorm"
+
 setup(
-    name = "tstorm",
+    name = name,
     version = version.replace(' ', '-'),
     url = 'http://www.storm.it/',
     author = 'StoRM Product Team',
     author_email = 'storm-support@lists.infn.it',
     description = 'A functional Python testsuite that verifies the StoRM services.',
-    download_url = 'http://media.djangoproject.com/releases/1.3/Django-1.3.tar.gz',
+    download_url = 'to be defined',
+    platform = 'noarch',
     packages = packages,
-    data_files = ['conf/tstorm.ini']
+    data_files = [('/usr/share/doc/'+ name + '-'+version+'/',['README', 'LICENSE', 'AUTHORS', 'INSTALL']),
+                 ('/etc/'+name+'/', ['conf/tstorm.ini'])]
 )

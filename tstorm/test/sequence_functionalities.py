@@ -1,3 +1,5 @@
+__author__ = 'Elisabetta Ronchieri'
+
 import os 
 import unittest
 from tstorm.utils import config

@@ -1,7 +1,4 @@
-'''
-File: rmdir.py
-Authors: Elisabetta Ronchieri
-'''
+__author__ = 'Elisabetta Ronchieri'
 
 import commands
 import os
