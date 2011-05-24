@@ -3,7 +3,9 @@ __author__ = 'Elisabetta Ronchieri'
 import datetime
 import time
 import sys
+import os
 import unittest
+import getopt
 from tstorm.test import sequence_functionalities as sf
 
 def usage():
