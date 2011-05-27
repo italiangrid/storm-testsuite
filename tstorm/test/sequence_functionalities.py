@@ -93,5 +93,4 @@ class SequenceFunctionalities(unittest.TestCase):
 
     def test_rm_lf(self):
       self.rmlf_result = removefile.RmLf(self.ifn, self.bifn).get_output()
-      print self.rmlf_result
       self.assert_(self.rmlf_result['status'] == 'PASS')

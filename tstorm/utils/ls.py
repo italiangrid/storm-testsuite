@@ -53,6 +53,5 @@ class LcgLs:
           self.otpt['Checksum'] = y.split(':')[1][1:]
     else:
       self.otpt['status'] = 'FAILURE'
-    print self.otpt
     return self.otpt
     
