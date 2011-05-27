@@ -71,5 +71,5 @@ setup(
     platform = 'noarch',
     packages = packages,
     data_files = [('/usr/share/doc/'+ name + '-'+version+'/',['README', 'LICENSE', 'AUTHORS', 'INSTALL']),
-                 ('/etc/'+name+'/', ['conf/tstorm.ini'])]
+                 ('/etc/'+name+'/', ['conf/tstorm.ini', 'conf/8-digit-string-checksum.ini'])]
 )

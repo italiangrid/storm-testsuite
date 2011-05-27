@@ -47,3 +47,22 @@ class Dd:
       self.otpt['status'] = 'FAILURE'
 
     return self.otpt
+
+class Cf:
+  def __init__(self, fn='input-file'):
+    self.ifn = fn
+    self.otpt = {
+      'status':''}
+
+  def get_output(self):
+    c = 'a'
+    try:
+      f = open(self.ifn,'w')
+      f.write(c)
+      f.close()
+      self.otpt['status'] = 'PASS'
+    except IOError:
+      self.otpt['status'] = 'FAILURE'
+      pass
+
+    return self.otpt

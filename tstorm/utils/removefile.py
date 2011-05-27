@@ -13,7 +13,10 @@ class RmLf:
       'status':''}
 
   def get_command(self):
-    a = self.cmd['name'] + ' ' + self.ifn + ' ' + self.bfn 
+    if self.bfn != '':
+      a = self.cmd['name'] + ' -f  ' + self.ifn + ' ' + self.bfn
+    else:
+      a = self.cmd['name'] + ' -f  ' + self.ifn
     print a
     return a
 

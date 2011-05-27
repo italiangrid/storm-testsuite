@@ -6,7 +6,7 @@ import sys
 import os
 import unittest
 import getopt
-from tstorm.test import functionalities as fu
+from tstorm.test import 8_digit_string_checksum_rt as 8dscr
 
 def usage():
     print "Usage:  python testsutie.py [-c|--conf] [-d|--destfile]"
@@ -14,19 +14,14 @@ def usage():
 
 def test_suite(conf, ifn, dfn, bifn):
   s = unittest.TestSuite()
-  s.addTest(fu.SequenceFunctionalities('test_settings',conf, ifn, dfn, bifn))
-  s.addTest(fu.SequenceFunctionalities('test_ping',conf, ifn, dfn, bifn))
-  s.addTest(fu.SequenceFunctionalities('test_dd',conf, ifn, dfn, bifn))
-  s.addTest(fu.SequenceFunctionalities('test_ls_bt',conf, ifn, dfn, bifn))
-  s.addTest(fu.SequenceFunctionalities('test_mkdir_bc',conf, ifn, dfn, bifn))
-  s.addTest(fu.SequenceFunctionalities('test_mkdir_ac',conf, ifn, dfn, bifn))
-  s.addTest(fu.SequenceFunctionalities('test_ls_ac',conf, ifn, dfn, bifn))
-  s.addTest(fu.SequenceFunctionalities('test_cp_bt',conf, ifn, dfn, bifn))
-  s.addTest(fu.SequenceFunctionalities('test_ls_at',conf, ifn, dfn, bifn))
-  s.addTest(fu.SequenceFunctionalities('test_cp_at',conf, ifn, dfn, bifn))
-  s.addTest(fu.SequenceFunctionalities('test_rm',conf, ifn, dfn, bifn))
-  s.addTest(fu.SequenceFunctionalities('test_rmdir',conf, ifn, dfn, bifn))
-  s.addTest(fu.SequenceFunctionalities('test_rm_lf',conf, ifn, dfn, bifn))
+  s.addTest(8dscr.RegressionSequenceTests('test_settings',conf, ifn, dfn, bifn))
+  s.addTest(8dscr.RegressionSequenceTests('test_cf',conf, ifn, dfn, bifn))
+  s.addTest(8dscr.RegressionSequenceTests('test_ls_bt',conf, ifn, dfn, bifn))
+  s.addTest(8dscr.RegressionSequenceTests('test_cp_bt',conf, ifn, dfn, bifn))
+  s.addTest(8dscr.RegressionSequenceTests('test_ls_at',conf, ifn, dfn, bifn))
+  s.addTest(8dscr.RegressionSequenceTests('test_rm',conf, ifn, dfn, bifn))
+  s.addTest(8dscr.RegressionSequenceTests('test_rmdir',conf, ifn, dfn, bifn))
+  s.addTest(8dscr.RegressionSequenceTests('test_rm_lf',conf, ifn, dfn, bifn))
   
   return s
 

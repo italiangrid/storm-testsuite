@@ -13,9 +13,9 @@ from tstorm.utils import rm
 from tstorm.utils import rmdir
 from tstorm.utils import cksm
 
-class SequenceFunctionalities(unittest.TestCase):
+class Functionalities(unittest.TestCase):
     def __init__(self, testname, tfn, ifn, dfn, bifn):
-      super(SequenceFunctionalities, self).__init__(testname)
+      super(Functionalities, self).__init__(testname)
       self.tsets = config.TestSettings(tfn).get_test_sets()
       self.ifn = ifn
       self.dfn = dfn
