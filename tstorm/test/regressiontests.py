@@ -12,7 +12,7 @@ def usage():
     print "Usage:  python testsutie.py [-c|--conf] [-d|--destfile]"
     print """Example: python testsutie.py -c tstorm.ini -d /qui/quo/qua"""
 
-def test_suite(conf, ifn, dfn, bifn):
+def 8_digit_string_checksum_rts(conf, ifn, dfn, bifn):
   s = unittest.TestSuite()
   s.addTest(8dscr.RegressionSequenceTests('test_settings',conf, ifn, dfn, bifn))
   s.addTest(8dscr.RegressionSequenceTests('test_cf',conf, ifn, dfn, bifn))
@@ -64,4 +64,4 @@ if __name__ == '__main__':
         dfn = dfn + x + ts + '/'
       dfn = dfn + os.path.basename(n_dfn) + '.' + ts
 
-  runner = unittest.TextTestRunner(verbosity=2).run(test_suite(tfn,ifn,dfn,back_ifn))
+  runner = unittest.TextTestRunner(verbosity=2).run(8_digit_string_checksum_rts(tfn,ifn,dfn,back_ifn))
