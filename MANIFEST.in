@@ -3,6 +3,8 @@ include AUTHORS
 include INSTALL
 include LICENSE
 include MANIFEST.in
+include bin/tstorm-tc
+include bin/tstorm-rt
 include conf/tstorm.ini
 recursive-include tstorm/utils *
 recursive-include tstorm/test *
