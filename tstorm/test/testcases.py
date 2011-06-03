@@ -14,19 +14,19 @@ def usage():
 
 def test_suite(conf, ifn, dfn, bifn):
   s = unittest.TestSuite()
-  s.addTest(fu.SequenceFunctionalities('test_settings',conf, ifn, dfn, bifn))
-  s.addTest(fu.SequenceFunctionalities('test_ping',conf, ifn, dfn, bifn))
-  s.addTest(fu.SequenceFunctionalities('test_dd',conf, ifn, dfn, bifn))
-  s.addTest(fu.SequenceFunctionalities('test_ls_bt',conf, ifn, dfn, bifn))
-  s.addTest(fu.SequenceFunctionalities('test_mkdir_bc',conf, ifn, dfn, bifn))
-  s.addTest(fu.SequenceFunctionalities('test_mkdir_ac',conf, ifn, dfn, bifn))
-  s.addTest(fu.SequenceFunctionalities('test_ls_ac',conf, ifn, dfn, bifn))
-  s.addTest(fu.SequenceFunctionalities('test_cp_bt',conf, ifn, dfn, bifn))
-  s.addTest(fu.SequenceFunctionalities('test_ls_at',conf, ifn, dfn, bifn))
-  s.addTest(fu.SequenceFunctionalities('test_cp_at',conf, ifn, dfn, bifn))
-  s.addTest(fu.SequenceFunctionalities('test_rm',conf, ifn, dfn, bifn))
-  s.addTest(fu.SequenceFunctionalities('test_rmdir',conf, ifn, dfn, bifn))
-  s.addTest(fu.SequenceFunctionalities('test_rm_lf',conf, ifn, dfn, bifn))
+  s.addTest(fu.Functionalities('test_settings',conf, ifn, dfn, bifn))
+  s.addTest(fu.Functionalities('test_ping',conf, ifn, dfn, bifn))
+  s.addTest(fu.Functionalities('test_dd',conf, ifn, dfn, bifn))
+  s.addTest(fu.Functionalities('test_ls_bt',conf, ifn, dfn, bifn))
+  s.addTest(fu.Functionalities('test_mkdir_bc',conf, ifn, dfn, bifn))
+  s.addTest(fu.Functionalities('test_mkdir_ac',conf, ifn, dfn, bifn))
+  s.addTest(fu.Functionalities('test_ls_ac',conf, ifn, dfn, bifn))
+  s.addTest(fu.Functionalities('test_cp_bt',conf, ifn, dfn, bifn))
+  s.addTest(fu.Functionalities('test_ls_at',conf, ifn, dfn, bifn))
+  s.addTest(fu.Functionalities('test_cp_at',conf, ifn, dfn, bifn))
+  s.addTest(fu.Functionalities('test_rm',conf, ifn, dfn, bifn))
+  s.addTest(fu.Functionalities('test_rmdir',conf, ifn, dfn, bifn))
+  s.addTest(fu.Functionalities('test_rm_lf',conf, ifn, dfn, bifn))
   
   return s
 
