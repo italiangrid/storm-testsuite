@@ -11,9 +11,9 @@ from tstorm.utils import rm
 from tstorm.utils import rmdir
 from tstorm.utils import cksm
 
-class 8DigitStringChecksumRt(unittest.TestCase):
+class EightDigitStringChecksumRt(unittest.TestCase):
     def __init__(self, testname, tfn, ifn, dfn,bifn):
-      super(8DigitStringChecksumRt, self).__init__(testname)
+      super(EightDigitStringChecksumRt, self).__init__(testname)
       self.tsets = config.TestSettings(tfn).get_test_sets()
       self.ifn = ifn
       self.dfn = dfn

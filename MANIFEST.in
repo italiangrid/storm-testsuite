@@ -5,6 +5,8 @@ include LICENSE
 include MANIFEST.in
 include bin/tstorm-tc
 include bin/tstorm-rt
+include sbin/tstorm-setup.sh
 include conf/tstorm.ini
+include conf/8_digit_string_checksum.ini
 recursive-include tstorm/utils *
 recursive-include tstorm/test *

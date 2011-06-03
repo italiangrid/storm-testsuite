@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 __author__ = 'Elisabetta Ronchieri'
 
 import datetime
@@ -6,22 +8,22 @@ import sys
 import os
 import unittest
 import getopt
-from tstorm.test import 8_digit_string_checksum_rt as 8dscr
+from tstorm.test import eight_digit_string_checksum_rt as edscr
 
 def usage():
     print "Usage:  python testsutie.py [-c|--conf] [-d|--destfile]"
     print """Example: python testsutie.py -c tstorm.ini -d /qui/quo/qua"""
 
-def 8_digit_string_checksum_rts(conf, ifn, dfn, bifn):
+def eight_digit_string_checksum_rts(conf, ifn, dfn, bifn):
   s = unittest.TestSuite()
-  s.addTest(8dscr.RegressionSequenceTests('test_settings',conf, ifn, dfn, bifn))
-  s.addTest(8dscr.RegressionSequenceTests('test_cf',conf, ifn, dfn, bifn))
-  s.addTest(8dscr.RegressionSequenceTests('test_ls_bt',conf, ifn, dfn, bifn))
-  s.addTest(8dscr.RegressionSequenceTests('test_cp_bt',conf, ifn, dfn, bifn))
-  s.addTest(8dscr.RegressionSequenceTests('test_ls_at',conf, ifn, dfn, bifn))
-  s.addTest(8dscr.RegressionSequenceTests('test_rm',conf, ifn, dfn, bifn))
-  s.addTest(8dscr.RegressionSequenceTests('test_rmdir',conf, ifn, dfn, bifn))
-  s.addTest(8dscr.RegressionSequenceTests('test_rm_lf',conf, ifn, dfn, bifn))
+  s.addTest(edscr.EightDigitStringChecksumRt('test_settings',conf, ifn, dfn, bifn))
+  s.addTest(edscr.EightDigitStringChecksumRt('test_cf',conf, ifn, dfn, bifn))
+  s.addTest(edscr.EightDigitStringChecksumRt('test_ls_bt',conf, ifn, dfn, bifn))
+  s.addTest(edscr.EightDigitStringChecksumRt('test_cp_bt',conf, ifn, dfn, bifn))
+  s.addTest(edscr.EightDigitStringChecksumRt('test_ls_at',conf, ifn, dfn, bifn))
+  s.addTest(edscr.EightDigitStringChecksumRt('test_rm',conf, ifn, dfn, bifn))
+  s.addTest(edscr.EightDigitStringChecksumRt('test_rmdir',conf, ifn, dfn, bifn))
+  s.addTest(edscr.EightDigitStringChecksumRt('test_rm_lf',conf, ifn, dfn, bifn))
   
   return s
 
@@ -64,4 +66,4 @@ if __name__ == '__main__':
         dfn = dfn + x + ts + '/'
       dfn = dfn + os.path.basename(n_dfn) + '.' + ts
 
-  runner = unittest.TextTestRunner(verbosity=2).run(8_digit_string_checksum_rts(tfn,ifn,dfn,back_ifn))
+  runner = unittest.TextTestRunner(verbosity=2).run(eight_digit_string_checksum_rts(tfn,ifn,dfn,back_ifn))

@@ -71,6 +71,7 @@ setup(
     platform = 'noarch',
     packages = packages,
     scripts = ['bin/tstorm-tc', 'bin/tstorm-rt'],
-    data_files = [('/usr/share/doc/'+ name + '-'+version+'/',['README', 'LICENSE', 'AUTHORS', 'INSTALL']),
-                 ('/etc/'+name+'/', ['conf/tstorm.ini', 'conf/8-digit-string-checksum.ini'])]
+    data_files = [('/usr/sbin/', ['sbin/tstorm-setup.sh']),
+                 ('/usr/share/doc/'+ name + '-'+version+'/',['README', 'LICENSE', 'AUTHORS', 'INSTALL']),
+                 ('/etc/'+name+'/', ['conf/tstorm.ini', 'conf/8_digit_string_checksum.ini'])]
 )
