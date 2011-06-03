@@ -8,7 +8,7 @@ import sys
 import os
 import unittest
 import getopt
-from tstorm.test import eight_digit_string_checksum_rt as edscr
+from tstorm.test import regressiontest as rt
 
 def usage():
     print "Usage:  python testsutie.py [-c|--conf] [-d|--destfile]"
@@ -16,14 +16,14 @@ def usage():
 
 def eight_digit_string_checksum_rts(conf, ifn, dfn, bifn):
   s = unittest.TestSuite()
-  s.addTest(edscr.EightDigitStringChecksumRt('test_settings',conf, ifn, dfn, bifn))
-  s.addTest(edscr.EightDigitStringChecksumRt('test_cf',conf, ifn, dfn, bifn))
-  s.addTest(edscr.EightDigitStringChecksumRt('test_ls_bt',conf, ifn, dfn, bifn))
-  s.addTest(edscr.EightDigitStringChecksumRt('test_cp_bt',conf, ifn, dfn, bifn))
-  s.addTest(edscr.EightDigitStringChecksumRt('test_ls_at',conf, ifn, dfn, bifn))
-  s.addTest(edscr.EightDigitStringChecksumRt('test_rm',conf, ifn, dfn, bifn))
-  s.addTest(edscr.EightDigitStringChecksumRt('test_rmdir',conf, ifn, dfn, bifn))
-  s.addTest(edscr.EightDigitStringChecksumRt('test_rm_lf',conf, ifn, dfn, bifn))
+  s.addTest(rt.RegressionTest('test_settings',conf, ifn, dfn, bifn))
+  s.addTest(rt.RegressionTest('test_cf',conf, ifn, dfn, bifn))
+  s.addTest(rt.RegressionTest('test_ls_bt',conf, ifn, dfn, bifn))
+  s.addTest(rt.RegressionTest('test_cp_bt',conf, ifn, dfn, bifn))
+  s.addTest(rt.RegressionTest('test_ls_at',conf, ifn, dfn, bifn))
+  s.addTest(rt.RegressionTest('test_rm',conf, ifn, dfn, bifn))
+  s.addTest(rt.RegressionTest('test_rmdir',conf, ifn, dfn, bifn))
+  s.addTest(rt.RegressionTest('test_rm_lf',conf, ifn, dfn, bifn))
   
   return s
 

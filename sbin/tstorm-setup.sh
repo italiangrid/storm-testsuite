@@ -1,4 +1,4 @@
-!#/bin/sh
+#!/bin/sh
 
 TSTORM_HOME=$1
 export PATH=$TSTORM_HOME/usr/bin:$PATH
