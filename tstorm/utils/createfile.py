@@ -2,6 +2,7 @@ __author__ = 'Elisabetta Ronchieri'
 
 import commands
 import os
+from tstorm.utils import utils
 
 class Dd:
   def __init__(self, fn='input-file'):
@@ -17,25 +18,9 @@ class Dd:
     print a
     return a
 
-  def is_bin(self, cmd):
-    return os.path.exists(cmd) and os.access(cmd, os.X_OK)
-    
-  def cmd_exist(self, cmd):
-    fpath, fname = os.path.split(cmd)
-    if fpath:
-      if self.is_bin(cmd):
-        return True
-    else:
-      for path in os.environ["PATH"].split(os.pathsep):
-        tmp_cmd = os.path.join(path,cmd)
-        if self.is_bin(tmp_cmd):
-          self.cmd['name'] = tmp_cmd
-          return True
-    return False
-
   def run_command(self):
     a=()
-    if self.cmd_exist(self.cmd['name']):
+    if utils.cmd_exist(self.cmd['name']):
       a=commands.getstatusoutput(self.get_command())
     return a
 
