@@ -1,4 +1,5 @@
 import os
+import commands
 
 def is_bin(cmd):
   return os.path.exists(cmd) and os.access(cmd, os.X_OK)
@@ -14,3 +15,16 @@ def cmd_exist(cmd):
       if is_bin(tmp_cmd):
         return True
   return False
+
+def run_voms_proxy_info():
+    a=()
+    if cmd_exist('voms-proxy-info'):
+      a=commands.getstatusoutput('voms-proxy-info --all')
+    return a
+
+def get_proxy_path():
+    a=run_voms_proxy_info()
+    if len(a) > 0 and a[0] == 0:
+      return 'PASS', a[1].split('path')[1].split(':')[1]
+
+    return 'FAILURE', ''

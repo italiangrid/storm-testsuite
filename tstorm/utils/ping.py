@@ -88,6 +88,5 @@ class StoRMPing:
     else:
       self.otpt['status'] = 'FAILURE'
 
-    print self.otpt
     return self.otpt
     

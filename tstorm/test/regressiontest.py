@@ -21,7 +21,7 @@ class RegressionTest(unittest.TestCase):
     
     def test_settings(self):
       for x in self.tsets:
-        self.assert_(x in ('general','bug-general'))
+        self.assert_(x == 'general')
         for y in self.tsets[x]:
             self.assert_(x != '')
 
