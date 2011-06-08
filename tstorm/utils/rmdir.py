@@ -32,7 +32,7 @@ class SrmRmdir:
     while y != '/':
       a=self.run_command(y)
       self.otpt['path'].append(y)
-      if a[0] == 0:
+      if len(a) > 0 and a[0] == 0:
         self.otpt['status'].append('PASS')
       else:
         self.otpt['status'].append('FAILURE')

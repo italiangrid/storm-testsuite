@@ -27,12 +27,22 @@ class Functionalities(unittest.TestCase):
         for y in self.tsets[x]:
             self.assert_(x != '')
 
-    def test_ping(self):
+    def test_dcache_ping(self):
       self.ping_result = ping.SrmPing(self.tsets['general']['endpoint']).get_output()
       self.assert_(self.ping_result['status'] == 'PASS')
       self.assert_(self.ping_result['VersionInfo'] == self.tsets['ping']['versioninfo'])
       self.assert_(self.ping_result['backend_type'] == self.tsets['ping']['backend_type'])
       self.assert_(self.ping_result['backend_version'] == self.tsets['ping']['backend_version'])
+
+    def test_storm_ping(self):
+      self.ping_result = ping.StoRMPing(self.tsets['general']['endpoint']).get_output()
+      self.assert_(self.ping_result['status'] == 'PASS')
+      self.assert_(self.ping_result['versionInfo'] == self.tsets['ping']['versioninfo'])
+      for x in self.ping_result['key']:
+        if x == 'backend_type':
+          self.assert_(self.ping_result['value'][self.ping_result['key'].index(x)] == self.tsets['ping']['backend_type'])
+        elif x == 'backend_version':
+          self.assert_(self.ping_result['value'][self.ping_result['key'].index(x)] == self.tsets['ping']['backend_version'])
 
     def test_dd(self):
       self.dd_result = createfile.Dd(self.ifn).get_output()

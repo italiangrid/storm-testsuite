@@ -8,8 +8,8 @@ class Dd:
   def __init__(self, fn='input-file'):
     self.ifn = fn
     self.cmd = {
-      'name': 'dd',
-      'size': '1M'}
+      'name':'dd',
+      'size':'1M'}
     self.otpt = {
       'status':''}
 

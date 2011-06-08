@@ -12,6 +12,5 @@ def cmd_exist(cmd):
     for path in os.environ["PATH"].split(os.pathsep):
       tmp_cmd = os.path.join(path,cmd)
       if is_bin(tmp_cmd):
-        cmd['name'] = tmp_cmd
         return True
   return False

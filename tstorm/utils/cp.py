@@ -26,22 +26,6 @@ class LcgCp:
     print a
     return a
 
-#  def is_bin(self, cmd):
-#    return os.path.exists(cmd) and os.access(cmd, os.X_OK)
-    
-#  def cmd_exist(self, cmd):
-#    fpath, fname = os.path.split(cmd)
-#    if fpath:
-#      if self.is_bin(cmd):
-#        return True
-#    else:
-#      for path in os.environ["PATH"].split(os.pathsep):
-#        tmp_cmd = os.path.join(path,cmd)
-#        if self.is_bin(tmp_cmd):
-#          self.cmd['name'] = tmp_cmd
-#          return True
-#    return False
-
   def run_command(self, in_write=True):
     a=()
     if utils.cmd_exist(self.cmd['name']):
@@ -50,12 +34,9 @@ class LcgCp:
 
   def get_output(self, in_write=True):
     a=self.run_command(in_write)
-    if a[0] == 0:
+    if len(a) > 0 and a[0] == 0:
       self.otpt['status'] = 'PASS'
     else:
       self.otpt['status'] = 'FAILURE'
 
     return self.otpt
-
-  
-    

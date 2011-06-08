@@ -29,7 +29,7 @@ class RmLf:
 
   def get_output(self):
     a=self.run_command()
-    if a[0] == 0:
+    if len(a) > 0 and a[0] == 0:
       self.otpt['status'] = 'PASS'
     else:
       self.otpt['status'] = 'FAILURE'

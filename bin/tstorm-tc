@@ -17,7 +17,8 @@ def usage():
 def test_suite(conf, ifn, dfn, bifn):
   s = unittest.TestSuite()
   s.addTest(fu.Functionalities('test_settings',conf, ifn, dfn, bifn))
-  s.addTest(fu.Functionalities('test_ping',conf, ifn, dfn, bifn))
+  s.addTest(fu.Functionalities('test_dcache_ping',conf, ifn, dfn, bifn))
+  s.addTest(fu.Functionalities('test_storm_ping',conf, ifn, dfn, bifn))
   s.addTest(fu.Functionalities('test_dd',conf, ifn, dfn, bifn))
   s.addTest(fu.Functionalities('test_ls_bt',conf, ifn, dfn, bifn))
   s.addTest(fu.Functionalities('test_mkdir_bc',conf, ifn, dfn, bifn))
