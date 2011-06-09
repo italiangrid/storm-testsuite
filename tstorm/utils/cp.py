@@ -83,6 +83,8 @@ class StoRMPtp:
             for z in y:
               if x in z:
                 self.otpt[x].append(z.split(x)[1].split('="')[1].split('"')[0])
+      else:
+        self.otpt['status'] = 'FAILURE'
     else:
       self.otpt['status'] = 'FAILURE'
 
@@ -130,6 +132,8 @@ class StoRMPtg:
             for z in y:
               if x in z:
                 self.otpt[x].append(z.split(x)[1].split('="')[1].split('"')[0])
+      else:
+        self.otpt['status'] = 'FAILURE'
     else:
       self.otpt['status'] = 'FAILURE'
 
@@ -173,6 +177,8 @@ class StoRMPd:
             for z in y:
               if x in z:
                 self.otpt[x].append(z.split(x)[1].split('="')[1].split('"')[0])
+      else:
+        self.otpt['status'] = 'FAILURE'
     else:
       self.otpt['status'] = 'FAILURE'
 
@@ -216,6 +222,8 @@ class StoRMRf:
             for z in y:
               if x in z:
                 self.otpt[x].append(z.split(x)[1].split('="')[1].split('"')[0])
+      else:
+        self.otpt['status'] = 'FAILURE'
     else:
       self.otpt['status'] = 'FAILURE'
 
@@ -295,7 +303,10 @@ class curl:
 
     a=self.run_command(use_ssl, in_write)
     if len(a) > 0 and a[0] == 0:
-      self.otpt['status'] = 'PASS'
+      if 'html' in a[1]:
+        self.otpt['status'] = 'FAILURE'
+      else:
+        self.otpt['status'] = 'PASS'
     else:
       self.otpt['status'] = 'FAILURE'
 
