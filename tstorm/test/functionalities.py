@@ -4,8 +4,6 @@ import os
 import unittest
 from tstorm.utils import config
 from tstorm.utils import ping
-from tstorm.utils import createfile
-from tstorm.utils import removefile
 from tstorm.utils import ls
 from tstorm.utils import mkdir
 from tstorm.utils import cp
@@ -13,19 +11,13 @@ from tstorm.utils import rm
 from tstorm.utils import rmdir
 from tstorm.utils import cksm
 
-class Functionalities(unittest.TestCase):
+class FunctionalitiesTest(unittest.TestCase):
     def __init__(self, testname, tfn, ifn, dfn, bifn):
-      super(Functionalities, self).__init__(testname)
+      super(FunctionalitiesTest, self).__init__(testname)
       self.tsets = config.TestSettings(tfn).get_test_sets()
       self.ifn = ifn
       self.dfn = dfn
       self.bifn = bifn
-    
-    def test_settings(self):
-      for x in self.tsets:
-        self.assert_(x in ('general','ping'))
-        for y in self.tsets[x]:
-            self.assert_(x != '')
 
     def test_dcache_ping(self):
       self.ping_result = ping.SrmPing(self.tsets['general']['endpoint']).get_output()
@@ -43,10 +35,6 @@ class Functionalities(unittest.TestCase):
           self.assert_(self.ping_result['value'][self.ping_result['key'].index(x)] == self.tsets['ping']['backend_type'])
         elif x == 'backend_version':
           self.assert_(self.ping_result['value'][self.ping_result['key'].index(x)] == self.tsets['ping']['backend_version'])
-
-    def test_dd(self):
-      self.dd_result = createfile.Dd(self.ifn).get_output()
-      self.assert_(self.dd_result['status'] == 'PASS')
 
     def test_ls_bt(self):
       self.ls_result = ls.LcgLs(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn).get_output()
@@ -100,7 +88,3 @@ class Functionalities(unittest.TestCase):
         self.rmdir_result = rmdir.SrmRmdir(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], a).get_output()
         for x in self.rmdir_result['status']:
           self.assert_(x == 'PASS')
-
-    def test_rm_lf(self):
-      self.rmlf_result = removefile.RmLf(self.ifn, self.bifn).get_output()
-      self.assert_(self.rmlf_result['status'] == 'PASS')

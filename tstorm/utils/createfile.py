@@ -15,7 +15,6 @@ class Dd:
 
   def get_command(self):
     a = self.cmd['name'] + ' if=/dev/urandom of='+ self.ifn + ' bs=' + self.cmd['size'] + ' count=1'
-    print a
     return a
 
   def run_command(self):
