@@ -22,7 +22,7 @@ class RegressionTest(unittest.TestCase):
       self.assert_(self.lsbt_result['status'] == 'FAILURE')
 
     def test_cp_bt(self):
-      self.cpbt_result = cp.LcgCp(self.tsets['gneral']['endpoint'], self.tsets['general']['accesspoint'], self.ifn, self.dfn, self.bifn).get_output()
+      self.cpbt_result = cp.LcgCp(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.ifn, self.dfn, self.bifn).get_output()
       self.assert_(self.cpbt_result['status'] == 'PASS')
 
     def test_ls_at(self):
