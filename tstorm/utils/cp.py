@@ -73,7 +73,6 @@ class StoRMPtp:
     a=self.run_command()
     if len(a) > 0 and a[0] == 0:
       if 'SRM_SUCCESS' in a[1]:
-        self.otpt['status'] = 'PASS'
         for x in self.otpt:
           if x == 'status':
             self.otpt['status'] = 'PASS'
@@ -121,7 +120,6 @@ class StoRMPtg:
     a=self.run_command()
     if len(a) > 0 and a[0] == 0:
       if 'SRM_SUCCESS' in a[1]:
-        self.otpt['status'] = 'PASS'
         for x in self.otpt:
           if x == 'status':
             self.otpt['status'] = 'PASS'
@@ -167,7 +165,6 @@ class StoRMPd:
     a=self.run_command()
     if len(a) > 0 and a[0] == 0:
       if 'SRM_SUCCESS' in a[1]:
-        self.otpt['status'] = 'PASS'
         for x in self.otpt:
           if x == 'status':
             self.otpt['status'] = 'PASS'
@@ -211,7 +208,6 @@ class StoRMRf:
     a=self.run_command()
     if len(a) > 0 and a[0] == 0:
       if 'SRM_SUCCESS' in a[1]:
-        self.otpt['status'] = 'PASS'
         for x in self.otpt:
           if x == 'status':
             self.otpt['status'] = 'PASS'
@@ -275,7 +271,7 @@ class curl:
   def get_command(self, use_ssl=True, in_write=True):
     curl_opt=''
     if use_ssl:
-      curl_opt=' --cert ' + self.p_path + ' --cpath /etc/grid-security/certificates '
+      curl_opt=' --cert ' + self.p_path + ' --capath /etc/grid-security/certificates '
       
     if in_write:
       a= self.cmd['name'] + ' -v ' + curl_opt + ' -T ' + self.ifn + ' ' + self.turl

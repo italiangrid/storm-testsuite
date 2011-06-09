@@ -25,6 +25,6 @@ def run_voms_proxy_info():
 def get_proxy_path():
     a=run_voms_proxy_info()
     if len(a) > 0 and a[0] == 0:
-      return 'PASS', a[1].split('path')[1].split(':')[1]
+      return 'PASS', a[1].split('path')[1].split(':')[1].split('\n')[0]
 
     return 'FAILURE', ''
