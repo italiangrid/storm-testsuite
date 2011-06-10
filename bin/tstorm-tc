@@ -21,22 +21,49 @@ def conf_test_suite(conf, ifn, dfn, bifn):
 
   return s
 
-def test_suite(conf, ifn, dfn, bifn):
+def cs_test_suite(conf, ifn, dfn, bifn):
   s = unittest.TestSuite()
   s.addTest(fu.FunctionalitiesTest('test_dcache_ping',conf, ifn, dfn, bifn))
-  s.addTest(fu.FunctionalitiesTest('test_storm_ping',conf, ifn, dfn, bifn))
+
+  return s
+
+def cw_test_suite(conf, ifn, dfn, bifn):
+  s = unittest.TestSuite()
   s.addTest(ut.UtilitiesTest('test_dd',conf, ifn, dfn, bifn))
-  s.addTest(fu.FunctionalitiesTest('test_ls_bt',conf, ifn, dfn, bifn))
-  s.addTest(fu.FunctionalitiesTest('test_mkdir_bc',conf, ifn, dfn, bifn))
-  s.addTest(fu.FunctionalitiesTest('test_mkdir_ac',conf, ifn, dfn, bifn))
-  s.addTest(fu.FunctionalitiesTest('test_ls_ac',conf, ifn, dfn, bifn))
+  s.addTest(fu.FunctionalitiesTest('test_ls_unexist_file',conf, ifn, dfn, bifn))
+  s.addTest(fu.FunctionalitiesTest('test_mkdir_dir',conf, ifn, dfn, bifn))
+  s.addTest(fu.FunctionalitiesTest('test_mkdir_exist_dir',conf, ifn, dfn, bifn))
+  s.addTest(fu.FunctionalitiesTest('test_ls_dir',conf, ifn, dfn, bifn))
   s.addTest(fu.FunctionalitiesTest('test_cp_bt',conf, ifn, dfn, bifn))
-  s.addTest(fu.FunctionalitiesTest('test_ls_at',conf, ifn, dfn, bifn))
+  s.addTest(fu.FunctionalitiesTest('test_ls_file',conf, ifn, dfn, bifn))
   s.addTest(fu.FunctionalitiesTest('test_cp_at',conf, ifn, dfn, bifn))
-  s.addTest(fu.FunctionalitiesTest('test_rm',conf, ifn, dfn, bifn))
-  s.addTest(fu.FunctionalitiesTest('test_rmdir',conf, ifn, dfn, bifn))
+  s.addTest(fu.FunctionalitiesTest('test_rm_file',conf, ifn, dfn, bifn))
+  s.addTest(fu.FunctionalitiesTest('test_rm_unexist_file',conf, ifn, dfn, bifn))
+  s.addTest(fu.FunctionalitiesTest('test_rm_dir',conf, ifn, dfn, bifn))
+  s.addTest(fu.FunctionalitiesTest('test_rm_unexist_dir',conf, ifn, dfn, bifn))
   s.addTest(ut.UtilitiesTest('test_rm_lf',conf, ifn, dfn, bifn))
   
+  return s
+
+def cksm_test_suite(conf, ifn, dfn, bifn):
+  s = unittest.TestSuite()
+  s.addTest(ut.UtilitiesTest('test_dd',conf, ifn, dfn, bifn))
+  s.addTest(fu.FunctionalitiesTest('test_cksm',conf, ifn, dfn, bifn)) 
+  s.addTest(ut.UtilitiesTest('test_rm_lf',conf, ifn, dfn, bifn))
+
+  return s
+
+def dt_test_suite(conf, ifn, dfn, bifn):
+  s = unittest.TestSuite()
+  s.addTest(ut.UtilitiesTest('test_dd',conf, ifn, dfn, bifn))
+  s.addTest(fu.FunctionalitiesTest('test_data_transfer_out_file',conf, ifn, dfn, bifn))
+  s.addTest(fu.FunctionalitiesTest('test_data_transfer_out_exist_file',conf, ifn, dfn, bifn))
+  s.addTest(fu.FunctionalitiesTest('test_data_transfer_in_file',conf, ifn, dfn, bifn))
+  s.addTest(fu.FunctionalitiesTest('test_data_transfer_in_unexist_file',conf, ifn, dfn, bifn))
+  s.addTest(fu.FunctionalitiesTest('test_rm_file',conf, ifn, dfn, bifn))
+  s.addTest(fu.FunctionalitiesTest('test_rm_dir',conf, ifn, dfn, bifn))
+  s.addTest(ut.UtilitiesTest('test_rm_lf',conf, ifn, dfn, bifn))
+
   return s
 
 if __name__ == '__main__':
@@ -79,4 +106,7 @@ if __name__ == '__main__':
       dfn = dfn + os.path.basename(n_dfn) + '.' + ts
 
   runner = unittest.TextTestRunner(verbosity=2).run(conf_test_suite(tfn,ifn,dfn,back_ifn))
-  runner = unittest.TextTestRunner(verbosity=2).run(test_suite(tfn,ifn,dfn,back_ifn))
+  runner = unittest.TextTestRunner(verbosity=2).run(cs_test_suite(tfn,ifn,dfn,back_ifn))
+  runner = unittest.TextTestRunner(verbosity=2).run(cw_test_suite(tfn,ifn,dfn,back_ifn))
+  runner = unittest.TextTestRunner(verbosity=2).run(cksm_test_suite(tfn,ifn,dfn,back_ifn))
+  runner = unittest.TextTestRunner(verbosity=2).run(dt_test_suite(tfn,ifn,dfn,back_ifn))

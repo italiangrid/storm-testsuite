@@ -1,5 +1,7 @@
 __author__ = 'Elisabetta Ronchieri'
 
+import datetime
+import time
 import os 
 import unittest
 from tstorm.utils import config
@@ -36,29 +38,31 @@ class FunctionalitiesTest(unittest.TestCase):
         elif x == 'backend_version':
           self.assert_(self.ping_result['value'][self.ping_result['key'].index(x)] == self.tsets['ping']['backend_version'])
 
-    def test_ls_bt(self):
+    def test_ls_unexist_file(self):
       self.ls_result = ls.LcgLs(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn).get_output()
       self.assert_(self.ls_result['status'] == 'FAILURE')
+
+    def test_ls_unexist_dir(self):
       if '/' in self.dfn:
         a=os.path.dirname(self.dfn)
         self.ls_result = ls.LcgLs(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], a).get_output()
         self.assert_(self.ls_result['status'] == 'FAILURE')
 
-    def test_mkdir_bc(self):
+    def test_mkdir_dir(self):
       if '/' in self.dfn:
         a=os.path.dirname(self.dfn)
         self.mkdir_result = mkdir.SrmMkdir(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], a).get_output()
         for x in self.mkdir_result['status']:
           self.assert_(x == 'PASS')
 
-    def test_mkdir_ac(self):
+    def test_mkdir_exist_dir(self):
       if '/' in self.dfn:
         a=os.path.dirname(self.dfn)
         self.mkdir_result = mkdir.SrmMkdir(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], a).get_output()
         for x in self.mkdir_result['status']:
           self.assert_(x == 'FAILURE')
 
-    def test_ls_ac(self):
+    def test_ls_dir(self):
       if '/' in self.dfn:
         a=os.path.dirname(self.dfn)
         self.ls_result = ls.LcgLs(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], a).get_output()
@@ -68,7 +72,7 @@ class FunctionalitiesTest(unittest.TestCase):
       self.cp_result = cp.LcgCp(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.ifn, self.dfn, self.bifn).get_output()
       self.assert_(self.cp_result['status'] == 'PASS')
 
-    def test_ls_at(self):
+    def test_ls_file(self):
       self.lsat_result = ls.LcgLs(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn).get_output()
       self.assert_(self.lsat_result['status'] == 'PASS')
       self.lcksm_result = cksm.CksmLf(self.ifn).get_output()
@@ -78,13 +82,70 @@ class FunctionalitiesTest(unittest.TestCase):
       self.cp_result = cp.LcgCp(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.ifn, self.dfn, self.bifn).get_output(False)
       self.assert_(self.cp_result['status'] == 'PASS')
 
-    def test_rm(self):
+    def test_rm_file(self):
       self.rm_result = rm.SrmRm(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn).get_output()
       self.assert_(self.rm_result['status'] == 'PASS')
 
-    def test_rmdir(self):
+    def test_rm_unexist_file(self):
+      self.rm_result = rm.SrmRm(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn).get_output()
+      self.assert_(self.rm_result['status'] == 'FAILURE')
+
+    def test_rm_dir(self):
       if '/' in self.dfn:
         a=os.path.dirname(self.dfn)
         self.rmdir_result = rmdir.SrmRmdir(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], a).get_output()
         for x in self.rmdir_result['status']:
           self.assert_(x == 'PASS')
+
+    def test_rm_unexist_dir(self):
+      if '/' in self.dfn:
+        a=os.path.dirname(self.dfn)
+        self.rmdir_result = rmdir.SrmRmdir(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], a).get_output()
+        for x in self.rmdir_result['status']:
+          self.assert_(x == 'FAILURE')
+
+    def test_cksm(self):
+      self.ls_result = ls.LcgLs(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn).get_output()
+      self.assert_(self.ls_result['status'] == 'FAILURE')
+      self.cp_result = cp.LcgCp(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.ifn, self.dfn, self.bifn).get_output()
+      self.assert_(self.cp_result['status'] == 'PASS')
+      self.ls_result = ls.LcgLs(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn).get_output()
+      self.assert_(self.ls_result['status'] == 'PASS')
+      self.rm_result = rm.SrmRm(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn).get_output()
+      self.assert_(self.rm_result['status'] == 'PASS')
+      if '/' in self.dfn:
+        a=os.path.dirname(self.dfn)
+        self.rmdir_result = rmdir.SrmRmdir(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], a).get_output()
+        for x in self.rmdir_result['status']:
+          self.assert_(x == 'PASS')
+
+    def test_data_transfer_out_file(self):
+      self.ls_result = ls.LcgLs(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn).get_output()
+      self.assert_(self.ls_result['status'] == 'FAILURE')
+      self.cp_result = cp.LcgCp(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.ifn, self.dfn, self.bifn).get_output()
+      self.assert_(self.cp_result['status'] == 'PASS')
+      self.ls_result = ls.LcgLs(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn).get_output()
+      self.assert_(self.ls_result['status'] == 'PASS')
+
+    def test_data_transfer_out_exist_file(self):
+      self.ls_result = ls.LcgLs(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn).get_output()
+      self.assert_(self.ls_result['status'] == 'PASS')
+      self.cp_result = cp.LcgCp(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.ifn, self.dfn, self.bifn).get_output()
+      self.assert_(self.cp_result['status'] == 'FAILURE')
+
+    def test_data_transfer_in_file(self):
+      self.ls_result = ls.LcgLs(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn).get_output()
+      self.assert_(self.ls_result['status'] == 'PASS')
+      self.cp_result = cp.LcgCp(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.ifn, self.dfn, self.bifn).get_output(False)
+      self.assert_(self.cp_result['status'] == 'PASS')
+
+    def test_data_transfer_in_unexist_file(self):
+      t=datetime.datetime.now()
+      ts=str(time.mktime(t.timetuple()))
+      self.ls_result = ls.LcgLs(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn).get_output()
+      self.assert_(self.ls_result['status'] == 'PASS')
+      self.cp_result = cp.LcgCp(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.ifn, self.dfn+ts, self.bifn).get_output(False)
+      self.assert_(self.cp_result['status'] == 'FAILURE')
+
+
+

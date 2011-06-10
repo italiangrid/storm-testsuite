@@ -18,6 +18,7 @@ class SrmPing:
 
   def get_command(self):
     a = self.cmd['name'] + ' -2 -debug '+ self.cmd['protocol'] + '://' + self.endpoint + ':8444/'
+    print a
     return a
 
   def run_command(self):
@@ -60,6 +61,7 @@ class StoRMPing:
 
   def get_command(self):
     a = self.cmd['name'] + ' ping -e ' + self.cmd['rqst_protocol'] + '://' + self.endpoint + ':8444/'
+    print a
     return a
 
   def run_command(self):
@@ -72,7 +74,6 @@ class StoRMPing:
     a=self.run_command()
     if len(a) > 0 and a[0] == 0:
       if 'SRM_SUCCESS' in a[1]:
-        self.otpt['status'] = 'PASS'
         for x in self.otpt:
           if x == 'status':
             self.otpt['status'] = 'PASS'

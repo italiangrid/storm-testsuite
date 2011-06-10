@@ -24,9 +24,9 @@ def conf_test_suite(conf, ifn, dfn, bifn):
 def eight_digit_string_checksum_rts(conf, ifn, dfn, bifn):
   s = unittest.TestSuite()
   s.addTest(ut.UtilitiesTest('test_cr_lf',conf, ifn, dfn, bifn))
-  s.addTest(rt.RegressionTest('test_ls_bt',conf, ifn, dfn, bifn))
+  s.addTest(rt.RegressionTest('test_ls_new_file',conf, ifn, dfn, bifn))
   s.addTest(rt.RegressionTest('test_cp_bt',conf, ifn, dfn, bifn))
-  s.addTest(rt.RegressionTest('test_ls_at',conf, ifn, dfn, bifn))
+  s.addTest(rt.RegressionTest('test_ls_file',conf, ifn, dfn, bifn))
   s.addTest(rt.RegressionTest('test_rm',conf, ifn, dfn, bifn))
   s.addTest(rt.RegressionTest('test_rmdir',conf, ifn, dfn, bifn))
   s.addTest(ut.UtilitiesTest('test_rm_lf',conf, ifn, dfn, bifn))
