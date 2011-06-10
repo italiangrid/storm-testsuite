@@ -9,6 +9,7 @@ import os
 import unittest
 import getopt
 from tstorm.test import regressiontest as rt
+from tstorm.test import functionalities as fu
 from tstorm.test import utilities as ut
 
 def usage():
@@ -24,13 +25,23 @@ def conf_test_suite(conf, ifn, dfn, bifn):
 def eight_digit_string_checksum_rts(conf, ifn, dfn, bifn):
   s = unittest.TestSuite()
   s.addTest(ut.UtilitiesTest('test_cr_lf',conf, ifn, dfn, bifn))
-  s.addTest(rt.RegressionTest('test_ls_new_file',conf, ifn, dfn, bifn))
-  s.addTest(rt.RegressionTest('test_cp_bt',conf, ifn, dfn, bifn))
+  s.addTest(fu.FunctionalitiesTest('test_ls_unexist_file',conf, ifn, dfn, bifn))
+  s.addTest(fu.FunctionalitiesTest('test_cp_bt',conf, ifn, dfn, bifn))
   s.addTest(rt.RegressionTest('test_ls_file',conf, ifn, dfn, bifn))
-  s.addTest(rt.RegressionTest('test_rm',conf, ifn, dfn, bifn))
-  s.addTest(rt.RegressionTest('test_rmdir',conf, ifn, dfn, bifn))
+  s.addTest(fu.FunctionalitiesTest('test_rm_file',conf, ifn, dfn, bifn))
+  s.addTest(fu.FunctionalitiesTest('test_rm_dir',conf, ifn, dfn, bifn))
   s.addTest(ut.UtilitiesTest('test_rm_lf',conf, ifn, dfn, bifn))
   
+  return s
+
+def update_used_space_upon(conf, ifn, dfn, bifn):
+  s = unittest.TestSuite()
+  s.addTest(ut.UtilitiesTest('test_cr_lf',conf, ifn, dfn, bifn))
+  s.addTest(rt.RegressionTest('test_update_used_soace_upon',conf, ifn, dfn, bifn))
+  s.addTest(fu.FunctionalitiesTest('test_rm_file',conf, ifn, dfn, bifn))
+  s.addTest(fu.FunctionalitiesTest('test_rm_dir',conf, ifn, dfn, bifn))
+  s.addTest(ut.UtilitiesTest('test_rm_lf',conf, ifn, dfn, bifn))
+
   return s
 
 if __name__ == '__main__':
@@ -74,3 +85,4 @@ if __name__ == '__main__':
 
   runner = unittest.TextTestRunner(verbosity=2).run(conf_test_suite(tfn,ifn,dfn,back_ifn))
   runner = unittest.TextTestRunner(verbosity=2).run(eight_digit_string_checksum_rts(tfn,ifn,dfn,back_ifn))
+  runner = unittest.TextTestRunner(verbosity=2).run(update_used_space_upon(tfn,ifn,dfn,back_ifn))
