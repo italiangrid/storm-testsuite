@@ -22,11 +22,13 @@ def conf_test_suite(conf, ifn, dfn, bifn):
 
   return s
 
-def update_used_space_upon_rm(conf, ifn, dfn, bifn):
+def update_free_space_upon_rm(conf, ifn, dfn, bifn):
   s = unittest.TestSuite()
   s.addTest(ut.UtilitiesTest('test_dd',conf, ifn, dfn, bifn))
-  s.addTest(rt.RegressionTest('test_update_used_soace_upon_rm',conf, ifn, dfn, bifn))
+  s.addTest(rt.RegressionTest('test_update_free_space_upon_rm',conf, ifn, dfn, bifn))
   s.addTest(ut.UtilitiesTest('test_rm_lf',conf, ifn, dfn, bifn))
+
+  return s
 
 def eight_digit_string_checksum_rts(conf, ifn, dfn, bifn):
   s = unittest.TestSuite()
@@ -39,7 +41,7 @@ def eight_digit_string_checksum_rts(conf, ifn, dfn, bifn):
 def update_used_space_upon_pd(conf, ifn, dfn, bifn):
   s = unittest.TestSuite()
   s.addTest(ut.UtilitiesTest('test_dd',conf, ifn, dfn, bifn))
-  s.addTest(rt.RegressionTest('test_update_used_soace_upon_pd',conf, ifn, dfn, bifn))
+  s.addTest(rt.RegressionTest('test_update_used_space_upon_pd',conf, ifn, dfn, bifn))
   s.addTest(ut.UtilitiesTest('test_rm_lf',conf, ifn, dfn, bifn))
 
   return s

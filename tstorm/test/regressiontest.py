@@ -36,7 +36,7 @@ class RegressionTest(unittest.TestCase):
         for x in self.rmdir_result['status']:
           self.assert_(x == 'PASS')
 
-    def test_update_used_soace_upon_rm(self):
+    def test_update_free_space_upon_rm(self):
       self.ls_result = ls.LcgLs(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn).get_output()
       self.assert_(self.ls_result['status'] == 'FAILURE')
       self.cp_result = cp.LcgCp(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.ifn, self.dfn, self.bifn).get_output()
@@ -62,7 +62,7 @@ class RegressionTest(unittest.TestCase):
       self.assert_(int(self.lls_result['size']) == int(self.sm2_result['unusedSize']) - int(self.sm1_result['unusedSize']))
 
 
-    def test_update_used_soace_upon_pd(self):
+    def test_update_used_space_upon_pd(self):
       self.st_result = space.StoRMGst(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.tsets['general']['spacetoken']).get_output()
       self.assert_(self.st_result['status'] == 'PASS')
       self.sm1_result = space.StoRMGsm(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.st_result['arrayOfSpaceTokens']).get_output()
