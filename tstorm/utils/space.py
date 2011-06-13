@@ -62,7 +62,7 @@ class StoRMGsm:
       'status':'',
       'statusCode':[],
       'explanation':[],
-      'unused': ''}
+      'unusedSize': ''}
 
   def get_command(self):
     a = self.cmd['name'] + ' gsm -e ' + self.cmd['rqst_protocol'] + '://' + self.endpoint + ':8444/' + ' -s ' + self.st_id
@@ -83,7 +83,7 @@ class StoRMGsm:
           if x == 'status':
             self.otpt['status'] = 'PASS'
           elif x == 'unusedSize':
-            self.otpt['unusedSize'] =a[1].split('unusedSize')[1].split('"')[1]
+            self.otpt['unusedSize'] =a[1].split('unusedSize')[1].split('=')[1].split('\n')[0]
           else:
             y = a[1].split('\n')
             #for z in y:

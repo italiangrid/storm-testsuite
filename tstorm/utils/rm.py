@@ -75,8 +75,9 @@ class StoRMRm:
             for z in y:
               if x in z:
                 self.otpt[x].append(z.split(x)[1].split('="')[1].split('"')[0])
+      else:
+        self.otpt['status'] = 'FAILURE'
     else:
       self.otpt['status'] = 'FAILURE'
 
     return self.otpt
-    

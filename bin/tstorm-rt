@@ -24,22 +24,16 @@ def conf_test_suite(conf, ifn, dfn, bifn):
 
 def eight_digit_string_checksum_rts(conf, ifn, dfn, bifn):
   s = unittest.TestSuite()
-  s.addTest(ut.UtilitiesTest('test_cr_lf',conf, ifn, dfn, bifn))
-  s.addTest(fu.FunctionalitiesTest('test_ls_unexist_file',conf, ifn, dfn, bifn))
-  s.addTest(fu.FunctionalitiesTest('test_cp_bt',conf, ifn, dfn, bifn))
-  s.addTest(rt.RegressionTest('test_ls_file',conf, ifn, dfn, bifn))
-  s.addTest(fu.FunctionalitiesTest('test_rm_file',conf, ifn, dfn, bifn))
-  s.addTest(fu.FunctionalitiesTest('test_rm_dir',conf, ifn, dfn, bifn))
+  s.addTest(ut.UtilitiesTest('test_dd',conf, ifn, dfn, bifn))
+  s.addTest(rt.RegressionTest('test_eight_digit_string_checksum',conf, ifn, dfn, bifn))
   s.addTest(ut.UtilitiesTest('test_rm_lf',conf, ifn, dfn, bifn))
   
   return s
 
 def update_used_space_upon(conf, ifn, dfn, bifn):
   s = unittest.TestSuite()
-  s.addTest(ut.UtilitiesTest('test_cr_lf',conf, ifn, dfn, bifn))
+  s.addTest(ut.UtilitiesTest('test_dd',conf, ifn, dfn, bifn))
   s.addTest(rt.RegressionTest('test_update_used_soace_upon',conf, ifn, dfn, bifn))
-  s.addTest(fu.FunctionalitiesTest('test_rm_file',conf, ifn, dfn, bifn))
-  s.addTest(fu.FunctionalitiesTest('test_rm_dir',conf, ifn, dfn, bifn))
   s.addTest(ut.UtilitiesTest('test_rm_lf',conf, ifn, dfn, bifn))
 
   return s
