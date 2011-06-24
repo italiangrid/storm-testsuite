@@ -2,4 +2,4 @@
 
 TSTORM_HOME=$1
 export PATH=$TSTORM_HOME/usr/bin:$PATH
-export PYTHONPATH=$TSTORM_HOME/usr/lib/python*/site-packages:$PYTHONPATH
+export PYTHONPATH=$TSTORM_HOME/usr/lib/python2.4/site-packages:$PYTHONPATH
