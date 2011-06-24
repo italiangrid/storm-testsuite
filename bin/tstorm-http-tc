@@ -13,8 +13,8 @@ from tstorm.test import functionalities as fu
 from tstorm.test import utilities as ut
 
 def usage():
-    print "Usage:  python testsutie.py [-c|--conf] [-d|--destfile] [-p|--protocl]"
-    print """Example: python testsutie.py -c tstorm.ini -d /qui/quo/qua -p http"""
+    print "Usage:  python testsutie.py [-c|--conf] [-d|--destfile] [--voms]"
+    print """Example: python testsutie.py -c tstorm.ini -d /qui/quo/qua --voms"""
 
 def conf_test_suite(conf, ifn, dfn, bifn):
   s = unittest.TestSuite()
