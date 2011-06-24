@@ -97,7 +97,7 @@ if __name__ == '__main__':
       n_dfn = v
       n_df = True
     elif o in ("--voms"):
-      ea = True
+      voms = True
     else:
       assert False, "unhandled option"
 
