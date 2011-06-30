@@ -6,8 +6,10 @@ include MANIFEST.in
 include bin/tstorm-http-tc
 include bin/tstorm-tc
 include bin/tstorm-rt
+include bin/tstorm-tt
 include sbin/tstorm-setup.sh
 include conf/tstorm.ini
+include conf/tstorm-tier1.ini
 include conf/8_digit_string_checksum.ini
 recursive-include tstorm/utils *
 recursive-include tstorm/test *
