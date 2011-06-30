@@ -13,7 +13,8 @@ class LcgBringonline:
       'name': 'lcg-bringonline',
       'protocol': 'srm'}
     self.otpt = {
-      'status':''}
+      'status':'',
+      'requestToken':''}
 
   def get_command(self):
     a= self.cmd['name'] + ' -b --verbose -T srmv2 '+ self.cmd['protocol'] + '://' + self.endpoint + ':8444/srm/managerv2?SFN=/' + self.accesspoint + self.dfn
@@ -29,7 +30,14 @@ class LcgBringonline:
   def get_output(self):
     a=self.run_command()
     if len(a) > 0 and a[0] == 0:
-      self.otpt['status'] = 'PASS'
+      for x in self.otpt:
+        if x == 'status':
+          self.otpt['status'] = 'PASS'
+        else:
+          y = a[1].split('\n')
+          for z in y:
+            if 'Token' in z:
+              self.otpt['requestToken']=z.split('Token:')[1].split(' ')[1]          
     else:
       self.otpt['status'] = 'FAILURE'
     return self.otpt
@@ -43,7 +51,8 @@ class SrmBringonline:
       'name': 'srm-bring-online',
       'protocol': 'srm'}
     self.otpt = {
-      'status':''}
+      'status':'',
+      'requestToken':''}
 
   def get_command(self):
     a= self.cmd['name'] + ' -2 -debug '+ self.cmd['protocol'] + '://' + self.endpoint + ':8444/srm/managerv2?SFN=/' + self.accesspoint + self.dfn
@@ -59,7 +68,14 @@ class SrmBringonline:
   def get_output(self):
     a=self.run_command()
     if len(a) > 0 and a[0] == 0:
-      self.otpt['status'] = 'PASS'
+      for x in self.otpt:
+        if x == 'status':
+          self.otpt['status'] = 'PASS'
+        else:
+          y = a[1].split('\n')
+          for z in y:
+            if x in z:
+              self.otpt[x]=z.split(x)[1].split('= ')[1]
     else:
       self.otpt['status'] = 'FAILURE'
     return self.otpt
