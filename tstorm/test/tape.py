@@ -4,11 +4,14 @@ import datetime
 import time
 import os 
 import unittest
+import time
 from tstorm.utils import config
 from tstorm.utils import ping
 from tstorm.utils import ls
 from tstorm.utils import cp
 from tstorm.utils import rm
+from tstorm.utils import space
+from tstorm.utils import sizefile
 from tstorm.utils import bringonline as bol
 
 class TapeTest(unittest.TestCase):
@@ -20,154 +23,139 @@ class TapeTest(unittest.TestCase):
       self.bifn = bifn
 
     def test_verify_tsa1(self):
-      self.ls_result = ls.LcgLs(self.tsets['general']['endpoint'], self.tsets['tape']['accesspoint'], self.dfn).get_output()
-      self.assert_(self.ls_result['status'] == 'FAILURE')
+      ls_result = ls.LcgLs(self.tsets['general']['endpoint'], self.tsets['tape']['accesspoint'], self.dfn)
+      ll = ls_result.get_output()
+      self.assert_(ll['status'] == 'FAILURE')
       self.cp_result = cp.LcgCp(self.tsets['general']['endpoint'], self.tsets['tape']['accesspoint'], self.ifn, self.dfn, self.bifn).get_output()
       self.assert_(self.cp_result['status'] == 'PASS')
 
-      self.ls_result = ls.get_output()
-      self.assert_(self.ls_result['status'] == 'PASS')
-      while self.ls_result['fileLocality'] != 'ONLINE':
-        self.ls_result = ls.get_output()
-        self.assert_(self.ls_result['status'] == 'PASS')
-        print self.ls_result
+      ll = ls_result.get_output()
+      self.assert_(ll['status'] == 'PASS')
+      while ll['fileLocality'] != 'ONLINE':
+        ll = ls_result.get_output()
+        self.assert_(ll['status'] == 'PASS')
 
-      self.ls_result = ls.get_output()
-      self.assert_(self.ls_result['status'] == 'PASS')
-      while self.ls_result['fileLocality'] != 'ONLINE_AND_NEARLINE':
-        self.ls_result = ls.get_output()
-        self.assert_(self.ls_result['status'] == 'PASS')
-        print self.ls_result
+      print ll
 
-      self.ls_result = ls.get_output()
-      self.assert_(self.ls_result['status'] == 'PASS')
-      while self.ls_result['fileLocality'] != 'NEARLINE':
-        self.ls_result = ls.get_output()
-        self.assert_(self.ls_result['status'] == 'PASS')
-        print self.ls_result
-     
+      ll = ls_result.get_output()
+      self.assert_(ll['status'] == 'PASS')
+      while ll['fileLocality'] != 'ONLINE_AND_NEARLINE':
+        time.sleep(5)
+        ll = ls_result.get_output()
+        self.assert_(ll['status'] == 'PASS')
+
+      print ll
+
+      ll = ls_result.get_output()
+      self.assert_(ll['status'] == 'PASS')
+      while ll['fileLocality'] != 'NEARLINE':
+        time.sleep(5)
+        ll = ls_result.get_output()
+        self.assert_(ll['status'] == 'PASS')
+
+      print ll     
       self.bol_result = bol.LcgBol(self.tsets['general']['endpoint'], self.tsets['tape']['accesspoint'], self.dfn).get_output() 
       self.assert_(self.bol_result['status'] == 'PASS')
-      self.ls_result = ls.get_output()
-      self.assert_(self.ls_result['status'] == 'PASS')
-      while self.ls_result['fileLocality'] != 'ONLINE_AND_NEARLINE':
-        self.ls_result = ls.get_output()
-        self.assert_(self.ls_result['status'] == 'PASS')
-        print self.ls_result
 
+      ll = ls_result.get_output()
+      self.assert_(ll['status'] == 'PASS')
+      while ll['fileLocality'] != 'ONLINE_AND_NEARLINE':
+        time.sleep(5)
+        ll = ls_result.get_output()
+        self.assert_(ll['status'] == 'PASS')
+
+      print ll
       self.rf_result = cp.StoRMRf(self.tsets['general']['endpoint'], self.tsets['tape']['accesspoint'], self.dfn, self.bol_result['requestToken']).get_output()
       self.assert_(self.rf_result['status'] == 'PASS') 
 
-      self.ls_result = ls.get_output()
-      self.assert_(self.ls_result['status'] == 'PASS')
-      while self.ls_result['fileLocality'] != 'NEARLINE':
-        self.ls_result = ls.get_output()
-        self.assert_(self.ls_result['status'] == 'PASS')
-        print self.ls_result
+      ll = ls_result.get_output()
+      self.assert_(ll['status'] == 'PASS')
+      while ll['fileLocality'] != 'NEARLINE':
+        time.sleep(5)
+        ll = ls_result.get_output()
+        self.assert_(ll['status'] == 'PASS')
+
+      print ll
 
       self.rm_result = rm.SrmRm(self.tsets['general']['endpoint'], self.tsets['tape']['accesspoint'], self.dfn).get_output()
       self.assert_(self.rm_result['status'] == 'PASS')
-      self.ls_result = ls.get_output()
-      self.assert_(self.ls_result['status'] == 'FAILURE')
+      ll = ls_result.get_output()
+      self.assert_(ll['status'] == 'FAILURE')
 
     def test_verify_tsa2(self):
-      self.ls_result = ls.LcgLs(self.tsets['general']['endpoint'], self.tsets['tape']['accesspoint'], self.dfn).get_output()
-      self.assert_(self.ls_result['status'] == 'FAILURE')
+      ls_result = ls.LcgLs(self.tsets['general']['endpoint'], self.tsets['tape']['accesspoint'], self.dfn)
+      ll = ls_result.get_output()
+      self.assert_(ll['status'] == 'FAILURE')
       self.cp_result = cp.LcgCp(self.tsets['general']['endpoint'], self.tsets['tape']['accesspoint'], self.ifn, self.dfn, self.bifn).get_output()
       self.assert_(self.cp_result['status'] == 'PASS')
 
-      self.ls_result = ls.get_output()
-      self.assert_(self.ls_result['status'] == 'PASS')
-      while self.ls_result['fileLocality'] != 'ONLINE':
-        self.ls_result = ls.get_output()
-        self.assert_(self.ls_result['status'] == 'PASS')
-        print self.ls_result
+      ll = ls_result.get_output()
+      self.assert_(ll['status'] == 'PASS')
+      while ll['fileLocality'] != 'ONLINE':
+        ll = ls_result.get_output()
+        self.assert_(ll['status'] == 'PASS')
 
-      self.lsa_result = ls.get_output()
-      self.assert_(self.ls_result['status'] == 'PASS')
-      while self.ls_result['fileLocality'] != 'ONLINE_AND_NEARLINE':
-        self.ls_result = ls.get_output()
-        self.assert_(self.ls_result['status'] == 'PASS')
-        print self.ls_result
+      print ll
 
-      self.ls_result = ls.get_output()
-      self.assert_(self.ls_result['status'] == 'PASS')
-      while self.ls_result['fileLocality'] != 'NEARLINE':
-        self.ls_result = ls.get_output()
-        self.assert_(self.ls_result['status'] == 'PASS')
-        print self.ls_result
+      ll = ls_result.get_output()
+      self.assert_(ll['status'] == 'PASS')
+      while ll['fileLocality'] != 'ONLINE_AND_NEARLINE':
+        time.sleep(5)
+        ll = ls_result.get_output()
+        self.assert_(ll['status'] == 'PASS')
 
-      self.bol_result = bol.SrmBol(self.tsets['general']['endpoint'], self.tsets['tape']['accesspoint'], self.dfn).get_output()
+      print ll
+
+      ll = ls_result.get_output()
+      self.assert_(ll['status'] == 'PASS')
+      while ll['fileLocality'] != 'NEARLINE':
+        time.sleep(5)
+        ll = ls_result.get_output()
+        self.assert_(ll['status'] == 'PASS')
+
+      print ll
+      self.bol_result = bol.LcgBol(self.tsets['general']['endpoint'], self.tsets['tape']['accesspoint'], self.dfn).get_output()
       self.assert_(self.bol_result['status'] == 'PASS')
-      self.ls_result = ls.get_output()
-      self.assert_(self.ls_result['status'] == 'PASS')
-      while self.ls_result['fileLocality'] != 'ONLINE_AND_NEARLINE':
-        self.ls_result = ls.get_output()
-        self.assert_(self.ls_result['status'] == 'PASS')
-        print self.ls_result
+
+      ll = ls_result.get_output()
+      self.assert_(ll['status'] == 'PASS')
+      while ll['fileLocality'] != 'ONLINE_AND_NEARLINE':
+        time.sleep(5)
+        ll = ls_result.get_output()
+        self.assert_(ll['status'] == 'PASS')
+
+      print ll
+
+      st_result = space.StoRMGst(self.tsets['general']['endpoint'], self.tsets['tape']['accesspoint'], self.tsets['tape']['spacetoken'])
+      stb = st_result.get_output()
+      self.assert_(stb['status'] == 'PASS')
+      us_result = space.StoRMGsm(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], st_result['arrayOfSpaceTokens'])
+      usb = us_result.get_output()
+      self.assert_(usb['status'] == 'PASS')
+
+      self.lls_result = sizefile.Ls(self.ifn).get_output()
+      self.assert_(self.lls_result['status'] == 'PASS')
 
       self.rf_result = cp.StoRMRf(self.tsets['general']['endpoint'], self.tsets['tape']['accesspoint'], self.dfn, self.bol_result['requestToken']).get_output()
       self.assert_(self.rf_result['status'] == 'PASS')
 
-      self.ls_result = ls.get_output()
-      self.assert_(self.ls_result['status'] == 'PASS')
-      while self.ls_result['fileLocality'] != 'NEARLINE':
-        self.ls_result = ls.get_output()
-        self.assert_(self.ls_result['status'] == 'PASS')
-        print self.ls_result
+      ll = ls_result.get_output()
+      self.assert_(ll['status'] == 'PASS')
+      while ll['fileLocality'] != 'NEARLINE':
+        time.sleep(5)
+        ll = ls_result.get_output()
+        self.assert_(ll['status'] == 'PASS')
+
+      print ll
 
       self.rm_result = rm.SrmRm(self.tsets['general']['endpoint'], self.tsets['tape']['accesspoint'], self.dfn).get_output()
       self.assert_(self.rm_result['status'] == 'PASS')
-      self.ls_result = ls.get_output()
-      self.assert_(self.ls_result['status'] == 'FAILURE')
+      ll = ls_result.get_output()
+      self.assert_(ll['status'] == 'FAILURE')
 
-    def test_verify_tsa3(self):
-      self.ls_result = ls.LcgLs(self.tsets['general']['endpoint'], self.tsets['tape']['accesspoint'], self.dfn).get_output()
-      self.assert_(self.ls_result['status'] == 'FAILURE')
-      self.cp_result = cp.LcgCp(self.tsets['general']['endpoint'], self.tsets['tape']['accesspoint'], self.ifn, self.dfn, self.bifn).get_output()
-      self.assert_(self.cp_result['status'] == 'PASS')
-
-      self.ls_result = ls.get_output()
-      self.assert_(self.ls_result['status'] == 'PASS')
-      while self.ls_result['fileLocality'] != 'ONLINE':
-        self.ls_result = ls.get_output()
-        self.assert_(self.ls_result['status'] == 'PASS')
-        print self.ls_result
-
-      self.lsa_result = ls.get_output()
-      self.assert_(self.ls_result['status'] == 'PASS')
-      while self.ls_result['fileLocality'] != 'ONLINE_AND_NEARLINE':
-        self.ls_result = ls.get_output()
-        self.assert_(self.ls_result['status'] == 'PASS')
-        print self.ls_result
-
-      self.ls_result = ls.get_output()
-      self.assert_(self.ls_result['status'] == 'PASS')
-      while self.ls_result['fileLocality'] != 'NEARLINE':
-        self.ls_result = ls.get_output()
-        self.assert_(self.ls_result['status'] == 'PASS')
-        print self.ls_result
-
-      self.bol_result = bol.SrmBol(self.tsets['general']['endpoint'], self.tsets['tape']['accesspoint'], self.dfn).get_output()
-      self.assert_(self.bol_result['status'] == 'PASS')
-      self.ls_result = ls.get_output()
-      self.assert_(self.ls_result['status'] == 'PASS')
-      while self.ls_result['fileLocality'] != 'ONLINE_AND_NEARLINE':
-        self.ls_result = ls.get_output()
-        self.assert_(self.ls_result['status'] == 'PASS')
-        print self.ls_result
-
-      self.rf_result = cp.StoRMRf(self.tsets['general']['endpoint'], self.tsets['tape']['accesspoint'], self.dfn, self.bol_result['requestToken']).get_output()
-      self.assert_(self.rf_result['status'] == 'PASS')
-
-      self.ls_result = ls.get_output()
-      self.assert_(self.ls_result['status'] == 'PASS')
-      while self.ls_result['fileLocality'] != 'NEARLINE':
-        self.ls_result = ls.get_output()
-        self.assert_(self.ls_result['status'] == 'PASS')
-        print self.ls_result
-
-      self.rm_result = rm.SrmRm(self.tsets['general']['endpoint'], self.tsets['tape']['accesspoint'], self.dfn).get_output()
-      self.assert_(self.rm_result['status'] == 'PASS')
-      self.ls_result = ls.get_output()
-      self.assert_(self.ls_result['status'] == 'FAILURE')
+      sta = st_result.get_output()
+      self.assert_(sta['status'] == 'PASS')
+      usa = us_result.get_output()
+      self.assert_(usa['status'] == 'PASS')
+      print self.lls_result['size'], usb['unusedSize'], usa['unusedSize']
+      self.assert_(int(self.lls_result['size']) == int(usb['unusedSize']) - int(usa['unusedSize']))

@@ -24,7 +24,7 @@ def conf_test_suite(conf, ifn, dfn, bifn):
 def access_tape(conf, ifn, dfn, bifn):
   s = unittest.TestSuite()
   s.addTest(ut.UtilitiesTest('test_dd',conf, ifn, dfn, bifn))
-  s.addTest(tp.TapeTest('test_verify_tsa3',conf, ifn, dfn, bifn))
+  s.addTest(tp.TapeTest('test_verify_tsa2',conf, ifn, dfn, bifn))
   s.addTest(ut.UtilitiesTest('test_rm_lf',conf, ifn, dfn, bifn))
 
   return s
@@ -35,7 +35,7 @@ if __name__ == '__main__':
   t=datetime.datetime.now()
   ts=str(time.mktime(t.timetuple()))
   ifn = '/tmp/tstorm-input-file-' + ts + '.txt'
-  dfn = '/a'+ ts + '/b' + ts + '/tstorm-output-file-' + ts + '.txt'
+  dfn = '/tstorm-output-file-' + ts + '.txt'
   back_ifn = '/tmp/tstorm-back-input-file-' + ts + '.txt'
 
   try:

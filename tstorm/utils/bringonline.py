@@ -4,7 +4,7 @@ import commands
 import os
 from tstorm.utils import utils
 
-class LcgBringonline:
+class LcgBol:
   def __init__(self, endpoint, accesspoint, dfn):
     self.endpoint = endpoint
     self.accesspoint = accesspoint
@@ -42,7 +42,7 @@ class LcgBringonline:
       self.otpt['status'] = 'FAILURE'
     return self.otpt
 
-class SrmBringonline:
+class SrmBol:
   def __init__(self, endpoint, accesspoint, dfn):
     self.endpoint = endpoint
     self.accesspoint = accesspoint
