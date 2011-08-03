@@ -13,7 +13,7 @@ from tstorm.utils import sizefile
 from tstorm.utils import findstrings
 
 class RegressionTest(unittest.TestCase):
-    def __init__(self, testname, tfn, ifn, dfn, bifn, prt):
+    def __init__(self, testname, tfn, ifn, dfn, bifn, prt='gsiftp'):
       super(RegressionTest, self).__init__(testname)
       self.tsets = config.TestSettings(tfn).get_test_sets()
       self.ifn = ifn
@@ -53,9 +53,8 @@ class RegressionTest(unittest.TestCase):
       self.st_result = space.StoRMGst(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.tsets['general']['spacetoken']).get_output()
       self.assert_(self.st_result['status'] == 'PASS')
 
-      sm_result = space.StoRMGsm(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.st_result['arrayOfSpaceTokens'])
-      sm1 = sm_result.get_output()
-      self.assert_(sm1['status'] == 'PASS')
+      self.sm1_result = space.StoRMGsm(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.st_result['arrayOfSpaceTokens']).get_output()
+      self.assert_(self.sm1_result['status'] == 'PASS')
 
       ll = ls_result.get_output()
       self.assert_(ll['status'] == 'PASS')
@@ -73,18 +72,19 @@ class RegressionTest(unittest.TestCase):
 
       self.lls_result = sizefile.Ls(self.ifn).get_output()
       self.assert_(self.lls_result['status'] == 'PASS')
-      
-      sm2 = sm_result.get_output()
-      self.assert_(sm2['status'] == 'PASS')
-      self.assert_(int(self.lls_result['size']) == int(sm2['unusedSize']) - int(sm1['unusedSize']))
+
+      self.sm2_result = space.StoRMGsm(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.st_result['arrayOfSpaceTokens']).get_output()
+      self.assert_(self.sm2_result['status'] == 'PASS')
+ 
+      a=int(self.sm2_result['unusedSize']) - int(self.sm1_result['unusedSize'])
+      self.assert_(int(self.lls_result['size']) == a)
 
     def test_update_used_space_upon_pd(self):
       self.st_result = space.StoRMGst(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.tsets['general']['spacetoken']).get_output()
       self.assert_(self.st_result['status'] == 'PASS')
 
-      sm_result = space.StoRMGsm(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.st_result['arrayOfSpaceTokens'])
-      sm1 = sm_result.get_output()
-      self.assert_(sm1['status'] == 'PASS')
+      self.sm1_result = space.StoRMGsm(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.st_result['arrayOfSpaceTokens']).get_output()
+      self.assert_(self.sm1_result['status'] == 'PASS')
 
       self.ls_result = ls.LcgLs(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn).get_output()
       self.assert_(self.ls_result['status'] == 'FAILURE')
@@ -93,9 +93,11 @@ class RegressionTest(unittest.TestCase):
       self.lls_result = sizefile.Ls(self.ifn).get_output()
       self.assert_(self.lls_result['status'] == 'PASS')
 
-      sm2 = sm_result.get_output()
-      self.assert_(sm2['status'] == 'PASS')
-      self.assert_(int(self.lls_result['size']) == int(sm1['unusedSize']) - int(sm2['unusedSize']))
+      self.sm2_result = space.StoRMGsm(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.st_result['arrayOfSpaceTokens']).get_output()
+      self.assert_(self.sm2_result['status'] == 'PASS')
+
+      a=(int(self.sm1_result['unusedSize']) - int(self.sm2_result['unusedSize']))
+      self.assert_(int(self.lls_result['size']) == a)
 
       self.rm_result = rm.StoRMRm(self.tsets['general']['endpoint'], self.tsets['https']['voms'], self.dfn).get_output()
       self.assert_(self.rm_result['status'] == 'PASS')
@@ -108,7 +110,7 @@ class RegressionTest(unittest.TestCase):
     def test_unsupported_protocols(self):
       self.ptp_result = cp.StoRMPtp(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn, 'unsupported').get_output()
       self.assert_(self.ptp_result['status'] == 'FAILURE')
-      slef.assert_('SRM_NOT_SUPPORTED' in self.ptp_result['statusCode'])
+      self.assert_('SRM_NOT_SUPPORTED' in self.ptp_result['statusCode'])
 
     def test_both_sup_and_unsup_protocols(self):
       self.ptp_result = cp.StoRMPtp(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn, self.prt + ', unsupported').get_output()
