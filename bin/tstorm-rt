@@ -58,7 +58,7 @@ def unsupported_protocols(conf, ifn, dfn, bifn):
 def protocols(conf, ifn, dfn, bifn):
   s = unittest.TestSuite()
   s.addTest(ut.UtilitiesTest('test_dd',conf, ifn, dfn, bifn))
-  s.addTest(rt.RegressionTest('test_both_sup_and_uns_protocols',conf, ifn, dfn, bifn, 'gsiftp, file'))
+  s.addTest(rt.RegressionTest('test_both_sup_and_unsup_protocols',conf, ifn, dfn, bifn, 'gsiftp, file'))
   s.addTest(ut.UtilitiesTest('test_rm_lf',conf, ifn, dfn, bifn))
 
   return s
@@ -74,6 +74,7 @@ if __name__ == '__main__':
     sys.exit(2)
   
   n_df = False
+  n_dfn = ''
   for o, v in opts:
     if o in ("-h", "--help"):
       usage()
@@ -92,7 +93,7 @@ if __name__ == '__main__':
   ifn,dfn,back_ifn= st.set_filenames(n_df,n_dfn)
   runner = unittest.TextTestRunner(verbosity=2).run(update_free_space_upon_rm(tfn,ifn,dfn,back_ifn))
 
-  ifn,dfn,back_ifn= st.set__filenames(n_df,n_dfn)
+  ifn,dfn,back_ifn= st.set_filenames(n_df,n_dfn)
   runner = unittest.TextTestRunner(verbosity=2).run(eight_digit_string_checksum_rts(tfn,ifn,dfn,back_ifn))
 
   ifn,dfn,back_ifn= st.set_filenames(n_df,n_dfn)
