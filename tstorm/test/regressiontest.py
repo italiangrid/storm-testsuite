@@ -11,6 +11,7 @@ from tstorm.utils import cksm
 from tstorm.utils import space
 from tstorm.utils import sizefile
 from tstorm.utils import findstrings
+from tstorm.utils import abort
 
 class RegressionTest(unittest.TestCase):
     def __init__(self, testname, tfn, ifn, dfn, bifn, prt='gsiftp'):
@@ -111,9 +112,14 @@ class RegressionTest(unittest.TestCase):
       self.ptp_result = cp.StoRMPtp(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn, 'unsupported').get_output()
       self.assert_(self.ptp_result['status'] == 'FAILURE')
       self.assert_('SRM_NOT_SUPPORTED' in self.ptp_result['statusCode'])
+      self.ar_result = abort.StoRMAr(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn, self.ptp_result['requestToken']).get_output()
+      self.assert_(self.ar_result['status'] == 'PASS')
+      
 
     def test_both_sup_and_unsup_protocols(self):
       self.ptp_result = cp.StoRMPtp(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn, self.prt + ', unsupported').get_output()
       self.assert_(self.ptp_result['status'] == 'PASS')
       self.fs_result =findstrings.Grep().get_output()
       self.assert_(self.fs_result['status'] == 'FAILURE')
+      self.ar_result = abort.StoRMAr(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn, self.ptp_result['requestToken']).get_output()
+      self.assert_(self.ar_result['status'] == 'PASS')

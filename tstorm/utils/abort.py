@@ -4,12 +4,12 @@ import commands
 import os
 from tstorm.utils import utils
 
-class StoRMAbort:
-  def __init__(self, endpoint, accesspoint, dfn, turl):
+class StoRMAr:
+  def __init__(self, endpoint, accesspoint, dfn, rtoken):
     self.endpoint = endpoint
     self.accesspoint = accesspoint
     self.dfn = dfn
-    self.turl = turl
+    self.rtoken = rtoken
     self.cmd = {
       'name': 'clientSRM',
       'rqst_protocol': 'httpg',
@@ -20,7 +20,7 @@ class StoRMAbort:
       'explanation':[]}
 
   def get_command(self):
-    a = self.cmd['name'] + ' ar -e ' + self.cmd['rqst_protocol'] + '://' + self.endpoint + ':8444/' + ' -s ' + self.cmd['protocol'] + '://' + self.endpoint + ':8444/srm/managerv2?SFN=/' + self.accesspoint + self.dfn + ' -t ' + self.turl
+    a = self.cmd['name'] + ' ar -e ' + self.cmd['rqst_protocol'] + '://' + self.endpoint + ':8444/' + ' -s ' + self.cmd['protocol'] + '://' + self.endpoint + ':8444/srm/managerv2?SFN=/' + self.accesspoint + self.dfn + ' -t ' + self.rtoken
     print a
     return a
 
