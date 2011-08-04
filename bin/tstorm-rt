@@ -12,6 +12,7 @@ from tstorm.utils import settings as st
 from tstorm.test import regressiontest as rt
 from tstorm.test import functionalities as fu
 from tstorm.test import utilities as ut
+from tstorm.test import ldapquery as lq
 
 def usage():
     print "Usage:  python testsutie.py [-c|--conf] [-d|--destfile]"
@@ -63,6 +64,12 @@ def protocols(conf, ifn, dfn, bifn):
 
   return s
 
+def glue_information(conf):
+  s = unittest.TestSuite()
+  s.addTest(lq.LdapTest('test_glue_service', conf))
+
+  return s
+
 if __name__ == '__main__':
   tfn = '/etc/tstorm/tstorm.ini'
 
@@ -102,5 +109,9 @@ if __name__ == '__main__':
   ifn,dfn,back_ifn= st.set_filenames(n_df,n_dfn)
   runner = unittest.TextTestRunner(verbosity=2).run(unsupported_protocols(tfn,ifn,dfn,back_ifn))
 
+  runner = unittest.TextTestRunner(verbosity=2).run(glue_information(tfn))
+
   ifn,dfn,back_ifn= st.set_filenames(n_df,n_dfn)
-  runner = unittest.TextTestRunner(verbosity=2).run(protocols(tfn,ifn,dfn,back_ifn)) 
+  runner = unittest.TextTestRunner(verbosity=2).run(protocols(tfn,ifn,dfn,back_ifn))
+
+   
