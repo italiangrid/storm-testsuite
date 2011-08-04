@@ -70,6 +70,13 @@ def glue_information(conf):
 
   return s
 
+def non_ascii_chars(conf, ifn, dfn, bifn):
+  s = unittest.TestSuite()
+  s.addTest(rt.RegressionTest('test_non_ascii_chars', conf, ifn, dfn, bifn))
+  s.addTest(fu.FunctionalitiesTest('test_storm_ping',conf, ifn, dfn, bifn)) 
+
+  return s
+
 if __name__ == '__main__':
   tfn = '/etc/tstorm/tstorm.ini'
 
@@ -110,6 +117,9 @@ if __name__ == '__main__':
   runner = unittest.TextTestRunner(verbosity=2).run(unsupported_protocols(tfn,ifn,dfn,back_ifn))
 
   runner = unittest.TextTestRunner(verbosity=2).run(glue_information(tfn))
+
+  ifn,dfn,back_ifn= st.set_filenames(n_df,n_dfn)
+  runner = unittest.TextTestRunner(verbosity=2).run(non_ascii_chars(tfn,ifn,dfn,back_ifn))
 
   ifn,dfn,back_ifn= st.set_filenames(n_df,n_dfn)
   runner = unittest.TextTestRunner(verbosity=2).run(protocols(tfn,ifn,dfn,back_ifn))

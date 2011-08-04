@@ -121,3 +121,7 @@ class RegressionTest(unittest.TestCase):
       self.assert_(self.fs_result['status'] == 'FAILURE')
       self.ar_result = abort.StoRMAr(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.ptp_result['requestToken']).get_output()
       self.assert_(self.ar_result['status'] == 'PASS')
+
+    def test_non_ascii_chars(self):
+      self.ls_result = ls.LcgLs(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn + 'tèstèèà').get_output()
+      self.assert_(self.ls_result['status'] == 'FAILURE')
