@@ -2,28 +2,14 @@
 
 __author__ = 'Elisabetta Ronchieri'
 
-import datetime
-import time
-import sys
-import os
 import unittest
-import getopt
 from tstorm.test import functionalities as fu
 from tstorm.test import utilities as ut
-
-def usage():
-    print "Usage:  python testsutie.py [-c|--conf] [-d|--destfile]"
-    print """Example: python testsutie.py -c tstorm.ini -d /qui/quo/qua"""
-
-def conf_test_suite(conf, ifn, dfn, bifn):
-  s = unittest.TestSuite()
-  s.addTest(ut.UtilitiesTest('test_settings',conf, ifn, dfn, bifn))
-
-  return s
+from tstorm.test import https as h
 
 def cs_test_suite(conf, ifn, dfn, bifn):
   s = unittest.TestSuite()
-  s.addTest(fu.FunctionalitiesTest('test_dcache_ping',conf, ifn, dfn, bifn))
+  s.addTest(fu.FunctionalitiesTest('test_storm_ping',conf, ifn, dfn, bifn))
 
   return s
 
@@ -66,47 +52,16 @@ def dt_test_suite(conf, ifn, dfn, bifn):
 
   return s
 
-if __name__ == '__main__':
-  tfn = '/etc/tstorm/tstorm.ini'
+def https_voms_test_suite(conf, ifn, dfn, bifn):
+  s = unittest.TestSuite()
+  s.addTest(ut.UtilitiesTest('test_cr_lf',conf, ifn, dfn, bifn))
+  s.addTest(h.HttpsTest('test_srm_transfer_outbound_https_voms', conf, ifn, dfn, bifn, 'https', True))
+  s.addTest(h.HttpsTest('test_direct_transfer_outbound_https_voms', conf, ifn, dfn, bifn, 'https'))
+  s.addTest(h.HttpsTest('test_direct_transfer_outbound_https_voms_exist_file', conf, ifn, dfn, bifn, 'https'))
+  s.addTest(h.HttpsTest('test_direct_transfer_inbound_https_voms', conf, ifn, dfn, bifn, 'https'))
+  s.addTest(h.HttpsTest('test_direct_transfer_inbound_https_voms_no_auth', conf, ifn, dfn, bifn, 'https'))
+  s.addTest(h.HttpsTest('test_direct_transfer_inbound_https_voms_unexist_file', conf, ifn, dfn, bifn, 'https'))
+  s.addTest(h.HttpsTest('test_srm_transfer_inbound_https_voms',conf, ifn, dfn, bifn, 'https', True))
+  s.addTest(ut.UtilitiesTest('test_rm_lf',conf, ifn, dfn, bifn))
 
-  t=datetime.datetime.now()
-  ts=str(time.mktime(t.timetuple()))
-  ifn = '/tmp/tstorm-input-file-' + ts + '.txt'
-  dfn = '/a'+ ts + '/b' + ts + '/tstorm-output-file-' + ts + '.txt'
-  back_ifn = '/tmp/tstorm-back-input-file-' + ts + '.txt'
-
-  try:
-    opts, args = getopt.getopt(sys.argv[1:], "hc:d:", ["help","conf","destfile"])
-  except getopt.GetoptError, err:
-    print str(err)
-    usage()
-    sys.exit(2)
-  
-  n_df = False
-  for o, v in opts:
-    if o in ("-h", "--help"):
-      usage()
-      sys.exit()
-    elif o in ("-c", "--conf"):
-      tfn = v
-    elif o in ("-d", "--destfile"):
-      n_dfn = v
-      n_df = True
-    else:
-      assert False, "unhandled option"
-
-  if n_df:
-    t=datetime.datetime.now()
-    ts=str(time.mktime(t.timetuple()))
-    if '/' in n_dfn:
-      dfn = '/'
-      tmp_d = os.path.dirname(n_dfn).split('/')[1:]
-      for x in tmp_d:
-        dfn = dfn + x + ts + '/'
-      dfn = dfn + os.path.basename(n_dfn) + '.' + ts
-
-  runner = unittest.TextTestRunner(verbosity=2).run(conf_test_suite(tfn,ifn,dfn,back_ifn))
-  runner = unittest.TextTestRunner(verbosity=2).run(cs_test_suite(tfn,ifn,dfn,back_ifn))
-  runner = unittest.TextTestRunner(verbosity=2).run(cw_test_suite(tfn,ifn,dfn,back_ifn))
-  runner = unittest.TextTestRunner(verbosity=2).run(cksm_test_suite(tfn,ifn,dfn,back_ifn))
-  runner = unittest.TextTestRunner(verbosity=2).run(dt_test_suite(tfn,ifn,dfn,back_ifn))
+  return s

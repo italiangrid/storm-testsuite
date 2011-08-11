@@ -70,7 +70,7 @@ setup(
     download_url = 'to be defined',
     platform = 'noarch',
     packages = packages,
-    scripts = ['bin/tstorm-tc', 'bin/tstorm-rt', 'bin/tstorm-http-tc', 'bin/tstorm-tt'],
+    scripts = ['bin/tstorm-tp'],
     data_files = [('/usr/sbin/', ['sbin/tstorm-setup.sh']),
                  ('/usr/share/doc/'+ name + '-'+version+'/',['README', 'LICENSE', 'AUTHORS', 'INSTALL']),
                  ('/etc/'+name+'/', ['conf/tstorm.ini', 'conf/tstorm-tier1.ini', 'conf/8_digit_string_checksum.ini'])]

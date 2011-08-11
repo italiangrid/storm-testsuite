@@ -2,7 +2,7 @@ import datetime
 import time
 import os
 
-def set_filenames(n_df,n_dfn):
+def set_inpt_fn(n_df,n_dfn,subdir=True):
   t=datetime.datetime.now()
   ts=str(time.mktime(t.timetuple()))
 
@@ -17,6 +17,9 @@ def set_filenames(n_df,n_dfn):
         dfn = dfn + x + ts + '/'
       dfn = dfn + os.path.basename(n_dfn) + '.' + ts
   else:
-    dfn = '/tstorm-output-file-' + ts + '.txt'
+    if subdir:
+      dfn = '/a'+ ts + '/b' + ts + '/tstorm-output-file-' + ts + '.txt'
+    else:
+      dfn = '/tstorm-output-file-' + ts + '.txt'
 
   return ifn,dfn,back_ifn
