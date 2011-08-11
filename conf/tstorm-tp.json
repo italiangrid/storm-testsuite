@@ -1,0 +1,35 @@
+{
+  "basic_tests": [
+    "cs_test_suite", 
+    "cw_test_suite", 
+    "cksm_test_suite", 
+    "dt_test_suite", 
+    "https_voms_test_suite"
+  ], 
+  "basic_tests_novoms": [
+    "http_test_suite", 
+    "https_test_suite"
+  ], 
+  "common_tests": [
+    "conf_test_suite"
+  ], 
+  "regression_tests": [
+    "update_free_space_upon_rm", 
+    "eight_digit_string_checksum_rts", 
+    "update_used_space_upon_pd", 
+    "unsupported_protocols", 
+    "glue_information", 
+    "non_ascii_chars", 
+    "protocols"
+  ], 
+  "tape_tests": [
+    "access_tape"
+  ], 
+  "test_plan": [
+    "common_tests", 
+    "basic_tests", 
+    "regression_tests", 
+    "basic_tests_novoms", 
+    "tape_tests"
+  ]
+}
