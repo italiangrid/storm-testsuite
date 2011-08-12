@@ -7,13 +7,13 @@ from tstorm.test import functionalities as fu
 from tstorm.test import utilities as ut
 from tstorm.test import https as h
 
-def cs_test_suite(conf, ifn, dfn, bifn):
+def cs_ts(conf, ifn, dfn, bifn):
   s = unittest.TestSuite()
   s.addTest(fu.FunctionalitiesTest('test_storm_ping',conf, ifn, dfn, bifn))
 
   return s
 
-def cw_test_suite(conf, ifn, dfn, bifn):
+def cw_ts(conf, ifn, dfn, bifn):
   s = unittest.TestSuite()
   s.addTest(ut.UtilitiesTest('test_dd',conf, ifn, dfn, bifn))
   s.addTest(fu.FunctionalitiesTest('test_ls_unexist_file',conf, ifn, dfn, bifn))
@@ -31,7 +31,7 @@ def cw_test_suite(conf, ifn, dfn, bifn):
   
   return s
 
-def cksm_test_suite(conf, ifn, dfn, bifn):
+def cksm_ts(conf, ifn, dfn, bifn):
   s = unittest.TestSuite()
   s.addTest(ut.UtilitiesTest('test_dd',conf, ifn, dfn, bifn))
   s.addTest(fu.FunctionalitiesTest('test_cksm',conf, ifn, dfn, bifn)) 
@@ -39,7 +39,7 @@ def cksm_test_suite(conf, ifn, dfn, bifn):
 
   return s
 
-def dt_test_suite(conf, ifn, dfn, bifn):
+def dt_ts(conf, ifn, dfn, bifn):
   s = unittest.TestSuite()
   s.addTest(ut.UtilitiesTest('test_dd',conf, ifn, dfn, bifn))
   s.addTest(fu.FunctionalitiesTest('test_data_transfer_out_file',conf, ifn, dfn, bifn))
@@ -52,7 +52,7 @@ def dt_test_suite(conf, ifn, dfn, bifn):
 
   return s
 
-def https_voms_test_suite(conf, ifn, dfn, bifn):
+def https_voms_ts(conf, ifn, dfn, bifn):
   s = unittest.TestSuite()
   s.addTest(ut.UtilitiesTest('test_cr_lf',conf, ifn, dfn, bifn))
   s.addTest(h.HttpsTest('test_srm_transfer_outbound_https_voms', conf, ifn, dfn, bifn, 'https', True))
