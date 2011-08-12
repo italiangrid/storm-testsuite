@@ -26,8 +26,10 @@
     "access_tape_ts"
   ], 
   "test_plan": [
-    "common_tests",
-    "basic_tests",
-    "regression_tests"
+    "common_tests", 
+    "basic_tests", 
+    "regression_tests", 
+    "basic_tests_novoms", 
+    "tape_tests"
   ]
 }
