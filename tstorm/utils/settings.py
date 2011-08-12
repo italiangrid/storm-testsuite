@@ -1,10 +1,11 @@
+import sys
 import datetime
 import time
 import os
 import json
 
 def set_inpt_fn(n_df, n_dfn, subdir=True):
-  '''Set Input filename (ifn), Back filename (bfn )and Destinatin filename (dfn)'''
+  '''Set Input filename (ifn), Back filename (bfn) and Destinatin filename (dfn)'''
 
   t=datetime.datetime.now()
   ts=str(time.mktime(t.timetuple()))
@@ -29,9 +30,13 @@ def set_inpt_fn(n_df, n_dfn, subdir=True):
 
 def get_tp_info(tpfnc='tstorm-tp.json'):
   '''Get Test Plan Information from the configuration file of testplan'''
+  dirname=os.path.dirname(sys.argv[0])
+  configpath = os.path.join(dirname, "../", ".")
+  conffile=configpath+tpfnc
 
   try:
-    tp_info=json.read(open(tpfnc,'r').read())
+    tp_info=json.read(open(conffile,'r').read())
+    
   except (IOError,json.ReadException):
         #dbglog("No stfunc.conf file found or wrong json syntax")
     print "wrong conf file"
@@ -79,6 +84,7 @@ def is_valid(tp_info):
       for y in tp_info[x]:
         if y not in available_methods:
           return False
-    return False
+    else:
+      return False
 
   return result

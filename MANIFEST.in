@@ -10,6 +10,7 @@ include bin/tstorm-tt
 include sbin/tstorm-setup.sh
 include conf/tstorm.ini
 include conf/tstorm-tier1.ini
-include conf/8_digit_string_checksum.ini
+include conf/tstorm-tp.json
+include conf/tstorm-tp.json.template
 recursive-include tstorm/utils *
 recursive-include tstorm/test *

@@ -115,7 +115,7 @@ class RegressionTest(unittest.TestCase):
       
 
     def test_both_sup_and_unsup_protocols(self):
-      self.ptp_result = cp.StoRMPtp(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn, self.prt + ', unsupported').get_output()
+      self.ptp_result = cp.StoRMPtp(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn, self.prt + ',unsupported').get_output()
       self.assert_(self.ptp_result['status'] == 'PASS')
       self.fs_result =findstrings.Grep().get_output()
       self.assert_(self.fs_result['status'] == 'FAILURE')

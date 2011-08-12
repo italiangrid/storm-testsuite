@@ -23,11 +23,11 @@ methods = {
    'unsupported_protocols_ts': 'rt.unsupported_protocols_ts(tfn,ifn,dfn,back_ifn)', 
    'dt_ts': 'bt.dt_ts(tfn,ifn,dfn,back_ifn)', 
    'http_ts': 'btnv.http_ts(tfn,ifn,dfn,back_ifn)', 
-   'glue_info_ts': 'rt.glue_info_ts(tfn,ifn,dfn,back_ifn)', 
+   'glue_info_ts': 'rt.glue_info_ts(tfn)', 
    'update_used_space_upon_pd_ts': 'rt.update_used_space_upon_pd_ts(tfn,ifn,dfn,back_ifn)', 
    'update_free_space_upon_rm_ts': 'rt.update_free_space_upon_rm_ts(tfn,ifn,dfn,back_ifn)', 
-   'protocols_ts': 'protocols_ts(tfn,ifn,dfn,back_ifn)', 
-   'conf_ts': 'ct.conf_ts(tfn,ifn,dfn,back_ifn)'
+   'protocols_ts': 'rt.protocols_ts(tfn,ifn,dfn,back_ifn)',
+   'conf_ts': 'ct.conf_ts(tfn,ifn,dfn,back_ifn)',
    'access_tape_ts': 'tt.access_tape_ts(tfn,ifn,dfn,back_ifn)'
 }
 
@@ -39,11 +39,18 @@ tests_type = {
        'tape_tests']
 }
 
-def runt_tests(tt, n_df, n_dfn):
-   if tt in tp_info.keys():
-     for y in tp_info[tt]:
-       ifn,dfn,back_ifn= st.set_inpt_fn(n_df,n_dfn)
-       runner = unittest.TextTestRunner(verbosity=2).run(eval(y))
+def run_tests(tpi,tt, n_df, n_dfn):
+   kw='test_plan'
+   if tt in tpi[kw]:
+     if tt in tpi.keys():
+       for y in tpi[tt]:
+         if tt == 'regression_tests':
+           sd=False
+         else:
+           sd=True
+         ifn,dfn,back_ifn= st.set_inpt_fn(n_df,n_dfn,subdir=sd)
+         m=methods[y]
+         runner = unittest.TextTestRunner(verbosity=2).run(eval(m))
 
 def usage():
     print "Usage:  python tstorm-tp [-c|--conf] [-d|--destfile] [--novoms]"
@@ -141,65 +148,15 @@ if __name__ == '__main__':
   '''Get Test Plan Info from conf file'''
   tp_info = st.get_tp_info(tpfnc)
 
-  if !is_valid(tp_info):
+  if not st.is_valid(tp_info):
     '''Wrong Test Plan conf file'''
     tpc_details()
     sys.exit(3)
 
   if voms:
     for x in tests_type['voms']:
-      run_tests(x, n_df, n_dfn)
-      #if x in tp_info.keys():
-        #for y in tp_info[x]:
-          #ifn,dfn,back_ifn= st.set_inpt_fn(n_df,n_dfn)
-          #runner = unittest.TextTestRunner(verbosity=2).run(y)
-    
-    '''Common Tests, Mandatory for each other type of tests'''
-    #ifn,dfn,back_ifn= st.set_inpt_fn(n_df,n_dfn)
-    #runner = unittest.TextTestRunner(verbosity=2).run(ct.conf_test_suite(tfn,ifn,dfn,back_ifn))
-
-    #'''Basic Tests'''
-    #ifn,dfn,back_ifn= st.set_inpt_fn(n_df,n_dfn)
-    #runner = unittest.TextTestRunner(verbosity=2).run(bt.cs_test_suite(tfn,ifn,dfn,back_ifn))
-    #ifn,dfn,back_ifn= st.set_inpt_fn(n_df,n_dfn)
-    #runner = unittest.TextTestRunner(verbosity=2).run(bt.cw_test_suite(tfn,ifn,dfn,back_ifn))
-    #ifn,dfn,back_ifn= st.set_inpt_fn(n_df,n_dfn)
-    #runner = unittest.TextTestRunner(verbosity=2).run(bt.cksm_test_suite(tfn,ifn,dfn,back_ifn))
-    #ifn,dfn,back_ifn= st.set_inpt_fn(n_df,n_dfn)
-    #runner = unittest.TextTestRunner(verbosity=2).run(bt.dt_test_suite(tfn,ifn,dfn,back_ifn))
-    #ifn,dfn,back_ifn= st.set_inpt_fn(n_df,n_dfn)
-    #runner = unittest.TextTestRunner(verbosity=2).run(bt.https_voms_test_suite(tfn,ifn,dfn,back_ifn))
-
-    '''Tape Tests'''
-    #ifn,dfn,back_ifn= st.set_inpt_fn(n_df,n_dfn,subdir=False)
-    #runner = unittest.TextTestRunner(verbosity=2).run(tt.access_tape(tfn,ifn,dfn,back_ifn))
-
-    '''Regression Tests'''
-    #ifn,dfn,back_ifn= st.set_inpt_fn(n_df,n_dfn,subdir=False)
-    #runner = unittest.TextTestRunner(verbosity=2).run(rt.update_free_space_upon_rm(tfn,ifn,dfn,back_ifn))
-
-    #ifn,dfn,back_ifn= st.set_inpt_fn(n_df,n_dfn,subdur=False)
-    #runner = unittest.TextTestRunner(verbosity=2).run(rt.eight_digit_string_checksum_rts(tfn,ifn,dfn,back_ifn))
-
-    #ifn,dfn,back_ifn= st.set_inpt_fn(n_df,n_dfn,subdir=False)
-    #runner = unittest.TextTestRunner(verbosity=2).run(rt.update_used_space_upon_pd(tfn,ifn,dfn,back_ifn))
-
-    #ifn,dfn,back_ifn= st.set_inpt_fn(n_df,n_dfn,subdir=False)
-    #runner = unittest.TextTestRunner(verbosity=2).run(rt.unsupported_protocols(tfn,ifn,dfn,back_ifn))
-
-    #runner = unittest.TextTestRunner(verbosity=2).run(rt.glue_information(tfn))
-
-    #ifn,dfn,back_ifn= st.set_inpt_fn(n_df,n_dfn,subdir=False)
-    #runner = unittest.TextTestRunner(verbosity=2).run(rt.non_ascii_chars(tfn,ifn,dfn,back_ifn))
-
-    #ifn,dfn,back_ifn= st.set_inpt_fn(n_df,n_dfn,subdir=False)
-    #runner = unittest.TextTestRunner(verbosity=2).run(rt.protocols(tfn,ifn,dfn,back_ifn))
-
+      run_tests(tp_info, x, n_df, n_dfn)
   else:
     '''Basic Tests NO VOMS'''
     for x in tests_type['novoms']:
-      run_tests(x, n_df, n_dfn)
-    #ifn,dfn,back_ifn= st.set_inpt_fn(n_df,n_dfn,subdir=False)
-    #runner = unittest.TextTestRunner(verbosity=2).run(btnv.http_test_suite(tfn,ifn,dfn,back_ifn))
-    #ifn,dfn,back_ifn= st.set_inpt_fn(n_df,n_dfn,subdir=False)
-    #runner = unittest.TextTestRunner(verbosity=2).run(btnv.https_test_suite(tfn,ifn,dfn,back_ifn))
+      run_tests(tp_info, x, n_df, n_dfn)
