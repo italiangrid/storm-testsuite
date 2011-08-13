@@ -21,13 +21,18 @@
     "glue_info_ts", 
     "non_ascii_chars_ts", 
     "protocols_ts"
-  ], 
+  ],
+  "regression_conftests": [
+    "backend_logrotate_ts",
+    "backend_cron_ts"
+  ],
   "tape_tests": [
     "access_tape_ts"
   ], 
   "test_plan": [
     "common_tests",
     "basic_tests",
-    "regression_tests"
+    "regression_tests",
+    "regression_conftests"
   ]
 }

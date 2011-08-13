@@ -11,6 +11,7 @@ from tstorm.test import basictests as bt
 from tstorm.test import basictests_novoms as btnv
 from tstorm.test import tapetests as tt
 from tstorm.test import regressiontests as rt
+from tstorm.test import regression_conftests as rct
 
 methods = {
    'cksm_ts': 'bt.cksm_ts(tfn,ifn,dfn,back_ifn)', 
@@ -29,14 +30,18 @@ methods = {
    'protocols_ts': 'rt.protocols_ts(tfn,ifn,dfn,back_ifn)',
    'conf_ts': 'ct.conf_ts(tfn,ifn,dfn,back_ifn)',
    'access_tape_ts': 'tt.access_tape_ts(tfn,ifn,dfn,back_ifn)'
+   'backend_cron_ts': 'rct.backend_cron_ts()'
+   'backend_logrotate_ts': 'rct.backend_logrotate_ts()'
 }
 
 tests_type = {
-   'novoms':'basic_tests_novoms',
+   'novoms':['common_tests',
+       'basic_tests_novoms']
    'voms':['common_tests',
        'basic_tests',
        'regression_tests',
        'tape_tests']
+   'conf':['regression_conftests']
 }
 
 def run_tests(tpi,tt, n_df, n_dfn):
@@ -48,13 +53,14 @@ def run_tests(tpi,tt, n_df, n_dfn):
            sd=False
          else:
            sd=True
-         ifn,dfn,back_ifn= st.set_inpt_fn(n_df,n_dfn,subdir=sd)
+         if tt != 'regression_conftests':
+           ifn,dfn,back_ifn= st.set_inpt_fn(n_df,n_dfn,subdir=sd)
          m=methods[y]
          runner = unittest.TextTestRunner(verbosity=2).run(eval(m))
 
 def usage():
-    print "Usage:  python tstorm-tp [-c|--conf] [-d|--destfile] [--novoms]"
-    print """Example: python tstorm-tp -c tstorm.ini -d /qui/quo/qua --novoms"""
+    print "Usage:  python tstorm-tp [-c|--conf] [-d|--destfile] [--novoms] [--conftesttype]"
+    print """Example: python tstorm-tp -c tstorm.ini -d /qui/quo/qua --novoms --conftesttype"""
 
 def tpc_details():
     print "Description of tstorm-tp.json.template:"
@@ -95,6 +101,10 @@ def tpc_details():
   "common_tests": [
     "conf_ts"
   ],
+  "regression_conftests": [
+    "backend_logrotate_ts",
+    "backend_cron_ts"
+  ],
   "regression_tests": [
     "update_free_space_upon_rm_ts",
     "eight_digit_string_checksum_rts_ts",
@@ -112,6 +122,7 @@ def tpc_details():
     "basic_tests",
     "regression_tests",
     "basic_tests_novoms",
+    "regression_conftests",
     "tape_tests"
   ]
 }
@@ -122,12 +133,13 @@ if __name__ == '__main__':
   tfn = './etc/tstorm/tstorm.ini'
 
   try:
-    opts, args = getopt.getopt(sys.argv[1:], "hc:d:", ["help","novoms","conf","destfile"])
+    opts, args = getopt.getopt(sys.argv[1:], "hc:d:", ["help","novoms","conftesttype","conf","destfile"])
   except getopt.GetoptError, err:
     print str(err)
     usage()
     sys.exit(2)
 
+  ctt=False
   voms = True
   n_df = False
   n_dfn = ''
@@ -142,6 +154,8 @@ if __name__ == '__main__':
       n_df = True
     elif o in ("--novoms"):
       novoms = False
+    elif o in ("--conftesttype"):
+      ctt = True
     else:
       assert False, "unhandled option"
 
@@ -153,10 +167,16 @@ if __name__ == '__main__':
     tpc_details()
     sys.exit(3)
 
-  if voms:
-    for x in tests_type['voms']:
+  if ctt:
+    for x in tests_type['conf']:
       run_tests(tp_info, x, n_df, n_dfn)
   else:
-    '''Basic Tests NO VOMS'''
-    for x in tests_type['novoms']:
-      run_tests(tp_info, x, n_df, n_dfn)
+    if voms:
+      for x in tests_type['voms']:
+        run_tests(tp_info, x, n_df, n_dfn)
+    else:
+      '''Basic Tests NO VOMS'''
+      for x in tests_type['novoms']:
+        run_tests(tp_info, x, n_df, n_dfn)
+
+  

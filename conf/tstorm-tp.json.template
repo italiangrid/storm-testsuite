@@ -21,7 +21,11 @@
     "glue_info_ts", 
     "non_ascii_chars_ts", 
     "protocols_ts"
-  ], 
+  ],
+  "regression_conftests": [
+    "backend_logrotate_ts",
+    "backend_cron_ts"
+  ],
   "tape_tests": [
     "access_tape_ts"
   ], 
@@ -29,7 +33,8 @@
     "common_tests", 
     "basic_tests", 
     "regression_tests", 
-    "basic_tests_novoms", 
+    "basic_tests_novoms",
+    "regression_conftests",
     "tape_tests"
   ]
 }
