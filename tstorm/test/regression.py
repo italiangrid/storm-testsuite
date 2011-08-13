@@ -23,6 +23,8 @@ class RegressionTest(unittest.TestCase):
       self.prt = prt
 
     def test_eight_digit_string_checksum(self):
+      '''SYSTEM TEST - REGRESSION TESTS'''
+      '''3.4.3 - RfC https://storm.cnaf.infn.it:8443/redmine/issues/108'''
       ls_result = ls.LcgLs(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn)
       ll = ls_result.get_output()
       self.assert_(ll['status'] == 'FAILURE')
@@ -45,6 +47,8 @@ class RegressionTest(unittest.TestCase):
           self.assert_(x == 'PASS')
 
     def test_update_free_space_upon_rm(self):
+       '''SYSTEM TEST - REGRESSION TESTS'''
+      '''3.4.1 - RfC https://storm.cnaf.infn.it:8443/redmine/issues/106'''
       ls_result = ls.LcgLs(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn)
       ll = ls_result.get_output()
       self.assert_(ll['status'] == 'FAILURE')
@@ -81,6 +85,8 @@ class RegressionTest(unittest.TestCase):
       self.assert_(int(self.lls_result['size']) == a)
 
     def test_update_used_space_upon_pd(self):
+      '''SYSTEM TEST - REGRESSION TESTS'''
+      '''3.4.4 - RfC https://storm.cnaf.infn.it:8443/redmine/issues/109'''
       self.st_result = space.StoRMGst(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.tsets['general']['spacetoken']).get_output()
       self.assert_(self.st_result['status'] == 'PASS')
 
@@ -109,12 +115,15 @@ class RegressionTest(unittest.TestCase):
           self.assert_(x == 'PASS')
 
     def test_unsupported_protocols(self):
+      '''SYSTEM TEST - REGRESSION TESTS'''
+      '''3.4.6 - RfC https://storm.cnaf.infn.it:8443/redmine/issues/127'''
       self.ptp_result = cp.StoRMPtp(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn, 'unsupported').get_output()
       self.assert_(self.ptp_result['status'] == 'FAILURE')
       self.assert_('SRM_NOT_SUPPORTED' in self.ptp_result['statusCode'])
-      
 
     def test_both_sup_and_unsup_protocols(self):
+      '''SYSTEM TEST - REGRESSION TESTS'''
+      '''3.4.7 - RfC https://storm.cnaf.infn.it:8443/redmine/issues/126'''
       self.ptp_result = cp.StoRMPtp(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn, self.prt + ',unsupported').get_output()
       self.assert_(self.ptp_result['status'] == 'PASS')
       self.fs_result =findstrings.Grep().get_output()
@@ -123,5 +132,7 @@ class RegressionTest(unittest.TestCase):
       self.assert_(self.ar_result['status'] == 'PASS')
 
     def test_non_ascii_chars(self):
+      '''SYSTEM TEST - REGRESSION TESTS'''
+      '''3.4.10 - RfC https://storm.cnaf.infn.it:8443/redmine/issues/137'''
       self.ls_result = ls.LcgLs(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn + 'tèstèèà').get_output()
       self.assert_(self.ls_result['status'] == 'FAILURE')

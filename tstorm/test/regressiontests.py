@@ -3,7 +3,6 @@
 __author__ = 'Elisabetta Ronchieri'
 
 import unittest
-from tstorm.utils import settings as st
 from tstorm.test import regression as re
 from tstorm.test import functionalities as fu
 from tstorm.test import utilities as ut
@@ -59,5 +58,12 @@ def non_ascii_chars_ts(conf, ifn, dfn, bifn):
   s = unittest.TestSuite()
   s.addTest(re.RegressionTest('test_non_ascii_chars', conf, ifn, dfn, bifn))
   s.addTest(fu.FunctionalitiesTest('test_storm_ping',conf, ifn, dfn, bifn)) 
+
+  return s
+
+def backend_conf_ts():
+  s = unittest.TestSuite()
+  s.addTest(rct.RegressionConfigurationTest('test_backend_logrotate_file'))
+  s.addTest(rct.RegressionConfigurationTest('test_backend_cron_file'))
 
   return s
