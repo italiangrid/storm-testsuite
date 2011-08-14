@@ -3,7 +3,11 @@ where you run tests.
 
 Once you have untar tstorm-etics-1.0.0-1.tar.gz, please run the following scripts:
 
-$ ./irt_3_4_11_rfc_143.sh
-$ ./rt_3_4_14_rfc_131.sh
+$ ./rt_3_4_13_rfc_130.sh <component-version> <project-version>
+$ ./rt_3_4_14_rfc_131.sh <component-version> <project-version>
+
+where 
+ <component-version> is of the form W.X.Y-Z (for example 1.0.0-1)
+ <project-version> is of the form V (for example V=1 for emi_R_1_rc)
 
 Each test returns PASS or FAIL.
