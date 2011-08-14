@@ -1,0 +1,9 @@
+Mandatory to run the following tests is to have installed etics client 
+where you run tests.
+
+Once you have untar tstorm-etics-1.0.0-1.tar.gz, please run the following scripts:
+
+$ ./irt_3_4_11_rfc_143.sh
+$ ./rt_3_4_14_rfc_131.sh
+
+Each test returns PASS or FAIL.
