@@ -8,7 +8,7 @@ ncv=`echo $cv | sed -e 's/\./_/g' | sed -e 's/\-/_/g'`
 # remove age from cv
 cr=`echo $cv | awk -F"-" '{ print $1 }'`
 
-echo 'RT 3.3.13 RFC https://storm.cnaf.infn.it:8443/redmine/issues/130'
+echo 'RT 3.4.13 RFC https://storm.cnaf.infn.it:8443/redmine/issues/130'
 
 echo 'mkdir -p storm-gridhttps-plugin'
 mkdir -p storm-gridhttps-plugin &> /tmp/rt_3.3.13_rfc_130.txt 
