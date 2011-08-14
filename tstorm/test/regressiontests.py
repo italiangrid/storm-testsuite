@@ -60,10 +60,3 @@ def non_ascii_chars_ts(conf, ifn, dfn, bifn):
   s.addTest(fu.FunctionalitiesTest('test_storm_ping',conf, ifn, dfn, bifn)) 
 
   return s
-
-def backend_conf_ts():
-  s = unittest.TestSuite()
-  s.addTest(rct.RegressionConfigurationTest('test_backend_logrotate_file'))
-  s.addTest(rct.RegressionConfigurationTest('test_backend_cron_file'))
-
-  return s

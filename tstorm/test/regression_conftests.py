@@ -16,3 +16,9 @@ def backend_cron_conf_ts():
   s.addTest(rec.RegressionConfigurationTest('test_backend_cron_file'))
 
   return s
+
+def backend_gridhttps_ts():
+  s = unittest.TestSuite()
+  s.addTest(rec.RegressionConfigurationTest('test_backend_gridhttps'))
+
+  return s

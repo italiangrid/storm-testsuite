@@ -29,9 +29,10 @@ methods = {
    'update_free_space_upon_rm_ts': 'rt.update_free_space_upon_rm_ts(tfn,ifn,dfn,back_ifn)', 
    'protocols_ts': 'rt.protocols_ts(tfn,ifn,dfn,back_ifn)',
    'conf_ts': 'ct.conf_ts(tfn,ifn,dfn,back_ifn)',
-   'access_tape_ts': 'tt.access_tape_ts(tfn,ifn,dfn,back_ifn)'
-   'backend_cron_ts': 'rct.backend_cron_ts()'
-   'backend_logrotate_ts': 'rct.backend_logrotate_ts()'
+   'access_tape_ts': 'tt.access_tape_ts(tfn,ifn,dfn,back_ifn),'
+   'backend_cron_ts': 'rct.backend_cron_ts(),'
+   'backend_logrotate_ts': 'rct.backend_logrotate_ts(),'
+   'backend_gridhttps_ts': 'rct.backend_gridhttps_ts(),'
 }
 
 tests_type = {
@@ -59,8 +60,13 @@ def run_tests(tpi,tt, n_df, n_dfn):
          runner = unittest.TextTestRunner(verbosity=2).run(eval(m))
 
 def usage():
-    print "Usage:  python tstorm-tp [-c|--conf] [-d|--destfile] [--novoms] [--conftesttype]"
-    print """Example: python tstorm-tp -c tstorm.ini -d /qui/quo/qua --novoms --conftesttype"""
+    print "Usage: tstorm-tp [-c|--conf] [-d|--destfile] [--novoms] [--conftesttype]"
+    print """Example: if you want to run test without voms"""
+    print """         tstorm-tp --novoms"""
+    print """Example: if you want to run conf test on a given storm node"""
+    print """         tstorm-tp --conftesttype"""
+    print """Example: if you want to run test by changing conf input file and destination filename"""
+    print """         tstorm-tp -c etc/tstorm/tstorm.ini -d ui/uo/ua.txt"""
 
 def tpc_details():
     print "Description of tstorm-tp.json.template:"
@@ -71,19 +77,24 @@ def tpc_details():
     print """             'common_tests'"""
     print """             'basic_tests'"""
     print """             'regression_tests'"""
-    print """             'basic_tests_tests'"""
+    print """             'basic_tests_novoms'"""
     print """             'tape_tests'"""
     print """            ]"""
+    print """            If it contains regression_conftests, the other tests are excluded."""
     print """common_tests - is a key word containing a list of tests """
     print """               that MUST be specified in the order of execution; """
     print """basic_tests - is a key word containing a list of tests """
     print """               that MUST be specified in the order of execution; """
     print """regression_tests - is a key word containing a list of tests """
     print """               that MUST be specified in the order of execution; """
+    print """regression_conftests - is a key word containing a list of tests """
+    print """               that MUST be specified as root in the order of execution; """
     print """basic_tests_novoms - is a key word containing a list of tests """
     print """               that MUST be specified in the order of execution; """
     print """tape_tests - is a key word containing a list of tests """
-    print """               that MUST be specified in the order of execution\n"""
+    print """               that MUST be specified in the order of execution;\n"""
+    print """regression_conftests - is a key word containing a list of tests """
+    print """               that MUST be specified as root in the order of execution. """
     print "Example of tstorm-tp.json.template:"
     print """
 {
@@ -103,7 +114,8 @@ def tpc_details():
   ],
   "regression_conftests": [
     "backend_logrotate_ts",
-    "backend_cron_ts"
+    "backend_cron_ts",
+    "backend_gridhttps_ts"
   ],
   "regression_tests": [
     "update_free_space_upon_rm_ts",
