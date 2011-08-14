@@ -47,7 +47,7 @@ class RegressionTest(unittest.TestCase):
           self.assert_(x == 'PASS')
 
     def test_update_free_space_upon_rm(self):
-       '''SYSTEM TEST - REGRESSION TESTS'''
+      '''SYSTEM TEST - REGRESSION TESTS'''
       '''3.4.1 - RfC https://storm.cnaf.infn.it:8443/redmine/issues/106'''
       ls_result = ls.LcgLs(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn)
       ll = ls_result.get_output()
