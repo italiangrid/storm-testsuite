@@ -1,153 +1,152 @@
-	#!/usr/bin/python
+#!/usr/bin/python
 
-	__author__ = 'Elisabetta Ronchieri'
+__author__ = 'Elisabetta Ronchieri'
 
-	import sys
-	import unittest
-	import getopt
-	from tstorm.utils import settings as st
-	from tstorm.test import commontests as ct
-	from tstorm.test import basictests as bt
-	from tstorm.test import basictests_novoms as btnv
-	from tstorm.test import tapetests as tt
-	from tstorm.test import regressiontests as rt
-	from tstorm.test import regression_conftests as rct
+import sys
+import unittest
+import getopt
+from tstorm.utils import settings as st
+from tstorm.test import commontests as ct
+from tstorm.test import basictests as bt
+from tstorm.test import basictests_novoms as btnv
+from tstorm.test import tapetests as tt
+from tstorm.test import regressiontests as rt
+from tstorm.test import regression_conftests as rct
 
-	methods = {
-	   'cksm_ts': 'bt.cksm_ts(tfn,ifn,dfn,back_ifn)', 
-	   'https_ts': 'btnv.https_ts(tfn,ifn,dfn,back_ifn)', 
-	   'https_voms_ts': 'bt.https_voms_ts(tfn,ifn,dfn,back_ifn)', 
-	   'cs_ts': 'bt.cs_ts(tfn,ifn,dfn,back_ifn)', 
-	   'cw_ts': 'bt.cw_ts(tfn,ifn,dfn,back_ifn)', 
-	   'eight_digit_string_checksum_ts': 'rt.eight_digit_string_checksum_ts(tfn,ifn,dfn,back_ifn)', 
-	   'non_ascii_chars_ts': 'rt.non_ascii_chars_ts(tfn,ifn,dfn,back_ifn)', 
-	   'unsupported_protocols_ts': 'rt.unsupported_protocols_ts(tfn,ifn,dfn,back_ifn)', 
-	   'dt_ts': 'bt.dt_ts(tfn,ifn,dfn,back_ifn)', 
-	   'http_ts': 'btnv.http_ts(tfn,ifn,dfn,back_ifn)', 
-	   'glue_info_ts': 'rt.glue_info_ts(tfn)', 
-	   'update_used_space_upon_pd_ts': 'rt.update_used_space_upon_pd_ts(tfn,ifn,dfn,back_ifn)', 
-	   'update_free_space_upon_rm_ts': 'rt.update_free_space_upon_rm_ts(tfn,ifn,dfn,back_ifn)', 
-	   'protocols_ts': 'rt.protocols_ts(tfn,ifn,dfn,back_ifn)',
-	   'conf_ts': 'ct.conf_ts(tfn,ifn,dfn,back_ifn)',
-	   'access_tape_ts': 'tt.access_tape_ts(tfn,ifn,dfn,back_ifn)',
-	   'backend_cron_ts': 'rct.backend_cron_ts()',
-	   'backend_logrotate_ts': 'rct.backend_logrotate_ts()',
-	   'backend_gridhttps_ts': 'rct.backend_gridhttps_ts()'
-	}
+methods = {
+   'cksm_ts': 'bt.cksm_ts(tfn,ifn,dfn,back_ifn)', 
+   'https_ts': 'btnv.https_ts(tfn,ifn,dfn,back_ifn)', 
+   'https_voms_ts': 'bt.https_voms_ts(tfn,ifn,dfn,back_ifn)', 
+   'cs_ts': 'bt.cs_ts(tfn,ifn,dfn,back_ifn)', 
+   'cw_ts': 'bt.cw_ts(tfn,ifn,dfn,back_ifn)', 
+   'eight_digit_string_checksum_ts': 'rt.eight_digit_string_checksum_ts(tfn,ifn,dfn,back_ifn)', 
+   'non_ascii_chars_ts': 'rt.non_ascii_chars_ts(tfn,ifn,dfn,back_ifn)', 
+   'unsupported_protocols_ts': 'rt.unsupported_protocols_ts(tfn,ifn,dfn,back_ifn)', 
+   'dt_ts': 'bt.dt_ts(tfn,ifn,dfn,back_ifn)', 
+   'http_ts': 'btnv.http_ts(tfn,ifn,dfn,back_ifn)', 
+   'glue_info_ts': 'rt.glue_info_ts(tfn)', 
+   'update_used_space_upon_pd_ts': 'rt.update_used_space_upon_pd_ts(tfn,ifn,dfn,back_ifn)', 
+   'update_free_space_upon_rm_ts': 'rt.update_free_space_upon_rm_ts(tfn,ifn,dfn,back_ifn)', 
+   'protocols_ts': 'rt.protocols_ts(tfn,ifn,dfn,back_ifn)',
+   'conf_ts': 'ct.conf_ts(tfn,ifn,dfn,back_ifn)',
+   'access_tape_ts': 'tt.access_tape_ts(tfn,ifn,dfn,back_ifn)',
+   'backend_cron_ts': 'rct.backend_cron_ts()',
+   'backend_logrotate_ts': 'rct.backend_logrotate_ts()',
+   'backend_gridhttps_ts': 'rct.backend_gridhttps_ts()'
+}
 
-	tests_type = {
-	   'novoms':['common_tests',
-	       'basic_tests_novoms'],
-	   'voms':['common_tests',
-	       'basic_tests',
-	       'regression_tests',
-	       'tape_tests'],
-	   'conf':['regression_conftests']
-	}
+tests_type = {
+   'novoms':['common_tests',
+       'basic_tests_novoms'],
+   'voms':['common_tests',
+       'basic_tests',
+       'regression_tests',
+       'tape_tests'],
+   'conf':['regression_conftests']
+}
 
-	def run_tests(tpi,tt, n_df, n_dfn):
-	   kw='test_plan'
-	   if tt in tpi[kw]:
-	     if tt in tpi.keys():
-	       for y in tpi[tt]:
-		 if tt == 'regression_tests':
-		   sd=False
-		 else:
-		   sd=True
-		 if tt != 'regression_conftests':
-		   ifn,dfn,back_ifn= st.set_inpt_fn(n_df,n_dfn,subdir=sd)
-		 m=methods[y]
-		 runner = unittest.TextTestRunner(verbosity=2).run(eval(m))
+def run_tests(tpi,tt, n_df, n_dfn):
+   kw='test_plan'
+   if tt in tpi[kw]:
+     if tt in tpi.keys():
+       for y in tpi[tt]:
+	 if tt == 'regression_tests':
+	   sd=False
+	 else:
+	   sd=True
+	 if tt != 'regression_conftests':
+	   ifn,dfn,back_ifn= st.set_inpt_fn(n_df,n_dfn,subdir=sd)
+	 m=methods[y]
+	 runner = unittest.TextTestRunner(verbosity=2).run(eval(m))
 
-	def usage():
-	    print "Usage: tstorm-tp [-c|--conf] [-d|--destfile] [--novoms] [--conftest]"
-	    print """Example: if you want to run test without voms"""
-	    print """         tstorm-tp --novoms"""
-	    print """Example: if you want to run conf test on a given storm node"""
-	    print """         tstorm-tp --conftest"""
-	    print """Example: if you want to run test by changing conf input file and destination filename"""
-	    print """         tstorm-tp -c etc/tstorm/tstorm.ini -d ui/uo/ua.txt"""
+def usage():
+    print "Usage: tstorm-tp [-c|--conf] [-d|--destfile] [--novoms] [--conftest]"
+    print """Example: if you want to run test without voms"""
+    print """         tstorm-tp --novoms"""
+    print """Example: if you want to run conf test on a given storm node"""
+    print """         tstorm-tp --conftest"""
+    print """Example: if you want to run test by changing conf input file and destination filename"""
+    print """         tstorm-tp -c etc/tstorm/tstorm.ini -d ui/uo/ua.txt"""
 
-	def tpc_details():
-	    print "Description of tstorm-tp.json.template:"
-	    print """test_plan - is a key word containing a list of different type of """
-	    print """            system tests that MUST be specified in the order of """
-	    print """            execution, that is """
-	    print """            ["""
-	    print """             'common_tests'"""
-	    print """             'basic_tests'"""
-	    print """             'regression_tests'"""
-	    print """             'basic_tests_novoms'"""
-            print """             'regression_conftests'"""
-	    print """             'tape_tests'"""
-	    print """            ]"""
-	    print """            regression_conftests are executed only if conftest option is used."""
-	    print """common_tests - is a key word containing a list of tests """
-	    print """               that MUST be specified in the order of execution; """
-	    print """basic_tests - is a key word containing a list of tests """
-	    print """               that MUST be specified in the order of execution; """
-	    print """regression_tests - is a key word containing a list of tests """
-	    print """               that MUST be specified in the order of execution; """
-	    print """regression_conftests - is a key word containing a list of tests """
-	    print """               that MUST be specified as root in the order of execution; """
-	    print """basic_tests_novoms - is a key word containing a list of tests """
-	    print """               that MUST be specified in the order of execution; """
-	    print """tape_tests - is a key word containing a list of tests """
-	    print """               that MUST be specified in the order of execution;\n"""
-	    print """regression_conftests - is a key word containing a list of tests """
-	    print """               that MUST be specified as root in the order of execution. """
-	    print "Example of tstorm-tp.json.template:"
-	    print """
-	{
-	  "basic_tests": [
-	    "cs_ts",
-	    "cw_ts",
-	    "cksm_ts",
-	    "dt_ts",
-	    "https_voms_ts"
-	  ],
-	  "basic_tests_novoms": [
-	    "http_ts",
-	    "https_ts"
-	  ],
-	  "common_tests": [
-	    "conf_ts"
-	  ],
-	  "regression_conftests": [
-	    "backend_logrotate_ts",
-	    "backend_cron_ts",
-	    "backend_gridhttps_ts"
-	  ],
-	  "regression_tests": [
-	    "update_free_space_upon_rm_ts",
-	    "eight_digit_string_checksum_rts_ts",
-	    "update_used_space_upon_pd_ts",
-	    "unsupported_protocols_ts",
-	    "glue_info_ts",
-	    "non_ascii_chars_ts",
-	    "protocols_ts"
-	  ],
-	  "tape_tests": [
-	    "access_tape_ts"
-	  ],
-	  "test_plan": [
-	    "common_tests",
-	    "basic_tests",
-	    "regression_tests",
-	    "basic_tests_novoms",
-	    "regression_conftests",
-	    "tape_tests"
-	  ]
-	}
-	"""
+def tpc_details():
+    print "Description of tstorm-tp.json.template:"
+    print """test_plan - is a key word containing a list of different type of """
+    print """            system tests that MUST be specified in the order of """
+    print """            execution, that is """
+    print """            ["""
+    print """             'common_tests'"""
+    print """             'basic_tests'"""
+    print """             'regression_tests'"""
+    print """             'basic_tests_novoms'"""
+    print """             'regression_conftests'"""
+    print """             'tape_tests'"""
+    print """            ]"""
+    print """            regression_conftests are executed only if conftest option is used."""
+    print """common_tests - is a key word containing a list of tests """
+    print """               that MUST be specified in the order of execution; """
+    print """basic_tests - is a key word containing a list of tests """
+    print """               that MUST be specified in the order of execution; """
+    print """regression_tests - is a key word containing a list of tests """
+    print """               that MUST be specified in the order of execution; """
+    print """regression_conftests - is a key word containing a list of tests """
+    print """               that MUST be specified as root in the order of execution; """
+    print """basic_tests_novoms - is a key word containing a list of tests """
+    print """               that MUST be specified in the order of execution; """
+    print """tape_tests - is a key word containing a list of tests """
+    print """               that MUST be specified in the order of execution;\n"""
+    print """regression_conftests - is a key word containing a list of tests """
+    print """               that MUST be specified as root in the order of execution. """
+    print "Example of tstorm-tp.json.template:"
+    print """
+{
+  "basic_tests": [
+    "cs_ts",
+    "cw_ts",
+    "cksm_ts",
+    "dt_ts",
+    "https_voms_ts"
+  ],
+  "basic_tests_novoms": [
+    "http_ts",
+    "https_ts"
+  ],
+  "common_tests": [
+    "conf_ts"
+  ],
+  "regression_conftests": [
+    "backend_logrotate_ts",
+    "backend_cron_ts",
+    "backend_gridhttps_ts"
+  ],
+  "regression_tests": [
+    "update_free_space_upon_rm_ts",
+    "eight_digit_string_checksum_rts_ts",
+    "update_used_space_upon_pd_ts",
+    "unsupported_protocols_ts",
+    "glue_info_ts",
+    "non_ascii_chars_ts",
+    "protocols_ts"
+  ],
+  "tape_tests": [
+    "access_tape_ts"
+  ],
+  "test_plan": [
+    "common_tests",
+    "basic_tests",
+    "regression_tests",
+    "basic_tests_novoms",
+    "regression_conftests",
+    "tape_tests"
+  ]
+}
+"""
 
-	if __name__ == '__main__':
-	  tpfnc= './etc/tstorm/tstorm-tp.json'
-	  tfn = './etc/tstorm/tstorm.ini'
+if __name__ == '__main__':
+  tpfnc= './etc/tstorm/tstorm-tp.json'
+  tfn = './etc/tstorm/tstorm.ini'
 
-	  try:
-	    opts, args = getopt.getopt(sys.argv[1:], "hc:d:", ["help","novoms","conftest","conf","destfile"])
-	    print opts, args
+  try:
+    opts, args = getopt.getopt(sys.argv[1:], "hc:d:", ["help","novoms","conftest","conf","destfile"])
   except getopt.GetoptError, err:
     print str(err)
     usage()
