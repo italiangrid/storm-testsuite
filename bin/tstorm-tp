@@ -30,8 +30,8 @@ methods = {
    'protocols_ts': 'rt.protocols_ts(tfn,ifn,dfn,back_ifn)',
    'conf_ts': 'ct.conf_ts(tfn,ifn,dfn,back_ifn)',
    'access_tape_ts': 'tt.access_tape_ts(tfn,ifn,dfn,back_ifn)',
-   'backend_cron_ts': 'rct.backend_cron_ts()',
-   'backend_logrotate_ts': 'rct.backend_logrotate_ts()',
+   'backend_cron_conf_ts': 'rct.backend_cron_conf_ts()',
+   'backend_logrotate_conf_ts': 'rct.backend_logrotate_conf_ts()',
    'backend_gridhttps_ts': 'rct.backend_gridhttps_ts()'
 }
 
@@ -114,8 +114,8 @@ def tpc_details():
     "conf_ts"
   ],
   "regression_conftests": [
-    "backend_logrotate_ts",
-    "backend_cron_ts",
+    "backend_logrotate_conf_ts",
+    "backend_cron_conf_ts",
     "backend_gridhttps_ts"
   ],
   "regression_tests": [
@@ -180,7 +180,7 @@ if __name__ == '__main__':
     tpc_details()
     sys.exit(3)
 
-  if ctt:
+  if ct:
     for x in tests_type['conf']:
       run_tests(tp_info, x, n_df, n_dfn)
   else:

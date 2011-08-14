@@ -72,7 +72,10 @@ def is_valid(tp_info):
     'update_free_space_upon_rm_ts',
     'protocols_ts',
     'conf_ts',
-    'access_tape_ts']
+    'access_tape_ts',
+    'backend_cron_conf_ts',
+    'backend_logrotate_conf_ts',
+    'backend_gridhttps_ts']
 
   for x in tp_info:
     if x == kw:

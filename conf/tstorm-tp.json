@@ -23,8 +23,8 @@
     "protocols_ts"
   ],
   "regression_conftests": [
-    "backend_logrotate_ts",
-    "backend_cron_ts",
+    "backend_logrotate_conf_ts",
+    "backend_cron_conf_ts",
     "backend_gridhttps_ts"
   ],
   "tape_tests": [
