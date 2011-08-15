@@ -16,8 +16,7 @@ class LdapTest(unittest.TestCase):
       self.attributes = attributes
 
     def test_glue_service(self):
-      '''SYSTEM TEST - REGRESSION TESTS'''
-      print '''\n.4.11 - RfC https://storm.cnaf.infn.it:8443/redmine/issues/143\n'''
+      print '''\n3.4.11 - RfC https://storm.cnaf.infn.it:8443/redmine/issues/143\n'''
       self.ls_result = ls.LdapSearch(self.tsets['general']['endpoint'], self.attributes, self.basedn, self.filter).get_output()
       self.assert_(self.ls_result['status'] == 'PASS')
       self.assert_('emi.storm' not in self.ls_result['GlueServiceType'])

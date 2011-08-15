@@ -34,6 +34,7 @@
     "common_tests",
     "basic_tests",
     "regression_tests",
+    "basic_tests_novoms",
     "regression_conftests"
   ]
 }
