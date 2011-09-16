@@ -22,3 +22,21 @@ def backend_gridhttps_ts():
   s.addTest(rec.RegressionConfigurationTest('test_backend_gridhttps'))
 
   return s
+
+def yaim_version_file_ts():
+  s = unittest.TestSuite()
+  s.addTest(rec.RegressionConfigurationTest('test_yaim_version_file'))
+
+  return s
+
+def gridhttps_plugin_links_ts():
+  s = unittest.TestSuite()
+  s.addTest(rec.RegressionConfigurationTest('test_gridhttps_plugin_links'))
+
+  return s
+
+def size_in_namespace_file_ts():
+  s = unittest.TestSuite()
+  s.addTest(rec.RegressionConfigurationTest('test_size_in_namespace_file'))
+
+  return s

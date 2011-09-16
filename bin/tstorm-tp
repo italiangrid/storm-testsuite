@@ -32,7 +32,10 @@ methods = {
    'access_tape_ts': 'tt.access_tape_ts(tfn,ifn,dfn,back_ifn)',
    'backend_cron_conf_ts': 'rct.backend_cron_conf_ts()',
    'backend_logrotate_conf_ts': 'rct.backend_logrotate_conf_ts()',
-   'backend_gridhttps_ts': 'rct.backend_gridhttps_ts()'
+   'backend_gridhttps_ts': 'rct.backend_gridhttps_ts()',
+   'yaim_version_file_ts': 'rct.yaim_version_file_ts()',
+   'gridhttps_plugin_links_ts': 'rct.gridhttps_plugin_links_ts()',
+   'size_in_namespace_file_ts': 'rct.size_in_namespace_file_ts()'
 }
 
 tests_type = {
@@ -111,7 +114,10 @@ def tpc_details():
   "regression_conftests": [
     "backend_logrotate_conf_ts",
     "backend_cron_conf_ts",
-    "backend_gridhttps_ts"
+    "backend_gridhttps_ts",
+    "yaim_version_file_ts",
+    "gridhttps_plugin_links_ts",
+    "size_in_namespace_file_ts"
   ],
   "regression_tests": [
     "update_free_space_upon_rm_ts",
