@@ -9,7 +9,7 @@ from tstorm.utils import rm
 from tstorm.utils import rmdir
 from tstorm.utils import cksm
 from tstorm.utils import space
-from tstorm.utils import sizefile
+#from tstorm.utils import sizefile
 from tstorm.utils import findstrings
 from tstorm.utils import abort
 
@@ -73,7 +73,7 @@ class RegressionTest(unittest.TestCase):
       ll = ls_result.get_output()
       self.assert_(ll['status'] == 'FAILURE')
 
-      self.lls_result = sizefile.Ls(self.ifn).get_output()
+      self.lls_result = ls.Ls(self.ifn).get_output()
       self.assert_(self.lls_result['status'] == 'PASS')
 
       self.sm2_result = space.StoRMGsm(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.st_result['arrayOfSpaceTokens']).get_output()
@@ -94,7 +94,7 @@ class RegressionTest(unittest.TestCase):
       self.assert_(self.ls_result['status'] == 'FAILURE')
       self.cp_result = cp.LcgCp(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.ifn, self.dfn, self.bifn).get_output()
       self.assert_(self.cp_result['status'] == 'PASS')
-      self.lls_result = sizefile.Ls(self.ifn).get_output()
+      self.lls_result = ls.Ls(self.ifn).get_output()
       self.assert_(self.lls_result['status'] == 'PASS')
 
       self.sm2_result = space.StoRMGsm(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.st_result['arrayOfSpaceTokens']).get_output()

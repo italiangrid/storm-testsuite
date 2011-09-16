@@ -11,7 +11,6 @@ from tstorm.utils import ls
 from tstorm.utils import cp
 from tstorm.utils import rm
 from tstorm.utils import space
-from tstorm.utils import sizefile
 from tstorm.utils import bringonline as bol
 
 class TapeTest(unittest.TestCase):
@@ -133,7 +132,7 @@ class TapeTest(unittest.TestCase):
       usb = us_result.get_output()
       self.assert_(usb['status'] == 'PASS')
 
-      self.lls_result = sizefile.Ls(self.ifn).get_output()
+      self.lls_result = ls.Ls(self.ifn).get_output()
       self.assert_(self.lls_result['status'] == 'PASS')
 
       self.rf_result = cp.StoRMRf(self.tsets['general']['endpoint'], self.tsets['tape']['accesspoint'], self.dfn, self.bol_result['requestToken']).get_output()
