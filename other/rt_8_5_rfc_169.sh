@@ -16,7 +16,7 @@ echo 'Description: The distribution of xmlrpc-c RPMs on SL5 contains a memory le
 echo 'Output:'
 
 echo 'mkdir -p storm-xmlrpc-c'
-mkdir -p storm-storm-xmlrpc-c &> /tmp/rt_8_5_rfc_169.txt 
+mkdir -p storm-xmlrpc-c &> /tmp/rt_8_5_rfc_169.txt 
 
 echo 'cd storm-xmlrpc-c/'
 cd storm-xmlrpc-c/ &> /tmp/rt_8_5_rfc_169.txt
@@ -61,4 +61,5 @@ do
     break
   fi
 done
+echo 'PASSED'
 rm /tmp/rt_8_5_rfc_169.txt
