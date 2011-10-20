@@ -13,17 +13,17 @@ cr=`echo $cv | awk -F"-" '{ print $1 }'`
 echo 'Description: The distribution of xmlrpc-c RPMs on SL5 contains a memory leask that affects the StoRM Frontend Server.'
 echo 'RFC Unique ID: https://storm.cnaf.infn.it:8443/redmine/issues/169'
 
-mkdir -p storm-xmlrpc-c &> /tmp/rt_8_5_rfc_169.txt 
+mkdir -p storm-xmlrpc-c &> /tmp/rt_9_5_rfc_169.txt 
 
-cd storm-xmlrpc-c/ &> /tmp/rt_8_5_rfc_169.txt
+cd storm-xmlrpc-c/ &> /tmp/rt_9_5_rfc_169.txt
 
-etics-workspace-setup &> /tmp/rt_8_5_rfc_169.txt
+etics-workspace-setup &> /tmp/rt_9_5_rfc_169.txt
 
-etics-get-project --noask emi &> /tmp/rt_8_5_rfc_169.txt
+etics-get-project --noask emi &> /tmp/rt_9_5_rfc_169.txt
 
-etics-checkout --platform "sl5_x86_64_gcc412EPEL" --verbose --noask --project "emi" --project-config emi_R_$pv\_rc --config emi-storm-xmlrpc-c_stable_1_25_new emi.storm.xmlrpc-c &> /tmp/rt_8_5_rfc_169.txt
+etics-checkout --platform "sl5_x86_64_gcc412EPEL" --verbose --noask --project "emi" --project-config emi_R_$pv\_rc --config emi-storm-xmlrpc-c_stable_1_25_new emi.storm.xmlrpc-c &> /tmp/rt_9_5_rfc_169.txt
 
-etics-build --platform "sl5_x86_64_gcc412EPEL" --verbose --config emi-storm-xmlrpc-c_stable_1_25_new emi.storm.xmlrpc-c &> /tmp/rt_8_5_rfc_169.txt
+etics-build --platform "sl5_x86_64_gcc412EPEL" --verbose --config emi-storm-xmlrpc-c_stable_1_25_new emi.storm.xmlrpc-c &> /tmp/rt_9_5_rfc_169.txt
 
 a=`ls dist/emi/emi.storm.xmlrpc-c/$cr/sl5_x86_64_gcc412EPEL/storm-xmlrpc-c-$cv.sl5.x86_64.rpm`
 
@@ -64,4 +64,4 @@ echo ls dist/emi/emi.storm.xmlrpc-c/$cr/sl5_x86_64_gcc412EPEL/storm-xmlrpc-c-cli
 echo ls dist/emi/emi.storm.xmlrpc-c/$cr/sl5_x86_64_gcc412EPEL/storm-xmlrpc-c-client++-$cv.sl5.x86_64.rpm
 echo ls dist/emi/emi.storm.xmlrpc-c/$cr/sl5_x86_64_gcc412EPEL/storm-xmlrpc-c-devel-$cv.sl5.x86_64.rpm
 
-rm /tmp/rt_8_5_rfc_169.txt
+rm /tmp/rt_9_5_rfc_169.txt

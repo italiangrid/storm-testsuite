@@ -3,11 +3,11 @@ where you run tests.
 
 Once you have untar tstorm-etics-1.0.1-1.tar.gz, please run the following scripts:
 
-$ ./rt_8_1_rfc_130.sh <component-version> <project-version>
-$ ./rt_8_2_rfc_131.sh <component-version> <project-version>
-$ ./rt_8_3_rfc_164.sh <component-version> <project-version>
-$ ./rt_8_4_rfc_85.sh <component-version> <project-version>
-$ ./rt_8_5_rfc_169.sh <component-version> <project-version>
+$ ./rt_9_1_rfc_130.sh <component-version> <project-version>
+$ ./rt_9_2_rfc_131.sh <component-version> <project-version>
+$ ./rt_9_3_rfc_164.sh <component-version> <project-version>
+$ ./rt_9_4_rfc_85.sh <component-version> <project-version>
+$ ./rt_9_5_rfc_169.sh <component-version> <project-version>
 
 where 
  <component-version> is of the form W.X.Y-Z (for example 1.0.0-1)

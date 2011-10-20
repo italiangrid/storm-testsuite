@@ -13,17 +13,17 @@ cr=`echo $cv | awk -F"-" '{ print $1 }'`
 echo 'Description: The source RPM of the storm-backend-server component is not created at build time.'
 echo 'RFC Unique ID: https://storm.cnaf.infn.it:8443/redmine/issues/164'
 
-mkdir -p storm-backend-server &> /tmp/rt_8_3_rfc_164.txt 
+mkdir -p storm-backend-server &> /tmp/rt_9_3_rfc_164.txt 
 
-cd storm-backend-server/ &> /tmp/rt_8_3_rfc_164.txt
+cd storm-backend-server/ &> /tmp/rt_9_3_rfc_164.txt
 
-etics-workspace-setup &> /tmp/rt_8_3_rfc_164.txt
+etics-workspace-setup &> /tmp/rt_9_3_rfc_164.txt
 
-etics-get-project --noask emi &> /tmp/rt_8_3_rfc_164.txt
+etics-get-project --noask emi &> /tmp/rt_9_3_rfc_164.txt
 
-etics-checkout --platform "sl5_x86_64_gcc412EPEL" --verbose --noask --project "emi" --project-config emi_R_$pv\_rc --config emi-storm-backend-server_R_$ncv emi.storm.backend-server &> /tmp/rt_8_3_rfc_164.txt
+etics-checkout --platform "sl5_x86_64_gcc412EPEL" --verbose --noask --project "emi" --project-config emi_R_$pv\_rc --config emi-storm-backend-server_R_$ncv emi.storm.backend-server &> /tmp/rt_9_3_rfc_164.txt
 
-etics-build --platform "sl5_x86_64_gcc412EPEL" --verbose --config emi-storm-backend-server_R_$ncv emi.storm.backend-server &> /tmp/rt_8_3_rfc_164.txt
+etics-build --platform "sl5_x86_64_gcc412EPEL" --verbose --config emi-storm-backend-server_R_$ncv emi.storm.backend-server &> /tmp/rt_9_3_rfc_164.txt
 
 a=`ls dist/emi/emi.storm.backend-server/$cr/src/storm-backend-server-$cv.sl5.src.rpm`
 
@@ -39,4 +39,4 @@ echo etics-checkout --platform "sl5_x86_64_gcc412EPEL" --verbose --noask --proje
 echo etics-build --createsource --platform "sl5_x86_64_gcc412EPEL" --verbose --config emi-storm-backend-server_R_$ncv emi.storm.backend-server
 echo ls dist/emi/emi.storm.backend-server/$cr/src/storm-backend-server-$cv.sl5.src.rpm
 
-rm /tmp/rt_8_3_rfc_164.txt
+rm /tmp/rt_9_3_rfc_164.txt
