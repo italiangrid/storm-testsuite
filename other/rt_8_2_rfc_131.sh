@@ -25,7 +25,7 @@ cd storm-gridhttps-server/ &> /tmp/rt_8_2_rfc_131.txt
 etics-workspace-setup &> /tmp/rt_8_2_rfc_131.txt
 
 #echo 'etics-get-project --noask emi'
-etics-get-project --noask emi &> /tmp/rt_3.3.14_rfc_131.txt
+etics-get-project --noask emi &> /tmp/rt_8_2_rfc_131.txt
 
 #echo etics-checkout --platform "sl5_x86_64_gcc412EPEL" --verbose --noask --project "emi" --project-config emi_R_$pv\_rc --config emi-storm-gridhttps-server_R_$ncv emi.storm.gridhttps-server
 etics-checkout --platform "sl5_x86_64_gcc412EPEL" --verbose --noask --project "emi" --project-config emi_R_$pv\_rc --config emi-storm-gridhttps-server_R_$ncv emi.storm.gridhttps-server &> /tmp/rt_8_2_rfc_131.txt
