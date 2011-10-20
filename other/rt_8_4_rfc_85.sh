@@ -11,7 +11,7 @@ cr=`echo $cv | awk -F"-" '{ print $1 }'`
 #echo 'Name: No StoRM GridHttps Plugin Src RPM'
 
 echo 'Description: The source RPM of the storm-gridhttps-plugin component is not created at build time.'
-echo 'RT 8.4 RFC https://storm.cnaf.infn.it:8443/redmine/issues/85'
+echo 'RFC Unique ID: https://storm.cnaf.infn.it:8443/redmine/issues/85'
 
 #echo 'Output:'
 

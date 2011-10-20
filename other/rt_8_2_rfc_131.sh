@@ -11,7 +11,7 @@ cr=`echo $cv | awk -F"-" '{ print $1 }'`
 #echo 'Name: Non Compliant StoRM GridHttps Server RPM name'
 
 echo 'Description: The RPM binary name of the storm-gridhttps-server component does not contain architecture after the OS name.'
-echo 'RT 3.4.14 RFC https://storm.cnaf.infn.it:8443/redmine/issues/131'
+echo 'RFC Unique ID: https://storm.cnaf.infn.it:8443/redmine/issues/131'
 
 #echo 'Output:'
 

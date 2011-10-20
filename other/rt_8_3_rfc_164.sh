@@ -11,7 +11,7 @@ cr=`echo $cv | awk -F"-" '{ print $1 }'`
 #echo 'Name: No StoRM Backend Server Src RPM'
 
 echo 'Description: The source RPM of the storm-backend-server component is not created at build time.'
-echo 'RT 8.3 RFC https://storm.cnaf.infn.it:8443/redmine/issues/164'
+echo 'RFC Unique ID: https://storm.cnaf.infn.it:8443/redmine/issues/164'
 
 #echo 'Output:'
 

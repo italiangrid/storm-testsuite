@@ -11,7 +11,7 @@ cr=`echo $cv | awk -F"-" '{ print $1 }'`
 #echo 'Name: No xmlrpc-c RPMs'
 
 echo 'Description: The distribution of xmlrpc-c RPMs on SL5 contains a memory leask that affects the StoRM Frontend Server.'
-echo 'RT 8.5 RFC https://storm.cnaf.infn.it:8443/redmine/issues/169'
+echo 'RFC Unique ID: https://storm.cnaf.infn.it:8443/redmine/issues/169'
 
 #echo 'Output:'
 

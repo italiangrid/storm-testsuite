@@ -12,7 +12,7 @@ cr=`echo $cv | awk -F"-" '{ print $1 }'`
 #echo 'RT 8.1 RFC https://storm.cnaf.infn.it:8443/redmine/issues/130'
 
 echo 'Description: The RPM binary name of the storm-gridhttps-plugin component does not contain architecture after the OS name.'
-echo 'RT 8.1 RFC https://storm.cnaf.infn.it:8443/redmine/issues/130'
+echo 'RFC Unique ID: https://storm.cnaf.infn.it:8443/redmine/issues/130'
 
 #echo 'Output:'
 
@@ -34,8 +34,8 @@ etics-checkout --platform "sl5_x86_64_gcc412EPEL" --verbose --noask --project "e
 #echo etics-build --platform "sl5_x86_64_gcc412EPEL" --verbose --config emi-storm-gridhttps-plugin_R_$ncv emi.storm.gridhttps-plugin
 etics-build --platform "sl5_x86_64_gcc412EPEL" --verbose --config emi-storm-gridhttps-plugin_R_$ncv emi.storm.gridhttps-plugin &> /tmp/rt_8.1_rfc_130.txt
 
-#echo ls dist/emi/emi.storm.gridhttps-plugin/$cr/sl5_x86_64_gcc412EPEL/storm-gridhttps-plugin-$cv.sl5.noarch.rpm
-a=`ls dist/emi/emi.storm.gridhttps-plugin/$cr/sl5_x86_64_gcc412EPEL/storm-gridhttps-plugin-$cv.sl5.noarch.rpm`
+#echo ls dist/emi/emi.storm.gridhttps-plugin/$cr/noarch/storm-gridhttps-plugin-$cv.sl5.noarch.rpm
+a=`ls dist/emi/emi.storm.gridhttps-plugin/$cr/noarch/storm-gridhttps-plugin-$cv.sl5.noarch.rpm`
 
 echo $a | grep -q "noarch" && echo "RESULT: PASSED" || echo "RESULT: FAILD"
 
