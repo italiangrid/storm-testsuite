@@ -55,6 +55,7 @@ def is_valid(tp_info):
     'regression_tests',
     'basic_tests_novoms',
     'regression_conftests',
+    'regression_ldaptests',
     'tape_tests']
 
   available_methods = ['cksm_ts',
