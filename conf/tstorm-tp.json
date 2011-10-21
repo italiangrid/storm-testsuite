@@ -44,7 +44,7 @@
     "basic_tests",
     "regression_tests",
     "basic_tests_novoms",
-    "regression_ldaptests"
+    "regression_ldaptests",
     "regression_conftests"
   ]
 }
