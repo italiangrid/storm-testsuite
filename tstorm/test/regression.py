@@ -23,7 +23,8 @@ class RegressionTest(unittest.TestCase):
       self.prt = prt
 
     def test_eight_digit_string_checksum(self):
-      print '''\nRT 3.4.3 - RfC https://storm.cnaf.infn.it:8443/redmine/issues/108\n'''
+      print '''\nDescription: The StoRM GridFTP component stores the checksum value computed during the file transfer as a long number, discarding in this way leading zeroes. The default ADLER32 checksum match algorithm considers checksum values as strings so the leading zeroes matters.\n'''
+      print '''\nRfC Unique ID: https://storm.cnaf.infn.it:8443/redmine/issues/108\n'''
       ls_result = ls.LcgLs(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn)
       ll = ls_result.get_output()
       self.assert_(ll['status'] == 'FAILURE')
@@ -46,7 +47,8 @@ class RegressionTest(unittest.TestCase):
           self.assert_(x == 'PASS')
 
     def test_update_free_space_upon_rm(self):
-      print '''\nRT 3.4.1 - RfC https://storm.cnaf.infn.it:8443/redmine/issues/106\n'''
+      print '''\nDescription: StoRM does not publish correctly values for used and free space on the BDII due to a bug in the update of the free space after the the srmRm operation\n'''
+      print '''\nRfC Unique ID: https://storm.cnaf.infn.it:8443/redmine/issues/106\n'''
       ls_result = ls.LcgLs(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn)
       ll = ls_result.get_output()
       self.assert_(ll['status'] == 'FAILURE')
@@ -83,7 +85,8 @@ class RegressionTest(unittest.TestCase):
       self.assert_(int(self.lls_result['size']) == a)
 
     def test_update_used_space_upon_pd(self):
-      print '''\nRT 3.4.4 - RfC https://storm.cnaf.infn.it:8443/redmine/issues/109\n'''
+      print '''\nDescription: StoRM does not provides updated used space value for Space Token due to a bug in the update of the used space after the the srmPutDone operation.\n'''
+      print '''\nRfC Unique ID: https://storm.cnaf.infn.it:8443/redmine/issues/109\n'''
       self.st_result = space.StoRMGst(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.tsets['general']['spacetoken']).get_output()
       self.assert_(self.st_result['status'] == 'PASS')
 
@@ -112,13 +115,15 @@ class RegressionTest(unittest.TestCase):
           self.assert_(x == 'PASS')
 
     def test_unsupported_protocols(self):
-      print '''\nRT 3.4.6 - RfC https://storm.cnaf.infn.it:8443/redmine/issues/127\n'''
+      print '''\nDescription: StoRM does not returns SRM_NOT_SUPPORTED error code when file transfer operation (srmPrepareToPut, srmPrepareToGet, srmBringOnline) are called providing a list of not supported desired transfer protocols to a bug in the management of file transfer operation. StoRM does not verifies if the provided protocols are supported\n'''
+      print '''\nRfC Unique ID: https://storm.cnaf.infn.it:8443/redmine/issues/127\n'''
       self.ptp_result = cp.StoRMPtp(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn, 'unsupported').get_output()
       self.assert_(self.ptp_result['status'] == 'FAILURE')
       self.assert_('SRM_NOT_SUPPORTED' in self.ptp_result['statusCode'])
 
     def test_both_sup_and_unsup_protocols(self):
-      print '''\nRT 3.4.7 - RfC https://storm.cnaf.infn.it:8443/redmine/issues/126\n'''
+      print '''\nDescription: StoRM Frontend produces huge log file when managing request requesting non supported protocols\n'''
+      print '''\nRfC Unique ID: https://storm.cnaf.infn.it:8443/redmine/issues/126\n'''
       self.ptp_result = cp.StoRMPtp(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn, self.prt + ',unsupported').get_output()
       self.assert_(self.ptp_result['status'] == 'PASS')
       self.fs_result =findstrings.Grep().get_output()
@@ -127,6 +132,10 @@ class RegressionTest(unittest.TestCase):
       self.assert_(self.ar_result['status'] == 'PASS')
 
     def test_non_ascii_chars(self):
-      print '''\nRT 3.4.10 - RfC https://storm.cnaf.infn.it:8443/redmine/issues/137\n'''
-      self.ls_result = ls.LcgLs(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn + 'tèstèèà').get_output()
+      print '''\nDescription: StoRM Frontend crashes when managing asynchronous requests providing string parameters containing non ASCII characters.\n'''
+      print '''\nRfC Unique ID: https://storm.cnaf.infn.it:8443/redmine/issues/137\n'''
+      self.ls_result = ls.StoRMLs(self.tsets['general']['endpoint'], self.tsets['general']['accesspoint'], self.dfn + 'tèstèèà').get_output()
       self.assert_(self.ls_result['status'] == 'FAILURE')
+
+
+

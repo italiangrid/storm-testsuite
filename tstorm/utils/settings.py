@@ -70,7 +70,7 @@ def is_valid(tp_info):
     'glue_info_ts',
     'update_used_space_upon_pd_ts',
     'update_free_space_upon_rm_ts',
-    'protocols_ts',
+    'storm_backend_age_ts',
     'conf_ts',
     'access_tape_ts',
     'backend_cron_conf_ts',

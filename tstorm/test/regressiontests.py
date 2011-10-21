@@ -60,3 +60,9 @@ def non_ascii_chars_ts(conf, ifn, dfn, bifn):
   s.addTest(fu.FunctionalitiesTest('test_storm_ping',conf, ifn, dfn, bifn)) 
 
   return s
+
+def storm_backend_age_ts(conf, ifn, dfn, bifn):
+  s = unittest.TestSuite()
+  s.addTest(fu.FunctionalitiesTest('test_storm_ping',conf, ifn, dfn, bifn))
+
+  return s

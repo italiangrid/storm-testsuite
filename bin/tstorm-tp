@@ -27,7 +27,7 @@ methods = {
    'glue_info_ts': 'rt.glue_info_ts(tfn)', 
    'update_used_space_upon_pd_ts': 'rt.update_used_space_upon_pd_ts(tfn,ifn,dfn,back_ifn)', 
    'update_free_space_upon_rm_ts': 'rt.update_free_space_upon_rm_ts(tfn,ifn,dfn,back_ifn)', 
-   'protocols_ts': 'rt.protocols_ts(tfn,ifn,dfn,back_ifn)',
+   'storm_backend_age_ts': 'rt.storm_backend_age_ts(tfn,ifn,dfn,back_ifn)',
    'conf_ts': 'cts.conf_ts(tfn,ifn,dfn,back_ifn)',
    'access_tape_ts': 'tt.access_tape_ts(tfn,ifn,dfn,back_ifn)',
    'backend_cron_conf_ts': 'rct.backend_cron_conf_ts()',
@@ -128,7 +128,7 @@ def tpc_details():
     "unsupported_protocols_ts",
     "glue_info_ts",
     "non_ascii_chars_ts",
-    "protocols_ts"
+    "storm_backend_age_ts"
   ],
   "tape_tests": [
     "access_tape_ts"

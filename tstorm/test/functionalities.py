@@ -30,7 +30,8 @@ class FunctionalitiesTest(unittest.TestCase):
       self.assert_(self.ping_result['backend_version'] == self.tsets['ping']['backend_version'])
 
     def test_storm_ping(self):
-      print '''\nBT 3.3.1\n'''
+      print '''\nDescription: Wrong StoRM Backend age returned by srmPing\n'''
+      print '''\nRfC Unique ID: https://storm.cnaf.infn.it:8443/redmine/issues/181\n''' 
       self.ping_result = ping.StoRMPing(self.tsets['general']['endpoint']).get_output()
       self.assert_(self.ping_result['status'] == 'PASS')
       self.assert_(self.ping_result['versionInfo'] == self.tsets['ping']['versioninfo'])

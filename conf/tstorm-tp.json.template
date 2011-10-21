@@ -20,7 +20,7 @@
     "unsupported_protocols_ts", 
     "glue_info_ts", 
     "non_ascii_chars_ts", 
-    "protocols_ts"
+    "storm_backend_age_ts"
   ],
   "regression_conftests": [
     "backend_logrotate_conf_ts",

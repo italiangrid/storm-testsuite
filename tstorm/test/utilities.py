@@ -18,7 +18,7 @@ class UtilitiesTest(unittest.TestCase):
       '''Verify configuration ini file'''
       print '''\nCT Verify ini file\n'''
       for x in self.tsets:
-        self.assert_(x in ('general','ping','https','http'))
+        self.assert_(x in ('general','ping','https','http','tape'))
         for y in self.tsets[x]:
             self.assert_(x != '')
 

@@ -16,7 +16,9 @@ class LdapTest(unittest.TestCase):
       self.attributes = attributes
 
     def test_glue_service(self):
-      print '''\n3.4.11 - RfC https://storm.cnaf.infn.it:8443/redmine/issues/143\n'''
+      print '''\nDescription: Yaim-Storm for GLUE2 configuration called a worng script setting wrong values in the GlueServiceName
+and GlueServiceType attributes of the GLUE1.3 schema.\n'''
+      print '''\nRfC Unique ID: https://storm.cnaf.infn.it:8443/redmine/issues/143\n'''
       self.ls_result = ls.LdapSearch(self.tsets['general']['endpoint'], self.attributes, self.basedn, self.filter).get_output()
       self.assert_(self.ls_result['status'] == 'PASS')
       self.assert_('emi.storm' not in self.ls_result['GlueServiceType'])
