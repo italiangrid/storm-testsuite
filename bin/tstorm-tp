@@ -24,7 +24,8 @@ methods = {
    'unsupported_protocols_ts': 'rt.unsupported_protocols_ts(tfn,ifn,dfn,back_ifn)', 
    'dt_ts': 'bt.dt_ts(tfn,ifn,dfn,back_ifn)', 
    'http_ts': 'btnv.http_ts(tfn,ifn,dfn,back_ifn)', 
-   'glue_info_ts': 'rt.glue_info_ts(tfn)', 
+   'glue_info_ts': 'rt.glue_info_ts(tfn)',
+   'glue_storage_share_capacity_ts': 'rt.glue_storage_share_capacity_ts(tfn)',
    'update_used_space_upon_pd_ts': 'rt.update_used_space_upon_pd_ts(tfn,ifn,dfn,back_ifn)', 
    'update_free_space_upon_rm_ts': 'rt.update_free_space_upon_rm_ts(tfn,ifn,dfn,back_ifn)', 
    'storm_backend_age_ts': 'rt.storm_backend_age_ts(tfn,ifn,dfn,back_ifn)',
@@ -127,6 +128,7 @@ def tpc_details():
     "update_used_space_upon_pd_ts",
     "unsupported_protocols_ts",
     "glue_info_ts",
+    "glue_storage_share_capacity_ts",
     "non_ascii_chars_ts",
     "storm_backend_age_ts"
   ],

@@ -18,7 +18,8 @@
     "eight_digit_string_checksum_ts", 
     "update_used_space_upon_pd_ts", 
     "unsupported_protocols_ts", 
-    "glue_info_ts", 
+    "glue_info_ts",
+    "glue_storage_share_capacity_ts", 
     "non_ascii_chars_ts", 
     "storm_backend_age_ts"
   ],

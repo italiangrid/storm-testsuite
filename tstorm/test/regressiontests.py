@@ -54,6 +54,12 @@ def glue_info_ts(conf):
 
   return s
 
+def glue_storage_share_capacity_ts(conf):
+  s = unittest.TestSuite()
+  s.addTest(lq.LdapTest('test_glue_storage_share_capacity', conf))
+
+  return s
+
 def non_ascii_chars_ts(conf, ifn, dfn, bifn):
   s = unittest.TestSuite()
   s.addTest(re.RegressionTest('test_non_ascii_chars', conf, ifn, dfn, bifn))

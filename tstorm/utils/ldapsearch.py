@@ -21,7 +21,11 @@ class LdapSearch:
     self.otpt = {
       'status':'',
       'GlueServiceName':'',
-      'GlueServiceType':''}
+      'GlueServiceType':'',
+      'GLUE2StorageServiceCapacityFreeSize':'',
+      'GLUE2StorageServiceCapacityUsedSize':'',
+      'GLUE2StorageServiceCapacityTotalSize':'',
+      'GLUE2StorageServiceCapacityReservedSize':''}
 
   def get_command(self):
     uri = self.cmd['uri'] + ' ' + self.cmd['protocol'] + '://' + self.endpoint + ':' + self.cmd['port']
