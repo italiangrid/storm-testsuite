@@ -36,4 +36,30 @@ and GlueServiceType attributes of the GLUE1.3 schema.'''
         self.assert_(int(self.ls_result['GLUE2StorageServiceCapacityTotalSize']) != 0)
       else:
         self.assert_(self.ls_result['status'] == 'FAILURE')
+
+    def test_glue_available_space(self):
+      print '''\nDescription: Wrong calculation of SA_AVAILABLE_SPACE'''
+      print '''RfC Unique ID: https://storm.cnaf.infn.it:8443/redmine/issues/150\n'''
+      self.ls_result = ls.LdapSearch(self.tsets['bdii']['endpoint'], 'GlueSALocalID', self.basedn, "'(objectclass=GlueSA)'").get_output()
+      self.assert_(self.ls_result['status'] == 'PASS')
+
+      for x in self.ls_result['GlueSALocalID']:
+        self.ls_result = ls.LdapSearch(self.tsets['bdii']['endpoint'], 'GlueSAFreeOnlineSize GlueSAStateAvailableSpace', self.basedn, "'(&(objectclass=GlueSA)(GlueSALocalID="+x+"))'").get_output()
+        self.assert_(self.ls_result['status'] == 'PASS')
+        self.assert_(int(self.ls_result['GlueSAStateAvailableSpace'])/(1000*1000) >= int(self.ls_result['GlueSAFreeOnlineSize']))
+
+
+    def test_glue_used_space(self):
+      print '''\nDescription: Wrong calculation of SA_USED_SPACE'''
+      print '''RfC Unique ID: https://storm.cnaf.infn.it:8443/redmine/issues/150\n'''
+      self.ls_result = ls.LdapSearch(self.tsets['bdii']['endpoint'], 'GlueSALocalID', self.basedn, "'(objectclass=GlueSA)'").get_output()
+      self.assert_(self.ls_result['status'] == 'PASS')
+
+      for x in self.ls_result['GlueSALocalID']:
+        self.ls_result = ls.LdapSearch(self.tsets['bdii']['endpoint'], 'GlueSAUsedOnlineSize GlueSAStateUsedSpace', self.basedn, "'(&(objectclass=GlueSA)(GlueSALocalID="+x+"))'").get_output()
+        self.assert_(self.ls_result['status'] == 'PASS')
+        self.assert_(int(self.ls_result['GlueSAStateUsedSpace'])/(1000*1000) == int(self.ls_result['GlueSAUsedOnlineSize']))
+
+
+
       

@@ -70,6 +70,8 @@ def is_valid(tp_info):
     'http_ts',
     'glue_info_ts',
     'glue_storage_share_capacity_ts',
+    'glue_available_space_ts',
+    'glue_used_space_ts',
     'update_used_space_upon_pd_ts',
     'update_free_space_upon_rm_ts',
     'storm_backend_age_ts',

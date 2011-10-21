@@ -25,7 +25,9 @@
   ],
   "regression_ldaptests": [
     "glue_info_ts",
-    "glue_storage_share_capacity_ts"
+    "glue_storage_share_capacity_ts",
+    "glue_available_space_ts",
+    "glue_used_space_ts"
   ],
   "regression_conftests": [
     "backend_logrotate_conf_ts",

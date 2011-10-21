@@ -25,7 +25,12 @@ class LdapSearch:
       'GLUE2StorageServiceCapacityFreeSize':'',
       'GLUE2StorageServiceCapacityUsedSize':'',
       'GLUE2StorageServiceCapacityTotalSize':'',
-      'GLUE2StorageServiceCapacityReservedSize':''}
+      'GLUE2StorageServiceCapacityReservedSize':'',
+      'GlueSAStateUsedSpace':'',
+      'GlueSAUsedOnlineSize':'',
+      'GlueSAFreeOnlineSize':'',
+      'GlueSAStateAvailableSpace':'',
+      'GlueSALocalID':[]}
 
   def get_command(self):
     uri = self.cmd['uri'] + ' ' + self.cmd['protocol'] + '://' + self.endpoint + ':' + self.cmd['port']
@@ -51,7 +56,12 @@ class LdapSearch:
           y = a[1].split('\n')
           for z in y:
             if x in z:
-              self.otpt[x] = z.split(x)[1].split(': ')[1]
+              if 'GlueSALocalID:' in z:
+                self.otpt[x].append(z.split(x+': ')[1].strip())
+              elif 'GlueSALocalID=' in z:
+                 t=1
+              else:
+                self.otpt[x]=z.split(x)[1].split(': ')[1]
     else:
       self.otpt['status'] = 'FAILURE'
 
