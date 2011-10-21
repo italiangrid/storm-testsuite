@@ -28,7 +28,8 @@
     "backend_gridhttps_ts",
     "yaim_version_file_ts",
     "gridhttps_plugin_links_ts",
-    "size_in_namespace_file_ts"
+    "size_in_namespace_file_ts",
+    "mysql_connector_java_links_ts"
   ],
   "tape_tests": [
     "access_tape_ts"

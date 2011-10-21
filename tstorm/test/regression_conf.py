@@ -12,8 +12,8 @@ class RegressionConfigurationTest(unittest.TestCase):
       super(RegressionConfigurationTest, self).__init__(testname)
 
     def test_backend_logrotate_file(self):
-      print '''\nSYSTEM TEST - REGRESSION TESTS'''
-      print '''\nRT 3.4.8 - RfC https://storm.cnaf.infn.it:8443/redmine/issues/134'''
+      print '''\nDescription: StoRM Backend logrotate file points to non existing file.'''
+      print '''\nRfC Unique ID: https://storm.cnaf.infn.it:8443/redmine/issues/134'''
       self.cat_result = readfile.Cat('/etc/logrotate.d/storm-backend-server').get_output()
       self.assert_(self.cat_result['status'] == 'PASS')
       self.assert_('/opt/storm/backend/var/log/storm-backend.stdout' not in self.cat_result['otpt'])
@@ -24,8 +24,8 @@ class RegressionConfigurationTest(unittest.TestCase):
       self.assert_('/var/log/storm/lcmaps.log' in self.cat_result['otpt'])
 
     def test_backend_cron_file(self):
-      print '''\nSYSTEM TEST - REGRESSION TESTS'''
-      print '''\nRT 3.4.9 - RfC https://storm.cnaf.infn.it:8443/redmine/issues/135'''
+      print '''\nDescription: StoRM Backend does not rotate log files'''
+      print '''\nRfC Unique ID: https://storm.cnaf.infn.it:8443/redmine/issues/135'''
       self.cat_result = readfile.Cat('/etc/cron.d/storm-backend-server.cron').get_output()
       self.assert_(self.cat_result['status'] == 'PASS')
       self.assert_('/opt/storm/backend/etc/logrotate.d/logrotate.status' not in self.cat_result['otpt'])
@@ -34,8 +34,8 @@ class RegressionConfigurationTest(unittest.TestCase):
       self.assert_('/etc/logrotate.d/logrotate.status' in self.cat_result['otpt'])
 
     def test_yaim_version_file(self):
-      print '''\nSYSTEM TEST - REGRESSION TESTS'''
-      print '''\nRT 3.4.18 - RfC https://storm.cnaf.infn.it:8443/redmine/issues/149'''
+      print '''\nDescription: Wrong version in the yaim-storm file'''
+      print '''\nRfC Unique ID: https://storm.cnaf.infn.it:8443/redmine/issues/149'''
       self.cat_result = readfile.Cat('/opt/glite/yaim/etc/versions/yaim-storm').get_output()
       self.assert_(self.cat_result['status'] == 'PASS')
       pn=self.cat_result['otpt'].split(' ')
@@ -45,8 +45,8 @@ class RegressionConfigurationTest(unittest.TestCase):
       self.assert_(pn[1] == v[0])
 
     def test_backend_gridhttps(self):
-      print '''\nSYSTEM TEST - REGRESSION TESTS'''
-      print '''\nRT 3.4.16 - RfC https://storm.cnaf.infn.it:8443/redmine/issues/140'''
+      print '''\nDescription: Default GridHTTPs server port number conflicts with Backend default xmlrpc port number'''
+      print '''\nRfC Unique ID: https://storm.cnaf.infn.it:8443/redmine/issues/140'''
       self.sr_result = service.Service('storm-backend-server').get_output()
       self.assert_(self.sr_result['status'] == 'PASS')
       self.assert_('running' in self.sr_result['otpt'])
@@ -56,8 +56,8 @@ class RegressionConfigurationTest(unittest.TestCase):
       self.assert_('running' in self.sr_result['otpt'])
 
     def test_gridhttps_plugin_links(self):
-      print '''\nSYSTEM TEST - REGRESSION TESTS'''
-      print '''\nRT 3.4.19 - RfC https://storm.cnaf.infn.it:8443/redmine/issues/154'''
+      print '''\nDescription: Removed gridhttpds plugin links during upgrade from 1.7.0 to 1.7.1'''
+      print '''\nRfC Unique ID: https://storm.cnaf.infn.it:8443/redmine/issues/154'''
       self.ls_result = ls.Ls('/usr/share/java/storm-backend-server/storm-gridhttps-plugin.jar').get_output()
       self.assert_(self.ls_result['status'] == 'PASS')
       self.ls_result = ls.Ls('/usr/share/java/storm-backend-server/httpclient.jar').get_output()
@@ -66,8 +66,8 @@ class RegressionConfigurationTest(unittest.TestCase):
       self.assert_(self.ls_result['status'] == 'PASS')
 
     def test_size_in_namespace_file(self):
-      print '''\nSYSTEM TEST - REGRESSION TESTS'''
-      print '''\nRT 3.4.20 - RfC https://storm.cnaf.infn.it:8443/redmine/issues/151'''
+      print '''\nDescription: Wrong settings of size in namespace.xml'''
+      print '''\nRfC Unique ID: https://storm.cnaf.infn.it:8443/redmine/issues/151'''
       self.cat_result = readfile.Cat('/etc/storm/siteinfo/storm.def').get_output()
       self.assert_(self.cat_result['status'] == 'PASS')
       var=self.cat_result['otpt'].split('\n')
@@ -91,3 +91,10 @@ class RegressionConfigurationTest(unittest.TestCase):
                    self.assert_(nls in varn)
                    break
 
+    def test_mysql_connector_java_links(self):
+      print '''\nDescription: mysql_connector_java downloading failure'''
+      print '''\nRfC Unique ID: https://storm.cnaf.infn.it:8443/redmine/issues/179'''
+      self.ls_result = ls.Ls('/usr/share/java/storm-backend-server/mysql-connector-java-5.1.13-bin.jar').get_output()
+      self.assert_(self.ls_result['status'] == 'FAILURE')
+      self.ls_result = ls.Ls('/usr/share/java/storm-backend-server/mysql-connector-java-5.1.12.jar').get_output()
+      self.assert_(self.ls_result['status'] == 'PASS')

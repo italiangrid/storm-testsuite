@@ -35,7 +35,8 @@ methods = {
    'backend_gridhttps_ts': 'rct.backend_gridhttps_ts()',
    'yaim_version_file_ts': 'rct.yaim_version_file_ts()',
    'gridhttps_plugin_links_ts': 'rct.gridhttps_plugin_links_ts()',
-   'size_in_namespace_file_ts': 'rct.size_in_namespace_file_ts()'
+   'size_in_namespace_file_ts': 'rct.size_in_namespace_file_ts()',
+   'mysql_connector_java_links_ts': 'rct.mysql_connector_java_links_ts()'
 }
 
 tests_type = {
@@ -117,7 +118,8 @@ def tpc_details():
     "backend_gridhttps_ts",
     "yaim_version_file_ts",
     "gridhttps_plugin_links_ts",
-    "size_in_namespace_file_ts"
+    "size_in_namespace_file_ts",
+    "mysql_connector_java_links_ts"
   ],
   "regression_tests": [
     "update_free_space_upon_rm_ts",

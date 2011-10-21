@@ -40,3 +40,9 @@ def size_in_namespace_file_ts():
   s.addTest(rec.RegressionConfigurationTest('test_size_in_namespace_file'))
 
   return s
+
+def mysql_connector_java_links_ts():
+  s = unittest.TestSuite()
+  s.addTest(rec.RegressionConfigurationTest('test_mysql_connector_java_links'))
+
+  return s
