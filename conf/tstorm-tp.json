@@ -23,6 +23,10 @@
     "non_ascii_chars_ts", 
     "storm_backend_age_ts"
   ],
+  "regression_ldaptests": [
+    "glue_info_ts",
+    "glue_storage_share_capacity_ts"
+  ],
   "regression_conftests": [
     "backend_logrotate_conf_ts",
     "backend_cron_conf_ts",
@@ -40,6 +44,7 @@
     "basic_tests",
     "regression_tests",
     "basic_tests_novoms",
+    "regression_ldaptests"
     "regression_conftests"
   ]
 }

@@ -12,6 +12,7 @@ from tstorm.test import basictests_novoms as btnv
 from tstorm.test import tapetests as tt
 from tstorm.test import regressiontests as rt
 from tstorm.test import regression_conftests as rct
+from tstorm.test import regression_ldaptests as rlt
 
 methods = {
    'cksm_ts': 'bt.cksm_ts(tfn,ifn,dfn,back_ifn)', 
@@ -24,8 +25,8 @@ methods = {
    'unsupported_protocols_ts': 'rt.unsupported_protocols_ts(tfn,ifn,dfn,back_ifn)', 
    'dt_ts': 'bt.dt_ts(tfn,ifn,dfn,back_ifn)', 
    'http_ts': 'btnv.http_ts(tfn,ifn,dfn,back_ifn)', 
-   'glue_info_ts': 'rt.glue_info_ts(tfn)',
-   'glue_storage_share_capacity_ts': 'rt.glue_storage_share_capacity_ts(tfn)',
+   'glue_info_ts': 'rlt.glue_info_ts(tfn)',
+   'glue_storage_share_capacity_ts': 'rlt.glue_storage_share_capacity_ts(tfn)',
    'update_used_space_upon_pd_ts': 'rt.update_used_space_upon_pd_ts(tfn,ifn,dfn,back_ifn)', 
    'update_free_space_upon_rm_ts': 'rt.update_free_space_upon_rm_ts(tfn,ifn,dfn,back_ifn)', 
    'storm_backend_age_ts': 'rt.storm_backend_age_ts(tfn,ifn,dfn,back_ifn)',
@@ -42,12 +43,15 @@ methods = {
 
 tests_type = {
    'novoms':['common_tests',
-       'basic_tests_novoms'],
+       'basic_tests_novoms',
+       'regression_ldaptests'],
    'voms':['common_tests',
        'basic_tests',
        'regression_tests',
+       'regression_ldaptests',
        'tape_tests'],
-   'conf':['regression_conftests']
+   'conf':['regression_conftests',
+       'regression_ldaptests']
 }
 
 def run_tests(tpi,tt, n_df, n_dfn):
@@ -84,6 +88,7 @@ def tpc_details():
     print """             'regression_tests'"""
     print """             'basic_tests_novoms'"""
     print """             'regression_conftests'"""
+    print """             'regression_ldaptests'"""
     print """             'tape_tests'"""
     print """            ]"""
     print """            regression_conftests are executed only if conftest option is used."""
@@ -127,10 +132,12 @@ def tpc_details():
     "eight_digit_string_checksum_rts_ts",
     "update_used_space_upon_pd_ts",
     "unsupported_protocols_ts",
-    "glue_info_ts",
-    "glue_storage_share_capacity_ts",
     "non_ascii_chars_ts",
     "storm_backend_age_ts"
+  ],
+  "regression_ldaptests": [
+    "glue_info_ts",
+    "glue_storage_share_capacity_ts"
   ],
   "tape_tests": [
     "access_tape_ts"
@@ -140,6 +147,7 @@ def tpc_details():
     "basic_tests",
     "regression_tests",
     "basic_tests_novoms",
+    "regression_ldaptests",
     "regression_conftests",
     "tape_tests"
   ]
