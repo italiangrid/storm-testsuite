@@ -79,11 +79,11 @@ class RegressionConfigurationTest(unittest.TestCase):
           ls=x.split('SIZE')[1].split('=')
           bs=int(ls[1])*1024*1024*1024
           if 'ONLINE_SIZE' in x:
-            ols='<TotalOnlineSize unit=\"GB\" limited-size=\"true\">' + str(bs) + '</TotalOnlineSize>'
+            ols='<TotalOnlineSize unit=\"Byte\" limited-size=\"true\">' + str(bs) + '</TotalOnlineSize>'
             self.assert_(ols in varn)
           elif 'NEARLINE_SIZE' in x:
-            nls='<TotalNearlineSize unit=\"GB\">' + str(bs) + '</TotalNearlineSize>'
-            dnls='<TotalNearlineSize unit=\"GB\">0</TotalNearlineSize>'
+            nls='<TotalNearlineSize unit=\"Byte\">' + str(bs) + '</TotalNearlineSize>'
+            dnls='<TotalNearlineSize unit=\"Byte\">0</TotalNearlineSize>'
             for y in var:
                if ls[0] + 'STORAGECLASS' in y:
                  sc=x.split('STORAGECLASS')[1].split('=')[1][1:len(x.split('STORAGECLASS')[1].split('=')[1])-1]

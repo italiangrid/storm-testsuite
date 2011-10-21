@@ -114,7 +114,7 @@ class Ls:
 
   def get_command(self):
     a = self.cmd['name'] + ' -al '+ self.ifn
-    print a
+    #print a
     return a
 
   def run_command(self):
