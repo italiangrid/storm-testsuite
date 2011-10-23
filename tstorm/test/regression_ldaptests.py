@@ -30,3 +30,9 @@ def glue_used_space_ts(conf):
   s.addTest(lq.LdapTest('test_glue_used_space', conf))
 
   return s
+
+def size_ts(conf):
+  s = unittest.TestSuite()
+  s.addTest(lq.LdapTest('test_size', conf))
+
+  return s
