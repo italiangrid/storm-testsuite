@@ -18,8 +18,6 @@
     "eight_digit_string_checksum_ts", 
     "update_used_space_upon_pd_ts", 
     "unsupported_protocols_ts", 
-    "glue_info_ts",
-    "glue_storage_share_capacity_ts",
     "non_ascii_chars_ts", 
     "storm_backend_age_ts"
   ],
@@ -27,7 +25,8 @@
     "glue_info_ts",
     "glue_storage_share_capacity_ts",
     "glue_available_space_ts",
-    "glue_used_space_ts"
+    "glue_used_space_ts",
+    "size_ts"
   ],
   "regression_conftests": [
     "backend_logrotate_conf_ts",

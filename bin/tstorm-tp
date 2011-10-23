@@ -28,7 +28,8 @@ methods = {
    'glue_info_ts': 'rlt.glue_info_ts(tfn)',
    'glue_storage_share_capacity_ts': 'rlt.glue_storage_share_capacity_ts(tfn)',
    'glue_available_space_ts': 'rlt.glue_available_space_ts(tfn)',
-   'glue_used_space_ts': 'rlt.glue_available_space_ts(tfn)', 
+   'glue_used_space_ts': 'rlt.glue_available_space_ts(tfn)',
+   'size_ts': 'rlt.size_ts(tfn)',
    'update_used_space_upon_pd_ts': 'rt.update_used_space_upon_pd_ts(tfn,ifn,dfn,back_ifn)', 
    'update_free_space_upon_rm_ts': 'rt.update_free_space_upon_rm_ts(tfn,ifn,dfn,back_ifn)', 
    'storm_backend_age_ts': 'rt.storm_backend_age_ts(tfn,ifn,dfn,back_ifn)',
@@ -141,7 +142,8 @@ def tpc_details():
     "glue_info_ts",
     "glue_storage_share_capacity_ts",
     "glue_available_space_ts",
-    "glue_used_space_ts"
+    "glue_used_space_ts",
+    "size_ts"
   ],
   "tape_tests": [
     "access_tape_ts"

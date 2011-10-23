@@ -30,6 +30,9 @@ class LdapSearch:
       'GlueSAUsedOnlineSize':'',
       'GlueSAFreeOnlineSize':'',
       'GlueSAStateAvailableSpace':'',
+      'GlueSATotalOnlineSize':'',
+      'GlueSAReservedOnlineSize':'',
+      'GlueSATotalNearlineSize':'',
       'GlueSALocalID':[]}
 
   def get_command(self):
