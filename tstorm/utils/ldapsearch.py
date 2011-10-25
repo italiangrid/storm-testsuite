@@ -3,13 +3,15 @@ __author__ = 'Elisabetta Ronchieri'
 import commands
 import os
 from tstorm.utils import utils
+#from tstorm.utils import logfile
 
 class LdapSearch:
-  def __init__(self, endpoint, attributes, basedn='mds-vo-name=resource,o=grid', filter="'objectClass=GlueService'"):
+  def __init__(self, lfn, endpoint, attributes, basedn='mds-vo-name=resource,o=grid', filter="'objectClass=GlueService'"):
     self.endpoint = endpoint
     self.basedn = basedn
     self.filter = filter
     self.attributes = attributes
+    self.lfn = lfn
     self.cmd = {
       'name': 'ldapsearch',
       'protocol': 'ldap',
@@ -38,9 +40,9 @@ class LdapSearch:
   def get_command(self):
     uri = self.cmd['uri'] + ' ' + self.cmd['protocol'] + '://' + self.endpoint + ':' + self.cmd['port']
     opt = ' ' + self.cmd['sa'] + ' ' + self.cmd['pres'] + ' ' + uri + ' ' +  self.cmd['basedn'] + ' '
-    a= self.cmd['name'] + opt + self.filter + ' ' + self.attributes
+    a=self.cmd['name'] + opt + self.filter + ' ' + self.attributes
       
-    print a
+    self.lfn.put_cmd(a)
     return a
 
   def run_command(self):

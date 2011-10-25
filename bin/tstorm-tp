@@ -5,6 +5,7 @@ __author__ = 'Elisabetta Ronchieri'
 import sys
 import unittest
 import getopt
+from tstorm.utils import reportfile as rf
 from tstorm.utils import settings as st
 from tstorm.test import commontests as cts
 from tstorm.test import basictests as bt
@@ -15,33 +16,33 @@ from tstorm.test import regression_conftests as rct
 from tstorm.test import regression_ldaptests as rlt
 
 methods = {
-   'cksm_ts': 'bt.cksm_ts(tfn,ifn,dfn,back_ifn)', 
-   'https_ts': 'btnv.https_ts(tfn,ifn,dfn,back_ifn)', 
-   'https_voms_ts': 'bt.https_voms_ts(tfn,ifn,dfn,back_ifn)', 
-   'cs_ts': 'bt.cs_ts(tfn,ifn,dfn,back_ifn)', 
-   'cw_ts': 'bt.cw_ts(tfn,ifn,dfn,back_ifn)', 
-   'eight_digit_string_checksum_ts': 'rt.eight_digit_string_checksum_ts(tfn,ifn,dfn,back_ifn)', 
-   'non_ascii_chars_ts': 'rt.non_ascii_chars_ts(tfn,ifn,dfn,back_ifn)', 
-   'unsupported_protocols_ts': 'rt.unsupported_protocols_ts(tfn,ifn,dfn,back_ifn)', 
-   'dt_ts': 'bt.dt_ts(tfn,ifn,dfn,back_ifn)', 
-   'http_ts': 'btnv.http_ts(tfn,ifn,dfn,back_ifn)', 
-   'glue_info_ts': 'rlt.glue_info_ts(tfn)',
-   'glue_storage_share_capacity_ts': 'rlt.glue_storage_share_capacity_ts(tfn)',
-   'glue_available_space_ts': 'rlt.glue_available_space_ts(tfn)',
-   'glue_used_space_ts': 'rlt.glue_available_space_ts(tfn)',
-   'size_ts': 'rlt.size_ts(tfn)',
-   'update_used_space_upon_pd_ts': 'rt.update_used_space_upon_pd_ts(tfn,ifn,dfn,back_ifn)', 
-   'update_free_space_upon_rm_ts': 'rt.update_free_space_upon_rm_ts(tfn,ifn,dfn,back_ifn)', 
-   'storm_backend_age_ts': 'rt.storm_backend_age_ts(tfn,ifn,dfn,back_ifn)',
-   'conf_ts': 'cts.conf_ts(tfn,ifn,dfn,back_ifn)',
-   'access_tape_ts': 'tt.access_tape_ts(tfn,ifn,dfn,back_ifn)',
-   'backend_cron_conf_ts': 'rct.backend_cron_conf_ts()',
-   'backend_logrotate_conf_ts': 'rct.backend_logrotate_conf_ts()',
-   'backend_gridhttps_ts': 'rct.backend_gridhttps_ts()',
-   'yaim_version_file_ts': 'rct.yaim_version_file_ts()',
-   'gridhttps_plugin_links_ts': 'rct.gridhttps_plugin_links_ts()',
-   'size_in_namespace_file_ts': 'rct.size_in_namespace_file_ts()',
-   'mysql_connector_java_links_ts': 'rct.mysql_connector_java_links_ts()'
+   'cksm_ts': 'bt.cksm_ts(tfn,ifn,dfn,back_ifn, lfn)', 
+   'https_ts': 'btnv.https_ts(tfn,ifn,dfn,back_ifn, lfn)', 
+   'https_voms_ts': 'bt.https_voms_ts(tfn,ifn,dfn,back_ifn, lfn)', 
+   'cs_ts': 'bt.cs_ts(tfn,ifn,dfn,back_ifn, lfn)', 
+   'cw_ts': 'bt.cw_ts(tfn,ifn,dfn,back_ifn, lfn)', 
+   'eight_digit_string_checksum_ts': 'rt.eight_digit_string_checksum_ts(tfn,ifn,dfn,back_ifn, lfn)', 
+   'non_ascii_chars_ts': 'rt.non_ascii_chars_ts(tfn,ifn,dfn,back_ifn, lfn)', 
+   'unsupported_protocols_ts': 'rt.unsupported_protocols_ts(tfn,ifn,dfn,back_ifn, lfn)', 
+   'dt_ts': 'bt.dt_ts(tfn,ifn,dfn,back_ifn, lfn)', 
+   'http_ts': 'btnv.http_ts(tfn,ifn,dfn,back_ifn, lfn)', 
+   'glue_info_ts': 'rlt.glue_info_ts(tfn, lfn)',
+   'glue_storage_share_capacity_ts': 'rlt.glue_storage_share_capacity_ts(tfn, lfn)',
+   'glue_available_space_ts': 'rlt.glue_available_space_ts(tfn, lfn)',
+   'glue_used_space_ts': 'rlt.glue_used_space_ts(tfn, lfn)',
+   'size_ts': 'rlt.size_ts(tfn, lfn)',
+   'update_used_space_upon_pd_ts': 'rt.update_used_space_upon_pd_ts(tfn,ifn,dfn,back_ifn, lfn)', 
+   'update_free_space_upon_rm_ts': 'rt.update_free_space_upon_rm_ts(tfn,ifn,dfn,back_ifn, lfn)', 
+   'storm_backend_age_ts': 'rt.storm_backend_age_ts(tfn,ifn,dfn,back_ifn, lfn)',
+   'conf_ts': 'cts.conf_ts(tfn,ifn,dfn,back_ifn, lfn)',
+   'access_tape_ts': 'tt.access_tape_ts(tfn,ifn,dfn,back_ifn, lfn)',
+   'backend_cron_conf_ts': 'rct.backend_cron_conf_ts(lfn)',
+   'backend_logrotate_conf_ts': 'rct.backend_logrotate_conf_ts(lfn)',
+   'backend_gridhttps_ts': 'rct.backend_gridhttps_ts(lfn)',
+   'yaim_version_file_ts': 'rct.yaim_version_file_ts(lfn)',
+   'gridhttps_plugin_links_ts': 'rct.gridhttps_plugin_links_ts(lfn)',
+   'size_in_namespace_file_ts': 'rct.size_in_namespace_file_ts(lfn)',
+   'mysql_connector_java_links_ts': 'rct.mysql_connector_java_links_ts(lfn)'
 }
 
 tests_type = {
@@ -57,7 +58,7 @@ tests_type = {
        'regression_ldaptests']
 }
 
-def run_tests(tpi,tt, n_df, n_dfn):
+def run_tests(tpi, lfn, tt, n_df, n_dfn):
    kw='test_plan'
    if tt in tpi[kw]:
      if tt in tpi.keys():
@@ -69,7 +70,7 @@ def run_tests(tpi,tt, n_df, n_dfn):
 	 if tt != 'regression_conftests':
 	   ifn,dfn,back_ifn= st.set_inpt_fn(n_df,n_dfn,subdir=sd)
 	 m=methods[y]
-	 runner = unittest.TextTestRunner(verbosity=2).run(eval(m))
+         runner = unittest.TextTestRunner(verbosity=2).run(eval(m))
 
 def usage():
     print "Usage: tstorm-tp [-c|--conf] [-d|--destfile] [--novoms] [--conftest]"
@@ -199,16 +200,20 @@ if __name__ == '__main__':
     tpc_details()
     sys.exit(3)
 
+  logf=rf.ReportFile()
+
   if ct:
     for x in tests_type['conf']:
-      run_tests(tp_info, x, n_df, n_dfn)
+      run_tests(tp_info, logf, x, n_df, n_dfn)
   else:
     if voms:
       for x in tests_type['voms']:
-        run_tests(tp_info, x, n_df, n_dfn)
+        run_tests(tp_info, logf, x, n_df, n_dfn)
     else:
       '''Basic Tests NO VOMS'''
       for x in tests_type['novoms']:
-        run_tests(tp_info, x, n_df, n_dfn)
+        run_tests(tp_info, logf, x, n_df, n_dfn)
+
+  logf.close_file() 
 
   
