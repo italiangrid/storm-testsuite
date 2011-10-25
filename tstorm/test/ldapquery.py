@@ -46,6 +46,20 @@ class LdapTest(unittest.TestCase):
       self.lfn.put_result('PASSED')
       self.lfn.flush_file()
 
+    def test_glue_available_space_info_service(self):
+      self.lfn.put_name('INFO SERVICE ALWAYS RETURNS A ZERO AVAILABLE SPACE')
+      self.lfn.put_description('Info Service always returns a zero available space')
+      self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/147')
+      self.lfn.put_output()
+      self.ls_result = ls.LdapSearch(self.lfn, self.tsets['bdii']['endpoint'], 'GlueSALocalID', self.basedn, "'(objectclass=GlueSA)'").get_output()
+      self.assert_(self.ls_result['status'] == 'PASS')
+
+      for x in self.ls_result['GlueSALocalID']:
+        self.ins_result = ins.InfoSystem(self.lfn, self.tsets['general']['backend_hostname'], self.tsets['general']['info_port'], x.split(':')[0].upper().replace('.','').replace('-','')).get_output()
+        self.assert_(int(self.ins_result['available-space']) > 0)
+      self.lfn.put_result('PASSED')
+      self.lfn.flush_file()
+
     def test_glue_available_space(self):
       self.lfn.put_name('WRONG CALCULATION OF SA_AVAILABLE_SIZE_KB AND SA_USED_SIZE_KB')
       self.lfn.put_description('Wrong calculation of SA_AVAILABLE_SPACE')
@@ -96,14 +110,17 @@ class LdapTest(unittest.TestCase):
       for x in self.ls_result['GlueSALocalID']:
         self.ls_result = ls.LdapSearch(self.lfn, self.tsets['bdii']['endpoint'], 'GlueSATotalOnlineSize GlueSAUsedOnlineSize GlueSAFreeOnlineSize GlueSAReservedOnlineSize GlueSATotalNearlineSize', self.basedn, "'(&(objectclass=GlueSA)(GlueSALocalID="+x+"))'").get_output()
         self.assert_(self.ls_result['status'] == 'PASS')
-        self.assert_(int(self.ls_result['GlueSATotalOnlineSize']) >= 0)
+        self.ins_result = ins.InfoSystem(self.lfn, self.tsets['general']['backend_hostname'], self.tsets['general']['info_port'], x.split(':')[0].upper().replace('.','').replace('-','')).get_output()
+        usgb=int(int(self.ins_result['used-space'])*1000*1000*1000/(1024*1024*1024))/(1000*1000*1000)
+        self.assert_(int(self.ls_result['GlueSAUsedOnlineSize']) == int(usgb))
+        tsgb=int(int(self.ins_result['total-space'])*1000*1000*1000/(1024*1024*1024))/(1000*1000*1000)
+        self.assert_(int(self.ls_result['GlueSATotalOnlineSize']) == int(tsgb))
+        fsgb=int(int(self.ins_result['free-space'])*1000*1000*1000/(1024*1024*1024))/(1000*1000*1000)
+        self.assert_(int(self.ls_result['GlueSAFreeOnlineSize']) == int(fsgb))
+        rsgb=int(int(self.ins_result['reserved-space'])*1000*1000*1000/(1024*1024*1024))/(1000*1000*1000)
+        self.assert_(int(self.ls_result['GlueSAReservedOnlineSize']) == int(rsgb))
+
         self.assert_(int(self.ls_result['GlueSATotalNearlineSize']) >= 0)
-        self.assert_(int(self.ls_result['GlueSAFreeOnlineSize']) >= 0)
-        self.assert_(int(self.ls_result['GlueSAReservedOnlineSize']) >= 0)
-        self.assert_(int(self.ls_result['GlueSAUsedOnlineSize']) >= 0)
 
       self.lfn.put_result('PASSED')
       self.lfn.flush_file()
-
-
-      

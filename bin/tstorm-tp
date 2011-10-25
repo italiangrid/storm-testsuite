@@ -28,6 +28,7 @@ methods = {
    'http_ts': 'btnv.http_ts(tfn,ifn,dfn,back_ifn, lfn)', 
    'glue_info_ts': 'rlt.glue_info_ts(tfn, lfn)',
    'glue_storage_share_capacity_ts': 'rlt.glue_storage_share_capacity_ts(tfn, lfn)',
+   'glue_available_space_info_service_ts': 'rlt.glue_available_space_info_service_ts(tfn, lfn)',
    'glue_available_space_ts': 'rlt.glue_available_space_ts(tfn, lfn)',
    'glue_used_space_ts': 'rlt.glue_used_space_ts(tfn, lfn)',
    'size_ts': 'rlt.size_ts(tfn, lfn)',
