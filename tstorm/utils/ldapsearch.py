@@ -3,7 +3,6 @@ __author__ = 'Elisabetta Ronchieri'
 import commands
 import os
 from tstorm.utils import utils
-#from tstorm.utils import logfile
 
 class LdapSearch:
   def __init__(self, lfn, endpoint, attributes, basedn='mds-vo-name=resource,o=grid', filter="'objectClass=GlueService'"):

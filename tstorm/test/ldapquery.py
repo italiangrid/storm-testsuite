@@ -6,6 +6,7 @@ import os
 import unittest
 from tstorm.utils import config
 from tstorm.utils import ldapsearch as ls 
+from tstorm.utils import infosystem as ins
 
 class LdapTest(unittest.TestCase):
     def __init__(self, testname, tfn, lfn, basedn='mds-vo-name=resource,o=grid', filter="'objectClass=GlueService'", attributes='GlueServiceType GlueServiceName'):
@@ -56,7 +57,11 @@ class LdapTest(unittest.TestCase):
       for x in self.ls_result['GlueSALocalID']:
         self.ls_result = ls.LdapSearch(self.lfn, self.tsets['bdii']['endpoint'], 'GlueSAFreeOnlineSize GlueSAStateAvailableSpace', self.basedn, "'(&(objectclass=GlueSA)(GlueSALocalID="+x+"))'").get_output()
         self.assert_(self.ls_result['status'] == 'PASS')
-        self.assert_(int(self.ls_result['GlueSAStateAvailableSpace'])/(1000*1000) >= int(self.ls_result['GlueSAFreeOnlineSize']))
+        self.ins_result = ins.InfoSystem(self.lfn, self.tsets['general']['backend_hostname'], self.tsets['general']['info_port'], x.split(':')[0].upper().replace('.','').replace('-','')).get_output()
+        fskb=int(int(self.ins_result['available-space'])*1000*1000*1000/(1024*1024*1024))/1000
+        self.assert_(int(self.ls_result['GlueSAStateAvailableSpace']) == int(fskb))
+        fsgb=int(int(self.ins_result['available-space'])*1000*1000*1000/(1024*1024*1024))/(1000*1000*1000)
+        self.assert_(int(self.ls_result['GlueSAFreeOnlineSize']) == int(fsgb))
       self.lfn.put_result('PASSED')
       self.lfn.flush_file()
 
@@ -71,7 +76,11 @@ class LdapTest(unittest.TestCase):
       for x in self.ls_result['GlueSALocalID']:
         self.ls_result = ls.LdapSearch(self.lfn, self.tsets['bdii']['endpoint'], 'GlueSAUsedOnlineSize GlueSAStateUsedSpace', self.basedn, "'(&(objectclass=GlueSA)(GlueSALocalID="+x+"))'").get_output()
         self.assert_(self.ls_result['status'] == 'PASS')
-        self.assert_(int(self.ls_result['GlueSAStateUsedSpace'])/(1000*1000) >= int(self.ls_result['GlueSAUsedOnlineSize']))
+        self.ins_result = ins.InfoSystem(self.lfn, self.tsets['general']['backend_hostname'], self.tsets['general']['info_port'], x.split(':')[0].upper().replace('.','').replace('-','')).get_output()
+        uskb=int(int(self.ins_result['used-space'])*1000*1000*1000/(1024*1024*1024))/1000
+        self.assert_(int(self.ls_result['GlueSAStateUsedSpace']) == int(uskb))
+        usgb=int(int(self.ins_result['used-space'])*1000*1000*1000/(1024*1024*1024))/(1000*1000*1000)
+        self.assert_(int(self.ls_result['GlueSAUsedOnlineSize']) == int(usgb))
 
       self.lfn.put_result('PASSED')
       self.lfn.flush_file()
