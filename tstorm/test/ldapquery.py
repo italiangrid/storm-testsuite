@@ -118,7 +118,7 @@ class LdapTest(unittest.TestCase):
         fsgb=int(int(self.ins_result['free-space'])*1000*1000*1000/(1024*1024*1024))/(1000*1000*1000)
         self.assert_(int(self.ls_result['GlueSAFreeOnlineSize']) == int(fsgb))
         rsgb=int(int(self.ins_result['reserved-space'])*1000*1000*1000/(1024*1024*1024))/(1000*1000*1000)
-        self.assert_(int(self.ls_result['GlueSAReservedOnlineSize']) == int(rsgb))
+        self.assert_(int(self.ls_result['GlueSAReservedOnlineSize']) >= int(rsgb))
 
         self.assert_(int(self.ls_result['GlueSATotalNearlineSize']) >= 0)
 
