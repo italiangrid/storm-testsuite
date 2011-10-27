@@ -5,7 +5,8 @@ import os
 from tstorm.utils import utils
 
 class Cat:
-  def __init__(self, fn='input-file'):
+  def __init__(self, lfn, fn='input-file'):
+    self.lfn = lfn
     self.ifn = fn
     self.cmd = {
       'name':'cat'}
@@ -15,6 +16,7 @@ class Cat:
 
   def get_command(self):
     a = self.cmd['name'] + ' ' + self.ifn
+    self.lfn.put_cmd(a) 
     return a
 
   def run_command(self):

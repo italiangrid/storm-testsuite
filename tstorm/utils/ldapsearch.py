@@ -40,7 +40,6 @@ class LdapSearch:
     uri = self.cmd['uri'] + ' ' + self.cmd['protocol'] + '://' + self.endpoint + ':' + self.cmd['port']
     opt = ' ' + self.cmd['sa'] + ' ' + self.cmd['pres'] + ' ' + uri + ' ' +  self.cmd['basedn'] + ' '
     a=self.cmd['name'] + opt + self.filter + ' ' + self.attributes
-      
     self.lfn.put_cmd(a)
     return a
 

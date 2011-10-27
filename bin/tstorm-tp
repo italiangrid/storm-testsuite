@@ -37,13 +37,14 @@ methods = {
    'storm_backend_age_ts': 'rt.storm_backend_age_ts(tfn,ifn,dfn,back_ifn, lfn)',
    'conf_ts': 'cts.conf_ts(tfn,ifn,dfn,back_ifn, lfn)',
    'access_tape_ts': 'tt.access_tape_ts(tfn,ifn,dfn,back_ifn, lfn)',
-   'backend_cron_conf_ts': 'rct.backend_cron_conf_ts(lfn)',
-   'backend_logrotate_conf_ts': 'rct.backend_logrotate_conf_ts(lfn)',
-   'backend_gridhttps_ts': 'rct.backend_gridhttps_ts(lfn)',
-   'yaim_version_file_ts': 'rct.yaim_version_file_ts(lfn)',
-   'gridhttps_plugin_links_ts': 'rct.gridhttps_plugin_links_ts(lfn)',
-   'size_in_namespace_file_ts': 'rct.size_in_namespace_file_ts(lfn)',
-   'mysql_connector_java_links_ts': 'rct.mysql_connector_java_links_ts(lfn)'
+   'backend_server_status_rt': 'sc.backend_servier_status_rt(lfn)',
+   'backend_cron_conf_rt': 'sc.backend_cron_conf_rt(lfn)',
+   'backend_logrotate_conf_rt': 'sc.backend_logrotate_conf_rt(lfn)',
+   'backend_gridhttps_rt': 'sc.backend_gridhttps_rt(lfn)',
+   'yaim_version_file_rt': 'sc.yaim_version_file_rt(lfn)',
+   'gridhttps_plugin_links_rt': 'sc.gridhttps_plugin_links_rt(lfn)',
+   'size_in_namespace_file_rt': 'sc.size_in_namespace_file_rt(lfn)',
+   'mysql_connector_java_links_rt': 'sc.mysql_connector_java_links_rt(lfn)'
 }
 
 tests_type = {
@@ -124,13 +125,14 @@ def tpc_details():
     "conf_ts"
   ],
   "regression_conftests": [
-    "backend_logrotate_conf_ts",
-    "backend_cron_conf_ts",
-    "backend_gridhttps_ts",
-    "yaim_version_file_ts",
-    "gridhttps_plugin_links_ts",
-    "size_in_namespace_file_ts",
-    "mysql_connector_java_links_ts"
+    "backend_server_status_rt",
+    "backend_logrotate_conf_rt",
+    "backend_cron_conf_rt",
+    "backend_gridhttps_rt",
+    "yaim_version_file_rt",
+    "gridhttps_plugin_links_rt",
+    "size_in_namespace_file_rt",
+    "mysql_connector_java_links_rt"
   ],
   "regression_tests": [
     "update_free_space_upon_rm_ts",

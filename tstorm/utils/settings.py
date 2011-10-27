@@ -79,13 +79,14 @@ def is_valid(tp_info):
     'storm_backend_age_ts',
     'conf_ts',
     'access_tape_ts',
-    'backend_cron_conf_ts',
-    'backend_logrotate_conf_ts',
-    'backend_gridhttps_ts',
-    'yaim_version_file_ts',
-    'gridhttps_plugin_links_ts',
-    'size_in_namespace_file_ts',
-    'mysql_connector_java_links_ts']
+    'backend_cron_conf_rt',
+    'backend_server_status_rt',
+    'backend_logrotate_conf_rt',
+    'backend_gridhttps_rt',
+    'yaim_version_file_rt',
+    'gridhttps_plugin_links_rt',
+    'size_in_namespace_file_rt',
+    'mysql_connector_java_links_rt']
 
   for x in tp_info:
     if x == kw:

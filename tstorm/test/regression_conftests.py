@@ -3,46 +3,52 @@
 __author__ = 'Elisabetta Ronchieri'
 
 import unittest
-from tstorm.test import regression_conf as rec
+from tstorm.test import service_conf as sc
 
-def backend_logrotate_conf_ts():
+def backend_server_status_rt(lfn):
   s = unittest.TestSuite()
-  s.addTest(rec.RegressionConfigurationTest('test_backend_logrotate_file'))
+  s.addTest(sc.RegressionConfigurationTest('test_backend_server_status'), lfn)
 
   return s
 
-def backend_cron_conf_ts():
+def backend_logrotate_conf_rt(lfn):
   s = unittest.TestSuite()
-  s.addTest(rec.RegressionConfigurationTest('test_backend_cron_file'))
+  s.addTest(sc.RegressionConfigurationTest('test_backend_logrotate_file'), lfn)
 
   return s
 
-def backend_gridhttps_ts():
+def backend_cron_conf_rt(lfn):
   s = unittest.TestSuite()
-  s.addTest(rec.RegressionConfigurationTest('test_backend_gridhttps'))
+  s.addTest(sc.RegressionConfigurationTest('test_backend_cron_file'), lfn)
 
   return s
 
-def yaim_version_file_ts():
+def backend_gridhttps_rt(lfn):
   s = unittest.TestSuite()
-  s.addTest(rec.RegressionConfigurationTest('test_yaim_version_file'))
+  s.addTest(sc.RegressionConfigurationTest('test_backend_gridhttps'), lfn)
 
   return s
 
-def gridhttps_plugin_links_ts():
+def yaim_version_file_rt(lfn):
   s = unittest.TestSuite()
-  s.addTest(rec.RegressionConfigurationTest('test_gridhttps_plugin_links'))
+  s.addTest(sc.RegressionConfigurationTest('test_yaim_version_file'), lfn)
 
   return s
 
-def size_in_namespace_file_ts():
+def gridhttps_plugin_links_rt(lfn):
   s = unittest.TestSuite()
-  s.addTest(rec.RegressionConfigurationTest('test_size_in_namespace_file'))
+  s.addTest(sc.RegressionConfigurationTest('test_gridhttps_plugin_links'), lfn)
 
   return s
 
-def mysql_connector_java_links_ts():
+def size_in_namespace_file_rt(lfn):
   s = unittest.TestSuite()
-  s.addTest(rec.RegressionConfigurationTest('test_mysql_connector_java_links'))
+  s.addTest(sc.RegressionConfigurationTest('test_size_in_namespace_file'), lfn)
+
+  return s
+
+def mysql_connector_java_links_rt(lfn):
+  s = unittest.TestSuite()
+  s.addTest(sc.RegressionConfigurationTest('test_mysql_connector_java_links'), lfn)
 
   return s
