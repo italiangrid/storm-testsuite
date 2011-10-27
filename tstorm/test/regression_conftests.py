@@ -7,48 +7,48 @@ from tstorm.test import service_conf as sc
 
 def backend_server_status_rt(lfn):
   s = unittest.TestSuite()
-  s.addTest(sc.RegressionConfigurationTest('test_backend_server_status'), lfn)
+  s.addTest(sc.RegressionConfigurationTest('test_backend_server_status', lfn))
 
   return s
 
 def backend_logrotate_conf_rt(lfn):
   s = unittest.TestSuite()
-  s.addTest(sc.RegressionConfigurationTest('test_backend_logrotate_file'), lfn)
+  s.addTest(sc.RegressionConfigurationTest('test_backend_logrotate_file', lfn))
 
   return s
 
 def backend_cron_conf_rt(lfn):
   s = unittest.TestSuite()
-  s.addTest(sc.RegressionConfigurationTest('test_backend_cron_file'), lfn)
+  s.addTest(sc.RegressionConfigurationTest('test_backend_cron_file', lfn))
 
   return s
 
 def backend_gridhttps_rt(lfn):
   s = unittest.TestSuite()
-  s.addTest(sc.RegressionConfigurationTest('test_backend_gridhttps'), lfn)
+  s.addTest(sc.RegressionConfigurationTest('test_backend_gridhttps', lfn))
 
   return s
 
 def yaim_version_file_rt(lfn):
   s = unittest.TestSuite()
-  s.addTest(sc.RegressionConfigurationTest('test_yaim_version_file'), lfn)
+  s.addTest(sc.RegressionConfigurationTest('test_yaim_version_file', lfn))
 
   return s
 
 def gridhttps_plugin_links_rt(lfn):
   s = unittest.TestSuite()
-  s.addTest(sc.RegressionConfigurationTest('test_gridhttps_plugin_links'), lfn)
+  s.addTest(sc.RegressionConfigurationTest('test_gridhttps_plugin_links', lfn))
 
   return s
 
 def size_in_namespace_file_rt(lfn):
   s = unittest.TestSuite()
-  s.addTest(sc.RegressionConfigurationTest('test_size_in_namespace_file'), lfn)
+  s.addTest(sc.RegressionConfigurationTest('test_size_in_namespace_file', lfn))
 
   return s
 
 def mysql_connector_java_links_rt(lfn):
   s = unittest.TestSuite()
-  s.addTest(sc.RegressionConfigurationTest('test_mysql_connector_java_links'), lfn)
+  s.addTest(sc.RegressionConfigurationTest('test_mysql_connector_java_links', lfn))
 
   return s
