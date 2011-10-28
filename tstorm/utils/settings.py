@@ -28,7 +28,7 @@ def set_inpt_fn(n_df, n_dfn, subdir=True):
 
   return ifn,dfn,bfn
 
-def get_tp_info(tpfnc='tstorm-tp.json'):
+def get_tpj_info(tpfnc='tstorm-tp.json'):
   '''Get Test Plan Information from the configuration file of testplan'''
   dirname=os.path.dirname(sys.argv[0])
   configpath = os.path.join(dirname, "../", ".")
@@ -42,6 +42,26 @@ def get_tp_info(tpfnc='tstorm-tp.json'):
     print "wrong conf file"
     sys.exit(2)
   return tp_info
+
+def print_tpj_template(tpfnc='tstorm-tp.json.template'):
+  '''Print Test Plan Information from the configuration template file of testplan'''
+  dirname = os.path.dirname(sys.argv[0])
+  configpath = os.path.join(dirname, "../", ".")
+  conffile = configpath+tpfnc
+
+  try:
+    fl=open(conffile,'r')
+    tpj_tmtp=fl.readlines()
+    for x in tpj_tmtp:
+      print x
+    fl.close()
+    
+  except IOError:
+    print "I/O error"
+    sys.exit(2)
+  except:
+    print "Unexpected error:", sys.exc_info()[0]
+    sys.exit(2)
 
 def is_valid(tp_info):
   '''Check validity of the test plan conf file'''

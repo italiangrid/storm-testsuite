@@ -83,7 +83,7 @@ def usage():
     print """Example: if you want to run test by changing conf input file and destination filename"""
     print """         tstorm-tp -c etc/tstorm/tstorm.ini -d ui/uo/ua.txt"""
 
-def tpc_details():
+def tpj_details():
     print "Description of tstorm-tp.json.template:"
     print """test_plan - is a key word containing a list of different type of """
     print """            system tests that MUST be specified in the following """
@@ -98,74 +98,22 @@ def tpc_details():
     print """             'tape_tests'"""
     print """            ]"""
     print """            regression_conftests are executed only if conftest option is used."""
-    print """common_tests - is a key word containing a list of tests and is"""
-    print """               mandatory for all the other tests with the """
-    print """               exclusion of regression conf tests """
-    print """basic_tests - is a key word containing a list of tests; """
-    print """regression_tests - is a key word containing a list of tests; """
+    print """common_tests         - is a key word containing a list of tests that is"""
+    print """                       mandatory for all the other tests with the """
+    print """                       exclusion of regression conf tests and"""
+    print """                       regression ldap tests"""
+    print """basic_tests          - is a key word containing a list of tests;"""
+    print """regression_tests     - is a key word containing a list of tests;"""
     print """regression_conftests - is a key word containing a list of tests """
-    print """               that MUST run as root;"""
-    print """basic_tests_novoms - is a key word containing a list of tests; """
-    print """tape_tests - is a key word containing a list of tests.\n """
-    print "Example of tstorm-tp.json.template:"
-    print """
-{
-  "basic_tests": [
-    "cs_ts",
-    "cw_ts",
-    "cksm_ts",
-    "dt_ts",
-    "https_voms_ts"
-  ],
-  "basic_tests_novoms": [
-    "http_ts",
-    "https_ts"
-  ],
-  "common_tests": [
-    "conf_ts"
-  ],
-  "regression_conftests": [
-    "backend_server_status_rt",
-    "backend_logrotate_conf_rt",
-    "backend_cron_conf_rt",
-    "backend_gridhttps_rt",
-    "yaim_version_file_rt",
-    "gridhttps_plugin_links_rt",
-    "size_in_namespace_file_rt",
-    "mysql_connector_java_links_rt"
-  ],
-  "regression_tests": [
-    "update_free_space_upon_rm_ts",
-    "eight_digit_string_checksum_rts_ts",
-    "update_used_space_upon_pd_ts",
-    "unsupported_protocols_ts",
-    "non_ascii_chars_ts",
-    "storm_backend_age_ts"
-  ],
-  "regression_ldaptests": [
-    "glue_info_ts",
-    "glue_storage_share_capacity_ts",
-    "glue_available_space_ts",
-    "glue_used_space_ts",
-    "size_ts"
-  ],
-  "tape_tests": [
-    "access_tape_ts"
-  ],
-  "test_plan": [
-    "common_tests",
-    "basic_tests",
-    "regression_tests",
-    "basic_tests_novoms",
-    "regression_ldaptests",
-    "regression_conftests",
-    "tape_tests"
-  ]
-}
-"""
+    print """                       that MUST run as root;"""
+    print """regression_ldaptests - is a key word containing a list of tests;"""
+    print """basic_tests_novoms   - is a key word containing a list of tests; """
+    print """tape_tests           - is a key word containing a list of tests.\n """
+    print "Example of tstorm-tp.json.template:\n"
+    st.print_tpj_template('./etc/tstorm/tstorm-tp.json.template')
 
 if __name__ == '__main__':
-  tpfnc= './etc/tstorm/tstorm-tp.json'
+  tpjfnc= './etc/tstorm/tstorm-tp.json'
   tfn = './etc/tstorm/tstorm.ini'
 
   try:
@@ -196,11 +144,11 @@ if __name__ == '__main__':
       assert False, "unhandled option"
 
   '''Get Test Plan Info from conf file'''
-  tp_info = st.get_tp_info(tpfnc)
+  tpj_info = st.get_tpj_info(tpjfnc)
 
-  if not st.is_valid(tp_info):
+  if not st.is_valid(tpj_info):
     '''Wrong Test Plan conf file'''
-    tpc_details()
+    tpj_details()
     sys.exit(3)
 
   logf=rf.ReportFile()
