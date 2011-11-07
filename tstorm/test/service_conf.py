@@ -2,14 +2,16 @@ __author__ = 'Elisabetta Ronchieri'
 
 import os 
 import unittest
+from tstorm.utils import config
 from tstorm.utils import readfile
 from tstorm.utils import service
 from tstorm.utils import rpm
 from tstorm.utils import ls
 
 class RegressionConfigurationTest(unittest.TestCase):
-    def __init__(self, testname, lfn):
+    def __init__(self, testname, tfn, lfn):
       super(RegressionConfigurationTest, self).__init__(testname)
+      self.tsets = config.TestSettings(tfn).get_test_sets()
       self.lfn = lfn
 
     def test_backend_server_status(self):
@@ -87,7 +89,7 @@ class RegressionConfigurationTest(unittest.TestCase):
       self.lfn.put_description('Wrong settings of size in namespace.xml')
       self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/151')
       self.lfn.put_output()
-      self.cat_result = readfile.Cat(self.lfn, '/etc/storm/siteinfo/storm.def').get_output()
+      self.cat_result = readfile.Cat(self.lfn, self.tsets['yaim']['def_path']).get_output()
       self.assert_(self.cat_result['status'] == 'PASS')
       var=self.cat_result['otpt'].split('\n')
       self.catn_result = readfile.Cat(self.lfn, '/etc/storm/backend-server/namespace.xml').get_output()
