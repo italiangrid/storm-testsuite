@@ -3,6 +3,7 @@ import datetime
 import time
 import os
 import json
+import check_testplan as ctp
 
 def set_inpt_fn(n_df, n_dfn, subdir=True):
   '''Set Input filename (ifn), Back filename (bfn) and Destinatin filename (dfn)'''
@@ -68,58 +69,27 @@ def is_valid(tp_info):
 
   result=False
 
-  kw='test_plan'
-
-  tp_keys = ['common_tests',
-    'basic_tests',
-    'regression_tests',
-    'basic_tests_novoms',
-    'regression_conftests',
-    'regression_ldaptests',
-    'tape_tests']
-
-  available_methods = ['cksm_ts',
-    'https_ts',
-    'https_voms_ts',
-    'cs_ts',
-    'cw_ts',
-    'eight_digit_string_checksum_ts',
-    'non_ascii_chars_ts',
-    'unsupported_protocols_ts',
-    'dt_ts',
-    'http_ts',
-    'glue_info_ts',
-    'glue_storage_share_capacity_ts',
-    'glue_available_space_ts',
-    'glue_used_space_ts',
-    'glue_available_space_info_service_ts',
-    'size_ts',
-    'update_used_space_upon_pd_ts',
-    'update_free_space_upon_rm_ts',
-    'storm_backend_age_ts',
-    'conf_ts',
-    'access_tape_ts',
-    'backend_cron_conf_rt',
-    'backend_server_status_rt',
-    'backend_logrotate_conf_rt',
-    'backend_gridhttps_rt',
-    'yaim_version_file_rt',
-    'gridhttps_plugin_links_rt',
-    'size_in_namespace_file_rt',
-    'mysql_connector_java_links_rt']
+  a=ctp.CheckTestplan()
+  kw=a.get_key_word()
+  tp_categories=a.get_test_plan_categories()
+  available_methods=a.get_test_suites()
 
   for x in tp_info:
     if x == kw:
       result=True
       break
 
-  for x in tp_info[kw]:
-    if x in tp_keys:
-      result=True
-      for y in tp_info[x]:
-        if y not in available_methods:
-          return False
-    else:
-      return False
+  try:
+    for x in tp_info[kw]:
+      if x in tp_categories:
+        print tp_categories, x
+        result=True
+        for y in tp_info[x]:
+          if y not in available_methods:
+            return False
+      else:
+        return False
+  except KeyError:
+    return False
 
   return result

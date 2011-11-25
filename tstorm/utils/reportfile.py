@@ -4,12 +4,13 @@ import sys
 import time
 
 class ReportFile:
-  def __init__(self, fPath = '/tmp', fName = "tstorm"):
+  def __init__(self, fPath = '/tmp', fName = "tstorm", report = True):
     self.fpath = fPath
     t=datetime.datetime.now()
     ts=str(time.mktime(t.timetuple()))
     self.fname = fName + '_' + ts + '.log'
     self.log_file = ""
+    self.report = report
     if not os.path.isdir(self.fpath):
       self.fpath = os.getcwd()
     if not os.path.isdir(self.fpath):
@@ -21,35 +22,44 @@ class ReportFile:
     self.log_file = open(os.path.join(self.fpath, self.fname), 'a+')
 
   def close_file(self):
-    self.log_file.close()
+    if self.report is True:
+      self.log_file.close()
 
   def flush_file(self):
-    self.log_file.flush()
+    if self.report is True:
+      self.log_file.flush()
 
   def put(self, text):
     if  len(text) > 0:
       self.log_file.write(text)
 
   def put_name(self, text = ""):
-    self.put_separator()
-    self.put('Name          : %s\n' % text)
+    if self.report is True:
+      self.put_separator()
+      self.put('Name          : %s\n' % text)
 
   def put_description(self, text = ""):
-    self.put('Description   : %s\n' % text)
+    if self.report is True:
+      self.put('Description   : %s\n' % text)
 
   def put_output(self):
-    self.put('Output        : \n')
+    if self.report is True:
+      self.put('Output        : \n')
 
   def put_cmd(self, text = ""):
-    self.put('%s\n' % text)
+    if self.report is True:
+      self.put('%s\n' % text)
 
   def put_result(self, text = ""):
-    self.put('Result        : %s\n' % text)
-    self.put_separator()
-    self.put('\n')
+    if self.report is True:
+      self.put('Result        : %s\n' % text)
+      self.put_separator()
+      self.put('\n')
 
   def put_ruid(self, text = ""):
-    self.put('RfC Unique ID : %s\n' % text)
+    if self.report is True:
+      self.put('RfC Unique ID : %s\n' % text)
  
   def put_separator(self):
-    self.put('==========================================\n')
+    if self.report is True:
+      self.put('==========================================\n')
