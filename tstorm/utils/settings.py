@@ -82,7 +82,6 @@ def is_valid(tp_info):
   try:
     for x in tp_info[kw]:
       if x in tp_categories:
-        print tp_categories, x
         result=True
         for y in tp_info[x]:
           if y not in available_methods:

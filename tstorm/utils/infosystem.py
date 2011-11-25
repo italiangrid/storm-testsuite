@@ -5,11 +5,10 @@ import os
 from tstorm.utils import utils
 
 class InfoSystem:
-  def __init__(self, lfn, bh, ip, sad):
+  def __init__(self, bh, ip, sad):
     self.behn = bh
     self.info_port = ip
     self.sa_descr = sad
-    self.lfn = lfn
     self.cmd = {
       'name': 'curl',
       'protocol': 'http',
@@ -28,8 +27,6 @@ class InfoSystem:
 
   def get_command(self):
     a = self.cmd['name'] + ' -s ' + self.cmd['protocol'] + '://' + self.behn + ':' + self.cmd['port'] + '/info/status/' + self.sa_descr + '_TOKEN'
-      
-    self.lfn.put_cmd(a)
     return a
 
   def run_command(self):
