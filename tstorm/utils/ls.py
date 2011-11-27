@@ -104,8 +104,7 @@ class StoRMLs:
     return self.otpt
 
 class Ls:
-  def __init__(self, lfn, fn='input-file'):
-    self.lfn = lfn
+  def __init__(self, fn='input-file'):
     self.ifn = fn
     self.cmd = {
       'name':'ls'}
@@ -115,7 +114,6 @@ class Ls:
 
   def get_command(self):
     a = self.cmd['name'] + ' -al '+ self.ifn
-    self.lfn.put_cmd(a)
     return a
 
   def run_command(self):

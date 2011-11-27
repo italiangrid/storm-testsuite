@@ -5,8 +5,7 @@ import os
 from tstorm.utils import utils
 
 class RmLf:
-  def __init__(self, lfn, fn='input-file', bfn='back-input-file'):
-    self.lfn = lfn
+  def __init__(self, fn='input-file', bfn='back-input-file'):
     self.ifn = fn
     self.bfn = bfn
     self.cmd = {
@@ -19,7 +18,6 @@ class RmLf:
       a = self.cmd['name'] + ' -f  ' + self.ifn + ' ' + self.bfn
     else:
       a = self.cmd['name'] + ' -f  ' + self.ifn
-    self.lfn.put_cmd(a)
     return a
 
   def run_command(self):

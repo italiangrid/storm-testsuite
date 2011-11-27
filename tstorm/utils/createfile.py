@@ -5,8 +5,7 @@ import os
 from tstorm.utils import utils
 
 class Dd:
-  def __init__(self, lfn, fn='input-file'):
-    self.lfn = lfn
+  def __init__(self, fn='input-file'):
     self.ifn = fn
     self.cmd = {
       'name':'dd',
@@ -16,7 +15,6 @@ class Dd:
 
   def get_command(self):
     a = self.cmd['name'] + ' if=/dev/urandom of='+ self.ifn + ' bs=' + self.cmd['size'] + ' count=1'
-    self.lfn.put_cmd(a)
     return a
 
   def run_command(self):

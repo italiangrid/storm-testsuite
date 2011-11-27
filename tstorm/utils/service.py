@@ -5,8 +5,7 @@ import os
 from tstorm.utils import utils
 
 class Service:
-  def __init__(self, lfn, sn):
-    self.lfn = lfn
+  def __init__(self, sn):
     self.sn = sn
     self.cmd = {
       'name':'service'}
@@ -16,7 +15,6 @@ class Service:
 
   def get_command(self):
     a = self.cmd['name'] + ' ' + self.sn + ' status'
-    self.lfn.put_cmd(a)
     return a
 
   def run_command(self):

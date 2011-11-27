@@ -4,29 +4,30 @@ __author__ = 'Elisabetta Ronchieri'
 
 import unittest
 from tstorm.test import functionalities as fu
+from tstorm.test import atomics
 from tstorm.test import utilities as ut
 from tstorm.test import https as h
 
 def cs_ts(conf, ifn, dfn, bifn):
   s = unittest.TestSuite()
-  s.addTest(fu.FunctionalitiesTest('test_storm_ping',conf, ifn, dfn, bifn))
+  s.addTest(atomics.AtomicssTest('test_storm_ping',conf, ifn, dfn, bifn))
 
   return s
 
 def cw_ts(conf, ifn, dfn, bifn):
   s = unittest.TestSuite()
   s.addTest(ut.UtilitiesTest('test_dd',conf, ifn, dfn, bifn))
-  s.addTest(fu.FunctionalitiesTest('test_ls_unexist_file',conf, ifn, dfn, bifn))
-  s.addTest(fu.FunctionalitiesTest('test_mkdir_dir',conf, ifn, dfn, bifn))
-  s.addTest(fu.FunctionalitiesTest('test_mkdir_exist_dir',conf, ifn, dfn, bifn))
-  s.addTest(fu.FunctionalitiesTest('test_ls_dir',conf, ifn, dfn, bifn))
-  s.addTest(fu.FunctionalitiesTest('test_cp_bt',conf, ifn, dfn, bifn))
-  s.addTest(fu.FunctionalitiesTest('test_ls_file',conf, ifn, dfn, bifn))
-  s.addTest(fu.FunctionalitiesTest('test_cp_at',conf, ifn, dfn, bifn))
-  s.addTest(fu.FunctionalitiesTest('test_rm_file',conf, ifn, dfn, bifn))
-  s.addTest(fu.FunctionalitiesTest('test_rm_unexist_file',conf, ifn, dfn, bifn))
-  s.addTest(fu.FunctionalitiesTest('test_rm_dir',conf, ifn, dfn, bifn))
-  s.addTest(fu.FunctionalitiesTest('test_rm_unexist_dir',conf, ifn, dfn, bifn))
+  s.addTest(atomics.AtomicsTest('test_ls_unexist_file',conf, ifn, dfn, bifn))
+  s.addTest(atomics.AtomicsTest('test_mkdir_dir',conf, ifn, dfn, bifn))
+  s.addTest(atomics.AtomicsTest('test_mkdir_exist_dir',conf, ifn, dfn, bifn))
+  s.addTest(atomics.Atomicsest('test_ls_dir',conf, ifn, dfn, bifn))
+  s.addTest(atomics.AtomicsTest('test_cp_bt',conf, ifn, dfn, bifn))
+  s.addTest(atomics.AtomicsTest('test_ls_file',conf, ifn, dfn, bifn))
+  s.addTest(atomics.AtomicsTest('test_cp_at',conf, ifn, dfn, bifn))
+  s.addTest(atomics.AtomicsTest('test_rm_file',conf, ifn, dfn, bifn))
+  s.addTest(atomics.AtomicsTest('test_rm_unexist_file',conf, ifn, dfn, bifn))
+  s.addTest(atomics.AtomicsTest('test_rm_dir',conf, ifn, dfn, bifn))
+  s.addTest(atomics.AtomicsTest('test_rm_unexist_dir',conf, ifn, dfn, bifn))
   s.addTest(ut.UtilitiesTest('test_rm_lf',conf, ifn, dfn, bifn))
   
   return s

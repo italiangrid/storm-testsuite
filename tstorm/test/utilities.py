@@ -16,27 +16,59 @@ class UtilitiesTest(unittest.TestCase):
       self.lfn = lfn
     
     def test_settings(self):
-      '''Verify configuration ini file'''
-      print '''\nCT Verify ini file\n'''
+      self.lfn.put_name('CONFIGURATION INI FILE CORRECTNESS')
+      self.lfn.put_description('Verify the content of test ini file')
+      self.lfn.put_ruid('')
+      self.lfn.put_output()
+
+      self.lfn.put_cmd(self.tests)
+
       for x in self.tsets:
         self.assert_(x in ('general','ping','https','http','tape','bdii','yaim','log'))
         for y in self.tsets[x]:
             self.assert_(x != '')
 
+      self.lfn.put_result('PASSED')
+      self.lfn.flush_file()
+
     def test_dd(self):
-      '''Verify creation of a file with size 1M'''
-      print '''\nTSTORMT Verify creation of a file with size 1M\n'''
-      self.dd_result = createfile.Dd(self.lfn, self.ifn).get_output()
+      self.lfn.put_name('CREATE A FILE OF A GIVEN SIZE')
+      self.lfn.put_description('Verify the creation of a file with a given size')
+      self.lfn.put_ruid('')
+      self.lfn.put_output()
+
+      dd = createfile.Dd(self.ifn)
+      self.lfn.put_cmd(dd.get_command())
+
+      self.dd_result = dd.get_output()
       self.assert_(self.dd_result['status'] == 'PASS')
+      
+      self.lfn.put_result('PASSED')
+      self.lfn.flush_file()
 
     def test_cr_lf(self):
-      '''Verify creation of a file with a char'''
-      print '''\nTSTORMT Verify creation of a file with a char\n'''
-      self.cf_result = createfile.Cf(self.lfn, self.ifn).get_output()
+      self.lfn.put_name('CREATE A FILE WITH A CHAR')
+      self.lfn.put_description('Verify the creation of a file with a char')
+      self.lfn.put_ruid('')
+      self.lfn.put_output()
+
+      self.cf_result = createfile.Cf(self.ifn).get_output()
       self.assert_(self.cf_result['status'] == 'PASS')
 
+      self.lfn.put_result('PASSED')
+      self.lfn.flush_file()
+
     def test_rm_lf(self):
-      '''Verify deletion of a local file'''
-      print '''\nTSTORMT Verify deletion of a local file\n'''
-      self.rmlf_result = removefile.RmLf(self.lfn, self.ifn, self.bifn).get_output()
+      self.lfn.put_name('DELETE A LOCAL FILE')
+      self.lfn.put_description('Verify the deletion of a local file')
+      self.lfn.put_ruid('')
+      self.lfn.put_output()
+
+      mlf = removefile.RmLf(self.ifn, self.bifn)
+      self.lfn.put_cmd(rmlf.get_command())
+
+      self.rmlf_result = rmlf.get_output()
       self.assert_(self.rmlf_result['status'] == 'PASS')
+
+      self.lfn.put_result('PASSED')
+      self.lfn.flush_file()

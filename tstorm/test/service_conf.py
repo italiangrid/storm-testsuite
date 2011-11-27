@@ -20,7 +20,7 @@ class RegressionConfigurationTest(unittest.TestCase):
       self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/114')
       self.lfn.put_output()
 
-      sr = service.Service(self.lfn, 'storm-backend-server')
+      sr = service.Service('storm-backend-server')
       self.lfn.put_cmd(sr.get_command())
 
       self.sr_result(sr.get_output())
@@ -35,7 +35,7 @@ class RegressionConfigurationTest(unittest.TestCase):
       self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/134')
       self.lfn.put_output()
 
-      rcat = readfile.Cat(self.lfn, '/etc/logrotate.d/storm-backend-server')
+      rcat = readfile.Cat('/etc/logrotate.d/storm-backend-server')
       self.lfn.put_cmd(rcat.get_command())
 
       self.cat_result(rcat.get_output())
@@ -56,7 +56,7 @@ class RegressionConfigurationTest(unittest.TestCase):
       self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/135')
       self.lfn.put_output()
 
-      rcat = readfile.Cat(self.lfn, '/etc/cron.d/storm-backend-server.cron')
+      rcat = readfile.Cat('/etc/cron.d/storm-backend-server.cron')
       self.lfn.put_cmd(rcat.get_command())
 
       self.cat_result(rcat.get_output())
@@ -75,7 +75,7 @@ class RegressionConfigurationTest(unittest.TestCase):
       self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/140')
       self.lfn.put_output()
 
-      sr = service.Service(self.lfn, 'storm-backend-server')
+      sr = service.Service('storm-backend-server')
       self.lfn.put_cmd(sr.get_command())
 
       self.sr_result(sr.get_output())
@@ -83,7 +83,7 @@ class RegressionConfigurationTest(unittest.TestCase):
       self.assert_('running' in self.sr_result['otpt'])
       self.assert_('NOT' not in self.sr_result['otpt'])
 
-      sr = service.Service(self.lfn, 'tomcat5')
+      sr = service.Service('tomcat5')
       self.lfn.put_cmd(sr.get_command())
 
       self.sr_result(sr.get_output())
@@ -99,14 +99,14 @@ class RegressionConfigurationTest(unittest.TestCase):
       self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/149')
       self.lfn.put_output()
 
-      rcat = readfile.Cat(self.lfn, '/opt/glite/yaim/etc/versions/yaim-storm')
+      rcat = readfile.Cat('/opt/glite/yaim/etc/versions/yaim-storm')
       self.lfn.put_cmd(rcat.get_command())
 
       self.cat_result(rcat.get_output())
       self.assert_(self.cat_result['status'] == 'PASS')
       pn=self.cat_result['otpt'].split(' ')
 
-      crpm = rpm.Rpm(self.lfn, pn[0])
+      crpm = rpm.Rpm(pn[0])
       self.lfn.put_cmd(crpm.get_command())
 
       self.rpm_result(crpm.get_output())
@@ -123,14 +123,14 @@ class RegressionConfigurationTest(unittest.TestCase):
       self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/151')
       self.lfn.put_output()
 
-      rcat = readfile.Cat(self.lfn, self.tsets['yaim']['def_path'])
+      rcat = readfile.Cat(self.tsets['yaim']['def_path'])
       self.lfn.put_cmd(rcat.get_command())
 
       self.cat_result(rcat.get_output())
       self.assert_(self.cat_result['status'] == 'PASS')
       var=self.cat_result['otpt'].split('\n')
 
-      rcatn = readfile.Cat(self.lfn, '/etc/storm/backend-server/namespace.xml')
+      rcatn = readfile.Cat('/etc/storm/backend-server/namespace.xml')
       self.lfn.put_cmd(rcatn.get_command())
 
       self.catn_result(rcatn.get_output())
@@ -162,19 +162,19 @@ class RegressionConfigurationTest(unittest.TestCase):
       self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/154')
       self.lfn.put_output()
 
-      rls = ls.Ls(self.lfn, '/usr/share/java/storm-backend-server/storm-gridhttps-plugin.jar')
+      rls = ls.Ls('/usr/share/java/storm-backend-server/storm-gridhttps-plugin.jar')
       self.lfn.put_cmd(rls.get_command())
 
       self.ls_result(rls.get_output())
       self.assert_(self.ls_result['status'] == 'PASS')
 
-      rls = ls.Ls(self.lfn, '/usr/share/java/storm-backend-server/httpclient.jar')
+      rls = ls.Ls('/usr/share/java/storm-backend-server/httpclient.jar')
       self.lfn.put_cmd(rls.get_command())
 
       self.ls_result(rls.get_output())
       self.assert_(self.ls_result['status'] == 'PASS')
 
-      rls = ls.Ls(self.lfn, '/usr/share/java/storm-backend-server/httpcore.jar')
+      rls = ls.Ls('/usr/share/java/storm-backend-server/httpcore.jar')
       self.lfn.put_cmd(rls.get_command())
 
       self.ls_result(rls.get_output())
@@ -188,13 +188,13 @@ class RegressionConfigurationTest(unittest.TestCase):
       self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/179')
       self.lfn.put_output()
 
-      rls = ls.Ls(self.lfn, '/usr/share/java/storm-backend-server/mysql-connector-java-5.1.13-bin.jar')
+      rls = ls.Ls('/usr/share/java/storm-backend-server/mysql-connector-java-5.1.13-bin.jar')
       self.lfn.put_cmd(rls.get_command())
 
       self.ls_result(rls.get_output())
       self.assert_(self.ls_result['status'] == 'FAILURE')
 
-      rls = ls.Ls(self.lfn, '/usr/share/java/storm-backend-server/mysql-connector-java-5.1.12.jar')
+      rls = ls.Ls('/usr/share/java/storm-backend-server/mysql-connector-java-5.1.12.jar')
       self.lfn.put_cmd(rls.get_command())
 
       self.ls_result(rls.get_output())

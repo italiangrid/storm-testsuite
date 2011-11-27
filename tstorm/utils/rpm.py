@@ -5,8 +5,7 @@ import os
 from tstorm.utils import utils
 
 class Rpm:
-  def __init__(self, lfn, pn):
-    self.lfn = lfn
+  def __init__(self, pn):
     self.pn = pn
     self.cmd = {
       'name':'rpm',
@@ -17,7 +16,6 @@ class Rpm:
 
   def get_command(self):
     a = self.cmd['name'] + ' ' + self.cmd['exist'] + ' ' + self.pn
-    self.lfn.put_cmd(a)
     return a
 
   def run_command(self):
