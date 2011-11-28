@@ -23,7 +23,6 @@ class LcgCp:
     else:
       a= self.cmd['name'] + ' -b --verbose -D srmv2 ' + self.cmd['protocol'] + '://' + self.endpoint + ':8444/srm/managerv2?SFN=/' + self.accesspoint + self.dfn + ' file://'+ self.bifn
       
-    print a
     return a
 
   def run_command(self, in_write=True):
@@ -60,7 +59,6 @@ class StoRMPtp:
 
   def get_command(self):
     a = self.cmd['name'] + ' ptp -e ' + self.cmd['rqst_protocol'] + '://' + self.endpoint + ':8444/' + ' -s ' + self.cmd['protocol'] + '://' + self.endpoint + ':8444/srm/managerv2?SFN=/' + self.accesspoint + self.dfn + ' -T -P ' + self.prt + ' -p'
-    print a
     return a
 
   def run_command(self):
@@ -120,7 +118,6 @@ class StoRMPtg:
 
   def get_command(self):
     a = self.cmd['name'] + ' ptg -e ' + self.cmd['rqst_protocol'] + '://' + self.endpoint + ':8444/' + ' -s ' + self.cmd['protocol'] + '://' + self.endpoint + ':8444/srm/managerv2?SFN=/' + self.accesspoint + self.dfn + ' -T -P ' + self.prt + ' -p'
-    print a
     return a
 
   def run_command(self):
@@ -167,7 +164,6 @@ class StoRMPd:
 
   def get_command(self):
     a = self.cmd['name'] + ' pd -e ' + self.cmd['rqst_protocol'] + '://' + self.endpoint + ':8444/' + ' -s ' + self.cmd['protocol'] + '://' + self.endpoint + ':8444/srm/managerv2?SFN=/' + self.accesspoint + self.dfn + ' -t ' + self.turl
-    print a
     return a
 
   def run_command(self):
@@ -212,7 +208,6 @@ class StoRMRf:
 
   def get_command(self):
     a = self.cmd['name'] + ' rf -e ' + self.cmd['rqst_protocol'] + '://' + self.endpoint + ':8444/' + ' -s ' + self.cmd['protocol'] + '://' + self.endpoint + ':8444/srm/managerv2?SFN=/' + self.accesspoint + self.dfn + ' -t ' + self.turl 
-    print a
     return a
 
   def run_command(self):
@@ -257,7 +252,6 @@ class guc:
     else:
       a= self.cmd['name'] + ' -dbg ' + self.turl + ' file://'+ self.bifn
 
-    print a
     return a
 
   def run_command(self, in_write=True):
