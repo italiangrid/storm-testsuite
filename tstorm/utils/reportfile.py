@@ -59,6 +59,10 @@ class ReportFile:
   def put_ruid(self, text = ""):
     if self.report is True:
       self.put('RfC Unique ID : %s\n' % text)
+
+  def put_uid(self, text = ""):
+    if self.report is True:
+      self.put('Unique ID : %s\n' % text)
  
   def put_separator(self):
     if self.report is True:
