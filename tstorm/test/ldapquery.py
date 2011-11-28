@@ -28,10 +28,10 @@ the GLUE1.3 schema.'''
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/143')
         self.lfn.put_output()
 
-        lds = ls.LdapSearch(self.tsets['bdii']['endpoint'], self.attributes,
-              self.basedn, self.filter)
-        self.lfn.put_cmd(lds.get_command())
-        self.ls_result = lds.get_output()
+        ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
+                      self.attributes, self.basedn, self.filter)
+        self.lfn.put_cmd(ldap_search.get_command())
+        self.ls_result = ldap_search.get_output()
         self.assert_(self.ls_result['status'] == 'PASS')
         self.assert_('emi.storm' not in self.ls_result['GlueServiceType'])
 
@@ -44,21 +44,21 @@ the GLUE1.3 schema.'''
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/147')
         self.lfn.put_output()
 
-        lds = ls.LdapSearch(self.tsets['bdii']['endpoint'],
-              'GLUE2StorageServiceCapacityFreeSize GLUE2StorageServiceCapacityUsedSize GLUE2StorageServiceCapacityTotalSize GLUE2StorageServiceCapacityReservedSize',
-              'GLUE2GroupID=resource,o=glue',
-              "'(&(objectclass=GLUE2StorageServiceCapacity)(GLUE2StorageServiceCapacityType=online))'")
-        self.lfn.put_cmd(lds.get_command())
-        self.ls_result = lds.get_output()
+        ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
+                      'GLUE2StorageServiceCapacityFreeSize GLUE2StorageServiceCapacityUsedSize GLUE2StorageServiceCapacityTotalSize GLUE2StorageServiceCapacityReservedSize',
+                      'GLUE2GroupID=resource,o=glue',
+                      "'(&(objectclass=GLUE2StorageServiceCapacity)(GLUE2StorageServiceCapacityType=online))'")
+        self.lfn.put_cmd(ldap_search.get_command())
+        self.ls_result = ldap_search.get_output()
         self.assert_(self.ls_result['status'] == 'PASS')
         self.assert_(int(self.ls_result['GLUE2StorageServiceCapacityTotalSize']) != 0)
 
-        lds = ls.LdapSearch(self.tsets['bdii']['endpoint'],
-              'GLUE2StorageServiceCapacityFreeSize GLUE2StorageServiceCapacityUsedSize GLUE2StorageServiceCapacityTotalSize GLUE2StorageServiceCapacityReservedSize',
-              'GLUE2GroupID=resource,o=glue',
-              "'(&(objectclass=GLUE2StorageServiceCapacity)(GLUE2StorageServiceCapacityType=nearline))'")
-        self.lfn.put_cmd(lds.get_command())
-        self.ls_result = lds.get_output()
+        ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
+                      'GLUE2StorageServiceCapacityFreeSize GLUE2StorageServiceCapacityUsedSize GLUE2StorageServiceCapacityTotalSize GLUE2StorageServiceCapacityReservedSize',
+                      'GLUE2GroupID=resource,o=glue',
+                      "'(&(objectclass=GLUE2StorageServiceCapacity)(GLUE2StorageServiceCapacityType=nearline))'")
+        self.lfn.put_cmd(ldap_search.get_command())
+        self.ls_result = ldap_search.get_output()
         if self.ls_result['status'] == 'PASS':
      	    self.assert_(self.ls_result['status'] == 'PASS')
             self.assert_(int(self.ls_result['GLUE2StorageServiceCapacityTotalSize']) >= 0)
@@ -74,10 +74,10 @@ the GLUE1.3 schema.'''
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/147')
         self.lfn.put_output()
 
-        lds = ls.LdapSearch(self.tsets['bdii']['endpoint'], 'GlueSALocalID',
-              self.basedn, "'(objectclass=GlueSA)'")
-        self.lfn.put_cmd(lds.get_command())
-        self.ls_result = lds.get_output()
+        ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
+                      'GlueSALocalID', self.basedn, "'(objectclass=GlueSA)'")
+        self.lfn.put_cmd(ldap_search.get_command())
+        self.ls_result = ldap_search.get_output()
         self.assert_(self.ls_result['status'] == 'PASS')
 
         for x in self.ls_result['GlueSALocalID']:
@@ -97,27 +97,26 @@ the GLUE1.3 schema.'''
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/150')
         self.lfn.put_output()
 
-        lds = ls.LdapSearch(self.tsets['bdii']['endpoint'], 'GlueSALocalID',
-              self.basedn, "'(objectclass=GlueSA)'")
-        self.lfn.put_cmd(lds.get_command())
-
-        self.ls_result = lds.get_output()
+        ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
+                        'GlueSALocalID',
+                      self.basedn, "'(objectclass=GlueSA)'")
+        self.lfn.put_cmd(ldap_search.get_command())
+        self.ls_result = ldap_search.get_output()
         self.assert_(self.ls_result['status'] == 'PASS')
 
         for x in self.ls_result['GlueSALocalID']:
-            lds = ls.LdapSearch(self.tsets['bdii']['endpoint'],
-                  'GlueSAFreeOnlineSize GlueSAStateAvailableSpace',
-                  self.basedn,
-                  "'(&(objectclass=GlueSA)(GlueSALocalID="+x+"))'")
-            self.lfn.put_cmd(lds.get_command())
-            self.ls_result = lds.get_output()
+            ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
+                          'GlueSAFreeOnlineSize GlueSAStateAvailableSpace',
+                          self.basedn,
+                          "'(&(objectclass=GlueSA)(GlueSALocalID="+x+"))'")
+            self.lfn.put_cmd(ldap_search.get_command())
+            self.ls_result = ldap_search.get_output()
             self.assert_(self.ls_result['status'] == 'PASS')
 
             info_system = ins.InfoSystem(self.tsets['general']['backend_hostname'],
                           self.tsets['general']['info_port'],
                           x.split(':')[0].upper().replace('.','').replace('-',''))
             self.lfn.put_cmd(info_system.get_command())
-
             self.ins_result = info_system.get_output()
             fskb=int(int(self.ins_result['available-space'])*1000*1000*1000/(1024*1024*1024))/1000
             self.assert_(int(self.ls_result['GlueSAStateAvailableSpace']) == int(fskb))
@@ -133,19 +132,19 @@ the GLUE1.3 schema.'''
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/150')
         self.lfn.put_output()
 
-        lds = ls.LdapSearch(self.tsets['bdii']['endpoint'],
-              'GlueSALocalID', self.basedn, "'(objectclass=GlueSA)'")
-        self.lfn.put_cmd(lds.get_command())
-
-        self.ls_result = lds.get_output()
+        ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
+                      'GlueSALocalID', self.basedn, "'(objectclass=GlueSA)'")
+        self.lfn.put_cmd(ldap_search.get_command())
+        self.ls_result = ldap_search.get_output()
         self.assert_(self.ls_result['status'] == 'PASS')
 
         for x in self.ls_result['GlueSALocalID']:
-            lds = ls.LdapSearch(self.tsets['bdii']['endpoint'],
-                  'GlueSAUsedOnlineSize GlueSAStateUsedSpace', self.basedn,
-                  "'(&(objectclass=GlueSA)(GlueSALocalID="+x+"))'")
-            self.lfn.put_cmd(lds.get_command())
-            self.ls_result = lds.get_output()
+            ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
+                          'GlueSAUsedOnlineSize GlueSAStateUsedSpace',
+                          self.basedn,
+                          "'(&(objectclass=GlueSA)(GlueSALocalID="+x+"))'")
+            self.lfn.put_cmd(ldap_search.get_command())
+            self.ls_result = ldap_search.get_output()
             self.assert_(self.ls_result['status'] == 'PASS')
 
             info_system = ins.InfoSystem(self.tsets['general']['backend_hostname'],
@@ -167,20 +166,19 @@ the GLUE1.3 schema.'''
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/146')
         self.lfn.put_output()
 
-        lds = ls.LdapSearch(self.tsets['bdii']['endpoint'],
-              'GlueSALocalID', self.basedn, "'(objectclass=GlueSA)'")
-        self.lfn.put_cmd(lds.get_command())
-        self.ls_result = lds.get_output()
+        ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
+                      'GlueSALocalID', self.basedn, "'(objectclass=GlueSA)'")
+        self.lfn.put_cmd(ldap_search.get_command())
+        self.ls_result = ldap_search.get_output()
         self.assert_(self.ls_result['status'] == 'PASS')
 
         for x in self.ls_result['GlueSALocalID']:
-            lds = ls.LdapSearch(self.tsets['bdii']['endpoint'],
-                  'GlueSATotalOnlineSize GlueSAUsedOnlineSize GlueSAFreeOnlineSize GlueSAReservedOnlineSize GlueSATotalNearlineSize',
-                  self.basedn,
-                  "'(&(objectclass=GlueSA)(GlueSALocalID="+x+"))'")
-            self.lfn.put_cmd(lds.get_command())
-
-            self.ls_result = lds.get_output()
+            ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
+                          'GlueSATotalOnlineSize GlueSAUsedOnlineSize GlueSAFreeOnlineSize GlueSAReservedOnlineSize GlueSATotalNearlineSize',
+                          self.basedn,
+                          "'(&(objectclass=GlueSA)(GlueSALocalID="+x+"))'")
+            self.lfn.put_cmd(ldap_search.get_command())
+            self.ls_result = ldap_search.get_output()
             self.assert_(self.ls_result['status'] == 'PASS')
 
             info_system = ins.InfoSystem(self.tsets['general']['backend_hostname'],
