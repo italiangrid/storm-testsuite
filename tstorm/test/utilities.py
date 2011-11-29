@@ -9,7 +9,7 @@ from tstorm.utils import createfile
 from tstorm.utils import removefile
 
 class UtilitiesTest(unittest.TestCase):
-    def __init__(self, testname, tfn, lfn, ifn, dfn, bifn):
+    def __init__(self, testname, tfn, ifn, dfn, bifn, lfn):
         super(UtilitiesTest, self).__init__(testname)
         self.tsets = config.TestSettings(tfn).get_test_sets()
         self.ifn = ifn

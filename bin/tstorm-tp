@@ -30,7 +30,7 @@ def run_tests(tpi, lfn, tt, n_df, n_dfn):
 	            if tt != 'regression_conftests':
 	                ifn,dfn,back_ifn= st.set_inpt_fn(n_df,n_dfn,subdir=sd)
 	            m=methods[y]
-                runner = unittest.TextTestRunner(verbosity=2).run(eval(m))
+                    runner = unittest.TextTestRunner(verbosity=2).run(eval(m))
 
 def usage():
     print "Usage: tstorm-tp [-c|--conf] [-d|--destfile] [--noreport] [--novoms] [--conftest]"
