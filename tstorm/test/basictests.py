@@ -10,7 +10,7 @@ from tstorm.test import https as h
 
 def cs_ts(conf, ifn, dfn, bifn, lfn):
     s = unittest.TestSuite()
-    s.addTest(atomics.AtomicssTest('test_storm_ping',conf, ifn, dfn, bifn, lfn))
+    s.addTest(atomics.AtomicsTest('test_storm_ping',conf, ifn, dfn, bifn, lfn))
 
     return s
 
@@ -20,7 +20,7 @@ def cw_ts(conf, ifn, dfn, bifn, lfn):
     s.addTest(atomics.AtomicsTest('test_ls_unexist_file',conf, ifn, dfn, bifn, lfn))
     s.addTest(atomics.AtomicsTest('test_mkdir_dir',conf, ifn, dfn, bifn, lfn))
     s.addTest(atomics.AtomicsTest('test_mkdir_exist_dir',conf, ifn, dfn, bifn, lfn))
-    s.addTest(atomics.Atomicsest('test_ls_dir',conf, ifn, dfn, bifn, lfn))
+    s.addTest(atomics.AtomicsTest('test_ls_dir',conf, ifn, dfn, bifn, lfn))
     s.addTest(atomics.AtomicsTest('test_cp_bt',conf, ifn, dfn, bifn, lfn))
     s.addTest(atomics.AtomicsTest('test_ls_file',conf, ifn, dfn, bifn, lfn))
     s.addTest(atomics.AtomicsTest('test_cp_at',conf, ifn, dfn, bifn, lfn))
