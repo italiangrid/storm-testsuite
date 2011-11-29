@@ -71,8 +71,8 @@ class AtomicsTest(unittest.TestCase):
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
                  self.tsets['general']['accesspoint'], self.dfn)
         self.lfn.put_cmd(lcg_ls.get_command())
-        ls_result = lcg_ls.get_output()
-        self.assert_(ls_result['status'] == 'FAILURE')
+        self.ls_result = lcg_ls.get_output()
+        self.assert_(self.ls_result['status'] == 'FAILURE')
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
@@ -89,8 +89,8 @@ class AtomicsTest(unittest.TestCase):
             lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
                      self.tsets['general']['accesspoint'], a)
             self.lfn.put_cmd(lcg_ls.get_command())
-            ls_result = lcg_ls.get_output()
-            self.assert_(ls_result['status'] == 'FAILURE')
+            self.ls_result = lcg_ls.get_output()
+            self.assert_(self.ls_result['status'] == 'FAILURE')
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
@@ -106,7 +106,15 @@ class AtomicsTest(unittest.TestCase):
             a=os.path.dirname(self.dfn)
             srm_mkdir = mkdir.SrmMkdir(self.tsets['general']['endpoint'],
                         self.tsets['general']['accesspoint'], a)
-            self.lfn.put_cmd(srm_mkdir.get_command())
+
+            dtc=a.split('/')
+            dtc=dtc[1:]
+            y='/' 
+            for x in dtc:
+                if x != '':
+                    self.lfn.put_cmd(srm_mkdir.get_command(y + x))
+                    y = y + x + '/' 
+
             mkdir_result = srm_mkdir.get_output()
             for x in mkdir_result['status']:
                 self.assert_(x == 'PASS')
@@ -126,8 +134,8 @@ class AtomicsTest(unittest.TestCase):
             srm_mkdir = mkdir.SrmMkdir(self.tsets['general']['endpoint'],
                         self.tsets['general']['accesspoint'], a)
             self.lfn.put_cmd(srm_mkdir.get_command())
-            mkdir_result = srm_mkdir.get_output()
-            for x in mkdir_result['status']:
+            self.mkdir_result = srm_mkdir.get_output()
+            for x in self.mkdir_result['status']:
                 self.assert_(x == 'FAILURE')
 
         self.lfn.put_result('PASSED')
@@ -145,8 +153,8 @@ class AtomicsTest(unittest.TestCase):
             lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
                      self.tsets['general']['accesspoint'], a)
             self.lfn.put_cmd(lcg_ls.get_command())
-            ls_result = lcg_ls.get_output()
-            self.assert_(ls_result['status'] == 'PASS')
+            self.ls_result = lcg_ls.get_output()
+            self.assert_(self.ls_result['status'] == 'PASS')
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
@@ -162,8 +170,8 @@ class AtomicsTest(unittest.TestCase):
                  self.tsets['general']['accesspoint'], self.ifn, self.dfn,
                  self.bifn)
         self.lfn.put_cmd(lcg_cp.get_command())
-        cp_result = lcg_cp.get_output()
-        self.assert_(cp_result['status'] == 'PASS')
+        self.cp_result = lcg_cp.get_output()
+        self.assert_(self.cp_result['status'] == 'PASS')
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
@@ -178,13 +186,13 @@ class AtomicsTest(unittest.TestCase):
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
                  self.tsets['general']['accesspoint'], self.dfn)
         self.lfn.put_cmd(lcg_ls.get_command())
-        ls_result = lcg_ls.get_output()
-        self.assert_(ls_result['status'] == 'PASS')
+        self.ls_result = lcg_ls.get_output()
+        self.assert_(self.ls_result['status'] == 'PASS')
 
         cksm_lf = cksm.CksmLf(self.ifn)
         self.lfn.put_cmd(cksm_lf.get_command())
-        cksm_result = cksm_lf.get_output()
-        self.assert_(ls_result['Checksum'] == cksm_result['Checksum'])
+        self.cksm_result = cksm_lf.get_output()
+        self.assert_(self.ls_result['Checksum'] == self.cksm_result['Checksum'])
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
@@ -200,8 +208,8 @@ class AtomicsTest(unittest.TestCase):
                  self.tsets['general']['accesspoint'], self.ifn, self.dfn,
                  self.bifn)
         self.lfn.put_cmd(lcg_cp.get_command())
-        cp_result = lcg_cp.get_output(False)
-        self.assert_(cp_result['status'] == 'PASS')
+        self.cp_result = lcg_cp.get_output(False)
+        self.assert_(self.cp_result['status'] == 'PASS')
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
@@ -216,8 +224,8 @@ class AtomicsTest(unittest.TestCase):
         srm_rm = rm.SrmRm(self.tsets['general']['endpoint'],
                  self.tsets['general']['accesspoint'], self.dfn)
         self.lfn.put_cmd(srm_rm.get_command())
-        rm_result = srm_rm.get_output()
-        self.assert_(rm_result['status'] == 'PASS')
+        self.rm_result = srm_rm.get_output()
+        self.assert_(self.rm_result['status'] == 'PASS')
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
@@ -232,8 +240,8 @@ class AtomicsTest(unittest.TestCase):
         srm_rm = rm.SrmRm(self.tsets['general']['endpoint'],
                  self.tsets['general']['accesspoint'], self.dfn)
         self.lfn.put_cmd(srm_rm.get_command())
-        rm_result = srm_rm.get_output()
-        self.assert_(rm_result['status'] == 'FAILURE')
+        self.rm_result = srm_rm.get_output()
+        self.assert_(self.rm_result['status'] == 'FAILURE')
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
@@ -250,8 +258,8 @@ class AtomicsTest(unittest.TestCase):
             srm_rmdir_result = rmdir.SrmRmdir(self.tsets['general']['endpoint'],
                                self.tsets['general']['accesspoint'], a)
             self.lfn.put_cmd(srm_rmdir.get_command())
-            rmdir_result = srm_rmdir.get_output()
-            for x in rmdir_result['status']:
+            self.rmdir_result = srm_rmdir.get_output()
+            for x in self.rmdir_result['status']:
                 self.assert_(x == 'PASS')
 
         self.lfn.put_result('PASSED')
@@ -269,8 +277,8 @@ class AtomicsTest(unittest.TestCase):
             srm_rmdir = rmdir.SrmRmdir(self.tsets['general']['endpoint'],
                         self.tsets['general']['accesspoint'], a)
             self.lfn.put_cmd(srm_rmdir.get_command())
-            rmdir_result = srm_rmdir.get_output()
-            for x in rmdir_result['status']:
+            self.rmdir_result = srm_rmdir.get_output()
+            for x in self.rmdir_result['status']:
                 self.assert_(x == 'FAILURE')
 
         self.lfn.put_result('PASSED')
