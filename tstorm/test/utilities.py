@@ -23,7 +23,7 @@ class UtilitiesTest(unittest.TestCase):
         self.lfn.put_ruid('')
         self.lfn.put_output()
 
-        self.lfn.put_cmd(self.tests)
+        self.lfn.put_cmd('')
 
         for x in self.tsets:
             self.assert_(x in ('general','ping','https','http','tape','bdii','yaim','log'))
