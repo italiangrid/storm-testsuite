@@ -36,6 +36,7 @@ class CheckTestplan:
                      'conf_ts': 'cts.conf_ts(tfn,ifn,dfn,back_ifn, lfn)',
                      'access_tape_ts': 'tt.access_tape_ts(tfn,ifn,dfn,back_ifn, lfn)',
                      'backend_server_status_rt': 'rct.backend_server_status_rt(tfn, lfn)',
+                     'backend_server_name_status_rt': 'rct.backend_server_name_status_rt(tfn, lfn)',
                      'backend_cron_conf_rt': 'rct.backend_cron_conf_rt(tfn, lfn)',
                      'backend_logrotate_conf_rt': 'rct.backend_logrotate_conf_rt(tfn, lfn)',
                      'backend_gridhttps_rt': 'rct.backend_gridhttps_rt(tfn, lfn)',

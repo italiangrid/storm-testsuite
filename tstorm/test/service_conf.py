@@ -17,8 +17,12 @@ class RegressionConfigurationTest(unittest.TestCase):
         self.lfn = lfn
 
     def test_backend_server_status(self):
-        self.lfn.put_name('WRONG STORM BACKEND SERVICE NAME RETURNED DURING STATUS')
-        self.lfn.put_description('The name of StoRM Backend Service returned during the execution of status is wrong')
+        name = '''EXTRA STORM BACKEND SERVICE INFORMATION RETURNED DURING THE
+EXECUTION OF STATUS'''
+        self.lfn.put_name(name)
+        des = '''Extra information are returned by storm backend server init
+script during the execution of status.'''
+        self.lfn.put_description(des)
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/114')
         self.lfn.put_output()
 
@@ -169,6 +173,23 @@ class RegressionConfigurationTest(unittest.TestCase):
         self.lfn.put_cmd(ls_ls.get_command())
         self.ls_result(ls_ls.get_output())
         self.assert_(self.ls_result['status'] == 'PASS')
+        self.lfn.put_result('PASSED')
+        self.lfn.flush_file()
+
+    def test_backend_server_name_status(self):
+        name = '''WRONG STORM BACKEND SERVER NAME RETURNED DURING THE 
+EXECUTION OF STATUS'''
+        self.lfn.put_name(name)
+        des = '''StoRM Backend Server's name is wrong.'''
+        self.lfn.put_description(des)
+        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/160')
+        self.lfn.put_output()
+
+        sr = service.Service('storm-backend-server')
+        self.lfn.put_cmd(sr.get_command())
+        self.sr_result(sr.get_output())
+        self.assert_(self.sr_result['status'] == 'PASS')
+
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 

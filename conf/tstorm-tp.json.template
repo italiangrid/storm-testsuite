@@ -31,6 +31,7 @@
   ],
   "regression_conftests": [
     "backend_server_status_rt",
+    "backend_server_name_status_rt",
     "backend_logrotate_conf_rt",
     "backend_cron_conf_rt",
     "backend_gridhttps_rt",

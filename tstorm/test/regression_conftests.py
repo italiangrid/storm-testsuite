@@ -52,3 +52,9 @@ def mysql_connector_java_links_rt(conf, lfn):
     s.addTest(sc.RegressionConfigurationTest('test_mysql_connector_java_links', conf, lfn))
 
     return s
+
+def backend_server_name_status_rt(conf, lfn):
+    s = unittest.TestSuite()
+    s.addTest(sc.RegressionConfigurationTest('test_backend_server_name_status', conf, lfn))
+
+    return s
