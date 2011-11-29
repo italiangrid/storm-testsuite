@@ -268,6 +268,7 @@ class AtomicsTest(unittest.TestCase):
             y=a
             while y != '/':
                 self.lfn.put_cmd(srm_rmdir.get_command(y))
+                y=os.path.dirname(y)
 
             rmdir_result = srm_rmdir.get_output()
             for x in rmdir_result['status']:

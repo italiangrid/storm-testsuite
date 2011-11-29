@@ -47,8 +47,8 @@ def dt_ts(conf, ifn, dfn, bifn, lfn):
     s.addTest(fu.FunctionalitiesTest('test_data_transfer_out_exist_file',conf, ifn, dfn, bifn, lfn))
     s.addTest(fu.FunctionalitiesTest('test_data_transfer_in_file',conf, ifn, dfn, bifn, lfn))
     s.addTest(fu.FunctionalitiesTest('test_data_transfer_in_unexist_file',conf, ifn, dfn, bifn, lfn))
-    s.addTest(fu.FunctionalitiesTest('test_rm_file',conf, ifn, dfn, bifn, lfn))
-    s.addTest(fu.FunctionalitiesTest('test_rm_dir',conf, ifn, dfn, bifn, lfn))
+    s.addTest(fu.AtomicsTest('test_rm_file',conf, ifn, dfn, bifn, lfn))
+    s.addTest(fu.AtomicsTest('test_rm_dir',conf, ifn, dfn, bifn, lfn))
     s.addTest(ut.UtilitiesTest('test_rm_lf',conf, ifn, dfn, bifn, lfn))
 
     return s
