@@ -32,4 +32,4 @@ def https_ts(conf, ifn, dfn, bifn, lfn):
     s.addTest(h.HttpsTest('test_srm_transfer_inbound_https',conf, ifn, dfn, bifn, 'https', lfn))
     s.addTest(ut.UtilitiesTest('test_rm_lf',conf, ifn, dfn, bifn, lfn))
 
-  return s
+    return s
