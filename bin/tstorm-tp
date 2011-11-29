@@ -17,23 +17,23 @@ from tstorm.test import regression_conftests as rct
 from tstorm.test import regression_ldaptests as rlt
 
 def run_tests(tpi, lfn, tt, n_df, n_dfn):
-   info=ctp.CheckTestplan()
-   kw=info.get_key_word()
-   methods=info.get_methods()
-   if tt in tpi[kw]:
-     if tt in tpi.keys():
-       for y in tpi[tt]:
-	 if tt == 'regression_tests' or y in ('https_ts', 'https_voms_ts', 'http_ts'):
-	   sd=False
-	 else:
-	   sd=True
-	 if tt != 'regression_conftests':
-	   ifn,dfn,back_ifn= st.set_inpt_fn(n_df,n_dfn,subdir=sd)
-	 m=methods[y]
-         runner = unittest.TextTestRunner(verbosity=2).run(eval(m))
+    info=ctp.CheckTestplan()
+    kw=info.get_key_word()
+    methods=info.get_methods()
+    if tt in tpi[kw]:
+        if tt in tpi.keys():
+            for y in tpi[tt]:
+	            if tt == 'regression_tests' or y in ('https_ts', 'https_voms_ts', 'http_ts'):
+	                sd=False
+	            else:
+	                sd=True
+	            if tt != 'regression_conftests':
+	                ifn,dfn,back_ifn= st.set_inpt_fn(n_df,n_dfn,subdir=sd)
+	            m=methods[y]
+                runner = unittest.TextTestRunner(verbosity=2).run(eval(m))
 
 def usage():
-    print "Usage: tstorm-tp [-c|--conf] [-d|--destfile] [--novoms] [--conftest]"
+    print "Usage: tstorm-tp [-c|--conf] [-d|--destfile] [--noreport] [--novoms] [--conftest]"
     print """Example: if you want to run test without voms"""
     print """         tstorm-tp --novoms"""
     print """Example: if you want to run conf test on a given storm node"""
@@ -71,60 +71,63 @@ def tpj_details():
     st.print_tpj_template('./etc/tstorm/tstorm-tp.json.template')
 
 if __name__ == '__main__':
-  tpjfnc= './etc/tstorm/tstorm-tp.json'
-  tfn = './etc/tstorm/tstorm.ini'
+    tpjfnc= './etc/tstorm/tstorm-tp.json'
+    tfn = './etc/tstorm/tstorm.ini'
 
-  try:
-    opts, args = getopt.getopt(sys.argv[1:], "hc:d:", ["help","novoms","conftest","conf","destfile"])
-  except getopt.GetoptError, err:
-    print str(err)
-    usage()
-    sys.exit(2)
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "hc:d:", ["help","noreport","novoms","conftest","conf","destfile"])
+    except getopt.GetoptError, err:
+        print str(err)
+        usage()
+        sys.exit(2)
 
-  ct=False
-  voms = True
-  n_df = False
-  n_dfn = ''
-  for o, v in opts:
-    if o in ("-h", "--help"):
-      usage()
-      sys.exit()
-    elif o in ("-c", "--conf"):
-      tfn = v
-    elif o in ("-d", "--destfile"):
-      n_dfn = v
-      n_df = True
-    elif o in ("--novoms"):
-      voms = False
-    elif o in ("--conftest"):
-      ct = True
+    ct=False
+    voms = True
+    report = True
+    n_df = False
+    n_dfn = ''
+    for o, v in opts:
+        if o in ("-h", "--help"):
+            usage()
+            sys.exit()
+        elif o in ("-c", "--conf"):
+            tfn = v
+        elif o in ("-d", "--destfile"):
+            n_dfn = v
+            n_df = True
+        elif o in ("--novoms"):
+            voms = False
+        elif o in ("--noreport"):
+            noreport = False
+        elif o in ("--conftest"):
+            ct = True
+        else:
+            assert False, "unhandled option"
+
+    '''Get Test Plan Info from conf file'''
+    tpj_info = st.get_tpj_info(tpjfnc)
+
+    if not st.is_valid(tpj_info):
+        '''Wrong Test Plan conf file'''
+        tpj_details()
+        sys.exit(3)
+
+    logf=rf.ReportFile(report = report)
+
+    tests_type = ctp.CheckTestplan().get_tests_type()
+
+    if ct:
+        for x in tests_type['conf']:
+          run_tests(tpj_info, logf, x, n_df, n_dfn)
     else:
-      assert False, "unhandled option"
+        if voms:
+            for x in tests_type['voms']:
+                run_tests(tpj_info, logf, x, n_df, n_dfn)
+        else:
+            '''Basic Tests NO VOMS'''
+            for x in tests_type['novoms']:
+                run_tests(tpj_info, logf, x, n_df, n_dfn)
 
-  '''Get Test Plan Info from conf file'''
-  tpj_info = st.get_tpj_info(tpjfnc)
-
-  if not st.is_valid(tpj_info):
-    '''Wrong Test Plan conf file'''
-    tpj_details()
-    sys.exit(3)
-
-  logf=rf.ReportFile(report = tpj_info[log][report])
-
-  tests_type = ctp.CheckTestplan().get_tests_type()
-
-  if ct:
-    for x in tests_type['conf']:
-      run_tests(tpj_info, logf, x, n_df, n_dfn)
-  else:
-    if voms:
-      for x in tests_type['voms']:
-        run_tests(tpj_info, logf, x, n_df, n_dfn)
-    else:
-      '''Basic Tests NO VOMS'''
-      for x in tests_type['novoms']:
-        run_tests(tpj_info, logf, x, n_df, n_dfn)
-
-  logf.close_file() 
+    logf.close_file() 
 
   

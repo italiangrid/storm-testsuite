@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 __author__ = 'Elisabetta Ronchieri'
 
 import commands
@@ -290,8 +292,7 @@ class curl:
       a= self.cmd['name'] + ' -v ' + curl_opt + ' -T ' + self.ifn + ' ' + self.turl
     else:
       a= self.cmd['name'] + ' -v ' + curl_opt + self.turl + ' -o ' + self.bifn
-
-    print a
+    
     return a
 
   def run_command(self, use_ssl, in_write=True):

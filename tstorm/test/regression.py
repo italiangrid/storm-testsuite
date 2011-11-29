@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 __author__ = 'Elisabetta Ronchieri'
 
 import os 
@@ -15,7 +17,7 @@ from tstorm.utils import createfile
 from tstorm.utils import removefile
 
 class RegressionTest(unittest.TestCase):
-    def __init__(self, testname, tfn, ifn, dfn, bifn, lfn, prt='gsiftp'):
+    def __init__(self, testname, tfn, ifn, dfn, bifn, lfn, prt = 'gsiftp'):
         super(RegressionTest, self).__init__(testname)
         self.tsets = config.TestSettings(tfn).get_test_sets()
         self.ifn = ifn

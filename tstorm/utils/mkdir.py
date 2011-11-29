@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 __author__ = 'Elisabetta Ronchieri'
 
 import commands
@@ -18,7 +20,7 @@ class SrmMkdir:
 
   def get_command(self, pt):
     a=self.cmd['name'] + ' -2 -debug '+ self.cmd['protocol'] + '://' + self.endpoint + ':8444/srm/managerv2?SFN=/' + self.accesspoint + pt
-    print a
+    
     return a
 
   def run_command(self, dtc):

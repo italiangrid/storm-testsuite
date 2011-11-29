@@ -1,3 +1,7 @@
+#!/usr/bin/python
+
+__author__ = 'Elisabetta Ronchieri'
+
 from distutils.core import setup
 from distutils.command.install_data import install_data
 from distutils.command.install import INSTALL_SCHEMES

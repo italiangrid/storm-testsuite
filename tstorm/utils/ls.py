@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 __author__ = 'Elisabetta Ronchieri'
 
 import commands
@@ -19,7 +21,6 @@ class LcgLs:
 
   def get_command(self):
     a= self.cmd['name'] + ' -l -b -D srmv2 '+ self.cmd['protocol'] + '://' + self.endpoint + ':8444/srm/managerv2?SFN=/' + self.accesspoint + self.dfn
-    print a
     return a
 
   def run_command(self):
@@ -70,7 +71,7 @@ class StoRMLs:
 
   def get_command(self):
     a = self.cmd['name'] + ' ls -e ' + self.cmd['rqst_protocol'] + '://' + self.endpoint + ':8444/' + ' -s ' + self.cmd['protocol'] + '://' + self.endpoint + ':8444/srm/managerv2?SFN=/' + self.accesspoint + self.dfn
-    print a
+    
     return a
 
   def run_command(self):
