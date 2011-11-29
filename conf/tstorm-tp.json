@@ -31,13 +31,13 @@
   ],
   "regression_conftests": [
     "backend_server_status_rt",
-    "backend_server_name_status_rt",
     "backend_logrotate_conf_rt",
     "backend_cron_conf_rt",
     "backend_gridhttps_rt",
     "yaim_version_file_rt",
     "gridhttps_plugin_links_rt",
     "size_in_namespace_file_rt",
+    "backend_server_name_status_rt",
     "mysql_connector_java_links_rt"
   ],
   "tape_tests": [

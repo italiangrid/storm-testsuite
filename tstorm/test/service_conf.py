@@ -28,8 +28,8 @@ script during the execution of status.'''
 
         sr = service.Service('storm-backend-server')
         self.lfn.put_cmd(sr.get_command())
-        self.sr_result(sr.get_output())
-        self.assert_(self.sr_result['status'] == 'PASS')
+        sr_result = sr.get_output()
+        self.assert_(sr_result['status'] == 'PASS')
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
@@ -42,14 +42,14 @@ script during the execution of status.'''
 
         read_cat = readfile.Cat('/etc/logrotate.d/storm-backend-server')
         self.lfn.put_cmd(read_cat.get_command())
-        self.cat_result(read_cat.get_output())
-        self.assert_(self.cat_result['status'] == 'PASS')
-        self.assert_('/opt/storm/backend/var/log/storm-backend.stdout' not in self.cat_result['otpt'])
-        self.assert_('/opt/storm/backend/var/log/storm-backend.stderr' not in self.cat_result['otpt'])
-        self.assert_('/opt/storm/backend/var/log/lcmaps.log' not in self.cat_result['otpt'])
-        self.assert_('/var/log/storm/storm-backend.stdout' in self.cat_result['otpt'])
-        self.assert_('/var/log/storm/storm-backend.stderr' in self.cat_result['otpt'])
-        self.assert_('/var/log/storm/lcmaps.log' in self.cat_result['otpt'])
+        cat_result = read_cat.get_output()
+        self.assert_(cat_result['status'] == 'PASS')
+        self.assert_('/opt/storm/backend/var/log/storm-backend.stdout' not in cat_result['otpt'])
+        self.assert_('/opt/storm/backend/var/log/storm-backend.stderr' not in cat_result['otpt'])
+        self.assert_('/opt/storm/backend/var/log/lcmaps.log' not in cat_result['otpt'])
+        self.assert_('/var/log/storm/storm-backend.stdout' in cat_result['otpt'])
+        self.assert_('/var/log/storm/storm-backend.stderr' in cat_result['otpt'])
+        self.assert_('/var/log/storm/lcmaps.log' in cat_result['otpt'])
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
@@ -62,12 +62,12 @@ script during the execution of status.'''
 
         read_cat = readfile.Cat('/etc/cron.d/storm-backend-server.cron')
         self.lfn.put_cmd(read_cat.get_command())
-        self.cat_result(read_cat.get_output())
-        self.assert_(self.cat_result['status'] == 'PASS')
-        self.assert_('/opt/storm/backend/etc/logrotate.d/logrotate.status' not in self.cat_result['otpt'])
-        self.assert_('/opt/storm/backend/etc/logrotate.d/storm-backend.logrotate' not in self.cat_result['otpt'])
-        self.assert_('/etc/logrotate.d/storm-backend-server' in self.cat_result['otpt'])
-        self.assert_('/etc/logrotate.d/logrotate.status' in self.cat_result['otpt'])
+        cat_result = read_cat.get_output()
+        self.assert_(cat_result['status'] == 'PASS')
+        self.assert_('/opt/storm/backend/etc/logrotate.d/logrotate.status' not in cat_result['otpt'])
+        self.assert_('/opt/storm/backend/etc/logrotate.d/storm-backend.logrotate' not in cat_result['otpt'])
+        self.assert_('/etc/logrotate.d/storm-backend-server' in cat_result['otpt'])
+        self.assert_('/etc/logrotate.d/logrotate.status' in cat_result['otpt'])
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
@@ -80,16 +80,16 @@ script during the execution of status.'''
 
         sr = service.Service('storm-backend-server')
         self.lfn.put_cmd(sr.get_command())
-        self.sr_result(sr.get_output())
-        self.assert_(self.sr_result['status'] == 'PASS')
-        self.assert_('running' in self.sr_result['otpt'])
-        self.assert_('NOT' not in self.sr_result['otpt'])
+        sr_result = sr.get_output()
+        self.assert_(sr_result['status'] == 'PASS')
+        self.assert_('running' in sr_result['otpt'])
+        self.assert_('NOT' not in sr_result['otpt'])
 
         sr = service.Service('tomcat5')
         self.lfn.put_cmd(sr.get_command())
-        self.sr_result(sr.get_output())
-        self.assert_(self.sr_result['status'] == 'PASS')
-        self.assert_('running' in self.sr_result['otpt'])
+        sr_result = sr.get_output()
+        self.assert_(sr_result['status'] == 'PASS')
+        self.assert_('running' in sr_result['otpt'])
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
@@ -102,15 +102,15 @@ script during the execution of status.'''
 
         read_cat = readfile.Cat('/opt/glite/yaim/etc/versions/yaim-storm')
         self.lfn.put_cmd(read_cat.get_command())
-        self.cat_result(read_cat.get_output())
-        self.assert_(self.cat_result['status'] == 'PASS')
-        pn=self.cat_result['otpt'].split(' ')
+        cat_result = read_cat.get_output()
+        self.assert_(cat_result['status'] == 'PASS')
+        pn=cat_result['otpt'].split(' ')
 
         rpm_out = rpm.Rpm(pn[0])
         self.lfn.put_cmd(rpm_out.get_command())
-        self.rpm_result(rpm_out.get_output())
-        self.assert_(self.rpm_result['status'] == 'PASS')
-        v=self.rpm_result['otpt'].split(pn[0] + '-')[1].split('.noarch')
+        rpm_result = rpm_out.get_output()
+        self.assert_(rpm_result['status'] == 'PASS')
+        v=rpm_result['otpt'].split(pn[0] + '-')[1].split('.noarch')
         self.assert_(pn[1] == v[0])
 
         self.lfn.put_result('PASSED')
@@ -124,15 +124,15 @@ script during the execution of status.'''
 
         read_cat = readfile.Cat(self.tsets['yaim']['def_path'])
         self.lfn.put_cmd(read_cat.get_command())
-        self.cat_result(read_cat.get_output())
-        self.assert_(self.cat_result['status'] == 'PASS')
-        var=self.cat_result['otpt'].split('\n')
+        cat_result = read_cat.get_output()
+        self.assert_(cat_result['status'] == 'PASS')
+        var=cat_result['otpt'].split('\n')
 
         read_catn = readfile.Cat('/etc/storm/backend-server/namespace.xml')
         self.lfn.put_cmd(read_catn.get_command())
-        self.catn_result(read_catn.get_output())
-        self.assert_(self.catn_result['status'] == 'PASS')
-        varn=self.catn_result['otpt']
+        catn_result = read_catn.get_output()
+        self.assert_(catn_result['status'] == 'PASS')
+        varn=catn_result['otpt']
         for x in var:
             if "ONLINE_SIZE" in x or "NEARLINE_SIZE" in x:
                 ls=x.split('SIZE')[1].split('=')
@@ -161,18 +161,19 @@ script during the execution of status.'''
 
         ls_ls = ls.Ls('/usr/share/java/storm-backend-server/storm-gridhttps-plugin.jar')
         self.lfn.put_cmd(ls_ls.get_command())
-        self.ls_result(ls_ls.get_output())
-        self.assert_(self.ls_result['status'] == 'PASS')
+        ls_result = ls_ls.get_output()
+        self.assert_(ls_result['status'] == 'PASS')
 
         ls_ls = ls.Ls('/usr/share/java/storm-backend-server/httpclient.jar')
         self.lfn.put_cmd(ls_ls.get_command())
-        self.ls_result(ls_ls.get_output())
-        self.assert_(self.ls_result['status'] == 'PASS')
+        ls_result = ls_ls.get_output()
+        self.assert_(ls_result['status'] == 'PASS')
 
         ls_ls = ls.Ls('/usr/share/java/storm-backend-server/httpcore.jar')
         self.lfn.put_cmd(ls_ls.get_command())
-        self.ls_result(ls_ls.get_output())
-        self.assert_(self.ls_result['status'] == 'PASS')
+        ls_result = ls_ls.get_output()
+        self.assert_(ls_result['status'] == 'PASS')
+
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
@@ -187,8 +188,9 @@ EXECUTION OF STATUS'''
 
         sr = service.Service('storm-backend-server')
         self.lfn.put_cmd(sr.get_command())
-        self.sr_result(sr.get_output())
-        self.assert_(self.sr_result['status'] == 'PASS')
+        sr_result = sr.get_output()
+        self.assert_(sr_result['status'] == 'PASS')
+        self.assert_('storm-backend-server' in sr_result['otpt'])
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
@@ -201,13 +203,13 @@ EXECUTION OF STATUS'''
 
         ls_ls = ls.Ls('/usr/share/java/storm-backend-server/mysql-connector-java-5.1.13-bin.jar')
         self.lfn.put_cmd(ls_ls.get_command())
-        self.ls_result(ls_ls.get_output())
-        self.assert_(self.ls_result['status'] == 'FAILURE')
+        ls_result = ls_ls.get_output()
+        self.assert_(ls_result['status'] == 'FAILURE')
 
         ls_ls = ls.Ls('/usr/share/java/storm-backend-server/mysql-connector-java-5.1.12.jar')
         self.lfn.put_cmd(ls_ls.get_command())
-        self.ls_result(ls_ls.get_output())
-        self.assert_(self.ls_result['status'] == 'PASS')
+        ls_result = ls_ls.get_output()
+        self.assert_(ls_result['status'] == 'PASS')
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()

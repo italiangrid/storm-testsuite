@@ -38,6 +38,7 @@
     "yaim_version_file_rt",
     "gridhttps_plugin_links_rt",
     "size_in_namespace_file_rt",
+    "backend_server_name_status_rt",
     "mysql_connector_java_links_rt"
   ],
   "tape_tests": [
