@@ -10,6 +10,7 @@ from tstorm.utils import cp
 from tstorm.utils import rm
 from tstorm.utils import rmdir
 from tstorm.utils import cksm
+from tstorm.utils import ping
 from tstorm.utils import space
 from tstorm.utils import findstrings
 from tstorm.utils import abort
@@ -38,8 +39,8 @@ leading zeroes matters.'''
 
         dd = createfile.Dd(self.ifn)
         self.lfn.put_cmd(dd.get_command())
-        self.dd_result = dd.get_output()
-        self.assert_(self.dd_result['status'] == 'PASS')
+        dd_result = dd.get_output()
+        self.assert_(dd_result['status'] == 'PASS')
 
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
                  self.tsets['general']['accesspoint'], self.dfn)
@@ -51,34 +52,39 @@ leading zeroes matters.'''
                  self.tsets['general']['accesspoint'], self.ifn, self.dfn,
                  self.bifn)
         self.lfn.put_cmd(lcg_cp.get_command())
-        self.cp_result = lcg_cp.get_output()
-        self.assert_(self.cp_result['status'] == 'PASS')
+        cp_result = lcg_cp.get_output()
+        self.assert_(cp_result['status'] == 'PASS')
 
         self.lfn.put_cmd(lcg_ls.get_command())
-        ll = lcgls.get_output()
+        ll = lcg_ls.get_output()
         self.assert_(ll['status'] == 'PASS')
 
-        self.lcksm_result = cksm.CksmLf(self.ifn).get_output()
-        self.assert_(ll['Checksum'] == self.lcksm_result['Checksum'])
+        lcksm_result = cksm.CksmLf(self.ifn).get_output()
+        self.assert_(ll['Checksum'] == lcksm_result['Checksum'])
 
         storm_rm = rm.StoRMRm(self.tsets['general']['endpoint'],
                    self.tsets['https']['voms'], self.dfn)
         self.lfn.put_cmd(storm_rm.get_command())
-        self.rm_result = storm_rm.get_output()
-        self.assert_(self.rm_result['status'] == 'PASS')
+        rm_result = storm_rm.get_output()
+        self.assert_(rm_result['status'] == 'PASS')
         if '/' in self.dfn:
             a=os.path.dirname(self.dfn)
             storm_rmdir = rmdir.StoRMRmdir(self.tsets['general']['endpoint'],
                           self.tsets['general']['accesspoint'], a)
-            self.lfn.put_cmd(storm_rmdir.get_command())
-            self.rmdir_result = storm_rmdir.get_output()
-            for x in self.rmdir_result['status']:
+
+            y=a
+            while y != '/':
+                self.lfn.put_cmd(storm_rmdir.get_command(y))
+                y=os.path.dirname(y)
+
+            rmdir_result = storm_rmdir.get_output()
+            for x in rmdir_result['status']:
                 self.assert_(x == 'PASS')
 
         rm_lf = removefile.RmLf(self.ifn, self.bifn)
         self.lfn.put_cmd(rm_lf.get_command())
-        self.rmlf_result = rm_lf.get_output()
-        self.assert_(self.rmlf_result['status'] == 'PASS')
+        rmlf_result = rm_lf.get_output()
+        self.assert_(rmlf_result['status'] == 'PASS')
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
@@ -136,9 +142,14 @@ leading zeroes matters.'''
             a=os.path.dirname(self.dfn)
             storm_rmdir = rmdir.StoRMRmdir(self.tsets['general']['endpoint'],
                           self.tsets['general']['accesspoint'], a)
-            self.lfn.put_cmd(storm_rmdir.get_command())
-            self.rmdir_result = storm_rmdir.get_output()
-            for x in self.rmdir_result['status']:
+
+            y=a
+            while y != '/':
+                self.lfn.put_cmd(storm_rmdir.get_command(y))
+                y=os.path.dirname(y)
+
+            rmdir_result = storm_rmdir.get_output()
+            for x in rmdir_result['status']:
                 self.assert_(x == 'PASS')
 
         self.lfn.put_cmd(lcg_ls.get_command())
@@ -233,9 +244,14 @@ operation.'''
             a=os.path.dirname(self.dfn)
             storm_rmdir = rmdir.StoRMRmdir(self.tsets['general']['endpoint'],
                           self.tsets['general']['accesspoint'], a)
-            self.lfn.put_cmd(storm_rmdir.get_command())
-            self.rmdir_result = storm_rmdir.get_output()
-            for x in self.rmdir_result['status']:
+
+            y=a
+            while y != '/':
+                self.lfn.put_cmd(storm_rmdir.get_command(y))
+                y=os.path.dirname(y)
+
+            rmdir_result = storm_rmdir.get_output()
+            for x in rmdir_result['status']:
                 self.assert_(x == 'PASS')
 
         rm_lf = removefile.RmLf(self.ifn, self.bifn)
@@ -321,14 +337,14 @@ providing string parameters containing non ASCII characters.'''
 
         storm_ping = ping.StoRMPing(self.tsets['general']['endpoint'])
         self.lfn.put_cmd(storm_ping.get_command())
-        self.ping_result = storm_ping.get_output()
-        self.assert_(self.ping_result['status'] == 'PASS')
-        self.assert_(self.ping_result['versionInfo'] == self.tsets['ping']['versioninfo'])
-        for x in self.ping_result['key']:
+        ping_result = storm_ping.get_output()
+        self.assert_(ping_result['status'] == 'PASS')
+        self.assert_(ping_result['versionInfo'] == self.tsets['ping']['versioninfo'])
+        for x in ping_result['key']:
             if x == 'backend_type':
-                self.assert_(self.ping_result['value'][self.ping_result['key'].index(x)] == self.tsets['ping']['backend_type'])
+                self.assert_(ping_result['value'][ping_result['key'].index(x)] == self.tsets['ping']['backend_type'])
             elif x == 'backend_version':
-                self.assert_(self.ping_result['value'][self.ping_result['key'].index(x)] == self.tsets['ping']['backend_version'])
+                self.assert_(ping_result['value'][ping_result['key'].index(x)] == self.tsets['ping']['backend_version'])
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
@@ -343,14 +359,14 @@ providing string parameters containing non ASCII characters.'''
 
         storm_ping = ping.StoRMPing(self.tsets['general']['endpoint'])
         self.lfn.put_cmd(storm_ping.get_command())
-        self.ping_result = storm_ping.get_output()
-        self.assert_(self.ping_result['status'] == 'PASS')
-        self.assert_(self.ping_result['versionInfo'] == self.tsets['ping']['versioninfo'])
-        for x in self.ping_result['key']:
+        ping_result = storm_ping.get_output()
+        self.assert_(ping_result['status'] == 'PASS')
+        self.assert_(ping_result['versionInfo'] == self.tsets['ping']['versioninfo'])
+        for x in ping_result['key']:
             if x == 'backend_type':
-                self.assert_(self.ping_result['value'][self.ping_result['key'].index(x)] == self.tsets['ping']['backend_type'])
+                self.assert_(ping_result['value'][ping_result['key'].index(x)] == self.tsets['ping']['backend_type'])
             elif x == 'backend_version':
-                self.assert_(self.ping_result['value'][self.ping_result['key'].index(x)] == self.tsets['ping']['backend_version'])
+                self.assert_(ping_result['value'][ping_result['key'].index(x)] == self.tsets['ping']['backend_version'])
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
