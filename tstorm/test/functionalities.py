@@ -30,7 +30,7 @@ class FunctionalitiesTest(unittest.TestCase):
         des = '''Verify that the checksum is calculated for the transferred 
 file using the gsiftp protocol.'''
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'], 
@@ -77,7 +77,7 @@ file using the gsiftp protocol.'''
     def test_data_transfer_out_file(self):
         self.lfn.put_name('DATA TRANSFER OUT')
         self.lfn.put_description('Verify that the file has been transferred')
-        self.lfn.put_uid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
@@ -107,7 +107,7 @@ file using the gsiftp protocol.'''
         des = '''Verify that the file has not been transferred because it 
 already exists.'''
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
@@ -130,7 +130,7 @@ already exists.'''
         self.lfn.put_name('DATA TRANSFER IN')
         des = '''Verify that the file has been transferred back.'''
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
@@ -155,6 +155,7 @@ already exists.'''
 does not exit.'''
         self.lfn.put_description(des)
         self.lfn.put_uid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         t=datetime.datetime.now()

@@ -7,6 +7,7 @@ import unittest
 from tstorm.utils import config
 from tstorm.utils import createfile
 from tstorm.utils import removefile
+from tstorm.utils import utils
 
 class UtilitiesTest(unittest.TestCase):
     def __init__(self, testname, tfn, ifn, dfn, bifn, lfn):
@@ -20,7 +21,7 @@ class UtilitiesTest(unittest.TestCase):
     def test_settings(self):
         self.lfn.put_name('CONFIGURATION INI FILE CORRECTNESS')
         self.lfn.put_description('Verify the content of test ini file')
-        self.lfn.put_ruid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         self.lfn.put_cmd('')
@@ -36,7 +37,7 @@ class UtilitiesTest(unittest.TestCase):
     def test_dd(self):
         self.lfn.put_name('CREATE A FILE OF A GIVEN SIZE')
         self.lfn.put_description('Verify the creation of a file with a given size')
-        self.lfn.put_ruid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         dd = createfile.Dd(self.ifn)
@@ -50,7 +51,7 @@ class UtilitiesTest(unittest.TestCase):
     def test_cr_lf(self):
         self.lfn.put_name('CREATE A FILE WITH A CHAR')
         self.lfn.put_description('Verify the creation of a file with a char')
-        self.lfn.put_ruid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         self.cf_result = createfile.Cf(self.ifn).get_output()
@@ -62,7 +63,7 @@ class UtilitiesTest(unittest.TestCase):
     def test_rm_lf(self):
         self.lfn.put_name('DELETE A LOCAL FILE')
         self.lfn.put_description('Verify the deletion of a local file')
-        self.lfn.put_ruid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         rm_lf = removefile.RmLf(self.ifn, self.bifn)

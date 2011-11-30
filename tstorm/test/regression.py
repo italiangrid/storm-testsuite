@@ -34,6 +34,7 @@ the file transfer as a long number, discarding in this way leading zeroes. The
 default ADLER32 checksum match algorithm considers checksum values as strings so the 
 leading zeroes matters.'''
         self.lfn.put_description(des)
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/108')
         self.lfn.put_output()
 
@@ -94,6 +95,7 @@ leading zeroes matters.'''
         des = '''StoRM does not publish correctly values for used and free space on the
  BDII due to a bug in the update of the free space after the the srmRm operation'''
         self.lfn.put_description(des)
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/106')
         self.lfn.put_output()
 
@@ -185,6 +187,7 @@ leading zeroes matters.'''
 due to a bug in the update of the used space after the the srmPutDone 
 operation.'''
         self.lfn.put_description(des)
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/109')
         self.lfn.put_output()
 
@@ -272,6 +275,7 @@ called providing a list of not supported desired transfer protocols to a
 bug in the management of file transfer operation. StoRM does not verifies 
 if the provided protocols are supported.'''
         self.lfn.put_description(des)
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/127')
         self.lfn.put_output()
 
@@ -294,6 +298,7 @@ THAT CONTAIN SUPPORTED PROTOCOLS'''
 (srmPrepareToPut, srmPrepareToGet, srmBringOnline) are called with a list of
 desired transfered protocols.'''
         self.lfn.put_description(des)
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/126')
         self.lfn.put_output()
 
@@ -326,6 +331,7 @@ NON ASCII CHARACTERS MAKES FE CRASH'''
         des = '''StoRM Frontend crashes when managing asynchronous requests 
 providing string parameters containing non ASCII characters.'''
         self.lfn.put_description(des)
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/137')
         self.lfn.put_output()
 
@@ -354,6 +360,7 @@ providing string parameters containing non ASCII characters.'''
         self.lfn.put_name(name)
         des = '''Wrong the StoRM backend age returned by the command srm ping.'''
         self.lfn.put_description(des)
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/181')
         self.lfn.put_output()
 

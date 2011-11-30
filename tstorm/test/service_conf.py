@@ -11,6 +11,7 @@ from tstorm.utils import rpm
 from tstorm.utils import ls
 from tstorm.utils import mysqlquery as mq
 from tstorm.utils import yaim
+from tstorm.utils import utils
 
 class RegressionConfigurationTest(unittest.TestCase):
     def __init__(self, testname, tfn, lfn):
@@ -25,6 +26,7 @@ EXECUTION OF STATUS'''
         des = '''Extra information are returned by storm backend server init
 script during the execution of status.'''
         self.lfn.put_description(des)
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/114')
         self.lfn.put_output()
 
@@ -39,6 +41,7 @@ script during the execution of status.'''
     def test_backend_logrotate_file(self):
         self.lfn.put_name('STORN BACKEND LOGROTATE FILE POINTS TO NON EXISTING FILE')
         self.lfn.put_description('StoRM Backend logrotate file points to non existing file.')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/134')
         self.lfn.put_output()
 
@@ -59,6 +62,7 @@ script during the execution of status.'''
     def test_backend_cron_file(self):
         self.lfn.put_name('STORM BACKEND DOES NOT ROTATE LOG FILES')
         self.lfn.put_description('StoRM Backend does not rotate log files')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/135')
         self.lfn.put_output()
 
@@ -77,6 +81,7 @@ script during the execution of status.'''
     def test_backend_gridhttps(self):
         self.lfn.put_name('DEFAULT GRIDHTTPS SERVER PORT NUMBER CONFLICTS WITH BACKEND DEFAULT XMLRPC PORT NUMBER')
         self.lfn.put_description('Default GridHTTPs server port number conflicts with Backend default xmlrpc port number')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/140')
         self.lfn.put_output()
 
@@ -99,6 +104,7 @@ script during the execution of status.'''
     def test_yaim_version_file(self):
         self.lfn.put_name('WRONG VERSION IN THE YAIM-VERSION FILE')
         self.lfn.put_description('Wrong version in the yaim-storm file')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/149')
         self.lfn.put_output()
 
@@ -121,6 +127,7 @@ script during the execution of status.'''
     def test_size_in_namespace_file(self):
         self.lfn.put_name('WRONG SETTINGS OF SIZE IN NAMESPACE.XML')
         self.lfn.put_description('Wrong settings of size in namespace.xml')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/151')
         self.lfn.put_output()
 
@@ -158,6 +165,7 @@ script during the execution of status.'''
     def test_gridhttps_plugin_links(self):
         self.lfn.put_name('REMOVED GRIDHTTPS PLUGIN LINKS DURING UPGRADE FROM 1.7.0 to 1.7.1')
         self.lfn.put_description('Removed gridhttpds plugin links during upgrade from 1.7.0 to 1.7.1')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/154')
         self.lfn.put_output()
 
@@ -185,6 +193,7 @@ EXECUTION OF STATUS'''
         self.lfn.put_name(name)
         des = '''StoRM Backend Server's name is wrong.'''
         self.lfn.put_description(des)
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/160')
         self.lfn.put_output()
 
@@ -206,6 +215,7 @@ EXECUTION OF STATUS'''
  corrispondent field in the storage_space table of the storm_be_ISAM 
  database.'''
         self.lfn.put_description(des)
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/168')
         self.lfn.put_output()
 
@@ -216,31 +226,45 @@ EXECUTION OF STATUS'''
         var=cat_result['otpt'].split('\n')
 
         storage_area = {}
-        replace_sa = {}
+        replace_storage_area = {}
+        token = {}
         db_user = ''
         db_pwd = ''
         for x in var:
             if "ONLINE_SIZE" in x:
                 ls=x.split('SIZE')[1].split('=')
-                storage_area[x.split('=')] = str(int(ls[1])*1024*1024*1024)
-                replace_sa[x.split('=')] = str(int(ls[1])*1024*1024*1024*502)
+                storage_area[x.split('=')[0]] = str(int(ls[1])*1024*1024*1024)
+                replace_storage_area[x.split('=')[0]] = str(int(ls[1])*1024*1024*1024*502)
+            if "TOKEN" in x:
+                ls=x.split('TOKEN')[1].split(=)
+                token[x.split('=')[0]] = ls[1]
             if "STORM_DB_USER" in x:
                 db_user = x.split('=')[1]
             if "STORM_DB_PASSWD" in x:
                 db_pwd = x.split('=')[1]
 
-        self.assert_(db_user != ' ')
-        self.assert_(db_pwd != ' ')
         self.assert_(len(storage_area) > 0)
+
+        db_name = 'storm_be_ISAM'
+        db_table = 'storage_space'
+        db_field = ['select total_size', 'available_size']
         
-        mysql_query = mq.MySql(db_user, db_pwd, db_name, db_table, db_field,
-                      self.tsets['general']['backend_hostname'], storage_area)
-        self.lfn.put_cmd(mysql_query.get_command())
+        if db_user != '' and db_pwd != '':
+            mysql_query = mq.MySql(db_name, db_table, db_field, 
+                          self.tsets['general']['backend_hostname'],
+                          storage_area, token, db_user=db_user, db_pwd=db_pwd)
+        else:
+            mysql_query = mq.MySql(db_name, db_table, db_field, 
+                          self.tsets['general']['backend_hostname'],
+                          storage_area, token)
+        for x in token:
+            self.lfn.put_cmd(mysql_query.get_command(x))
+
         mysql1_result = mysql_query.get_output()
         self.assert_(mysql1_result['status'] == 'PASS')
 
-        modify_deffile = yaim.ModifyDeffile(storage_area, replace_sa,
-                         self.tsets['yaim']['def_path'])
+        modify_deffile = yaim.ModifyDeffile(self.tsets['yaim']['def_path'],
+                         storage_area, replace_storage_area)
         md_result = modify_deffile.get_output()
         self.assert_(md_result['status'] == 'PASS')
 
@@ -249,9 +273,18 @@ EXECUTION OF STATUS'''
         yaim_result = run_yaim.get_output()
         self.assert_(yaim_result['status'] == 'PASS')
 
-        mysql_query = mq.Mysql(db_name, db_table, db_field,
-                      self.tsets['general']['backend_hostname'], replace_sa,
-                      db_user=db_user, db_pwd=db_pwd)
+        if db_user != '' and db_pwd != '':
+            mysql_query = mq.MySql(db_name, db_table, db_field, 
+                          self.tsets['general']['backend_hostname'],
+                          replace_storage_area, token, db_user=db_user, db_pwd=db_pwd)
+        else:
+            mysql_query = mq.Mysql(db_name, db_table, db_field, 
+                          self.tsets['general']['backend_hostname'],
+                          replace_storage_area, token)
+
+        for x in token:
+            self.lfn.put_cmd(mysql_query.get_command(x))
+
         self.lfn.put_cmd(mysql_query.get_command())
         mysql2_result = mysql_query.get_output()
         self.assert_(mysql2_result['status'] == 'PASS')
@@ -262,6 +295,7 @@ EXECUTION OF STATUS'''
     def test_mysql_connector_java_links(self):
         self.lfn.put_name('MYSQL-CONNECTOR-JAVA DOWNLOADING FAILURE')
         self.lfn.put_description('mysql-connector-java is not downloaded due to an issue in its owner repository')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/179')
         self.lfn.put_output()
 

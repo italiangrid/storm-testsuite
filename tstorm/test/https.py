@@ -27,7 +27,7 @@ class HttpsTest(unittest.TestCase):
         des = '''Verify that the file has been transferred by using the http
 protocol.'''
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
@@ -67,7 +67,7 @@ protocol.'''
         self.lfn.put_name('DIRECT TRANSFER OUTBOUND HTTP')
         des = '''Verify that the file has been transferred by using http.'''
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         t=datetime.datetime.now()
@@ -87,7 +87,7 @@ protocol.'''
         des = '''Verify that the file has been transferred by using http,
 when file exists.'''
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         a = 'http://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['http_port'] + '/storageArea/'+ self.tsets['http']['no_voms'] +  self.dfn
@@ -104,7 +104,7 @@ when file exists.'''
         self.lfn.put_name('DIRECT TRANSFER INBOUND HTTP')
         des = '''Verify that the file has been transferred back by using http.'''
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         a = 'http://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['http_port'] + '/storageArea/'+ self.tsets['http']['no_voms'] +  self.dfn
@@ -122,7 +122,7 @@ when file exists.'''
         des = '''Verify that the file has not been transferred back by using
 http, when file does not exist.'''
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         t=datetime.datetime.now()
@@ -141,7 +141,7 @@ http, when file does not exist.'''
         self.lfn.put_name('SRM TRANSFER INBOUND HTTP')
         des = '''Verify that the file has been transferred back by using http.'''
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         storm_ptg = cp.StoRMPtg(self.tsets['general']['endpoint'],
@@ -175,7 +175,7 @@ http, when file does not exist.'''
         self.lfn.put_name('SRM TRANSFER OUTBOUND HTTPS')
         des = '''Verify that the file has been transferred by using https.'''
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
@@ -215,7 +215,7 @@ http, when file does not exist.'''
         self.lfn.put_name('DIRECT TRANSFER OUTBOUND HTTPS')
         des = '''Verify that the file has been transferred by using https.'''
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         t=datetime.datetime.now()
@@ -235,7 +235,7 @@ http, when file does not exist.'''
         des = '''Verify that the file has been transferred by using https,
 when the file exists.'''
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['no_voms'] + self.dfn
@@ -252,7 +252,7 @@ when the file exists.'''
         self.lfn.put_name('DIRECT TRANSFER INBOUND HTTPS')
         des = '''Verify that the file has been transferred back by using https.'''
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['no_voms']  + self.dfn
@@ -270,7 +270,7 @@ when the file exists.'''
         des = '''Verify that the file has been transferred back by using https
 without authorization.'''
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['no_auth']  + self.dfn
@@ -288,7 +288,7 @@ without authorization.'''
         des = '''Verify that the file has been transferred back by using https,
 when file does not exist.'''
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         t=datetime.datetime.now()
@@ -307,7 +307,7 @@ when file does not exist.'''
         self.lfn.put_name('SRM TRANSFER INBOUND HTTPS')
         des = '''Verify that the file has been transferred back by using https.'''
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         storm_ptg = cp.StoRMPtg(self.tsets['general']['endpoint'],
@@ -342,7 +342,7 @@ when file does not exist.'''
         des = '''Verify that the file has been transferred back by using https
 with voms.'''
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
@@ -383,7 +383,7 @@ with voms.'''
         des = '''Verify that the file has been transferred by using https
 with voms.'''
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         t=datetime.datetime.now()
@@ -403,7 +403,7 @@ with voms.'''
         des = '''Verify that the file has been transferred by using https
 with voms when file exists.'''
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['voms'] + self.dfn
@@ -421,7 +421,7 @@ with voms when file exists.'''
         des = '''Verify that the file has been transferred back by using https
 with voms.'''
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['voms'] + self.dfn
@@ -440,7 +440,7 @@ with voms.'''
 with voms without authorization.'''
         self.lfn.put_description(des)
         self.lfn.put_description('with voms but no auth')
-        self.lfn.put_uid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['no_auth'] + self.dfn
@@ -458,7 +458,7 @@ with voms without authorization.'''
         des = '''Verify that the file has been transferred back by using https
 with voms when file does not exist.'''
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         t=datetime.datetime.now()
@@ -478,7 +478,7 @@ with voms when file does not exist.'''
         des = '''Verify that the file has been transferred back by using https
 with voms.'''
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         storm_ptg = cp.StoRMPtg(self.tsets['general']['endpoint'],

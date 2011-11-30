@@ -9,6 +9,7 @@ import unittest
 from tstorm.utils import config
 from tstorm.utils import ldapsearch as ls 
 from tstorm.utils import infosystem as ins
+from tstorm.utils import utils
 
 class LdapTest(unittest.TestCase):
     def __init__(self, testname, tfn, lfn, basedn='mds-vo-name=resource,o=grid', filter="'objectClass=GlueService'", attributes='GlueServiceType GlueServiceName'):
@@ -27,6 +28,7 @@ VALUES'''
 setting wrong values in the GlueServiceName and GlueServiceType attributes of
 the GLUE1.3 schema.'''
         self.lfn.put_description(des)
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/143')
         self.lfn.put_output()
 
@@ -43,6 +45,7 @@ the GLUE1.3 schema.'''
     def test_glue_storage_share_capacity(self):
         self.lfn.put_name('GLUE2 GLUE2STORAGESHARECAPACITY* SIZES ALWAYS ZERO')
         self.lfn.put_description('Glue2 GLUE2StorageShareCapacity* sizes always 0.')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/147')
         self.lfn.put_output()
 
@@ -73,6 +76,7 @@ the GLUE1.3 schema.'''
     def test_glue_available_space_info_service(self):
         self.lfn.put_name('INFO SERVICE ALWAYS RETURNS A ZERO AVAILABLE SPACE')
         self.lfn.put_description('Info Service always returns a zero available space')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/147')
         self.lfn.put_output()
 
@@ -96,6 +100,7 @@ the GLUE1.3 schema.'''
     def test_glue_available_space(self):
         self.lfn.put_name('WRONG CALCULATION OF SA_AVAILABLE_SIZE_KB AND SA_USED_SIZE_KB')
         self.lfn.put_description('Wrong calculation of SA_AVAILABLE_SPACE')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/150')
         self.lfn.put_output()
 
@@ -131,6 +136,7 @@ the GLUE1.3 schema.'''
     def test_glue_used_space(self):
         self.lfn.put_name('WRONG CALCULATION OF SA_AVAILABLE_SIZE_KB AND SA_USED_SIZE_KB')
         self.lfn.put_description('Wrong calculation of SA_USED_SPACE')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/150')
         self.lfn.put_output()
 
@@ -165,6 +171,7 @@ the GLUE1.3 schema.'''
     def test_size(self):
         self.lfn.put_name('GET_SIZE INCORRECTLY HANDLES THE INFO')
         self.lfn.put_description('Wrong calculation of SA_USED_SPACE')
+        self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/146')
         self.lfn.put_output()
 

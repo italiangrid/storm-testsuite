@@ -32,3 +32,7 @@ def get_proxy_path():
         return 'PASS', a[1].split('path')[1].split(':')[1].split('\n')[0]
 
     return 'FAILURE', ''
+
+def get_uuid():
+    return commands.getoutput('uuidgen')
+
