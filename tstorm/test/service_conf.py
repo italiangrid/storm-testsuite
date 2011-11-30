@@ -9,6 +9,9 @@ from tstorm.utils import readfile
 from tstorm.utils import service
 from tstorm.utils import rpm
 from tstorm.utils import ls
+from tstorm.utils import modifydeffile as md
+from tstorm.utils import mysqlquery as mq
+from tstorm.utils import yaim
 
 class RegressionConfigurationTest(unittest.TestCase):
     def __init__(self, testname, tfn, lfn):
@@ -192,6 +195,68 @@ EXECUTION OF STATUS'''
         self.assert_(sr_result['status'] == 'PASS')
         self.assert_('storm-backend-server' in sr_result['otpt'])
 
+        self.lfn.put_result('PASSED')
+        self.lfn.flush_file()
+
+    def test_mysql_storage_space_update(self):
+        name = '''NO UPDATING OF STORAGE SPACE IN DB AFTER A TOTAL ONLINE SIZE
+ CHANGE IN THE NAMESPACE.XML'''
+        self.lfn.put_name(name)
+        des = '''When the TotalOnlineSize value has changed in the
+ namespace.xml, the storm-backend-server process does not update the
+ corrispondent field in the storage_space table of the storm_be_ISAM 
+ database.'''
+        self.lfn.put_description(des)
+        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/168')
+        self.lfn.put_output()
+
+        read_cat = readfile.Cat(self.tsets['yaim']['def_path'])
+        self.lfn.put_cmd(read_cat.get_command())
+        cat_result = read_cat.get_output()
+        self.assert_(cat_result['status'] == 'PASS')
+        var=cat_result['otpt'].split('\n')
+
+        storage_area = {}
+        replace_sa = {}
+        db_user = ''
+        db_pwd = ''
+        for x in var:
+            if "ONLINE_SIZE" in x:
+                ls=x.split('SIZE')[1].split('=')
+                storage_area[x.split('=')] = str(int(ls[1])*1024*1024*1024)
+                replace_sa[x.split('=')] = str(int(ls[1])*1024*1024*1024*502)
+            if "STORM_DB_USER" in x:
+                db_user = x.split('=')[1]
+            if "STORM_DB_PASSWD" in x:
+                db_pwd = x.split('=')[1]
+
+        self.assert_(db_user != ' ')
+        self.assert_(db_pwd != ' ')
+        self.assert_(len(storage_area) > 0)
+        
+        mysql_query = mq.MySql(db_user, db_pwd, db_name, db_table, db_field,
+                      self.tsets['general']['backend_hostname'], storage_area)
+        self.lfn.put_cmd(mysql_query.get_command())
+        mysql1_result = mysql_query.get_output()
+        self.assert_(mysql1_result['status'] == 'PASS')
+
+        modify_deffile = md.MDeffile(storage_area, replace_sa,
+                         self.tsets['yaim']['def_path'])
+        md_result = modify_deffile.get_output()
+        self.assert_(md_result['status'] == 'PASS')
+
+        run_yaim = yaim.Yaim(self.tsets['node']['backend'])
+        self.lfn.put_cmd(run_yaim.get_command()) 
+        yaim_result = yaim_result.get_output()
+        self.assert_(yaim_result['status'] == 'PASS')
+
+        mysql_query = mq.Mysql(db_name, db_table, db_field,
+                      self.tsets['general']['backend_hostname'], replace_sa,
+                      db_user=db_user, db_pwd=db_pwd)
+        self.lfn.put_cmd(mysql_query.get_command())
+        mysql2_result = mysql_query.get_output()
+        self.assert_(mysql2_result['status'] == 'PASS')
+ 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
