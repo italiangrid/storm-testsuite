@@ -9,7 +9,6 @@ from tstorm.utils import readfile
 from tstorm.utils import service
 from tstorm.utils import rpm
 from tstorm.utils import ls
-from tstorm.utils import modifydeffile as md
 from tstorm.utils import mysqlquery as mq
 from tstorm.utils import yaim
 
@@ -240,14 +239,14 @@ EXECUTION OF STATUS'''
         mysql1_result = mysql_query.get_output()
         self.assert_(mysql1_result['status'] == 'PASS')
 
-        modify_deffile = md.MDeffile(storage_area, replace_sa,
+        modify_deffile = yaim.ModifyDeffile(storage_area, replace_sa,
                          self.tsets['yaim']['def_path'])
         md_result = modify_deffile.get_output()
         self.assert_(md_result['status'] == 'PASS')
 
-        run_yaim = yaim.Yaim(self.tsets['node']['backend'])
+        run_yaim = yaim.Yaim(backend=self.tsets['node']['backend'])
         self.lfn.put_cmd(run_yaim.get_command()) 
-        yaim_result = yaim_result.get_output()
+        yaim_result = run_yaim.get_output()
         self.assert_(yaim_result['status'] == 'PASS')
 
         mysql_query = mq.Mysql(db_name, db_table, db_field,
