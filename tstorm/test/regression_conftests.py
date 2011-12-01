@@ -58,3 +58,9 @@ def backend_server_name_status_rt(conf, lfn):
     s.addTest(sc.RegressionConfigurationTest('test_backend_server_name_status', conf, lfn))
 
     return s
+
+def mysql_storage_space_update_rt(conf, lfn):
+    s = unittest.TestSuite()
+    s.addTest(sc.RegressionConfigurationTest('test_mysql_storage_space_update', conf, lfn))
+
+    return s

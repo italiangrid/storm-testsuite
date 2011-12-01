@@ -43,7 +43,8 @@ class CheckTestplan:
                      'yaim_version_file_rt': 'rct.yaim_version_file_rt(tfn, lfn)',
                      'gridhttps_plugin_links_rt': 'rct.gridhttps_plugin_links_rt(tfn, lfn)',
                      'size_in_namespace_file_rt': 'rct.size_in_namespace_file_rt(tfn, lfn)',
-                     'mysql_connector_java_links_rt': 'rct.mysql_connector_java_links_rt(tfn, lfn)'
+                     'mysql_connector_java_links_rt': 'rct.mysql_connector_java_links_rt(tfn, lfn)',
+                     'mysql_storage_space_update_rt':'rct.mysql_storage_space_update_rt(tfn, lfn)'
                      }   
       self.tests_type = {
                         'novoms':['common_tests',
