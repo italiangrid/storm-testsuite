@@ -233,62 +233,84 @@ EXECUTION OF STATUS'''
         for x in var:
             if "ONLINE_SIZE" in x:
                 ls=x.split('SIZE')[1].split('=')
-                storage_area[x.split('=')[0]] = str(int(ls[1])*1024*1024*1024)
-                replace_storage_area[x.split('=')[0]] = str(int(ls[1])*1024*1024*1024*502)
+                #storage_area[x.split('STORM_')[1].split('_ONLINE_SIZE')[0]] = str(int(ls[1])*1024*1024*1024)
+                #replace_storage_area[x.split('STORM_')[1].split('_ONLINE_SIZE')[0]] = str(int(ls[1])*1024*1024*1024*502)
+                storage_area[x.split('STORM_')[1].split('_ONLINE_SIZE')[0]] = str(int(ls[1]))
+                replace_storage_area[x.split('STORM_')[1].split('_ONLINE_SIZE')[0]] = str(int(ls[1])*502)
+                #replace_storage_area[x.split('STORM_')[1].split('_ONLINE_SIZE')[0]] = str(4)
             if "TOKEN" in x:
-                ls=x.split('TOKEN')[1].split(=)
-                token[x.split('=')[0]] = ls[1]
+                ls=x.split('TOKEN')[1].split('=')
+                token[x.split('STORM_')[1].split('_TOKEN')[0]] = ls[1]
             if "STORM_DB_USER" in x:
                 db_user = x.split('=')[1]
             if "STORM_DB_PASSWD" in x:
                 db_pwd = x.split('=')[1]
 
+        if len(token) != len(storage_area):
+           for x in storage_area.keys():
+               if x not in token.keys():
+                   token[x] = x+'_TOKEN' 
+
+
+        #print storage_area
+        #print replace_storage_area
+        #print token
+
         self.assert_(len(storage_area) > 0)
+        self.assert_(len(replace_storage_area) > 0)
+        self.assert_(len(storage_area) == len(replace_storage_area))
 
         db_name = 'storm_be_ISAM'
         db_table = 'storage_space'
-        db_field = ['select total_size', 'available_size']
+        db_field = ['total_size', 'available_size']
         
         if db_user != '' and db_pwd != '':
-            mysql_query = mq.MySql(db_name, db_table, db_field, 
+            mysql_query = mq.Mysql(db_name, db_table, db_field, 
                           self.tsets['general']['backend_hostname'],
-                          storage_area, token, db_user=db_user, db_pwd=db_pwd)
+                          token, db_user=db_user, db_pwd=db_pwd)
         else:
-            mysql_query = mq.MySql(db_name, db_table, db_field, 
+            mysql_query = mq.Mysql(db_name, db_table, db_field, 
                           self.tsets['general']['backend_hostname'],
-                          storage_area, token)
-        for x in token:
-            self.lfn.put_cmd(mysql_query.get_command(x))
-
+                          token)
+        for x in token.keys():
+            self.lfn.put_cmd(mysql_query.get_command(token[x]))
         mysql1_result = mysql_query.get_output()
-        self.assert_(mysql1_result['status'] == 'PASS')
+        for x in mysql1_result['status']:
+            self.assert_(x == 'PASS')
 
         modify_deffile = yaim.ModifyDeffile(self.tsets['yaim']['def_path'],
                          storage_area, replace_storage_area)
         md_result = modify_deffile.get_output()
         self.assert_(md_result['status'] == 'PASS')
 
-        run_yaim = yaim.Yaim(backend=self.tsets['node']['backend'])
+        run_yaim = yaim.Yaim(self.tsets['yaim']['def_path'],
+                             back_end=self.tsets['node']['backend'])
         self.lfn.put_cmd(run_yaim.get_command()) 
         yaim_result = run_yaim.get_output()
         self.assert_(yaim_result['status'] == 'PASS')
 
         if db_user != '' and db_pwd != '':
-            mysql_query = mq.MySql(db_name, db_table, db_field, 
+            mysql_query = mq.Mysql(db_name, db_table, db_field, 
                           self.tsets['general']['backend_hostname'],
-                          replace_storage_area, token, db_user=db_user, db_pwd=db_pwd)
+                          token, db_user=db_user, db_pwd=db_pwd)
         else:
             mysql_query = mq.Mysql(db_name, db_table, db_field, 
                           self.tsets['general']['backend_hostname'],
-                          replace_storage_area, token)
+                          token)
 
-        for x in token:
-            self.lfn.put_cmd(mysql_query.get_command(x))
-
-        self.lfn.put_cmd(mysql_query.get_command())
+        for x in token.keys():
+            self.lfn.put_cmd(mysql_query.get_command(token[x]))
         mysql2_result = mysql_query.get_output()
-        self.assert_(mysql2_result['status'] == 'PASS')
- 
+        for x in mysql2_result['status']:
+            self.assert_(x == 'PASS')
+
+        for x in mysql1_result['token'].keys():
+            u1=mysql1_result['token'][x][0]
+            u2=mysql2_result['token'][x][0]
+            f1=mysql1_result['token'][x][1]
+            f2=mysql2_result['token'][x][1]
+            self.assert_(int(u1)-int(u2) == int(f1)-int(f2))
+
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 

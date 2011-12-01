@@ -7,7 +7,7 @@ import os
 from tstorm.utils import utils
 
 class Mysql:
-    def __init__(self, db_name, db_table, db_field, db_host, value, token, db_user='storm', db_pwd='storm'):
+    def __init__(self, db_name, db_table, db_field, db_host, token, db_user='storm', db_pwd='storm'):
         self.db = {
                   'name': db_name,
                   'table': db_table,
@@ -21,12 +21,10 @@ class Mysql:
                    'name':'mysql'}
         self.otpt = {
                    'status':[],
-                   'token':[],
-                   'value':{}}
-        self.value = value
+                   'token':{}}
         self.token = token
 
-    def get_command(self, alias):
+    def get_command(self, alias_value):
         s = ''
 
         for x in self.db['field']:
@@ -36,10 +34,10 @@ class Mysql:
         opt = ' -u ' + self.db['user']
         opt += ' -h ' + self.db['host']
         opt += ' -s ' + self.db['name']
-        opt += ' --passwrod=' + self.db['pwdname']
-        query = ' -e '
-        query += "'select " + s[:-1]
-        query += ' from ' + self.db['table'] + ' where alias = ' + '"DTEAM_TOKEN"' + "'"
+        opt += ' --password=' + self.db['pwd']
+        query = " -e 'select "
+        query += s[:-1]
+        query += ' from ' + self.db['table'] + ' where alias = ' + '"' + alias_value + '"' + "'"
         a = self.cmd['name'] + opt + query     
 
         return a
@@ -53,30 +51,13 @@ class Mysql:
     def get_output(self):
         for x in self.token:
             a=self.run_command(self.token[x])
-            self.otpt['token'].append(x)
             if a[0] == 0:
                 self.otpt['status'].append('PASS')
-                y=a[1].split('\n')[0].split(' ')
-                for z in self.db['field']:
-                    self.otpt['value'][z] = y[z.index()]
+                y=a[1].split('\n')[0].split('\t')
+                self.otpt['token'][self.token[x]]=[]
+                for z in y:
+                    self.otpt['token'][self.token[x]].append(z)
             else:
                 self.otpt['status'].append('FAILURE')
-                
 
         return self.otpt
-
-            if len(a) > 0 and a[0] == 0:
-                if 'SRM_SUCCESS' in a[1]:
-                    for x in self.otpt:
-                        if x == 'status':
-                            self.otpt['status'].append('PASS')
-                        else:
-                            yy = a[1].split('\n')
-                            for z in yy:
-                                if x in z:
-                                    self.otpt[x].append(z.split(x)[1].split('="')[1].split('"')[0])
-                else:
-                    self.otpt['status'].append('FAILURE')
-            else:
-                self.otpt['status'].append('FAILURE')
-            y=os.path.dirname(y)

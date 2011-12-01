@@ -27,7 +27,7 @@ class UtilitiesTest(unittest.TestCase):
         self.lfn.put_cmd('')
 
         for x in self.tsets:
-            self.assert_(x in ('general','ping','https','http','tape','bdii','yaim','log'))
+            self.assert_(x in ('general','ping','https','http','tape','bdii','yaim','log','node'))
             for y in self.tsets[x]:
                 self.assert_(x != '')
 
