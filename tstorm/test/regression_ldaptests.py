@@ -19,9 +19,9 @@ def glue_storage_share_capacity_ts(conf, uid, lfn):
 
     return s
 
-def glue_available_space_info_service_ts(conf, lfn):
+def glue_available_space_info_service_ts(conf, uid, lfn):
     s = unittest.TestSuite()
-    s.addTest(lq.LdapTest('test_glue_available_space_info_service', conf, lfn))
+    s.addTest(lq.LdapTest('test_glue_available_space_info_service', conf, uid, lfn))
 
     return s
 

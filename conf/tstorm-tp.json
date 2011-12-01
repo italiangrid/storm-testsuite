@@ -25,7 +25,7 @@
     "get_space_metadata_failure_ts"
   ],
   "regression_ldaptests": [
-    "glue_info_ts",
+    "glue_service_ts",
     "glue_storage_share_capacity_ts",
     "glue_available_space_info_service_ts",
     "glue_available_space_ts",
@@ -35,8 +35,8 @@
   ],
   "regression_conftests": [
     "backend_server_status_rt",
-    "backend_logrotate_conf_rt",
-    "backend_cron_conf_rt",
+    "backend_logrotate_file_rt",
+    "backend_cron_file_rt",
     "backend_gridhttps_rt",
     "yaim_version_file_rt",
     "size_in_namespace_file_rt",
@@ -52,6 +52,7 @@
     "common_tests",
     "basic_tests",
     "regression_tests",
+    "regression_tests_novoms",
     "basic_tests_novoms",
     "regression_ldaptests",
     "regression_conftests"
