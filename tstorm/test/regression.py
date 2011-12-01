@@ -18,13 +18,14 @@ from tstorm.utils import createfile
 from tstorm.utils import removefile
 
 class RegressionTest(unittest.TestCase):
-    def __init__(self, testname, tfn, ifn, dfn, bifn, lfn, prt = 'gsiftp'):
+    def __init__(self, testname, tfn, ifn, dfn, bifn, uid, lfn, prt = 'gsiftp'):
         super(RegressionTest, self).__init__(testname)
         self.tsets = config.TestSettings(tfn).get_test_sets()
         self.ifn = ifn
         self.dfn = dfn
         self.bifn = bifn
         self.prt = prt
+        self.uid = uid
         self.lfn = lfn
 
     def test_eight_digit_string_checksum(self):
@@ -34,7 +35,11 @@ the file transfer as a long number, discarding in this way leading zeroes. The
 default ADLER32 checksum match algorithm considers checksum values as strings so the 
 leading zeroes matters.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_eight_digit_string_checksum'):
+            self.lfn.put_uuid(self.uid['test_eight_digit_string_checksum'])
+        else:
+            print 'ADD UID for test_eight_digit_string_checksum'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/108')
         self.lfn.put_output()
 
@@ -95,7 +100,11 @@ leading zeroes matters.'''
         des = '''StoRM does not publish correctly values for used and free space on the
  BDII due to a bug in the update of the free space after the the srmRm operation'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_update_free_space_upon_rm'):
+            self.lfn.put_uuid(self.uid['test_update_free_space_upon_rm'])
+        else:
+            print 'ADD UID for test_update_free_space_upon_rm'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/106')
         self.lfn.put_output()
 
@@ -187,7 +196,11 @@ leading zeroes matters.'''
 due to a bug in the update of the used space after the the srmPutDone 
 operation.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_update_used_space_upon_pd'):
+            self.lfn.put_uuid(self.uid['test_update_used_space_upon_pd'])
+        else:
+            print 'ADD UID for test_update_used_space_upon_pd'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/109')
         self.lfn.put_output()
 
@@ -275,7 +288,11 @@ called providing a list of not supported desired transfer protocols to a
 bug in the management of file transfer operation. StoRM does not verifies 
 if the provided protocols are supported.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_unsupported_protocols'):
+            self.lfn.put_uuid(self.uid['test_unsupported_protocols'])
+        else:
+            print 'ADD UID for test_update_unsupported_protocols'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/127')
         self.lfn.put_output()
 
@@ -298,7 +315,11 @@ THAT CONTAIN SUPPORTED PROTOCOLS'''
 (srmPrepareToPut, srmPrepareToGet, srmBringOnline) are called with a list of
 desired transfered protocols.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_both_sup_and_unsup_protocols'):
+            self.lfn.put_uuid(self.uid['test_both_sup_and_unsup_protocols'])
+        else:
+            print 'ADD UID for test_both_sup_and_unsup_protocols'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/126')
         self.lfn.put_output()
 
@@ -331,7 +352,11 @@ NON ASCII CHARACTERS MAKES FE CRASH'''
         des = '''StoRM Frontend crashes when managing asynchronous requests 
 providing string parameters containing non ASCII characters.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_non_ascii_chars'):
+            self.lfn.put_uuid(self.uid['test_non_ascii_chars'])
+        else:
+            print 'ADD UID for test_non_ascii_chars'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/137')
         self.lfn.put_output()
 
@@ -360,7 +385,11 @@ providing string parameters containing non ASCII characters.'''
         self.lfn.put_name(name)
         des = '''Wrong the StoRM backend age returned by the command srm ping.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_backend_age'):
+            self.lfn.put_uuid(self.uid['test_backend_age'])
+        else:
+            print 'ADD UID for test_backend_age'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/181')
         self.lfn.put_output()
 
@@ -378,14 +407,17 @@ providing string parameters containing non ASCII characters.'''
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
-
     def test_get_space_metadata_failure(self):
         name = '''GET SPACE METADATA FAILURE WITHOUT VOMS EXTENSIONS'''
         self.lfn.put_name(name)
         des = '''StoRM Backend Server returns an exception when it receives a
 GetSpaceMetadata request without voms extension.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_get_space_metadata_failure'):
+            self.lfn.put_uuid(self.uid['test_get_space_metadata_failure'])
+        else:
+            print 'ADD UID for test_get_space_metadata_failure'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/189')
         self.lfn.put_output()
 

@@ -10,12 +10,13 @@ from tstorm.utils import removefile
 from tstorm.utils import utils
 
 class UtilitiesTest(unittest.TestCase):
-    def __init__(self, testname, tfn, ifn, dfn, bifn, lfn):
+    def __init__(self, testname, tfn, ifn, dfn, bifn, uid, lfn):
         super(UtilitiesTest, self).__init__(testname)
         self.tsets = config.TestSettings(tfn).get_test_sets()
         self.ifn = ifn
         self.dfn = dfn
         self.bifn = bifn
+        self.uid = uid
         self.lfn = lfn
     
     def test_settings(self):

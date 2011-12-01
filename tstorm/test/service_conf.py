@@ -14,9 +14,10 @@ from tstorm.utils import yaim
 from tstorm.utils import utils
 
 class RegressionConfigurationTest(unittest.TestCase):
-    def __init__(self, testname, tfn, lfn):
+    def __init__(self, testname, tfn, uid, lfn):
         super(RegressionConfigurationTest, self).__init__(testname)
         self.tsets = config.TestSettings(tfn).get_test_sets()
+        self.uid = uid
         self.lfn = lfn
 
     def test_backend_server_status(self):
@@ -26,7 +27,11 @@ EXECUTION OF STATUS'''
         des = '''Extra information are returned by storm backend server init
 script during the execution of status.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_backend_server_status'):
+            self.lfn.put_uuid(self.uid['test_backend_server_status'])
+        else:
+            print 'ADD UID for test_backend_server_status'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/114')
         self.lfn.put_output()
 
@@ -41,7 +46,11 @@ script during the execution of status.'''
     def test_backend_logrotate_file(self):
         self.lfn.put_name('STORN BACKEND LOGROTATE FILE POINTS TO NON EXISTING FILE')
         self.lfn.put_description('StoRM Backend logrotate file points to non existing file.')
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_backend_logrotate_file'):
+            self.lfn.put_uuid(self.uid['test_backend_logrotate_file'])
+        else:
+            print 'ADD UID for test_backend_logrotate_file'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/134')
         self.lfn.put_output()
 
@@ -62,7 +71,11 @@ script during the execution of status.'''
     def test_backend_cron_file(self):
         self.lfn.put_name('STORM BACKEND DOES NOT ROTATE LOG FILES')
         self.lfn.put_description('StoRM Backend does not rotate log files')
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_backend_cron_file'):
+            self.lfn.put_uuid(self.uid['test_backend_cron_file'])
+        else:
+            print 'ADD UID for test_backend_cron_file'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/135')
         self.lfn.put_output()
 
@@ -81,7 +94,11 @@ script during the execution of status.'''
     def test_backend_gridhttps(self):
         self.lfn.put_name('DEFAULT GRIDHTTPS SERVER PORT NUMBER CONFLICTS WITH BACKEND DEFAULT XMLRPC PORT NUMBER')
         self.lfn.put_description('Default GridHTTPs server port number conflicts with Backend default xmlrpc port number')
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_backend_gridhttps'):
+            self.lfn.put_uuid(self.uid['test_backend_gridhttps'])
+        else:
+            print 'ADD UID for test_backend_server_gridhttps'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/140')
         self.lfn.put_output()
 
@@ -104,7 +121,11 @@ script during the execution of status.'''
     def test_yaim_version_file(self):
         self.lfn.put_name('WRONG VERSION IN THE YAIM-VERSION FILE')
         self.lfn.put_description('Wrong version in the yaim-storm file')
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_yaim_version_file'):
+            self.lfn.put_uuid(self.uid['test_yaim_version_file'])
+        else:
+            print 'ADD UID for test_yaim_version_file'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/149')
         self.lfn.put_output()
 
@@ -127,7 +148,11 @@ script during the execution of status.'''
     def test_size_in_namespace_file(self):
         self.lfn.put_name('WRONG SETTINGS OF SIZE IN NAMESPACE.XML')
         self.lfn.put_description('Wrong settings of size in namespace.xml')
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_size_in_namespace_file'):
+            self.lfn.put_uuid(self.uid['test_size_in_namespace_file'])
+        else:
+            print 'ADD UID for test_size_in_namespace_file'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/151')
         self.lfn.put_output()
 
@@ -165,7 +190,11 @@ script during the execution of status.'''
     def test_gridhttps_plugin_links(self):
         self.lfn.put_name('REMOVED GRIDHTTPS PLUGIN LINKS DURING UPGRADE FROM 1.7.0 to 1.7.1')
         self.lfn.put_description('Removed gridhttpds plugin links during upgrade from 1.7.0 to 1.7.1')
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_gridhttps_plugin_links'):
+            self.lfn.put_uuid(self.uid['test_gridhttps_plugin_links'])
+        else:
+            print 'ADD UID for test_gridhttps_plugin_links'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/154')
         self.lfn.put_output()
 
@@ -193,7 +222,11 @@ EXECUTION OF STATUS'''
         self.lfn.put_name(name)
         des = '''StoRM Backend Server's name is wrong.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_backend_server_name_status'):
+            self.lfn.put_uuid(self.uid['test_backend_server_name_status'])
+        else:
+            print 'ADD UID for test_backend_server_name_status'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/160')
         self.lfn.put_output()
 
@@ -215,7 +248,11 @@ EXECUTION OF STATUS'''
  corrispondent field in the storage_space table of the storm_be_ISAM 
  database.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_mysql_storage_space_update'):
+            self.lfn.put_uuid(self.uid['test_mysql_storage_space_update'])
+        else:
+            print 'ADD UID for test_mysql_storage_space_update'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/168')
         self.lfn.put_output()
 
@@ -317,7 +354,11 @@ EXECUTION OF STATUS'''
     def test_mysql_connector_java_links(self):
         self.lfn.put_name('MYSQL-CONNECTOR-JAVA DOWNLOADING FAILURE')
         self.lfn.put_description('mysql-connector-java is not downloaded due to an issue in its owner repository')
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_mysql_connector_java_links'):
+            self.lfn.put_uuid(self.uid['test_mysql_connector_java_links'])
+        else:
+            print 'ADD UID for test_mysql_storage_connector_java_links'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/179')
         self.lfn.put_output()
 
