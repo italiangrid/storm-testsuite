@@ -16,7 +16,7 @@ from tstorm.test import regressiontests as rt
 from tstorm.test import regression_conftests as rct
 from tstorm.test import regression_ldaptests as rlt
 
-def run_tests(tpi, lfn, tt, n_df, n_dfn):
+def run_tests(tpi, uid, lfn, tt, n_df, n_dfn):
     info=ctp.CheckTestplan()
     kw=info.get_key_word()
     methods=info.get_methods()
@@ -74,6 +74,7 @@ def tpj_details():
 if __name__ == '__main__':
     tpjfnc= './etc/tstorm/tstorm-tp.json'
     tfn = './etc/tstorm/tstorm.ini'
+    test_id_map = './etc/tstorm/map_test_id.json'
 
     try:
         opts, args = getopt.getopt(sys.argv[1:], "hc:d:", ["help","noreport","novoms","conftest","conf","destfile"])
@@ -107,6 +108,8 @@ if __name__ == '__main__':
 
     '''Get Test Plan Info from conf file'''
     tpj_info = st.get_tpj_info(tpjfnc)
+    '''Get Test Id Mapping Info from file'''
+    mti_info =  st.get_tpj_info(test_id_map)
 
     if not st.is_valid(tpj_info):
         '''Wrong Test Plan conf file'''
@@ -119,14 +122,14 @@ if __name__ == '__main__':
 
     if ct:
         for x in tests_type['conf']:
-          run_tests(tpj_info, logf, x, n_df, n_dfn)
+          run_tests(tpj_info, mti_info, logf, x, n_df, n_dfn)
     else:
         if voms:
             for x in tests_type['voms']:
-                run_tests(tpj_info, logf, x, n_df, n_dfn)
+                run_tests(tpj_info, mti_info, logf, x, n_df, n_dfn)
         else:
             for x in tests_type['novoms']:
-                run_tests(tpj_info, logf, x, n_df, n_dfn)
+                run_tests(tpj_info, mti_info, logf, x, n_df, n_dfn)
 
     logf.close_file() 
 
