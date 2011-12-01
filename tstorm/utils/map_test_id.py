@@ -4,7 +4,6 @@ import sys
 import os
 import json
 from tstorm.utils import utils
-from tstorm.utils import map_test_id as mti
 
 class MapTestId:
     def __init__(self):
@@ -89,7 +88,7 @@ class MapTestId:
 
     def get_test_id(self):
         test_id = {}
-        for x in self.atomics.keys():
+        for x in self.atomics_test.keys():
             test_id[x] = utils.get_uuid()
         for x in self.functionalities_test.keys():
             test_id[x] = utils.get_uuid()
@@ -115,11 +114,11 @@ class MapTestId:
         sf.write('{\n')
 
         a=0
-        for x in test_id.keys():
-            if len(test_id) == a+1:
-                sf.write('  "' + x + '":"' + test_id[x] + '"\n')
+        for x in map_test_id.keys():
+            if len(map_test_id) == a+1:
+                sf.write('  "' + x + '":"' + map_test_id[x] + '"\n')
             else:
-                sf.write('  "' + x + '":"' + test_id[x] + '",\n')
+                sf.write('  "' + x + '":"' + map_test_id[x] + '",\n')
             a+=1
         sf.write('}\n')
         sf.close()
