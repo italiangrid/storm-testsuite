@@ -110,7 +110,7 @@ class MapTestId:
 
         dirname=os.path.dirname(sys.argv[0])
         configpath = os.path.join(dirname, "../", ".")
-        conffile=configpath+'./etc/tstorm/test_id.json'
+        conffile=configpath+'./etc/tstorm/map_test_id.json'
         sf = open(conffile, 'a')
         sf.write('{\n')
 
