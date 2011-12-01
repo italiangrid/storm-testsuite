@@ -27,7 +27,8 @@
     "glue_available_space_info_service_ts",
     "glue_available_space_ts",
     "glue_used_space_ts",
-    "size_ts"
+    "size_ts",
+    "info_service_failure_ts"
   ],
   "regression_conftests": [
     "backend_server_status_rt",

@@ -33,11 +33,11 @@ the GLUE1.3 schema.'''
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
-                      self.attributes, self.basedn, self.filter)
+                      self.attributes, basedn=self.basedn, filter=self.filter)
         self.lfn.put_cmd(ldap_search.get_command())
-        self.ls_result = ldap_search.get_output()
-        self.assert_(self.ls_result['status'] == 'PASS')
-        self.assert_('emi.storm' not in self.ls_result['GlueServiceType'])
+        ls_result = ldap_search.get_output()
+        self.assert_(ls_result['status'] == 'PASS')
+        self.assert_('emi.storm' not in ls_result['GlueServiceType'])
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
@@ -51,24 +51,23 @@ the GLUE1.3 schema.'''
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
                       'GLUE2StorageServiceCapacityFreeSize GLUE2StorageServiceCapacityUsedSize GLUE2StorageServiceCapacityTotalSize GLUE2StorageServiceCapacityReservedSize',
-                      'GLUE2GroupID=resource,o=glue',
-                      "'(&(objectclass=GLUE2StorageServiceCapacity)(GLUE2StorageServiceCapacityType=online))'")
+                      basedn='GLUE2GroupID=resource,o=glue',
+                      filter="'(&(objectclass=GLUE2StorageServiceCapacity)(GLUE2StorageServiceCapacityType=online))'")
         self.lfn.put_cmd(ldap_search.get_command())
-        self.ls_result = ldap_search.get_output()
-        self.assert_(self.ls_result['status'] == 'PASS')
-        self.assert_(int(self.ls_result['GLUE2StorageServiceCapacityTotalSize']) != 0)
+        ls_result = ldap_search.get_output()
+        self.assert_(ls_result['status'] == 'PASS')
+        self.assert_(int(ls_result['GLUE2StorageServiceCapacityTotalSize']) != 0)
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
                       'GLUE2StorageServiceCapacityFreeSize GLUE2StorageServiceCapacityUsedSize GLUE2StorageServiceCapacityTotalSize GLUE2StorageServiceCapacityReservedSize',
-                      'GLUE2GroupID=resource,o=glue',
-                      "'(&(objectclass=GLUE2StorageServiceCapacity)(GLUE2StorageServiceCapacityType=nearline))'")
+                      basedn='GLUE2GroupID=resource,o=glue',
+                      filter="'(&(objectclass=GLUE2StorageServiceCapacity)(GLUE2StorageServiceCapacityType=nearline))'")
         self.lfn.put_cmd(ldap_search.get_command())
-        self.ls_result = ldap_search.get_output()
-        if self.ls_result['status'] == 'PASS':
-     	    self.assert_(self.ls_result['status'] == 'PASS')
-            self.assert_(int(self.ls_result['GLUE2StorageServiceCapacityTotalSize']) >= 0)
+        ls_result = ldap_search.get_output()
+        if ls_result['status'] == 'PASS':
+            self.assert_(int(ls_result['GLUE2StorageServiceCapacityTotalSize']) >= 0)
         else:
-            self.assert_(self.ls_result['status'] == 'FAILURE')
+            self.assert_(ls_result['status'] == 'FAILURE')
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
@@ -81,18 +80,18 @@ the GLUE1.3 schema.'''
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
-                      'GlueSALocalID', self.basedn, "'(objectclass=GlueSA)'")
+                      'GlueSALocalID', basedn=self.basedn, filter="'(objectclass=GlueSA)'")
         self.lfn.put_cmd(ldap_search.get_command())
-        self.ls_result = ldap_search.get_output()
-        self.assert_(self.ls_result['status'] == 'PASS')
+        ls_result = ldap_search.get_output()
+        self.assert_(ls_result['status'] == 'PASS')
 
-        for x in self.ls_result['GlueSALocalID']:
+        for x in ls_result['GlueSALocalID']:
             info_system = ins.InfoSystem(self.tsets['general']['backend_hostname'],
                           self.tsets['general']['info_port'],
                           x.split(':')[0].upper().replace('.','').replace('-',''))
             self.lfn.put_cmd(info_system.get_command())
-            self.ins_result = info_system.get_output()
-            self.assert_(int(self.ins_result['available-space']) > 0)
+            ins_result = info_system.get_output()
+            self.assert_(int(ins_result['available-space']) > 0)
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
@@ -105,30 +104,30 @@ the GLUE1.3 schema.'''
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
-                        'GlueSALocalID',
-                      self.basedn, "'(objectclass=GlueSA)'")
+                      'GlueSALocalID',
+                      basedn=self.basedn, filter="'(objectclass=GlueSA)'")
         self.lfn.put_cmd(ldap_search.get_command())
-        self.ls_result = ldap_search.get_output()
-        self.assert_(self.ls_result['status'] == 'PASS')
+        ls_result = ldap_search.get_output()
+        self.assert_(ls_result['status'] == 'PASS')
 
-        for x in self.ls_result['GlueSALocalID']:
+        for x in ls_result['GlueSALocalID']:
             ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
                           'GlueSAFreeOnlineSize GlueSAStateAvailableSpace',
-                          self.basedn,
-                          "'(&(objectclass=GlueSA)(GlueSALocalID="+x+"))'")
+                          basedn=self.basedn,
+                          filter="'(&(objectclass=GlueSA)(GlueSALocalID="+x+"))'")
             self.lfn.put_cmd(ldap_search.get_command())
-            self.ls_result = ldap_search.get_output()
-            self.assert_(self.ls_result['status'] == 'PASS')
+            ls_result = ldap_search.get_output()
+            self.assert_(ls_result['status'] == 'PASS')
 
             info_system = ins.InfoSystem(self.tsets['general']['backend_hostname'],
                           self.tsets['general']['info_port'],
                           x.split(':')[0].upper().replace('.','').replace('-',''))
             self.lfn.put_cmd(info_system.get_command())
-            self.ins_result = info_system.get_output()
-            fskb=int(int(self.ins_result['available-space'])*1000*1000*1000/(1024*1024*1024))/1000
-            self.assert_(int(self.ls_result['GlueSAStateAvailableSpace']) == int(fskb))
-            fsgb=int(int(self.ins_result['available-space'])*1000*1000*1000/(1024*1024*1024))/(1000*1000*1000)
-            self.assert_(int(self.ls_result['GlueSAFreeOnlineSize']) == int(fsgb))
+            ins_result = info_system.get_output()
+            fskb=int(int(ins_result['available-space'])*1000*1000*1000/(1024*1024*1024))/1000
+            self.assert_(int(ls_result['GlueSAStateAvailableSpace']) == int(fskb))
+            fsgb=int(int(ins_result['available-space'])*1000*1000*1000/(1024*1024*1024))/(1000*1000*1000)
+            self.assert_(int(ls_result['GlueSAFreeOnlineSize']) == int(fsgb))
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
@@ -141,29 +140,29 @@ the GLUE1.3 schema.'''
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
-                      'GlueSALocalID', self.basedn, "'(objectclass=GlueSA)'")
+                      'GlueSALocalID', basedn=self.basedn, filter="'(objectclass=GlueSA)'")
         self.lfn.put_cmd(ldap_search.get_command())
-        self.ls_result = ldap_search.get_output()
-        self.assert_(self.ls_result['status'] == 'PASS')
+        ls_result = ldap_search.get_output()
+        self.assert_(ls_result['status'] == 'PASS')
 
-        for x in self.ls_result['GlueSALocalID']:
+        for x in ls_result['GlueSALocalID']:
             ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
                           'GlueSAUsedOnlineSize GlueSAStateUsedSpace',
-                          self.basedn,
-                          "'(&(objectclass=GlueSA)(GlueSALocalID="+x+"))'")
+                          basedn=self.basedn,
+                          filter="'(&(objectclass=GlueSA)(GlueSALocalID="+x+"))'")
             self.lfn.put_cmd(ldap_search.get_command())
-            self.ls_result = ldap_search.get_output()
-            self.assert_(self.ls_result['status'] == 'PASS')
+            ls_result = ldap_search.get_output()
+            self.assert_(ls_result['status'] == 'PASS')
 
             info_system = ins.InfoSystem(self.tsets['general']['backend_hostname'],
                           self.tsets['general']['info_port'],
                           x.split(':')[0].upper().replace('.','').replace('-',''))
             self.lfn.put_cmd(info_system.get_command())
-            self.ins_result = info_system.get_output()
-            uskb=int(int(self.ins_result['used-space'])*1000*1000*1000/(1024*1024*1024))/1000
-            self.assert_(int(self.ls_result['GlueSAStateUsedSpace']) == int(uskb))
-            usgb=int(int(self.ins_result['used-space'])*1000*1000*1000/(1024*1024*1024))/(1000*1000*1000)
-            self.assert_(int(self.ls_result['GlueSAUsedOnlineSize']) == int(usgb))
+            ins_result = info_system.get_output()
+            uskb=int(int(ins_result['used-space'])*1000*1000*1000/(1024*1024*1024))/1000
+            self.assert_(int(ls_result['GlueSAStateUsedSpace']) == int(uskb))
+            usgb=int(int(ins_result['used-space'])*1000*1000*1000/(1024*1024*1024))/(1000*1000*1000)
+            self.assert_(int(ls_result['GlueSAUsedOnlineSize']) == int(usgb))
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
@@ -176,36 +175,91 @@ the GLUE1.3 schema.'''
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
-                      'GlueSALocalID', self.basedn, "'(objectclass=GlueSA)'")
+                      'GlueSALocalID', basedn=self.basedn, filter="'(objectclass=GlueSA)'")
         self.lfn.put_cmd(ldap_search.get_command())
-        self.ls_result = ldap_search.get_output()
-        self.assert_(self.ls_result['status'] == 'PASS')
+        ls_result = ldap_search.get_output()
+        self.assert_(ls_result['status'] == 'PASS')
 
-        for x in self.ls_result['GlueSALocalID']:
+        for x in ls_result['GlueSALocalID']:
             ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
                           'GlueSATotalOnlineSize GlueSAUsedOnlineSize GlueSAFreeOnlineSize GlueSAReservedOnlineSize GlueSATotalNearlineSize',
-                          self.basedn,
-                          "'(&(objectclass=GlueSA)(GlueSALocalID="+x+"))'")
+                          basedn=self.basedn,
+                          filter="'(&(objectclass=GlueSA)(GlueSALocalID="+x+"))'")
             self.lfn.put_cmd(ldap_search.get_command())
-            self.ls_result = ldap_search.get_output()
-            self.assert_(self.ls_result['status'] == 'PASS')
+            ls_result = ldap_search.get_output()
+            self.assert_(ls_result['status'] == 'PASS')
 
             info_system = ins.InfoSystem(self.tsets['general']['backend_hostname'],
                           self.tsets['general']['info_port'],
                           x.split(':')[0].upper().replace('.','').replace('-',''))
             self.lfn.put_cmd(info_system.get_command())
 
-            self.ins_result = info_system.get_output()
-            usgb=int(int(self.ins_result['used-space'])*1000*1000*1000/(1024*1024*1024))/(1000*1000*1000)
-            self.assert_(int(self.ls_result['GlueSAUsedOnlineSize']) == int(usgb))
-            tsgb=int(int(self.ins_result['total-space'])*1000*1000*1000/(1024*1024*1024))/(1000*1000*1000)
-            self.assert_(int(self.ls_result['GlueSATotalOnlineSize']) == int(tsgb))
-            fsgb=int(int(self.ins_result['free-space'])*1000*1000*1000/(1024*1024*1024))/(1000*1000*1000)
-            self.assert_(int(self.ls_result['GlueSAFreeOnlineSize']) == int(fsgb))
-            rsgb=int(int(self.ins_result['reserved-space'])*1000*1000*1000/(1024*1024*1024))/(1000*1000*1000)
-            self.assert_(int(self.ls_result['GlueSAReservedOnlineSize']) >= int(rsgb))
+            ins_result = info_system.get_output()
+            usgb=int(int(ins_result['used-space'])*1000*1000*1000/(1024*1024*1024))/(1000*1000*1000)
+            self.assert_(int(ls_result['GlueSAUsedOnlineSize']) == int(usgb))
+            tsgb=int(int(ins_result['total-space'])*1000*1000*1000/(1024*1024*1024))/(1000*1000*1000)
+            self.assert_(int(ls_result['GlueSATotalOnlineSize']) == int(tsgb))
+            fsgb=int(int(ins_result['free-space'])*1000*1000*1000/(1024*1024*1024))/(1000*1000*1000)
+            self.assert_(int(ls_result['GlueSAFreeOnlineSize']) == int(fsgb))
+            rsgb=int(int(ins_result['reserved-space'])*1000*1000*1000/(1024*1024*1024))/(1000*1000*1000)
+            self.assert_(int(ls_result['GlueSAReservedOnlineSize']) >= int(rsgb))
 
-            self.assert_(int(self.ls_result['GlueSATotalNearlineSize']) >= 0)
+            self.assert_(int(ls_result['GlueSATotalNearlineSize']) >= 0)
+
+        self.lfn.put_result('PASSED')
+        self.lfn.flush_file()
+
+    def test_info_service_failure(self):
+        name = '''REST INFO SERVICE FAILURE'''
+        self.lfn.put_name(name)
+        des = '''Rest info service fails when non-mandatory parameters are
+ missing'''
+        self.lfn.put_description(des)
+        self.lfn.put_uuid(utils.get_uuid())
+        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/153')
+        self.lfn.put_output()
+
+        ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
+                      'GlueSALocalID', basedn=self.basedn, filter="'(objectclass=GlueSA)'")
+        self.lfn.put_cmd(ldap_search.get_command())
+        ls_result = ldap_search.get_output()
+        self.assert_(ls_result['status'] == 'PASS')
+
+        x=ls_result['GlueSALocalID'][0]
+        info1_system = ins.InfoSystem(self.tsets['general']['backend_hostname'],
+                      self.tsets['general']['info_port'],
+                      x.split(':')[0].upper().replace('.','').replace('-',''))
+        self.lfn.put_cmd(info1_system.get_command())
+        ins1_result = info1_system.get_output()
+        self.assert_(ins1_result['status'] == 'PASS')
+
+        update_attrs={}
+        update_attrs['used'] = '1024'
+        update_attrs['unavailable'] = '1024'
+
+        info2_system = ins.InfoSystem(self.tsets['general']['backend_hostname'],
+                      self.tsets['general']['info_port'],
+                      x.split(':')[0].upper().replace('.','').replace('-',''),
+                      attrs=update_attrs)
+        self.lfn.put_cmd(info2_system.get_command(in_write=True))
+        ins2_result = info2_system.get_output(in_write=True)
+        self.assert_(ins2_result['status'] == 'PASS')
+
+        info3_system = ins.InfoSystem(self.tsets['general']['backend_hostname'],
+                      self.tsets['general']['info_port'],
+                      x.split(':')[0].upper().replace('.','').replace('-',''))
+        self.lfn.put_cmd(info3_system.get_command())
+        ins3_result = info3_system.get_output()
+        self.assert_(ins3_result['status'] == 'PASS')
+
+        #print ins1_result
+        #print ins3_result 
+        #print update_attrs
+        self.assert_(int(ins3_result['used-space']) == int(update_attrs['used']))
+        self.assert_(int(ins3_result['unavailable-space']) == int(update_attrs['unavailable']))
+        for x in ins3_result.keys():
+            if x not in ('used-space', 'unavailable-space'):
+                self.assert_(int(ins3_result[x]) == int(ins1_result[x]))
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()

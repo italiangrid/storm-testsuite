@@ -7,10 +7,11 @@ import os
 from tstorm.utils import utils
 
 class InfoSystem:
-  def __init__(self, bh, ip, sad):
+  def __init__(self, bh, ip, sad, attrs={}):
     self.behn = bh
     self.info_port = ip
     self.sa_descr = sad
+    self.attrs = attrs
     self.cmd = {
       'name': 'curl',
       'protocol': 'http',
@@ -27,18 +28,33 @@ class InfoSystem:
       'available-space':''
     }
 
-  def get_command(self):
-    a = self.cmd['name'] + ' -s ' + self.cmd['protocol'] + '://' + self.behn + ':' + self.cmd['port'] + '/info/status/' + self.sa_descr + '_TOKEN'
+  def get_command(self, in_write=False):
+    opt = ' -s '
+    opt += self.cmd['protocol'] + '://' + self.behn + ':' + self.cmd['port']
+    opt += '/info/status/' + self.sa_descr + '_TOKEN'
+
+    if in_write is False:
+        a = self.cmd['name'] + ' -X GET ' + opt
+    else:
+        s = ''
+
+        for x in self.attrs.keys():
+            s += x  + '=' + self.attrs[x]
+            s += '&'
+
+        opt += '/update?' + s[:-1]
+        a = self.cmd['name'] + ' -X PUT ' + opt
+
     return a
 
-  def run_command(self):
+  def run_command(self, in_write=False):
     a=()
     if utils.cmd_exist(self.cmd["name"]):
-      a=commands.getstatusoutput(self.get_command())
+      a=commands.getstatusoutput(self.get_command(in_write=in_write))
     return a
 
-  def get_output(self):
-    a=self.run_command()
+  def get_output(self, in_write=False):
+    a=self.run_command(in_write=in_write)
     if len(a) > 0 and a[0] == 0:
       for x in self.otpt:
         if x == 'status':

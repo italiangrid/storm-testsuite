@@ -42,3 +42,9 @@ def size_ts(conf, lfn):
     s.addTest(lq.LdapTest('test_size', conf, lfn))
 
     return s
+
+def info_service_failure_ts(conf, lfn):
+    s = unittest.TestSuite()
+    s.addTest(lq.LdapTest('test_info_service_failure', conf, lfn))
+    
+    return s

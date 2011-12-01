@@ -30,6 +30,7 @@ class CheckTestplan:
                      'glue_available_space_ts': 'rlt.glue_available_space_ts(tfn, lfn)',
                      'glue_used_space_ts': 'rlt.glue_used_space_ts(tfn, lfn)',
                      'size_ts': 'rlt.size_ts(tfn, lfn)',
+                     'info_service_failure_ts': 'rlt.info_service_failure_ts(tfn, lfn)',
                      'update_used_space_upon_pd_ts': 'rt.update_used_space_upon_pd_ts(tfn,ifn,dfn,back_ifn, lfn)',
                      'update_free_space_upon_rm_ts': 'rt.update_free_space_upon_rm_ts(tfn,ifn,dfn,back_ifn, lfn)',
                      'storm_backend_age_ts': 'rt.storm_backend_age_ts(tfn,ifn,dfn,back_ifn, lfn)',
@@ -53,10 +54,10 @@ class CheckTestplan:
                         'voms':['common_tests',
                                 'basic_tests',
                                 'regression_tests',
-                                 'regression_ldaptests',
-                                 'tape_tests'],
-                        'conf':['regression_conftests',
-                                'regression_ldaptests']
+                                'regression_ldaptests',
+                                'tape_tests'],
+                        'conf':['regression_ldaptests',
+                                'regression_conftests']
                         } 
 
     def get_key_word(self):
