@@ -16,17 +16,23 @@ from tstorm.utils import rmdir
 from tstorm.utils import cksm
 
 class AtomicsTest(unittest.TestCase):
-    def __init__(self, testname, tfn, ifn, dfn, bifn, lfn):
+    def __init__(self, testname, tfn, ifn, dfn, bifn, uid, lfn):
         super(AtomicsTest, self).__init__(testname)
         self.tsets = config.TestSettings(tfn).get_test_sets()
         self.ifn = ifn
         self.dfn = dfn
         self.bifn = bifn
+        self.uid = uid
         self.lfn = lfn
 
     def test_dcache_ping(self):
         self.lfn.put_name('SRM PING')
         self.lfn.put_description('Verify ping operation')
+        if self.uid.has_key('test_dcache_ping'):
+            self.lfn.put_uuid(self.uid['test_dcache_ping'])
+        else:
+            print 'ADD UID for test_dcache_ping'
+            self.lfn.put_uuid(utils.get_uuid())        
         self.lfn.put_uid('')
         self.lfn.put_output()
 
@@ -44,7 +50,11 @@ class AtomicsTest(unittest.TestCase):
     def test_storm_ping(self):
         self.lfn.put_name('SRM PING')
         self.lfn.put_description('Verify ping operation')
-        self.lfn.put_uid('')
+        if self.uid.has_key('test_storm_ping'):
+            self.lfn.put_uuid(self.uid['test_storm_ping'])
+        else:
+            print 'ADD UID for test_storm_ping'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         storm_ping = ping.StoRMPing(self.tsets['general']['endpoint'])
@@ -65,7 +75,11 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.put_name('SRM LS')
         des = 'Verify ls operation on a file that does not exist'
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        if self.uid.has_key('test_ls_unexist_file'):
+            self.lfn.put_uuid(self.uid['test_ls_unexist_file'])
+        else:
+            print 'ADD UID for test_ls_unexist_file'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
@@ -81,7 +95,11 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.put_name('SRM LS')
         des = 'Verify ls operation on a directory that does not exist'
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        if self.uid.has_key('test_ls_unexist_dir'):
+            self.lfn.put_uuid(self.uid['test_ls_unexist_dir'])
+        else:
+            print 'ADD UID for test_ls_unexist_dir'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         if '/' in self.dfn:
@@ -99,7 +117,11 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.put_name('SRM MKDIR')
         des = 'Verify mkdir operation on a directory'
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        if self.uid.has_key('test_mkdir_dir'):
+            self.lfn.put_uuid(self.uid['test_mkdir_dir'])
+        else:
+            print 'ADD UID for test_mkdir_dir'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         if '/' in self.dfn:
@@ -126,7 +148,11 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.put_name('SRM MKDIR')
         des = 'Verify mkdir operation on a directory that already exists'
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        if self.uid.has_key('test_mkdir_exist_dir'):
+            self.lfn.put_uuid(self.uid['test_mkdir_exist_dir'])
+        else:
+            print 'ADD UID for test_mkdir_exist_dir'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         if '/' in self.dfn:
@@ -153,7 +179,11 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.put_name('SRM LS')
         des = 'Verify ls operation on a directory that exists'
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        if self.uid.has_key('test_ls_dir'):
+            self.lfn.put_uuid(self.uid['test_ls_dir'])
+        else:
+            print 'ADD UID for test_ls_dir'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         if '/' in self.dfn:
@@ -171,7 +201,11 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.put_name('SRM CP')
         des = 'Verify cp operation of a given file on a given storage'
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        if self.uid.has_key('test_cp_bt'):
+            self.lfn.put_uuid(self.uid['test_cp_bt'])
+        else:
+            print 'ADD UID for test_cp_bt'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         lcg_cp = cp.LcgCp(self.tsets['general']['endpoint'],
@@ -188,7 +222,11 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.put_name('SRM LS')
         des = 'Verify ls operation on a file that exists'
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        if self.uid.has_key('test_ls_file'):
+            self.lfn.put_uuid(self.uid['test_ls_file'])
+        else:
+            print 'ADD UID for test_ls_file'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
@@ -208,7 +246,11 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.put_name('SRM CP')
         des = 'Verify cp operation of a given file locally'
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        if self.uid.has_key('test_cp_at'):
+            self.lfn.put_uuid(self.uid['test_cp_at'])
+        else:
+            print 'ADD UID for test_cp_at'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         lcg_cp = cp.LcgCp(self.tsets['general']['endpoint'],
@@ -225,7 +267,11 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.put_name('SRM RM')
         des = 'Verify rm operation of a given file'
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        if self.uid.has_key('test_rm_file'):
+            self.lfn.put_uuid(self.uid['test_rm_file'])
+        else:
+            print 'ADD UID for test_rm_file'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         srm_rm = rm.SrmRm(self.tsets['general']['endpoint'],
@@ -241,7 +287,11 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.put_name('SRM RM')
         des = 'Verify rm operation of a file that does not exist'
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        if self.uid.has_key('test_rm_unexist_file'):
+            self.lfn.put_uuid(self.uid['test_rm_unexist_file'])
+        else:
+            print 'ADD UID for test_rm_unexist_file'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         srm_rm = rm.SrmRm(self.tsets['general']['endpoint'],
@@ -257,7 +307,11 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.put_name('SRM RMDIR')
         des = 'Verify rmdir operation of a given directory'
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        if self.uid.has_key('test_rm_dir'):
+            self.lfn.put_uuid(self.uid['test_rm_dir'])
+        else:
+            print 'ADD UID for test_rm_dir'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         if '/' in self.dfn:
@@ -281,7 +335,11 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.put_name('SRM RMDIR')
         des = 'Verify rmdir operation of a directory that does not exist'
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
+        if self.uid.has_key('test_rm_unexist_dir'):
+            self.lfn.put_uuid(self.uid['test_rm_unexist_dir'])
+        else:
+            print 'ADD UID for test_rm_unexist_dir'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         if '/' in self.dfn:

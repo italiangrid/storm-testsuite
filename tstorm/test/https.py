@@ -27,7 +27,11 @@ class HttpsTest(unittest.TestCase):
         des = '''Verify that the file has been transferred by using the http
 protocol.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_srm_transfer_outbound_http'):
+            self.lfn.put_uuid(self.uid['test_srm_transfer_outbound_http'])
+        else:
+            print 'ADD UID for test_srm_transfer_outbound_http'
+            self.lfn.put_uuid(utils.get_uuid())        
         self.lfn.put_output()
 
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
@@ -67,7 +71,11 @@ protocol.'''
         self.lfn.put_name('DIRECT TRANSFER OUTBOUND HTTP')
         des = '''Verify that the file has been transferred by using http.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_direct_transfer_outbound_http'):
+            self.lfn.put_uuid(self.uid['test_direct_transfer_outbound_http'])
+        else:
+            print 'ADD UID for test_direct_transfer_outbound_http'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         t=datetime.datetime.now()
@@ -87,7 +95,11 @@ protocol.'''
         des = '''Verify that the file has been transferred by using http,
 when file exists.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_direct_transfer_outbound_http_exist_file'):
+            self.lfn.put_uuid(self.uid['test_direct_transfer_outbound_http_exist_file'])
+        else:
+            print 'ADD UID for test_direct_transfer_outbound_http_exist_file'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         a = 'http://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['http_port'] + '/storageArea/'+ self.tsets['http']['no_voms'] +  self.dfn
@@ -104,7 +116,11 @@ when file exists.'''
         self.lfn.put_name('DIRECT TRANSFER INBOUND HTTP')
         des = '''Verify that the file has been transferred back by using http.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_direct_transfer_inbound_http'):
+            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_http'])
+        else:
+            print 'ADD UID for test_direct_transfer_inbound_http'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         a = 'http://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['http_port'] + '/storageArea/'+ self.tsets['http']['no_voms'] +  self.dfn
@@ -122,7 +138,11 @@ when file exists.'''
         des = '''Verify that the file has not been transferred back by using
 http, when file does not exist.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_direct_transfer_inbound_http_unexist_file'):
+            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_http_unexist_file'])
+        else:
+            print 'ADD UID for test_direct_transfer_inbound_http_unexist_file'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         t=datetime.datetime.now()
@@ -141,7 +161,11 @@ http, when file does not exist.'''
         self.lfn.put_name('SRM TRANSFER INBOUND HTTP')
         des = '''Verify that the file has been transferred back by using http.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_srm_transfer_inbound_http'):
+            self.lfn.put_uuid(self.uid['test_srm_transfer_inbound_http'])
+        else:
+            print 'ADD UID for test_srm_transfer_inbound_http'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         storm_ptg = cp.StoRMPtg(self.tsets['general']['endpoint'],
@@ -175,7 +199,11 @@ http, when file does not exist.'''
         self.lfn.put_name('SRM TRANSFER OUTBOUND HTTPS')
         des = '''Verify that the file has been transferred by using https.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_srm_transfer_outbound_https'):
+            self.lfn.put_uuid(self.uid['test_srm_transfer_outbound_https'])
+        else:
+            print 'ADD UID for test_srm_transfer_outbound_https'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
@@ -215,7 +243,11 @@ http, when file does not exist.'''
         self.lfn.put_name('DIRECT TRANSFER OUTBOUND HTTPS')
         des = '''Verify that the file has been transferred by using https.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_direct_transfer_outbound_https'):
+            self.lfn.put_uuid(self.uid['test_direct_transfer_outbound_https'])
+        else:
+            print 'ADD UID for test_direct_transfer_outbound_https'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         t=datetime.datetime.now()
@@ -235,7 +267,11 @@ http, when file does not exist.'''
         des = '''Verify that the file has been transferred by using https,
 when the file exists.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_direct_transfer_outbound_https_exist_file'):
+            self.lfn.put_uuid(self.uid['test_direct_transfer_outbound_https_exist_file'])
+        else:
+            print 'ADD UID for test_direct_transfer_outbound_https_exist_file'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['no_voms'] + self.dfn
@@ -270,7 +306,11 @@ when the file exists.'''
         des = '''Verify that the file has been transferred back by using https
 without authorization.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_direct_transfer_inbound_https_no_auth'):
+            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_https_no_auth'])
+        else:
+            print 'ADD UID for test_direct_transfer_inbound_https_no_auth'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['no_auth']  + self.dfn
@@ -288,7 +328,11 @@ without authorization.'''
         des = '''Verify that the file has been transferred back by using https,
 when file does not exist.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_direct_transfer_inbound_https_unexist_file'):
+            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_https_unexist_file'])
+        else:
+            print 'ADD UID for test_direct_transfer_inbound_https_unexist_file'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         t=datetime.datetime.now()
@@ -307,7 +351,11 @@ when file does not exist.'''
         self.lfn.put_name('SRM TRANSFER INBOUND HTTPS')
         des = '''Verify that the file has been transferred back by using https.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_srm_transfer_inbound_https'):
+            self.lfn.put_uuid(self.uid['test_srm_transfer_inbound_https'])
+        else:
+            print 'ADD UID for test_srm_transfer_inbound_https'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         storm_ptg = cp.StoRMPtg(self.tsets['general']['endpoint'],
@@ -342,7 +390,11 @@ when file does not exist.'''
         des = '''Verify that the file has been transferred back by using https
 with voms.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_srm_transfer_outbound_https_voms'):
+            self.lfn.put_uuid(self.uid['test_srm_transfer_outbound_https_voms'])
+        else:
+            print 'ADD UID for test_srm_transfer_outbound_https_voms'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
@@ -383,7 +435,11 @@ with voms.'''
         des = '''Verify that the file has been transferred by using https
 with voms.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_direct_transfer_outbound_https_voms'):
+            self.lfn.put_uuid(self.uid['test_direct_transfer_outbound_https_voms'])
+        else:
+            print 'ADD UID for test_direct_transfer_outbound_https_voms'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         t=datetime.datetime.now()
@@ -403,7 +459,11 @@ with voms.'''
         des = '''Verify that the file has been transferred by using https
 with voms when file exists.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_direct_transfer_outbound_https_voms_exist_file'):
+            self.lfn.put_uuid(self.uid['test_direct_transfer_outbound_https_voms_exist_file'])
+        else:
+            print 'ADD UID for test_direct_transfer_outbound_https_voms_exist_file'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['voms'] + self.dfn
@@ -421,7 +481,11 @@ with voms when file exists.'''
         des = '''Verify that the file has been transferred back by using https
 with voms.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_direct_transfer_inbound_https_voms'):
+            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_https_voms'])
+        else:
+            print 'ADD UID for test_direct_transfer_inbound_https_voms'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['voms'] + self.dfn
@@ -439,8 +503,11 @@ with voms.'''
         des = '''Verify that the file has been transferred back by using https
 with voms without authorization.'''
         self.lfn.put_description(des)
-        self.lfn.put_description('with voms but no auth')
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_direct_transfer_inbound_https_voms_no_auth'):
+            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_https_voms_no_auth'])
+        else:
+            print 'ADD UID for test_direct_transfer_inbound_https_voms_no_auth'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['no_auth'] + self.dfn
@@ -458,7 +525,11 @@ with voms without authorization.'''
         des = '''Verify that the file has been transferred back by using https
 with voms when file does not exist.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_direct_transfer_inbound_https_voms_unexist_file'):
+            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_https_voms_unexist_file'])
+        else:
+            print 'ADD UID for test_direct_transfer_inbound_https_voms_unexist_file'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         t=datetime.datetime.now()
@@ -478,7 +549,11 @@ with voms when file does not exist.'''
         des = '''Verify that the file has been transferred back by using https
 with voms.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_srm_transfer_inbound_https_voms'):
+            self.lfn.put_uuid(self.uid['test_srm_transfer_inbound_https_voms'])
+        else:
+            print 'ADD UID for test_srm_transfer_inbound_https_voms'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         storm_ptg = cp.StoRMPtg(self.tsets['general']['endpoint'],

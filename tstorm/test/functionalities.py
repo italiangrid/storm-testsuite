@@ -17,12 +17,13 @@ from tstorm.utils import rmdir
 from tstorm.utils import cksm
 
 class FunctionalitiesTest(unittest.TestCase):
-    def __init__(self, testname, tfn, ifn, dfn, bifn, lfn):
+    def __init__(self, testname, tfn, ifn, dfn, bifn, uid, lfn):
         super(FunctionalitiesTest, self).__init__(testname)
         self.tsets = config.TestSettings(tfn).get_test_sets()
         self.ifn = ifn
         self.dfn = dfn
         self.bifn = bifn
+        self.uid = uid
         self.lfn = lfn
 
     def test_cksm(self):
@@ -30,7 +31,11 @@ class FunctionalitiesTest(unittest.TestCase):
         des = '''Verify that the checksum is calculated for the transferred 
 file using the gsiftp protocol.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_cksm'):
+            self.lfn.put_uuid(self.uid['test_cksm'])
+        else:
+            print 'ADD UID for test_cksm'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'], 
@@ -77,7 +82,11 @@ file using the gsiftp protocol.'''
     def test_data_transfer_out_file(self):
         self.lfn.put_name('DATA TRANSFER OUT')
         self.lfn.put_description('Verify that the file has been transferred')
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_data_transfer_out_file'):
+            self.lfn.put_uuid(self.uid['test_data_transfer_out_file'])
+        else:
+            print 'ADD UID for test_data_transfer_out_file'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
@@ -107,7 +116,11 @@ file using the gsiftp protocol.'''
         des = '''Verify that the file has not been transferred because it 
 already exists.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_data_transfer_out_exist_file'):
+            self.lfn.put_uuid(self.uid['test_data_transfer_out_exist_file'])
+        else:
+            print 'ADD UID for test_data_transfer_out_exist_file'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
@@ -130,7 +143,11 @@ already exists.'''
         self.lfn.put_name('DATA TRANSFER IN')
         des = '''Verify that the file has been transferred back.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_data_transfer_in_file'):
+            self.lfn.put_uuid(self.uid['test_data_transfer_in_file'])
+        else:
+            print 'ADD UID for test_data_transfer_in_file'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
@@ -155,7 +172,11 @@ already exists.'''
 does not exit.'''
         self.lfn.put_description(des)
         self.lfn.put_uid('')
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_data_transfer_in_unexist_file'):
+            self.lfn.put_uuid(self.uid['test_data_transfer_in_unexist_file'])
+        else:
+            print 'ADD UID for test_data_transfer_in_unexist_file'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         t=datetime.datetime.now()
