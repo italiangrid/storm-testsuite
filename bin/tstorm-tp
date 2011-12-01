@@ -47,12 +47,13 @@ def tpj_details():
     print """            system tests that MUST be specified in the following """
     print """            order of execution, that is """
     print """            ["""
-    print """             'common_tests'"""
-    print """             'basic_tests'"""
-    print """             'regression_tests'"""
-    print """             'basic_tests_novoms'"""
-    print """             'regression_conftests'"""
-    print """             'regression_ldaptests'"""
+    print """             'common_tests',"""
+    print """             'basic_tests',"""
+    print """             'regression_tests',"""
+    print """             'basic_tests_novoms',"""
+    print """             'regression_tests_novoms',"""
+    print """             'regression_conftests',"""
+    print """             'regression_ldaptests',"""
     print """             'tape_tests'"""
     print """            ]"""
     print """            regression_conftests are executed only if conftest option is used."""
@@ -124,7 +125,6 @@ if __name__ == '__main__':
             for x in tests_type['voms']:
                 run_tests(tpj_info, logf, x, n_df, n_dfn)
         else:
-            '''Basic Tests NO VOMS'''
             for x in tests_type['novoms']:
                 run_tests(tpj_info, logf, x, n_df, n_dfn)
 

@@ -377,3 +377,31 @@ providing string parameters containing non ASCII characters.'''
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
+
+
+    def test_get_space_metadata_failure(self):
+        name = '''GET SPACE METADATA FAILURE WITHOUT VOMS EXTENSIONS'''
+        self.lfn.put_name(name)
+        des = '''StoRM Backend Server returns an exception when it receives a
+GetSpaceMetadata request without voms extension.'''
+        self.lfn.put_description(des)
+        self.lfn.put_uuid(utils.get_uuid())
+        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/189')
+        self.lfn.put_output()
+
+        storm_gst = space.StoRMGst(self.tsets['general']['endpoint'],
+                   self.tsets['general']['accesspoint'],
+                   self.tsets['general']['spacetoken'])
+        self.lfn.put_cmd(storm_gst.get_command())
+        self.st_result = storm_gst.get_output()
+        self.assert_(self.st_result['status'] == 'PASS')
+
+        storm_gsm1 = space.StoRMGsm(self.tsets['general']['endpoint'],
+                     self.tsets['general']['accesspoint'],
+                     self.st_result['arrayOfSpaceTokens'])
+        self.lfn.put_cmd(storm_gsm1.get_command())
+        self.sm1_result = storm_gsm1.get_output()
+        self.assert_(self.sm1_result['status'] == 'PASS')
+
+        self.lfn.put_result('PASSED')
+        self.lfn.flush_file()

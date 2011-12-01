@@ -9,6 +9,7 @@ class CheckTestplan:
       self.test_plan_categories = ['common_tests',
                                   'basic_tests',
                                   'regression_tests',
+                                  'regression_tests_novoms',
                                   'basic_tests_novoms',
                                   'regression_conftests',
                                   'regression_ldaptests',
@@ -34,6 +35,7 @@ class CheckTestplan:
                      'update_used_space_upon_pd_ts': 'rt.update_used_space_upon_pd_ts(tfn,ifn,dfn,back_ifn, lfn)',
                      'update_free_space_upon_rm_ts': 'rt.update_free_space_upon_rm_ts(tfn,ifn,dfn,back_ifn, lfn)',
                      'storm_backend_age_ts': 'rt.storm_backend_age_ts(tfn,ifn,dfn,back_ifn, lfn)',
+                     'get_space_metadata_failure_ts':'rt.get_space_metadata_failure_ts(tfn,ifn,dfn,back_ifn, lfn)',
                      'conf_ts': 'cts.conf_ts(tfn,ifn,dfn,back_ifn, lfn)',
                      'access_tape_ts': 'tt.access_tape_ts(tfn,ifn,dfn,back_ifn, lfn)',
                      'backend_server_status_rt': 'rct.backend_server_status_rt(tfn, lfn)',
@@ -50,6 +52,7 @@ class CheckTestplan:
       self.tests_type = {
                         'novoms':['common_tests',
                                   'basic_tests_novoms',
+                                  'regression_tests_novoms',
                                   'regression_ldaptests'],
                         'voms':['common_tests',
                                 'basic_tests',
