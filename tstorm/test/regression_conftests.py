@@ -19,7 +19,7 @@ def backend_logrotate_file_rt(conf, id, lfn):
 
 def backend_cron_file_rt(conf, uid, lfn):
     s = unittest.TestSuite()
-    s.addTest(sc.RegressionConfigurationTest('test_backend_cron_file', conf, uid lfn))
+    s.addTest(sc.RegressionConfigurationTest('test_backend_cron_file', conf, uid, lfn))
 
     return s
 

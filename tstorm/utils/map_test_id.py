@@ -105,7 +105,7 @@ class MapTestId:
             test_id[x] = utils.get_uuid()
         return test_id
 
-    def create_map_test_id(self)
+    def create_map_test_id(self):
         map_test_id = self.get_test_id()
 
         dirname=os.path.dirname(sys.argv[0])

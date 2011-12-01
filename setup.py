@@ -74,7 +74,7 @@ setup(
     download_url = 'to be defined',
     platform = 'noarch',
     packages = packages,
-    scripts = ['bin/tstorm-tp', 'bin/tstorm-map-test-id'],
+    scripts = ['bin/tstorm-tp', 'bin/tstorm-test-id'],
     data_files = [('/usr/sbin/', ['sbin/tstorm-setup.sh']),
                  ('/usr/share/doc/'+ name + '-'+version+'/',['README', 'LICENSE', 'AUTHORS', 'INSTALL']),
                  ('/etc/'+name+'/', ['conf/tstorm.ini', 'conf/tstorm-tier1.ini', 'conf/tstorm-tp.json.template', 'conf/tstorm-tp.json'])]
