@@ -3,11 +3,8 @@
 __author__ = 'Elisabetta Ronchieri'
 
 import sys
-import os
 import getopt
-import json
-from tstorm.utils import check_testplan as ctp
-from tstorm.utils import utils
+from tstorm.utils import map_test_id as mti
 
 def usage():
     print "Usage: tstorm-test-id"
@@ -25,32 +22,4 @@ if __name__ == '__main__':
             usage()
             sys.exit()
 
-    tests_suites = ctp.CheckTestplan().get_test_suites()
-
-    test_id = {}
-    for x in tests_suites:
-        test_id[x] = utils.get_uuid()
-
-    dirname=os.path.dirname(sys.argv[0])
-    configpath = os.path.join(dirname, "../", ".")
-    conffile=configpath+'./etc/tstorm/test_id.json'
-    sf = open(conffile, 'a')
-    sf.write('{\n')
-    a=0
-    for x in test_id.keys():
-        if len(test_id) == a+1:
-            sf.write('  "' + x + '":"' + test_id[x] + '"\n')
-        else:
-            sf.write('  "' + x + '":"' + test_id[x] + '",\n')
-        a+=1
-    sf.write('}\n')
-    sf.close()
-
-    try:
-        tp_info=json.read(open(conffile,'r').read())
-    except (IOError,json.ReadException):
-        #dbglog("No stfunc.conf file found or wrong json syntax")
-        print "wrong conf file"
-        sys.exit(2)
-
-  
+    tests_suites = mti.MapTestId().create_map_test_id()

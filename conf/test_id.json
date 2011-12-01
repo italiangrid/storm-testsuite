@@ -1,39 +1,90 @@
 {
-  "test_cw":"bedd8a96-2056-45ca-8086-5bc3f067c5eb",
-  "test_http":"a7cf40ea-993b-46fc-9c7b-14539ff49184",
-  "test_conf":"67da4eb9-4cbb-4150-9655-4ab7faf9cb42",
-  "test_cs":"2049f0a8-99ba-46fa-b495-8fbe2f8b77e8",
+  "atomics_test": {
+    "test_dcache_ping":"",
+    "test_storm_ping":"",
+    "test_ls_unexist_file":"",
+    "test_ls_unexist_dir":"",
+    "test_mkdir_dir":"",
+    "test_mkdir_exist_dir":"",
+    "test_ls_dir":"",
+    "test_cp_bt":"",
+    "test_ls_file":"",
+    "test_cp_at":"",
+    "test_rm_file":"",
+    "test_rm_unexist_file":"",
+    "test_rm_dir":""
+  }
 
-  "test_eight_digit_string_checksum":"a80c2394-d2c5-47f6-ab87-41f4bb1c003d",
-  "test_update_free_space_upon_rm":"70e4a153-3dce-4da9-b39c-621f6baa1c50",
-  "test_update_used_space_upon_pd":"9e7db99e-f878-4aad-aa1b-e9836a5760fd",
-  "test_unsupported_protocols":"bb229b00-0e89-45e8-88cb-e6850a7f98b3",
-  "test_non_ascii_chars":"0063ce50-6d9a-4b8d-a1c2-89eac3c6d867",
-  "test_storm_backend_age":"7088c0e2-be8b-4dbf-af45-4812c8706f21",
+  "functionalities_test": {
+    "test_cksm":"ab629d53-bea4-4fdc-ad3f-ac35d42807cb",
+    "test_data_transfer_out_file":"",
+    "test_data_transfer_out_exist_file":"",
+    "test_data_transfer_in_file":"",
+    "test_data_transfer_in_unexist_file":""  
+  }
+
+  "regression_test": {
+    "test_eight_digit_string_checksum":"a80c2394-d2c5-47f6-ab87-41f4bb1c003d",
+    "test_update_free_space_upon_rm":"70e4a153-3dce-4da9-b39c-621f6baa1c50",
+    "test_update_used_space_upon_pd":"9e7db99e-f878-4aad-aa1b-e9836a5760fd",
+    "test_unsupported_protocols":"bb229b00-0e89-45e8-88cb-e6850a7f98b3",
+    "test_non_ascii_chars":"0063ce50-6d9a-4b8d-a1c2-89eac3c6d867",
+    "test_storm_backend_age":"7088c0e2-be8b-4dbf-af45-4812c8706f21"
+  }
   
+  "regression_conf_test": {
+    "test_backend_server_status":"4c6d0081-af43-4e6f-9a21-aab89837a853",
+    "test_backend_logrotate_file":"58b9fac5-04fe-49de-89d8-0cde48b044eb",
+    "test_backend_cron_file":"f14a6c80-3833-491a-a937-ae514777ae9c",
+    "test_backend_gridhttps":"b1068720-e8c4-411c-928f-8634e716bdd0",
+    "test_yaim_version_file":"6c1638ec-c107-415f-aacf-f53f43491249",
+    "test_size_in_namespace_file":"ca1238db-54dc-4344-a516-61258ea8165b",
+    "test_gridhttps_plugin_links":"0d01dc91-4fb4-4aeb-a53e-88e1c52931c1",
+    "test_backend_server_name_status":"c144c46c-19fb-44a9-950b-d0ee6229bffd",
+    "test_mysql_storage_space_update":"03e8d336-4865-41a5-9e0c-2b2e2fa465f5",
+    "test_mysql_connector_java_links":"30a04b7d-eafb-4d40-9643-f271eeae62b1"
+  }
 
-  "test_backend_server_status":"4c6d0081-af43-4e6f-9a21-aab89837a853",
-  "test_backend_logrotate_file":"58b9fac5-04fe-49de-89d8-0cde48b044eb",
-  "test_backend_cron_file":"f14a6c80-3833-491a-a937-ae514777ae9c",
-  "test_backend_gridhttps":"b1068720-e8c4-411c-928f-8634e716bdd0",
-  "test_yaim_version_file":"6c1638ec-c107-415f-aacf-f53f43491249",
-  "test_size_in_namespace_file":"ca1238db-54dc-4344-a516-61258ea8165b",
-  "test_gridhttps_plugin_links":"0d01dc91-4fb4-4aeb-a53e-88e1c52931c1",
-  "test_backend_server_name_status":"c144c46c-19fb-44a9-950b-d0ee6229bffd",
-  "test_mysql_storage_space_update":"03e8d336-4865-41a5-9e0c-2b2e2fa465f5",
-  "test_mysql_connector_java_links":"30a04b7d-eafb-4d40-9643-f271eeae62b1",
+  "regression_ldap_test": {
+    "test_glue_service":"5073d786-3f33-4f66-8299-2223d98db36b",
+    "test_glue_storage_share_capacity":"6719d0fa-5684-4101-8d90-7fd174554b60",
+    "test_glue_available_space_info_service":"0766d689-8612-4217-86df-8c4fca482d60",
+    "test_glue_available_space":"8059ce9d-68f3-4caf-86dc-09924cdbce21",
+    "test_glue_used_space":"98e45ae6-a1ca-4efa-b160-7fcdc4a1b8fd",
+    "test_size":"484e83db-38d2-472c-8fe0-41280eb41931",
+    "test_info_service_failure":"79215bf1-2e88-409c-aed3-07219639cb10"
+  }
 
-  "test_glue_service":"5073d786-3f33-4f66-8299-2223d98db36b",
-  "test_glue_storage_share_capacity":"6719d0fa-5684-4101-8d90-7fd174554b60",
-  "test_glue_available_space_info_service":"0766d689-8612-4217-86df-8c4fca482d60",
-  "test_glue_available_space":"8059ce9d-68f3-4caf-86dc-09924cdbce21",
-  "test_glue_used_space":"98e45ae6-a1ca-4efa-b160-7fcdc4a1b8fd",
-  "test_size":"484e83db-38d2-472c-8fe0-41280eb41931",
-  "test_info_service_failure":"79215bf1-2e88-409c-aed3-07219639cb10",
+  "https_test": {
+    "test_srm_transfer_outbound_http":"",
+    "test_direct_transfer_outbound_http":"",
+    "test_direct_transfer_outbound_http_exist_file":"",
+    "test_direct_transfer_inbound_http":"",
+    "test_direct_transfer_inbound_http_unexist_file":"",
+    "test_srm_transfer_inbound_http":"",
+    "test_srm_transfer_outbound_https":"",
+    "test_direct_transfer_outbound_https":"",
+    "test_direct_transfer_outbound_https_exist_file":"",
+    "test_direct_transfer_inbound_https_no_auth":"",
+    "test_direct_transfer_inbound_https_unexist_file":"",
+    "test_srm_transfer_inbound_https":"",
+    "test_srm_transfer_outbound_https_voms":"",
+    "test_direct_transfer_outbound_https_voms":"",
+    "test_direct_transfer_outbound_https_voms_exist_file":"",
+    "test_direct_transfer_inbound_https_voms":"",
+    "test_direct_transfer_inbound_https_voms_no_auth":"",
+    "test_direct_transfer_inbound_https_voms_unexist_file":"",
+    "test_srm_transfer_inbound_https_voms":""
+  }
 
-  "test_dt":"2e3504ff-f08c-4870-ba11-a74c058854ee",
-  "test_https_voms":"97e2a15d-3364-49fd-ac2b-1e8c3e4f3aec",
-  "test_https":"c2161fcb-d2a2-4558-8d01-0fdecc1a865c",
-  "test_cksm":"ab629d53-bea4-4fdc-ad3f-ac35d42807cb",
-  "test_access_tape":"32498af7-a14e-4d4d-92b0-68e442113b20",
+  "utilities_test": {
+    "test_settings":"",
+    "test_dd":"",
+    "test_cr_lf":"",
+    "test_rm_lf":""
+  }
+ 
+  "regression_test_novoms": {
+    "test_get_space_metadata_failure":""
+  }
 }
