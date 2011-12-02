@@ -10,6 +10,7 @@ from tstorm.utils import config
 from tstorm.utils import ls
 from tstorm.utils import cp
 from tstorm.utils import rm
+from tstorm.utils import utils
 
 class HttpsTest(unittest.TestCase):
     def __init__(self, testname, tfn, ifn, dfn, bifn, prt, uid, lfn, voms=False):
@@ -289,7 +290,11 @@ when the file exists.'''
         self.lfn.put_name('DIRECT TRANSFER INBOUND HTTPS')
         des = '''Verify that the file has been transferred back by using https.'''
         self.lfn.put_description(des)
-        self.lfn.put_uuid(utils.get_uuid())
+        if self.uid.has_key('test_direct_transfer_inbound_https'):
+            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_https'])
+        else:
+            print 'ADD UID for test_direct_transfer_inbound_https'
+            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['no_voms']  + self.dfn
