@@ -117,9 +117,9 @@ class MapTestId:
         a=0
         for x in map_test_id.keys():
             if len(map_test_id) == a+1:
-                sf.write('  "' + x + '":"' + map_test_id[x] + '"\n')
+                sf.write('  "' + x + '":"' + map_test_id[x][:6] + '"\n')
             else:
-                sf.write('  "' + x + '":"' + map_test_id[x] + '",\n')
+                sf.write('  "' + x + '":"' + map_test_id[x][:6] + '",\n')
             a+=1
         sf.write('}\n')
         sf.close()
