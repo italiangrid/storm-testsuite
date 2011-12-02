@@ -11,7 +11,7 @@ def backend_server_status_rt(conf, uid, lfn):
 
     return s
 
-def backend_logrotate_file_rt(conf, id, lfn):
+def backend_logrotate_file_rt(conf, uid, lfn):
     s = unittest.TestSuite()
     s.addTest(sc.RegressionConfigurationTest('test_backend_logrotate_file', conf, uid, lfn))
 
