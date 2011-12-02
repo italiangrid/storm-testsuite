@@ -284,9 +284,6 @@ the GLUE1.3 schema.'''
         #print ins1_result
         #print ins3_result 
         #print update_attrs
-        #print ins1_result
-        #print ins3_result 
-        #print update_attrs
         self.assert_(int(ins3_result['used-space']) == int(update_attrs['used']))
         new_busy = int(ins1_result['busy-space']) + int(ins3_result['used-space']) - int(ins1_result['used-space'])
         self.assert_(int(ins3_result['busy-space']) == new_busy)

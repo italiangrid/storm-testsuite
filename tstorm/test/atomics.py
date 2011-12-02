@@ -14,6 +14,7 @@ from tstorm.utils import cp
 from tstorm.utils import rm
 from tstorm.utils import rmdir
 from tstorm.utils import cksm
+from tstorm.utils import utils
 
 class AtomicsTest(unittest.TestCase):
     def __init__(self, testname, tfn, ifn, dfn, bifn, uid, lfn):

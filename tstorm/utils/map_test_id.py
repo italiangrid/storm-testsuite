@@ -20,7 +20,8 @@ class MapTestId:
             "test_cp_at":"",
             "test_rm_file":"",
             "test_rm_unexist_file":"",
-            "test_rm_dir":""}
+            "test_rm_dir":"",
+            "test_rm_unexist_dir":""}
 
         self.functionalities_test = {
             "test_cksm":"",

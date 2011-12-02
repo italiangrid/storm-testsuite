@@ -15,7 +15,7 @@ def http_ts(conf, ifn, dfn, bifn, uid, lfn):
     s.addTest(h.HttpsTest('test_direct_transfer_outbound_http_exist_file', conf, ifn, dfn, bifn, 'http', uid, lfn))
     s.addTest(h.HttpsTest('test_direct_transfer_inbound_http', conf, ifn, dfn, bifn, 'http', uid, lfn))
     s.addTest(h.HttpsTest('test_direct_transfer_inbound_http_unexist_file', conf, ifn, dfn, bifn, 'http', uid, lfn))
-    s.addTest(h.HttpsTest('test_srm_transfer_inbound_http',conf, ifn, dfn, bifn, 'http', dui, lfn))
+    s.addTest(h.HttpsTest('test_srm_transfer_inbound_http',conf, ifn, dfn, bifn, 'http', uid, lfn))
     s.addTest(ut.UtilitiesTest('test_rm_lf',conf, ifn, dfn, bifn, uid, lfn))
   
     return s

@@ -12,7 +12,7 @@ from tstorm.utils import cp
 from tstorm.utils import rm
 
 class HttpsTest(unittest.TestCase):
-    def __init__(self, testname, tfn, ifn, dfn, bifn, prt, lfn, voms=False):
+    def __init__(self, testname, tfn, ifn, dfn, bifn, prt, uid, lfn, voms=False):
         super(HttpsTest, self).__init__(testname)
         self.tsets = config.TestSettings(tfn).get_test_sets()
         self.ifn = ifn
@@ -20,6 +20,7 @@ class HttpsTest(unittest.TestCase):
         self.prt = prt
         self.bifn = bifn
         self.lfn = lfn
+        self.uid = uid
         self.voms = voms
 
     def test_srm_transfer_outbound_http(self):
