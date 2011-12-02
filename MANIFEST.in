@@ -10,5 +10,6 @@ include conf/tstorm.ini
 include conf/tstorm-tier1.ini
 include conf/tstorm-tp.json
 include conf/tstorm-tp.json.template
+include conf/map_test_id.json
 recursive-include tstorm/utils *
 recursive-include tstorm/test *
