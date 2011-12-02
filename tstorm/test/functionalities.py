@@ -171,7 +171,6 @@ already exists.'''
         des = '''Verify that the file has not been transferred back because it
 does not exit.'''
         self.lfn.put_description(des)
-        self.lfn.put_uid('')
         if self.uid.has_key('test_data_transfer_in_unexist_file'):
             self.lfn.put_uuid(self.uid['test_data_transfer_in_unexist_file'])
         else:

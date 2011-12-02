@@ -16,6 +16,7 @@ from tstorm.utils import findstrings
 from tstorm.utils import abort
 from tstorm.utils import createfile
 from tstorm.utils import removefile
+from tstorm.utils import utils
 
 class RegressionTest(unittest.TestCase):
     def __init__(self, testname, tfn, ifn, dfn, bifn, uid, lfn, prt = 'gsiftp'):
@@ -385,10 +386,10 @@ providing string parameters containing non ASCII characters.'''
         self.lfn.put_name(name)
         des = '''Wrong the StoRM backend age returned by the command srm ping.'''
         self.lfn.put_description(des)
-        if self.uid.has_key('test_backend_age'):
-            self.lfn.put_uuid(self.uid['test_backend_age'])
+        if self.uid.has_key('test_storm_backend_age'):
+            self.lfn.put_uuid(self.uid['test_storm_backend_age'])
         else:
-            print 'ADD UID for test_backend_age'
+            print 'ADD UID for test_storm_ackend_age'
             self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/181')
         self.lfn.put_output()
