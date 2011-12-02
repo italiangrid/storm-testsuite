@@ -284,11 +284,18 @@ the GLUE1.3 schema.'''
         #print ins1_result
         #print ins3_result 
         #print update_attrs
+        #print ins1_result
+        #print ins3_result 
+        #print update_attrs
         self.assert_(int(ins3_result['used-space']) == int(update_attrs['used']))
-        self.assert_(int(ins3_result['unavailable-space']) == int(update_attrs['unavailable']))
-        for x in ins3_result.keys():
-            if x not in ('used-space', 'unavailable-space'):
-                self.assert_(int(ins3_result[x]) == int(ins1_result[x]))
+        new_busy = int(ins1_result['busy-space']) + int(ins3_result['used-space']) - int(ins1_result['used-space'])
+        self.assert_(int(ins3_result['busy-space']) == new_busy)
+        new_free = int(ins1_result['total-space']) - int(ins3_result['used-space'])
+        self.assert_(int(ins3_result['free-space']) == new_free)
+        new_available = int(ins1_result['total-space']) - int(ins3_result['used-space'])
+        self.assert_(int(ins3_result['available-space']) == new_available)
+        self.assert_(int(ins3_result['total-space']) == int(ins1_result['total-space']))
+        self.assert_(int(ins3_result['reserved-space']) == int(ins1_result['reserved-space']))
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
