@@ -35,7 +35,7 @@ class CheckTestplan:
                      'update_used_space_upon_pd_ts': 'rt.update_used_space_upon_pd_ts(tfn,ifn,dfn,back_ifn, uid, lfn)',
                      'update_free_space_upon_rm_ts': 'rt.update_free_space_upon_rm_ts(tfn,ifn,dfn,back_ifn, uid, lfn)',
                      'storm_backend_age_ts': 'rt.storm_backend_age_ts(tfn,ifn,dfn,back_ifn, uid, lfn)',
-                     'get_space_metadata_failure_ts':'rt.get_space_metadata_failure_ts(tfn,ifn,dfn,back_ifn, uid, lfn)',
+                     'get_space_metadata_failure_ts':'rtnv.get_space_metadata_failure_ts(tfn,ifn,dfn,back_ifn, uid, lfn)',
                      'conf_ts': 'cts.conf_ts(tfn,ifn,dfn,back_ifn, uid, lfn)',
                      'access_tape_ts': 'tt.access_tape_ts(tfn,ifn,dfn,back_ifn, uid, lfn)',
                      'backend_server_status_rt': 'rct.backend_server_status_rt(tfn, uid, lfn)',

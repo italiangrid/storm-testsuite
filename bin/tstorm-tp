@@ -13,6 +13,7 @@ from tstorm.test import basictests as bt
 from tstorm.test import basictests_novoms as btnv
 from tstorm.test import tapetests as tt
 from tstorm.test import regressiontests as rt
+from tstorm.test import regressiontests_novoms as rtnv
 from tstorm.test import regression_conftests as rct
 from tstorm.test import regression_ldaptests as rlt
 
