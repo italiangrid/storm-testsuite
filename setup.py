@@ -9,6 +9,7 @@ import os
 
 cmdclasses = {'install_data': install_data}
 
+
 def fullsplit(path, result=None):
     """
     Split a pathname into components (the opposite of os.path.join) in a
@@ -61,8 +62,9 @@ for dirpath, dirnames, filenames in os.walk(conf_dir):
 version = __import__('tstorm').get_version()
 if u'SVN' in version:
     version = ' '.join(version.split(' ')[:-1])
+release = __import__('tstorm').get_release()
 
-name = "tstorm"
+name = "emi-t-storm"
 
 setup(
     name = name,
@@ -72,7 +74,6 @@ setup(
     author_email = 'storm-support@lists.infn.it',
     description = 'A functional Python testsuite that verifies the StoRM services.',
     download_url = 'to be defined',
-    platform = 'noarch',
     packages = packages,
     scripts = ['bin/tstorm-tp', 'bin/tstorm-test-id'],
     data_files = [('/usr/sbin/', ['sbin/tstorm-setup.sh']),

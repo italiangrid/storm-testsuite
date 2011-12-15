@@ -11,3 +11,7 @@ def get_version():
     if svn_rev != u'SVN-unknown':
         version = "%s %s" % (version, svn_rev)
     return version
+
+def get_release():
+    release = VERSION[3]
+    return release
