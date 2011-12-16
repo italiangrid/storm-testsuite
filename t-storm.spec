@@ -1,16 +1,18 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
-Name:           emi-t-storm
+%define age 1
+
+Name:           tstorm
 Version:        1.0.0
-Release:        1%{?dist}
+Release:        %{age}%{?dist}
 Summary:        Python Module for Accessing and Modifying Configuration Data in INI files
 Group:          Development/Libraries
 License:        Apache
 URL:            http://code.google.com/p/iniparse/
-Source0:        emi-t-storm-%{version}-1.tar.gz
-BuildRoot:      %{_tmppath}/%{name}-%{version}-1-%{release}-root-%(%{__id_u} -n)
+Source0:        tstorm-%{version}-%{age}.tar.gz
+BuildRoot:      %{_tmppath}/build-root-%{name}-%{version}-%{age}
 
-BuildRequires: python-json
+#BuildRequires: python-json
 
 BuildArch: noarch
 
@@ -22,7 +24,7 @@ lines are preserved when data is updated), and is more convenient to
 use.
 
 %prep
-%setup -q -n -%{version}
+%setup -q -n %{name}-%{version}-%{age}
 
 
 %build
@@ -31,9 +33,12 @@ use.
 %install
 rm -rf $RPM_BUILD_ROOT
 %{__python} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
-# fixes
 #chmod 644 $RPM_BUILD_ROOT//usr/share/doc/emi-t-storm-%{version}/index.html
-#mv $RPM_BUILD_ROOT/usr/share/doc/emi-t-storm-%{version} $RPM_BUILD_ROOT/usr/share/doc/emi-tstorm-%{version}
+mv $RPM_BUILD_ROOT/usr/share/doc/tstorm-%{version}-%{age} $RPM_BUILD_ROOT/usr/share/doc/tstorm-%{version}
+#mkdir -p $RPM_BUILD_ROOT/etc
+mv $RPM_BUILD_ROOT/usr/etc $RPM_BUILD_ROOT/etc
+
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -41,8 +46,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc  %{_docdir}/emi-t-storm-%{version}/*
+%{_bindir}/tstorm-tp
+%{_bindir}/tstorm-test-id
+%doc  %{_docdir}/tstorm-%{version}/*
+%dir %{_sysconfdir}/tstorm/*
 %{python_sitelib}/tstorm
-%{python_sitelib}/tstorm-%{version}-py*.egg-info
 
 
