@@ -72,11 +72,12 @@ setup(
     url = 'http://www.storm.it/',
     author = 'StoRM Product Team',
     author_email = 'storm-support@lists.infn.it',
+    license = 'Apache',
     description = 'A functional Python testsuite that verifies the StoRM services.',
     download_url = 'to be defined',
     packages = packages,
     scripts = ['bin/tstorm-tp', 'bin/tstorm-test-id'],
-    data_files = [('/usr/sbin/', ['sbin/tstorm-setup.sh']),
-                 ('/usr/share/doc/'+ name + '-'+version+'/',['README', 'LICENSE', 'AUTHORS', 'INSTALL']),
-                 ('/etc/'+name+'/', ['conf/tstorm.ini', 'conf/tstorm-tier1.ini', 'conf/tstorm-tp.json.template', 'conf/tstorm-tp.json', 'conf/map_test_id.json'])]
+    data_files = [
+                 ('share/doc/'+ name + '-'+version+'/',['README', 'LICENSE', 'AUTHORS', 'INSTALL']),
+                 ('etc/'+name+'/', ['conf/tstorm.ini', 'conf/tstorm-tier1.ini', 'conf/tstorm-tp.json.template', 'conf/tstorm-tp.json', 'conf/map_test_id.json'])]
 )

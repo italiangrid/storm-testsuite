@@ -7,9 +7,9 @@ include bin/tstorm-tp
 include bin/tstorm-test-id
 include sbin/tstorm-setup.sh
 include conf/tstorm.ini
-include conf/tstorm-tier1.ini
 include conf/tstorm-tp.json
 include conf/tstorm-tp.json.template
 include conf/map_test_id.json
+include t-storm.spec
 recursive-include tstorm/utils *
 recursive-include tstorm/test *
