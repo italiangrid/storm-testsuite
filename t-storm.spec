@@ -12,7 +12,7 @@ URL:            http://code.google.com/p/iniparse/
 Source0:        tstorm-%{version}-%{age}.tar.gz
 BuildRoot:      %{_tmppath}/build-root-%{name}-%{version}-%{age}
 
-#BuildRequires: python-json
+BuildRequires: python-json
 
 BuildArch: noarch
 
