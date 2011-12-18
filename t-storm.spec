@@ -1,10 +1,11 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 %define age 1
+%define release %{age}.sl5
 
 Name:           tstorm
 Version:        1.0.0
-Release:        %{age}%{?dist}
+Release:        %{release}
 Summary:        Python Module for Accessing and Modifying Configuration Data in INI files
 Group:          Development/Libraries
 License:        Apache
