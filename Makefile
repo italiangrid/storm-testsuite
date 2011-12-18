@@ -50,4 +50,4 @@ distbin: bintar
 	mkdir -p $(DISTBIN)
 	mv $(PACKAGE)-$(VERSION)-$(RELEASE).linux*.tar.gz $(PACKAGE)-$(VERSION)-$(RELEASE).tar.gz
 	cp $(PACKAGE)-$(VERSION)-$(RELEASE).tar.gz $(DISTBIN)/$(PACKAGE)-$(VERSION)-$(RELEASE).$(OS).tar.gz
-	cp $(RPM_RPM)/*.rpm $(DISTBIN)
+	cp $(RPM_RPM)/noarch/*.rpm $(DISTBIN)
