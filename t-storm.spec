@@ -8,7 +8,7 @@ Version:        1.0.0
 Release:        %{release}
 Summary:        Python Module for Accessing and Modifying Configuration Data in INI files
 Group:          Development/Libraries
-License:        Apache
+License:        Apache License
 URL:            http://code.google.com/p/iniparse/
 Source0:        tstorm-%{version}-%{age}.tar.gz
 BuildRoot:      %{_tmppath}/build-root-%{name}-%{version}-%{age}
