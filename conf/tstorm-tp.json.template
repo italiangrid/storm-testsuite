@@ -25,13 +25,16 @@
     "get_space_metadata_failure_ts"
   ],
   "regression_ldaptests": [
-    "glue_service_ts",
-    "glue_storage_share_capacity_ts",
+    "gluetwo_service_ts",
+    "gluetwo_storage_share_capacity_ts",
     "glue_available_space_info_service_ts",
     "glue_available_space_ts",
     "glue_used_space_ts",
     "size_ts",
-    "info_service_failure_ts"
+    "info_service_failure_ts",
+    "gluetwo_endpoint_undefined_ts",
+    "gluetwo_storage_undefined_ts",
+    "gluetwo_endpoint_ts"
   ],
   "regression_conftests": [
     "backend_server_status_rt",
