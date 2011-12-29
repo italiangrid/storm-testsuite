@@ -2,7 +2,8 @@
 
 import sys
 import os
-import json
+#import json
+import simplejson
 from tstorm.utils import utils
 
 class MapTestId:
@@ -52,13 +53,16 @@ class MapTestId:
             "test_mysql_connector_java_links":""}
 
         self.regression_ldap_test = {
-            "test_glue_service":"",
-            "test_glue_storage_share_capacity":"",
+            "test_gluetwo_service":"",
+            "test_gluetwo_storage_share_capacity":"",
             "test_glue_available_space_info_service":"",
             "test_glue_available_space":"",
             "test_glue_used_space":"",
             "test_size":"",
-            "test_info_service_failure":""}
+            "test_info_service_failure":"",
+            "test_gluetwo_endpoint_undefined":"",
+            "test_gluetwo_storage_undefined":"",
+            "test_gluetwo_endpoint":""}
  
         self.https_test = {
             "test_srm_transfer_outbound_http":"",
@@ -125,8 +129,14 @@ class MapTestId:
         sf.close()
 
         try:
-            tp_info=json.read(open(conffile,'r').read())
-        except (IOError,json.ReadException):
+            #tp_info=json.read(open(conffile,'r').read())
+            tp_info=simplejson.load(open(conffile,'r'))
+        except ValueError, e:
             #dbglog("No stfunc.conf file found or wrong json syntax")
             print "wrong conf file"
-            sys.exit(2) 
+            sys.exit(2)
+            #raise SystemExit(e) 
+        #except (IOError,simplejson.ReadException):
+            #dbglog("No stfunc.conf file found or wrong json syntax")
+            #print "wrong conf file"
+            #sys.exit(2)

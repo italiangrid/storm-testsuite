@@ -4,16 +4,17 @@ __author__ = 'Elisabetta Ronchieri'
 
 import os 
 import unittest
+
 from tstorm.utils import config
-from tstorm.utils import ls
-from tstorm.utils import cp
-from tstorm.utils import rm
-from tstorm.utils import rmdir
+from tstorm.commands import ls
+from tstorm.commands import cp
+from tstorm.commands import rm
+from tstorm.commands import rmdir
 from tstorm.utils import cksm
-from tstorm.utils import ping
-from tstorm.utils import space
+from tstorm.commands import ping
+from tstorm.commands import space
 from tstorm.utils import findstrings
-from tstorm.utils import abort
+from tstorm.commands import abort
 from tstorm.utils import createfile
 from tstorm.utils import removefile
 from tstorm.utils import utils

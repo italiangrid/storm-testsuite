@@ -21,7 +21,7 @@ class LdapTest(unittest.TestCase):
         self.uid = uid
         self.lfn=lfn
 
-    def test_glue_service(self):
+    def test_gluetwo_service(self):
         name = '''STORM BUG: GLUESERVICENAME AND GLUESERVIVETYPE CONTAIN WRONG
 VALUES'''
         self.lfn.put_name(name)
@@ -29,10 +29,10 @@ VALUES'''
 setting wrong values in the GlueServiceName and GlueServiceType attributes of
 the GLUE1.3 schema.'''
         self.lfn.put_description(des)
-        if self.uid.has_key('test_glue_service'):
-            self.lfn.put_uuid(self.uid['test_glue_service'])
+        if self.uid.has_key('test_gluetwo_service'):
+            self.lfn.put_uuid(self.uid['test_gluetwo_service'])
         else:
-            print 'ADD UID for test_glue_service'
+            print 'ADD UID for test_gluetwo_service'
             self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/143')
         self.lfn.put_output()
@@ -47,13 +47,13 @@ the GLUE1.3 schema.'''
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
-    def test_glue_storage_share_capacity(self):
+    def test_gluetwo_storage_share_capacity(self):
         self.lfn.put_name('GLUE2 GLUE2STORAGESHARECAPACITY* SIZES ALWAYS ZERO')
         self.lfn.put_description('Glue2 GLUE2StorageShareCapacity* sizes always 0.')
-        if self.uid.has_key('test_glue_storage_share_capacity'):
-            self.lfn.put_uuid(self.uid['test_glue_storage_share_capacity'])
+        if self.uid.has_key('test_gluetwo_storage_share_capacity'):
+            self.lfn.put_uuid(self.uid['test_gluetwo_storage_share_capacity'])
         else:
-            print 'ADD UID for test_glue_storage_share_capacity'
+            print 'ADD UID for test_gluetwo_storage_share_capacity'
             self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/147')
         self.lfn.put_output()
@@ -296,3 +296,89 @@ the GLUE1.3 schema.'''
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
+
+    def test_gluetwo_endpoint_undefined(self):
+        name = '''STORM BUG: GLUE2ENDPOINTCAPABILITY AND 
+GLUE2ENDPOINTINTERFACENAME CONTAIN WRONG VALUES'''
+        self.lfn.put_name(name)
+        des = '''Yaim-Storm for GLUE2 configuration set wrong values in the 
+GLUE2EndpointCapability and GLUE2EndpointInterfaceName attributes of
+the GLUE2.0 schema.'''
+        self.lfn.put_description(des)
+        if self.uid.has_key('test_gluetwo_endpoint'):
+            self.lfn.put_uuid(self.uid['test_gluetwo_endpoint'])
+        else:
+            print 'ADD UID for test_gluetwo_endpoint'
+            self.lfn.put_uuid(utils.get_uuid())
+        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/207')
+        self.lfn.put_output()
+
+        ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
+                      self.attributes, basedn=self.basedn, filter=self.filter)
+        self.lfn.put_cmd(ldap_search.get_command())
+        ls_result = ldap_search.get_output()
+        self.assert_(ls_result['status'] == 'PASS')
+
+        #TO BE CHANGED
+        self.assert_('emi.storm' not in ls_result['GlueServiceType'])
+
+        self.lfn.put_result('PASSED')
+        self.lfn.flush_file()
+
+    def test_gluetwo_storage_undefined(self):
+        name = '''STORM BUG: GLUE2ENDPOINTCAPABILITY AND 
+GLUE2ENDPOINTINTERFACENAME CONTAIN WRONG VALUES'''
+        self.lfn.put_name(name)
+        des = '''Yaim-Storm for GLUE2 configuration set wrong values in the 
+GLUE2EndpointCapability and GLUE2EndpointInterfaceName attributes of
+the GLUE2.0 schema.'''
+        self.lfn.put_description(des)
+        if self.uid.has_key('test_gluetwo_endpoint'):
+            self.lfn.put_uuid(self.uid['test_gluetwo_endpoint'])
+        else:
+            print 'ADD UID for test_gluetwo_endpoint'
+            self.lfn.put_uuid(utils.get_uuid())
+        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/207')
+        self.lfn.put_output()
+
+        ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
+                      self.attributes, basedn=self.basedn, filter=self.filter)
+        self.lfn.put_cmd(ldap_search.get_command())
+        ls_result = ldap_search.get_output()
+        self.assert_(ls_result['status'] == 'PASS')
+
+        #TO BE CHANGED
+        self.assert_('emi.storm' not in ls_result['GlueServiceType'])
+
+        self.lfn.put_result('PASSED')
+        self.lfn.flush_file()
+
+    def test_gluetwo_endpoint(self):
+        name = '''STORM BUG: GLUE2ENDPOINTCAPABILITY AND 
+GLUE2ENDPOINTINTERFACENAME CONTAIN WRONG VALUES'''
+        self.lfn.put_name(name)
+        des = '''Yaim-Storm for GLUE2 configuration set wrong values in the 
+GLUE2EndpointCapability and GLUE2EndpointInterfaceName attributes of
+the GLUE2.0 schema.'''
+        self.lfn.put_description(des)
+        if self.uid.has_key('test_gluetwo_endpoint'):
+            self.lfn.put_uuid(self.uid['test_gluetwo_endpoint'])
+        else:
+            print 'ADD UID for test_gluetwo_endpoint'
+            self.lfn.put_uuid(utils.get_uuid())
+        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/208')
+        self.lfn.put_output()
+
+        ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
+                      self.attributes, basedn=self.basedn, filter=self.filter)
+        self.lfn.put_cmd(ldap_search.get_command())
+        ls_result = ldap_search.get_output()
+        self.assert_(ls_result['status'] == 'PASS')
+
+        #TO BE CHANGED
+        self.assert_('emi.storm' not in ls_result['GlueServiceType'])
+
+        self.lfn.put_result('PASSED')
+        self.lfn.flush_file()
+
+

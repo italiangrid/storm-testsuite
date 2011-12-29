@@ -6,13 +6,14 @@ import datetime
 import time
 import os 
 import unittest
+
 from tstorm.utils import config
-from tstorm.utils import ping
-from tstorm.utils import ls
-from tstorm.utils import mkdir
-from tstorm.utils import cp
-from tstorm.utils import rm
-from tstorm.utils import rmdir
+from tstorm.commands import ping
+from tstorm.commands import ls
+from tstorm.commands import mkdir
+from tstorm.commands import cp
+from tstorm.commands import rm
+from tstorm.commands import rmdir
 from tstorm.utils import cksm
 from tstorm.utils import utils
 

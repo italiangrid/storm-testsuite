@@ -6,7 +6,8 @@ import sys
 import datetime
 import time
 import os
-import json
+#import json
+import simplejson
 import check_testplan as ctp
 
 def set_inpt_fn(n_df, n_dfn, subdir=True):
@@ -40,12 +41,17 @@ def get_tpj_info(tpfnc='tstorm-tp.json'):
     conffile=configpath+tpfnc
 
     try:
-        tp_info=json.read(open(conffile,'r').read())
-    
-    except (IOError,json.ReadException):
+        #tp_info=json.read(open(conffile,'r').read())
+        tp_info=simplejson.load(open(conffile,'r'))
+    except ValueError, e:
         #dbglog("No stfunc.conf file found or wrong json syntax")
         print "wrong conf file"
         sys.exit(2)
+        #raise SystemExit(e) 
+    #except (IOError,simplejson.ReadException):
+        #dbglog("No stfunc.conf file found or wrong json syntax")
+        #print "wrong conf file"
+        #sys.exit(2)
       
     return tp_info
 

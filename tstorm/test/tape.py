@@ -8,12 +8,12 @@ import os
 import unittest
 import time
 from tstorm.utils import config
-from tstorm.utils import ping
-from tstorm.utils import ls
-from tstorm.utils import cp
-from tstorm.utils import rm
-from tstorm.utils import space
-from tstorm.utils import bringonline as bol
+from tstorm.commands import ping
+from tstorm.commands import ls
+from tstorm.commands import cp
+from tstorm.commands import rm
+from tstorm.commands import space
+from tstorm.commands import bringonline as bol
 
 class TapeTest(unittest.TestCase):
     def __init__(self, testname, tfn, ifn, dfn, bifn):

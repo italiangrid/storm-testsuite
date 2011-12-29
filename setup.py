@@ -22,7 +22,7 @@ setup(
     license = 'Apache',
     description = 'A functional Python testsuite that verifies the StoRM services.',
     download_url = 'to be defined',
-    packages = ['tstorm', 'tstorm/utils', 'tstorm/test'],
+    packages = ['tstorm', 'tstorm/commands', 'tstorm/utils', 'tstorm/test'],
     scripts = ['bin/tstorm-tp', 'bin/tstorm-test-id'],
     data_files = [
                  ('share/doc/'+ name + '-'+version+'/',['README', 'LICENSE', 'AUTHORS', 'INSTALL']),

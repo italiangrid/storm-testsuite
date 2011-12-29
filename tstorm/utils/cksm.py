@@ -4,6 +4,7 @@ __author__ = 'Elisabetta Ronchieri'
 
 import sys
 from zlib import adler32
+
 BLOCKSIZE=4*1024*1024
 
 class CksmLf:

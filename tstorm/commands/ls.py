@@ -4,7 +4,7 @@ __author__ = 'Elisabetta Ronchieri'
 
 import commands
 import os
-from tstorm.utils import utils
+#from tstorm.utils import utils
 
 class LcgLs:
   def __init__(self, endpoint, accesspoint, dfn):
