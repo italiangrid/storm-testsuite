@@ -2,13 +2,12 @@
 
 import sys
 import os
-#import json
 import simplejson
 from tstorm.utils import utils
 
 class MapTestId:
     def __init__(self):
-        self.atomics_test = {
+        self.atomics_tests = {
             "test_dcache_ping":"",
             "test_storm_ping":"",
             "test_ls_unexist_file":"",
@@ -24,14 +23,14 @@ class MapTestId:
             "test_rm_dir":"",
             "test_rm_unexist_dir":""}
 
-        self.functionalities_test = {
+        self.functionalities_tests = {
             "test_cksm":"",
             "test_data_transfer_out_file":"",
             "test_data_transfer_out_exist_file":"",
             "test_data_transfer_in_file":"",
             "test_data_transfer_in_unexist_file":""}
 
-        self.regression_test = {
+        self.regressions_tests = {
             "test_eight_digit_string_checksum":"",
             "test_update_free_space_upon_rm":"",
             "test_update_used_space_upon_pd":"",
@@ -40,7 +39,7 @@ class MapTestId:
             "test_storm_backend_age":"",
             "test_get_space_metadata_failure":""}
  
-        self.regression_conf_test = {
+        self.regressions_conf_tests = {
             "test_backend_server_status":"",
             "test_backend_logrotate_file":"",
             "test_backend_cron_file":"",
@@ -52,7 +51,7 @@ class MapTestId:
             "test_mysql_storage_space_update":"",
             "test_mysql_connector_java_links":""}
 
-        self.regression_ldap_test = {
+        self.regressions_ldap_tests = {
             "test_gluetwo_service":"",
             "test_gluetwo_storage_share_capacity":"",
             "test_glue_available_space_info_service":"",
@@ -64,7 +63,7 @@ class MapTestId:
             "test_gluetwo_storage_undefined":"",
             "test_gluetwo_endpoint":""}
  
-        self.https_test = {
+        self.https_tests = {
             "test_srm_transfer_outbound_http":"",
             "test_direct_transfer_outbound_http":"",
             "test_direct_transfer_outbound_http_exist_file":"",
@@ -85,52 +84,48 @@ class MapTestId:
             "test_direct_transfer_inbound_https_voms_unexist_file":"",
             "test_srm_transfer_inbound_https_voms":""}
  
-        self.utilities_test = {
+        self.utilities_tests = {
             "test_settings":"",
             "test_dd":"",
             "test_cr_lf":"",
             "test_rm_lf":""}
 
-    def get_test_id(self):
-        test_id = {}
-        for x in self.atomics_test.keys():
-            test_id[x] = utils.get_uuid()
-        for x in self.functionalities_test.keys():
-            test_id[x] = utils.get_uuid()
-        for x in self.regression_test.keys():
-            test_id[x] = utils.get_uuid()
-        for x in self.regression_conf_test.keys():
-            test_id[x] = utils.get_uuid()
-        for x in self.regression_ldap_test.keys():
-            test_id[x] = utils.get_uuid()
-        for x in self.https_test.keys():
-            test_id[x] = utils.get_uuid()
-        for x in self.utilities_test.keys():
-            test_id[x] = utils.get_uuid()
-        return test_id
+        self.categories_tests = [
+            'atomics_tests', 'functionalities_tests', 'regressions_tests',
+            'regressions_conf_tests', 'regressions_ldap_tests', 'https_tests',
+            'utilities_tests'
+            ]
 
-    def create_map_test_id(self):
-        map_test_id = self.get_test_id()
+    def get_all_tests(self):
+        '''Returns a dictionary containing all categories tests'''
 
-        dirname=os.path.dirname(sys.argv[0])
-        configpath = os.path.join(dirname, "../", ".")
-        conffile=configpath+'./etc/tstorm/map_test_id.json'
-        sf = open(conffile, 'a')
-        sf.write('{\n')
+        all_tests = {}
+        
+        for x in self.categories_tests:
+            all_tests.update(eval(self.+'x'))
+        
+        return all_tests
 
-        a=0
-        for x in map_test_id.keys():
-            if len(map_test_id) == a+1:
-                sf.write('  "' + x + '":"' + map_test_id[x][:6] + '"\n')
+    def get_tests_ids(self):
+        '''Returns a dictionary containing a map between test and id'''
+
+        test_ids = {}
+
+        for x in self.get_all_tests().keys():
+            uuid = utils.get_uuid()
+            if len(uuid) > 6:
+                test_ids[x] = uuid[:6]
             else:
-                sf.write('  "' + x + '":"' + map_test_id[x][:6] + '",\n')
-            a+=1
-        sf.write('}\n')
-        sf.close()
+                test_ids[x] = uuid
+
+        return test_ids
+
+    def verify_file(self, file_name):
+        '''Verifies the corretness of the file in json format'''
 
         try:
             #tp_info=json.read(open(conffile,'r').read())
-            tp_info=simplejson.load(open(conffile,'r'))
+            tests_ids_info=simplejson.load(open(file_name,'r'))
         except ValueError, e:
             #dbglog("No stfunc.conf file found or wrong json syntax")
             print "wrong conf file"
@@ -140,3 +135,55 @@ class MapTestId:
             #dbglog("No stfunc.conf file found or wrong json syntax")
             #print "wrong conf file"
             #sys.exit(2)
+
+        return tests_ids_info
+ 
+    def create_file(self):
+        '''Creates a json file containing test as key, and id as value'''
+
+        map_tests_ids = self.get_tests_ids()
+
+        dir_name=os.path.dirname(sys.argv[0])
+        config_path = os.path.join(dir_name, "../", ".")
+
+        destination_file=config_path+'./etc/tstorm/map_test_id.json'
+
+        df = open(destination_file, 'a')
+        df.write('{\n')
+
+        for x in map_tests_ids.keys():
+            df.write('  "' + x + '":"' + map_tests_ids[x] + '"\n')
+
+        df.write('}\n')
+        df.close()
+
+        self.verify_file(destination_file)
+
+    def modify_file(self):
+        '''Modifies a json file containing test as key, and id as value'''
+
+        map_tests_ids = self.get_tests_ids()
+
+        dir_name=os.path.dirname(sys.argv[0])
+        config_path = os.path.join(dir_name, "../", ".")
+
+        source_file=config_path+'./etc/tstorm/map_test_id.json'
+        source_tests_ids_info=self.verify_file(source_file)
+
+        destination_file=config_path+'./etc/tstorm/map_test_id.json.tmp'
+        df = open(destination_file, 'a')
+
+        df.write('{\n')
+
+        for x in map_tests_ids.keys():
+            if x in source_tests_ids_info.keys():
+                df.write('  "' + x + '":"' + source_tests_ids_info[x] + '"\n')
+            else:
+                df.write('  "' + x + '":"' + map_tests_ids[x] + '"\n')
+
+        df.write('}\n')
+        df.close()
+
+        self.verify_file(destination_file)
+
+        #os.rename(destination_file, source_file)

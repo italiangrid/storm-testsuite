@@ -4,10 +4,11 @@ __author__ = 'Elisabetta Ronchieri'
 
 import sys
 import getopt
-from tstorm.utils import map_test_id as mti
+from tstorm.utils import map_tests_ids
+from tstorm.utils import settings
 
 def usage():
-    print "Usage: tstorm-test-id"
+    print "Usage: tstorm-tests-ids"
 
 if __name__ == '__main__':
     try:
@@ -22,4 +23,7 @@ if __name__ == '__main__':
             usage()
             sys.exit()
 
-    tests_suites = mti.MapTestId().create_map_test_id()
+    if not settings.file_exists('map_tests_ids.json'):
+        map_tests_ids.MapTestId().create_map_tests_ids()
+    else:
+        map_tests_ids.MapTestId().modify_map_tests_ids()

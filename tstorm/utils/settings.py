@@ -55,6 +55,18 @@ def get_tpj_info(tpfnc='tstorm-tp.json'):
       
     return tp_info
 
+def file_exist(file_name='map_tests_ids.json')
+    '''Check existance of a file'''
+    result=False
+
+    dir_name = os.path.dirname(sys.argv[0])
+    path = os.path.join(dir_name, "../", ".")
+
+    if os.path.isfile(path + file_name):
+        result=True
+
+    return result
+
 def print_tpj_template(tpfnc='tstorm-tp.json.template'):
     '''Print Test Plan Information from the configuration template file of testplan'''
     dirname = os.path.dirname(sys.argv[0])
