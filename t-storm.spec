@@ -39,8 +39,6 @@ mv $RPM_BUILD_ROOT/usr/share/doc/tstorm-%{version}-%{age} $RPM_BUILD_ROOT/usr/sh
 #mkdir -p $RPM_BUILD_ROOT/etc
 mv $RPM_BUILD_ROOT/usr/etc $RPM_BUILD_ROOT/etc
 
-
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -48,7 +46,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %{_bindir}/tstorm-tp
-%{_bindir}/tstorm-test-id
+%{_bindir}/tstorm-tests-ids
 %doc  %{_docdir}/tstorm-%{version}/*
 %dir %{_sysconfdir}/tstorm/*
 %{python_sitelib}/tstorm
