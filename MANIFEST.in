@@ -14,3 +14,5 @@ include t-storm.spec
 recursive-include tstorm/commands *
 recursive-include tstorm/utils *
 recursive-include tstorm/tests *
+recursive-include tstorm/tests/deployment *
+recursive-include tstorm/tests/deployment/regression *
