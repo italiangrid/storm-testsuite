@@ -5,7 +5,7 @@ __author__ = 'Elisabetta Ronchieri'
 import sys
 import unittest
 import getopt
-from tstorm.utils import reportfile as rf
+from tstorm.utils import report_file as rf
 from tstorm.utils import settings as st
 from tstorm.utils import check_testplan as ctp
 from tstorm.tests import commontests as cts

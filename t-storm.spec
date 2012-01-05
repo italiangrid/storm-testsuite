@@ -45,7 +45,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%{_bindir}/tstorm-tp
+%{_bindir}/tstorm-sanity-tests
+%{_bindir}/tstorm-tests
 %{_bindir}/tstorm-tests-ids
 %doc  %{_docdir}/tstorm-%{version}/*
 %dir %{_sysconfdir}/tstorm/*
