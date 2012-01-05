@@ -8,14 +8,14 @@ import getopt
 from tstorm.utils import reportfile as rf
 from tstorm.utils import settings as st
 from tstorm.utils import check_testplan as ctp
-from tstorm.test import commontests as cts
-from tstorm.test import basictests as bt
-from tstorm.test import basictests_novoms as btnv
-from tstorm.test import tapetests as tt
-from tstorm.test import regressiontests as rt
-from tstorm.test import regressiontests_novoms as rtnv
-from tstorm.test import regression_conftests as rct
-from tstorm.test import regression_ldaptests as rlt
+from tstorm.tests import commontests as cts
+from tstorm.tests import basictests as bt
+from tstorm.tests import basictests_novoms as btnv
+from tstorm.tests import tapetests as tt
+from tstorm.tests import regressiontests as rt
+from tstorm.tests import regressiontests_novoms as rtnv
+from tstorm.tests import regression_conftests as rct
+from tstorm.tests import regression_ldaptests as rlt
 
 def run_tests(tpi, uid, lfn, tt, n_df, n_dfn):
     info=ctp.CheckTestplan()
