@@ -5,7 +5,7 @@ import os
 import simplejson
 from tstorm.utils import utils
 
-class MapTestId:
+class MapTestsIds:
     def __init__(self):
         self.atomics_tests = {
             "test_dcache_ping":"",
@@ -96,7 +96,7 @@ class MapTestId:
             'utilities_tests'
             ]
 
-    def get_all_tests(self):
+    def __get_all_tests(self):
         '''Returns a dictionary containing all categories tests'''
 
         all_tests = {}
@@ -106,12 +106,12 @@ class MapTestId:
         
         return all_tests
 
-    def get_tests_ids(self):
+    def __get_tests_ids(self):
         '''Returns a dictionary containing a map between test and id'''
 
         test_ids = {}
 
-        for x in self.get_all_tests().keys():
+        for x in self.__get_all_tests().keys():
             uuid = utils.get_uuid()
             if len(uuid) > 6:
                 test_ids[x] = uuid[:6]
@@ -120,8 +120,9 @@ class MapTestId:
 
         return test_ids
 
-    def verify_file(self, file_name):
+    def verify_map_file(self, file_name):
         '''Verifies the corretness of the file in json format'''
+        tests_ids_info = {}
 
         try:
             #tp_info=json.read(open(conffile,'r').read())
@@ -138,10 +139,10 @@ class MapTestId:
 
         return tests_ids_info
  
-    def create_file(self):
+    def create_map_file(self):
         '''Creates a json file containing test as key, and id as value'''
 
-        map_tests_ids = self.get_tests_ids()
+        map_tests_ids = self.__get_tests_ids()
 
         dir_name=os.path.dirname(sys.argv[0])
         config_path = os.path.join(dir_name, "../", ".")
@@ -159,15 +160,16 @@ class MapTestId:
 
         self.verify_file(destination_file)
 
-    def modify_file(self):
+    def modify_map_file(self):
         '''Modifies a json file containing test as key, and id as value'''
 
-        map_tests_ids = self.get_tests_ids()
+        map_tests_ids = self.__get_tests_ids()
 
         dir_name=os.path.dirname(sys.argv[0])
         config_path = os.path.join(dir_name, "../", ".")
 
         source_file=config_path+'./etc/tstorm/map_test_id.json'
+
         source_tests_ids_info=self.verify_file(source_file)
 
         destination_file=config_path+'./etc/tstorm/map_test_id.json.tmp'

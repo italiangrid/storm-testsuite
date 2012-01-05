@@ -24,6 +24,6 @@ if __name__ == '__main__':
             sys.exit()
 
     if not settings.file_exists('map_tests_ids.json'):
-        map_tests_ids.MapTestId().create_map_tests_ids()
+        map_tests_ids.MapTestId().create_map_file()
     else:
-        map_tests_ids.MapTestId().modify_map_tests_ids()
+        map_tests_ids.MapTestId().modify_map_file()
