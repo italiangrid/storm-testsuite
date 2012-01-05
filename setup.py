@@ -20,11 +20,14 @@ setup(
     author = 'StoRM Product Team',
     author_email = 'storm-support@lists.infn.it',
     license = 'Apache',
-    description = 'A functional Python testsuite that verifies the StoRM services.',
+    description = 'A Python testsuite that verifies the StoRM services.',
     download_url = 'to be defined',
     packages = ['tstorm', 'tstorm/commands', 'tstorm/utils', 'tstorm/test'],
-    scripts = ['bin/tstorm-tp', 'bin/tstorm-test-id'],
+    scripts = ['bin/tstorm-tp', 'bin/tstorm-tests-ids'],
     data_files = [
-                 ('share/doc/'+ name + '-'+version+'/',['README', 'LICENSE', 'AUTHORS', 'INSTALL']),
-                 ('etc/'+name+'/', ['conf/tstorm.ini', 'conf/tstorm-tp.json.template', 'conf/tstorm-tp.json', 'conf/map_test_id.json'])]
+        ('share/doc/'+ name + '-'+version+'/',
+        ['README', 'LICENSE', 'AUTHORS', 'INSTALL']),
+        ('etc/'+name+'/',
+        ['conf/tstorm.ini', 'conf/tstorm-tp.json.template',
+        'conf/tstorm-tp.json', 'conf/map_tests_ids.json'])]
 )
