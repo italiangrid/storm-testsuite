@@ -3,7 +3,7 @@
 __author__ = 'Elisabetta Ronchieri'
 
 import unittest
-from tstorm.test import service_conf as sc
+from tstorm.tests.deployment.regression import service_configuration as sc
 
 def backend_server_status_rt(conf, uid, lfn):
     s = unittest.TestSuite()
