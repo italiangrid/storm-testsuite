@@ -6,7 +6,6 @@ import sys
 import datetime
 import time
 import os
-#import json
 import simplejson
 import check_testplan as ctp
 
@@ -55,17 +54,75 @@ def get_tpj_info(tpfnc='tstorm-tp.json'):
       
     return tp_info
 
-def file_exist(file_name='map_tests_ids.json')
-    '''Check existance of a file'''
-    result=False
+def get_configuration_paths():
+    '''Returns the path where you can find configuration file'''
 
     dir_name = os.path.dirname(sys.argv[0])
-    path = os.path.join(dir_name, "../", ".")
 
-    if os.path.isfile(path + file_name):
-        result=True
+    paths = [os.path.join(dir_name, "../", "etc/tstorm/"),
+        os.path.join(dir_name, "../", "../", "etc/tstorm/")]
+
+    return paths 
+
+def configuration_path_exists():
+    '''Checks the existance of a given path'''
+
+    result=False
+
+    paths = get_configuration_paths()
+
+    for x in paths:
+        if os.path.isdir(x):
+            #print 'path %s exist ' % x
+            result=True
+            break
 
     return result
+
+def get_configuration_path():
+    '''Returns the configuration path'''
+
+    result=False
+
+    paths = get_configuration_paths()
+
+    for x in paths:
+        if os.path.isdir(x):
+            configuration_path = x
+            #print 'path %s ' % x
+            break
+
+    return configuration_path
+
+def configuration_file_exists(file_name='map_tests_ids.json'):
+    '''Checks the existance of a given configuration file'''
+
+    result=False
+
+    paths = get_configuration_paths()
+
+    for x in paths:
+        if os.path.isfile(os.path.join(x,file_name)):
+            #print 'file %s exist ' % (x+file_name)
+            result=True
+            break
+
+    return result
+
+def get_configuration_file(file_name='map_tests_ids.json'):
+    '''Returns the configuration file'''
+
+    configuration_file=''
+
+    paths = get_configuration_paths()
+
+    for x in paths:
+        if os.path.isfile(os.path.join(x,file_name)):
+            configuration_file=(x+file_name)
+            #print 'file %s ' % configuration_file
+            break
+
+    return configuration_file 
 
 def print_tpj_template(tpfnc='tstorm-tp.json.template'):
     '''Print Test Plan Information from the configuration template file of testplan'''

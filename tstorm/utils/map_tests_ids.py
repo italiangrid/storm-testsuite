@@ -1,9 +1,12 @@
 #!/usr/bin/python
 
+__author__ = 'Elisabetta Ronchieri'
+
 import sys
 import os
 import simplejson
 from tstorm.utils import utils
+from tstorm.utils import settings
 
 class MapTestsIds:
     def __init__(self):
@@ -102,7 +105,7 @@ class MapTestsIds:
         all_tests = {}
         
         for x in self.categories_tests:
-            all_tests.update(eval(self.+'x'))
+            all_tests.update(eval('self.' + x))
         
         return all_tests
 
@@ -120,13 +123,22 @@ class MapTestsIds:
 
         return test_ids
 
+    def __set_map_file_entry(self, map_len, current_index, file_index, key, value):
+        '''Set an entry in the map file'''
+
+        if map_len == current_index:
+            file_index.write('  "' + key + '":"' + value + '"\n')
+        else:
+            file_index.write('  "' + key + '":"' + value + '",\n')
+
     def verify_map_file(self, file_name):
         '''Verifies the corretness of the file in json format'''
+
         tests_ids_info = {}
 
         try:
-            #tp_info=json.read(open(conffile,'r').read())
-            tests_ids_info=simplejson.load(open(file_name,'r'))
+            #tp_info = json.read(open(conffile,'r').read())
+            tests_ids_info = simplejson.load(open(file_name,'r'))
         except ValueError, e:
             #dbglog("No stfunc.conf file found or wrong json syntax")
             print "wrong conf file"
@@ -144,48 +156,43 @@ class MapTestsIds:
 
         map_tests_ids = self.__get_tests_ids()
 
-        dir_name=os.path.dirname(sys.argv[0])
-        config_path = os.path.join(dir_name, "../", ".")
-
-        destination_file=config_path+'./etc/tstorm/map_test_id.json'
-
+        configuration_path = settings.get_configuration_path()
+        destination_file=configuration_path + 'map_tests_ids.json'
         df = open(destination_file, 'a')
         df.write('{\n')
 
+        a=0
         for x in map_tests_ids.keys():
-            df.write('  "' + x + '":"' + map_tests_ids[x] + '"\n')
+            self.__set_map_file_entry(len(map_tests_ids), a+1, df, x, map_tests_ids[x])
 
         df.write('}\n')
         df.close()
 
-        self.verify_file(destination_file)
+        self.verify_map_file(destination_file)
 
     def modify_map_file(self):
         '''Modifies a json file containing test as key, and id as value'''
 
         map_tests_ids = self.__get_tests_ids()
 
-        dir_name=os.path.dirname(sys.argv[0])
-        config_path = os.path.join(dir_name, "../", ".")
-
-        source_file=config_path+'./etc/tstorm/map_test_id.json'
-
-        source_tests_ids_info=self.verify_file(source_file)
-
-        destination_file=config_path+'./etc/tstorm/map_test_id.json.tmp'
+        configuration_path = settings.get_configuration_path()
+        source_file = configuration_path + 'map_tests_ids.json'
+        source_tests_ids_info = self.verify_map_file(source_file)
+        destination_file = configuration_path + 'map_tests_ids.json.tmp'
         df = open(destination_file, 'a')
-
         df.write('{\n')
 
+        a=0
         for x in map_tests_ids.keys():
             if x in source_tests_ids_info.keys():
-                df.write('  "' + x + '":"' + source_tests_ids_info[x] + '"\n')
+                self.__set_map_file_entry(len(map_tests_ids), a+1, df, x, source_tests_ids_info[x])
             else:
-                df.write('  "' + x + '":"' + map_tests_ids[x] + '"\n')
+                self.__set_map_file_entry(len(map_tests_ids), a+1, df, x, map_tests_ids[x])
+            a+=1
 
         df.write('}\n')
         df.close()
 
-        self.verify_file(destination_file)
+        self.verify_map_file(destination_file)
 
-        #os.rename(destination_file, source_file)
+        os.rename(destination_file, source_file)

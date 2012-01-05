@@ -23,7 +23,7 @@ if __name__ == '__main__':
             usage()
             sys.exit()
 
-    if not settings.file_exists('map_tests_ids.json'):
-        map_tests_ids.MapTestId().create_map_file()
+    if not settings.configuration_file_exists(file_name='map_tests_ids.json'):
+        map_tests_ids.MapTestsIds().create_map_file()
     else:
-        map_tests_ids.MapTestId().modify_map_file()
+        map_tests_ids.MapTestsIds().modify_map_file()
