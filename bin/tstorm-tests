@@ -6,7 +6,7 @@ import sys
 import unittest
 import getopt
 from tstorm.utils import report_file as rf
-from tstorm.utils import settings as st
+from tstorm.utils import settings 
 from tstorm.utils import check_testplan as ctp
 from tstorm.tests import commontests as cts
 from tstorm.tests import basictests as bt
@@ -108,11 +108,11 @@ if __name__ == '__main__':
             assert False, "unhandled option"
 
     '''Get Test Plan Info from conf file'''
-    tpj_info = st.get_tpj_info(tpjfnc)
+    tpj_info = settings.get_json_file_information(tpjfnc)
     '''Get Test Id Mapping Info from file'''
-    mti_info =  st.get_tpj_info(test_id_map)
+    mti_info =  settings.get_json_file_information(test_id_map)
 
-    if not st.is_valid(tpj_info):
+    if not settings.is_json_file_valid(tpj_info):
         '''Wrong Test Plan conf file'''
         tpj_details()
         sys.exit(3)

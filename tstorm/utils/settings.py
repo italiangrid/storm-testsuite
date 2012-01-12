@@ -33,7 +33,7 @@ def set_inpt_fn(n_df, n_dfn, subdir=True):
 
     return ifn,dfn,bfn
 
-def get_tpj_info(tpfnc='tstorm-tp.json'):
+def get_json_file_information(tpfnc='tstorm-tp.json'):
     '''Get Test Plan Information from the configuration file of testplan'''
     dirname=os.path.dirname(sys.argv[0])
     configpath = os.path.join(dirname, "../", ".")
@@ -124,7 +124,7 @@ def get_configuration_file(file_name='map_tests_ids.json'):
 
     return configuration_file 
 
-def print_tpj_template(tpfnc='tstorm-tp.json.template'):
+def print_json_file_template(tpfnc='tstorm-tp.json.template'):
     '''Print Test Plan Information from the configuration template file of testplan'''
     dirname = os.path.dirname(sys.argv[0])
     configpath = os.path.join(dirname, "../", ".")
@@ -143,7 +143,7 @@ def print_tpj_template(tpfnc='tstorm-tp.json.template'):
         print "Unexpected error:", sys.exc_info()[0]
         sys.exit(2)
 
-def is_valid(tp_info):
+def is_json_file_valid(tp_info):
     '''Check validity of the test plan conf file'''
 
     result=False

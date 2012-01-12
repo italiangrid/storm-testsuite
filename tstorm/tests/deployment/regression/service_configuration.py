@@ -4,7 +4,7 @@ __author__ = 'Elisabetta Ronchieri'
 
 import os 
 import unittest
-from tstorm.utils import config
+from tstorm.utils import configuration
 from tstorm.utils import readfile
 from tstorm.utils import service
 from tstorm.utils import rpm
@@ -16,7 +16,7 @@ from tstorm.utils import utils
 class RegressionConfigurationTest(unittest.TestCase):
     def __init__(self, testname, tfn, uid, lfn):
         super(RegressionConfigurationTest, self).__init__(testname)
-        self.tsets = config.TestSettings(tfn).get_test_sets()
+        self.tsets = configuration.LoadConfiguration(tfn).get_test_settings()
         self.uid = uid
         self.lfn = lfn
 
