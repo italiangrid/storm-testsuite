@@ -21,14 +21,15 @@ class ReportFile:
             sys.stderr.write ("This appears to not be a valid directory.")
             sys.stderr.write ("This is a serious internal error")
             fail ("Log file path must be valid")
-        self.log_file = open(os.path.join(self.fpath, self.fname), 'a+')
+        if self.report:
+            self.log_file = open(os.path.join(self.fpath, self.fname), 'a+')
 
     def close_file(self):
-        if self.report is True:
+        if self.report:
             self.log_file.close()
 
     def flush_file(self):
-        if self.report is True:
+        if self.report:
             self.log_file.flush()
 
     def put(self, text):
@@ -36,36 +37,36 @@ class ReportFile:
             self.log_file.write(text)
 
     def put_name(self, text = ""):
-        if self.report is True:
+        if self.report:
             self.put_separator()
             self.put('Name          : %s\n' % text)
 
     def put_description(self, text = ""):
-        if self.report is True:
+        if self.report:
             self.put('Description   : %s\n' % text)
 
     def put_output(self):
-        if self.report is True:
+        if self.report:
             self.put('Output        : \n')
 
     def put_cmd(self, text = ""):
-        if self.report is True:
+        if self.report:
             self.put('%s\n' % text)
 
     def put_result(self, text = ""):
-        if self.report is True:
+        if self.report:
             self.put('Result        : %s\n' % text)
             self.put_separator()
             self.put('\n')
 
     def put_ruid(self, text = ""):
-        if self.report is True:
+        if self.report:
             self.put('RfC Unique ID : %s\n' % text)
 
     def put_uuid(self, text = ""):
-        if self.report is True:
+        if self.report:
             self.put('Unique ID     : %s\n' % text)
  
     def put_separator(self):
-        if self.report is True:
+        if self.report:
             self.put('==========================================\n')

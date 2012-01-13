@@ -33,23 +33,21 @@ def set_inpt_fn(n_df, n_dfn, subdir=True):
 
     return ifn,dfn,bfn
 
-def get_json_file_information(tpfnc='tstorm-tp.json'):
+def get_json_file_information(file_name = 'tstorm-tp.json'):
     '''Get Test Plan Information from the configuration file of testplan'''
-    dirname=os.path.dirname(sys.argv[0])
-    configpath = os.path.join(dirname, "../", ".")
-    conffile=configpath+tpfnc
+
+    json_file = get_configuration_file(file_name)
 
     try:
-        #tp_info=json.read(open(conffile,'r').read())
-        tp_info=simplejson.load(open(conffile,'r'))
+        tp_info=simplejson.load(open(json_file,'r'))
     except ValueError, e:
         #dbglog("No stfunc.conf file found or wrong json syntax")
-        print "wrong conf file"
+        print "Value Error, wrong conf file"
         sys.exit(2)
         #raise SystemExit(e) 
-    #except (IOError,simplejson.ReadException):
+    #except (IOError, e):
         #dbglog("No stfunc.conf file found or wrong json syntax")
-        #print "wrong conf file"
+        #print "IOError, wrong conf file"
         #sys.exit(2)
       
     return tp_info
@@ -124,17 +122,16 @@ def get_configuration_file(file_name='map_tests_ids.json'):
 
     return configuration_file 
 
-def print_json_file_template(tpfnc='tstorm-tp.json.template'):
+def print_json_file_template(file_name = 'tstorm-tp.json.template'):
     '''Print Test Plan Information from the configuration template file of testplan'''
-    dirname = os.path.dirname(sys.argv[0])
-    configpath = os.path.join(dirname, "../", ".")
-    conffile = configpath+tpfnc
+
+    json_file = get_configuration_file(file_name)
 
     try:
-        fl=open(conffile,'r')
-        tpj_tmtp=fl.readlines()
-        for x in tpj_tmtp:
-            print x
+        fl=open(json_file,'r')
+        json_lines=fl.readlines()
+        for line in json_lines:
+            print line
         fl.close()
     except IOError:
         print "I/O error"
@@ -142,6 +139,24 @@ def print_json_file_template(tpfnc='tstorm-tp.json.template'):
     except:
         print "Unexpected error:", sys.exc_info()[0]
         sys.exit(2)
+
+def print_configuration_file_template(file_name = 'tstorm.ini.template'):
+    '''Print Test Configuration Information from the configuration template file'''
+
+    #json_file = get_configuration_file(file_name)
+
+    #try:
+    #    fl=open(json_file,'r')
+    #    json_lines=fl.readlines()
+    #    for line in json_lines:
+    #        print line
+    #    fl.close()
+    #except IOError:
+    #    print "I/O error"
+    #    sys.exit(2)
+    #except:
+    #    print "Unexpected error:", sys.exc_info()[0]
+    #    sys.exit(2)
 
 def is_json_file_valid(tp_info):
     '''Check validity of the test plan conf file'''

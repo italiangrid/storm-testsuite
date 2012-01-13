@@ -7,7 +7,10 @@ from tstorm.tests.deployment.regression import ldapquery
 
 def gluetwo_service_ts(conf, uid, lfn):
     s = unittest.TestSuite()
-    s.addTest(ldapquery.LdapTest('test_gluetwo_service', conf, uid, lfn))
+    s.addTest(ldapquery.LdapTest('test_gluetwo_service', conf, uid, lfn,
+       basedn = 'mds-vo-name=resource,o=grid',
+       filter = 'objectClass=GlueService',
+       attributes = ['GlueServiceType', 'GlueServiceName']))
 
     return s
 

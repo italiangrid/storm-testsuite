@@ -8,7 +8,6 @@ from tstorm.utils import configuration
 from tstorm.utils import readfile
 from tstorm.utils import service
 from tstorm.utils import rpm
-from tstorm.utils import ls
 from tstorm.utils import mysqlquery as mq
 from tstorm.utils import yaim
 from tstorm.utils import utils

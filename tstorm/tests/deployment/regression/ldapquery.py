@@ -14,7 +14,7 @@ from tstorm.utils import utils
 class LdapTest(unittest.TestCase):
     def __init__(self, testname, tfn, uid, lfn, basedn='mds-vo-name=resource,o=grid', filter="'objectClass=GlueService'", attributes='GlueServiceType GlueServiceName'):
         super(LdapTest, self).__init__(testname)
-        self.tsets = configuration.LoadConfiguration(tfn).get_test_settings()
+        self.tsets = configuration.LoadConfiguration(conf_file=tfn).get_test_settings()
         self.basedn = basedn
         self.filter = filter
         self.attributes = attributes
@@ -39,10 +39,10 @@ the GLUE1.3 schema.'''
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
                       self.attributes, basedn=self.basedn, filter=self.filter)
-        self.lfn.put_cmd(ldap_search.get_command())
+        self.lfn.put_cmd('')
         ls_result = ldap_search.get_output()
         self.assert_(ls_result['status'] == 'PASS')
-        self.assert_('emi.storm' not in ls_result['GlueServiceType'])
+        self.assert_('emi.storm' not in ls_result['glue1.3']['GlueServiceType'])
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
@@ -376,7 +376,7 @@ the GLUE2.0 schema.'''
         self.assert_(ls_result['status'] == 'PASS')
 
         #TO BE CHANGED
-        self.assert_('emi.storm' not in ls_result['GlueServiceType'])
+        self.assert_('emi.storm' not in ls_result['glue1.3']['GlueServiceType'])
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
