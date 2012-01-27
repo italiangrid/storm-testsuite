@@ -8,7 +8,7 @@ import ldap
 from tstorm.utils import utils
 
 class LdapSearch:
-    def __init__(self, endpoint, attributes, basedn='mds-vo-name=resource,o=grid', filter='objectClass=GlueService'):
+    def __init__(self, endpoint, filter, attributes, basedn):
         self.endpoint = endpoint
         self.basedn = basedn
         self.filter = filter
@@ -41,12 +41,6 @@ class LdapSearch:
                 'GLUE2StorageServiceCapacityReservedSize':''
             }
         }
-
-    def get_command(self):
-        #uri = self.cmd['uri'] + ' ' + self.cmd['protocol'] + '://' + self.endpoint + ':' + self.cmd['port']
-        #opt = ' ' + self.cmd['sa'] + ' ' + self.cmd['pres'] + ' ' + uri + ' ' +  self.cmd['basedn'] + ' '
-        #a=self.cmd['name'] + opt + self.filter + ' ' + self.attributes
-        return 'BaseDN %s; Filter %s; Attrs %s' % (self.basedn , self.filter, self.attributes)
 
     def run_command(self):
         uri = self.cmd['protocol'] + '://' + self.endpoint + ':' + self.cmd['port']
@@ -94,7 +88,7 @@ class LdapSearch:
                                           else:
                                               self.otpt['glue1.3'][attr] = element[attr][0]
                                       elif attr in self.otpt['glue2.0'].keys():
-                                          self.otpt['glue2.0'][attr] = element[attr]
+                                          self.otpt['glue2.0'][attr] = element[attr][0]
         else:
             self.otpt['status'] = 'FAILURE'
 

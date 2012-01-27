@@ -55,7 +55,7 @@ class MapTestsIds:
             "test_mysql_connector_java_links":""}
 
         self.regressions_ldap_tests = {
-            "test_gluetwo_service":"",
+            "test_glue_service":"",
             "test_gluetwo_storage_share_capacity":"",
             "test_glue_available_space_info_service":"",
             "test_glue_available_space":"",

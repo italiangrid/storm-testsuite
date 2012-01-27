@@ -57,7 +57,7 @@
   "test_backend_server_name_status":"e055f5",
   "test_direct_transfer_inbound_https_unexist_file":"acea33",
   "test_size_in_namespace_file":"c23e05",
-  "test_gluetwo_service":"6ec220",
+  "test_glue_service":"6ec220",
   "test_glue_used_space":"50155e",
   "test_direct_transfer_outbound_http_exist_file":"45880a",
   "test_rm_file":"44d230",

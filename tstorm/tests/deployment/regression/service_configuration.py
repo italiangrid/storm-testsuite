@@ -15,7 +15,7 @@ from tstorm.utils import utils
 class RegressionConfigurationTest(unittest.TestCase):
     def __init__(self, testname, tfn, uid, lfn):
         super(RegressionConfigurationTest, self).__init__(testname)
-        self.tsets = configuration.LoadConfiguration(tfn).get_test_settings()
+        self.tsets = configuration.LoadConfiguration(conf_file = tfn).get_test_settings()
         self.uid = uid
         self.lfn = lfn
 
