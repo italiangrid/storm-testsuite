@@ -260,62 +260,6 @@ the GLUE1.3 schema.'''
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
-    def test_gluetwo_endpoint_undefined(self):
-        name = '''STORM BUG: GLUE2ENDPOINTCAPABILITY AND 
-GLUE2ENDPOINTINTERFACENAME CONTAIN WRONG VALUES'''
-        self.lfn.put_name(name)
-        des = '''Yaim-Storm for GLUE2 configuration set wrong values in the 
-GLUE2EndpointCapability and GLUE2EndpointInterfaceName attributes of
-the GLUE2.0 schema.'''
-        self.lfn.put_description(des)
-        if self.uid.has_key('test_gluetwo_endpoint'):
-            self.lfn.put_uuid(self.uid['test_gluetwo_endpoint'])
-        else:
-            print 'ADD UID for test_gluetwo_endpoint'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/207')
-        self.lfn.put_output()
-
-        ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
-            self.filter, self.attributes, self.tsets['bdii']['basedn'])
-        self.lfn.put_cmd('')
-        ls_result = ldap_search.get_output()
-        self.assert_(ls_result['status'] == 'PASS')
-
-        #TO BE CHANGED
-        self.assert_('emi.storm' not in ls_result['glue1.3']['GlueServiceType'])
-
-        self.lfn.put_result('PASSED')
-        self.lfn.flush_file()
-
-    def test_gluetwo_storage_undefined(self):
-        name = '''STORM BUG: GLUE2ENDPOINTCAPABILITY AND 
-GLUE2ENDPOINTINTERFACENAME CONTAIN WRONG VALUES'''
-        self.lfn.put_name(name)
-        des = '''Yaim-Storm for GLUE2 configuration set wrong values in the 
-GLUE2EndpointCapability and GLUE2EndpointInterfaceName attributes of
-the GLUE2.0 schema.'''
-        self.lfn.put_description(des)
-        if self.uid.has_key('test_gluetwo_endpoint'):
-            self.lfn.put_uuid(self.uid['test_gluetwo_endpoint'])
-        else:
-            print 'ADD UID for test_gluetwo_endpoint'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/207')
-        self.lfn.put_output()
-
-        ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
-            self.filter, self.attributes, self.tsets['bdii']['basedn']) 
-        self.lfn.put_cmd('')
-        ls_result = ldap_search.get_output()
-        self.assert_(ls_result['status'] == 'PASS')
-
-        #TO BE CHANGED
-        self.assert_('emi.storm' not in ls_result['glue1.3']['GlueServiceType'])
-
-        self.lfn.put_result('PASSED')
-        self.lfn.flush_file()
-
     def test_gluetwo_endpoint(self):
         name = '''STORM BUG: GLUE2ENDPOINTCAPABILITY AND 
 GLUE2ENDPOINTINTERFACENAME CONTAIN WRONG VALUES'''
