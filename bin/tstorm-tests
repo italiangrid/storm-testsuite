@@ -14,8 +14,6 @@ from tstorm.tests import basictests_novoms as btnv
 from tstorm.tests import tapetests as tt
 from tstorm.tests import regressiontests as rt
 from tstorm.tests import regressiontests_novoms as rtnv
-from tstorm.tests import regression_conftests as rct
-from tstorm.tests import regression_ldaptests as rlt
 
 def run_tests(tpi, uid, lfn, tt, n_df, n_dfn):
     info=ctp.CheckTestplan()
