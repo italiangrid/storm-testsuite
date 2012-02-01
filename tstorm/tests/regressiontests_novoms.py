@@ -3,7 +3,7 @@
 __author__ = 'Elisabetta Ronchieri'
 
 import unittest
-from tstorm.test import regression as re
+from tstorm.tests import regression as re
 
 def get_space_metadata_failure_ts(conf, ifn, dfn, bifn, uid, lfn):
     s = unittest.TestSuite()

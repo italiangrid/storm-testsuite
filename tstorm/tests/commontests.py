@@ -3,7 +3,7 @@
 __author__ = 'Elisabetta Ronchieri'
 
 import unittest
-from tstorm.test import utilities as ut
+from tstorm.tests import utilities as ut
 
 def conf_ts(conf, ifn, dfn, bifn, uid, lfn):
     s = unittest.TestSuite()

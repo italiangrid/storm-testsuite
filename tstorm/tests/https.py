@@ -7,9 +7,9 @@ import time
 import os 
 import unittest
 from tstorm.utils import config
-from tstorm.utils import ls
-from tstorm.utils import cp
-from tstorm.utils import rm
+from tstorm.commands import ls
+from tstorm.commands import cp
+from tstorm.commands import rm
 from tstorm.utils import utils
 
 class HttpsTest(unittest.TestCase):

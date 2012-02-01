@@ -4,7 +4,7 @@ __author__ = 'Elisabetta Ronchieri'
 
 import commands
 import os
-#from tstorm.commands import commands
+from tstorm.utils import utils
 
 class StoRMAr:
     def __init__(self, endpoint, accesspoint, rtoken):

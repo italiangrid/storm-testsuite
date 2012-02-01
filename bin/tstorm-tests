@@ -5,9 +5,10 @@ __author__ = 'Elisabetta Ronchieri'
 import sys
 import unittest
 import getopt
-from tstorm.utils import report_file as rf
+from tstorm.utils import report_file 
 from tstorm.utils import settings 
-from tstorm.utils import check_testplan as ctp
+from tstorm.utils import check_testplan
+from tstorm.utils import configuration
 from tstorm.tests import commontests as cts
 from tstorm.tests import basictests as bt
 from tstorm.tests import basictests_novoms as btnv
@@ -16,10 +17,12 @@ from tstorm.tests import regressiontests as rt
 from tstorm.tests import regressiontests_novoms as rtnv
 
 def run_tests(tpi, uid, lfn, tt, n_df, n_dfn):
-    info=ctp.CheckTestplan()
-    kw=info.get_key_word()
-    methods=info.get_methods()
-    if tt in tpi[kw]:
+
+    info = check_testplan.CheckTestplan()
+    key_word = info.get_key_word()
+    methods = info.get_methods()
+
+    if tt in tpi[key_word]:
         if tt in tpi.keys():
             for y in tpi[tt]:
 	            if tt == 'regression_tests' or y in ('https_ts', 'https_voms_ts', 'http_ts'):
@@ -27,20 +30,18 @@ def run_tests(tpi, uid, lfn, tt, n_df, n_dfn):
 	            else:
 	                sd=True
 	            if tt != 'regression_conftests':
-	                ifn,dfn,back_ifn= st.set_inpt_fn(n_df,n_dfn,subdir=sd)
+	                ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,subdir=sd)
 	            m=methods[y]
                     runner = unittest.TextTestRunner(verbosity=2).run(eval(m))
 
 def usage():
-    print "Usage: tstorm-tp [-c|--conf] [-d|--destfile] [--noreport] [--novoms] [--conftest]"
+    print "Usage: tstorm-tp [-c|--conf] [-d|--destfile] [--noreport] [--novoms]"
     print """Example: if you want to run test without voms"""
     print """         tstorm-tp --novoms"""
-    print """Example: if you want to run conf test on a given storm node"""
-    print """         tstorm-tp --conftest"""
     print """Example: if you want to run test by changing conf input file and destination filename"""
     print """         tstorm-tp -c etc/tstorm/tstorm.ini -d ui/uo/ua.txt"""
 
-def tpj_details():
+def json_file_details():
     print "Description of tstorm-tp.json.template:"
     print """test_plan - is a key word containing a list of different type of """
     print """            system tests that MUST be specified in the following """
@@ -68,15 +69,13 @@ def tpj_details():
     print """basic_tests_novoms   - is a key word containing a list of tests; """
     print """tape_tests           - is a key word containing a list of tests.\n """
     print "Example of tstorm-tp.json.template:\n"
-    st.print_tpj_template('./etc/tstorm/tstorm-tp.json.template')
+    settings.print_json_file_template('tstorm-tp.json.template')
 
 if __name__ == '__main__':
-    tpjfnc= './etc/tstorm/tstorm-tp.json'
-    tfn = './etc/tstorm/tstorm.ini'
-    test_id_map = './etc/tstorm/map_test_id.json'
+    tfn = 'tstorm.ini'
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hc:d:", ["help","noreport","novoms","conftest","conf","destfile"])
+        opts, args = getopt.getopt(sys.argv[1:], "hc:d:", ["help","noreport","novoms","conf","destfile"])
     except getopt.GetoptError, err:
         print str(err)
         usage()
@@ -100,36 +99,66 @@ if __name__ == '__main__':
             voms = False
         elif o in ("--noreport"):
             noreport = False
-        elif o in ("--conftest"):
-            ct = True
         else:
             assert False, "unhandled option"
 
-    '''Get Test Plan Info from conf file'''
-    tpj_info = settings.get_json_file_information(tpjfnc)
-    '''Get Test Id Mapping Info from file'''
-    mti_info =  settings.get_json_file_information(test_id_map)
+    if settings.configuration_file_exists(file_name = tfn):
+        tfn = settings.get_configuration_file(file_name = tfn)
+    else:
+        print '''Include ini file in the right locations'''
+        sys.exit(5)
+
+    check_configuration_file = configuration.LoadConfiguration(conf_file = tfn)
+    if not check_configuration_file.is_configuration_file_valid():
+        print "Wrong Test Configuration file"
+        print "Example of ini configuration file:\n"
+        check_configuration_file.print_configuration_file_template()
+        sys.exit(3)
+
+    if settings.configuration_file_exists(file_name = 'tstorm-tp.json'):
+        '''Get Test Plan Info from conf file'''
+        tpj_info = settings.get_json_file_information(file_name = 'tstorm-tp.json')
+    else:
+        print '''Include tstorm-tp.json file in the right locations'''
+        sys.exit(4)
+
+    if settings.configuration_file_exists(file_name = 'map_tests_ids.json'):
+        '''Get Test Id Mapping Info from file'''
+        mti_info =  settings.get_json_file_information(file_name = 'map_tests_ids.json')
+    else:
+        print '''Include map-tests-ids.json file in the right locations'''
+        sys.exit(4)
+
+    if not settings.is_json_file_valid(tpj_info):
+        print "Wrong Test Plan conf file"
+        json_file_details()
+        sys.exit(3)
+
+    #'''Get Test Plan Info from conf file'''
+    #tpj_info = settings.get_json_file_information(tpjfnc)
+    #'''Get Test Id Mapping Info from file'''
+    #mti_info =  settings.get_json_file_information(test_id_map)
 
     if not settings.is_json_file_valid(tpj_info):
         '''Wrong Test Plan conf file'''
         tpj_details()
         sys.exit(3)
 
-    logf=rf.ReportFile(report = report)
+    log_file = report_file.ReportFile(report = report)
 
-    tests_type = ctp.CheckTestplan().get_tests_type()
+    tests_type = check_testplan.CheckTestplan().get_tests_type()
 
     if ct:
         for x in tests_type['conf']:
-          run_tests(tpj_info, mti_info, logf, x, n_df, n_dfn)
+          run_tests(tpj_info, mti_info, log_file, x, n_df, n_dfn)
     else:
         if voms:
             for x in tests_type['voms']:
-                run_tests(tpj_info, mti_info, logf, x, n_df, n_dfn)
+                run_tests(tpj_info, mti_info, log_file, x, n_df, n_dfn)
         else:
             for x in tests_type['novoms']:
-                run_tests(tpj_info, mti_info, logf, x, n_df, n_dfn)
+                run_tests(tpj_info, mti_info, log_file, x, n_df, n_dfn)
 
-    logf.close_file() 
+    log_file.close_file() 
 
   
