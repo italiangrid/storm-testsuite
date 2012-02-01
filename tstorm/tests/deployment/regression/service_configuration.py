@@ -282,7 +282,7 @@ EXECUTION OF STATUS'''
                 token[x.split('STORM_')[1].split('_TOKEN')[0]] = ls[1]
             if "STORM_DB_USER" in x:
                 db_user = x.split('=')[1]
-            if "STORM_DB_PASSWD" in x:
+            if "STORM_DB_PWD" in x:
                 db_pwd = x.split('=')[1]
 
         if len(token) != len(storage_area):
@@ -307,6 +307,14 @@ EXECUTION OF STATUS'''
             mysql_query = mq.Mysql(db_name, db_table, db_field, 
                           self.tsets['general']['backend_hostname'],
                           token, db_user=db_user, db_pwd=db_pwd)
+        elif db_user != '' and db_pwd == '':
+            mysql_query = mq.Mysql(db_name, db_table, db_field,
+                          self.tsets['general']['backend_hostname'],
+                          token, db_user=db_user)
+        elif db_user == '' and db_pwd != '':
+            mysql_query = mq.Mysql(db_name, db_table, db_field,
+                          self.tsets['general']['backend_hostname'],
+                          token, db_pwd=db_pwd)
         else:
             mysql_query = mq.Mysql(db_name, db_table, db_field, 
                           self.tsets['general']['backend_hostname'],
@@ -332,6 +340,14 @@ EXECUTION OF STATUS'''
             mysql_query = mq.Mysql(db_name, db_table, db_field, 
                           self.tsets['general']['backend_hostname'],
                           token, db_user=db_user, db_pwd=db_pwd)
+        elif db_user != '' and db_pwd == '':
+            mysql_query = mq.Mysql(db_name, db_table, db_field,
+                          self.tsets['general']['backend_hostname'],
+                          token, db_user=db_user)
+        elif db_user == '' and db_pwd != '':
+            mysql_query = mq.Mysql(db_name, db_table, db_field,
+                          self.tsets['general']['backend_hostname'],
+                          token, db_pwd=db_pwd)
         else:
             mysql_query = mq.Mysql(db_name, db_table, db_field, 
                           self.tsets['general']['backend_hostname'],

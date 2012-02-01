@@ -51,6 +51,7 @@ class Mysql:
     def get_output(self):
         for x in self.token:
             a=self.run_command(self.token[x])
+            #print 'mysql ', a
             if a[0] == 0:
                 self.otpt['status'].append('PASS')
                 y=a[1].split('\n')[0].split('\t')
