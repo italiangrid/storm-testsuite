@@ -55,12 +55,10 @@ class CheckTestplan:
         self.tests_type = {
             'novoms':['common_tests',
                 'basic_tests_novoms',
-                'regression_tests_novoms',
-                'regression_ldaptests'],
+                'regression_tests_novoms'],
             'voms':['common_tests',
                 'basic_tests',
                 'regression_tests',
-                'regression_ldaptests',
                 'tape_tests'],
             'conf':['regression_ldaptests',
                 'regression_conftests']

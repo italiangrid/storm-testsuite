@@ -11,6 +11,7 @@ from tstorm.utils import rpm
 from tstorm.utils import mysqlquery as mq
 from tstorm.utils import yaim
 from tstorm.utils import utils
+from tstorm.utils import listinfo
 
 class RegressionConfigurationTest(unittest.TestCase):
     def __init__(self, testname, tfn, uid, lfn):
@@ -105,12 +106,13 @@ script during the execution of status.'''
         self.lfn.put_cmd(sr.get_command())
         sr_result = sr.get_output()
         self.assert_(sr_result['status'] == 'PASS')
-        self.assert_('running' in sr_result['otpt'])
+        self.assert_('RUNNING' in sr_result['otpt'])
         self.assert_('NOT' not in sr_result['otpt'])
 
         sr = service.Service('tomcat5')
         self.lfn.put_cmd(sr.get_command())
         sr_result = sr.get_output()
+        print sr_result
         self.assert_(sr_result['status'] == 'PASS')
         self.assert_('running' in sr_result['otpt'])
 
@@ -166,6 +168,7 @@ script during the execution of status.'''
         catn_result = read_catn.get_output()
         self.assert_(catn_result['status'] == 'PASS')
         varn=catn_result['otpt']
+        print varn
         for x in var:
             if "ONLINE_SIZE" in x or "NEARLINE_SIZE" in x:
                 ls=x.split('SIZE')[1].split('=')
@@ -197,17 +200,17 @@ script during the execution of status.'''
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/154')
         self.lfn.put_output()
 
-        ls_ls = ls.Ls('/usr/share/java/storm-backend-server/storm-gridhttps-plugin.jar')
+        ls_ls = listinfo.Ls('/usr/share/java/storm-backend-server/storm-gridhttps-plugin.jar')
         self.lfn.put_cmd(ls_ls.get_command())
         ls_result = ls_ls.get_output()
         self.assert_(ls_result['status'] == 'PASS')
 
-        ls_ls = ls.Ls('/usr/share/java/storm-backend-server/httpclient.jar')
+        ls_ls = listinfo.Ls('/usr/share/java/storm-backend-server/httpclient.jar')
         self.lfn.put_cmd(ls_ls.get_command())
         ls_result = ls_ls.get_output()
         self.assert_(ls_result['status'] == 'PASS')
 
-        ls_ls = ls.Ls('/usr/share/java/storm-backend-server/httpcore.jar')
+        ls_ls = listinfo.Ls('/usr/share/java/storm-backend-server/httpcore.jar')
         self.lfn.put_cmd(ls_ls.get_command())
         ls_result = ls_ls.get_output()
         self.assert_(ls_result['status'] == 'PASS')
@@ -361,12 +364,12 @@ EXECUTION OF STATUS'''
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/179')
         self.lfn.put_output()
 
-        ls_ls = ls.Ls('/usr/share/java/storm-backend-server/mysql-connector-java-5.1.13-bin.jar')
+        ls_ls = listinfo.Ls('/usr/share/java/storm-backend-server/mysql-connector-java-5.1.13-bin.jar')
         self.lfn.put_cmd(ls_ls.get_command())
         ls_result = ls_ls.get_output()
         self.assert_(ls_result['status'] == 'FAILURE')
 
-        ls_ls = ls.Ls('/usr/share/java/storm-backend-server/mysql-connector-java-5.1.12.jar')
+        ls_ls = listinfo.Ls('/usr/share/java/storm-backend-server/mysql-connector-java-5.1.12.jar')
         self.lfn.put_cmd(ls_ls.get_command())
         ls_result = ls_ls.get_output()
         self.assert_(ls_result['status'] == 'PASS')
