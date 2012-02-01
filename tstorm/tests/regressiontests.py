@@ -46,3 +46,15 @@ def storm_backend_age_ts(conf, ifn, dfn, bifn, uid, lfn):
     s.addTest(re.RegressionTest('test_storm_backend_age', conf, ifn, dfn, bifn, uid, lfn))
 
     return s
+
+def storm_database_password_ts(conf, ifn, dfn, bifn, uid, lfn):
+    s = unittest.TestSuite()
+    s.addTest(re.RegressionTest('test_storm_database_password', conf, ifn, dfn, bifn, uid, lfn))
+
+    return s
+
+def storm_gridhttps_authorization_denied_ts(conf, ifn, dfn, bifn, uid, lfn):
+    s = unittest.TestSuite()
+    s.addTest(re.RegressionTest('test_storm_gridhttps_authorization_denied', conf, ifn, dfn, bifn, uid, lfn))
+
+    return s

@@ -439,3 +439,102 @@ GetSpaceMetadata request without voms extension.'''
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
+
+    def test_storm_database_password(self):
+        name = '''ERROR IN LOADING DATABASE PASSWORD'''
+        self.lfn.put_name(name)
+        des = '''StoRM Backend Server does not load database password
+correctly when its values is not the default one.'''
+        self.lfn.put_description(des)
+        if self.uid.has_key('test_storm_database_password'):
+            self.lfn.put_uuid(self.uid['test_storm_database_password'])
+        else:
+            print 'ADD UID for test_storm_database_password'
+            self.lfn.put_uuid(utils.get_uuid())
+        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/227')
+        self.lfn.put_output()
+
+        dd = createfile.Dd(self.ifn)
+        self.lfn.put_cmd(dd.get_command())
+        self.dd_result = dd.get_output()
+        self.assert_(self.dd_result['status'] == 'PASS')
+
+        lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
+                 self.tsets['general']['accesspoint'], self.dfn)
+        self.lfn.put_cmd(lcg_ls.get_command())
+        ll = lcg_ls.get_output()
+        self.assert_(ll['status'] == 'FAILURE')
+
+        lcg_cp = cp.LcgCp(self.tsets['general']['endpoint'],
+                 self.tsets['general']['accesspoint'], self.ifn,
+                 self.dfn, self.bifn)
+        self.lfn.put_cmd(lcg_cp.get_command())
+        self.cp_result = lcg_cp.get_output()
+        self.assert_(self.cp_result['status'] == 'PASS')
+
+        ls_ls = ls.Ls(self.ifn)
+        self.lfn.put_cmd(ls_ls.get_command())
+        self.lls_result = ls_ls.get_output()
+        self.assert_(self.lls_result['status'] == 'PASS')
+
+        rm_lf = removefile.RmLf(self.ifn, self.bifn)
+        self.lfn.put_cmd(rm_lf.get_command())
+        self.rmlf_result = rm_lf.get_output()
+        self.assert_(self.rmlf_result['status'] == 'PASS')
+
+        self.lfn.put_result('PASSED')
+        self.lfn.flush_file()
+
+    def test_storm_gridhttps_authorization_denied(self):
+        name = '''AUTHORIZATION REST SERVICE DENY AUTHORIZATION'''
+        self.lfn.put_name(name)
+        des = '''StoRM Backend Gridhttps does not work if the SA accesspoint
+is not included in the SA root path.'''
+        self.lfn.put_description(des)
+        if self.uid.has_key('test_storm_gridhttps_authorization_denied'):
+            self.lfn.put_uuid(self.uid['test_storm_gridhttps_authorization_denied'])
+        else:
+            print 'ADD UID for test_storm_gridhttps_authorization_denied'
+            self.lfn.put_uuid(utils.get_uuid())
+        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/209')
+        self.lfn.put_output()
+
+        lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
+                 self.tsets['https']['sftn'], self.dfn)
+        self.lfn.put_cmd(lcg_ls.get_command())
+        self.lsbt_result = lcg_ls.get_output()
+        self.assert_(self.lsbt_result['status'] == 'FAILURE')
+
+        storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
+                    self.tsets['https']['sftn'], self.dfn, 'https')
+        self.lfn.put_cmd(storm_ptp.get_command())
+        self.ptp_result = storm_ptp.get_output()
+        self.assert_(self.ptp_result['status'] == 'PASS')
+
+        cp_curl = cp.curl(self.ifn, self.bifn, self.ptp_result['TURL'])
+        self.lfn.put_cmd(cp_curl.get_command())
+        self.curl_result = cp_curl.get_output(True, True)
+        self.assert_(self.curl_result['status'] == 'PASS')
+
+        storm_pd = cp.StoRMPd(self.tsets['general']['endpoint'],
+                   self.tsets['https']['sftn'], self.dfn,
+                   self.ptp_result['requestToken'])
+        self.lfn.put_cmd(storm_pd.get_command())
+        self.pd_result = storm_pd.get_output()
+        self.assert_(self.pd_result['status'] == 'PASS')
+
+        lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
+                 self.tsets['https']['sftn'], self.dfn)
+        self.lfn.put_cmd(lcg_ls.get_command())
+        self.lsat_result = lcg_ls.get_output()
+        self.assert_(self.lsat_result['status'] == 'PASS')
+
+        rm_lf = removefile.RmLf(self.ifn, self.bifn)
+        self.lfn.put_cmd(rm_lf.get_command())
+        self.rmlf_result = rm_lf.get_output()
+        self.assert_(self.rmlf_result['status'] == 'PASS')
+
+        self.lfn.put_result('PASSED')
+        self.lfn.flush_file()
+
+        

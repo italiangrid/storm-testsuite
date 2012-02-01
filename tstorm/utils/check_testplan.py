@@ -37,6 +37,8 @@ class CheckTestplan:
             'gluetwo_endpoint_ts': 'rlt.gluetwo_endpoint_ts(tfn, uid, lfn)',
             'update_used_space_upon_pd_ts': 'rt.update_used_space_upon_pd_ts(tfn,ifn,dfn,back_ifn, uid, lfn)',
             'update_free_space_upon_rm_ts': 'rt.update_free_space_upon_rm_ts(tfn,ifn,dfn,back_ifn, uid, lfn)',
+            'storm_database_password':'rt.storm_database_password_ts(tfn,ifn,dfn,back_ifn, uid, lfn)',
+            'storm_gridhttps_authorization_denied':'rt.storm_gridhttps_authorization_denied_ts(tfn,ifn,dfn,back_ifn, uid, lfn)',
             'storm_backend_age_ts': 'rt.storm_backend_age_ts(tfn,ifn,dfn,back_ifn, uid, lfn)',
             'get_space_metadata_failure_ts':'rtnv.get_space_metadata_failure_ts(tfn,ifn,dfn,back_ifn, uid, lfn)',
             'conf_ts': 'cts.conf_ts(tfn,ifn,dfn,back_ifn, uid, lfn)',

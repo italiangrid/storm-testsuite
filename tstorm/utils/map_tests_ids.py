@@ -40,7 +40,9 @@ class MapTestsIds:
             "test_unsupported_protocols":"",
             "test_non_ascii_chars":"",
             "test_storm_backend_age":"",
-            "test_get_space_metadata_failure":""}
+            "test_get_space_metadata_failure":"",
+            "test_storm_database_password":"",
+            "test_storm_gridhttps_authorization_denied":""}
  
         self.regressions_conf_tests = {
             "test_backend_server_status":"",

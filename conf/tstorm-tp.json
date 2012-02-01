@@ -19,7 +19,9 @@
     "update_used_space_upon_pd_ts", 
     "unsupported_protocols_ts", 
     "non_ascii_chars_ts", 
-    "storm_backend_age_ts"
+    "storm_backend_age_ts",
+    "storm_database_password",
+    "storm_gridhttps_authorization_denied"
   ],
   "regression_tests_novoms": [
     "get_space_metadata_failure_ts"
