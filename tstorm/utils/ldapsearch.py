@@ -100,7 +100,13 @@ class LdapSearch:
                                     else:
                                         self.otpt['glue2.0'][attr] = element[attr][0]
         else:
-            self.otpt['status'] = 'FAILURE'
+            for value in self.attributes:
+                if value in ('GLUE2EndpointCapability', 'GLUE2EndpointInterfaceExtension',
+                    'GLUE2EndpointIssuerCA', 'GLUE2EndpointTrustedCA',
+                    'GLUE2EndpointSupportedProfile', 'GLUE2StorageShareAccessMode'):
+                    self.otpt['status'] = 'PASS'
+                else:
+                    self.otpt['status'] = 'FAILURE'
 
         #print self.otpt
 
