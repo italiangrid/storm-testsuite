@@ -76,26 +76,27 @@ def gluetwo_endpoint_undefined_ts(conf, uid, lfn):
 def gluetwo_storage_share_capacity_ts(conf, uid, lfn):
     s = unittest.TestSuite()
     s.addTest(gluetwo_ldapquery.GluetwoLdapTest('test_gluetwo_storage_share_capacity',
-        conf, uid, lfn,
-        'objectclass=GlueSA',
-        ['GlueSALocalID']))
+        conf, uid, lfn))
+
+    return s
+
+def gluetwo_endpoint_undefined_ts(conf, uid, lfn):
+    s = unittest.TestSuite()
+    s.addTest(gluetwo_ldapquery.GluetwoLdapTest('test_gluetwo_endpoint_undefined',
+        conf, uid, lfn))
 
     return s
 
 def gluetwo_storage_undefined_ts(conf, uid, lfn):
     s = unittest.TestSuite()
-    s.addTest(ldapquery.LdapTest('test_gluetwo_storage_undefined',
-        conf, uid, lfn,
-        'objectclass=GlueSA',
-        ['GlueSALocalID']))
+    s.addTest(gluetwo_ldapquery.GluetwoLdapTest('test_gluetwo_storage_undefined',
+        conf, uid, lfn))
 
     return s
 
 def gluetwo_endpoint_ts(conf, uid, lfn):
     s = unittest.TestSuite()
-    s.addTest(ldapquery.LdapTest('test_gluetwo_endpoint',
-        conf, uid, lfn,
-        'objectclass=GlueSA',
-        ['GlueSALocalID']))
+    s.addTest(gluetwo_ldapquery.GluetwoLdapTest('test_gluetwo_endpoint',
+        conf, uid, lfn))
 
     return s

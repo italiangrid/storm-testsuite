@@ -31,10 +31,12 @@ class LdapSearch:
                 'GlueSALocalID':[]
             },
             'glue2.0': {
-                'GLUE2EndpointInterfaceExtension':'',
-                'GLUE2EndpointIssuerCA':'',
-                'GLUE2EndpointTrustedCA':'',
-                'GLUE2StorageShareAccessMode':'',
+                'GLUE2EndpointInterfaceExtension':[],
+                'GLUE2EndpointIssuerCA':[],
+                'GLUE2EndpointCapability':[],
+                'GLUE2EndpointTrustedCA':[],
+                'GLUE2EndpointSupportedProfile':[],
+                'GLUE2StorageShareAccessMode':[],
                 'GLUE2StorageServiceCapacityFreeSize':'',
                 'GLUE2StorageServiceCapacityUsedSize':'',
                 'GLUE2StorageServiceCapacityTotalSize':'',
@@ -52,7 +54,7 @@ class LdapSearch:
 
         try:
             ldap_result_id = ldap_init.search(self.basedn, search_scope, self.filter, self.attributes)
-          
+            #print self.filter, self.attributes  
             while 1:
                 result_type, result_data = ldap_init.result(ldap_result_id, 0)
                 #print 'data %s' % result_data
@@ -89,7 +91,14 @@ class LdapSearch:
                                         #print '1 ', attr
                                         self.otpt['glue1.3'][attr] = element[attr][0]
                                 elif attr in self.otpt['glue2.0'].keys():
-                                    self.otpt['glue2.0'][attr] = element[attr][0]
+                                    if attr in ('GLUE2EndpointCapability', 'GLUE2EndpointInterfaceExtension',
+                                        'GLUE2EndpointIssuerCA', 'GLUE2EndpointTrustedCA', 
+                                        'GLUE2EndpointSupportedProfile', 'GLUE2StorageShareAccessMode'):
+                                        #print element[attr], attr
+                                        for x in element[attr]:
+                                            self.otpt['glue2.0'][attr].append(x)
+                                    else:
+                                        self.otpt['glue2.0'][attr] = element[attr][0]
         else:
             self.otpt['status'] = 'FAILURE'
 
