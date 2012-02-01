@@ -41,7 +41,6 @@
   "regression_conftests": [
     "backend_server_status_rt",
     "backend_logrotate_file_rt",
-    "backend_cron_file_rt",
     "backend_gridhttps_rt",
     "yaim_version_file_rt",
     "size_in_namespace_file_rt",

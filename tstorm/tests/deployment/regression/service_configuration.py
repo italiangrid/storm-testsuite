@@ -112,7 +112,7 @@ script during the execution of status.'''
         sr = service.Service('tomcat5')
         self.lfn.put_cmd(sr.get_command())
         sr_result = sr.get_output()
-        print sr_result
+
         self.assert_(sr_result['status'] == 'PASS')
         self.assert_('running' in sr_result['otpt'])
 
@@ -168,7 +168,7 @@ script during the execution of status.'''
         catn_result = read_catn.get_output()
         self.assert_(catn_result['status'] == 'PASS')
         varn=catn_result['otpt']
-        print varn
+
         for x in var:
             if "ONLINE_SIZE" in x or "NEARLINE_SIZE" in x:
                 ls=x.split('SIZE')[1].split('=')

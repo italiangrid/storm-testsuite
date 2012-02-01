@@ -47,7 +47,7 @@ class MapTestsIds:
         self.regressions_conf_tests = {
             "test_backend_server_status":"",
             "test_backend_logrotate_file":"",
-            "test_backend_cron_file":"",
+            "test_backend_cron_file":"<1.8.2",
             "test_backend_gridhttps":"",
             "test_yaim_version_file":"",
             "test_size_in_namespace_file":"",
