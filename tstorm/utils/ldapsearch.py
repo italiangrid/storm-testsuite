@@ -55,7 +55,7 @@ class LdapSearch:
           
             while 1:
                 result_type, result_data = ldap_init.result(ldap_result_id, 0)
-                print 'data %s' % result_data
+                #print 'data %s' % result_data
 
 		if (result_data == []):
                     break
@@ -73,26 +73,27 @@ class LdapSearch:
     def get_output(self):
         a=self.run_command()
         if len(a) > 0 :
-            for x in self.otpt:
-                if x == 'status':
-                    self.otpt['status'] = 'PASS'
-                else:
-                   for y in a:
-                       for z in y:
-                           for element in z:
-                               if type(element) is dict:
-                                   for attr in element.keys():
-                                      if attr in self.otpt['glue1.3'].keys():
-                                          if attr == 'GlueSALocalID':
-                                              self.otpt['glue1.3'][attr].append(element[attr])
-                                          else:
-                                              self.otpt['glue1.3'][attr] = element[attr][0]
-                                      elif attr in self.otpt['glue2.0'].keys():
-                                          self.otpt['glue2.0'][attr] = element[attr][0]
+            self.otpt['status'] = 'PASS'
+            for y in a:
+                for z in y:
+                    for element in z:
+                        if type(element) is dict:
+                            for attr in element.keys():
+                                #print '0 ', attr, element.keys()
+                                if attr in self.otpt['glue1.3'].keys():
+                                    if attr == 'GlueSALocalID':
+                                        #print '1 ', attr
+                                        self.otpt['glue1.3'][attr].append(element[attr][0])
+                                        #print '1 ', attr, self.otpt['glue1.3'][attr], a
+                                    else:
+                                        #print '1 ', attr
+                                        self.otpt['glue1.3'][attr] = element[attr][0]
+                                elif attr in self.otpt['glue2.0'].keys():
+                                    self.otpt['glue2.0'][attr] = element[attr][0]
         else:
             self.otpt['status'] = 'FAILURE'
 
-        print self.otpt
+        #print self.otpt
 
         return self.otpt
 

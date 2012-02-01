@@ -25,7 +25,7 @@
     "get_space_metadata_failure_ts"
   ],
   "regression_ldaptests": [
-    "gluetwo_service_ts",
+    "glue_service_ts",
     "gluetwo_storage_share_capacity_ts",
     "glue_available_space_info_service_ts",
     "glue_available_space_ts",

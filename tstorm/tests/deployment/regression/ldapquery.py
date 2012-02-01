@@ -64,6 +64,7 @@ the GLUE1.3 schema.'''
         self.assert_(ls_result['status'] == 'PASS')
 
         for x in ls_result['glue1.3']['GlueSALocalID']:
+            #print x.split(':')[0].upper().replace('.','').replace('-','')
             info_system = ins.InfoSystem(self.tsets['general']['backend_hostname'],
                 self.tsets['general']['info_port'],
                 x.split(':')[0].upper().replace('.','').replace('-',''))
@@ -86,16 +87,16 @@ the GLUE1.3 schema.'''
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
-            self.filter, self.attributes, self.tsets['bdii']['endpoint'])
+            self.filter, self.attributes, self.tsets['bdii']['basedn'])
         self.lfn.put_cmd('')
         ls_result = ldap_search.get_output()
         self.assert_(ls_result['status'] == 'PASS')
 
         for x in ls_result['glue1.3']['GlueSALocalID']:
             ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
-                "'(&(objectclass=GlueSA)(GlueSALocalID="+x+"))'",
+                "(&(objectclass=GlueSA)(GlueSALocalID="+x+"))",
                 ['GlueSAFreeOnlineSize','GlueSAStateAvailableSpace'],
-                self.tsets['bdii']['endpoint'])
+                self.tsets['bdii']['basedn'])
             self.lfn.put_cmd('')
             ls_result = ldap_search.get_output()
             self.assert_(ls_result['status'] == 'PASS')
@@ -132,7 +133,7 @@ the GLUE1.3 schema.'''
 
         for x in ls_result['glue1.3']['GlueSALocalID']:
             ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
-                "'(&(objectclass=GlueSA)(GlueSALocalID="+x+"))'"
+                "(&(objectclass=GlueSA)(GlueSALocalID="+x+"))",
                 ['GlueSAUsedOnlineSize', 'GlueSAStateUsedSpace'],
                 self.tsets['bdii']['basedn'])
             self.lfn.put_cmd('')
@@ -171,7 +172,7 @@ the GLUE1.3 schema.'''
 
         for x in ls_result['glue1.3']['GlueSALocalID']:
             ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
-                "'(&(objectclass=GlueSA)(GlueSALocalID="+x+"))'",
+                "(&(objectclass=GlueSA)(GlueSALocalID="+x+"))",
                 ['GlueSATotalOnlineSize', 'GlueSAUsedOnlineSize',
                 'GlueSAFreeOnlineSize', 'GlueSAReservedOnlineSize',
                 'GlueSATotalNearlineSize'],
@@ -188,11 +189,11 @@ the GLUE1.3 schema.'''
             ins_result = info_system.get_output()
             usgb=int(int(ins_result['used-space'])*1000*1000*1000/(1024*1024*1024))/(1000*1000*1000)
             self.assert_(int(ls_result['glue1.3']['GlueSAUsedOnlineSize']) == int(usgb))
-            tsgb=int(int(ins_result['glue1.3']['total-space'])*1000*1000*1000/(1024*1024*1024))/(1000*1000*1000)
+            tsgb=int(int(ins_result['total-space'])*1000*1000*1000/(1024*1024*1024))/(1000*1000*1000)
             self.assert_(int(ls_result['glue1.3']['GlueSATotalOnlineSize']) == int(tsgb))
-            fsgb=int(int(ins_result['glue1.3']['free-space'])*1000*1000*1000/(1024*1024*1024))/(1000*1000*1000)
+            fsgb=int(int(ins_result['free-space'])*1000*1000*1000/(1024*1024*1024))/(1000*1000*1000)
             self.assert_(int(ls_result['glue1.3']['GlueSAFreeOnlineSize']) == int(fsgb))
-            rsgb=int(int(ins_result['glue1.3']['reserved-space'])*1000*1000*1000/(1024*1024*1024))/(1000*1000*1000)
+            rsgb=int(int(ins_result['reserved-space'])*1000*1000*1000/(1024*1024*1024))/(1000*1000*1000)
             self.assert_(int(ls_result['glue1.3']['GlueSAReservedOnlineSize']) >= int(rsgb))
 
             self.assert_(int(ls_result['glue1.3']['GlueSATotalNearlineSize']) >= 0)
@@ -259,33 +260,3 @@ the GLUE1.3 schema.'''
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
-
-    def test_gluetwo_endpoint(self):
-        name = '''STORM BUG: GLUE2ENDPOINTCAPABILITY AND 
-GLUE2ENDPOINTINTERFACENAME CONTAIN WRONG VALUES'''
-        self.lfn.put_name(name)
-        des = '''Yaim-Storm for GLUE2 configuration set wrong values in the 
-GLUE2EndpointCapability and GLUE2EndpointInterfaceName attributes of
-the GLUE2.0 schema.'''
-        self.lfn.put_description(des)
-        if self.uid.has_key('test_gluetwo_endpoint'):
-            self.lfn.put_uuid(self.uid['test_gluetwo_endpoint'])
-        else:
-            print 'ADD UID for test_gluetwo_endpoint'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/208')
-        self.lfn.put_output()
-
-        ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
-            self.filter, self.attributes, self.tsets['bdii']['basedn'])
-        self.lfn.put_cmd('')
-        ls_result = ldap_search.get_output()
-        self.assert_(ls_result['status'] == 'PASS')
-
-        #TO BE CHANGED
-        self.assert_('emi.storm' not in ls_result['glue1.3']['GlueServiceType'])
-
-        self.lfn.put_result('PASSED')
-        self.lfn.flush_file()
-
-

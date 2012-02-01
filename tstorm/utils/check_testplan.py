@@ -25,7 +25,7 @@ class CheckTestplan:
             'unsupported_protocols_ts': 'rt.unsupported_protocols_ts(tfn,ifn,dfn,back_ifn, uid, lfn)',
             'dt_ts': 'bt.dt_ts(tfn,ifn,dfn,back_ifn, uid, lfn)', 
             'http_ts': 'btnv.http_ts(tfn,ifn,dfn,back_ifn, uid, lfn)',
-            'gluetwo_service_ts': 'rlt.gluetwo_service_ts(tfn, uid, lfn)',
+            'glue_service_ts': 'rlt.glue_service_ts(tfn, uid, lfn)',
             'gluetwo_storage_share_capacity_ts': 'rlt.gluetwo_storage_share_capacity_ts(tfn, uid, lfn)',
             'glue_available_space_info_service_ts': 'rlt.glue_available_space_info_service_ts(tfn, uid, lfn)',
             'glue_available_space_ts': 'rlt.glue_available_space_ts(tfn, uid, lfn)',

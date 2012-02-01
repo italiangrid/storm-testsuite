@@ -13,7 +13,7 @@ from tstorm.utils import utils
 
 class GluetwoLdapTest(unittest.TestCase):
     def __init__(self, testname, tfn, uid, lfn, filter='', attributes=''):
-        super(LdapTest, self).__init__(testname)
+        super(GluetwoLdapTest, self).__init__(testname)
         self.tsets = configuration.LoadConfiguration(conf_file = tfn).get_test_settings()
         self.filter = filter
         self.attributes = attributes
@@ -32,7 +32,7 @@ class GluetwoLdapTest(unittest.TestCase):
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
-            "'(&(objectclass=GLUE2StorageServiceCapacity)(GLUE2StorageServiceCapacityType=online))'",
+            "(&(objectclass=GLUE2StorageServiceCapacity)(GLUE2StorageServiceCapacityType=online))",
             ['GLUE2StorageServiceCapacityFreeSize',
             'GLUE2StorageServiceCapacityUsedSize',
             'GLUE2StorageServiceCapacityTotalSize',
@@ -44,13 +44,13 @@ class GluetwoLdapTest(unittest.TestCase):
         self.assert_(int(ls_result['glue2.0']['GLUE2StorageServiceCapacityTotalSize']) != 0)
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
-            "'(&(objectclass=GLUE2StorageServiceCapacity)(GLUE2StorageServiceCapacityType=nearline))'"
+            "(&(objectclass=GLUE2StorageServiceCapacity)(GLUE2StorageServiceCapacityType=nearline))",
             ['GLUE2StorageServiceCapacityFreeSize',
             'GLUE2StorageServiceCapacityUsedSize',
             'GLUE2StorageServiceCapacityTotalSize',
             'GLUE2StorageServiceCapacityReservedSize'],
             self.tsets['bdii']['glue_two_basedn'])
-        self.lfn.put_cmd(ldap_search.get_command())
+        self.lfn.put_cmd('')
         ls_result = ldap_search.get_output()
         if ls_result['status'] == 'PASS':
             self.assert_(int(ls_result['glue2.0']['GLUE2StorageServiceCapacityTotalSize']) >= 0)
