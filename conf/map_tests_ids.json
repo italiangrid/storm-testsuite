@@ -67,5 +67,7 @@
   "test_settings":"8b4923",
   "test_info_service_failure":"82dc47",
   "test_srm_transfer_outbound_http":"4244ec",
-  "test_update_used_space_upon_pd":"b740fb"
+  "test_update_used_space_upon_pd":"b740fb",
+  "test_storm_database_password":"0b20a0",
+  "test_storm_gridhttps_authorization_denied":"d58db9"
 }
