@@ -281,7 +281,7 @@ class curl:
       'name': 'curl'}
     self.otpt = {
       'status':''}
-    self.p_path = ''
+    self.state,self.p_path=utils.get_proxy_path()
 
   def get_command(self, use_ssl=True, in_write=True):
     curl_opt=''
@@ -298,16 +298,15 @@ class curl:
   def run_command(self, use_ssl, in_write=True):
     a=()
     if utils.cmd_exist(self.cmd['name']):
-      a=commands.getstatusoutput(self.get_command(use_ssl, in_write))
+      a=commands.getstatusoutput(self.get_command(use_ssl=use_ssl, in_write=in_write))
     return a
 
   def get_output(self, use_ssl=True, in_write=True):
-    state, self.p_path = utils.get_proxy_path()
-    if state == 'FAILURE':
-      self.otpt['status'] = state
+    if self.state == 'FAILURE':
+      self.otpt['status'] = self.state
       return self.otpt
 
-    a=self.run_command(use_ssl, in_write)
+    a=self.run_command(use_ssl, in_write=in_write)
     if len(a) > 0 and a[0] == 0:
       if 'html' in a[1]:
         self.otpt['status'] = 'FAILURE'

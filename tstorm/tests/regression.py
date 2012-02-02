@@ -499,6 +499,9 @@ is not included in the SA root path.'''
         self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/209')
         self.lfn.put_output()
 
+        self.cf_result = createfile.Cf(self.ifn).get_output()
+        self.assert_(self.cf_result['status'] == 'PASS')
+
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
                  self.tsets['https']['sftn'], self.dfn)
         self.lfn.put_cmd(lcg_ls.get_command())
@@ -512,7 +515,7 @@ is not included in the SA root path.'''
         self.assert_(self.ptp_result['status'] == 'PASS')
 
         cp_curl = cp.curl(self.ifn, self.bifn, self.ptp_result['TURL'])
-        self.lfn.put_cmd(cp_curl.get_command())
+        self.lfn.put_cmd(cp_curl.get_command(True, True))
         self.curl_result = cp_curl.get_output(True, True)
         self.assert_(self.curl_result['status'] == 'PASS')
 
