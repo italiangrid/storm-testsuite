@@ -2,7 +2,7 @@
 
 __author__ = 'Elisabetta Ronchieri'
 
-VERSION = (1, 2, 0, 4)
+VERSION = (1, 2, 0, 5)
 
 def get_version():
     version = '%s.%s.%s-%s' % (VERSION[0], VERSION[1], VERSION[2], VERSION[3])
