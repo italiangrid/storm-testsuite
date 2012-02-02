@@ -42,7 +42,8 @@ class MapTestsIds:
             "test_storm_backend_age":"",
             "test_get_space_metadata_failure":"",
             "test_storm_database_password":"",
-            "test_storm_gridhttps_authorization_denied":""}
+            "test_storm_gridhttps_authorization_denied":"",
+            "test_storm_backend_dao_null_pointer":""}
  
         self.regressions_conf_tests = {
             "test_backend_server_status":"",
@@ -54,7 +55,10 @@ class MapTestsIds:
             "test_gridhttps_plugin_links":"",
             "test_backend_server_name_status":"",
             "test_mysql_storage_space_update":"",
-            "test_mysql_connector_java_links":""}
+            "test_mysql_connector_java_links":"",
+            "test_frontend_logrotate_output":"",
+            "test_backend_logrotate_output":"",
+            "test_backend_restart_failure":""}
 
         self.regressions_ldap_tests = {
             "test_glue_service":"",
