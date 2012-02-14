@@ -1,0 +1,80 @@
+EXTRA_DIST= \
+    AUTHORS \
+    bootstrap.sh \
+    ChangeLog \
+    README \
+    LICENSE \
+    CREDITS \
+    @PACKAGE@.spec.in \
+    project \
+    m4
+
+docdir = $(datadir)/doc/@PACKAGE@-@VERSION@
+doc_DATA = AUTHORS \
+    LICENSE \
+    CREDITS \
+    ChangeLog \
+    README
+
+SUBDIRS =  conf bin tstorm
+
+## Default flags to run aclocal
+ACLOCAL_AMFLAGS = -I m4
+
+CLEANFILES = \
+    @PACKAGE@.spec    
+
+SPEC_FILES=@PACKAGE@.spec
+
+RPM_MAIN_DIR = $(PWD)/rpm
+RPM_TMP_DIR = $(RPM_MAIN_DIR)/tmp
+RPM_SOURCE = $(RPM_MAIN_DIR)/SOURCES
+RPM_SPEC = $(RPM_MAIN_DIR)/SPECS
+RPM_BUILD = $(RPM_MAIN_DIR)/BUILD
+RPM_RPM = $(RPM_MAIN_DIR)/RPMS
+RPM_SRPM = $(RPM_MAIN_DIR)/SRPMS
+RPM_DIRS = $(RPM_MAIN_DIR) $(RPM_SOURCE) $(RPM_SPEC) $(RPM_BUILD) $(RPM_RPM) $(RPM_SRPM)
+
+rpm: dist
+	/bin/mkdir -p $(RPM_DIRS)
+        /bin/cp -u @PACKAGE@-@VERSION@.tar.gz $(RPM_SOURCE)
+        /bin/cp $(SPEC_FILE) $(RPM_SPEC)
+        cd $(RPM_SPEC); \
+        /usr/bin/rpmbuild  --define "_topdir $(RPM_MAIN_DIR)" --nodeps -ba $(RPM_SPEC)/$(SPEC_FILE)
+        mkdir -p @DISTSOURCE@ @DISTBIN@	
+
+stage:
+        @set fnord $(MAKEFLAGS); amf=$$2; \
+        dot_seen=no; \
+        target="install"; \
+        prefix_arg="@prefix@"; \
+        list='$(SUBDIRS)'; for subdir in $$list; do \
+          echo "Making $$target $$prefix_arg in $$subdir"; \
+          if test "$$subdir" = "."; then \
+            dot_seen=yes; \
+            local_target="$$target-am"; \
+          else \
+            local_target="$$target"; \
+          fi; \
+          (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target $$prefix_arg) \
+           || case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
+        done; \
+        if test "$$dot_seen" = "no"; then \
+          $(MAKE) $(AM_MAKEFLAGS) "$$target-am" $$prefix_arg || exit 1; \
+        fi; test -z "$$fail"
+
+distsrc:
+        mkdir -p @DISTSOURCE@
+	cp $(distdir).tar.gz @DISTSOURCE@/$(distdir)-@TSTORM_AGE_NUMBER@.@TSTORM_SO@.src.tar.gz
+        cp $(RPM_SRPM)/*.rpm @DISTSOURCE@
+
+distbin: stage
+	mkdir -p @DISTBIN@; \
+        cd etics-tmp; tar -zcf $(distdir).noarch.tar.gz etc usr; cp $(distdir).noarch.tar.gz @DISTBIN@/$(distdir)-@TSTORM_AGE_NUMBER@.@TSTORM_SO@.noarch.tar.gz; cd ..; \
+        cp $(RPM_RPM)/*/*.rpm @DISTBIN@
+
+clean-local:
+        rm -f @PACKAGE@-@VERSION@.tar.gz @PACKAGE@-@VERSION@.src.tar.gz
+
+distclean-local:
+        rm -rf $(RPM_DIRS) project
