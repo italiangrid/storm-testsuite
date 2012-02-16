@@ -37,14 +37,14 @@ RPM_DIRS = $(RPM_MAIN_DIR) $(RPM_SOURCE) $(RPM_SPEC) $(RPM_BUILD) $(RPM_RPM) $(R
 
 rpm: dist
 	/bin/mkdir -p $(RPM_DIRS)
-        /bin/cp -u @PACKAGE@-@VERSION@.tar.gz $(RPM_SOURCE)
-        /bin/cp $(SPEC_FILE) $(RPM_SPEC)
-        cd $(RPM_SPEC); \
+	/bin/cp -u @PACKAGE@-@VERSION@.tar.gz $(RPM_SOURCE)
+	/bin/cp $(SPEC_FILE) $(RPM_SPEC)
+	cd $(RPM_SPEC); \
         /usr/bin/rpmbuild  --define "_topdir $(RPM_MAIN_DIR)" --nodeps -ba $(RPM_SPEC)/$(SPEC_FILE)
-        mkdir -p @DISTSOURCE@ @DISTBIN@	
+	mkdir -p @DISTSOURCE@ @DISTBIN@	
 
 stage:
-        @set fnord $(MAKEFLAGS); amf=$$2; \
+	@set fnord $(MAKEFLAGS); amf=$$2; \
         dot_seen=no; \
         target="install"; \
         prefix_arg="@prefix@"; \
@@ -64,9 +64,9 @@ stage:
         fi; test -z "$$fail"
 
 distsrc:
-        mkdir -p @DISTSOURCE@
+	mkdir -p @DISTSOURCE@
 	cp $(distdir).tar.gz @DISTSOURCE@/$(distdir)-@TSTORM_AGE_NUMBER@.@TSTORM_SO@.src.tar.gz
-        cp $(RPM_SRPM)/*.rpm @DISTSOURCE@
+	cp $(RPM_SRPM)/*.rpm @DISTSOURCE@
 
 distbin: stage
 	mkdir -p @DISTBIN@; \
@@ -74,7 +74,7 @@ distbin: stage
         cp $(RPM_RPM)/*/*.rpm @DISTBIN@
 
 clean-local:
-        rm -f @PACKAGE@-@VERSION@.tar.gz @PACKAGE@-@VERSION@.src.tar.gz
+	rm -f @PACKAGE@-@VERSION@.tar.gz @PACKAGE@-@VERSION@.src.tar.gz
 
 distclean-local:
-        rm -rf $(RPM_DIRS) project
+	rm -rf $(RPM_DIRS) project
