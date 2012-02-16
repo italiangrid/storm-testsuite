@@ -43,6 +43,9 @@ AC_CONFIG_FILES([
    tstorm/Makefile
    tstorm/utils/Makefile
    tstorm/commands/Makefile
+   tstorm/tests/Makefile
+   tstorm/tests/deployment/Makefile
+   tstorm/tests/deployment/regression/Makefile
    tstorm.spec
 ])
 

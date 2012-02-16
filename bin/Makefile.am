@@ -1,10 +1,10 @@
-bin_SCRIPTS = tstorm-sanity-tests.py \
-    tstorm-tests.py \
-    tstorm-tests-ids.py
+bin_SCRIPTS = tstorm-sanity-tests \
+    tstorm-tests \
+    tstorm-tests-ids
 
 EXTRA_DIST = \
-    tstorm-sanity-tests.py \
-    tstorm-tests.py \
-    tstorm-tests-ids.py
+    tstorm-sanity-tests \
+    tstorm-tests \
+    tstorm-tests-ids
 
 
