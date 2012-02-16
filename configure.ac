@@ -1,5 +1,5 @@
 AC_INIT(tstorm, 1.2.0, www.cnaf.infn.it)
-AC_CONFIG_SRCDIR([hypervisor/net.py])
+AC_CONFIG_SRCDIR([tstorm/__init__.py])
 AC_CONFIG_AUX_DIR([./project])
 
 AC_COPYRIGHT([Copyright (C) 2009 the wnodes authors.
@@ -38,7 +38,7 @@ fi
 AC_CONFIG_HEADER([autogen/config.h])
 AC_CONFIG_FILES([
    Makefile
-   doc/Makefile
+   bin/Makefile
    conf/Makefile
    tstorm/Makefile
    tstorm/utils/Makefile

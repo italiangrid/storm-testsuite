@@ -1,0 +1,4 @@
+#!/bin/sh
+
+export PATH=/usr/bin:$PATH
+export PYTHONPATH=/usr/lib/python2.4/site-packages:$PYTHONPATH
