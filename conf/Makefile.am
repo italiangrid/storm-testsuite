@@ -5,7 +5,7 @@ EXTRA_DIST = \
    tstorm-tp.json
 
 tstormsanityconfdir = $(sysconfdir)/tstorm/sanity
-dist_tstormsanityconf_DATA = tstorm-santiy.ini \
+dist_tstormsanityconf_DATA = tstorm-sanity.ini \
    tstorm-sanity-tp.json
 
 tstormconfdir = $(sysconfdir)/tstorm/
