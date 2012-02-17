@@ -40,9 +40,11 @@ SUBDIRS =  conf bin tstorm
 ACLOCAL_AMFLAGS = -I m4
 
 CLEANFILES = \
-    @PACKAGE@.spec    
+    @PACKAGE@.spec
 
-SPEC_FILES=@PACKAGE@.spec
+MAINTAINERCLEANFILES = Makefile.in
+
+SPEC_FILE = @PACKAGE@.spec
 
 RPM_MAIN_DIR = $(PWD)/rpm
 RPM_TMP_DIR = $(RPM_MAIN_DIR)/tmp
