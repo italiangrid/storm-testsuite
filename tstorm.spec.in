@@ -1,55 +1,257 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
-%define age 1
-%define release %{age}.sl5
+%define name         @PACKAGE@
+%define version      @VERSION@
+%define release      @TSTORM_AGE_NUMBER@.@TSTORM_SO@
 
-Name:           tstorm
-Version:        1.0.0
+%define builddir     @RPM_BUILD_DIR@/build-%{name}-%{version}
+
+%define default_user root
+
+Name:           %{name}
+Version:        %{version}
 Release:        %{release}
-Summary:        Python Module for Accessing and Modifying Configuration Data in INI files
-Group:          Development/Libraries
+Vendor:         EMI
+Packager:       Elisabetta Ronchieri <elisabetta.ronchieri@cnaf.infn.it>
 License:        Apache License
-URL:            http://code.google.com/p/iniparse/
-Source0:        tstorm-%{version}-%{age}.tar.gz
-BuildRoot:      %{_tmppath}/build-root-%{name}-%{version}-%{age}
+URL:            http://grid-it.cnaf.infn.it
+Source:         @PACKAGE@-%{version}.tar.gz
+Group:          System Environment/Shells
+AutoReqProv:    yes
+BuildArch:      noarch
+BuildRoot:      %{_builddir}/var/tmp/%{name}-%{version}
+Summary:        Provides the utility files.
 
-BuildRequires: python-json
+%define _sysconfdir    /etc
 
-BuildArch: noarch
+BuildRequires: libtool
+BuildRequires: automake
+BuildRequires: autoconf
+BuildRequires: python
+
+Requires: python-simplejson
+Requires: python-ldap
+Requires: %name-common
+
+%define debug_package %{nil}
+
+%package common
+Summary:  common library
+Group:    System Environment/Shells
+Requires: python-simplejson
+Requires: python-ldap
+
+%package sanity
+Summary:  sanity tests
+Group:    System Environment/Shells
+Requires: %name-common
+Requires: python-simplejson
+Requires: python-ldap
 
 %description
-iniparse is an INI parser for Python which is API compatible
-with the standard library's ConfigParser, preserves structure of INI
-files (order of sections & options, indentation, comments, and blank
-lines are preserved when data is updated), and is more convenient to
-use.
+This contains tstorm packages.
+
+%description common
+This contains tstorm common packages.
+
+%description sanity
+This contains tstorm sanity packages.
 
 %prep
-%setup -q -n %{name}-%{version}-%{age}
+echo Building %{name}-%{version}
 
+%setup -q -n %{name}-%{version}
 
 %build
-%{__python} setup.py build
+/bin/bash auto.sh
+./configure --prefix=/usr --datadir=/usr/share --sysconfdir=/etc --bindir=/usr/bin --exec_prefix=/usr
+make
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%{__python} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
-#chmod 644 $RPM_BUILD_ROOT//usr/share/doc/emi-t-storm-%{version}/index.html
-mv $RPM_BUILD_ROOT/usr/share/doc/tstorm-%{version}-%{age} $RPM_BUILD_ROOT/usr/share/doc/tstorm-%{version}
-#mkdir -p $RPM_BUILD_ROOT/etc
-mv $RPM_BUILD_ROOT/usr/etc $RPM_BUILD_ROOT/etc
+make DESTDIR=$RPM_BUILD_ROOT install
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-
 %files
 %defattr(-,root,root,-)
-%{_bindir}/tstorm-sanity-tests
 %{_bindir}/tstorm-tests
-%{_bindir}/tstorm-tests-ids
-%doc  %{_docdir}/tstorm-%{version}/*
-%dir %{_sysconfdir}/tstorm/*
-%{python_sitelib}/tstorm
+%attr(750,%{default_user},%{default_user}) %{_sysconfdir}/tstorm/tstorm.ini
+%attr(750,%{default_user},%{default_user}) %{_sysconfdir}/tstorm/tstorm-tp.json
+%dir %{_sysconfdir}/tstorm/commands
+%{python_sitelib}/tstorm/commands/abort.py
+%{python_sitelib}/tstorm/commands/abort.pyc
+%{python_sitelib}/tstorm/commands/abort.pyo
+%{python_sitelib}/tstorm/commands/bringonline.py
+%{python_sitelib}/tstorm/commands/bringonline.pyc
+%{python_sitelib}/tstorm/commands/bringonline.pyo
+%{python_sitelib}/tstorm/commands/cp.py
+%{python_sitelib}/tstorm/commands/cp.pyc
+%{python_sitelib}/tstorm/commands/cp.pyo
+%{python_sitelib}/tstorm/commands/__init__.py
+%{python_sitelib}/tstorm/commands/__init__.pyc
+%{python_sitelib}/tstorm/commands/__init__.pyo
+%{python_sitelib}/tstorm/commands/ls.py
+%{python_sitelib}/tstorm/commands/ls.pyc
+%{python_sitelib}/tstorm/commands/ls.pyo
+%{python_sitelib}/tstorm/commands/mkdir.py
+%{python_sitelib}/tstorm/commands/mkdir.pyc
+%{python_sitelib}/tstorm/commands/mkdir.pyo
+%{python_sitelib}/tstorm/commands/ping.py
+%{python_sitelib}/tstorm/commands/ping.pyc
+%{python_sitelib}/tstorm/commands/ping.pyo
+%{python_sitelib}/tstorm/commands/rmdir.py
+%{python_sitelib}/tstorm/commands/rmdir.pyc
+%{python_sitelib}/tstorm/commands/rmdir.pyo
+%{python_sitelib}/tstorm/commands/rm.py
+%{python_sitelib}/tstorm/commands/rm.pyc
+%{python_sitelib}/tstorm/commands/rm.pyo
+%{python_sitelib}/tstorm/commands/space.py
+%{python_sitelib}/tstorm/commands/space.pyc
+%{python_sitelib}/tstorm/commands/space.pyo
+%dir %{_sysconfdir}/tstorm/tests
+%{python_sitelib}/tstorm/tests/atomics.py
+%{python_sitelib}/tstorm/tests/atomics.pyc
+%{python_sitelib}/tstorm/tests/atomics.pyo
+%{python_sitelib}/tstorm/tests/basictests_novoms.py
+%{python_sitelib}/tstorm/tests/basictests_novoms.pyc
+%{python_sitelib}/tstorm/tests/basictests_novoms.pyo
+%{python_sitelib}/tstorm/tests/basictests.py
+%{python_sitelib}/tstorm/tests/basictests.pyc
+%{python_sitelib}/tstorm/tests/basictests.pyo
+%{python_sitelib}/tstorm/tests/commontests.py
+%{python_sitelib}/tstorm/tests/commontests.pyc
+%{python_sitelib}/tstorm/tests/commontests.pyo
+%{python_sitelib}/tstorm/tests/functionalities.py
+%{python_sitelib}/tstorm/tests/functionalities.pyc
+%{python_sitelib}/tstorm/tests/functionalities.pyo
+%{python_sitelib}/tstorm/tests/https.py
+%{python_sitelib}/tstorm/tests/https.pyc
+%{python_sitelib}/tstorm/tests/https.pyo
+%{python_sitelib}/tstorm/tests/regression.py
+%{python_sitelib}/tstorm/tests/regression.pyc
+%{python_sitelib}/tstorm/tests/regression.pyo
+%{python_sitelib}/tstorm/tests/regressiontests_novoms.py
+%{python_sitelib}/tstorm/tests/regressiontests_novoms.pyc
+%{python_sitelib}/tstorm/tests/regressiontests_novoms.pyo
+%{python_sitelib}/tstorm/tests/regressiontests.py
+%{python_sitelib}/tstorm/tests/regressiontests.pyc
+%{python_sitelib}/tstorm/tests/regressiontests.pyo
+%{python_sitelib}/tstorm/tests/tape.py
+%{python_sitelib}/tstorm/tests/tape.pyc
+%{python_sitelib}/tstorm/tests/tape.pyo
+%{python_sitelib}/tstorm/tests/tapetests.py
+%{python_sitelib}/tstorm/tests/tapetests.pyc
+%{python_sitelib}/tstorm/tests/tapetests.pyo
+%{python_sitelib}/tstorm/tests/utilities.py
+%{python_sitelib}/tstorm/tests/utilities.pyc
+%{python_sitelib}/tstorm/tests/utilities.pyo
 
+%files common
+%defattr(-,root,root,-)
+%{_bindir}/tstorm-tests-ids
+%attr(750,%{default_user},%{default_user}) %{_sysconfdir}/tstorm/common/map_tests_ids.json
+%doc  %{_docdir}/tstorm-%{version}/*
+%dir %{_sysconfdir}/tstorm/
+%{python_sitelib}/tstorm/__init__.py
+%{python_sitelib}/tstorm/__init__.pyc
+%{python_sitelib}/tstorm/__init__.pyo
+%dir %{_sysconfdir}/tstorm/utils
+%{python_sitelib}/tstorm/utils/check_testplan.py
+%{python_sitelib}/tstorm/utils/check_testplan.pyc
+%{python_sitelib}/tstorm/utils/check_testplan.pyo
+%{python_sitelib}/tstorm/utils/cksm.py
+%{python_sitelib}/tstorm/utils/cksm.pyc
+%{python_sitelib}/tstorm/utils/cksm.pyo
+%{python_sitelib}/tstorm/utils/config.py
+%{python_sitelib}/tstorm/utils/config.pyc
+%{python_sitelib}/tstorm/utils/config.pyo
+%{python_sitelib}/tstorm/utils/configuration.py
+%{python_sitelib}/tstorm/utils/configuration.pyc
+%{python_sitelib}/tstorm/utils/configuration.pyo
+%{python_sitelib}/tstorm/utils/createfile.py
+%{python_sitelib}/tstorm/utils/createfile.pyc
+%{python_sitelib}/tstorm/utils/createfile.pyo
+%{python_sitelib}/tstorm/utils/findstrings.py
+%{python_sitelib}/tstorm/utils/findstrings.pyc
+%{python_sitelib}/tstorm/utils/findstrings.pyo
+%{python_sitelib}/tstorm/utils/infosystem.py
+%{python_sitelib}/tstorm/utils/infosystem.pyc
+%{python_sitelib}/tstorm/utils/infosystem.pyo
+%{python_sitelib}/tstorm/utils/__init__.py
+%{python_sitelib}/tstorm/utils/__init__.pyc
+%{python_sitelib}/tstorm/utils/__init__.pyo
+%{python_sitelib}/tstorm/utils/ldapsearch.py
+%{python_sitelib}/tstorm/utils/ldapsearch.pyc
+%{python_sitelib}/tstorm/utils/ldapsearch.pyo
+%{python_sitelib}/tstorm/utils/listinfo.py
+%{python_sitelib}/tstorm/utils/listinfo.pyc
+%{python_sitelib}/tstorm/utils/listinfo.pyo
+%{python_sitelib}/tstorm/utils/map_tests_ids.py
+%{python_sitelib}/tstorm/utils/map_tests_ids.pyc
+%{python_sitelib}/tstorm/utils/map_tests_ids.pyo
+%{python_sitelib}/tstorm/utils/mysqlquery.py
+%{python_sitelib}/tstorm/utils/mysqlquery.pyc
+%{python_sitelib}/tstorm/utils/mysqlquery.pyo
+%{python_sitelib}/tstorm/utils/readfile.py
+%{python_sitelib}/tstorm/utils/readfile.pyc
+%{python_sitelib}/tstorm/utils/readfile.pyo
+%{python_sitelib}/tstorm/utils/removefile.py
+%{python_sitelib}/tstorm/utils/removefile.pyc
+%{python_sitelib}/tstorm/utils/removefile.pyo
+%{python_sitelib}/tstorm/utils/report_file.py
+%{python_sitelib}/tstorm/utils/report_file.pyc
+%{python_sitelib}/tstorm/utils/report_file.pyo
+%{python_sitelib}/tstorm/utils/rpm.py
+%{python_sitelib}/tstorm/utils/rpm.pyc
+%{python_sitelib}/tstorm/utils/rpm.pyo
+%{python_sitelib}/tstorm/utils/service.py
+%{python_sitelib}/tstorm/utils/service.pyc
+%{python_sitelib}/tstorm/utils/service.pyo
+%{python_sitelib}/tstorm/utils/settings.py
+%{python_sitelib}/tstorm/utils/settings.pyc
+%{python_sitelib}/tstorm/utils/settings.pyo
+%{python_sitelib}/tstorm/utils/utils.py
+%{python_sitelib}/tstorm/utils/utils.pyc
+%{python_sitelib}/tstorm/utils/utils.pyo
+%{python_sitelib}/tstorm/utils/version.py
+%{python_sitelib}/tstorm/utils/version.pyc
+%{python_sitelib}/tstorm/utils/version.pyo
+%{python_sitelib}/tstorm/utils/yaim.py
+%{python_sitelib}/tstorm/utils/yaim.pyc
+%{python_sitelib}/tstorm/utils/yaim.pyo
+%dir %{_sysconfdir}/tstorm/tests/
+%{python_sitelib}/tstorm/tests/__init__.py
+%{python_sitelib}/tstorm/tests/__init__.pyc
+%{python_sitelib}/tstorm/tests/__init__.pyo
+
+%files sanity
+%defattr(-,root,root,-)
+%{_bindir}/tstorm-sanity-tests
+%attr(750,%{default_user},%{default_user}) %{_sysconfdir}/tstorm/tstorm-sanity.ini
+%attr(750,%{default_user},%{default_user}) %{_sysconfdir}/tstorm/tstorm-sanity-tp.json
+%dir %{_sysconfdir}/tstorm/tests/deployment
+%{python_sitelib}/tstorm/tests/deployment/__init__.py
+%{python_sitelib}/tstorm/tests/deployment/__init__.pyc
+%{python_sitelib}/tstorm/tests/deployment/__init__.pyo
+%dir %{_sysconfdir}/tstorm/tests/deployment/regression
+%{python_sitelib}/tstorm/tests/deployment/regression/gluetwo_ldapquery.py
+%{python_sitelib}/tstorm/tests/deployment/regression/gluetwo_ldapquery.pyc
+%{python_sitelib}/tstorm/tests/deployment/regression/gluetwo_ldapquery.pyo
+%{python_sitelib}/tstorm/tests/deployment/regression/__init__.py
+%{python_sitelib}/tstorm/tests/deployment/regression/__init__.pyc
+%{python_sitelib}/tstorm/tests/deployment/regression/__init__.pyo
+%{python_sitelib}/tstorm/tests/deployment/regression/ldapquery.py
+%{python_sitelib}/tstorm/tests/deployment/regression/ldapquery.pyc
+%{python_sitelib}/tstorm/tests/deployment/regression/ldapquery.pyo
+%{python_sitelib}/tstorm/tests/deployment/regression/regression_conftests.py
+%{python_sitelib}/tstorm/tests/deployment/regression/regression_conftests.pyc
+%{python_sitelib}/tstorm/tests/deployment/regression/regression_conftests.pyo
+%{python_sitelib}/tstorm/tests/deployment/regression/regression_ldaptests.py
+%{python_sitelib}/tstorm/tests/deployment/regression/regression_ldaptests.pyc
+%{python_sitelib}/tstorm/tests/deployment/regression/regression_ldaptests.pyo
+%{python_sitelib}/tstorm/tests/deployment/regression/service_configuration.py
+%{python_sitelib}/tstorm/tests/deployment/regression/service_configuration.pyc
+%{python_sitelib}/tstorm/tests/deployment/regression/service_configuration.pyo
 

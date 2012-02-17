@@ -1,11 +1,37 @@
-AC_INIT(tstorm, 1.2.0, www.cnaf.infn.it)
-AC_CONFIG_SRCDIR([tstorm/__init__.py])
+# Copyright (c) Istituto Nazionale di Fisica Nucleare (INFN). 2006-2010.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+#
+# Authors: Elisabetta Ronchieri <elisabetta.ronchieri@cnaf.infn.it>
+#
+
+AC_PREREQ([2.59])
+AC_INIT([tstorm], [1.2.0])
 AC_CONFIG_AUX_DIR([./project])
+AC_CONFIG_SRCDIR([tstorm/__init__.py])
+AM_INIT_AUTOMAKE
+AC_CONFIG_MACRO_DIR([m4])
 
-AC_COPYRIGHT([Copyright (C) 2009 the wnodes authors.
-This file is distributed under the same license as the x package.])
+# Release number
+osdist=`cat /etc/redhat-release | awk 'BEGIN {FS="release "} {print $2}'| awk 'BEGIN {FS="."} {print $1}'`
+AC_SUBST([TSTORM_SO], [sl$osdist])
+AC_SUBST([TSTORM_AGE_NUMBER], [5])
 
-AM_INIT_AUTOMAKE([-Wall -Werror foreign])
+# Notices.
+AC_COPYRIGHT([See LICENCE file for details])
+AC_REVISION([$Revision: $])
+
 AM_MAINTAINER_MODE
 
 dnl check for python
@@ -21,8 +47,6 @@ TSTORM_VERSION=[`$PYTHON -c "
 print __import__('tstorm').get_version();"`]
 AC_MSG_RESULT([$TSTORM_VERSION])
 
-TSTORM_AGE=5
-
 if test "$host_cpu" = "x86_64"; then
   t=${libdir##/lib}
   if test "$t" != 64; then
@@ -34,6 +58,8 @@ if test "$host_cpu" = "x86_64"; then
 else
   AC_MSG_RESULT([no. $host_cpu])
 fi
+
+AC_STORM([])
 
 AC_CONFIG_HEADER([autogen/config.h])
 AC_CONFIG_FILES([
