@@ -1,7 +1,8 @@
 {
   "basic_tests": [
-    "cs_ts", 
-    "cw_ts", 
+    "ping_ts",
+    "gtp_ts", 
+    "cw_ts",
     "cksm_ts", 
     "dt_ts", 
     "https_voms_ts"
