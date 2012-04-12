@@ -16,9 +16,25 @@
 # Authors: Elisabetta Ronchieri <elisabetta.ronchieri@cnaf.infn.it>
 #
 
-bin_SCRIPTS = tstorm-sanity-tests \
-    tstorm-tests 
+tstormfunregressiondir = @pyexecdir@/tstorm/tests/functional/regression
+tstormfunregression_PYTHON = \
+    __init__.py \
+    regression.py \
+    regressiontests_novoms.py \
+    regressiontests.py 
 
 EXTRA_DIST = \
-    tstorm-sanity-tests \
-    tstorm-tests 
+    __init__.py \
+    regression.py \
+    regressiontests_novoms.py \
+    regressiontests.py
+
+CLEANFILES= \
+    __init__.pyc \
+    regression.pyc \
+    regressiontests_novoms.pyc \
+    regressiontests.pyc \
+    __init__.pyo \
+    regression.pyo \
+    regressiontests_novoms.pyo \
+    regressiontests.pyo

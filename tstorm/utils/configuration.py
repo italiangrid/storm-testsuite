@@ -41,7 +41,6 @@ class LoadConfiguration:
 
     def __get_sections(self):
         '''Returns sections'''
-
         try:
             self.parser.read(self.configuration_file)
         except ConfigParser.ParsingError, err:

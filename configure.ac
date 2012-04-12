@@ -70,8 +70,11 @@ AC_CONFIG_FILES([
    tstorm/utils/Makefile
    tstorm/commands/Makefile
    tstorm/tests/Makefile
+   tstorm/tests/atomic/Makefile
    tstorm/tests/deployment/Makefile
    tstorm/tests/deployment/regression/Makefile
+   tstorm/tests/functional/Makefile
+   tstorm/tests/functional/regression/Makefile
    tstorm.spec
 ])
 

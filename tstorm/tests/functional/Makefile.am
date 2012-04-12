@@ -16,23 +16,39 @@
 # Authors: Elisabetta Ronchieri <elisabetta.ronchieri@cnaf.infn.it>
 #
 
-SUBDIRS = atomic deployment functional
+SUBDIRS = regression
 
-tstormtestsdir = @pyexecdir@/tstorm/tests
-tstormtests_PYTHON =  \
-    commontests.py \
+tstormfunctionaltestsdir = @pyexecdir@/tstorm/tests/functional
+tstormfunctionaltests_PYTHON = \
+    functionalities.py \
+    functionalitiestests_novoms.py \
+    functionalitiestests.py \
+    https.py \
     __init__.py \
-    utilities.py 
+    tape.py \
+    tapetests.py
 
 EXTRA_DIST = \
-    commontests.py \
+    functionalities.py \
+    functionalitiestests_novoms.py \
+    functionalitiestests.py \
+    https.py \
     __init__.py \
-    utilities.py
+    tape.py \
+    tapetests.py
 
 CLEANFILES= \
-    commontests.pyc \
+    functionalities.pyc \
+    functionalitiestests_novoms.pyc \
+    functionalitiestests.pyc \
+    https.pyc \
     __init__.pyc \
-    utilities.pyc \
-    commontests.pyo \
+    tape.pyc \
+    tapetests.pyc \
+    functionalities.pyo \
+    functionalitiestests_novoms.pyo \
+    functionalitiestests.pyo \
+    https.pyo \
     __init__.pyo \
-    utilities.pyo
+    tape.pyo \
+    tapetests.pyo

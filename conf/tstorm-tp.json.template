@@ -1,12 +1,26 @@
 {
-  "basic_tests": [
-    "cs_ts", 
-    "cw_ts", 
+  "atomic_tests": [
+    "ping_ts",
+    "ping_wo_ts",
+    "gtp_ts",
+    "gtp_wo_ts",
+    "ls_unexist_file_ts",
+    "mkdir_ts",
+    "mkdir_exist_ts",
+    "ls_dir_ts",
+    "cp_out_ts",
+    "ls_file_ts",
+    "rm_file_ts",
+    "rm_unexist_dir_ts",
+    "cp_in_ts",
+    "cw_ts"
+  ],
+  "functional_tests": [
     "cksm_ts", 
     "dt_ts", 
     "https_voms_ts"
   ], 
-  "basic_tests_novoms": [
+  "functional_tests_novoms": [
     "http_ts", 
     "https_ts"
   ], 
@@ -40,7 +54,6 @@
   ],
   "regression_conftests": [
     "backend_server_status_rt",
-    "backend_server_name_status_rt",
     "backend_logrotate_file_rt",
     "backend_gridhttps_rt",
     "yaim_version_file_rt",
@@ -54,13 +67,13 @@
     "access_tape_ts"
   ], 
   "test_plan": [
-    "common_tests", 
-    "basic_tests", 
+    "common_tests",
+    "atomic_tests",
+    "functional_tests",
     "regression_tests",
     "regression_tests_novoms",
-    "basic_tests_novoms",
+    "functional_tests_novoms",
     "regression_ldaptests",
-    "regression_conftests",
-    "tape_tests"
+    "regression_conftests"
   ]
 }

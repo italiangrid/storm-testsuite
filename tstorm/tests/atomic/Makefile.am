@@ -16,9 +16,21 @@
 # Authors: Elisabetta Ronchieri <elisabetta.ronchieri@cnaf.infn.it>
 #
 
-bin_SCRIPTS = tstorm-sanity-tests \
-    tstorm-tests 
+tstormatomicdir = @pyexecdir@/tstorm/tests/atomic
+tstormatomic_PYTHON = \
+    atomics.py \
+    atomicstests.py \
+    __init__.py 
 
 EXTRA_DIST = \
-    tstorm-sanity-tests \
-    tstorm-tests 
+    atomics.py \
+    atomicstests.py \
+    __init__.py 
+
+CLEANFILES= \
+    atomics.pyc \
+    atomicstests.pyc \
+    __init__.pyc \
+    atomics.pyo \
+    atomicstests.pyo \
+    __init__.pyo 

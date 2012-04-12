@@ -1,5 +1,5 @@
 {
-  "basic_tests": [
+  "atomic_tests": [
     "ping_ts",
     "ping_wo_ts",
     "gtp_ts",
@@ -12,13 +12,15 @@
     "ls_file_ts",
     "rm_file_ts",
     "rm_unexist_dir_ts",
-    "cp_in_ts", 
-    "cw_ts", 
+    "cp_in_ts",
+    "cw_ts"
+  ],
+  "functional_tests": [
     "cksm_ts", 
     "dt_ts", 
     "https_voms_ts"
   ], 
-  "basic_tests_novoms": [
+  "functional_tests_novoms": [
     "http_ts", 
     "https_ts"
   ], 
@@ -66,10 +68,11 @@
   ], 
   "test_plan": [
     "common_tests",
-    "basic_tests",
+    "atomic_tests",
+    "functional_tests",
     "regression_tests",
     "regression_tests_novoms",
-    "basic_tests_novoms",
+    "functional_tests_novoms",
     "regression_ldaptests",
     "regression_conftests"
   ]

@@ -119,46 +119,57 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/tstorm/commands/space.pyc
 %{python_sitelib}/tstorm/commands/space.pyo
 %dir %{python_sitelib}/tstorm/tests
-%{python_sitelib}/tstorm/tests/atomics.py
-%{python_sitelib}/tstorm/tests/atomics.pyc
-%{python_sitelib}/tstorm/tests/atomics.pyo
-%{python_sitelib}/tstorm/tests/basictests_novoms.py
-%{python_sitelib}/tstorm/tests/basictests_novoms.pyc
-%{python_sitelib}/tstorm/tests/basictests_novoms.pyo
-%{python_sitelib}/tstorm/tests/basictests.py
-%{python_sitelib}/tstorm/tests/basictests.pyc
-%{python_sitelib}/tstorm/tests/basictests.pyo
 %{python_sitelib}/tstorm/tests/commontests.py
 %{python_sitelib}/tstorm/tests/commontests.pyc
 %{python_sitelib}/tstorm/tests/commontests.pyo
-%{python_sitelib}/tstorm/tests/functionalities.py
-%{python_sitelib}/tstorm/tests/functionalities.pyc
-%{python_sitelib}/tstorm/tests/functionalities.pyo
-%{python_sitelib}/tstorm/tests/https.py
-%{python_sitelib}/tstorm/tests/https.pyc
-%{python_sitelib}/tstorm/tests/https.pyo
-%{python_sitelib}/tstorm/tests/regression.py
-%{python_sitelib}/tstorm/tests/regression.pyc
-%{python_sitelib}/tstorm/tests/regression.pyo
-%{python_sitelib}/tstorm/tests/regressiontests_novoms.py
-%{python_sitelib}/tstorm/tests/regressiontests_novoms.pyc
-%{python_sitelib}/tstorm/tests/regressiontests_novoms.pyo
-%{python_sitelib}/tstorm/tests/regressiontests.py
-%{python_sitelib}/tstorm/tests/regressiontests.pyc
-%{python_sitelib}/tstorm/tests/regressiontests.pyo
-%{python_sitelib}/tstorm/tests/tape.py
-%{python_sitelib}/tstorm/tests/tape.pyc
-%{python_sitelib}/tstorm/tests/tape.pyo
-%{python_sitelib}/tstorm/tests/tapetests.py
-%{python_sitelib}/tstorm/tests/tapetests.pyc
-%{python_sitelib}/tstorm/tests/tapetests.pyo
 %{python_sitelib}/tstorm/tests/utilities.py
 %{python_sitelib}/tstorm/tests/utilities.pyc
 %{python_sitelib}/tstorm/tests/utilities.pyo
+%dir %{python_sitelib}/tstorm/tests/atomic
+%{python_sitelib}/tstorm/tests/atomic/atomics.py
+%{python_sitelib}/tstorm/tests/atomic/atomics.pyc
+%{python_sitelib}/tstorm/tests/atomic/atomics.pyo
+%{python_sitelib}/tstorm/tests/atomic/atomicstests.py
+%{python_sitelib}/tstorm/tests/atomic/atomicstests.pyc
+%{python_sitelib}/tstorm/tests/atomic/atomicstests.pyo
+%{python_sitelib}/tstorm/tests/atomic/__init__.py
+%{python_sitelib}/tstorm/tests/atomic/__init__.pyc
+%{python_sitelib}/tstorm/tests/atomic/__init__.pyo
+%dir %{python_sitelib}/tstorm/tests/functional
+%{python_sitelib}/tstorm/tests/functional/functionalitiestests_novoms.py
+%{python_sitelib}/tstorm/tests/functional/functionalitiestests_novoms.pyc
+%{python_sitelib}/tstorm/tests/functional/functionalitiestests_novoms.pyo
+%{python_sitelib}/tstorm/tests/functional/functionalitiestests.py
+%{python_sitelib}/tstorm/tests/functional/basictests.pyc
+%{python_sitelib}/tstorm/tests/functional/basictests.pyo
+%{python_sitelib}/tstorm/tests/functional/functionalities.py
+%{python_sitelib}/tstorm/tests/functional/functionalities.pyc
+%{python_sitelib}/tstorm/tests/functional/functionalities.pyo
+%{python_sitelib}/tstorm/tests/functional/https.py
+%{python_sitelib}/tstorm/tests/functional/https.pyc
+%{python_sitelib}/tstorm/tests/functional/https.pyo
+%{python_sitelib}/tstorm/tests/functional/__init__.py
+%{python_sitelib}/tstorm/tests/functional/__init__.pyc
+%{python_sitelib}/tstorm/tests/functional/__init__.pyo
+%{python_sitelib}/tstorm/tests/functional/tape.py
+%{python_sitelib}/tstorm/tests/functional/tape.pyc
+%{python_sitelib}/tstorm/tests/functional/tape.pyo
+%{python_sitelib}/tstorm/tests/functional/tapetests.py
+%{python_sitelib}/tstorm/tests/functional/tapetests.pyc
+%{python_sitelib}/tstorm/tests/functional/tapetests.pyo
+%dir %{python_sitelib}/tstorm/tests/functional/regression
+%{python_sitelib}/tstorm/tests/functional/regression/regression.py
+%{python_sitelib}/tstorm/tests/functional/regression/regression.pyc
+%{python_sitelib}/tstorm/tests/functional/regression/regression.pyo
+%{python_sitelib}/tstorm/tests/functional/regression/regressiontests_novoms.py
+%{python_sitelib}/tstorm/tests/functional/regression/regressiontests_novoms.pyc
+%{python_sitelib}/tstorm/tests/functional/regression/regressiontests_novoms.pyo
+%{python_sitelib}/tstorm/tests/functional/regression/regressiontests.py
+%{python_sitelib}/tstorm/tests/functional/regression/regressiontests.pyc
+%{python_sitelib}/tstorm/tests/functional/regression/regressiontests.pyo
 
 %files common
 %defattr(-,root,root,-)
-%{_bindir}/tstorm-tests-ids
 %dir %{_sysconfdir}/tstorm
 %dir %{_sysconfdir}/tstorm/common
 %attr(750,%{default_user},%{default_user}) %{_sysconfdir}/tstorm/common/map_tests_ids.json
@@ -198,9 +209,6 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/tstorm/utils/listinfo.py
 %{python_sitelib}/tstorm/utils/listinfo.pyc
 %{python_sitelib}/tstorm/utils/listinfo.pyo
-%{python_sitelib}/tstorm/utils/map_tests_ids.py
-%{python_sitelib}/tstorm/utils/map_tests_ids.pyc
-%{python_sitelib}/tstorm/utils/map_tests_ids.pyo
 %{python_sitelib}/tstorm/utils/mysqlquery.py
 %{python_sitelib}/tstorm/utils/mysqlquery.pyc
 %{python_sitelib}/tstorm/utils/mysqlquery.pyo
