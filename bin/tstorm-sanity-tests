@@ -32,7 +32,7 @@ def run_tests(tpi, uid, lfn, tt, n_df, n_dfn):
 def usage():
     print "Usage: tstorm-sanity-tests [-c|--conf] [--noreport]"
     print """Example: if you want to run test by changing conf input file"""
-    print """         tstorm-sanity-tests -c etc/tstorm/tstorm.ini"""
+    print """         tstorm-sanity-tests -c etc/tstorm/tstorm-sanity.ini"""
 
 def json_file_details():
     print "Description of tstorm-sanity-tp.json.template:"
