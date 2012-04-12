@@ -13,7 +13,6 @@ from tstorm.tests.deployment.regression import regression_conftests as rct
 from tstorm.tests.deployment.regression import regression_ldaptests as rlt
 
 def run_tests(tpi, uid, lfn, tt, n_df, n_dfn):
-
     info = check_testplan.CheckTestplan()
     key_word = info.get_key_word()
     methods = info.get_methods()
@@ -21,10 +20,10 @@ def run_tests(tpi, uid, lfn, tt, n_df, n_dfn):
     if tt in tpi[key_word]:
         if tt in tpi.keys():
             for y in tpi[tt]:
-	        if tt == 'regression_tests' or y in ('https_ts', 'https_voms_ts', 'http_ts'):
-	            sd=False
-	        else:
-	            sd=True
+	        #if tt == 'regression_tests' or y in ('https_ts', 'https_voms_ts', 'http_ts'):
+	        #    sd=False
+	        #else:
+	        sd=True
 	        if tt != 'regression_conftests':
 	            ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,subdir=sd)
 	        m=methods[y]
@@ -36,38 +35,22 @@ def usage():
     print """         tstorm-sanity-tests -c etc/tstorm/tstorm.ini"""
 
 def json_file_details():
-    print "Description of tstorm-tp.json.template:"
+    print "Description of tstorm-sanity-tp.json.template:"
     print """test_plan - is a key word containing a list of different type of """
     print """            system tests that MUST be specified in the following """
     print """            order of execution, that is """
     print """            ["""
-    print """             'common_tests',"""
-    print """             'basic_tests',"""
-    print """             'regression_tests',"""
-    print """             'basic_tests_novoms',"""
-    print """             'regression_tests_novoms',"""
     print """             'regression_conftests',"""
-    print """             'regression_ldaptests',"""
-    print """             'tape_tests'"""
+    print """             'regression_ldaptests'"""
     print """            ]"""
     print """regression_conftests are executed only if conftest option is used."""
-    print """common_tests         - is a key word containing a list of tests that is"""
-    print """                       mandatory for all the other tests with the """
-    print """                       exclusion of regression conf tests and"""
-    print """                       regression ldap tests"""
-    print """basic_tests          - is a key word containing a list of tests;"""
-    print """regression_tests     - is a key word containing a list of tests;"""
-    print """regression_conftests - is a key word containing a list of tests """
-    print """                       that MUST run as root;"""
     print """regression_ldaptests - is a key word containing a list of tests;"""
-    print """basic_tests_novoms   - is a key word containing a list of tests; """
-    print """tape_tests           - is a key word containing a list of tests.\n """
-    print "Example of tstorm-tp.json.template:\n"
-    settings.print_json_file_template('tstorm-tp.json.template')
+    print "Example of tstorm-sanity-tp.json.template:\n"
+    settings.print_json_file_template('tstorm-sanity-tp.json.template')
 
 if __name__ == '__main__':
-    tfn = 'tstorm.ini'
-
+    tfn = 'tstorm-sanity.ini'
+    
     try:
         opts, args = getopt.getopt(sys.argv[1:], "hc:", ["help","noreport","conf"])
     except getopt.GetoptError, err:
@@ -102,9 +85,9 @@ if __name__ == '__main__':
         check_configuration_file.print_configuration_file_template()
         sys.exit(3)
         
-    if settings.configuration_file_exists(file_name = 'tstorm-tp.json'):
+    if settings.configuration_file_exists(file_name = 'tstorm-sanity-tp.json'):
         '''Get Test Plan Info from conf file'''
-        tpj_info = settings.get_json_file_information(file_name = 'tstorm-tp.json')
+        tpj_info = settings.get_json_file_information(file_name = 'tstorm-sanity-tp.json')
     else:
         print '''Include tstorm-tp.json file in the right locations'''
         sys.exit(4)

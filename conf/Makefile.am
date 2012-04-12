@@ -19,17 +19,21 @@
 EXTRA_DIST = \
    tstorm-sanity.ini \
    tstorm-sanity-tp.json \
+   tstorm-sanity-tp.json.template \
    tstorm.ini \
    tstorm-tp.json \
+   tstorm-tp.json.template \
    map_tests_ids.json
 
 tstormsanityconfdir = $(sysconfdir)/tstorm/sanity
 dist_tstormsanityconf_DATA = tstorm-sanity.ini \
-   tstorm-sanity-tp.json
+   tstorm-sanity-tp.json \
+   tstorm-sanity-tp.json.template
 
 tstormconfdir = $(sysconfdir)/tstorm/
 dist_tstormconf_DATA = tstorm.ini \
-   tstorm-tp.json
+   tstorm-tp.json \
+   tstorm-tp.json.template
 
 tstormcommonconfdir = $(sysconfdir)/tstorm/common
 dist_tstormcommonconf_DATA = map_tests_ids.json

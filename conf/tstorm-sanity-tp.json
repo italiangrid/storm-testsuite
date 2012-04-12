@@ -1,45 +1,4 @@
 {
-  "atomic_tests": [
-    "ping_ts",
-    "ping_wo_ts",
-    "gtp_ts",
-    "gtp_wo_ts",
-    "ls_unexist_file_ts",
-    "mkdir_ts",
-    "mkdir_exist_ts",
-    "ls_dir_ts",
-    "cp_out_ts",
-    "ls_file_ts",
-    "rm_file_ts",
-    "rm_unexist_dir_ts",
-    "cp_in_ts",
-    "cw_ts"
-  ],
-  "functional_tests": [
-    "cksm_ts", 
-    "dt_ts", 
-    "https_voms_ts"
-  ], 
-  "functional_tests_novoms": [
-    "http_ts", 
-    "https_ts"
-  ], 
-  "common_tests": [
-    "conf_ts"
-  ], 
-  "regression_tests": [
-    "update_free_space_upon_rm_ts", 
-    "eight_digit_string_checksum_ts", 
-    "update_used_space_upon_pd_ts", 
-    "unsupported_protocols_ts", 
-    "non_ascii_chars_ts", 
-    "storm_backend_age_ts",
-    "storm_database_password",
-    "storm_gridhttps_authorization_denied"
-  ],
-  "regression_tests_novoms": [
-    "get_space_metadata_failure_ts"
-  ],
   "regression_ldaptests": [
     "glue_service_ts",
     "gluetwo_storage_share_capacity_ts",
@@ -63,15 +22,7 @@
     "mysql_storage_space_update_rt",
     "mysql_connector_java_links_rt"
   ],
-  "tape_tests": [
-    "access_tape_ts"
-  ], 
   "test_plan": [
-    "common_tests",
-    "basic_tests",
-    "regression_tests",
-    "regression_tests_novoms",
-    "basic_tests_novoms",
     "regression_ldaptests",
     "regression_conftests"
   ]

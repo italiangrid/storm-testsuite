@@ -58,7 +58,11 @@ def get_configuration_paths():
     dir_name = os.path.dirname(sys.argv[0])
 
     paths = [os.path.join(dir_name, "../", "etc/tstorm/"),
-        os.path.join(dir_name, "../", "../", "etc/tstorm/")]
+        os.path.join(dir_name, "../", "../", "etc/tstorm/"),
+        os.path.join(dir_name, "../", "etc/tstorm/sanity/"),
+        os.path.join(dir_name, "../", "../", "etc/tstorm/sanity/"),
+        os.path.join(dir_name, "../", "etc/tstorm/common/"),
+        os.path.join(dir_name, "../", "../", "etc/tstorm/common/")]
 
     return paths 
 

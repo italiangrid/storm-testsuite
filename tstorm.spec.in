@@ -78,6 +78,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/tstorm/
 %attr(750,%{default_user},%{default_user}) %{_sysconfdir}/tstorm/tstorm.ini
 %attr(750,%{default_user},%{default_user}) %{_sysconfdir}/tstorm/tstorm-tp.json
+%attr(750,%{default_user},%{default_user}) %{_sysconfdir}/tstorm/tstorm-tp.json.template
 %dir %{python_sitelib}/tstorm/
 %dir %{python_sitelib}/tstorm/commands
 %{python_sitelib}/tstorm/commands/abort.py
@@ -252,6 +253,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/tstorm/sanity
 %attr(750,%{default_user},%{default_user}) %{_sysconfdir}/tstorm/sanity/tstorm-sanity.ini
 %attr(750,%{default_user},%{default_user}) %{_sysconfdir}/tstorm/sanity/tstorm-sanity-tp.json
+%attr(750,%{default_user},%{default_user}) %{_sysconfdir}/tstorm/sanity/tstorm-sanity-tp.json.template
 %dir %{python_sitelib}/tstorm/
 %dir %{python_sitelib}/tstorm/tests/
 %dir %{python_sitelib}/tstorm/tests/deployment
