@@ -113,7 +113,8 @@ class StoRMBol:
             a += self.endpoint + ':' + self.cmd['port'] + '/'
         a += ' -s ' + self.cmd['protocol'] + '://'
         a += self.endpoint + ':' + self.cmd['port'] + '/srm/managerv2?SFN=/'
-        a += self.accesspoint + self.dst_filename ' -p'
+        a += self.accesspoint + self.dst_filename 
+        a += ' -p'
         return a
 
     def run_command(self, wrong_request=False, wrong_option=False):
