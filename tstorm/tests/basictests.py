@@ -12,13 +12,21 @@ from tstorm.tests import https as h
 def ping_ts(conf, ifn, dfn, bifn, uid, lfn):
     s = unittest.TestSuite()
     s.addTest(atomics.AtomicsTest('test_storm_ping',conf, ifn, dfn, bifn, uid, lfn))
+    return s
 
+def ping_wo_ts(conf, ifn, dfn, bifn, uid, lfn):
+    s = unittest.TestSuite()
+    s.addTest(atomics.AtomicsTest('test_storm_ping_wo',conf, ifn, dfn, bifn, uid, lfn))
     return s
 
 def gtp_ts(conf, ifn, dfn, bifn, uid, lfn):
     s = unittest.TestSuite()
     s.addTest(atomics.AtomicsTest('test_storm_gtp',conf, ifn, dfn, bifn, uid, lfn))
+    return s
 
+def gtp_wo_ts(conf, ifn, dfn, bifn, uid, lfn):
+    s = unittest.TestSuite()
+    s.addTest(atomics.AtomicsTest('test_storm_gtp_wo',conf, ifn, dfn, bifn, uid, lfn))
     return s
 
 def cw_ts(conf, ifn, dfn, bifn, uid, lfn):

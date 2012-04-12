@@ -73,6 +73,24 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
+    def test_storm_ping_wo(self):
+        self.lfn.put_name('SRM PING')
+        self.lfn.put_description('Verify ping operation with wrong option')
+        if self.uid.has_key('test_storm_ping_wo'):
+            self.lfn.put_uuid(self.uid['test_storm_ping_wo'])
+        else:
+            print 'ADD UID for test_storm_ping_wo'
+            self.lfn.put_uuid(utils.get_uuid())
+        self.lfn.put_output()
+
+        storm_ping = ping.StoRMPing(self.tsets['general']['endpoint'])
+        self.lfn.put_cmd(storm_ping.get_command(wrong_option=True))
+        ping_result = storm_ping.get_output(wrong_option=True)
+        self.assert_(ping_result['status'] == 'FAILURE')
+
+        self.lfn.put_result('PASSED')
+        self.lfn.flush_file()
+
     def test_storm_gtp(self):
         self.lfn.put_name('SRM GET TRANSFER PROTOCOLS')
         self.lfn.put_description('Verify gtp operation')
@@ -88,6 +106,24 @@ class AtomicsTest(unittest.TestCase):
         gtp_result = storm_gtp.get_output()
         self.assert_(gtp_result['status'] == 'PASS')
         self.assertEqual(len(gtp_result['tranferProtocol']), 6)
+
+        self.lfn.put_result('PASSED')
+        self.lfn.flush_file()
+
+    def test_storm_gtp_wo(self):
+        self.lfn.put_name('SRM GET TRANSFER PROTOCOLS')
+        self.lfn.put_description('Verify gtp operation with wrong option')
+        if self.uid.has_key('test_storm_gtp_wo'):
+            self.lfn.put_uuid(self.uid['test_storm_gtp_wo'])
+        else:
+            print 'ADD UID for test_storm_gtp_wo'
+            self.lfn.put_uuid(utils.get_uuid())
+        self.lfn.put_output()
+
+        storm_gtp = gtp.StoRMGtp(self.tsets['general']['endpoint'])
+        self.lfn.put_cmd(storm_gtp.get_command(wrong_option=True))
+        gtp_result = storm_gtp.get_output(wrong_option=True)
+        self.assert_(gtp_result['status'] == 'FAILURE')
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
