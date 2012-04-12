@@ -44,11 +44,11 @@ class LcgCp:
 
 class StoRMPtp:
     '''StoRM Prepare To Put'''
-    def __init__(self, endpoint, accesspoint, dst_filename, prt='gsiftp'):
+    def __init__(self, endpoint, accesspoint, dst_filename, protocol='gsiftp'):
         self.endpoint = endpoint
         self.accesspoint = accesspoint
         self.dst_filename = dst_filename
-        self.prt = prt
+        self.protocol = protocol
         self.cmd = {
             'name': 'clientSRM',
             'rqst_protocol': 'httpg',
@@ -79,7 +79,7 @@ class StoRMPtp:
         a += ' -s ' + self.cmd['protocol'] + '://'
         a += self.endpoint + ':' + self.cmd['port'] + '/srm/managerv2?SFN=/'
         a += self.accesspoint +  self.dst_filename
-        a += ' -T -P ' + self.prt + ' -p'
+        a += ' -T -P ' + self.protocol + ' -p'
         return a
 
     def run_command(self, wrong_request=False, wrong_option=False):
@@ -125,12 +125,11 @@ class StoRMPtp:
 
 class StoRMSptp:
     '''StoRM Status Of Put Request'''
-    def __init__(self, endpoint, accesspoint, dst_filename, prt='gsiftp'):
+    def __init__(self, endpoint, accesspoint, dst_filename, request_token):
         self.endpoint = endpoint
         self.accesspoint = accesspoint
         self.dst_filename = dst_filename
-        self.token = token
-        self.prt = prt
+        self.request_token = request_token
         self.cmd = {
             'name': 'clientSRM',
             'rqst_protocol': 'httpg',
@@ -161,7 +160,7 @@ class StoRMSptp:
         a += ' -s ' + self.cmd['protocol'] + '://'
         a += self.endpoint + ':' + self.cmd['port'] + '/srm/managerv2?SFN=/'
         a += self.accesspoint +  self.dst_filename
-        a += ' -t ' + self.token
+        a += ' -t ' + self.request_token
         return a
 
     def run_command(self, wrong_request=False, wrong_option=False):
@@ -207,11 +206,11 @@ class StoRMSptp:
 
 class StoRMPtg:
     '''StoRM Prepare To Get'''
-    def __init__(self, endpoint, accesspoint, dfn, prt='gsiftp'):
+    def __init__(self, endpoint, accesspoint, dst_filename, protocol='gsiftp'):
         self.endpoint = endpoint
         self.accesspoint = accesspoint
-        self.dfn = dfn
-        self.prt = prt
+        self.dst_filename = dst_filename
+        self.protocol = protocl
         self.cmd = {
             'name': 'clientSRM',
             'rqst_protocol': 'httpg',
@@ -242,7 +241,7 @@ class StoRMPtg:
         a += ' -s ' + self.cmd['protocol'] + '://'
         a += self.endpoint + ':' + self.cmd['port'] + '/srm/managerv2?SFN=/'
         a += self.accesspoint +  self.dst_filename
-        a += ' -T -P ' + self.prt + ' -p'
+        a += ' -T -P ' + self.protocol + ' -p'
         return a
 
     def run_command(self, wrong_request=False, wrong_option=False):
@@ -277,12 +276,11 @@ class StoRMPtg:
 
 class StoRMSptg:
     '''StoRM Status Of Get Request'''
-    def __init__(self, endpoint, accesspoint, dst_filename, token, prt='gsiftp'):
+    def __init__(self, endpoint, accesspoint, dst_filename, request_token):
         self.endpoint = endpoint
         self.accesspoint = accesspoint
         self.dst_filename = dst_filename
-        self.token = token
-        self.prt = prt
+        self.request_token = request_token
         self.cmd = {
             'name': 'clientSRM',
             'rqst_protocol': 'httpg',
@@ -313,7 +311,7 @@ class StoRMSptg:
         a += ' -s ' + self.cmd['protocol'] + '://'
         a += self.endpoint + ':' + self.cmd['port'] + '/srm/managerv2?SFN=/'
         a += self.accesspoint +  self.dst_filename
-        a += ' -t ' + self.token
+        a += ' -t ' + self.request_token
         return a
 
     def run_command(self, wrong_request=False, wrong_option=False):
@@ -348,11 +346,11 @@ class StoRMSptg:
 
 class StoRMPd:
     '''StoRM Put Done'''
-    def __init__(self, endpoint, accesspoint, dst_filename, turl):
+    def __init__(self, endpoint, accesspoint, dst_filename, request_token):
         self.endpoint = endpoint
         self.accesspoint = accesspoint
         self.dst_filename = dst_filename
-        self.turl = turl
+        self.request_token = request_token
         self.cmd = {
             'name': 'clientSRM',
             'rqst_protocol': 'httpg',
@@ -381,7 +379,7 @@ class StoRMPd:
         a += ' -s ' + self.cmd['protocol'] + '://'
         a += self.endpoint + ':' + self.cmd['port'] + '/srm/managerv2?SFN=/'
         a += self.accesspoint +  self.dst_filename
-        a += ' -t ' + self.turl
+        a += ' -t ' + self.request_token
         return a
 
     def run_command(self, wrong_request=False, wrong_option=False):
@@ -414,11 +412,11 @@ class StoRMPd:
 
 class StoRMRf:
     '''StoRM Release File'''
-    def __init__(self, endpoint, accesspoint, dst_filename, turl):
+    def __init__(self, endpoint, accesspoint, dst_filename, request_token):
         self.endpoint = endpoint
         self.accesspoint = accesspoint
         self.dst_filename = dst_filename
-        self.turl = turl
+        self.request_token = request_token
         self.cmd = {
             'name': 'clientSRM',
             'rqst_protocol': 'httpg',
@@ -447,7 +445,7 @@ class StoRMRf:
         a += ' -s ' + self.cmd['protocol'] + '://'
         a += self.endpoint + ':' + self.cmd['port'] + '/srm/managerv2?SFN=/'
         a += self.accesspoint +  self.dst_filename
-        a += ' -t ' + self.token
+        a += ' -t ' + self.request_token
         return a
 
     def run_command(self, wrong_request=False, wrong_option=False):

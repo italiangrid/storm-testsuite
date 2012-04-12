@@ -8,10 +8,10 @@ from tstorm.utils import utils
 
 class StoRMGst:
     '''StoRM Get Space Token'''
-    def __init__(self, endpoint, accesspoint, st_descr):
+    def __init__(self, endpoint, accesspoint, space_token_descr):
         self.endpoint = endpoint
         self.accesspoint = accesspoint
-        self.st_descr = st_descr
+        self.space_token_descr = space_token_descr
         self.cmd = {
             'name': 'clientSRM',
             'rqst_protocol': 'httpg',
@@ -37,7 +37,7 @@ class StoRMGst:
         else:
             a += self.cmd['rqst_protocol'] + '://'
             a += self.endpoint + ':' + self.cmd['port'] + '/'
-        a += ' -d ' + self.st_descr
+        a += ' -d ' + self.space_token_descr
         return a
 
     def run_command(self, wrong_request=False, wrong_option=False):
@@ -72,10 +72,10 @@ class StoRMGst:
 
 class StoRMGsm:
     '''StoRM Get Space Token'''
-    def __init__(self, endpoint, accesspoint, st_id):
+    def __init__(self, endpoint, accesspoint, space_token_id):
         self.endpoint = endpoint
         self.accesspoint = accesspoint
-        self.st_id = st_id
+        self.space_token_id = space_token_id
         self.cmd = {
             'name': 'clientSRM',
             'rqst_protocol': 'httpg',
@@ -101,7 +101,7 @@ class StoRMGsm:
         else:
             a += self.cmd['rqst_protocol'] + '://'
             a += self.endpoint + ':' + self.cmd['port'] + '/'
-        a += ' -s ' + self.st_id
+        a += ' -s ' + self.space_token_id
         return a
 
     def run_command(self, wrong_request=False, wrong_option=False):

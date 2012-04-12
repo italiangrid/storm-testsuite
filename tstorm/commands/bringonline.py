@@ -149,11 +149,11 @@ class StoRMBol:
 
 class StoRMSbol:
     '''StoRM Status Of Bring Online Request'''
-    def __init__(self, endpoint, accesspoint, dst_filename, turl):
+    def __init__(self, endpoint, accesspoint, dst_filename, request_token):
         self.endpoint = endpoint
         self.accesspoint = accesspoint
         self.dst_filename = dst_filename
-        self.turl = turl
+        self.request_token = request_token
         self.cmd = {
             'name': 'clientSRM',
             'rqst_protocol': 'httpg',
@@ -181,7 +181,8 @@ class StoRMSbol:
             a += self.endpoint + ':' + self.cmd['port'] + '/'
         a += ' -s ' + self.cmd['protocol'] + '://'
         a += self.endpoint + ':' + self.cmd['port'] + '/srm/managerv2?SFN=/'
-        a += self.accesspoint + self.dst_filename ' -t ' + self.rtoken
+        a += self.accesspoint + self.dst_filename
+        a += ' -t ' + self.request_token
         return a
 
     def run_command(self, wrong_request=False, wrong_option=False):

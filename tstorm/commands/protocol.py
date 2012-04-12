@@ -1,0 +1,64 @@
+#!/usr/bin/python
+
+__author__ = 'Elisabetta Ronchieri'
+
+import commands
+import os
+from tstorm.utils import utils
+
+class StoRMGtp:
+    '''StoRM Get Transfer Protocols'''
+    def __init__(self, endpoint):
+        self.endpoint = endpoint
+        self.cmd = {
+            'name': 'clientSRM',
+            'rqst_protocol': 'httpg',
+            'port': '8444'}
+        self.wrong_request = {
+            'port': '8443'}
+        self.otpt = {
+            'status':'',
+            'transferProtocol':[],
+            'statusCode':[],
+            'explanation':[]}
+
+    def get_command(self, wrong_request=False, wrong_option=False):
+        a = self.cmd['name'] + ' gtp '
+        if wrong_option:
+            a += '-f '
+        else:
+            a += '-e '
+        if wrong_request:
+            a += self.cmd['rqst_protocol'] + '://'
+            a += self.endpoint + ':' + self.wrong_request['port'] + '/'
+        else:
+            a += self.cmd['rqst_protocol'] + '://'
+            a += self.endpoint + ':' + self.cmd['port'] + '/'
+        return a
+
+    def run_command(self, wrong_request=False, wrong_option=False):
+        a=()
+        if utils.cmd_exist(self.cmd['name']):
+            a=commands.getstatusoutput(self.get_command(
+                wrong_request=wrong_request, wrong_option=wrong_option))
+        return a
+
+    def get_output(self, wrong_request=False, wrong_option=False):
+        a=self.run_command(wrong_request=wrong_request,
+            wrong_option=wrong_option)
+        if len(a) > 0 and a[0] == 0:
+            if 'SRM_SUCCESS' in a[1]:
+                for x in self.otpt:
+                    if x == 'status':
+                        self.otpt['status'] = 'PASS'
+                    else:
+                        y = a[1].split('\n')
+                        for z in y:
+                            if x in z:
+                                self.otpt[x].append(z.split(x)[1].split('="')[1].split('"')[0])
+            else:
+                self.otpt['status'] = 'FAILURE'
+        else:
+            self.otpt['status'] = 'FAILURE'
+
+        return self.otpt

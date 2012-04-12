@@ -8,11 +8,11 @@ from tstorm.utils import utils
 
 class StoRMAf:
     '''StoRM Abort File'''
-    def __init__(self, endpoint, accesspoint, dst_filename, rtoken):
+    def __init__(self, endpoint, accesspoint, dst_filename, request_token):
         self.endpoint = endpoint
         self.accesspoint = accesspoint
         self.dst_filename = dst_filename
-        self.rtoken = rtoken
+        self.request_token = request_token
         self.cmd = {
             'name': 'clientSRM',
             'rqst_protocol': 'httpg',
@@ -39,7 +39,8 @@ class StoRMAf:
             a += self.endpoint + ':' + self.cmd['port'] + '/'
         a += ' -s ' + self.cmd['protocol'] + '://' 
         a += self.endpoint + ':' + self.cmd['port'] + '/srm/managerv2?SFN=/'
-        a += self.accesspoint + self.dst_filename ' -t ' + self.rtoken
+        a += self.accesspoint + self.dst_filename
+        a += ' -t ' + self.request_token
         return a
 
     def run_command(self, wrong_request=False, wrong_option=False):
@@ -72,10 +73,10 @@ class StoRMAf:
 
 class StoRMAr:
     '''StoRM Abort Request'''
-    def __init__(self, endpoint, accesspoint, rtoken):
+    def __init__(self, endpoint, accesspoint, request_token):
         self.endpoint = endpoint
         self.accesspoint = accesspoint
-        self.rtoken = rtoken
+        self.request_token = request_token
         self.cmd = {
             'name': 'clientSRM',
             'rqst_protocol': 'httpg',
@@ -97,11 +98,10 @@ class StoRMAr:
         if wrong_request:
             a += self.cmd['rqst_protocol'] + '://'
             a += self.endpoint + ':' + self.wrong_request['port'] + '/'
-            a += ' -t ' + self.rtoken
         else:
             a += self.cmd['rqst_protocol'] + '://'
             a += self.endpoint + ':' + self.cmd['port'] + '/'
-            a += ' -t ' + self.rtoken
+        a += ' -t ' + self.request_token
         return a
 
     def run_command(self, wrong_request=False, wrong_option=False):
