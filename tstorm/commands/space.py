@@ -7,32 +7,50 @@ import os
 from tstorm.utils import utils
 
 class StoRMGst:
+    '''StoRM Get Space Token'''
     def __init__(self, endpoint, accesspoint, st_descr):
         self.endpoint = endpoint
         self.accesspoint = accesspoint
         self.st_descr = st_descr
         self.cmd = {
-                   'name': 'clientSRM',
-                   'rqst_protocol': 'httpg'}
+            'name': 'clientSRM',
+            'rqst_protocol': 'httpg',
+            'port': '8444'}
+        self.wrong_request = {
+            'port': '8443'}
         self.otpt = {
-                    'status':'',
-                    'statusCode':[],
-                    'explanation':[],
-                    'arrayOfSpaceTokens': ''}
+            'status':'',
+            'statusCode':[],
+            'explanation':[],
+            'arrayOfSpaceTokens': ''}
 
-    def get_command(self):
-        a = self.cmd['name'] + ' gst  -e ' + self.cmd['rqst_protocol'] + '://' + self.endpoint + ':8444/' + ' -d ' + self.st_descr
-        
+    def get_command(self, wrong_request=False, wrong_option=False):
+        #a = self.cmd['name'] + ' gst  -e ' + self.cmd['rqst_protocol'] + '://' + self.endpoint + ':8444/' + ' -d ' + self.st_descr
+        a = self.cmd['name'] + ' gst '
+        if wrong_option:
+            a += '-f '
+        else:
+            a += '-e '
+        if wrong_request:
+            a += self.cmd['rqst_protocol'] + '://'
+            a += self.endpoint + ':' + self.wrong_request['port'] + '/'
+        else:
+            a += self.cmd['rqst_protocol'] + '://'
+            a += self.endpoint + ':' + self.cmd['port'] + '/'
+        a += ' -d ' + self.st_descr
         return a
 
-    def run_command(self):
+    def run_command(self, wrong_request=False, wrong_option=False):
         a=()
         if utils.cmd_exist(self.cmd['name']):
-            a=commands.getstatusoutput(self.get_command())
+            a=commands.getstatusoutput(self.get_command(
+                wrong_request=wrong_request,
+                wrong_option=wrong_option))
         return a
 
-    def get_output(self):
-        a=self.run_command()
+    def get_output(self, wrong_request=False, wrong_option=False):
+        a=self.run_command(wrong_request=wrong_request,
+            wrong_option=wrong_option)
         if len(a) > 0 and a[0] == 0:
             if 'SRM_SUCCESS' in a[1]:
                 for x in self.otpt:
@@ -53,32 +71,50 @@ class StoRMGst:
         return self.otpt
 
 class StoRMGsm:
+    '''StoRM Get Space Token'''
     def __init__(self, endpoint, accesspoint, st_id):
         self.endpoint = endpoint
         self.accesspoint = accesspoint
         self.st_id = st_id
         self.cmd = {
-                   'name': 'clientSRM',
-                   'rqst_protocol': 'httpg'}
+            'name': 'clientSRM',
+            'rqst_protocol': 'httpg',
+            'port': '8444'}
+        self.wrong_request = {
+            'port': '8443'}
         self.otpt = {
-                   'status':'',
-                   'statusCode':[],
-                   'explanation':[],
-                   'unusedSize': ''}
+            'status':'',
+            'statusCode':[],
+            'explanation':[],
+            'unusedSize': ''}
 
-    def get_command(self):
-        a = self.cmd['name'] + ' gsm -e ' + self.cmd['rqst_protocol'] + '://' + self.endpoint + ':8444/' + ' -s ' + self.st_id
-  
+    def get_command(self, wrong_request=False, wrong_option=False):
+        #a = self.cmd['name'] + ' gsm -e ' + self.cmd['rqst_protocol'] + '://' + self.endpoint + ':8444/' + ' -s ' + self.st_id
+        a = self.cmd['name'] + ' gsm '
+        if wrong_option:
+            a += '-f '
+        else:
+            a += '-e '
+        if wrong_request:
+            a += self.cmd['rqst_protocol'] + '://'
+            a += self.endpoint + ':' + self.wrong_request['port'] + '/'
+        else:
+            a += self.cmd['rqst_protocol'] + '://'
+            a += self.endpoint + ':' + self.cmd['port'] + '/'
+        a += ' -s ' + self.st_id
         return a
 
-    def run_command(self):
+    def run_command(self, wrong_request=False, wrong_option=False):
         a=()
         if utils.cmd_exist(self.cmd['name']):
-            a=commands.getstatusoutput(self.get_command())
+            a=commands.getstatusoutput(self.get_command(
+                wrong_request=wrong_request,
+                wrong_option=wrong_option))
         return a
 
-    def get_output(self):
-        a=self.run_command()
+    def get_output(self, wrong_request=False, wrong_option=False):
+        a=self.run_command(wrong_request=wrong_request,
+            wrong_option=wrong_option)
         if len(a) > 0 and a[0] == 0:
             if 'SRM_SUCCESS' in a[1]:
                 for x in self.otpt:

@@ -6,45 +6,13 @@ import commands
 import os
 from tstorm.utils import utils
 
-class SrmRm:
-    def __init__(self, endpoint, accesspoint, dfn):
-        self.endpoint = endpoint
-        self.accesspoint = accesspoint
-        self.dfn = dfn
-        self.cmd = {
-            'name': 'srmrm',
-            'protocol': 'srm'}
-        self.otpt = {
-            'status':'',
-            'VersionInfo': '',
-            'backend_type': '',
-            'backend_version': ''}
-
-    def get_command(self):
-        a= self.cmd['name'] + ' -2 -debug '+ self.cmd['protocol'] + '://' + self.endpoint + ':8444/srm/managerv2?SFN=/' + self.accesspoint + self.dfn
-        return a
-
-    def run_command(self):
-        a=()
-        if utils.cmd_exist(self.cmd['name']):
-            a=commands.getstatusoutput(self.get_command())
-        return a
-
-    def get_output(self):
-        a=self.run_command()
-        if len(a) > 0 and a[0] == 0:
-            self.otpt['status'] = 'PASS'
-        else:
-            self.otpt['status'] = 'FAILURE'
-
-        return self.otpt
-
-class StoRMRm:
-    '''StoRM RM'''
-    def __init__(self, endpoint, accesspoint, dst_filename):
+class StoRMMv:
+    '''StoRM MV'''
+    def __init__(self, endpoint, accesspoint, dst_filename, new_dst_filename):
         self.endpoint = endpoint
         self.accesspoint = accesspoint
         self.dst_filename = dst_filename
+        self.new_dst_filename = new_dst_filename
         self.cmd = {
             'name': 'clientSRM',
             'rqst_protocol': 'httpg',
@@ -73,6 +41,9 @@ class StoRMRm:
         a += ' -s ' + self.cmd['protocol'] + '://'
         a += self.endpoint + ':' + self.cmd['port'] + '/srm/managerv2?SFN=/'
         a += self.accesspoint + self.dst_filename
+        a += ' -t ' + self.cmd['protocol'] + '://'
+        a += self.endpoint + ':' + self.cmd['port'] + '/srm/managerv2?SFN=/'
+        a += self.accesspoint + self.new_dst_filename
         return a
 
     def run_command(self, wrong_request=False, wrong_option=False):
