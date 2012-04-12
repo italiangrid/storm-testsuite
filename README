@@ -1,68 +1,29 @@
-testsuite executes the following ordered tests:
+General information
+-------------------
 
-1. test_settings 
-Description: check ini test file containing the following sections:
-- general for endpoint and accesspoint
-- ping for version, backend type and backend version
+Create a work directory
 
-2. test_ping 
-Description: check ping result
-Command: 
-/opt/d-cache/srm/bin/srmping -2 -debug srm://<endpoint>:8444/
+mkdir <workdir>
+cd <workdir>
 
-3. test_dd 
-Description: create a file 
-Command: 
-/bin/dd if=/dev/urandom of=/tmp/<tstorm-input-file> bs=1M count=1
+Donwload T-StoRM module, for example as follows:
 
-4. test_ls_bt
-Description: check ls result before transfering file
-Command:
-/opt/lcg/bin/lcg-ls -l -b -D srmv2 srm://<endpoint>:8444/srm/managerv2?SFN=/<accesspoint>/<destination-file>
-/opt/lcg/bin/lcg-ls -l -b -D srmv2 srm://<endpoint>:8444/srm/managerv2?SFN=/<accesspoint>/<destination-directory>
+cvs co T-StoRM
+cd T-StoRM
 
-5. test_mkdir_bc 
-Description: create each destination directory in the destination file
-Command:
-/opt/d-cache/srm/bin/srmmkdir -2 -debug srm://<endpoint>:8444/srm/managerv2?SFN=/<accesspoint>/<destination directory>
+Configure T-StoRM code
 
-6. test_mkdir_ac 
-Description: create each destination directory in the destination file
-Command:
-/opt/d-cache/srm/bin/srmmkdir -2 -debug srm://<endpoint>:8444/srm/managerv2?SFN=
-/<accesspoint>/<destination directory>
+/bin/sh auto.sh
+./configure --prefix=$PWD/usr --datadir=$PWD/usr/share --sysconfdir=$PWD/etc --bindir=$PWD/usr/bin --exec_prefix=$PWD/usr --with-dist-bin-location=$PWD/dist/bin --with-dist-source-location=$PWD/dist/src
 
-7. test_ls_ac 
-Description: check ls result after having created each destination directory in the destination file
-Command:
-/opt/lcg/bin/lcg-ls -l -b -D srmv2 srm://<endpoint>:8444/srm/managerv2?SFN=/<accesspoint>/<destination directory>
+How to build rpms
+-----------------
 
-8. test_cp_bt 
-Description: transfer input file in destination file
-Command:
-/opt/lcg/bin/lcg-cp -b --verbose -D srmv2 file:///tmp/<tstorm-input-file> srm://<endpoint>:8444/srm/managerv2?SFN=/<accesspoint>/<destiantion file>
+make dist; make rpm
+    
+How to build and install wnodes
+-----------------------------
 
-9. test_ls_at 
-Description: check ls result after having trasferred file
-Command: 
-/opt/lcg/bin/lcg-ls -l -b -D srmv2 srm://<endpoint>:8444/srm/managerv2?SFN=/<accesspoint>/<destination file>
+make; make install
+~
 
-10: test_cp_at
-Description: transfer back destination file
-Command:
-/opt/lcg/bin/lcg-cp -b --verbose -D srmv2 srm://<endpoint>:8444/srm/managerv2?SFN=/<accesspoint>/<destination-file> file:///tmp/<tstorm-back-input-file>
-
-11. test_rm 
-Description: remove destination file
-Command:
-/opt/d-cache/srm/bin/srmrm -2 -debug srm://<endpoint>:8444/srm/managerv2?SFN=/<accesspoint>/<destination-file>
-
-12. test_rmdir
-Description: remove each destination directory
-Command:
-/opt/d-cache/srm/bin/srmrmdir -2 -debug srm://<endpoint>:8444/srm/managerv2?SFN=/<accesspoint>/<destination directory>
-
-13. test_rm_lf 
-Description: remove input file and back file
-Command: 
-/bin/rm /tmp/<tstorm-input-file> /tmp/<tstorm-back-input-file>

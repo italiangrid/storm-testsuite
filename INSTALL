@@ -1,25 +1,29 @@
-Thanks for downloading tstorm.
+General information
+-------------------
 
-To install it, make sure you have Python 2.4 or greater installed. Then run
-this command from the command prompt:
+Create a work directory
 
-    python setup.py install (as root)
-    python setup.py install --prefix=<path location> --install-data=<path location>
+mkdir <workdir>
+cd <workdir>
 
-AS AN ALTERNATIVE, you can just copy the entire "tstorm" directory to Python's
-site-packages directory, which is located wherever your Python installation
-lives. Some places you might check are:
+Donwload T-StoRM module, for example as follows:
 
-    /usr/lib/python2.5/site-packages (Unix, Python 2.5)
-    /usr/lib/python2.4/site-packages (Unix, Python 2.4)
+cvs co T-StoRM
+cd T-StoRM
 
-To create binary tar.gz file, run this command:
+Configure T-StoRM code
 
-    python setup.py bdist --format=gztar
+/bin/sh auto.sh
+./configure --prefix=$PWD/usr --datadir=$PWD/usr/share --sysconfdir=$PWD/etc --bindir=$PWD/usr/bin --exec_prefix=$PWD/usr --with-dist-bin-location=$PWD/dist/bin --with-dist-source-location=$PWD/dist/src
 
-To create rpm file, run this command:
+How to build rpms
+-----------------
 
+make dist; make rpm
     
+How to build and install wnodes
+-----------------------------
 
+make; make install
 ~
 
