@@ -29,8 +29,8 @@ BuildRequires: automake
 BuildRequires: autoconf
 BuildRequires: python
 
-Requires: python-simplejson
-Requires: python-ldap
+Requires: storm-srm-client
+Requires: lcg_util
 Requires: %name-common
 
 %define debug_package %{nil}
@@ -45,8 +45,6 @@ Requires: python-ldap
 Summary:  sanity tests
 Group:    System Environment/Shells
 Requires: %name-common
-Requires: python-simplejson
-Requires: python-ldap
 
 %description
 This contains tstorm packages.
