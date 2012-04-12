@@ -13,7 +13,7 @@ cd T-StoRM
 
 Configure T-StoRM code
 
-/bin/sh auto.sh
+/bin/sh bootstrap
 ./configure --prefix=$PWD/usr --datadir=$PWD/usr/share --sysconfdir=$PWD/etc --bindir=$PWD/usr/bin --exec_prefix=$PWD/usr --with-dist-bin-location=$PWD/dist/bin --with-dist-source-location=$PWD/dist/src
 
 How to build rpms
