@@ -100,9 +100,15 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/tstorm/commands/mkdir.py
 %{python_sitelib}/tstorm/commands/mkdir.pyc
 %{python_sitelib}/tstorm/commands/mkdir.pyo
+%{python_sitelib}/tstorm/commands/mv.py
+%{python_sitelib}/tstorm/commands/mv.pyc
+%{python_sitelib}/tstorm/commands/mv.pyo
 %{python_sitelib}/tstorm/commands/ping.py
 %{python_sitelib}/tstorm/commands/ping.pyc
 %{python_sitelib}/tstorm/commands/ping.pyo
+%{python_sitelib}/tstorm/commands/protocol.py
+%{python_sitelib}/tstorm/commands/protocol.pyc
+%{python_sitelib}/tstorm/commands/protocol.pyo
 %{python_sitelib}/tstorm/commands/rmdir.py
 %{python_sitelib}/tstorm/commands/rmdir.pyc
 %{python_sitelib}/tstorm/commands/rmdir.pyo

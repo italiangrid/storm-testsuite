@@ -18,33 +18,39 @@
 
 tstormcommandsdir = @pyexecdir@/tstorm/commands
 tstormcommands_PYTHON = abort.py \
-    mkdir.py \
     bringonline.py \
-    ping.py \
     cp.py \
-    rmdir.py \
     __init__.py \
-    rm.py \
     ls.py \
+    mkdir.py \
+    mv.py \
+    ping.py \
+    protocol.py \
+    rmdir.py \
+    rm.py \
     space.py
 
 EXTRA_DIST = \
     abort.py \
-    mkdir.py \
     bringonline.py \
-    ping.py \
     cp.py \
-    rmdir.py \
     __init__.py \
-    rm.py \
     ls.py \
+    mkdir.py \
+    mv.py \
+    ping.py \
+    protocol.py \
+    rmdir.py \
+    rm.py \
     space.py
 
 CLEANFILES=\
     abort.pyc \
     mkdir.pyc \
+    mv.pyc \
     bringonline.pyc \
     ping.pyc \
+    protocol.pyc \
     cp.pyc \
     rmdir.pyc \
     __init__.pyc \
@@ -53,8 +59,10 @@ CLEANFILES=\
     space.pyc \
     abort.pyo \
     mkdir.pyo \
+    mv.pyo \
     bringonline.pyo \
     ping.pyo \
+    protocol.pyo \
     cp.pyo \
     rmdir.pyo \
     __init__.pyo \
