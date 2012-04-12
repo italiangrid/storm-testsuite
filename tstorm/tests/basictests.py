@@ -8,9 +8,16 @@ from tstorm.tests import atomics
 from tstorm.tests import utilities as ut
 from tstorm.tests import https as h
 
-def cs_ts(conf, ifn, dfn, bifn, uid, lfn):
+#def cs_ts(conf, ifn, dfn, bifn, uid, lfn):
+def ping_ts(conf, ifn, dfn, bifn, uid, lfn):
     s = unittest.TestSuite()
     s.addTest(atomics.AtomicsTest('test_storm_ping',conf, ifn, dfn, bifn, uid, lfn))
+
+    return s
+
+def gtp_ts(conf, ifn, dfn, bifn, uid, lfn):
+    s = unittest.TestSuite()
+    s.addTest(atomics.AtomicsTest('test_storm_gtp',conf, ifn, dfn, bifn, uid, lfn))
 
     return s
 

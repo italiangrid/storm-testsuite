@@ -13,6 +13,7 @@ class MapTestsIds:
         self.atomics_tests = {
             "test_dcache_ping":"",
             "test_storm_ping":"",
+            "test_storm_gtp":"",
             "test_ls_unexist_file":"",
             "test_ls_unexist_dir":"",
             "test_mkdir_dir":"",

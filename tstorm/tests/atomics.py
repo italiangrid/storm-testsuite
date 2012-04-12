@@ -73,6 +73,25 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
+    def test_storm_gtp(self):
+        self.lfn.put_name('SRM GET TRANSFER PROTOCOLS')
+        self.lfn.put_description('Verify gtp operation')
+        if self.uid.has_key('test_storm_gtp'):
+            self.lfn.put_uuid(self.uid['test_storm_gtp'])
+        else:
+            print 'ADD UID for test_storm_gtp'
+            self.lfn.put_uuid(utils.get_uuid())
+        self.lfn.put_output()
+
+        storm_gtp = gtp.StoRMGtp(self.tsets['general']['endpoint'])
+        self.lfn.put_cmd(storm_gtp.get_command())
+        gtp_result = storm_gtp.get_output()
+        self.assert_(gtp_result['status'] == 'PASS')
+        self.assertEqual(len(gtp_result['tranferProtocol']), 6)
+
+        self.lfn.put_result('PASSED')
+        self.lfn.flush_file()
+
     def test_ls_unexist_file(self):
         self.lfn.put_name('SRM LS')
         des = 'Verify ls operation on a file that does not exist'
