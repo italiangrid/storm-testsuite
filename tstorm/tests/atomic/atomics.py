@@ -106,7 +106,7 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.put_cmd(storm_protocol.get_command())
         protocol_result = storm_protocol.get_output()
         self.assert_(protocol_result['status'] == 'PASS')
-        self.assertEqual(len(protocol_result['tranferProtocol']), 6)
+        self.assertEqual(len(protocol_result['transferProtocol']), 6)
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
