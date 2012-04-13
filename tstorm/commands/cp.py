@@ -210,7 +210,7 @@ class StoRMPtg:
         self.endpoint = endpoint
         self.accesspoint = accesspoint
         self.dst_filename = dst_filename
-        self.protocol = protocl
+        self.protocol = protocol
         self.cmd = {
             'name': 'clientSRM',
             'rqst_protocol': 'httpg',
