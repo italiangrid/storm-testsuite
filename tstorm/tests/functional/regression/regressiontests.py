@@ -3,7 +3,7 @@
 __author__ = 'Elisabetta Ronchieri'
 
 import unittest
-from tstorm.tests import regression as re
+from tstorm.tests.functional.regression import regression as re
 
 def update_free_space_upon_rm_ts(conf, ifn, dfn, bifn, uid, lfn):
     s = unittest.TestSuite()

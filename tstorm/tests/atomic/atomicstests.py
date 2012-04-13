@@ -3,7 +3,7 @@
 __author__ = 'Elisabetta Ronchieri'
 
 import unittest
-from tstorm.tests import atomics
+from tstorm.tests.atomic import atomics
 from tstorm.tests import utilities as ut
 
 #def cs_ts(conf, ifn, dfn, bifn, uid, lfn):

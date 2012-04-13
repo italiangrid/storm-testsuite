@@ -3,10 +3,10 @@
 __author__ = 'Elisabetta Ronchieri'
 
 import unittest
-from tstorm.tests import functionalities as fu
-from tstorm.tests import atomics
+from tstorm.tests.functional import functionalities as fu
+from tstorm.tests.functional import https as h
+from tstorm.tests.atomics import atomics
 from tstorm.tests import utilities as ut
-from tstorm.tests import https as h
 
 
 def cksm_ts(conf, ifn, dfn, bifn, uid, lfn):
