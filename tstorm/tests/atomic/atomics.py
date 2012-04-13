@@ -9,6 +9,7 @@ import unittest
 
 from tstorm.utils import config
 from tstorm.commands import ping
+from tstorm.commands import protocol
 from tstorm.commands import ls
 from tstorm.commands import mkdir
 from tstorm.commands import cp
@@ -101,11 +102,11 @@ class AtomicsTest(unittest.TestCase):
             self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
-        storm_gtp = gtp.StoRMGtp(self.tsets['general']['endpoint'])
-        self.lfn.put_cmd(storm_gtp.get_command())
-        gtp_result = storm_gtp.get_output()
-        self.assert_(gtp_result['status'] == 'PASS')
-        self.assertEqual(len(gtp_result['tranferProtocol']), 6)
+        storm_protocol = protocol.StoRMGtp(self.tsets['general']['endpoint'])
+        self.lfn.put_cmd(storm_protocol.get_command())
+        protocol_result = storm_protocol.get_output()
+        self.assert_(protocol_result['status'] == 'PASS')
+        self.assertEqual(len(protocol_result['tranferProtocol']), 6)
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
@@ -120,10 +121,10 @@ class AtomicsTest(unittest.TestCase):
             self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
-        storm_gtp = gtp.StoRMGtp(self.tsets['general']['endpoint'])
-        self.lfn.put_cmd(storm_gtp.get_command(wrong_option=True))
-        gtp_result = storm_gtp.get_output(wrong_option=True)
-        self.assert_(gtp_result['status'] == 'FAILURE')
+        storm_protocol = protocol.StoRMGtp(self.tsets['general']['endpoint'])
+        self.lfn.put_cmd(storm_protocol.get_command(wrong_option=True))
+        protocol_result = storm_protocol.get_output(wrong_option=True)
+        self.assert_(protocol_result['status'] == 'FAILURE')
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()

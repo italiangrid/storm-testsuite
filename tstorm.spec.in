@@ -77,9 +77,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %{_bindir}/tstorm-tests
 %dir %{_sysconfdir}/tstorm/
-%attr(750,%{default_user},%{default_user}) %{_sysconfdir}/tstorm/tstorm.ini
-%attr(750,%{default_user},%{default_user}) %{_sysconfdir}/tstorm/tstorm-tp.json
-%attr(750,%{default_user},%{default_user}) %{_sysconfdir}/tstorm/tstorm-tp.json.template
+%attr(644,%{default_user},%{default_user}) %{_sysconfdir}/tstorm/tstorm.ini
+%attr(644,%{default_user},%{default_user}) %{_sysconfdir}/tstorm/tstorm-tp.json
+%attr(644,%{default_user},%{default_user}) %{_sysconfdir}/tstorm/tstorm-tp.json.template
 %dir %{python_sitelib}/tstorm/
 %dir %{python_sitelib}/tstorm/commands
 %{python_sitelib}/tstorm/commands/abort.py
@@ -175,7 +175,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %dir %{_sysconfdir}/tstorm
 %dir %{_sysconfdir}/tstorm/common
-%attr(750,%{default_user},%{default_user}) %{_sysconfdir}/tstorm/common/map_tests_ids.json
+%attr(644,%{default_user},%{default_user}) %{_sysconfdir}/tstorm/common/map_tests_ids.json
 %doc  %{_docdir}/tstorm-%{version}/*
 %dir %{python_sitelib}/tstorm/
 %{python_sitelib}/tstorm/__init__.py
