@@ -29,6 +29,7 @@ BuildRequires: automake
 BuildRequires: autoconf
 BuildRequires: python
 
+Requires: dcache-srmclient
 Requires: storm-srm-client
 Requires: lcg_util
 Requires: %name-common
