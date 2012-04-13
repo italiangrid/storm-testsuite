@@ -90,6 +90,7 @@ distsrc:
 
 distbin: stage
 	mkdir -p @DISTBIN@; \
+	mkdir -p etics-tmp; \
         cd etics-tmp; tar -zcf $(distdir).noarch.tar.gz etc usr; cp $(distdir).noarch.tar.gz @DISTBIN@/$(distdir)-@TSTORM_AGE_NUMBER@.@TSTORM_SO@.noarch.tar.gz; cd ..; \
         cp $(RPM_RPM)/*/*.rpm @DISTBIN@
 

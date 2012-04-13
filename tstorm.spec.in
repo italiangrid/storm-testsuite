@@ -31,7 +31,7 @@ BuildRequires: python
 
 Requires: dcache-srmclient
 Requires: storm-srm-client
-Requires: lcg_util
+Requires: lcg-util
 Requires: %name-common
 
 %define debug_package %{nil}
