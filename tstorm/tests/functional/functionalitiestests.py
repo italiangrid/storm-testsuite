@@ -5,7 +5,7 @@ __author__ = 'Elisabetta Ronchieri'
 import unittest
 from tstorm.tests.functional import functionalities as fu
 from tstorm.tests.functional import https as h
-from tstorm.tests.atomics import atomics
+from tstorm.tests.atomic import atomics
 from tstorm.tests import utilities as ut
 
 

@@ -3,7 +3,7 @@
 __author__ = 'Elisabetta Ronchieri'
 
 import unittest
-from tstorm.tests import tape as tp
+from tstorm.tests.functional import tape as tp
 from tstorm.tests import utilities as ut
 
 def access_tape_ts(conf, ifn, dfn, bifn):
