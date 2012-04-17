@@ -280,3 +280,8 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/tstorm/tests/deployment/regression/service_configuration.pyc
 %{python_sitelib}/tstorm/tests/deployment/regression/service_configuration.pyo
 
+%changelog
+
+* Fri Apr 13 2012 Elisabetta Ronchieri <elisabetta.ronchieri@cnaf.infn.it> - 1.2.1-1.sl5
+- changed packaging
+
