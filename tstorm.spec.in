@@ -12,7 +12,6 @@ Name:           %{name}
 Version:        %{version}
 Release:        %{release}
 Vendor:         EMI
-Packager:       Elisabetta Ronchieri <elisabetta.ronchieri@cnaf.infn.it>
 License:        Apache License
 URL:            http://grid-it.cnaf.infn.it
 Source:         @PACKAGE@-%{version}.tar.gz
@@ -20,7 +19,7 @@ Group:          System Environment/Shells
 AutoReqProv:    yes
 BuildArch:      noarch
 BuildRoot:      %{_builddir}/var/tmp/%{name}-%{version}
-Summary:        Provides the utility files.
+Summary:        Provides the utility files
 
 %define _sysconfdir    /etc
 
