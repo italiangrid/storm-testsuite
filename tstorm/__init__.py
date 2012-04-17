@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 __author__ = 'Elisabetta Ronchieri'
 
 VERSION = (1, 2, 1, 1)

@@ -1,7 +1,3 @@
-#!/usr/bin/python
-
-__author__ = 'Elisabetta Ronchieri'
-
 import datetime
 import time
 import os 
@@ -10,6 +6,8 @@ from tstorm.utils import configuration
 from tstorm.utils import ldapsearch as ls 
 from tstorm.utils import infosystem as ins
 from tstorm.utils import utils
+
+__author__ = 'Elisabetta Ronchieri'
 
 class LdapTest(unittest.TestCase):
     def __init__(self, testname, tfn, uid, lfn, filter='', attributes=''):

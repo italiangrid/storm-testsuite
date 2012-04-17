@@ -36,13 +36,16 @@ Requires: %name-common
 %define debug_package %{nil}
 
 %package common
-Summary:  common library
+Summary:  Common library
+BuildArch: noarch
 Group:    System Environment/Shells
+Requires: python
 Requires: python-simplejson
 Requires: python-ldap
 
 %package sanity
-Summary:  sanity tests
+Summary:  Sanity tests
+BuildArch: noarch
 Group:    System Environment/Shells
 Requires: %name-common
 
@@ -62,7 +65,7 @@ echo Building %{name}-%{version}
 
 %build
 /bin/bash bootstrap
-./configure --prefix=/usr --datadir=/usr/share --sysconfdir=/etc --bindir=/usr/bin --exec_prefix=/usr
+./configure --prefix=/usr --datadir=/usr/share --sysconfdir=/etc --bindir=/usr/bin --exec_prefix=/usr --libdir=%{_libdir}
 make
 
 %install
@@ -81,13 +84,13 @@ rm -rf $RPM_BUILD_ROOT
 %attr(644,%{default_user},%{default_user}) %{_sysconfdir}/tstorm/tstorm-tp.json.template
 %dir %{python_sitelib}/tstorm/
 %dir %{python_sitelib}/tstorm/commands
-%{python_sitelib}/tstorm/commands/abort.py
+%attr(644,%{default_user},%{default_user}) %{python_sitelib}/tstorm/commands/abort.py
 %{python_sitelib}/tstorm/commands/abort.pyc
 %{python_sitelib}/tstorm/commands/abort.pyo
-%{python_sitelib}/tstorm/commands/bringonline.py
+%attr(644,%{default_user},%{default_user}) %{python_sitelib}/tstorm/commands/bringonline.py
 %{python_sitelib}/tstorm/commands/bringonline.pyc
 %{python_sitelib}/tstorm/commands/bringonline.pyo
-%{python_sitelib}/tstorm/commands/cp.py
+%attr(644,%{default_user},%{default_user}) %{python_sitelib}/tstorm/commands/cp.py
 %{python_sitelib}/tstorm/commands/cp.pyc
 %{python_sitelib}/tstorm/commands/cp.pyo
 %{python_sitelib}/tstorm/commands/__init__.py
@@ -169,6 +172,12 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/tstorm/tests/functional/regression/regressiontests.py
 %{python_sitelib}/tstorm/tests/functional/regression/regressiontests.pyc
 %{python_sitelib}/tstorm/tests/functional/regression/regressiontests.pyo
+%dir %{_datadir}/doc/tstorm-%{version}
+%doc %{_datadir}/doc/tstorm-%{version}/AUTHORS
+%doc %{_datadir}/doc/tstorm-%{version}/ChangeLog
+%doc %{_datadir}/doc/tstorm-%{version}/CREDITS
+%doc %{_datadir}/doc/tstorm-%{version}/LICENSE
+%doc %{_datadir}/doc/tstorm-%{version}/README
 
 %files common
 %defattr(-,root,root,-)
@@ -257,7 +266,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{python_sitelib}/tstorm/
 %dir %{python_sitelib}/tstorm/tests/
 %dir %{python_sitelib}/tstorm/tests/deployment
-%{python_sitelib}/tstorm/tests/deployment/__init__.py
+%attr(0644,%{default_user},%{default_user}) %{python_sitelib}/tstorm/tests/deployment/__init__.py
 %{python_sitelib}/tstorm/tests/deployment/__init__.pyc
 %{python_sitelib}/tstorm/tests/deployment/__init__.pyo
 %dir %{python_sitelib}/tstorm/tests/deployment/regression
@@ -279,6 +288,12 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/tstorm/tests/deployment/regression/service_configuration.py
 %{python_sitelib}/tstorm/tests/deployment/regression/service_configuration.pyc
 %{python_sitelib}/tstorm/tests/deployment/regression/service_configuration.pyo
+%dir %{_datadir}/doc/tstorm-sanity-%{version}
+%doc %{_datadir}/doc/tstorm-sanity-%{version}/AUTHORS
+%doc %{_datadir}/doc/tstorm-sanity-%{version}/ChangeLog
+%doc %{_datadir}/doc/tstorm-sanity-%{version}/CREDITS
+%doc %{_datadir}/doc/tstorm-sanity-%{version}/LICENSE
+%doc %{_datadir}/doc/tstorm-sanity-%{version}/README
 
 %changelog
 

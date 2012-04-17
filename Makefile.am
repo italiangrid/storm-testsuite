@@ -34,6 +34,13 @@ doc_DATA = AUTHORS \
     ChangeLog \
     README
 
+docsadir = $(datadir)/doc/@PACKAGE@-sanity-@VERSION@
+docsa_DATA = AUTHORS \
+    LICENSE \
+    CREDITS \
+    ChangeLog \
+    README
+
 SUBDIRS =  conf bin tstorm
 
 ## Default flags to run aclocal

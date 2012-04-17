@@ -1,7 +1,3 @@
-#!/usr/bin/python
-
-__author__ = 'Elisabetta Ronchieri'
-
 import os 
 import unittest
 from tstorm.utils import configuration
@@ -12,6 +8,8 @@ from tstorm.utils import mysqlquery as mq
 from tstorm.utils import yaim
 from tstorm.utils import utils
 from tstorm.utils import listinfo
+
+__author__ = 'Elisabetta Ronchieri'
 
 class RegressionConfigurationTest(unittest.TestCase):
     def __init__(self, testname, tfn, uid, lfn):
