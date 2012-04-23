@@ -85,7 +85,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{python_sitelib}/tstorm/
 %dir %{python_sitelib}/tstorm/commands
 %attr(644,%{default_user},%{default_user}) %{python_sitelib}/tstorm/commands/abort.py
-%{python_sitearch}/tstorm/commands/abort.pyc
+%{python_sitelib}/tstorm/commands/abort.pyc
 %{python_sitelib}/tstorm/commands/abort.pyo
 %attr(644,%{default_user},%{default_user}) %{python_sitelib}/tstorm/commands/bringonline.py
 %{python_sitelib}/tstorm/commands/bringonline.pyc
