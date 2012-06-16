@@ -25,14 +25,33 @@ class MapTestsIds:
             "test_rm_file":"",
             "test_rm_unexist_file":"",
             "test_rm_dir":"",
-            "test_rm_unexist_dir":""}
+            "test_rm_unexist_dir":"",
+            "ts_ping":"",
+            "ts_ping_wo":"",
+            "ts_gtp":"",
+            "ts_gtp_wo":"",
+            "ts_ls_unexist_file":"",
+            "ts_mkdir":"",
+            "ts_mkdir_exist":"",
+            "ts_ls_dir":"",
+            "ts_cp_out":"",
+            "ts_ls_file":"",
+            "ts_rm_file":"",
+            "ts_rm_unexist_dir":"",
+            "ts_cp_in":"",
+            "ts_cw":""}
 
         self.functionalities_tests = {
             "test_cksm":"",
             "test_data_transfer_out_file":"",
             "test_data_transfer_out_exist_file":"",
             "test_data_transfer_in_file":"",
-            "test_data_transfer_in_unexist_file":""}
+            "test_data_transfer_in_unexist_file":"",
+            "ts_cksm":"",
+            "ts_dt":"",
+            "ts_https_voms":"",
+            "ts_http":"",
+            "ts_https":""}
 
         self.regressions_tests = {
             "test_eight_digit_string_checksum":"",
@@ -44,7 +63,15 @@ class MapTestsIds:
             "test_get_space_metadata_failure":"",
             "test_storm_database_password":"",
             "test_storm_gridhttps_authorization_denied":"",
-            "test_storm_backend_dao_null_pointer":""}
+            "test_storm_backend_dao_null_pointer":"",
+            "ts_update_free_space_upon_rm":"",
+            "ts_eight_digit_string_checksum":"",
+            "ts_update_used_space_upon_pd":"",
+            "ts_unsupported_protocols":"",
+            "ts_non_ascii_chars":"",
+            "ts_storm_backend_age":"",
+            "ts_storm_database_password":"",
+            "ts_storm_gridhttps_authorization_denied":""}
  
         self.regressions_conf_tests = {
             "test_backend_server_status":"",
@@ -59,7 +86,15 @@ class MapTestsIds:
             "test_mysql_connector_java_links":"",
             "test_frontend_logrotate_output":"",
             "test_backend_logrotate_output":"",
-            "test_backend_restart_failure":""}
+            "test_backend_restart_failure":"",
+            "ts_backend_server_status":"",
+            "ts_backend_logrotate_file":"",
+            "ts_backend_gridhttps":"",
+            "ts_yaim_version_file":"",
+            "ts_size_in_namespace_file":"",
+            "ts_gridhttps_plugin_links":"",
+            "ts_backend_server_name_status":"",
+            "ts_mysql_connector_java_links":""}
 
         self.regressions_ldap_tests = {
             "test_glue_service":"",
@@ -71,7 +106,17 @@ class MapTestsIds:
             "test_info_service_failure":"",
             "test_gluetwo_endpoint_undefined":"",
             "test_gluetwo_storage_undefined":"",
-            "test_gluetwo_endpoint":""}
+            "test_gluetwo_endpoint":"",
+            "ts_glue_service":"",
+            "ts_gluetwo_storage_share_capacity":"",
+            "ts_glue_available_space_info_service":"",
+            "ts_glue_available_space":"",
+            "ts_glue_used_space":"",
+            "ts_size":"",
+            "ts_info_service_failure":"",
+            "ts_gluetwo_endpoint_undefined":"",
+            "ts_gluetwo_storage_undefined":"",
+            "ts_gluetwo_endpoint":""}
  
         self.https_tests = {
             "test_srm_transfer_outbound_http":"",
@@ -182,10 +227,9 @@ class MapTestsIds:
 
         map_tests_ids = self.__get_tests_ids()
 
-        configuration_path = settings.get_configuration_path()
-        source_file = configuration_path + 'map_tests_ids.json'
+        source_file = settings.get_configuration_file(file_name = 'map_tests_ids.json')
         source_tests_ids_info = self.verify_map_file(source_file)
-        destination_file = configuration_path + 'map_tests_ids.json.tmp'
+        destination_file = settings.get_configuration_path(file_name = source_file) + '/map_tests_ids.json.tmp'
         df = open(destination_file, 'a')
         df.write('{\n')
 

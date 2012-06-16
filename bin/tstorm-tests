@@ -5,10 +5,12 @@ __author__ = 'Elisabetta Ronchieri'
 import sys
 import unittest
 import getopt
+
 from tstorm.utils import report_file 
 from tstorm.utils import settings 
 from tstorm.utils import check_testplan
 from tstorm.utils import configuration
+
 from tstorm.tests import commontests as cts
 from tstorm.tests.atomic import atomicstests as at
 from tstorm.tests.functional import functionalitiestests as ft
@@ -16,6 +18,24 @@ from tstorm.tests.functional import functionalitiestests_novoms as ftnv
 from tstorm.tests.functional import tapetests as tt
 from tstorm.tests.functional.regression import regressiontests as rt
 from tstorm.tests.functional.regression import regressiontests_novoms as rtnv
+
+def run_ids_tests(tpi, uid, lfn, tt, n_df, n_dfn):
+
+    info = check_testplan.CheckTestplan()
+    key_word = info.get_key_word()
+    methods = info.get_methods()
+
+    if tt in tpi[key_word]:
+        if tt in tpi.keys():
+            for y in tpi[tt]:
+                if tt == 'regression_tests' or y in ('https_ts', 'https_voms_ts', 'http_ts'):
+                    sd=False
+                else:
+                    sd=True
+                if tt != 'regression_conftests':
+                    ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,subdir=sd)
+                m=methods[y]
+                runner = unittest.TextTestRunner(verbosity=2).run(eval(m))
 
 def run_tests(tpi, uid, lfn, tt, n_df, n_dfn):
 
@@ -26,21 +46,21 @@ def run_tests(tpi, uid, lfn, tt, n_df, n_dfn):
     if tt in tpi[key_word]:
         if tt in tpi.keys():
             for y in tpi[tt]:
-	            if tt == 'regression_tests' or y in ('https_ts', 'https_voms_ts', 'http_ts'):
-	                sd=False
-	            else:
-	                sd=True
-	            if tt != 'regression_conftests':
-	                ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,subdir=sd)
-	            m=methods[y]
-                    runner = unittest.TextTestRunner(verbosity=2).run(eval(m))
+	        if tt == 'regression_tests' or y in ('https_ts', 'https_voms_ts', 'http_ts'):
+	            sd=False
+	        else:
+	            sd=True
+	        if tt != 'regression_conftests':
+	            ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,subdir=sd)
+	        m=methods[y]
+                runner = unittest.TextTestRunner(verbosity=2).run(eval(m))
 
 def usage():
-    print "Usage: tstorm-tp [-c|--conf] [-d|--destfile] [--noreport] [--novoms]"
-    print """Example: if you want to run test without voms"""
-    print """         tstorm-tp --novoms"""
-    print """Example: if you want to run test by changing conf input file and destination filename"""
-    print """         tstorm-tp -c etc/tstorm/tstorm.ini -d ui/uo/ua.txt"""
+    print "Usage: tstorm-tests [-h|--help] [-v|--version] [-c|--conf] [-d|--destfile] [-i|--ids] [-f|--file-ids] [--noreport] [--novoms]"
+    print """Example: if you want to run tests without producing a report"""
+    print """         tstorm-tests --noreport"""
+    print """Example: if you want to run tests providing tests sequence"""
+    print """         tstorm-tests -i <id1>, <id2>, ..."""
 
 def json_file_details():
     print "Description of tstorm-tp.json.template:"
@@ -53,12 +73,8 @@ def json_file_details():
     print """             'functional_tests',"""
     print """             'regression_tests',"""
     print """             'functional_tests_novoms',"""
-    print """             'regression_tests_novoms',"""
-    print """             'regression_conftests',"""
-    print """             'regression_ldaptests',"""
-    print """             'tape_tests'"""
+    print """             'regression_tests_novoms'"""
     print """            ]"""
-    print """regression_conftests    - are executed only if conftest option is used."""
     print """common_tests            - are a key word containing a list of tests that is"""
     print """                          mandatory for all the other tests with the """
     print """                          exclusion of regression conf tests and"""
@@ -66,11 +82,7 @@ def json_file_details():
     print """atomic_tests            - is a key word containing a list of tests;"""
     print """functional_tests        - is a key word containing a list of tests;"""
     print """regression_tests        - is a key word containing a list of tests;"""
-    print """regression_conftests    - is a key word containing a list of tests """
-    print """                          that MUST run as root;"""
-    print """regression_ldaptests    - is a key word containing a list of tests;"""
     print """functional_tests_novoms - is a key word containing a list of tests; """
-    print """tape_tests              - is a key word containing a list of tests.\n """
     print "Example of tstorm-tp.json.template:\n"
     settings.print_json_file_template('tstorm-tp.json.template')
 
@@ -78,7 +90,10 @@ if __name__ == '__main__':
     tfn = 'tstorm.ini'
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hc:d:", ["help","noreport","novoms","conf","destfile"])
+        opts, args = getopt.getopt(sys.argv[1:],
+            "hvc:d:i:f:l:",
+            ["help","noreport","novoms","conf","destfile",
+            "ids","file-ids","version","list"])
     except getopt.GetoptError, err:
         print str(err)
         usage()
@@ -87,23 +102,55 @@ if __name__ == '__main__':
     ct=False
     voms = True
     report = True
-    n_df = False
-    n_dfn = ''
-    for o, v in opts:
-        if o in ("-h", "--help"):
+    custom_destination_file = (False, '')
+    tests_sequence = (False, [])
+    tests_sequence_file = (False, '')
+    list_tests_details = ('t','r',True)
+    
+    for opt, value in opts:
+        if opt in ("-h", "--help"):
             usage()
             sys.exit()
-        elif o in ("-c", "--conf"):
-            tfn = v
-        elif o in ("-d", "--destfile"):
-            n_dfn = v
-            n_df = True
-        elif o in ("--novoms"):
+        elif opt in ("-v", "--version"):
+            print 'T-StoRM version %s' % (__import__('tstorm').get_version())
+            sys.exit()
+        elif opt in ("-c", "--conf"):
+            tfn = value
+        elif opt in ("-d", "--destfile"):
+            custom_destination_file = (True, value)
+        elif opt in ("-i", "--ids"):
+            tests_sequence = (True, [x.strip() for x in value.split(',')])
+        elif opt in ("-f", "--file-ids"):
+            tests_sequence_file = (True, value)
+        elif opt in ("-l", "--list"):
+            '''TO BE FINISHED'''
+            list_tests_details = (True, value)
+        elif opt in ("--novoms"):
             voms = False
-        elif o in ("--noreport"):
-            noreport = False
+        elif opt in ("--noreport"):
+            report = False
         else:
             assert False, "unhandled option"
+
+    if tests_sequence_file[0]:
+        if settings.file_exists(tests_sequence_file[1]):
+            tests_sequence = (True, tests_sequence[1] + settings.get_tests_sequence(tests_sequence_file[1]))
+        else:
+            print '''File that contains tests sequence does not exist'''
+            sys.exit(6)
+
+    if settings.configuration_file_exists(file_name = 'map_tests_ids.json'):
+        '''Get Test Id Mapping Info from file'''
+        mti_info =  settings.get_json_file_information(file_name = 'map_tests_ids.json')
+    else:
+        print '''Include map-tests-ids.json file in the right locations'''
+        sys.exit(4)
+
+    if tests_sequence[0]:
+        if not settings.is_tests_sequence_valid(tests_sequence[1],
+            mti_info.values()):
+            print '''Wrong Tests Sequence %s'''
+            sys.exit(7)
 
     if settings.configuration_file_exists(file_name = tfn):
         tfn = settings.get_configuration_file(file_name = tfn)
@@ -113,10 +160,12 @@ if __name__ == '__main__':
 
     check_configuration_file = configuration.LoadConfiguration(conf_file = tfn)
     if not check_configuration_file.is_configuration_file_valid():
-        print "Wrong Test Configuration file"
-        print "Example of ini configuration file:\n"
+        print '''Wrong Test Configuration file'''
+        print '''Example of ini configuration file:\n'''
         check_configuration_file.print_configuration_file_template()
         sys.exit(3)
+
+    log_file = report_file.ReportFile(report = report)
 
     if settings.configuration_file_exists(file_name = 'tstorm-tp.json'):
         '''Get Test Plan Info from conf file'''
@@ -125,42 +174,22 @@ if __name__ == '__main__':
         print '''Include tstorm-tp.json file in the right locations'''
         sys.exit(4)
 
-    if settings.configuration_file_exists(file_name = 'map_tests_ids.json'):
-        '''Get Test Id Mapping Info from file'''
-        mti_info =  settings.get_json_file_information(file_name = 'map_tests_ids.json')
-    else:
-        print '''Include map-tests-ids.json file in the right locations'''
-        sys.exit(4)
-
     if not settings.is_json_file_valid(tpj_info):
-        print "Wrong Test Plan conf file"
+        print '''Wrong Test Plan conf file'''
         json_file_details()
         sys.exit(3)
 
-    #'''Get Test Plan Info from conf file'''
-    #tpj_info = settings.get_json_file_information(tpjfnc)
-    #'''Get Test Id Mapping Info from file'''
-    #mti_info =  settings.get_json_file_information(test_id_map)
-
-    if not settings.is_json_file_valid(tpj_info):
-        '''Wrong Test Plan conf file'''
-        tpj_details()
-        sys.exit(3)
-
-    log_file = report_file.ReportFile(report = report)
-
     tests_type = check_testplan.CheckTestplan().get_tests_type()
 
-    if ct:
-        for x in tests_type['conf']:
-          run_tests(tpj_info, mti_info, log_file, x, n_df, n_dfn)
+    if voms:
+        for x in tests_type['voms']:
+            print x
+            #run_tests(tpj_info, mti_info, log_file, x,
+            #    custom_destination_file[0], custom_destination_file[1])
     else:
-        if voms:
-            for x in tests_type['voms']:
-                run_tests(tpj_info, mti_info, log_file, x, n_df, n_dfn)
-        else:
-            for x in tests_type['novoms']:
-                run_tests(tpj_info, mti_info, log_file, x, n_df, n_dfn)
+        for x in tests_type['novoms']:
+            run_tests(tpj_info, mti_info, log_file, x,
+                custom_destination_file[0], custom_destination_file[1])
 
     log_file.close_file() 
 

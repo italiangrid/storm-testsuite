@@ -39,19 +39,13 @@ def get_json_file_information(file_name = 'tstorm-tp.json'):
     try:
         tp_info=simplejson.load(open(json_file,'r'))
     except ValueError, e:
-        #dbglog("No stfunc.conf file found or wrong json syntax")
         print "Value Error, wrong conf file"
         sys.exit(2)
-        #raise SystemExit(e) 
-    #except (IOError, e):
-        #dbglog("No stfunc.conf file found or wrong json syntax")
-        #print "IOError, wrong conf file"
-        #sys.exit(2)
       
     return tp_info
 
 def get_configuration_paths():
-    '''Returns the path where you can find configuration file'''
+    '''Get the path where you can find configuration file'''
 
     dir_name = os.path.dirname(sys.argv[0])
 
@@ -67,30 +61,24 @@ def get_configuration_paths():
 def configuration_path_exists():
     '''Checks the existance of a given path'''
 
-    result=False
+    result=True
 
     paths = get_configuration_paths()
 
     for x in paths:
-        if os.path.isdir(x):
-            #print 'path %s exist ' % x
-            result=True
+        if not os.path.isdir(x):
+            #print 'path %s does not exist ' % x
+            result=False
             break
+        else:
+            print 'path %s exist ' % x
 
     return result
 
-def get_configuration_path():
-    '''Returns the configuration path'''
-
-    result=False
-
-    paths = get_configuration_paths()
-
-    for x in paths:
-        if os.path.isdir(x):
-            configuration_path = x
-            #print 'path %s ' % x
-            break
+def get_configuration_path(file_name='map_tests_ids.json'):
+    '''Get the configuration path'''
+    print file_name
+    configuration_path = os.path.dirname(file_name)
 
     return configuration_path
 
@@ -188,3 +176,37 @@ def is_json_file_valid(tp_info):
         return False
 
     return result
+
+def is_tests_sequence_valid(ts_info, uid):
+    '''Check validity of the tests sequence'''
+    result=True
+
+    for x in ts_info:
+        if x not in uid:
+            result=False
+            break
+
+    return result
+
+def file_exists(file_name):
+    '''Check if the file exists'''
+
+    if os.path.isfile(file_name):
+        return True
+
+    return False
+
+def get_tests_sequence(file_name):
+    '''Get Tests Sequence from file'''
+
+    in_file = open(file_name,"r")
+    text = in_file.read()
+    in_file.close()
+    sequence = []
+
+    for x in text.split('\n'):
+        r = x.strip()
+        if r != '':
+            sequence.append(r)
+
+    return sequence
