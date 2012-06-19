@@ -37,7 +37,8 @@ tstormutils_PYTHON = \
     ldapsearch.py \
     version.py \
     listinfo.py \
-    yaim.py 
+    yaim.py \
+    map_tests_ids.py 
 
 EXTRA_DIST = \
     check_testplan.py \
@@ -59,7 +60,8 @@ EXTRA_DIST = \
     ldapsearch.py \
     version.py \
     listinfo.py \
-    yaim.py 
+    yaim.py \
+    map_tests_ids.py 
 
 CLEANFILES= \
     check_testplan.pyc \
@@ -82,6 +84,7 @@ CLEANFILES= \
     version.pyc \
     listinfo.pyc \
     yaim.pyc \
+    map_tests_ids.pyc \
     check_testplan.pyo \
     mysqlquery.pyo \
     cksm.pyo \
@@ -101,4 +104,5 @@ CLEANFILES= \
     ldapsearch.pyo \
     version.pyo \
     listinfo.pyo \
-    yaim.pyo 
+    yaim.pyo \
+    map_tests_ids.pyo
