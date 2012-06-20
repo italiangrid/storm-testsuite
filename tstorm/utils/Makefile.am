@@ -38,7 +38,9 @@ tstormutils_PYTHON = \
     version.py \
     listinfo.py \
     yaim.py \
-    map_tests_ids.py 
+    map_tests_ids.py \
+    tests_info.py \
+    tests_methods.py
 
 EXTRA_DIST = \
     check_testplan.py \
@@ -61,7 +63,9 @@ EXTRA_DIST = \
     version.py \
     listinfo.py \
     yaim.py \
-    map_tests_ids.py 
+    map_tests_ids.py \
+    tests_info.py \
+    tests_methods.py
 
 CLEANFILES= \
     check_testplan.pyc \
@@ -85,6 +89,8 @@ CLEANFILES= \
     listinfo.pyc \
     yaim.pyc \
     map_tests_ids.pyc \
+    test_info.pyc \
+    test_methods.pyc \
     check_testplan.pyo \
     mysqlquery.pyo \
     cksm.pyo \
@@ -105,4 +111,6 @@ CLEANFILES= \
     version.pyo \
     listinfo.pyo \
     yaim.pyo \
-    map_tests_ids.pyo
+    map_tests_ids.pyo \
+    tests_info.pyo \
+    tests_methods.pyo
