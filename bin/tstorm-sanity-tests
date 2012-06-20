@@ -70,6 +70,11 @@ if __name__ == '__main__':
             for y in x:
                 if 't' in y.split('=')[0]:
                    tmp_filter_tests_details['t'] = y.split('=')[1].split(',')
+                   if 'AT' in tmp_filter_tests_details['t'] or \
+                       'ST' in tmp_filter_tests_details['t']:
+                       print 'This script only runs DT and UT tests'
+                       usage()
+                       sys.exit()
                 elif 'r' in y.split('=')[0]:
                    tmp_filter_tests_details['r'] = y.split('=')[1]
                 elif 'i' in y.split('=')[0]:
@@ -90,7 +95,7 @@ if __name__ == '__main__':
         sys.exit(4)
 
     if list_tests_details[0]:
-        tests_info.TestsInfo(mti_info).get_info()
+        tests_info.TestsInfo(mti_info).get_sanity_info()
         sys.exit(0)
 
     if filter_tests_details[0]:
