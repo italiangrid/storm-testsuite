@@ -19,10 +19,10 @@ class GluetwoLdapTest(unittest.TestCase):
         self.lfn=lfn
 
     def test_gluetwo_storage_share_capacity(self):
-        self.lfn.put_name('GLUE2 GLUE2STORAGESHARECAPACITY* SIZES ALWAYS ZERO')
-        self.lfn.put_description('Glue2 GLUE2StorageShareCapacity* sizes always 0.')
+        self.lfn.put_name(self.uid['test_gluetwo_storage_share_capacity'][5])
+        self.lfn.put_description(self.uid['test_gluetwo_storage_share_capacity'][6])
         if self.uid.has_key('test_gluetwo_storage_share_capacity'):
-            self.lfn.put_uuid(self.uid['test_gluetwo_storage_share_capacity'])
+            self.lfn.put_uuid(self.uid['test_gluetwo_storage_share_capacity'][0])
         else:
             print 'ADD UID for test_gluetwo_storage_share_capacity'
             self.lfn.put_uuid(utils.get_uuid())
@@ -59,15 +59,10 @@ class GluetwoLdapTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_gluetwo_endpoint_undefined(self):
-        name = '''STORM BUG: GLUE2ENDPOINTCAPABILITY AND 
-GLUE2ENDPOINTINTERFACENAME CONTAIN WRONG VALUES'''
-        self.lfn.put_name(name)
-        des = '''Yaim-Storm for GLUE2 configuration set wrong values in the 
-GLUE2EndpointCapability and GLUE2EndpointInterfaceName attributes of
-the GLUE2.0 schema.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_gluetwo_endpoint_undefined'][5])
+        self.lfn.put_description(self.uid['test_gluetwo_endpoint_undefined'][6])
         if self.uid.has_key('test_gluetwo_endpoint_undefined'):
-            self.lfn.put_uuid(self.uid['test_gluetwo_endpoint_undefined'])
+            self.lfn.put_uuid(self.uid['test_gluetwo_endpoint_undefined'][0])
         else:
             print 'ADD UID for test_gluetwo_endpoint_undefined'
             self.lfn.put_uuid(utils.get_uuid())
@@ -92,13 +87,10 @@ the GLUE2.0 schema.'''
         self.lfn.flush_file()
 
     def test_gluetwo_storage_undefined(self):
-        name = '''STORM BUG: GLUE2STORAGESHAREACCESSMODE''' 
-        self.lfn.put_name(name)
-        des = '''Yaim-Storm for GLUE2 configuration set wrong values in the 
-GLUE2StorageAccessMode attribute of the GLUE2.0 schema.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_gluetwo_storage_undefined'][5])
+        self.lfn.put_description(self.uid['test_gluetwo_storage_undefined'][6])
         if self.uid.has_key('test_gluetwo_storage_undefined'):
-            self.lfn.put_uuid(self.uid['test_gluetwo_storage_undefined'])
+            self.lfn.put_uuid(self.uid['test_gluetwo_storage_undefined'][0])
         else:
             print 'ADD UID for test_gluetwo_storage_undefined'
             self.lfn.put_uuid(utils.get_uuid())
@@ -119,15 +111,10 @@ GLUE2StorageAccessMode attribute of the GLUE2.0 schema.'''
         self.lfn.flush_file()
 
     def test_gluetwo_endpoint(self):
-        name = '''STORM BUG: GLUE2ENDPOINTCAPABILITY AND 
-GLUE2ENDPOINTINTERFACENAME CONTAIN WRONG VALUES'''
-        self.lfn.put_name(name)
-        des = '''Yaim-Storm for GLUE2 configuration set wrong values in the 
-GLUE2EndpointCapability and GLUE2EndpointInterfaceName attributes of
-the GLUE2.0 schema.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_gluetwo_endpoint'][5])
+        self.lfn.put_description(self.uid['test_gluetwo_endpoint'][6])
         if self.uid.has_key('test_gluetwo_endpoint'):
-            self.lfn.put_uuid(self.uid['test_gluetwo_endpoint'])
+            self.lfn.put_uuid(self.uid['test_gluetwo_endpoint'][0])
         else:
             print 'ADD UID for test_gluetwo_endpoint'
             self.lfn.put_uuid(utils.get_uuid())

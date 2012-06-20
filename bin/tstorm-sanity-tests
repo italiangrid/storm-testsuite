@@ -7,67 +7,120 @@ import unittest
 import getopt
 from tstorm.utils import report_file
 from tstorm.utils import settings
-from tstorm.utils import check_testplan 
+from tstorm.utils import tests_info
+from tstorm.utils import tests_methods
 from tstorm.utils import configuration
 from tstorm.tests.deployment.regression import regression_conftests as rct
 from tstorm.tests.deployment.regression import regression_ldaptests as rlt
 
-def run_tests(tpi, uid, lfn, tt, n_df, n_dfn):
-    info = check_testplan.CheckTestplan()
-    key_word = info.get_key_word()
-    methods = info.get_methods()
+def run_tests(tpi, uid, lfn, tt):
+    if tpi[2] != "":
+        runner = unittest.TextTestRunner(verbosity=2).run(eval(tpi[2]))
 
-    if tt in tpi[key_word]:
-        if tt in tpi.keys():
-            for y in tpi[tt]:
-	        sd=True
-	        if tt != 'regression_conftests':
-	            ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,subdir=sd)
-	        m=methods[y]
-                runner = unittest.TextTestRunner(verbosity=2).run(eval(m))
+#def run_tests(tpi, uid, lfn, tt, n_df, n_dfn):
+#    info = check_testplan.CheckTestplan()
+#    key_word = info.get_key_word()
+#    methods = info.get_methods()
+
+#    if tt in tpi[key_word]:
+#        if tt in tpi.keys():
+#            for y in tpi[tt]:
+#	        sd=True
+#	        if tt != 'regression_conftests':
+#	            ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,subdir=sd)
+#	        m=methods[y]
+#                runner = unittest.TextTestRunner(verbosity=2).run(eval(m))
 
 def usage():
-    print "Usage: tstorm-sanity-tests [-c|--conf] [--noreport]"
-    print """Example: if you want to run test by changing conf input file"""
-    print """         tstorm-sanity-tests -c etc/tstorm/tstorm-sanity.ini"""
-
-def json_file_details():
-    print "Description of tstorm-sanity-tp.json.template:"
-    print """test_plan - is a key word containing a list of different type of """
-    print """            system tests that MUST be specified in the following """
-    print """            order of execution, that is """
-    print """            ["""
-    print """             'regression_conftests',"""
-    print """             'regression_ldaptests'"""
-    print """            ]"""
-    print """regression_conftests are executed only if conftest option is used."""
-    print """regression_ldaptests - is a key word containing a list of tests;"""
-    print "Example of tstorm-sanity-tp.json.template:\n"
-    settings.print_json_file_template('tstorm-sanity-tp.json.template')
+    print """"Usage: tstorm-sanity-tests [-h|--help] [-v|--version] [-c|--conf] """
+    print """                            [-i|--ids] [-f|--file-ids] [--noreport]"""
+    print """                            [-s|--flist] [-l|--list]"""
+    print """Example: if you want to run test without producing a report"""
+    print """         tstorm-sanity-tests --noreport"""
+    print """Example: if you want to run tests providing tests sequence"""
+    print """         tstorm-tests -i <id1>, <id2>, ..."""
+    
 
 if __name__ == '__main__':
     tfn = 'tstorm-sanity.ini'
     
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hc:", ["help","noreport","conf"])
+        opts, args = getopt.getopt(sys.argv[1:],
+            "hvlc:i:f:s:", 
+            ["help","noreport","novoms","list", "conf=",
+             "ids=","file-ids=","version","filter-list="])
     except getopt.GetoptError, err:
         print str(err)
         usage()
         sys.exit(2)
 
     report = True
-    n_df = False
-    n_dfn = ''
-    for o, v in opts:
-        if o in ("-h", "--help"):
+    tests_sequence = (False, [])
+    tests_sequence_file = (False, '')
+    # r and i are bool
+    # t can be AT, ST, DT
+    # id is the identifier
+    #-l t=AT,FT r=true p=id o=profile-regression-check.txt
+    list_tests_details = (False, {})
+    filter_tests_details = (False, {})
+   
+    for opt, value in opts: 
+        if opt in ("-h", "--help"):
             usage()
             sys.exit()
-        elif o in ("-c", "--conf"):
-            tfn = v
-        elif o in ("--noreport"):
+        elif opt in ("-c", "--conf"):
+            tfn = value
+        elif opt in ("-i", "--ids"):
+            tests_sequence = (True, [x.strip() for x in value.split(',')])
+        elif opt in ("-f", "--file-ids"):
+            tests_sequence_file = (True, value)
+        elif opt in ("-l", "--list"):
+            list_tests_details = (True, {})
+        elif opt in ("-s", "--filter-list"):
+            tmp_filter_tests_details = {}
+            x = value.split(' ')
+            for y in x:
+                if 't' in y.split('=')[0]:
+                   tmp_filter_tests_details['t'] = y.split('=')[1].split(',')
+                elif 'r' in y.split('=')[0]:
+                   tmp_filter_tests_details['r'] = y.split('=')[1]
+                elif 'i' in y.split('=')[0]:
+                   tmp_filter_tests_details['i'] = y.split('=')[1]
+                elif 'o' in y.split('=')[0]:
+                   tmp_filter_tests_details['o'] = y.split('=')[1]
+            filter_tests_details = (True, tmp_filter_tests_details)
+        elif opt in ("--noreport"):
             report = False
         else:
             assert False, "unhandled option"
+
+    if settings.configuration_file_exists(file_name = 'map_tests_ids.json'):
+        '''Get Test Id Mapping Info from file'''
+        mti_info =  settings.get_json_file_information(file_name = 'map_tests_ids.json')
+    else:
+        print '''Include map-tests-ids.json file in the right locations'''
+        sys.exit(4)
+
+    if list_tests_details[0]:
+        tests_info.TestsInfo(mti_info).get_info()
+        sys.exit(0)
+
+    if filter_tests_details[0]:
+        tests_info.TestsInfo(mti_info, info=filter_tests_details[1]).get_info()
+        sys.exit(0)
+
+    if tests_sequence_file[0]:
+        if settings.file_exists(tests_sequence_file[1]):
+            tests_sequence = (True, tests_sequence[1] + settings.get_tests_sequence(tests_sequence_file[1]))
+        else:
+            print '''File that contains tests sequence does not exist'''
+            sys.exit(6)
+
+    if tests_sequence[0]:
+        if not settings.is_tests_sequence_valid(tests_sequence[1],
+            mti_info.values()):
+            print '''Wrong Tests Sequence %s'''
+            sys.exit(7)
 
     if settings.configuration_file_exists(file_name = tfn):
         tfn = settings.get_configuration_file(file_name = tfn)
@@ -82,30 +135,11 @@ if __name__ == '__main__':
         check_configuration_file.print_configuration_file_template()
         sys.exit(3)
         
-    if settings.configuration_file_exists(file_name = 'tstorm-sanity-tp.json'):
-        '''Get Test Plan Info from conf file'''
-        tpj_info = settings.get_json_file_information(file_name = 'tstorm-sanity-tp.json')
-    else:
-        print '''Include tstorm-tp.json file in the right locations'''
-        sys.exit(4)
-
-    if settings.configuration_file_exists(file_name = 'map_tests_ids.json'):
-        '''Get Test Id Mapping Info from file'''
-        mti_info =  settings.get_json_file_information(file_name = 'map_tests_ids.json')
-    else:
-        print '''Include map-tests-ids.json file in the right locations'''
-        sys.exit(4)
-
-    if not settings.is_json_file_valid(tpj_info):
-        print "Wrong Test Plan conf file"
-        json_file_details()
-        sys.exit(3)
-
     log_file = report_file.ReportFile(report = report)
 
-    tests_type = check_testplan.CheckTestplan().get_tests_type()
+    tests_methods = tests_methods.TestsMethods(mti_info)
 
-    for test in tests_type['conf']:
-        run_tests(tpj_info, mti_info, log_file, test, n_df, n_dfn)
+    for key, value in tests_methods.get_sanity_methods().items():
+        run_tests(value, mti_info, log_file, key)
 
     log_file.close_file() 

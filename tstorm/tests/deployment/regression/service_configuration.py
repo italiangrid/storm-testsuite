@@ -19,14 +19,10 @@ class RegressionConfigurationTest(unittest.TestCase):
         self.lfn = lfn
 
     def test_backend_server_status(self):
-        name = '''EXTRA STORM BACKEND SERVICE INFORMATION RETURNED DURING THE
-EXECUTION OF STATUS'''
-        self.lfn.put_name(name)
-        des = '''Extra information are returned by storm backend server init
-script during the execution of status.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_backend_server_status'][5])
+        self.lfn.put_description(self.uid['test_backend_server_status'][6])
         if self.uid.has_key('test_backend_server_status'):
-            self.lfn.put_uuid(self.uid['test_backend_server_status'])
+            self.lfn.put_uuid(self.uid['test_backend_server_status'][0])
         else:
             print 'ADD UID for test_backend_server_status'
             self.lfn.put_uuid(utils.get_uuid())
@@ -42,10 +38,10 @@ script during the execution of status.'''
         self.lfn.flush_file()
 
     def test_backend_logrotate_file(self):
-        self.lfn.put_name('STORN BACKEND LOGROTATE FILE POINTS TO NON EXISTING FILE')
-        self.lfn.put_description('StoRM Backend logrotate file points to non existing file.')
+        self.lfn.put_name(self.uid['test_backend_logrotate_file'][5])
+        self.lfn.put_description(self.uid['test_backend_logrotate_file'][6])
         if self.uid.has_key('test_backend_logrotate_file'):
-            self.lfn.put_uuid(self.uid['test_backend_logrotate_file'])
+            self.lfn.put_uuid(self.uid['test_backend_logrotate_file'][0])
         else:
             print 'ADD UID for test_backend_logrotate_file'
             self.lfn.put_uuid(utils.get_uuid())
@@ -67,10 +63,10 @@ script during the execution of status.'''
         self.lfn.flush_file()
 
     def test_backend_cron_file(self):
-        self.lfn.put_name('STORM BACKEND DOES NOT ROTATE LOG FILES')
-        self.lfn.put_description('StoRM Backend does not rotate log files')
+        self.lfn.put_name(self.uid['test_backend_cron_file'][5])
+        self.lfn.put_description(self.uid['test_backend_cron_file'][6])
         if self.uid.has_key('test_backend_cron_file'):
-            self.lfn.put_uuid(self.uid['test_backend_cron_file'])
+            self.lfn.put_uuid(self.uid['test_backend_cron_file'][0])
         else:
             print 'ADD UID for test_backend_cron_file'
             self.lfn.put_uuid(utils.get_uuid())
@@ -90,10 +86,10 @@ script during the execution of status.'''
         self.lfn.flush_file()
 
     def test_backend_gridhttps(self):
-        self.lfn.put_name('DEFAULT GRIDHTTPS SERVER PORT NUMBER CONFLICTS WITH BACKEND DEFAULT XMLRPC PORT NUMBER')
-        self.lfn.put_description('Default GridHTTPs server port number conflicts with Backend default xmlrpc port number')
+        self.lfn.put_name(self.uid['test_backend_gridhttps'][5])
+        self.lfn.put_description(self.uid['test_backend_gridhttps'][6])
         if self.uid.has_key('test_backend_gridhttps'):
-            self.lfn.put_uuid(self.uid['test_backend_gridhttps'])
+            self.lfn.put_uuid(self.uid['test_backend_gridhttps'][0])
         else:
             print 'ADD UID for test_backend_server_gridhttps'
             self.lfn.put_uuid(utils.get_uuid())
@@ -118,10 +114,10 @@ script during the execution of status.'''
         self.lfn.flush_file()
 
     def test_yaim_version_file(self):
-        self.lfn.put_name('WRONG VERSION IN THE YAIM-VERSION FILE')
-        self.lfn.put_description('Wrong version in the yaim-storm file')
+        self.lfn.put_name(self.uid['test_yaim_version_file'][5])
+        self.lfn.put_description(self.uid['test_yaim_version_file'][6])
         if self.uid.has_key('test_yaim_version_file'):
-            self.lfn.put_uuid(self.uid['test_yaim_version_file'])
+            self.lfn.put_uuid(self.uid['test_yaim_version_file'][0])
         else:
             print 'ADD UID for test_yaim_version_file'
             self.lfn.put_uuid(utils.get_uuid())
@@ -145,10 +141,10 @@ script during the execution of status.'''
         self.lfn.flush_file()
 
     def test_size_in_namespace_file(self):
-        self.lfn.put_name('WRONG SETTINGS OF SIZE IN NAMESPACE.XML')
-        self.lfn.put_description('Wrong settings of size in namespace.xml')
+        self.lfn.put_name(self.uid['test_size_in_namespace_file'][5])
+        self.lfn.put_description(self.uid['test_size_in_namespace_file'][6])
         if self.uid.has_key('test_size_in_namespace_file'):
-            self.lfn.put_uuid(self.uid['test_size_in_namespace_file'])
+            self.lfn.put_uuid(self.uid['test_size_in_namespace_file'][0])
         else:
             print 'ADD UID for test_size_in_namespace_file'
             self.lfn.put_uuid(utils.get_uuid())
@@ -188,10 +184,10 @@ script during the execution of status.'''
         self.lfn.flush_file()
 
     def test_gridhttps_plugin_links(self):
-        self.lfn.put_name('REMOVED GRIDHTTPS PLUGIN LINKS DURING UPGRADE FROM 1.7.0 to 1.7.1')
-        self.lfn.put_description('Removed gridhttpds plugin links during upgrade from 1.7.0 to 1.7.1')
+        self.lfn.put_name(self.uid['test_gridhttps_plugin_links'][5])
+        self.lfn.put_description(self.uid['test_gridhttps_plugin_links'][6])
         if self.uid.has_key('test_gridhttps_plugin_links'):
-            self.lfn.put_uuid(self.uid['test_gridhttps_plugin_links'])
+            self.lfn.put_uuid(self.uid['test_gridhttps_plugin_links'][0])
         else:
             print 'ADD UID for test_gridhttps_plugin_links'
             self.lfn.put_uuid(utils.get_uuid())
@@ -217,13 +213,10 @@ script during the execution of status.'''
         self.lfn.flush_file()
 
     def test_backend_server_name_status(self):
-        name = '''WRONG STORM BACKEND SERVER NAME RETURNED DURING THE 
-EXECUTION OF STATUS'''
-        self.lfn.put_name(name)
-        des = '''StoRM Backend Server's name is wrong.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_backend_server_name_status'][5])
+        self.lfn.put_description(self.uid['test_backend_server_name_status'][6])
         if self.uid.has_key('test_backend_server_name_status'):
-            self.lfn.put_uuid(self.uid['test_backend_server_name_status'])
+            self.lfn.put_uuid(self.uid['test_backend_server_name_status'][0])
         else:
             print 'ADD UID for test_backend_server_name_status'
             self.lfn.put_uuid(utils.get_uuid())
@@ -240,16 +233,10 @@ EXECUTION OF STATUS'''
         self.lfn.flush_file()
 
     def test_mysql_storage_space_update(self):
-        name = '''NO UPDATING OF STORAGE SPACE IN DB AFTER A TOTAL ONLINE SIZE
- CHANGE IN THE NAMESPACE.XML'''
-        self.lfn.put_name(name)
-        des = '''When the TotalOnlineSize value has changed in the
- namespace.xml, the storm-backend-server process does not update the
- corrispondent field in the storage_space table of the storm_be_ISAM 
- database.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_mysql_storage_space_update'][5])
+        self.lfn.put_description(self.uid['test_mysql_storage_space_update'][6])
         if self.uid.has_key('test_mysql_storage_space_update'):
-            self.lfn.put_uuid(self.uid['test_mysql_storage_space_update'])
+            self.lfn.put_uuid(self.uid['test_mysql_storage_space_update'][0])
         else:
             print 'ADD UID for test_mysql_storage_space_update'
             self.lfn.put_uuid(utils.get_uuid())
@@ -368,10 +355,10 @@ EXECUTION OF STATUS'''
         self.lfn.flush_file()
 
     def test_mysql_connector_java_links(self):
-        self.lfn.put_name('MYSQL-CONNECTOR-JAVA DOWNLOADING FAILURE')
-        self.lfn.put_description('mysql-connector-java is not downloaded due to an issue in its owner repository')
+        self.lfn.put_name(self.uid['test_mysql_connector_java_links'][5])
+        self.lfn.put_description(self.uid['test_mysql_connector_java_links'][6])
         if self.uid.has_key('test_mysql_connector_java_links'):
-            self.lfn.put_uuid(self.uid['test_mysql_connector_java_links'])
+            self.lfn.put_uuid(self.uid['test_mysql_connector_java_links'][0])
         else:
             print 'ADD UID for test_mysql_storage_connector_java_links'
             self.lfn.put_uuid(utils.get_uuid())

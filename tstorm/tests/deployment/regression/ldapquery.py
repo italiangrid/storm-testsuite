@@ -19,15 +19,10 @@ class LdapTest(unittest.TestCase):
         self.lfn=lfn
 
     def test_glue_service(self):
-        name = '''STORM BUG: GLUESERVICENAME AND GLUESERVIVETYPE CONTAIN WRONG
-VALUES'''
-        self.lfn.put_name(name)
-        des = '''Yaim-Storm for GLUE2 configuration called a worng script
-setting wrong values in the GlueServiceName and GlueServiceType attributes of
-the GLUE1.3 schema.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_glue_service'][5])
+        self.lfn.put_description(self.uid['test_glue_service'][6])
         if self.uid.has_key('test_glue_service'):
-            self.lfn.put_uuid(self.uid['test_glue_service'])
+            self.lfn.put_uuid(self.uid['test_glue_service'][0])
         else:
             print 'ADD UID for test_glue_service'
             self.lfn.put_uuid(utils.get_uuid())
@@ -45,10 +40,10 @@ the GLUE1.3 schema.'''
         self.lfn.flush_file()
 
     def test_glue_available_space_info_service(self):
-        self.lfn.put_name('INFO SERVICE ALWAYS RETURNS A ZERO AVAILABLE SPACE')
-        self.lfn.put_description('Info Service always returns a zero available space')
+        self.lfn.put_name(self.uid['test_glue_available_space_info_service'][5])
+        self.lfn.put_description(self.uid['test_glue_available_space_info_service'][6])
         if self.uid.has_key('test_glue_available_space_info_service'):
-            self.lfn.put_uuid(self.uid['test_glue_available_space_info_service'])
+            self.lfn.put_uuid(self.uid['test_glue_available_space_info_service'][0])
         else:
             print 'ADD UID for test_glue_available_space_info_service'
             self.lfn.put_uuid(utils.get_uuid())
@@ -74,10 +69,10 @@ the GLUE1.3 schema.'''
         self.lfn.flush_file()
 
     def test_glue_available_space(self):
-        self.lfn.put_name('WRONG CALCULATION OF SA_AVAILABLE_SIZE_KB AND SA_USED_SIZE_KB')
-        self.lfn.put_description('Wrong calculation of SA_AVAILABLE_SPACE')
+        self.lfn.put_name(self.uid['test_glue_available_space_info_service'][5])
+        self.lfn.put_description(self.uid['test_glue_available_space_info_service'][6])
         if self.uid.has_key('test_glue_available_space'):
-            self.lfn.put_uuid(self.uid['test_glue_available_space'])
+            self.lfn.put_uuid(self.uid['test_glue_available_space'][0])
         else:
             print 'ADD UID for test_glue_available_space'
             self.lfn.put_uuid(utils.get_uuid())
@@ -113,10 +108,10 @@ the GLUE1.3 schema.'''
         self.lfn.flush_file()
 
     def test_glue_used_space(self):
-        self.lfn.put_name('WRONG CALCULATION OF SA_AVAILABLE_SIZE_KB AND SA_USED_SIZE_KB')
-        self.lfn.put_description('Wrong calculation of SA_USED_SPACE')
+        self.lfn.put_name(self.uid['test_glue_used_space'][5])
+        self.lfn.put_description(self.uid['test_glue_used_space'][6])
         if self.uid.has_key('test_glue_used_space'):
-            self.lfn.put_uuid(self.uid['test_glue_used_space'])
+            self.lfn.put_uuid(self.uid['test_glue_used_space'][0])
         else:
             print 'ADD UID for test_glue_used_space'
             self.lfn.put_uuid(utils.get_uuid())
@@ -152,10 +147,10 @@ the GLUE1.3 schema.'''
         self.lfn.flush_file()
 
     def test_size(self):
-        self.lfn.put_name('GET_SIZE INCORRECTLY HANDLES THE INFO')
-        self.lfn.put_description('Wrong calculation of SA_USED_SPACE')
+        self.lfn.put_name(self.uid['test_size'][5])
+        self.lfn.put_description(self.uid['test_size'][6])
         if self.uid.has_key('test_size'):
-            self.lfn.put_uuid(self.uid['test_size'])
+            self.lfn.put_uuid(self.uid['test_size'][0])
         else:
             print 'ADD UID for test_size'
             self.lfn.put_uuid(utils.get_uuid())
@@ -200,13 +195,10 @@ the GLUE1.3 schema.'''
         self.lfn.flush_file()
 
     def test_info_service_failure(self):
-        name = '''REST INFO SERVICE FAILURE'''
-        self.lfn.put_name(name)
-        des = '''Rest info service fails when non-mandatory parameters are
- missing'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_info_service_failure'][5])
+        self.lfn.put_description(self.uid['test_info_service_failure'][6])
         if self.uid.has_key('test_info_service_failure'):
-            self.lfn.put_uuid(self.uid['test_info_service_failure'])
+            self.lfn.put_uuid(self.uid['test_info_service_failure'][0])
         else:
             print 'ADD UID for test_info_service_failure'
             self.lfn.put_uuid(utils.get_uuid())
