@@ -118,7 +118,8 @@ if __name__ == '__main__':
 
     if tests_sequence_file[0]:
         if settings.file_exists(tests_sequence_file[1]):
-            tests_sequence = (True, tests_sequence[1] + settings.get_tests_sequence(tests_sequence_file[1]))
+            tests_sequence = (True,
+                tests_sequence[1] + settings.get_tests_sequence(tests_sequence_file[1]))
         else:
             print '''File that contains tests sequence does not exist'''
             sys.exit(6)
@@ -144,7 +145,10 @@ if __name__ == '__main__':
 
     log_file = report_file.ReportFile(report = report)
 
-    tests_methods = tests_methods.TestsMethods(mti_info)
+    if tests_sequence[0]:
+        tests_methods = tests_methods.TestsMethods(mti_info, sequence = tests_sequence[1])
+    else:
+        tests_methods = tests_methods.TestsMethods(mti_info)
 
     #if voms:
     for key, value in tests_methods.get_system_methods().items():

@@ -675,14 +675,14 @@ class MapTestsIds:
                 'Yaim-Storm for GLUE2 configuration set wrong values in the ' +
                 'GLUE2StorageAccessMode attribute of the GLUE2.0 schema',
                 'rlt.ts_gluetwo_storage_undefined(tfn, uid, lfn)'],
-            "ts_gluetwo_endpoint":['29dacc',
+            "ts_gluetwo_endpoint":['309dab',
                 False,'',
                 'STORM BUG: GLUE2ENDPOINTCAPABILITY AND ' +
                 'GLUE2ENDPOINTINTERFACENAME CONTAIN WRONG VALUES',
                 'Yaim-Storm for GLUE2 configuration set wrong values in the ' +
                 'GLUE2EndpointCapability and GLUE2EndpointInterfaceName ' +
                 'attributes of the GLUE2.0 schema',
-                'rlt.ts_gluetwo_endpoint_undefined(tfn, uid, lfn)']
+                'rlt.ts_gluetwo_endpoint(tfn, uid, lfn)']
             }
  
         self.common_tests = {

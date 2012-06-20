@@ -17,29 +17,14 @@ def run_tests(tpi, uid, lfn, tt):
     if tpi[2] != "":
         runner = unittest.TextTestRunner(verbosity=2).run(eval(tpi[2]))
 
-#def run_tests(tpi, uid, lfn, tt, n_df, n_dfn):
-#    info = check_testplan.CheckTestplan()
-#    key_word = info.get_key_word()
-#    methods = info.get_methods()
-
-#    if tt in tpi[key_word]:
-#        if tt in tpi.keys():
-#            for y in tpi[tt]:
-#	        sd=True
-#	        if tt != 'regression_conftests':
-#	            ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,subdir=sd)
-#	        m=methods[y]
-#                runner = unittest.TextTestRunner(verbosity=2).run(eval(m))
-
 def usage():
     print """"Usage: tstorm-sanity-tests [-h|--help] [-v|--version] [-c|--conf] """
     print """                            [-i|--ids] [-f|--file-ids] [--noreport]"""
-    print """                            [-s|--flist] [-l|--list]"""
+    print """                            [-s|--filter-list] [-l|--list]"""
     print """Example: if you want to run test without producing a report"""
     print """         tstorm-sanity-tests --noreport"""
     print """Example: if you want to run tests providing tests sequence"""
     print """         tstorm-tests -i <id1>, <id2>, ..."""
-    
 
 if __name__ == '__main__':
     tfn = 'tstorm-sanity.ini'
@@ -67,6 +52,9 @@ if __name__ == '__main__':
     for opt, value in opts: 
         if opt in ("-h", "--help"):
             usage()
+            sys.exit()
+        elif opt in ("-v", "--version"):
+            print 'T-StoRM version %s' % (__import__('tstorm').get_version())
             sys.exit()
         elif opt in ("-c", "--conf"):
             tfn = value
@@ -111,7 +99,8 @@ if __name__ == '__main__':
 
     if tests_sequence_file[0]:
         if settings.file_exists(tests_sequence_file[1]):
-            tests_sequence = (True, tests_sequence[1] + settings.get_tests_sequence(tests_sequence_file[1]))
+            tests_sequence = (True, 
+                tests_sequence[1] + settings.get_tests_sequence(tests_sequence_file[1]))
         else:
             print '''File that contains tests sequence does not exist'''
             sys.exit(6)
@@ -119,7 +108,7 @@ if __name__ == '__main__':
     if tests_sequence[0]:
         if not settings.is_tests_sequence_valid(tests_sequence[1],
             mti_info.values()):
-            print '''Wrong Tests Sequence %s'''
+            print '''Wrong Tests Sequence'''
             sys.exit(7)
 
     if settings.configuration_file_exists(file_name = tfn):
@@ -137,7 +126,10 @@ if __name__ == '__main__':
         
     log_file = report_file.ReportFile(report = report)
 
-    tests_methods = tests_methods.TestsMethods(mti_info)
+    if tests_sequence[0]:
+        tests_methods = tests_methods.TestsMethods(mti_info, sequence = tests_sequence[1])
+    else:
+        tests_methods = tests_methods.TestsMethods(mti_info)
 
     for key, value in tests_methods.get_sanity_methods().items():
         run_tests(value, mti_info, log_file, key)

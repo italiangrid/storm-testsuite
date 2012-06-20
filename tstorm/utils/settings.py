@@ -179,11 +179,13 @@ def is_json_file_valid(tp_info):
 
 def is_tests_sequence_valid(ts_info, uid):
     '''Check validity of the tests sequence'''
-    result=True
+    result=False
 
     for x in ts_info:
-        if x not in uid:
-            result=False
+        for y in uid:
+            if x == y[0]:
+                result=True
+        if not result:
             break
 
     return result
