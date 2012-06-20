@@ -26,36 +26,36 @@ def ts_gtp_wo(conf, ifn, dfn, bifn, uid, lfn):
 
 def ts_ls_unexist_file(conf, ifn, dfn, bifn, uid, lfn):
     s = unittest.TestSuite()
-    #s.addTest(ut.UtilitiesTest('test_dd',conf, ifn, dfn, bifn, uid, lfn))
+    #s.addTest(utilities.UtilitiesTest('test_dd',conf, ifn, dfn, bifn, uid, lfn))
     s.addTest(atomics.AtomicsTest('test_ls_unexist_file',conf, ifn, dfn, bifn, uid, lfn))
-    #s.addTest(ut.UtilitiesTest('test_rm_lf',conf, ifn, dfn, bifn, uid, lfn))
+    #s.addTest(utilities.UtilitiesTest('test_rm_lf',conf, ifn, dfn, bifn, uid, lfn))
     return s
 
 def ts_mkdir(conf, ifn, dfn, bifn, uid, lfn):
     s = unittest.TestSuite()
-    #s.addTest(ut.UtilitiesTest('test_dd',conf, ifn, dfn, bifn, uid, lfn))
+    #s.addTest(utilities.UtilitiesTest('test_dd',conf, ifn, dfn, bifn, uid, lfn))
     s.addTest(atomics.AtomicsTest('test_mkdir_dir',conf, ifn, dfn, bifn, uid, lfn))
     s.addTest(atomics.AtomicsTest('test_rm_dir',conf, ifn, dfn, bifn, uid, lfn))
-    #s.addTest(ut.UtilitiesTest('test_rm_lf',conf, ifn, dfn, bifn, uid, lfn))
+    #s.addTest(utilities.UtilitiesTest('test_rm_lf',conf, ifn, dfn, bifn, uid, lfn))
     return s
 
 def ts_mkdir_exist(conf, ifn, dfn, bifn, uid, lfn):
     s = unittest.TestSuite()
-    #s.addTest(ut.UtilitiesTest('test_dd',conf, ifn, dfn, bifn, uid, lfn))
+    #s.addTest(utilities.UtilitiesTest('test_dd',conf, ifn, dfn, bifn, uid, lfn))
     s.addTest(atomics.AtomicsTest('test_mkdir_dir',conf, ifn, dfn, bifn, uid, lfn))
     s.addTest(atomics.AtomicsTest('test_mkdir_exist_dir',conf, ifn, dfn, bifn, uid, lfn))
     s.addTest(atomics.AtomicsTest('test_rm_dir',conf, ifn, dfn, bifn, uid, lfn))
-    #s.addTest(ut.UtilitiesTest('test_rm_lf',conf, ifn, dfn, bifn, uid, lfn))
+    #s.addTest(utilities.UtilitiesTest('test_rm_lf',conf, ifn, dfn, bifn, uid, lfn))
     return s
 
 def ts_ls_dir(conf, ifn, dfn, bifn, uid, lfn):
     s = unittest.TestSuite()
-    #s.addTest(ut.UtilitiesTest('test_dd',conf, ifn, dfn, bifn, uid, lfn))
+    #s.addTest(utilities.UtilitiesTest('test_dd',conf, ifn, dfn, bifn, uid, lfn))
     s.addTest(atomics.AtomicsTest('test_mkdir_dir',conf, ifn, dfn, bifn, uid, lfn))
     s.addTest(atomics.AtomicsTest('test_mkdir_exist_dir',conf, ifn, dfn, bifn, uid, lfn))
     s.addTest(atomics.AtomicsTest('test_ls_dir',conf, ifn, dfn, bifn, uid, lfn))
     s.addTest(atomics.AtomicsTest('test_rm_dir',conf, ifn, dfn, bifn, uid, lfn))
-    #s.addTest(ut.UtilitiesTest('test_rm_lf',conf, ifn, dfn, bifn, uid, lfn))
+    #s.addTest(utilities.UtilitiesTest('test_rm_lf',conf, ifn, dfn, bifn, uid, lfn))
     return s
 
 def ts_cp_out(conf, ifn, dfn, bifn, uid, lfn):
@@ -74,7 +74,7 @@ def ts_ls_file(conf, ifn, dfn, bifn, uid, lfn):
     s.addTest(atomics.AtomicsTest('test_ls_file',conf, ifn, dfn, bifn, uid, lfn))
     s.addTest(atomics.AtomicsTest('test_rm_file',conf, ifn, dfn, bifn, uid, lfn))
     s.addTest(atomics.AtomicsTest('test_rm_dir',conf, ifn, dfn, bifn, uid, lfn))
-    s.addTest(ut.UtilitiesTest('test_rm_lf',conf, ifn, dfn, bifn, uid, lfn))
+    s.addTest(utilities.UtilitiesTest('test_rm_lf',conf, ifn, dfn, bifn, uid, lfn))
     return s
 
 def ts_rm_file(conf, ifn, dfn, bifn, uid, lfn):

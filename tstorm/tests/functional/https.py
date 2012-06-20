@@ -23,12 +23,10 @@ class HttpsTest(unittest.TestCase):
         self.voms = voms
 
     def test_srm_transfer_outbound_http(self):
-        self.lfn.put_name('SRM TRANSFER OUTBOUND HTTP')
-        des = '''Verify that the file has been transferred by using the http
-protocol.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_srm_transfer_outbound_http'][5])
+        self.lfn.put_description(self.uid['test_srm_transfer_outbound_http'][6])
         if self.uid.has_key('test_srm_transfer_outbound_http'):
-            self.lfn.put_uuid(self.uid['test_srm_transfer_outbound_http'])
+            self.lfn.put_uuid(self.uid['test_srm_transfer_outbound_http'][0])
         else:
             print 'ADD UID for test_srm_transfer_outbound_http'
             self.lfn.put_uuid(utils.get_uuid())        
@@ -68,11 +66,10 @@ protocol.'''
         self.lfn.flush_file()
 
     def test_direct_transfer_outbound_http(self):
-        self.lfn.put_name('DIRECT TRANSFER OUTBOUND HTTP')
-        des = '''Verify that the file has been transferred by using http.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_direct_transfer_outbound_http'][5])
+        self.lfn.put_description(self.uid['test_direct_transfer_outbound_http'][6])
         if self.uid.has_key('test_direct_transfer_outbound_http'):
-            self.lfn.put_uuid(self.uid['test_direct_transfer_outbound_http'])
+            self.lfn.put_uuid(self.uid['test_direct_transfer_outbound_http'][0])
         else:
             print 'ADD UID for test_direct_transfer_outbound_http'
             self.lfn.put_uuid(utils.get_uuid())
@@ -91,12 +88,10 @@ protocol.'''
         self.lfn.flush_file()
 
     def test_direct_transfer_outbound_http_exist_file(self):
-        self.lfn.put_name('DIRECT TRANSFER OUTBOUND HTTP')
-        des = '''Verify that the file has been transferred by using http,
-when file exists.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_direct_transfer_outbound_http_exist_file'][5])
+        self.lfn.put_description(self.uid['test_direct_transfer_outbound_http_exist_file'][6])
         if self.uid.has_key('test_direct_transfer_outbound_http_exist_file'):
-            self.lfn.put_uuid(self.uid['test_direct_transfer_outbound_http_exist_file'])
+            self.lfn.put_uuid(self.uid['test_direct_transfer_outbound_http_exist_file'][0])
         else:
             print 'ADD UID for test_direct_transfer_outbound_http_exist_file'
             self.lfn.put_uuid(utils.get_uuid())
@@ -113,11 +108,10 @@ when file exists.'''
         self.lfn.flush_file()
 
     def test_direct_transfer_inbound_http(self):
-        self.lfn.put_name('DIRECT TRANSFER INBOUND HTTP')
-        des = '''Verify that the file has been transferred back by using http.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_direct_transfer_inbound_http'][5])
+        self.lfn.put_description(self.uid['test_direct_transfer_inbound_http'][6])
         if self.uid.has_key('test_direct_transfer_inbound_http'):
-            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_http'])
+            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_http'][0])
         else:
             print 'ADD UID for test_direct_transfer_inbound_http'
             self.lfn.put_uuid(utils.get_uuid())
@@ -134,12 +128,10 @@ when file exists.'''
         self.lfn.flush_file()
 
     def test_direct_transfer_inbound_http_unexist_file(self):
-        self.lfn.put_name('DIRECT TRANSFER INBOUND HTTP')
-        des = '''Verify that the file has not been transferred back by using
-http, when file does not exist.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_direct_transfer_inbound_http_unexist_file'][5])
+        self.lfn.put_description(self.uid['test_direct_transfer_inbound_http_unexist_file'][6])
         if self.uid.has_key('test_direct_transfer_inbound_http_unexist_file'):
-            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_http_unexist_file'])
+            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_http_unexist_file'][0])
         else:
             print 'ADD UID for test_direct_transfer_inbound_http_unexist_file'
             self.lfn.put_uuid(utils.get_uuid())
@@ -158,11 +150,10 @@ http, when file does not exist.'''
         self.lfn.flush_file()
 
     def test_srm_transfer_inbound_http(self):
-        self.lfn.put_name('SRM TRANSFER INBOUND HTTP')
-        des = '''Verify that the file has been transferred back by using http.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_srm_transfer_inbound_http'][5])
+        self.lfn.put_description(self.uid['test_srm_transfer_inbound_http'][6])
         if self.uid.has_key('test_srm_transfer_inbound_http'):
-            self.lfn.put_uuid(self.uid['test_srm_transfer_inbound_http'])
+            self.lfn.put_uuid(self.uid['test_srm_transfer_inbound_http'][0])
         else:
             print 'ADD UID for test_srm_transfer_inbound_http'
             self.lfn.put_uuid(utils.get_uuid())
@@ -196,11 +187,10 @@ http, when file does not exist.'''
         self.lfn.flush_file()
 
     def test_srm_transfer_outbound_https(self):
-        self.lfn.put_name('SRM TRANSFER OUTBOUND HTTPS')
-        des = '''Verify that the file has been transferred by using https.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_srm_transfer_outbound_https'][5])
+        self.lfn.put_description(self.uid['test_srm_transfer_outbound_https'][6])
         if self.uid.has_key('test_srm_transfer_outbound_https'):
-            self.lfn.put_uuid(self.uid['test_srm_transfer_outbound_https'])
+            self.lfn.put_uuid(self.uid['test_srm_transfer_outbound_https'][0])
         else:
             print 'ADD UID for test_srm_transfer_outbound_https'
             self.lfn.put_uuid(utils.get_uuid())
@@ -240,11 +230,10 @@ http, when file does not exist.'''
         self.lfn.flush_file()
 
     def test_direct_transfer_outbound_https(self):
-        self.lfn.put_name('DIRECT TRANSFER OUTBOUND HTTPS')
-        des = '''Verify that the file has been transferred by using https.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_direct_transfer_outbound_https'][5])
+        self.lfn.put_description(self.uid['test_direct_transfer_outbound_https'][6])
         if self.uid.has_key('test_direct_transfer_outbound_https'):
-            self.lfn.put_uuid(self.uid['test_direct_transfer_outbound_https'])
+            self.lfn.put_uuid(self.uid['test_direct_transfer_outbound_https'][0])
         else:
             print 'ADD UID for test_direct_transfer_outbound_https'
             self.lfn.put_uuid(utils.get_uuid())
@@ -263,12 +252,10 @@ http, when file does not exist.'''
         self.lfn.flush_file()
 
     def test_direct_transfer_outbound_https_exist_file(self):
-        self.lfn.put_name('DIRECT TRANSFER OUTBOUND HTTPS')
-        des = '''Verify that the file has been transferred by using https,
-when the file exists.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_direct_transfer_outbound_https_exist_file'][5])
+        self.lfn.put_description(self.uid['test_direct_transfer_outbound_https_exist_file'][6])
         if self.uid.has_key('test_direct_transfer_outbound_https_exist_file'):
-            self.lfn.put_uuid(self.uid['test_direct_transfer_outbound_https_exist_file'])
+            self.lfn.put_uuid(self.uid['test_direct_transfer_outbound_https_exist_file'][0])
         else:
             print 'ADD UID for test_direct_transfer_outbound_https_exist_file'
             self.lfn.put_uuid(utils.get_uuid())
@@ -285,11 +272,10 @@ when the file exists.'''
         self.lfn.flush_file()
 
     def test_direct_transfer_inbound_https(self):
-        self.lfn.put_name('DIRECT TRANSFER INBOUND HTTPS')
-        des = '''Verify that the file has been transferred back by using https.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_direct_transfer_inbound_https'][5])
+        self.lfn.put_description(self.uid['test_direct_transfer_inbound_https'][6])
         if self.uid.has_key('test_direct_transfer_inbound_https'):
-            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_https'])
+            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_https'][0])
         else:
             print 'ADD UID for test_direct_transfer_inbound_https'
             self.lfn.put_uuid(utils.get_uuid())
@@ -306,12 +292,10 @@ when the file exists.'''
         self.lfn.flush_file()
 
     def test_direct_transfer_inbound_https_no_auth(self):
-        self.lfn.put_name('DIRECT TRANSFER INBOUND HTTPS')
-        des = '''Verify that the file has been transferred back by using https
-without authorization.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_direct_transfer_inbound_https_no_auth'][5])
+        self.lfn.put_description(self.uid['test_direct_transfer_inbound_https_no_auth'][6])
         if self.uid.has_key('test_direct_transfer_inbound_https_no_auth'):
-            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_https_no_auth'])
+            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_https_no_auth'][0])
         else:
             print 'ADD UID for test_direct_transfer_inbound_https_no_auth'
             self.lfn.put_uuid(utils.get_uuid())
@@ -328,12 +312,10 @@ without authorization.'''
         self.lfn.flush_file()
 
     def test_direct_transfer_inbound_https_unexist_file(self):
-        self.lfn.put_name('DIRECT TRANSFER INBOUND HTTPS')
-        des = '''Verify that the file has been transferred back by using https,
-when file does not exist.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_direct_transfer_inbound_https_unexist_file'][5])
+        self.lfn.put_description(self.uid['test_direct_transfer_inbound_https_unexist_file'][6])
         if self.uid.has_key('test_direct_transfer_inbound_https_unexist_file'):
-            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_https_unexist_file'])
+            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_https_unexist_file'][0])
         else:
             print 'ADD UID for test_direct_transfer_inbound_https_unexist_file'
             self.lfn.put_uuid(utils.get_uuid())
@@ -352,11 +334,10 @@ when file does not exist.'''
         self.lfn.flush_file()
 
     def test_srm_transfer_inbound_https(self):
-        self.lfn.put_name('SRM TRANSFER INBOUND HTTPS')
-        des = '''Verify that the file has been transferred back by using https.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_srm_transfer_inbound_https'][5])
+        self.lfn.put_description(self.uid['test_srm_transfer_inbound_https'][6])
         if self.uid.has_key('test_srm_transfer_inbound_https'):
-            self.lfn.put_uuid(self.uid['test_srm_transfer_inbound_https'])
+            self.lfn.put_uuid(self.uid['test_srm_transfer_inbound_https'][0])
         else:
             print 'ADD UID for test_srm_transfer_inbound_https'
             self.lfn.put_uuid(utils.get_uuid())
@@ -390,12 +371,10 @@ when file does not exist.'''
         self.lfn.flush_file()
 
     def test_srm_transfer_outbound_https_voms(self):
-        self.lfn.put_name('SRM TRANSFER OUTBOUND HTTPS')
-        des = '''Verify that the file has been transferred back by using https
-with voms.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_srm_transfer_outbound_https_voms'][5])
+        self.lfn.put_description(self.uid['test_srm_transfer_outbound_https_voms'][6])
         if self.uid.has_key('test_srm_transfer_outbound_https_voms'):
-            self.lfn.put_uuid(self.uid['test_srm_transfer_outbound_https_voms'])
+            self.lfn.put_uuid(self.uid['test_srm_transfer_outbound_https_voms'][0])
         else:
             print 'ADD UID for test_srm_transfer_outbound_https_voms'
             self.lfn.put_uuid(utils.get_uuid())
@@ -435,12 +414,10 @@ with voms.'''
         self.lfn.flush_file()
 
     def test_direct_transfer_outbound_https_voms(self):
-        self.lfn.put_name('DIRECT TRANSFER OUTBOUND HTTPS')
-        des = '''Verify that the file has been transferred by using https
-with voms.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_direct_transfer_outbound_https_voms'][5])
+        self.lfn.put_description(self.uid['test_direct_transfer_outbound_https_voms'][6])
         if self.uid.has_key('test_direct_transfer_outbound_https_voms'):
-            self.lfn.put_uuid(self.uid['test_direct_transfer_outbound_https_voms'])
+            self.lfn.put_uuid(self.uid['test_direct_transfer_outbound_https_voms'][0])
         else:
             print 'ADD UID for test_direct_transfer_outbound_https_voms'
             self.lfn.put_uuid(utils.get_uuid())
@@ -459,12 +436,10 @@ with voms.'''
         self.lfn.flush_file()
 
     def test_direct_transfer_outbound_https_voms_exist_file(self):
-        self.lfn.put_name('DIRECT TRANSFER OUTBOUND HTTPS')
-        des = '''Verify that the file has been transferred by using https
-with voms when file exists.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_direct_transfer_outbound_https_voms_exist_file'][5])
+        self.lfn.put_description(self.uid['test_direct_transfer_outbound_https_voms_exist_file'][6])
         if self.uid.has_key('test_direct_transfer_outbound_https_voms_exist_file'):
-            self.lfn.put_uuid(self.uid['test_direct_transfer_outbound_https_voms_exist_file'])
+            self.lfn.put_uuid(self.uid['test_direct_transfer_outbound_https_voms_exist_file'][0])
         else:
             print 'ADD UID for test_direct_transfer_outbound_https_voms_exist_file'
             self.lfn.put_uuid(utils.get_uuid())
@@ -481,12 +456,10 @@ with voms when file exists.'''
         self.lfn.flush_file()
 
     def test_direct_transfer_inbound_https_voms(self):
-        self.lfn.put_name('DIRECT TRANSFER INBOUND HTTPS')
-        des = '''Verify that the file has been transferred back by using https
-with voms.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_direct_transfer_inbound_https_voms'][5])
+        self.lfn.put_description(self.uid['test_direct_transfer_inbound_https_voms'][6])
         if self.uid.has_key('test_direct_transfer_inbound_https_voms'):
-            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_https_voms'])
+            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_https_voms'][0])
         else:
             print 'ADD UID for test_direct_transfer_inbound_https_voms'
             self.lfn.put_uuid(utils.get_uuid())
@@ -503,12 +476,10 @@ with voms.'''
         self.lfn.flush_file()
 
     def test_direct_transfer_inbound_https_voms_no_auth(self):
-        self.lfn.put_name('DIRECT TRANSFER INBOUND HTTPS')
-        des = '''Verify that the file has been transferred back by using https
-with voms without authorization.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_direct_transfer_inbound_https_voms_no_auth'][5])
+        self.lfn.put_description(self.uid['test_direct_transfer_inbound_https_voms_no_auth'][6])
         if self.uid.has_key('test_direct_transfer_inbound_https_voms_no_auth'):
-            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_https_voms_no_auth'])
+            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_https_voms_no_auth'][0])
         else:
             print 'ADD UID for test_direct_transfer_inbound_https_voms_no_auth'
             self.lfn.put_uuid(utils.get_uuid())
@@ -525,12 +496,10 @@ with voms without authorization.'''
         self.lfn.flush_file()
 
     def test_direct_transfer_inbound_https_voms_unexist_file(self):
-        self.lfn.put_name('DIRECT TRANSFER INBOUND HTTPS')
-        des = '''Verify that the file has been transferred back by using https
-with voms when file does not exist.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_direct_transfer_inbound_https_voms_unexist_file'][5])
+        self.lfn.put_description(self.uid['test_direct_transfer_inbound_https_voms_unexist_file'][6])
         if self.uid.has_key('test_direct_transfer_inbound_https_voms_unexist_file'):
-            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_https_voms_unexist_file'])
+            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_https_voms_unexist_file'][0])
         else:
             print 'ADD UID for test_direct_transfer_inbound_https_voms_unexist_file'
             self.lfn.put_uuid(utils.get_uuid())
@@ -549,12 +518,10 @@ with voms when file does not exist.'''
         self.lfn.flush_file()
 
     def test_srm_transfer_inbound_https_voms(self):
-        self.lfn.put_name('SRM TRANSFER INBOUND HTTPS')
-        des = '''Verify that the file has been transferred back by using https
-with voms.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_srm_transfer_inbound_https_voms'][5])
+        self.lfn.put_description(self.uid['test_srm_transfer_inbound_https_voms'][6])
         if self.uid.has_key('test_srm_transfer_inbound_https_voms'):
-            self.lfn.put_uuid(self.uid['test_srm_transfer_inbound_https_voms'])
+            self.lfn.put_uuid(self.uid['test_srm_transfer_inbound_https_voms'][0])
         else:
             print 'ADD UID for test_srm_transfer_inbound_https_voms'
             self.lfn.put_uuid(utils.get_uuid())

@@ -27,10 +27,10 @@ class AtomicsTest(unittest.TestCase):
         self.lfn = lfn
 
     def test_dcache_ping(self):
-        self.lfn.put_name('SRM PING')
-        self.lfn.put_description('Verify ping operation')
+        self.lfn.put_name(self.uid['test_dcache_ping'][5])
+        self.lfn.put_description(self.uid['test_dcache_ping'][6])
         if self.uid.has_key('test_dcache_ping'):
-            self.lfn.put_uuid(self.uid['test_dcache_ping'])
+            self.lfn.put_uuid(self.uid['test_dcache_ping'][0])
         else:
             print 'ADD UID for test_dcache_ping'
             self.lfn.put_uuid(utils.get_uuid())        
@@ -49,10 +49,10 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_storm_ping(self):
-        self.lfn.put_name('SRM PING')
-        self.lfn.put_description('Verify ping operation')
+        self.lfn.put_name(self.uid['test_storm_ping'][5])
+        self.lfn.put_description(self.uid['test_storm_ping'][6])
         if self.uid.has_key('test_storm_ping'):
-            self.lfn.put_uuid(self.uid['test_storm_ping'])
+            self.lfn.put_uuid(self.uid['test_storm_ping'][0])
         else:
             print 'ADD UID for test_storm_ping'
             self.lfn.put_uuid(utils.get_uuid())
@@ -73,10 +73,10 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_storm_ping_wo(self):
-        self.lfn.put_name('SRM PING')
-        self.lfn.put_description('Verify ping operation with wrong option')
+        self.lfn.put_name(self.uid['test_storm_ping_wo'][5])
+        self.lfn.put_description(self.uid['test_storm_ping_wo'][6])
         if self.uid.has_key('test_storm_ping_wo'):
-            self.lfn.put_uuid(self.uid['test_storm_ping_wo'])
+            self.lfn.put_uuid(self.uid['test_storm_ping_wo'][0])
         else:
             print 'ADD UID for test_storm_ping_wo'
             self.lfn.put_uuid(utils.get_uuid())
@@ -91,10 +91,10 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_storm_gtp(self):
-        self.lfn.put_name('SRM GET TRANSFER PROTOCOLS')
-        self.lfn.put_description('Verify gtp operation')
+        self.lfn.put_name(self.uid['test_storm_gtp'][5])
+        self.lfn.put_description(self.uid['test_storm_gtp'][6])
         if self.uid.has_key('test_storm_gtp'):
-            self.lfn.put_uuid(self.uid['test_storm_gtp'])
+            self.lfn.put_uuid(self.uid['test_storm_gtp'][0])
         else:
             print 'ADD UID for test_storm_gtp'
             self.lfn.put_uuid(utils.get_uuid())
@@ -110,10 +110,10 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_storm_gtp_wo(self):
-        self.lfn.put_name('SRM GET TRANSFER PROTOCOLS')
-        self.lfn.put_description('Verify gtp operation with wrong option')
+        self.lfn.put_name(self.uid['test_storm_gtp_wo'][5])
+        self.lfn.put_description(self.uid['test_storm_gtp_wo'][6])
         if self.uid.has_key('test_storm_gtp_wo'):
-            self.lfn.put_uuid(self.uid['test_storm_gtp_wo'])
+            self.lfn.put_uuid(self.uid['test_storm_gtp_wo'][0])
         else:
             print 'ADD UID for test_storm_gtp_wo'
             self.lfn.put_uuid(utils.get_uuid())
@@ -128,11 +128,10 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_ls_unexist_file(self):
-        self.lfn.put_name('SRM LS')
-        des = 'Verify ls operation on a file that does not exist'
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_ls_unexist_file'][5])
+        self.lfn.put_description(self.uid['test_ls_unexist_file'][6])
         if self.uid.has_key('test_ls_unexist_file'):
-            self.lfn.put_uuid(self.uid['test_ls_unexist_file'])
+            self.lfn.put_uuid(self.uid['test_ls_unexist_file'][0])
         else:
             print 'ADD UID for test_ls_unexist_file'
             self.lfn.put_uuid(utils.get_uuid())
@@ -148,11 +147,10 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_ls_unexist_dir(self):
-        self.lfn.put_name('SRM LS')
-        des = 'Verify ls operation on a directory that does not exist'
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_ls_unexist_dir'][5])
+        self.lfn.put_description(self.uid['test_ls_unexist_dir'][6])
         if self.uid.has_key('test_ls_unexist_dir'):
-            self.lfn.put_uuid(self.uid['test_ls_unexist_dir'])
+            self.lfn.put_uuid(self.uid['test_ls_unexist_dir'][0])
         else:
             print 'ADD UID for test_ls_unexist_dir'
             self.lfn.put_uuid(utils.get_uuid())
@@ -170,11 +168,10 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_mkdir_dir(self):
-        self.lfn.put_name('SRM MKDIR')
-        des = 'Verify mkdir operation on a directory'
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_mkdir_dir'][5])
+        self.lfn.put_description(self.uid['test_mkdir_dir'][6])
         if self.uid.has_key('test_mkdir_dir'):
-            self.lfn.put_uuid(self.uid['test_mkdir_dir'])
+            self.lfn.put_uuid(self.uid['test_mkdir_dir'][0])
         else:
             print 'ADD UID for test_mkdir_dir'
             self.lfn.put_uuid(utils.get_uuid())
@@ -201,11 +198,10 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_mkdir_exist_dir(self):
-        self.lfn.put_name('SRM MKDIR')
-        des = 'Verify mkdir operation on a directory that already exists'
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_mkdir_exist_dir'][5])
+        self.lfn.put_description(self.uid['test_mkdir_exist_dir'][6])
         if self.uid.has_key('test_mkdir_exist_dir'):
-            self.lfn.put_uuid(self.uid['test_mkdir_exist_dir'])
+            self.lfn.put_uuid(self.uid['test_mkdir_exist_dir'][0])
         else:
             print 'ADD UID for test_mkdir_exist_dir'
             self.lfn.put_uuid(utils.get_uuid())
@@ -232,11 +228,10 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_ls_dir(self):
-        self.lfn.put_name('SRM LS')
-        des = 'Verify ls operation on a directory that exists'
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_ls_dir'][5])
+        self.lfn.put_description(self.uid['test_ls_dir'][6])
         if self.uid.has_key('test_ls_dir'):
-            self.lfn.put_uuid(self.uid['test_ls_dir'])
+            self.lfn.put_uuid(self.uid['test_ls_dir'][0])
         else:
             print 'ADD UID for test_ls_dir'
             self.lfn.put_uuid(utils.get_uuid())
@@ -254,11 +249,10 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_cp_bt(self):
-        self.lfn.put_name('SRM CP')
-        des = 'Verify cp operation of a given file on a given storage'
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_cp_bt'][5])
+        self.lfn.put_description(self.uid['test_cp_bt'][6])
         if self.uid.has_key('test_cp_bt'):
-            self.lfn.put_uuid(self.uid['test_cp_bt'])
+            self.lfn.put_uuid(self.uid['test_cp_bt'][0])
         else:
             print 'ADD UID for test_cp_bt'
             self.lfn.put_uuid(utils.get_uuid())
@@ -275,11 +269,10 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_ls_file(self):
-        self.lfn.put_name('SRM LS')
-        des = 'Verify ls operation on a file that exists'
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_ls_file'][5])
+        self.lfn.put_description(self.uid['test_ls_file'][6])
         if self.uid.has_key('test_ls_file'):
-            self.lfn.put_uuid(self.uid['test_ls_file'])
+            self.lfn.put_uuid(self.uid['test_ls_file'][0])
         else:
             print 'ADD UID for test_ls_file'
             self.lfn.put_uuid(utils.get_uuid())
@@ -299,11 +292,10 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_cp_at(self):
-        self.lfn.put_name('SRM CP')
-        des = 'Verify cp operation of a given file locally'
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_cp_at'][5])
+        self.lfn.put_description(self.uid['test_cp_at'][6])
         if self.uid.has_key('test_cp_at'):
-            self.lfn.put_uuid(self.uid['test_cp_at'])
+            self.lfn.put_uuid(self.uid['test_cp_at'][0])
         else:
             print 'ADD UID for test_cp_at'
             self.lfn.put_uuid(utils.get_uuid())
@@ -320,11 +312,10 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_rm_file(self):
-        self.lfn.put_name('SRM RM')
-        des = 'Verify rm operation of a given file'
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_rm_file'][5])
+        self.lfn.put_description(self.uid['test_rm_file'][6])
         if self.uid.has_key('test_rm_file'):
-            self.lfn.put_uuid(self.uid['test_rm_file'])
+            self.lfn.put_uuid(self.uid['test_rm_file'][0])
         else:
             print 'ADD UID for test_rm_file'
             self.lfn.put_uuid(utils.get_uuid())
@@ -340,11 +331,10 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_rm_unexist_file(self):
-        self.lfn.put_name('SRM RM')
-        des = 'Verify rm operation of a file that does not exist'
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_rm_unexist_file'][5])
+        self.lfn.put_description(self.uid['test_rm_unexist_file'][6])
         if self.uid.has_key('test_rm_unexist_file'):
-            self.lfn.put_uuid(self.uid['test_rm_unexist_file'])
+            self.lfn.put_uuid(self.uid['test_rm_unexist_file'][0])
         else:
             print 'ADD UID for test_rm_unexist_file'
             self.lfn.put_uuid(utils.get_uuid())
@@ -360,11 +350,10 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_rm_dir(self):
-        self.lfn.put_name('SRM RMDIR')
-        des = 'Verify rmdir operation of a given directory'
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_rm_dir'][5])
+        self.lfn.put_description(self.uid['test_rm_dir'][6])
         if self.uid.has_key('test_rm_dir'):
-            self.lfn.put_uuid(self.uid['test_rm_dir'])
+            self.lfn.put_uuid(self.uid['test_rm_dir'][0])
         else:
             print 'ADD UID for test_rm_dir'
             self.lfn.put_uuid(utils.get_uuid())
@@ -388,11 +377,10 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_rm_unexist_dir(self):
-        self.lfn.put_name('SRM RMDIR')
-        des = 'Verify rmdir operation of a directory that does not exist'
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_rm_unexist_dir'][5])
+        self.lfn.put_description(self.uid['test_rm_unexist_dir'][6])
         if self.uid.has_key('test_rm_unexist_dir'):
-            self.lfn.put_uuid(self.uid['test_rm_unexist_dir'])
+            self.lfn.put_uuid(self.uid['test_rm_unexist_dir'][0])
         else:
             print 'ADD UID for test_rm_unexist_dir'
             self.lfn.put_uuid(utils.get_uuid())

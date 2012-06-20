@@ -18,10 +18,10 @@ class UtilitiesTest(unittest.TestCase):
         self.lfn = lfn
     
     def test_settings(self):
-        self.lfn.put_name('CONFIGURATION INI FILE CORRECTNESS')
-        self.lfn.put_description('Verify the content of test ini file')
+        self.lfn.put_name(self.uid['test_settings'][5])
+        self.lfn.put_description(self.uid['test_settings'][6])
         if self.uid.has_key('test_settings'):
-            self.lfn.put_uuid(self.uid['test_settings'])
+            self.lfn.put_uuid(self.uid['test_settings'][0])
         else:
             print 'ADD UID for test_settings'
             self.lfn.put_uuid(utils.get_uuid())
@@ -38,10 +38,10 @@ class UtilitiesTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_dd(self):
-        self.lfn.put_name('CREATE A FILE OF A GIVEN SIZE')
-        self.lfn.put_description('Verify the creation of a file with a given size')
+        self.lfn.put_name(self.uid['test_dd'][5])
+        self.lfn.put_description(self.uid['test_dd'][6])
         if self.uid.has_key('test_dd'):
-            self.lfn.put_uuid(self.uid['test_dd'])
+            self.lfn.put_uuid(self.uid['test_dd'][0])
         else:
             print 'ADD UID for test_dd'
             self.lfn.put_uuid(utils.get_uuid())
@@ -56,10 +56,10 @@ class UtilitiesTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_cr_lf(self):
-        self.lfn.put_name('CREATE A FILE WITH A CHAR')
-        self.lfn.put_description('Verify the creation of a file with a char')
+        self.lfn.put_name(self.uid['test_cr_lf'][5])
+        self.lfn.put_description(self.uid['test_cr_lf'][6])
         if self.uid.has_key('test_cr_lf'):
-            self.lfn.put_uuid(self.uid['test_cr_lf'])
+            self.lfn.put_uuid(self.uid['test_cr_lf'][0])
         else:
             print 'ADD UID for test_cr_lf'
             self.lfn.put_uuid(utils.get_uuid())
@@ -72,10 +72,10 @@ class UtilitiesTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_rm_lf(self):
-        self.lfn.put_name('DELETE A LOCAL FILE')
-        self.lfn.put_description('Verify the deletion of a local file')
+        self.lfn.put_name(self.uid['test_rm_lf'][5])
+        self.lfn.put_description(self.uid['test_rm_lf'][6])
         if self.uid.has_key('test_rm_lf'):
-            self.lfn.put_uuid(self.uid['test_rm_lf'])
+            self.lfn.put_uuid(self.uid['test_rm_lf'][0])
         else:
             print 'ADD UID for test_rm_lf'
             self.lfn.put_uuid(utils.get_uuid())

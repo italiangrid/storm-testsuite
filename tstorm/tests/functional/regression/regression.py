@@ -29,14 +29,10 @@ class RegressionTest(unittest.TestCase):
         self.lfn = lfn
 
     def test_eight_digit_string_checksum(self):
-        self.lfn.put_name('COMPARISON BUG IN LCG-CR COPYING TO STORM')
-        des = '''The StoRM GridFTP component stores the checksum value computed during 
-the file transfer as a long number, discarding in this way leading zeroes. The
-default ADLER32 checksum match algorithm considers checksum values as strings so the 
-leading zeroes matters.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_eight_digit_string_checksum'][5])
+        self.lfn.put_description(self.uid['test_eight_digit_string_checksum'][6])
         if self.uid.has_key('test_eight_digit_string_checksum'):
-            self.lfn.put_uuid(self.uid['test_eight_digit_string_checksum'])
+            self.lfn.put_uuid(self.uid['test_eight_digit_string_checksum'][0])
         else:
             print 'ADD UID for test_eight_digit_string_checksum'
             self.lfn.put_uuid(utils.get_uuid())
@@ -96,12 +92,10 @@ leading zeroes matters.'''
         self.lfn.flush_file()
 
     def test_update_free_space_upon_rm(self):
-        self.lfn.put_name('INCORRECT INFORMATION PUBLISHED BY STORM')
-        des = '''StoRM does not publish correctly values for used and free space on the
- BDII due to a bug in the update of the free space after the the srmRm operation'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_update_free_space_upon_rm'][5])
+        self.lfn.put_description(self.uid['test_update_free_space_upon_rm'][6])
         if self.uid.has_key('test_update_free_space_upon_rm'):
-            self.lfn.put_uuid(self.uid['test_update_free_space_upon_rm'])
+            self.lfn.put_uuid(self.uid['test_update_free_space_upon_rm'][0])
         else:
             print 'ADD UID for test_update_free_space_upon_rm'
             self.lfn.put_uuid(utils.get_uuid())
@@ -191,13 +185,10 @@ leading zeroes matters.'''
         self.lfn.flush_file()
 
     def test_update_used_space_upon_pd(self):
-        self.lfn.put_name('STORM BUG: SPACE TOKEN USED SPACE IS NOT UPDATE')
-        des = '''StoRM does not provides updated used space value for Space Token
-due to a bug in the update of the used space after the the srmPutDone 
-operation.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_update_used_space_upon_pd'][5])
+        self.lfn.put_description(self.uid['test_update_used_space_upon_pd'][6])
         if self.uid.has_key('test_update_used_space_upon_pd'):
-            self.lfn.put_uuid(self.uid['test_update_used_space_upon_pd'])
+            self.lfn.put_uuid(self.uid['test_update_used_space_upon_pd'][0])
         else:
             print 'ADD UID for test_update_used_space_upon_pd'
             self.lfn.put_uuid(utils.get_uuid())
@@ -279,17 +270,10 @@ operation.'''
         self.lfn.flush_file()
 
     def test_unsupported_protocols(self):
-        name = '''STORM BUG: SRM TRANSFER COMMANDS DOES NOT REPORT ERRONEOUS 
-PROTOCOL REQUESTS'''
-        self.lfn.put_name(name)
-        des = '''StoRM does not returns SRM_NOT_SUPPORTED error code when file 
-transfer operation (srmPrepareToPut, srmPrepareToGet, srmBringOnline) are 
-called providing a list of not supported desired transfer protocols to a 
-bug in the management of file transfer operation. StoRM does not verifies 
-if the provided protocols are supported.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_unsupported_protocols'][5])
+        self.lfn.put_description(self.uid['test_unsupported_protocols'][6])
         if self.uid.has_key('test_unsupported_protocols'):
-            self.lfn.put_uuid(self.uid['test_unsupported_protocols'])
+            self.lfn.put_uuid(self.uid['test_unsupported_protocols'][0])
         else:
             print 'ADD UID for test_update_unsupported_protocols'
             self.lfn.put_uuid(utils.get_uuid())
@@ -308,15 +292,10 @@ if the provided protocols are supported.'''
         self.lfn.flush_file()
 
     def test_both_sup_and_unsup_protocols(self):
-        name = '''STORM FRONTEND PRODUCES HUGE LOG FILE WHEN MANAGING REQUESTS 
-THAT CONTAIN SUPPORTED PROTOCOLS'''
-        self.lfn.put_name(name)
-        des = '''StoRM produced huge log file when file transfer operation
-(srmPrepareToPut, srmPrepareToGet, srmBringOnline) are called with a list of
-desired transfered protocols.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_both_sup_and_unsup_protocols'][5])
+        self.lfn.put_description(self.uid['test_both_sup_and_unsup_protocols'][6])
         if self.uid.has_key('test_both_sup_and_unsup_protocols'):
-            self.lfn.put_uuid(self.uid['test_both_sup_and_unsup_protocols'])
+            self.lfn.put_uuid(self.uid['test_both_sup_and_unsup_protocols'][0])
         else:
             print 'ADD UID for test_both_sup_and_unsup_protocols'
             self.lfn.put_uuid(utils.get_uuid())
@@ -346,14 +325,10 @@ desired transfered protocols.'''
         self.lfn.flush_file()
 
     def test_non_ascii_chars(self):
-        name = '''STORM BUG: REQUEST WITH AUTHORIZATION ID PARAMETERS WITH 
-NON ASCII CHARACTERS MAKES FE CRASH'''
-        self.lfn.put_name(name)
-        des = '''StoRM Frontend crashes when managing asynchronous requests 
-providing string parameters containing non ASCII characters.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_non_ascii_chars'][5])
+        self.lfn.put_description(self.uid['test_non_ascii_chars'][6])
         if self.uid.has_key('test_non_ascii_chars'):
-            self.lfn.put_uuid(self.uid['test_non_ascii_chars'])
+            self.lfn.put_uuid(self.uid['test_non_ascii_chars'][0])
         else:
             print 'ADD UID for test_non_ascii_chars'
             self.lfn.put_uuid(utils.get_uuid())
@@ -361,7 +336,7 @@ providing string parameters containing non ASCII characters.'''
         self.lfn.put_output()
 
         storm_ls = ls.StoRMLs(self.tsets['general']['endpoint'],
-                   self.tsets['general']['accesspoint'], self.dfn + 'tèstèèà')
+                   self.tsets['general']['accesspoint'], self.dfn + 't3y8#')
         self.lfn.put_cmd(storm_ls.get_command())
         self.ls_result = storm_ls.get_output()
         self.assert_(self.ls_result['status'] == 'FAILURE')
@@ -381,12 +356,10 @@ providing string parameters containing non ASCII characters.'''
         self.lfn.flush_file()
 
     def test_storm_backend_age(self):
-        name = '''WRONG STORM BACKEND AGE RETURNED BY SRM PING'''
-        self.lfn.put_name(name)
-        des = '''Wrong the StoRM backend age returned by the command srm ping.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_storm_backend_age'][5])
+        self.lfn.put_description(self.uid['test_storm_backend_age'][6])
         if self.uid.has_key('test_storm_backend_age'):
-            self.lfn.put_uuid(self.uid['test_storm_backend_age'])
+            self.lfn.put_uuid(self.uid['test_storm_backend_age'][0])
         else:
             print 'ADD UID for test_storm_ackend_age'
             self.lfn.put_uuid(utils.get_uuid())
@@ -408,13 +381,10 @@ providing string parameters containing non ASCII characters.'''
         self.lfn.flush_file()
 
     def test_get_space_metadata_failure(self):
-        name = '''GET SPACE METADATA FAILURE WITHOUT VOMS EXTENSIONS'''
-        self.lfn.put_name(name)
-        des = '''StoRM Backend Server returns an exception when it receives a
-GetSpaceMetadata request without voms extension.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_get_space_metadata_failure'][5])
+        self.lfn.put_description(self.uid['test_get_space_metadata_failure'][6])
         if self.uid.has_key('test_get_space_metadata_failure'):
-            self.lfn.put_uuid(self.uid['test_get_space_metadata_failure'])
+            self.lfn.put_uuid(self.uid['test_get_space_metadata_failure'][0])
         else:
             print 'ADD UID for test_get_space_metadata_failure'
             self.lfn.put_uuid(utils.get_uuid())
@@ -439,13 +409,10 @@ GetSpaceMetadata request without voms extension.'''
         self.lfn.flush_file()
 
     def test_storm_database_password(self):
-        name = '''ERROR IN LOADING DATABASE PASSWORD'''
-        self.lfn.put_name(name)
-        des = '''StoRM Backend Server does not load database password
-correctly when its values is not the default one.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_storm_database_password'][5])
+        self.lfn.put_description(self.uid['test_storm_database_password'][6])
         if self.uid.has_key('test_storm_database_password'):
-            self.lfn.put_uuid(self.uid['test_storm_database_password'])
+            self.lfn.put_uuid(self.uid['test_storm_database_password'][0])
         else:
             print 'ADD UID for test_storm_database_password'
             self.lfn.put_uuid(utils.get_uuid())
@@ -484,13 +451,10 @@ correctly when its values is not the default one.'''
         self.lfn.flush_file()
 
     def test_storm_gridhttps_authorization_denied(self):
-        name = '''AUTHORIZATION REST SERVICE DENY AUTHORIZATION'''
-        self.lfn.put_name(name)
-        des = '''StoRM Backend Gridhttps does not work if the SA accesspoint
-is not included in the SA root path.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_storm_gridhttps_authorization_denied'][5])
+        self.lfn.put_description(self.uid['test_storm_gridhttps_authorization_denied'][6])
         if self.uid.has_key('test_storm_gridhttps_authorization_denied'):
-            self.lfn.put_uuid(self.uid['test_storm_gridhttps_authorization_denied'])
+            self.lfn.put_uuid(self.uid['test_storm_gridhttps_authorization_denied'][0])
         else:
             print 'ADD UID for test_storm_gridhttps_authorization_denied'
             self.lfn.put_uuid(utils.get_uuid())

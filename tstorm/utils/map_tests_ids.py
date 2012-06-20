@@ -399,14 +399,14 @@ class MapTestsIds:
                 'operation (srmPrepareToPut,srmPrepareToGet,' +
                 'srmBringOnline) are called with a list of desired ' +
                 'transfered protocols',
-                'TO BE VERIFIED'],
+                ''],
             "ts_non_ascii_chars":['2f6fe9',
                 False,'',
                 'STORM BUG: REQUEST WITH AUTHORIZATION ID PARAMETERS WITH ' +
                 'NON ASCII CHARACTERS MAKES FE CRASH',
                 'StoRM Frontend crashes when managing asynchronous requests ' +
                 'providing string parameters containing non ASCII characters',
-                'rt.ts_non_ascii_charss(tfn,ifn,dfn,back_ifn, uid, lfn)'],
+                'rt.ts_non_ascii_chars(tfn,ifn,dfn,back_ifn, uid, lfn)'],
             "ts_storm_backend_age":['915129',
                 False,'',
                 'WRONG STORM BACKEND AGE RETURNED BY SRM PING',

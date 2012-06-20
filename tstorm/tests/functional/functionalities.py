@@ -25,12 +25,10 @@ class FunctionalitiesTest(unittest.TestCase):
         self.lfn = lfn
 
     def test_cksm(self):
-        self.lfn.put_name('CKSUM')
-        des = '''Verify that the checksum is calculated for the transferred 
-file using the gsiftp protocol.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_cksm'][5])
+        self.lfn.put_description(self.uid['test_cksm'][6])
         if self.uid.has_key('test_cksm'):
-            self.lfn.put_uuid(self.uid['test_cksm'])
+            self.lfn.put_uuid(self.uid['test_cksm'][0])
         else:
             print 'ADD UID for test_cksm'
             self.lfn.put_uuid(utils.get_uuid())
@@ -78,10 +76,10 @@ file using the gsiftp protocol.'''
         self.lfn.flush_file()
 
     def test_data_transfer_out_file(self):
-        self.lfn.put_name('DATA TRANSFER OUT')
-        self.lfn.put_description('Verify that the file has been transferred')
+        self.lfn.put_name(self.uid['test_data_transfer_out_file'][5])
+        self.lfn.put_description(self.uid['test_data_transfer_out_file'][6])
         if self.uid.has_key('test_data_transfer_out_file'):
-            self.lfn.put_uuid(self.uid['test_data_transfer_out_file'])
+            self.lfn.put_uuid(self.uid['test_data_transfer_out_file'][0])
         else:
             print 'ADD UID for test_data_transfer_out_file'
             self.lfn.put_uuid(utils.get_uuid())
@@ -110,12 +108,10 @@ file using the gsiftp protocol.'''
         self.lfn.flush_file()
 
     def test_data_transfer_out_exist_file(self):
-        self.lfn.put_name('DATA TRANSFER OUT')
-        des = '''Verify that the file has not been transferred because it 
-already exists.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_data_transfer_out_exist_file'][5])
+        self.lfn.put_description(self.uid['test_data_transfer_out_exist_file'][6])
         if self.uid.has_key('test_data_transfer_out_exist_file'):
-            self.lfn.put_uuid(self.uid['test_data_transfer_out_exist_file'])
+            self.lfn.put_uuid(self.uid['test_data_transfer_out_exist_file'][0])
         else:
             print 'ADD UID for test_data_transfer_out_exist_file'
             self.lfn.put_uuid(utils.get_uuid())
@@ -138,11 +134,10 @@ already exists.'''
         self.lfn.flush_file()
 
     def test_data_transfer_in_file(self):
-        self.lfn.put_name('DATA TRANSFER IN')
-        des = '''Verify that the file has been transferred back.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_data_transfer_in_file'][5])
+        self.lfn.put_description(self.uid['test_data_transfer_in_file'][6])
         if self.uid.has_key('test_data_transfer_in_file'):
-            self.lfn.put_uuid(self.uid['test_data_transfer_in_file'])
+            self.lfn.put_uuid(self.uid['test_data_transfer_in_file'][0])
         else:
             print 'ADD UID for test_data_transfer_in_file'
             self.lfn.put_uuid(utils.get_uuid())
@@ -165,12 +160,10 @@ already exists.'''
         self.lfn.flush_file()
 
     def test_data_transfer_in_unexist_file(self):
-        self.lfn.put_name('DATA TRANSFER IN')
-        des = '''Verify that the file has not been transferred back because it
-does not exit.'''
-        self.lfn.put_description(des)
+        self.lfn.put_name(self.uid['test_data_transfer_in_unexist_file'][5])
+        self.lfn.put_description(self.uid['test_data_transfer_in_unexist_file'][6])
         if self.uid.has_key('test_data_transfer_in_unexist_file'):
-            self.lfn.put_uuid(self.uid['test_data_transfer_in_unexist_file'])
+            self.lfn.put_uuid(self.uid['test_data_transfer_in_unexist_file'][0])
         else:
             print 'ADD UID for test_data_transfer_in_unexist_file'
             self.lfn.put_uuid(utils.get_uuid())
