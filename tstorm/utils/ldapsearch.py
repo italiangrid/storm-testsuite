@@ -38,7 +38,8 @@ class LdapSearch:
                 'GLUE2StorageServiceCapacityFreeSize':'',
                 'GLUE2StorageServiceCapacityUsedSize':'',
                 'GLUE2StorageServiceCapacityTotalSize':'',
-                'GLUE2StorageServiceCapacityReservedSize':''
+                'GLUE2StorageServiceCapacityReservedSize':'',
+                'GLUE2StorageService':''
             }
         }
 

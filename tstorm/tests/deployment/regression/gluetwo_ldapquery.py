@@ -135,4 +135,25 @@ class GluetwoLdapTest(unittest.TestCase):
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
+    def test_gluetwo_service(self):
+        self.lfn.put_name(self.uid['test_gluetwo_service'][5])
+        self.lfn.put_description(self.uid['test_gluetwo_service'][6])
+        if self.uid.has_key('test_gluetwo_service'):
+            self.lfn.put_uuid(self.uid['test_gluetwo_service'][0])
+        else:
+            print 'ADD UID for test_gluetwo_service'
+            self.lfn.put_uuid(utils.get_uuid())
+        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/245')
+        self.lfn.put_output()
 
+        ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
+            "(&(objectclass=GLUE2Service))",
+            ['GLUE2StorageServie'], self.tsets['bdii']['glue_two_basedn'])
+        self.lfn.put_cmd('')
+        ls_result = ldap_search.get_output()
+        self.assert_(ls_result['status'] == 'PASS')
+
+        self.assert_('GLUE2StorageService' not in ls_result['glue2.0']['GLUE2Service'])
+
+        self.lfn.put_result('PASSED')
+        self.lfn.flush_file()

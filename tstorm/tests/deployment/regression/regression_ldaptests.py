@@ -69,8 +69,6 @@ def ts_gluetwo_endpoint_undefined(conf, uid, lfn):
 
     return s
 
-# test for glue2.0
-
 def ts_gluetwo_storage_share_capacity(conf, uid, lfn):
     s = unittest.TestSuite()
     s.addTest(gluetwo_ldapquery.GluetwoLdapTest('test_gluetwo_storage_share_capacity',
@@ -95,6 +93,13 @@ def ts_gluetwo_storage_undefined(conf, uid, lfn):
 def ts_gluetwo_endpoint(conf, uid, lfn):
     s = unittest.TestSuite()
     s.addTest(gluetwo_ldapquery.GluetwoLdapTest('test_gluetwo_endpoint',
+        conf, uid, lfn))
+
+    return s
+
+def ts_gluetwo_service(conf, uid, lfn):
+    s = unittest.TestSuite()
+    s.addTest(gluetwo_ldapquery.GluetwoLdapTest('test_gluetwo_service',
         conf, uid, lfn))
 
     return s

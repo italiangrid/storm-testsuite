@@ -325,8 +325,8 @@
     true,
     false,
     "",
-    "TO DO",
-    "TO BE SPECIFIED"
+    "NULL POINTER IN DAO USAGE",
+    "If DAO classes object instance fails, one of the field of the object remains null causing a NULL Pointer exceptions at every DAO public methods call"
     ],
   "test_direct_transfer_inbound_https_voms_no_auth":[
     "d60cc0",
@@ -546,8 +546,8 @@
     true,
     false,
     "",
-    "TO DO",
-    "TO .. DO"
+    "FRONTEND LOGROTATE AND CRON.D TASK FAILURE",
+    "Log rotation does not work"
     ],
   "test_settings":[
     "8b4923",
@@ -1037,6 +1037,15 @@
     "DIRECT TRANSFER OUTBOUND HTTPS",
     "Verify that the file has been transferred by using https when the file exists"
     ],
+  "test_gluetwo_service":[
+    "6f5b9a",
+    "DT",
+    true,
+    false,
+    "",
+    "OBJECT CLASS GLUE2STORAGESERVICE MISSING IN GLUE2SERVICE",
+    "Yaim-Storm for GLUE2 configuration does not include ObjectClass:GLUE2StorageService in GLUE2Service"
+    ],
   "test_gluetwo_storage_share_capacity":[
     "aae0b5",
     "DT",
@@ -1085,6 +1094,16 @@
     "GLUE2 GLUE2STORAGESHARECAPACITY* SIZES ALWAYS ZERO",
     "Glue2 GLUE2StorageShareCapacity* sizes always 0",
     "rlt.ts_gluetwo_storage_share_capacity(tfn, uid, lfn)"
+    ],
+  "ts_gluetwo_service":[
+    "aaa0bb",
+    "DT",
+    true,
+    false,
+    "",
+    "OBJECT CLASS GLUE2STORAGESERVICE MISSING IN GLUE2SERVICE",
+    "Yaim-Storm for GLUE2 configuration does not include ObjectClass:GLUE2StorageService in GLUE2Service",
+    "rlt.ts_gluetwo_service(tfn, uid, lfn)"
     ],
   "ts_rm_unexist_dir":[
     "5333af",
