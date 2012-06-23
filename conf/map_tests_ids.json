@@ -76,5 +76,6 @@
   "test_settings":"8b4923",
   "test_info_service_failure":"82dc47",
   "test_srm_transfer_outbound_http":"4244ec",
-  "test_update_used_space_upon_pd":"b740fb"
+  "test_update_used_space_upon_pd":"b740fb",
+  "test_gluetwo_service":"6f5b9a"
 }

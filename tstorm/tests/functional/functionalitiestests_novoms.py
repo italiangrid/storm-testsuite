@@ -5,7 +5,7 @@ from tstorm.tests.functional import https as h
 from tstorm.tests.functional import functionalities as fu
 from tstorm.tests import utilities as ut
 
-def http_ts(conf, ifn, dfn, bifn, uid, lfn):
+def ts_http(conf, ifn, dfn, bifn, uid, lfn):
     s = unittest.TestSuite()
     s.addTest(ut.UtilitiesTest('test_cr_lf',conf, ifn, dfn, bifn, uid, lfn))
     s.addTest(h.HttpsTest('test_srm_transfer_outbound_http', conf, ifn, dfn, bifn, 'http', uid, lfn))
@@ -18,7 +18,7 @@ def http_ts(conf, ifn, dfn, bifn, uid, lfn):
   
     return s
 
-def https_ts(conf, ifn, dfn, bifn, uid, lfn):
+def ts_https(conf, ifn, dfn, bifn, uid, lfn):
     s = unittest.TestSuite()
     s.addTest(ut.UtilitiesTest('test_cr_lf',conf, ifn, dfn, bifn, uid, lfn))
     s.addTest(h.HttpsTest('test_srm_transfer_outbound_https', conf, ifn, dfn, bifn, 'https', uid, lfn))

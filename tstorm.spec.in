@@ -181,6 +181,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files common
 %defattr(-,root,root,-)
+%{_bindir}/tstorm-tests-ids
 %dir %{_sysconfdir}/tstorm
 %dir %{_sysconfdir}/tstorm/common
 %attr(644,%{default_user},%{default_user}) %{_sysconfdir}/tstorm/common/map_tests_ids.json
@@ -220,6 +221,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/tstorm/utils/listinfo.py
 %{python_sitelib}/tstorm/utils/listinfo.pyc
 %{python_sitelib}/tstorm/utils/listinfo.pyo
+%{python_sitelib}/tstorm/utils/map_tests_ids.py
+%{python_sitelib}/tstorm/utils/map_tests_ids.pyc
+%{python_sitelib}/tstorm/utils/map_tests_ids.pyo
 %{python_sitelib}/tstorm/utils/mysqlquery.py
 %{python_sitelib}/tstorm/utils/mysqlquery.pyc
 %{python_sitelib}/tstorm/utils/mysqlquery.pyo
@@ -296,6 +300,8 @@ rm -rf $RPM_BUILD_ROOT
 %doc %{_datadir}/doc/tstorm-sanity-%{version}/README
 
 %changelog
+* Tue May 29 2012 Elisabetta Ronchieri <elisabetta.ronchieri@cnaf.infn.it> - 1.3.0-1.sl5
+- added new options to run idempotent tests
 
 * Fri Apr 13 2012 Elisabetta Ronchieri <elisabetta.ronchieri@cnaf.infn.it> - 1.2.1-1.sl5
 - changed packaging

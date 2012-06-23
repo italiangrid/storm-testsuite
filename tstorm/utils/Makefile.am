@@ -37,7 +37,8 @@ tstormutils_PYTHON = \
     ldapsearch.py \
     version.py \
     listinfo.py \
-    yaim.py 
+    yaim.py \
+    map_tests_ids.py 
 
 EXTRA_DIST = \
     check_testplan.py \

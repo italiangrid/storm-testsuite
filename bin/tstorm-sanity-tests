@@ -20,9 +20,6 @@ def run_tests(tpi, uid, lfn, tt, n_df, n_dfn):
     if tt in tpi[key_word]:
         if tt in tpi.keys():
             for y in tpi[tt]:
-	        #if tt == 'regression_tests' or y in ('https_ts', 'https_voms_ts', 'http_ts'):
-	        #    sd=False
-	        #else:
 	        sd=True
 	        if tt != 'regression_conftests':
 	            ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,subdir=sd)

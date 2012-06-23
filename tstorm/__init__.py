@@ -1,6 +1,6 @@
 __author__ = 'Elisabetta Ronchieri'
 
-VERSION = (1, 2, 1, 1)
+VERSION = (1, 3, 0, 1)
 
 def get_version():
     version = '%s.%s.%s-%s' % (VERSION[0], VERSION[1], VERSION[2], VERSION[3])
@@ -11,5 +11,4 @@ def get_version():
     return version
 
 def get_release():
-    release = VERSION[3]
-    return release
+    return VERSION[3]
