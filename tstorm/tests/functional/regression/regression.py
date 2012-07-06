@@ -437,6 +437,25 @@ class RegressionTest(unittest.TestCase):
         self.cp_result = lcg_cp.get_output()
         self.assert_(self.cp_result['status'] == 'PASS')
 
+        storm_rm = rm.StoRMRm(self.tsets['general']['endpoint'],
+                   self.tsets['https']['voms'], self.dfn)
+        self.lfn.put_cmd(storm_rm.get_command())
+        rm_result = storm_rm.get_output()
+        self.assert_(rm_result['status'] == 'PASS')
+        if '/' in self.dfn:
+            a=os.path.dirname(self.dfn)
+            storm_rmdir = rmdir.StoRMRmdir(self.tsets['general']['endpoint'],
+                          self.tsets['general']['accesspoint'], a)
+
+            y=a
+            while y != '/':
+                self.lfn.put_cmd(storm_rmdir.get_command(y))
+                y=os.path.dirname(y)
+
+            rmdir_result = storm_rmdir.get_output()
+            for x in rmdir_result['status']:
+                self.assert_(x == 'PASS')
+
         ls_ls = ls.Ls(self.ifn)
         self.lfn.put_cmd(ls_ls.get_command())
         self.lls_result = ls_ls.get_output()
