@@ -11,7 +11,7 @@
   "test_direct_transfer_outbound_http":[
     "6967f9",
     "ST",
-    false,
+    "",
     false,
     "",
     "DIRECT TRANSFER OUTBOUND HTTP",
@@ -20,7 +20,7 @@
   "ts_ls_unexist_file":[
     "ec478e",
     "AT",
-    false,
+    "",
     true,
     "",
     "SRM LS",
@@ -30,7 +30,7 @@
   "test_dd":[
     "487f17",
     "UT",
-    false,
+    "",
     false,
     "",
     "CREATE A FILE OF A GIVEN SIZE",
@@ -39,7 +39,7 @@
   "test_data_transfer_in_unexist_file":[
     "8e34f5",
     "ST",
-    false,
+    "",
     false,
     "",
     "DATA TRANSFER IN",
@@ -48,7 +48,7 @@
   "test_ls_unexist_dir":[
     "4a153e",
     "AT",
-    false,
+    "",
     false,
     "",
     "SRM LS",
@@ -57,7 +57,7 @@
   "ts_gtp_wo":[
     "79a112",
     "AT",
-    false,
+    "",
     true,
     "",
     "SRM GET TRANSFER PROTOCOLS",
@@ -107,7 +107,7 @@
   "test_direct_transfer_outbound_https_voms":[
     "21d919",
     "ST",
-    false,
+    "",
     false,
     "",
     "DIRECT TRANSFER OUTBOUND HTTPS",
@@ -116,7 +116,7 @@
   "test_srm_transfer_outbound_https_voms":[
     "aea1bc",
     "ST",
-    false,
+    "",
     false,
     "",
     "SRM TRANSFER OUTBOUND HTTPS",
@@ -125,7 +125,7 @@
   "ts_rm_file":[
     "b266f2",
     "AT",
-    false,
+    "",
     false,
     "",
     "SRM RM",
@@ -172,7 +172,7 @@
   "ts_ls_dir":[
     "0837ae",
     "AT",
-    false,
+    "",
     false,
     "",
     "SRM LS",
@@ -182,7 +182,7 @@
   "ts_gtp":[
     "5eb930",
     "AT",
-    false,
+    "",
     true,
     "",
     "SRM GET TRANSFER PROTOCOLS",
@@ -202,7 +202,7 @@
   "test_ls_file":[
     "184ab3",
     "AT",
-    false,
+    "",
     false,
     "",
     "SRM LS",
@@ -229,7 +229,7 @@
   "test_dcache_ping":[
     "2076cb",
     "AT",
-    false,
+    "",
     false,
     "",
     "SRM PING",
@@ -266,7 +266,7 @@
   "test_storm_ping":[
     "6d06c2",
     "AT",
-    false,
+    "",
     false,
     "",
     "SRM PING",
@@ -275,7 +275,7 @@
   "ts_dt":[
     "cda37a",
     "ST",
-    false,
+    "",
     false,
     "",
     "DATA TRANSDER OUT IN USING GSIFTP",
@@ -304,7 +304,7 @@
   "test_backend_restart_failure":[
     "bdddd0",
     "DT",
-    true,
+    "",
     false,
     "",
     "TO DO",
@@ -322,7 +322,7 @@
   "test_storm_backend_dao_null_pointer":[
     "a1dfd9",
     "ST",
-    true,
+    "",
     false,
     "",
     "NULL POINTER IN DAO USAGE",
@@ -331,7 +331,7 @@
   "test_direct_transfer_inbound_https":[
     "d60aa0",
     "ST",
-    false,
+    "",
     false,
     "",
     "DIRECT TRANSFER INBOUND HTTPS",
@@ -340,7 +340,7 @@
   "test_direct_transfer_inbound_https_voms_no_auth":[
     "d60cc0",
     "ST",
-    false,
+    "",
     false,
     "",
     "DIRECT TRANSFER INBOUND HTTPS",
@@ -359,7 +359,7 @@
   "ts_mkdir_exist":[
     "8ba9b4",
     "AT",
-    false,
+    "",
     false,
     "",
     "SRM MKDIR",
@@ -369,7 +369,7 @@
   "test_srm_transfer_inbound_https":[
     "47d6d5",
     "ST",
-    false,
+    "",
     false,
     "",
     "SRM TRANSFER INBOUND HTTPS",
@@ -387,7 +387,7 @@
   "test_direct_transfer_inbound_http":[
     "fd0f95",
     "ST",
-    false,
+    "",
     false,
     "",
     "DIRECT TRANSFER INBOUND HTTP",
@@ -414,7 +414,7 @@
   "test_srm_transfer_outbound_https":[
     "bbddf2",
     "ST",
-    false,
+    "",
     false,
     "",
     "SRM TRANSFER OUTBOUND HTTPS",
@@ -423,7 +423,7 @@
   "ts_conf":[
     "442816",
     "UT",
-    false,
+    "",
     false,
     "",
     "CONFIGURATION INI FILE CORRECTNESS",
@@ -451,7 +451,7 @@
   "test_data_transfer_out_exist_file":[
     "75afce",
     "ST",
-    false,
+    "",
     false,
     "",
     "DATA TRANSFER OUT",
@@ -460,7 +460,7 @@
   "test_direct_transfer_inbound_http_unexist_file":[
     "b2fd90",
     "ST",
-    false,
+    "",
     false,
     "",
     "DIRECT TRANSFER INBOUND HTTP",
@@ -479,7 +479,7 @@
   "test_storm_ping_wo":[
     "2c2f66",
     "AT",
-    false,
+    "",
     false,
     "",
     "SRM PING",
@@ -488,7 +488,7 @@
   "ts_cw":[
     "e4a8c7",
     "ST",
-    false,
+    "",
     false,
     "",
     "SRM OPERATIONS",
@@ -498,7 +498,7 @@
   "test_direct_transfer_inbound_https_unexist_file":[
     "acea33",
     "ST",
-    false,
+    "",
     false,
     "",
     "DIRECT TRANSFER INBOUND HTTPS",
@@ -507,7 +507,7 @@
   "test_storm_gtp":[
     "882900",
     "AT",
-    false,
+    "",
     false,
     "",
     "SRM GET TRANSFER PROTOCOLS",
@@ -516,7 +516,7 @@
   "test_rm_unexist_dir":[
     "f1efe5",
     "AT",
-    false,
+    "",
     false,
     "",
     "SRM RMDIR",
@@ -534,7 +534,7 @@
   "test_srm_transfer_inbound_http":[
     "39612c",
     "ST",
-    false,
+    "",
     false,
     "",
     "SRM TRANSFER INBOUND HTTP",
@@ -543,7 +543,7 @@
   "test_data_transfer_in_file":[
     "9011fd",
     "ST",
-    false,
+    "",
     false,
     "",
     "DATA TRANSFER IN",
@@ -552,7 +552,7 @@
   "test_frontend_logrotate_output":[
     "74d14a",
     "DT",
-    true,
+    "",
     false,
     "",
     "FRONTEND LOGROTATE AND CRON.D TASK FAILURE",
@@ -561,7 +561,7 @@
   "test_settings":[
     "8b4923",
     "UT",
-    false,
+    "",
     false,
     "",
     "CONFIGURATION INI FILE CORRECTNESS",
@@ -590,7 +590,7 @@
   "test_storm_gtp_wo":[
     "6d69e7",
     "AT",
-    false,
+    "",
     false,
     "",
     "SRM GET TRANSFER PROTOCOLS",
@@ -599,7 +599,7 @@
   "ts_ping":[
     "c50037",
     "AT",
-    false,
+    "",
     true,
     "",
     "SRM PING",
@@ -618,7 +618,7 @@
   "test_ls_unexist_file":[
     "469b32",
     "AT",
-    false,
+    "",
     false,
     "",
     "SRM LS",
@@ -656,7 +656,7 @@
   "ts_https_voms":[
     "c976b0",
     "ST",
-    false,
+    "",
     false,
     "",
     "DATA TRANSDER OUT IN USING HTTPS",
@@ -676,7 +676,7 @@
   "test_cksm":[
     "eea4be",
     "ST",
-    false,
+    "",
     false,
     "",
     "CKSUM",
@@ -705,7 +705,7 @@
   "ts_mkdir":[
     "8c5821",
     "AT",
-    false,
+    "",
     false,
     "",
     "SRM MKDIR",
@@ -724,7 +724,7 @@
   "test_mkdir_exist_dir":[
     "74a033",
     "AT",
-    false,
+    "",
     false,
     "",
     "SRM MKDIR",
@@ -733,7 +733,7 @@
   "test_direct_transfer_inbound_https_no_auth":[
     "6db50f",
     "ST",
-    false,
+    "",
     false,
     "",
     "DIRECT TRANSFER INBOUND HTTPS",
@@ -742,7 +742,7 @@
   "test_direct_transfer_inbound_https_voms":[
     "ab1064",
     "ST",
-    false,
+    "",
     false,
     "",
     "DIRECT TRANSFER INBOUND HTTPS",
@@ -788,7 +788,7 @@
   "test_direct_transfer_outbound_https":[
     "f92c33",
     "ST",
-    false,
+    "",
     false,
     "",
     "DIRECT TRANSFER OUTBOUND HTTPS",
@@ -806,7 +806,7 @@
   "test_rm_lf":[
     "1c0731",
     "UT",
-    false,
+    "",
     false,
     "",
     "DELETE A LOCAL FILE",
@@ -815,7 +815,7 @@
   "test_direct_transfer_outbound_https_voms_exist_file":[
     "8b5ba0",
     "ST",
-    false,
+    "",
     false,
     "",
     "DIRECT TRANSFER OUTBOUND HTTPS",
@@ -824,7 +824,7 @@
   "test_mkdir_dir":[
     "d55993",
     "AT",
-    false,
+    "",
     false,
     "",
     "SRM MKDIR",
@@ -833,7 +833,7 @@
   "test_srm_transfer_inbound_https_voms":[
     "e94e78",
     "ST",
-    false,
+    "",
     false,
     "",
     "SRM TRANSFER INBOUND HTTPS",
@@ -871,7 +871,7 @@
   "test_backend_logrotate_output":[
     "3ef792",
     "DT",
-    true,
+    "",
     false,
     "",
     "TO DO",
@@ -890,7 +890,7 @@
   "test_cp_at":[
     "a61b97",
     "AT",
-    false,
+    "",
     false,
     "",
     "SRM CP",
@@ -908,7 +908,7 @@
   "test_cr_lf":[
     "d336a7",
     "UT",
-    false,
+    "",
     false,
     "",
     "CREATE A FILE WITH A CHAR",
@@ -917,7 +917,7 @@
   "test_data_transfer_out_file":[
     "4d0ea9",
     "ST",
-    false,
+    "",
     false,
     "",
     "DATA TRANSFER OUT",
@@ -926,7 +926,7 @@
   "test_direct_transfer_inbound_https_voms_unexist_file":[
     "bd37f7",
     "ST",
-    false,
+    "",
     false,
     "",
     "DIRECT TRANSFER INBOUND HTTPS",
@@ -945,7 +945,7 @@
   "test_rm_dir":[
     "2d8030",
     "AT",
-    false,
+    "",
     false,
     "",
     "SRM RMDIR",
@@ -954,7 +954,7 @@
   "test_rm_file":[
     "44d230",
     "AT",
-    false,
+    "",
     false,
     "",
     "SRM RM",
@@ -963,7 +963,7 @@
   "test_srm_transfer_outbound_http":[
     "4244ec",
     "ST",
-    false,
+    "",
     false,
     "",
     "SRM TRANSFER OUTBOUND HTTP",
@@ -972,7 +972,7 @@
   "test_rm_unexist_file":[
     "b76fcf",
     "AT",
-    false,
+    "",
     false,
     "",
     "SRM RM",
@@ -981,7 +981,7 @@
   "ts_cksm":[
     "b8ff21",
     "ST",
-    false,
+    "",
     false,
     "",
     "CKSUM",
@@ -991,7 +991,7 @@
   "ts_ping_wo":[
     "b91203",
     "AT",
-    false,
+    "",
     true,
     "",
     "SRM PING",
@@ -1020,7 +1020,7 @@
   "ts_cp_in":[
     "44cf98",
     "AT",
-    false,
+    "",
     false,
     "",
     "SRM CP",
@@ -1040,7 +1040,7 @@
   "test_direct_transfer_outbound_https_exist_file":[
     "d9d057",
     "ST",
-    false,
+    "",
     false,
     "",
     "DIRECT TRANSFER OUTBOUND HTTPS",
@@ -1049,7 +1049,7 @@
   "test_gluetwo_service":[
     "6f5b9a",
     "DT",
-    true,
+    "",
     false,
     "",
     "OBJECT CLASS GLUE2STORAGESERVICE MISSING IN GLUE2SERVICE",
@@ -1067,7 +1067,7 @@
   "ts_https":[
     "4188c4",
     "ST",
-    false,
+    "",
     false,
     "",
     "DATA TRANSFER USING HTTPS",
@@ -1077,7 +1077,7 @@
   "ts_cp_out":[
     "2a7bc0",
     "AT",
-    false,
+    "",
     false,
     "",
     "SRM CP",
@@ -1107,7 +1107,7 @@
   "ts_gluetwo_service":[
     "aaa0bb",
     "DT",
-    true,
+    "",
     false,
     "",
     "OBJECT CLASS GLUE2STORAGESERVICE MISSING IN GLUE2SERVICE",
@@ -1117,7 +1117,7 @@
   "ts_rm_unexist_dir":[
     "5333af",
     "AT",
-    false,
+    "",
     false,
     "",
     "SRM RMDIR",
@@ -1137,7 +1137,7 @@
   "test_direct_transfer_outbound_http_exist_file":[
     "45880a",
     "ST",
-    false,
+    "",
     false,
     "",
     "DIRECT TRANSFER OUTBOUND HTTP",
@@ -1165,7 +1165,7 @@
   "test_cp_bt":[
     "037104",
     "AT",
-    false,
+    "",
     false,
     "",
     "SRM CP",
@@ -1174,7 +1174,7 @@
   "ts_http":[
     "32429c",
     "ST",
-    false,
+    "",
     false,
     "",
     "DATA TRANSFER USING HTTP",
@@ -1222,7 +1222,7 @@
   "ts_ls_file":[
     "6f5379",
     "AT",
-    false,
+    "",
     false,
     "",
     "SRM LS",
@@ -1232,7 +1232,7 @@
   "test_ls_dir":[
     "068ab0",
     "AT",
-    false,
+    "",
     false,
     "",
     "SRM LS",
