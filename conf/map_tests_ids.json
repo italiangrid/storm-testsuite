@@ -328,6 +328,15 @@
     "NULL POINTER IN DAO USAGE",
     "If DAO classes object instance fails, one of the field of the object remains null causing a NULL Pointer exceptions at every DAO public methods call"
     ],
+  "test_direct_transfer_inbound_https":[
+    "d60aa0",
+    "ST",
+    false,
+    false,
+    "",
+    "DIRECT TRANSFER INBOUND HTTPS",
+    "Verify that the file has been transferred back by using https"
+    ],
   "test_direct_transfer_inbound_https_voms_no_auth":[
     "d60cc0",
     "ST",

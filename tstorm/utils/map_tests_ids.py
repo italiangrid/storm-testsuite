@@ -187,6 +187,11 @@ class MapTestsIds:
                 'DIRECT TRANSFER INBOUND HTTPS',
                 'Verify that the file has been transferred back by using ' +
                 'https with voms'],
+            "test_direct_transfer_inbound_https":['d60aa0',
+                False,'',
+                'DIRECT TRANSFER INBOUND HTTPS',
+                'Verify that the file has been transferred back by using ' +
+                'https'],
             "test_direct_transfer_inbound_https_voms_no_auth":['d60cc0',
                 False,'',
                 'DIRECT TRANSFER INBOUND HTTPS',

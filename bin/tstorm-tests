@@ -22,7 +22,13 @@ from tstorm.tests.functional.regression import regressiontests_novoms as rtnv
 
 def run_tests(tpi, uid, lfn, tt, n_df, n_dfn):
     sd=True
-    if tpi[1] or tpi[2] in ('ts_https', 'ts_https_voms', 'ts_http'):
+    if tpi[1]:
+        sd=False
+    elif 'ts_https' in tpi[2]:
+        sd=False
+    elif 'ts_http' in tpi[2]:
+        sd=False
+    elif 'ts_https_voms' in tpi[2]:
         sd=False
     ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,subdir=sd)
     if tpi[2] != "":
