@@ -59,6 +59,14 @@ else
   AC_MSG_RESULT([no. $host_cpu])
 fi
 
+if test "xsl$osdist" = "xsl6"; then
+  tomcat_version='6'
+else
+  tomcat_version='5'
+fi
+
+AC_SUBST([TOMCATVERSION], [$tomcat_version])
+
 AC_STORM([])
 
 AC_CONFIG_HEADER([autogen/config.h])
@@ -73,6 +81,7 @@ AC_CONFIG_FILES([
    tstorm/tests/atomic/Makefile
    tstorm/tests/deployment/Makefile
    tstorm/tests/deployment/regression/Makefile
+   tstorm/tests/deployment/regression/service_configuration.py
    tstorm/tests/functional/Makefile
    tstorm/tests/functional/regression/Makefile
    tstorm.spec

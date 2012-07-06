@@ -103,7 +103,7 @@ class RegressionConfigurationTest(unittest.TestCase):
         self.assert_('RUNNING' in sr_result['otpt'])
         self.assert_('NOT' not in sr_result['otpt'])
 
-        sr = service.Service('tomcat5')
+        sr = service.Service('tomcat@TOMCATVERSION@')
         self.lfn.put_cmd(sr.get_command())
         sr_result = sr.get_output()
 

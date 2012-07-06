@@ -30,9 +30,10 @@ EXTRA_DIST = \
     regression_ldaptests.py \
     __init__.py \
     regression_conftests.py \
-    service_configuration.py
+    service_configuration.py.in
 
 CLEANFILES= \
+    service_configuration.py \
     gluetwo_ldapquery.pyc \
     ldapquery.pyc \
     regression_ldaptests.pyc \
