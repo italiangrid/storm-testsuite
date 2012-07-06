@@ -2,7 +2,7 @@
   "test_glue_available_space_info_service":[
     "2f6695",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/147",
     false,
     "",
     "INFO SERVICE ALWAYS RETURNS A ZERO AVAILABLE SPACE",
@@ -67,7 +67,7 @@
   "ts_gluetwo_endpoint_undefined":[
     "29dacc",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/207",
     false,
     "",
     "STORM BUG: GLUE2ENDPOINTCAPABILITY AND GLUE2ENDPOINTINTERFACENAME CONTAIN WRONG VALUES",
@@ -77,7 +77,7 @@
   "ts_glue_available_space":[
     "138620",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/150",
     false,
     "",
     "WRONG CALCULATION OF SA_AVAILABLE_SIZE_KB AND SA_USED_SIZE_KB",
@@ -87,7 +87,7 @@
   "ts_update_used_space_upon_pd":[
     "c971fb",
     "ST",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/109",
     false,
     "",
     "STORM BUG: SPACE TOKEN USED SPACE IS NOT UPDATE",
@@ -97,7 +97,7 @@
   "ts_eight_digit_string_checksum":[
     "5cd728",
     "ST",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/108",
     false,
     "",
     "COMPARISON BUG IN LCG-CR COPYING TO STORM",
@@ -135,7 +135,7 @@
   "ts_non_ascii_chars":[
     "2f6fe9",
     "ST",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/137",
     false,
     "",
     "STORM BUG: REQUEST WITH AUTHORIZATION ID PARAMETERS WITH NON ASCII CHARACTERS MAKES FE CRASH",
@@ -145,7 +145,7 @@
   "test_mysql_storage_space_update":[
     "efacfe",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/168",
     false,
     "",
     "NO UPDATING OF STORAGE SPACE IN DB AFTER A TOTAL ONLINE SIZE CHANGE IN THE NAMESPACE.XML",
@@ -154,7 +154,7 @@
   "test_both_sup_and_unsup_protocols":[
     "fa3b00",
     "ST",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/126",
     false,
     "",
     "STORM FRONTEND PRODUCES HUGE LOG FILE WHEN MANAGING REQUESTS THAT CONTAIN SUPPORTED PROTOCOLS",
@@ -163,7 +163,7 @@
   "test_backend_logrotate_file":[
     "ad63ac",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/134",
     false,
     "",
     "STORN BACKEND LOGROTATE FILE POINTS TO NON EXISTING FILE",
@@ -192,7 +192,7 @@
   "ts_size_in_namespace_file":[
     "c99e16",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/151",
     false,
     "",
     "WRONG SETTINGS OF SIZE IN NAMESPACE.XML",
@@ -211,7 +211,7 @@
   "test_glue_used_space":[
     "50155e",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/150",
     false,
     "",
     "WRONG CALCULATION OF SA_AVAILABLE_SIZE_KB AND SA_USED_SIZE_KB",
@@ -220,7 +220,7 @@
   "test_glue_service":[
     "6ec220",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/143",
     false,
     "",
     "STORM BUG: GLUESERVICENAME AND GLUESERVIVETYPE CONTAIN WRONG VALUES",
@@ -238,7 +238,7 @@
   "test_info_service_failure":[
     "82dc47",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/153",
     false,
     "",
     "REST INFO SERVICE FAILURE",
@@ -247,7 +247,7 @@
   "ts_storm_gridhttps_authorization_denied":[
     "221160",
     "ST",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/209",
     false,
     "",
     "AUTHORIZATION REST SERVICE DENY AUTHORIZATION",
@@ -257,7 +257,7 @@
   "test_non_ascii_chars":[
     "09829e",
     "ST",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/137",
     false,
     "",
     "STORM BUG: REQUEST WITH AUTHORIZATION ID PARAMETERS WITH NON ASCII CHARACTERS MAKES FE CRASH",
@@ -285,7 +285,7 @@
   "ts_backend_logrotate_file":[
     "33895c",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/134",
     false,
     "",
     "STORN BACKEND LOGROTATE FILE POINTS TO NON EXISTING FILE",
@@ -295,7 +295,7 @@
   "test_gridhttps_plugin_links":[
     "84e55b",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/154",
     false,
     "",
     "REMOVED GRIDHTTPS PLUGIN LINKS DURING UPGRADE FROM 1.7.0 to 1.7.1",
@@ -313,7 +313,7 @@
   "test_size_in_namespace_file":[
     "c23e05",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/151",
     false,
     "",
     "WRONG SETTINGS OF SIZE IN NAMESPACE.XML",
@@ -349,7 +349,7 @@
   "ts_glue_available_space_info_service":[
     "bf5904",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/147",
     false,
     "",
     "INFO SERVICE ALWAYS RETURNS A ZERO AVAILABLE SPACE",
@@ -378,7 +378,7 @@
   "test_glue_available_space":[
     "884d3b",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/150",
     false,
     "",
     "WRONG CALCULATION OF SA_AVAILABLE_SIZE_KB AND SA_USED_SIZE_KB",
@@ -396,7 +396,7 @@
   "test_unsupported_protocols":[
     "b0ca16",
     "ST",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/127",
     false,
     "",
     "STORM BUG: SRM TRANSFER COMMANDS DOES NOT REPORT ERRONEOUS PROTOCOL REQUESTS",
@@ -405,7 +405,7 @@
   "test_backend_gridhttps":[
     "09a5b7",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/140",
     false,
     "",
     "DEFAULT GRIDHTTPS SERVER PORT NUMBER CONFLICTS WITH BACKEND DEFAULT XMLRPC PORT NUMBER",
@@ -433,7 +433,7 @@
   "test_backend_server_status":[
     "1fee07",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/114",
     false,
     "",
     "EXTRA STORM BACKEND SERVICE INFORMATION RETURNED DURING THE EXECUTION OF STATUS",
@@ -442,7 +442,7 @@
   "test_gluetwo_endpoint_undefined":[
     "9cc43b",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/207",
     false,
     "",
     "STORM BUG: GLUE2ENDPOINTCAPABILITY AND GLUE2ENDPOINTINTERFACENAME CONTAIN WRONG VALUES",
@@ -469,7 +469,7 @@
   "ts_glue_service":[
     "1dffdd",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/143",
     false,
     "",
     "STORM BUG: GLUESERVICENAME AND GLUESERVIVETYPE CONTAIN WRONG VALUES",
@@ -525,7 +525,7 @@
   "test_get_space_metadata_failure":[
     "6e21ed",
     "ST",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/189",
     false,
     "",
     "GET SPACE METADATA FAILURE WITHOUT VOMS EXTENSIONS",
@@ -570,7 +570,7 @@
   "ts_backend_server_name_status":[
     "842319",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/160",
     false,
     "",
     "WRONG STORM BACKEND SERVER NAME RETURNED DURING THE EXECUTION OF STATUS",
@@ -580,7 +580,7 @@
   "ts_gluetwo_endpoint":[
     "309dab",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/208",
     false,
     "",
     "STORM BUG: GLUE2ENDPOINTCAPABILITY AND GLUE2ENDPOINTINTERFACENAME CONTAIN WRONG VALUES",
@@ -609,7 +609,7 @@
   "test_update_used_space_upon_pd":[
     "b740fb",
     "ST",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/109",
     false,
     "",
     "STORM BUG: SPACE TOKEN USED SPACE IS NOT UPDATE",
@@ -627,7 +627,7 @@
   "test_gluetwo_storage_undefined":[
     "14c174",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/207",
     false,
     "",
     "STORM BUG: GLUE2STORAGESHAREACCESSMODE",
@@ -636,7 +636,7 @@
   "ts_get_space_metadata_failure":[
     "bfe80f",
     "ST",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/189",
     false,
     "",
     "GET SPACE METADATA FAILURE WITHOUT VOMS EXTENSIONS",
@@ -646,7 +646,7 @@
   "ts_info_service_failure":[
     "59de9f",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/153",
     false,
     "",
     "REST INFO SERVICE FAILURE",
@@ -666,7 +666,7 @@
   "ts_gridhttps_plugin_links":[
     "1f8a8a",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/154",
     false,
     "",
     "REMOVED GRIDHTTPS PLUGIN LINKS DURING UPGRADE FROM 1.7.0 to 1.7.1",
@@ -685,7 +685,7 @@
   "ts_backend_server_status":[
     "4c09b6",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/114",
     false,
     "",
     "EXTRA STORM BACKEND SERVICE INFORMATION RETURNED DURING THE EXECUTION OF STATUS",
@@ -695,7 +695,7 @@
   "ts_backend_cron_file":[
     "72108b",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/135",
     false,
     "",
     "STORM BACKEND DOES NOT ROTATE LOG FILES",
@@ -715,7 +715,7 @@
   "test_mysql_connector_java_links":[
     "ad7c8b",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/179",
     false,
     "",
     "MYSQL-CONNECTOR-JAVA DOWNLOADING FAILURE",
@@ -751,7 +751,7 @@
   "ts_update_free_space_upon_rm":[
     "341355",
     "ST",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/106",
     false,
     "",
     "INCORRECT INFORMATION PUBLISHED BY STORM",
@@ -761,7 +761,7 @@
   "test_storm_gridhttps_authorization_denied":[
     "d58db9",
     "ST",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/209",
     false,
     "",
     "AUTHORIZATION REST SERVICE DENY AUTHORIZATION",
@@ -770,7 +770,7 @@
   "test_eight_digit_string_checksum":[
     "244fca",
     "ST",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/108",
     false,
     "",
     "COMPARISON BUG IN LCG-CR COPYING TO STORM",
@@ -779,7 +779,7 @@
   "test_gluetwo_endpoint":[
     "eecdc3",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/208",
     false,
     "",
     "STORM BUG: GLUE2ENDPOINTCAPABILITY AND GLUE2ENDPOINTINTERFACENAME CONTAIN WRONG VALUES",
@@ -797,7 +797,7 @@
   "test_storm_backend_age":[
     "b76e61",
     "ST",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/181",
     false,
     "",
     "WRONG STORM BACKEND AGE RETURNED BY SRM PING",
@@ -842,7 +842,7 @@
   "ts_yaim_version_file":[
     "813214",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/149",
     false,
     "",
     "WRONG VERSION IN THE YAIM-VERSION FILE",
@@ -852,7 +852,7 @@
   "ts_gluetwo_storage_undefined":[
     "43a843",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/207",
     false,
     "",
     "STORM BUG: GLUE2STORAGESHAREACCESSMODE",
@@ -862,7 +862,7 @@
   "test_size":[
     "ca2419",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/146",
     false,
     "",
     "GET_SIZE INCORRECTLY HANDLES THE INFO",
@@ -880,7 +880,7 @@
   "ts_unsupported_protocols":[
     "5a9532",
     "ST",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/127",
     false,
     "",
     "STORM BUG: SRM TRANSFER COMMANDS DOES NOT REPORT ERRONEOUS PROTOCOL REQUESTS",
@@ -899,7 +899,7 @@
   "test_yaim_version_file":[
     "b57772",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/149",
     false,
     "",
     "WRONG VERSION IN THE YAIM-VERSION FILE",
@@ -935,7 +935,7 @@
   "ts_mysql_storage_space_update":[
     "2231e4",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/168",
     false,
     "",
     "NO UPDATING OF STORAGE SPACE IN DB AFTER A TOTAL ONLINE SIZE CHANGE IN THE NAMESPACE.XML",
@@ -1001,7 +1001,7 @@
   "ts_storm_database_password":[
     "402816",
     "ST",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/227",
     false,
     "",
     "ERROR IN LOADING DATABASE PASSWORD",
@@ -1011,7 +1011,7 @@
   "test_backend_cron_file":[
     "71272d",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/135",
     false,
     "",
     "STORM BACKEND DOES NOT ROTATE LOG FILES",
@@ -1030,7 +1030,7 @@
   "ts_storm_backend_age":[
     "915129",
     "ST",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/181",
     false,
     "",
     "WRONG STORM BACKEND AGE RETURNED BY SRM PING",
@@ -1058,7 +1058,7 @@
   "test_gluetwo_storage_share_capacity":[
     "aae0b5",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/147",
     false,
     "",
     "GLUE2 GLUE2STORAGESHARECAPACITY* SIZES ALWAYS ZERO",
@@ -1087,7 +1087,7 @@
   "ts_glue_used_space":[
     "c860c9",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/150",
     false,
     "",
     "WRONG CALCULATION OF SA_AVAILABLE_SIZE_KB AND SA_USED_SIZE_KB",
@@ -1097,7 +1097,7 @@
   "ts_gluetwo_storage_share_capacity":[
     "3d2509",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/147",
     false,
     "",
     "GLUE2 GLUE2STORAGESHARECAPACITY* SIZES ALWAYS ZERO",
@@ -1127,7 +1127,7 @@
   "ts_size":[
     "449568",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/146",
     false,
     "",
     "GET_SIZE INCORRECTLY HANDLES THE INFO",
@@ -1146,7 +1146,7 @@
   "ts_mysql_connector_java_links":[
     "a61eb8",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/179",
     false,
     "",
     "MYSQL-CONNECTOR-JAVA DOWNLOADING FAILURE",
@@ -1156,7 +1156,7 @@
   "test_storm_database_password":[
     "0b20a0",
     "ST",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/227",
     false,
     "",
     "ERROR IN LOADING DATABASE PASSWORD",
@@ -1184,7 +1184,7 @@
   "test_update_free_space_upon_rm":[
     "b9aa3c",
     "ST",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/106",
     false,
     "",
     "INCORRECT INFORMATION PUBLISHED BY STORM",
@@ -1193,7 +1193,7 @@
   "ts_backend_gridhttps":[
     "591891",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/140",
     false,
     "",
     "DEFAULT GRIDHTTPS SERVER PORT NUMBER CONFLICTS WITH BACKEND DEFAULT XMLRPC PORT NUMBER",
@@ -1203,7 +1203,7 @@
   "ts_both_sup_and_unsup_protocols":[
     "4f21be",
     "ST",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/126",
     false,
     "",
     "STORM FRONTEND PRODUCES HUGE LOG FILE WHEN MANAGING REQUESTS THAT CONTAIN SUPPORTED PROTOCOLS",
@@ -1213,7 +1213,7 @@
   "test_backend_server_name_status":[
     "e055f5",
     "DT",
-    true,
+    "https://storm.cnaf.infn.it:8443/redmine/issues/160",
     false,
     "",
     "WRONG STORM BACKEND SERVER NAME RETURNED DURING THE EXECUTION OF STATUS",

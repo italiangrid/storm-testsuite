@@ -26,7 +26,7 @@ class GluetwoLdapTest(unittest.TestCase):
         else:
             print 'ADD UID for test_gluetwo_storage_share_capacity'
             self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/147')
+        self.lfn.put_ruid(self.uid['test_gluetwo_storage_share_capacity'][2])
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
@@ -66,7 +66,7 @@ class GluetwoLdapTest(unittest.TestCase):
         else:
             print 'ADD UID for test_gluetwo_endpoint_undefined'
             self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/207')
+        self.lfn.put_ruid(self.uid['test_gluetwo_endpoint_undefined'][2])
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
@@ -94,7 +94,7 @@ class GluetwoLdapTest(unittest.TestCase):
         else:
             print 'ADD UID for test_gluetwo_storage_undefined'
             self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/207')
+        self.lfn.put_ruid(self.uid['test_gluetwo_storage_undefined'][2])
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
@@ -118,7 +118,7 @@ class GluetwoLdapTest(unittest.TestCase):
         else:
             print 'ADD UID for test_gluetwo_endpoint'
             self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/208')
+        self.lfn.put_ruid(self.uid['test_gluetwo_endpoint'][2])
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
@@ -143,7 +143,7 @@ class GluetwoLdapTest(unittest.TestCase):
         else:
             print 'ADD UID for test_gluetwo_service'
             self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/245')
+        self.lfn.put_ruid(self.uid['test_gluetwo_service'][2])
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],

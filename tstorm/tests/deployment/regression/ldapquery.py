@@ -26,7 +26,7 @@ class LdapTest(unittest.TestCase):
         else:
             print 'ADD UID for test_glue_service'
             self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/143')
+        self.lfn.put_ruid(self.uid['test_glue_service'][2])
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
@@ -47,7 +47,7 @@ class LdapTest(unittest.TestCase):
         else:
             print 'ADD UID for test_glue_available_space_info_service'
             self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/147')
+        self.lfn.put_ruid(self.uid['test_glue_available_space_info_service'][2])
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
@@ -76,7 +76,7 @@ class LdapTest(unittest.TestCase):
         else:
             print 'ADD UID for test_glue_available_space'
             self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/150')
+        self.lfn.put_ruid(self.uid['test_glue_available_space_info_service'][2])
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
@@ -115,7 +115,7 @@ class LdapTest(unittest.TestCase):
         else:
             print 'ADD UID for test_glue_used_space'
             self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/150')
+        self.lfn.put_ruid(self.uid['test_glue_used_space'][2])
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
@@ -154,7 +154,7 @@ class LdapTest(unittest.TestCase):
         else:
             print 'ADD UID for test_size'
             self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/146')
+        self.lfn.put_ruid(self.uid['test_size'][2])
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
@@ -202,7 +202,7 @@ class LdapTest(unittest.TestCase):
         else:
             print 'ADD UID for test_info_service_failure'
             self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/153')
+        self.lfn.put_ruid(self.uid['test_info_service_failure'][2])
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
