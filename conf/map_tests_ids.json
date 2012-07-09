@@ -12,7 +12,7 @@
   "test_direct_transfer_outbound_http":[
     "6967f9",
     "ST",
-    false
+    false,
     "",
     false,
     "",
@@ -611,7 +611,7 @@
   "test_frontend_logrotate_output":[
     "74d14a",
     "DT",
-    flase,
+    false,
     "",
     false,
     "",

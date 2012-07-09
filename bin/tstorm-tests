@@ -90,7 +90,7 @@ if __name__ == '__main__':
             list_tests_details = (True, {})            
         elif opt in ("-s", "--filter-list"):
             tmp_filter_tests_details = {}
-            x = value.split(' ')
+            x = value.split(';')
             for y in x:
                 if 't' in y.split('=')[0] or 'test' in y.split('=')[0]:
                    tmp_filter_tests_details['t'] = y.split('=')[1].split(',')
@@ -99,8 +99,9 @@ if __name__ == '__main__':
                        usage()
                        sys.exit()
                    else:
-                      for x in tmp_filter_tests_details['t']:
-                          if x not in ('AT', 'ST', 'UT'):
+                      for z in tmp_filter_tests_details['t']:
+                          tmp_filter_tests_details['t'][tmp_filter_tests_details['t'].index(z)] = z.strip()
+                          if z.strip() not in ('AT', 'ST', 'UT'):
                               print 'This script only runs AT, ST and UT tests'
                               usage()
                               sys.exit() 
@@ -120,8 +121,10 @@ if __name__ == '__main__':
                        usage()
                        sys.exit()
                    else:
-                      for x in tmp_filter_tests_details['f']:
-                          if x not in ('t', 'test', 'r', 'regression', 'rfc', 'i', 'idenpotent', 'range', 'n', 'name', 'd', 'description'):
+                      print tmp_filter_tests_details['f']
+                      for z in tmp_filter_tests_details['f']:
+                          tmp_filter_tests_details['f'][tmp_filter_tests_details['f'].index(z)] = z.strip()
+                          if z.strip() not in ('t', 'test', 'r', 'regression', 'rfc', 'i', 'idenpotent', 'range', 'n', 'name', 'd', 'description'):
                               msg = 'This parameter only considers '
                               msg += 't/type, r/regression, rfc, i/idenpotent,'
                               msg += 'range, n/name, and d/description values'
@@ -148,7 +151,7 @@ if __name__ == '__main__':
         sys.exit(0)
 
     if filter_tests_details[0]:
-        tests_info.TestsInfo(mti_info, info=filter_tests_details[1]).get_info()
+        tests_info.TestsInfo(mti_info, info=filter_tests_details[1]).get_system_info()
         sys.exit(0)
 
     if tests_sequence_file[0]:
