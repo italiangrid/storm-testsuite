@@ -64,8 +64,9 @@ if __name__ == '__main__':
     tests_sequence = (False, [])
     tests_sequence_file = (False, '')
     # r and i are bool
-    # t can be AT, ST, DT
+    # t can be AT, ST, DT, UT
     # id is the identifier
+    # f can be t,r,id
     #-l t=AT,FT r=true p=id o=profile-regression-check.txt
     list_tests_details = (False, {})
     filter_tests_details = (False, {})
@@ -94,17 +95,39 @@ if __name__ == '__main__':
                 if 't' in y.split('=')[0] or 'test' in y.split('=')[0]:
                    tmp_filter_tests_details['t'] = y.split('=')[1].split(',')
                    if 'DT' in tmp_filter_tests_details['t']:
-                       print 'This script only runs AT,ST and UT tests'
+                       print 'This script only runs AT, ST and UT tests'
                        usage()
                        sys.exit()
+                   else:
+                      for x in tmp_filter_tests_details['t']:
+                          if x not in ('AT', 'ST', 'UT'):
+                              print 'This script only runs AT, ST and UT tests'
+                              usage()
+                              sys.exit() 
                 elif 'r' in y.split('=')[0] or 'regression' in y.split('=')[0]:
                    tmp_filter_tests_details['r'] = y.split('=')[1]
                 elif 'i' in y.split('=')[0] or 'idenpotent' in y.split('=')[0]:
                    tmp_filter_tests_details['i'] = y.split('=')[1]
                 elif 'o' in y.split('=')[0] or  'output' in y.split('=')[0]:
                    tmp_filter_tests_details['o'] = y.split('=')[1]
-                elif 'p' in y.split('=')[0] or  'profile' in y.split('=')[0]:
-                   tmp_filter_tests_details['p'] = y.split('=')[1]
+                elif 'f' in y.split('=')[0] or  'format' in y.split('=')[0]:
+                   tmp_filter_tests_details['f'] = y.split('=')[1].split(',')
+                   if 'o' in tmp_filter_tests_details['f']:
+                       msg = 'This parameter only considers '
+                       msg += 't/type, r/regression, rfc, i/idenpotent,'
+                       msg += 'range, n/name, and d/description values'
+                       print msg
+                       usage()
+                       sys.exit()
+                   else:
+                      for x in tmp_filter_tests_details['f']:
+                          if x not in ('t', 'test', 'r', 'regression', 'rfc', 'i', 'idenpotent', 'range', 'n', 'name', 'd', 'description'):
+                              msg = 'This parameter only considers '
+                              msg += 't/type, r/regression, rfc, i/idenpotent,'
+                              msg += 'range, n/name, and d/description values'
+                              print msg
+                              usage()
+                              sys.exit()
             filter_tests_details = (True, tmp_filter_tests_details)
         elif opt in ("--novoms"):
             voms = False
@@ -162,14 +185,9 @@ if __name__ == '__main__':
     else:
         tests_methods = tests_methods.TestsMethods(mti_info)
 
-    #if voms:
     for key, value in tests_methods.get_system_methods().items():
         run_tests(value, mti_info, log_file, key,
             custom_destination_file[0], custom_destination_file[1])
-    #else:
-    #    for x in tests_type['novoms']:
-    #        run_tests(tpj_info, mti_info, log_file, x,
-    #            custom_destination_file[0], custom_destination_file[1])
 
     log_file.close_file() 
 

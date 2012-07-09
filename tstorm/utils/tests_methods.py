@@ -8,9 +8,9 @@ class TestsMethods:
         for key, value in mti_info.items():
             if 'ts' in key:
                 if len(sequence) == 0:
-                    self.methods[key] = (value[1], value[2], value[7])
+                    self.methods[key] = (value[1], value[2], value[8])
                 elif value[0] in sequence:
-                    self.methods[key] = (value[1], value[2], value[7])
+                    self.methods[key] = (value[1], value[2], value[8])
  
     def get_system_methods(self):
         system_methods = {}

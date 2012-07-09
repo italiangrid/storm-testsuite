@@ -2,6 +2,7 @@
   "test_glue_available_space_info_service":[
     "2f6695",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/147",
     false,
     "",
@@ -11,6 +12,7 @@
   "test_direct_transfer_outbound_http":[
     "6967f9",
     "ST",
+    false
     "",
     false,
     "",
@@ -20,6 +22,7 @@
   "ts_ls_unexist_file":[
     "ec478e",
     "AT",
+    false,
     "",
     true,
     "",
@@ -30,6 +33,7 @@
   "test_dd":[
     "487f17",
     "UT",
+    false,
     "",
     false,
     "",
@@ -39,6 +43,7 @@
   "test_data_transfer_in_unexist_file":[
     "8e34f5",
     "ST",
+    false,
     "",
     false,
     "",
@@ -48,6 +53,7 @@
   "test_ls_unexist_dir":[
     "4a153e",
     "AT",
+    false,
     "",
     false,
     "",
@@ -57,6 +63,7 @@
   "ts_gtp_wo":[
     "79a112",
     "AT",
+    false,
     "",
     true,
     "",
@@ -67,6 +74,7 @@
   "ts_gluetwo_endpoint_undefined":[
     "29dacc",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/207",
     false,
     "",
@@ -77,6 +85,7 @@
   "ts_glue_available_space":[
     "138620",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/150",
     false,
     "",
@@ -87,6 +96,7 @@
   "ts_update_used_space_upon_pd":[
     "c971fb",
     "ST",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/109",
     false,
     "",
@@ -97,6 +107,7 @@
   "ts_eight_digit_string_checksum":[
     "5cd728",
     "ST",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/108",
     false,
     "",
@@ -107,6 +118,7 @@
   "test_direct_transfer_outbound_https_voms":[
     "21d919",
     "ST",
+    false,
     "",
     false,
     "",
@@ -116,6 +128,7 @@
   "test_srm_transfer_outbound_https_voms":[
     "aea1bc",
     "ST",
+    false,
     "",
     false,
     "",
@@ -125,6 +138,7 @@
   "ts_rm_file":[
     "b266f2",
     "AT",
+    false,
     "",
     false,
     "",
@@ -135,6 +149,7 @@
   "ts_non_ascii_chars":[
     "2f6fe9",
     "ST",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/137",
     false,
     "",
@@ -145,6 +160,7 @@
   "test_mysql_storage_space_update":[
     "efacfe",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/168",
     false,
     "",
@@ -154,6 +170,7 @@
   "test_both_sup_and_unsup_protocols":[
     "fa3b00",
     "ST",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/126",
     false,
     "",
@@ -163,6 +180,7 @@
   "test_backend_logrotate_file":[
     "ad63ac",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/134",
     false,
     "",
@@ -172,6 +190,7 @@
   "ts_ls_dir":[
     "0837ae",
     "AT",
+    false,
     "",
     false,
     "",
@@ -182,6 +201,7 @@
   "ts_gtp":[
     "5eb930",
     "AT",
+    false,
     "",
     true,
     "",
@@ -192,6 +212,7 @@
   "ts_size_in_namespace_file":[
     "c99e16",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/151",
     false,
     "",
@@ -202,6 +223,7 @@
   "test_ls_file":[
     "184ab3",
     "AT",
+    false,
     "",
     false,
     "",
@@ -211,6 +233,7 @@
   "test_glue_used_space":[
     "50155e",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/150",
     false,
     "",
@@ -220,6 +243,7 @@
   "test_glue_service":[
     "6ec220",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/143",
     false,
     "",
@@ -229,6 +253,7 @@
   "test_dcache_ping":[
     "2076cb",
     "AT",
+    false,
     "",
     false,
     "",
@@ -238,6 +263,7 @@
   "test_info_service_failure":[
     "82dc47",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/153",
     false,
     "",
@@ -247,6 +273,7 @@
   "ts_storm_gridhttps_authorization_denied":[
     "221160",
     "ST",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/209",
     false,
     "",
@@ -257,6 +284,7 @@
   "test_non_ascii_chars":[
     "09829e",
     "ST",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/137",
     false,
     "",
@@ -266,6 +294,7 @@
   "test_storm_ping":[
     "6d06c2",
     "AT",
+    false,
     "",
     false,
     "",
@@ -275,6 +304,7 @@
   "ts_dt":[
     "cda37a",
     "ST",
+    false,
     "",
     false,
     "",
@@ -285,6 +315,7 @@
   "ts_backend_logrotate_file":[
     "33895c",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/134",
     false,
     "",
@@ -295,6 +326,7 @@
   "test_gridhttps_plugin_links":[
     "84e55b",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/154",
     false,
     "",
@@ -304,6 +336,7 @@
   "test_backend_restart_failure":[
     "bdddd0",
     "DT",
+    false,
     "",
     false,
     "",
@@ -313,6 +346,7 @@
   "test_size_in_namespace_file":[
     "c23e05",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/151",
     false,
     "",
@@ -322,6 +356,7 @@
   "test_storm_backend_dao_null_pointer":[
     "a1dfd9",
     "ST",
+    false,
     "",
     false,
     "",
@@ -331,6 +366,7 @@
   "test_direct_transfer_inbound_https":[
     "d60aa0",
     "ST",
+    false,
     "",
     false,
     "",
@@ -340,6 +376,7 @@
   "test_direct_transfer_inbound_https_voms_no_auth":[
     "d60cc0",
     "ST",
+    false,
     "",
     false,
     "",
@@ -349,6 +386,7 @@
   "ts_glue_available_space_info_service":[
     "bf5904",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/147",
     false,
     "",
@@ -359,6 +397,7 @@
   "ts_mkdir_exist":[
     "8ba9b4",
     "AT",
+    false,
     "",
     false,
     "",
@@ -369,6 +408,7 @@
   "test_srm_transfer_inbound_https":[
     "47d6d5",
     "ST",
+    false,
     "",
     false,
     "",
@@ -378,6 +418,7 @@
   "test_glue_available_space":[
     "884d3b",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/150",
     false,
     "",
@@ -387,6 +428,7 @@
   "test_direct_transfer_inbound_http":[
     "fd0f95",
     "ST",
+    false,
     "",
     false,
     "",
@@ -396,6 +438,7 @@
   "test_unsupported_protocols":[
     "b0ca16",
     "ST",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/127",
     false,
     "",
@@ -405,6 +448,7 @@
   "test_backend_gridhttps":[
     "09a5b7",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/140",
     false,
     "",
@@ -414,6 +458,7 @@
   "test_srm_transfer_outbound_https":[
     "bbddf2",
     "ST",
+    false,
     "",
     false,
     "",
@@ -423,6 +468,7 @@
   "ts_conf":[
     "442816",
     "UT",
+    false,
     "",
     false,
     "",
@@ -433,6 +479,7 @@
   "test_backend_server_status":[
     "1fee07",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/114",
     false,
     "",
@@ -442,6 +489,7 @@
   "test_gluetwo_endpoint_undefined":[
     "9cc43b",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/207",
     false,
     "",
@@ -451,6 +499,7 @@
   "test_data_transfer_out_exist_file":[
     "75afce",
     "ST",
+    false,
     "",
     false,
     "",
@@ -460,6 +509,7 @@
   "test_direct_transfer_inbound_http_unexist_file":[
     "b2fd90",
     "ST",
+    false,
     "",
     false,
     "",
@@ -469,6 +519,7 @@
   "ts_glue_service":[
     "1dffdd",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/143",
     false,
     "",
@@ -479,6 +530,7 @@
   "test_storm_ping_wo":[
     "2c2f66",
     "AT",
+    false,
     "",
     false,
     "",
@@ -488,6 +540,7 @@
   "ts_cw":[
     "e4a8c7",
     "ST",
+    false,
     "",
     false,
     "",
@@ -498,6 +551,7 @@
   "test_direct_transfer_inbound_https_unexist_file":[
     "acea33",
     "ST",
+    false,
     "",
     false,
     "",
@@ -507,6 +561,7 @@
   "test_storm_gtp":[
     "882900",
     "AT",
+    false,
     "",
     false,
     "",
@@ -516,6 +571,7 @@
   "test_rm_unexist_dir":[
     "f1efe5",
     "AT",
+    false,
     "",
     false,
     "",
@@ -525,6 +581,7 @@
   "test_get_space_metadata_failure":[
     "6e21ed",
     "ST",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/189",
     false,
     "",
@@ -534,6 +591,7 @@
   "test_srm_transfer_inbound_http":[
     "39612c",
     "ST",
+    false,
     "",
     false,
     "",
@@ -543,6 +601,7 @@
   "test_data_transfer_in_file":[
     "9011fd",
     "ST",
+    false,
     "",
     false,
     "",
@@ -552,6 +611,7 @@
   "test_frontend_logrotate_output":[
     "74d14a",
     "DT",
+    flase,
     "",
     false,
     "",
@@ -561,6 +621,7 @@
   "test_settings":[
     "8b4923",
     "UT",
+    false,
     "",
     false,
     "",
@@ -570,6 +631,7 @@
   "ts_backend_server_name_status":[
     "842319",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/160",
     false,
     "",
@@ -580,6 +642,7 @@
   "ts_gluetwo_endpoint":[
     "309dab",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/208",
     false,
     "",
@@ -590,6 +653,7 @@
   "test_storm_gtp_wo":[
     "6d69e7",
     "AT",
+    false,
     "",
     false,
     "",
@@ -599,6 +663,7 @@
   "ts_ping":[
     "c50037",
     "AT",
+    false,
     "",
     true,
     "",
@@ -609,6 +674,7 @@
   "test_update_used_space_upon_pd":[
     "b740fb",
     "ST",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/109",
     false,
     "",
@@ -618,6 +684,7 @@
   "test_ls_unexist_file":[
     "469b32",
     "AT",
+    false,
     "",
     false,
     "",
@@ -627,6 +694,7 @@
   "test_gluetwo_storage_undefined":[
     "14c174",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/207",
     false,
     "",
@@ -636,6 +704,7 @@
   "ts_get_space_metadata_failure":[
     "bfe80f",
     "ST",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/189",
     false,
     "",
@@ -646,6 +715,7 @@
   "ts_info_service_failure":[
     "59de9f",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/153",
     false,
     "",
@@ -656,6 +726,7 @@
   "ts_https_voms":[
     "c976b0",
     "ST",
+    false,
     "",
     false,
     "",
@@ -666,6 +737,7 @@
   "ts_gridhttps_plugin_links":[
     "1f8a8a",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/154",
     false,
     "",
@@ -676,6 +748,7 @@
   "test_cksm":[
     "eea4be",
     "ST",
+    false,
     "",
     false,
     "",
@@ -685,6 +758,7 @@
   "ts_backend_server_status":[
     "4c09b6",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/114",
     false,
     "",
@@ -695,6 +769,7 @@
   "ts_backend_cron_file":[
     "72108b",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/135",
     false,
     "",
@@ -705,6 +780,7 @@
   "ts_mkdir":[
     "8c5821",
     "AT",
+    false,
     "",
     false,
     "",
@@ -715,6 +791,7 @@
   "test_mysql_connector_java_links":[
     "ad7c8b",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/179",
     false,
     "",
@@ -724,6 +801,7 @@
   "test_mkdir_exist_dir":[
     "74a033",
     "AT",
+    false,
     "",
     false,
     "",
@@ -733,6 +811,7 @@
   "test_direct_transfer_inbound_https_no_auth":[
     "6db50f",
     "ST",
+    false,
     "",
     false,
     "",
@@ -742,6 +821,7 @@
   "test_direct_transfer_inbound_https_voms":[
     "ab1064",
     "ST",
+    false,
     "",
     false,
     "",
@@ -751,6 +831,7 @@
   "ts_update_free_space_upon_rm":[
     "341355",
     "ST",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/106",
     false,
     "",
@@ -761,6 +842,7 @@
   "test_storm_gridhttps_authorization_denied":[
     "d58db9",
     "ST",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/209",
     false,
     "",
@@ -770,6 +852,7 @@
   "test_eight_digit_string_checksum":[
     "244fca",
     "ST",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/108",
     false,
     "",
@@ -779,6 +862,7 @@
   "test_gluetwo_endpoint":[
     "eecdc3",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/208",
     false,
     "",
@@ -788,6 +872,7 @@
   "test_direct_transfer_outbound_https":[
     "f92c33",
     "ST",
+    false,
     "",
     false,
     "",
@@ -797,6 +882,7 @@
   "test_storm_backend_age":[
     "b76e61",
     "ST",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/181",
     false,
     "",
@@ -806,6 +892,7 @@
   "test_rm_lf":[
     "1c0731",
     "UT",
+    false,
     "",
     false,
     "",
@@ -815,6 +902,7 @@
   "test_direct_transfer_outbound_https_voms_exist_file":[
     "8b5ba0",
     "ST",
+    false,
     "",
     false,
     "",
@@ -824,6 +912,7 @@
   "test_mkdir_dir":[
     "d55993",
     "AT",
+    false,
     "",
     false,
     "",
@@ -833,6 +922,7 @@
   "test_srm_transfer_inbound_https_voms":[
     "e94e78",
     "ST",
+    false,
     "",
     false,
     "",
@@ -842,6 +932,7 @@
   "ts_yaim_version_file":[
     "813214",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/149",
     false,
     "",
@@ -852,6 +943,7 @@
   "ts_gluetwo_storage_undefined":[
     "43a843",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/207",
     false,
     "",
@@ -862,6 +954,7 @@
   "test_size":[
     "ca2419",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/146",
     false,
     "",
@@ -871,6 +964,7 @@
   "test_backend_logrotate_output":[
     "3ef792",
     "DT",
+    false,
     "",
     false,
     "",
@@ -880,6 +974,7 @@
   "ts_unsupported_protocols":[
     "5a9532",
     "ST",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/127",
     false,
     "",
@@ -890,6 +985,7 @@
   "test_cp_at":[
     "a61b97",
     "AT",
+    false,
     "",
     false,
     "",
@@ -899,6 +995,7 @@
   "test_yaim_version_file":[
     "b57772",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/149",
     false,
     "",
@@ -908,6 +1005,7 @@
   "test_cr_lf":[
     "d336a7",
     "UT",
+    false,
     "",
     false,
     "",
@@ -917,6 +1015,7 @@
   "test_data_transfer_out_file":[
     "4d0ea9",
     "ST",
+    false,
     "",
     false,
     "",
@@ -926,6 +1025,7 @@
   "test_direct_transfer_inbound_https_voms_unexist_file":[
     "bd37f7",
     "ST",
+    false,
     "",
     false,
     "",
@@ -935,6 +1035,7 @@
   "ts_mysql_storage_space_update":[
     "2231e4",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/168",
     false,
     "",
@@ -945,6 +1046,7 @@
   "test_rm_dir":[
     "2d8030",
     "AT",
+    false,
     "",
     false,
     "",
@@ -954,6 +1056,7 @@
   "test_rm_file":[
     "44d230",
     "AT",
+    false,
     "",
     false,
     "",
@@ -963,6 +1066,7 @@
   "test_srm_transfer_outbound_http":[
     "4244ec",
     "ST",
+    false,
     "",
     false,
     "",
@@ -972,6 +1076,7 @@
   "test_rm_unexist_file":[
     "b76fcf",
     "AT",
+    false,
     "",
     false,
     "",
@@ -981,6 +1086,7 @@
   "ts_cksm":[
     "b8ff21",
     "ST",
+    false,
     "",
     false,
     "",
@@ -991,6 +1097,7 @@
   "ts_ping_wo":[
     "b91203",
     "AT",
+    false,
     "",
     true,
     "",
@@ -1001,6 +1108,7 @@
   "ts_storm_database_password":[
     "402816",
     "ST",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/227",
     false,
     "",
@@ -1011,6 +1119,7 @@
   "test_backend_cron_file":[
     "71272d",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/135",
     false,
     "",
@@ -1020,6 +1129,7 @@
   "ts_cp_in":[
     "44cf98",
     "AT",
+    false,
     "",
     false,
     "",
@@ -1030,6 +1140,7 @@
   "ts_storm_backend_age":[
     "915129",
     "ST",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/181",
     false,
     "",
@@ -1040,6 +1151,7 @@
   "test_direct_transfer_outbound_https_exist_file":[
     "d9d057",
     "ST",
+    false,
     "",
     false,
     "",
@@ -1049,6 +1161,7 @@
   "test_gluetwo_service":[
     "6f5b9a",
     "DT",
+    false,
     "",
     false,
     "",
@@ -1058,6 +1171,7 @@
   "test_gluetwo_storage_share_capacity":[
     "aae0b5",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/147",
     false,
     "",
@@ -1067,6 +1181,7 @@
   "ts_https":[
     "4188c4",
     "ST",
+    false,
     "",
     false,
     "",
@@ -1077,6 +1192,7 @@
   "ts_cp_out":[
     "2a7bc0",
     "AT",
+    false,
     "",
     false,
     "",
@@ -1087,6 +1203,7 @@
   "ts_glue_used_space":[
     "c860c9",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/150",
     false,
     "",
@@ -1097,6 +1214,7 @@
   "ts_gluetwo_storage_share_capacity":[
     "3d2509",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/147",
     false,
     "",
@@ -1107,6 +1225,7 @@
   "ts_gluetwo_service":[
     "aaa0bb",
     "DT",
+    false,
     "",
     false,
     "",
@@ -1117,6 +1236,7 @@
   "ts_rm_unexist_dir":[
     "5333af",
     "AT",
+    false,
     "",
     false,
     "",
@@ -1127,6 +1247,7 @@
   "ts_size":[
     "449568",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/146",
     false,
     "",
@@ -1137,6 +1258,7 @@
   "test_direct_transfer_outbound_http_exist_file":[
     "45880a",
     "ST",
+    false,
     "",
     false,
     "",
@@ -1146,6 +1268,7 @@
   "ts_mysql_connector_java_links":[
     "a61eb8",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/179",
     false,
     "",
@@ -1156,6 +1279,7 @@
   "test_storm_database_password":[
     "0b20a0",
     "ST",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/227",
     false,
     "",
@@ -1165,6 +1289,7 @@
   "test_cp_bt":[
     "037104",
     "AT",
+    false,
     "",
     false,
     "",
@@ -1174,6 +1299,7 @@
   "ts_http":[
     "32429c",
     "ST",
+    false,
     "",
     false,
     "",
@@ -1184,6 +1310,7 @@
   "test_update_free_space_upon_rm":[
     "b9aa3c",
     "ST",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/106",
     false,
     "",
@@ -1193,6 +1320,7 @@
   "ts_backend_gridhttps":[
     "591891",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/140",
     false,
     "",
@@ -1203,6 +1331,7 @@
   "ts_both_sup_and_unsup_protocols":[
     "4f21be",
     "ST",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/126",
     false,
     "",
@@ -1213,6 +1342,7 @@
   "test_backend_server_name_status":[
     "e055f5",
     "DT",
+    true,
     "https://storm.cnaf.infn.it:8443/redmine/issues/160",
     false,
     "",
@@ -1222,6 +1352,7 @@
   "ts_ls_file":[
     "6f5379",
     "AT",
+    false,
     "",
     false,
     "",
@@ -1232,6 +1363,7 @@
   "test_ls_dir":[
     "068ab0",
     "AT",
+    false,
     "",
     false,
     "",

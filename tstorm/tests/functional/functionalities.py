@@ -25,8 +25,8 @@ class FunctionalitiesTest(unittest.TestCase):
         self.lfn = lfn
 
     def test_cksm(self):
-        self.lfn.put_name(self.uid['test_cksm'][5])
-        self.lfn.put_description(self.uid['test_cksm'][6])
+        self.lfn.put_name(self.uid['test_cksm'][6])
+        self.lfn.put_description(self.uid['test_cksm'][7])
         if self.uid.has_key('test_cksm'):
             self.lfn.put_uuid(self.uid['test_cksm'][0])
         else:
@@ -76,8 +76,8 @@ class FunctionalitiesTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_data_transfer_out_file(self):
-        self.lfn.put_name(self.uid['test_data_transfer_out_file'][5])
-        self.lfn.put_description(self.uid['test_data_transfer_out_file'][6])
+        self.lfn.put_name(self.uid['test_data_transfer_out_file'][6])
+        self.lfn.put_description(self.uid['test_data_transfer_out_file'][7])
         if self.uid.has_key('test_data_transfer_out_file'):
             self.lfn.put_uuid(self.uid['test_data_transfer_out_file'][0])
         else:
@@ -108,8 +108,8 @@ class FunctionalitiesTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_data_transfer_out_exist_file(self):
-        self.lfn.put_name(self.uid['test_data_transfer_out_exist_file'][5])
-        self.lfn.put_description(self.uid['test_data_transfer_out_exist_file'][6])
+        self.lfn.put_name(self.uid['test_data_transfer_out_exist_file'][6])
+        self.lfn.put_description(self.uid['test_data_transfer_out_exist_file'][7])
         if self.uid.has_key('test_data_transfer_out_exist_file'):
             self.lfn.put_uuid(self.uid['test_data_transfer_out_exist_file'][0])
         else:
@@ -134,8 +134,8 @@ class FunctionalitiesTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_data_transfer_in_file(self):
-        self.lfn.put_name(self.uid['test_data_transfer_in_file'][5])
-        self.lfn.put_description(self.uid['test_data_transfer_in_file'][6])
+        self.lfn.put_name(self.uid['test_data_transfer_in_file'][6])
+        self.lfn.put_description(self.uid['test_data_transfer_in_file'][7])
         if self.uid.has_key('test_data_transfer_in_file'):
             self.lfn.put_uuid(self.uid['test_data_transfer_in_file'][0])
         else:
@@ -160,8 +160,8 @@ class FunctionalitiesTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_data_transfer_in_unexist_file(self):
-        self.lfn.put_name(self.uid['test_data_transfer_in_unexist_file'][5])
-        self.lfn.put_description(self.uid['test_data_transfer_in_unexist_file'][6])
+        self.lfn.put_name(self.uid['test_data_transfer_in_unexist_file'][6])
+        self.lfn.put_description(self.uid['test_data_transfer_in_unexist_file'][7])
         if self.uid.has_key('test_data_transfer_in_unexist_file'):
             self.lfn.put_uuid(self.uid['test_data_transfer_in_unexist_file'][0])
         else:

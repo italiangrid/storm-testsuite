@@ -18,8 +18,8 @@ class UtilitiesTest(unittest.TestCase):
         self.lfn = lfn
     
     def test_settings(self):
-        self.lfn.put_name(self.uid['test_settings'][5])
-        self.lfn.put_description(self.uid['test_settings'][6])
+        self.lfn.put_name(self.uid['test_settings'][6])
+        self.lfn.put_description(self.uid['test_settings'][7])
         if self.uid.has_key('test_settings'):
             self.lfn.put_uuid(self.uid['test_settings'][0])
         else:
@@ -38,8 +38,8 @@ class UtilitiesTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_dd(self):
-        self.lfn.put_name(self.uid['test_dd'][5])
-        self.lfn.put_description(self.uid['test_dd'][6])
+        self.lfn.put_name(self.uid['test_dd'][6])
+        self.lfn.put_description(self.uid['test_dd'][7])
         if self.uid.has_key('test_dd'):
             self.lfn.put_uuid(self.uid['test_dd'][0])
         else:
@@ -56,8 +56,8 @@ class UtilitiesTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_cr_lf(self):
-        self.lfn.put_name(self.uid['test_cr_lf'][5])
-        self.lfn.put_description(self.uid['test_cr_lf'][6])
+        self.lfn.put_name(self.uid['test_cr_lf'][6])
+        self.lfn.put_description(self.uid['test_cr_lf'][7])
         if self.uid.has_key('test_cr_lf'):
             self.lfn.put_uuid(self.uid['test_cr_lf'][0])
         else:
@@ -72,8 +72,8 @@ class UtilitiesTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_rm_lf(self):
-        self.lfn.put_name(self.uid['test_rm_lf'][5])
-        self.lfn.put_description(self.uid['test_rm_lf'][6])
+        self.lfn.put_name(self.uid['test_rm_lf'][6])
+        self.lfn.put_description(self.uid['test_rm_lf'][7])
         if self.uid.has_key('test_rm_lf'):
             self.lfn.put_uuid(self.uid['test_rm_lf'][0])
         else:
