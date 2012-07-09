@@ -91,18 +91,20 @@ if __name__ == '__main__':
             tmp_filter_tests_details = {}
             x = value.split(' ')
             for y in x:
-                if 't' in y.split('=')[0]:
+                if 't' in y.split('=')[0] or 'test' in y.split('=')[0]:
                    tmp_filter_tests_details['t'] = y.split('=')[1].split(',')
                    if 'DT' in tmp_filter_tests_details['t']:
                        print 'This script only runs AT,ST and UT tests'
                        usage()
                        sys.exit()
-                elif 'r' in y.split('=')[0]:
+                elif 'r' in y.split('=')[0] or 'regression' in y.split('=')[0]:
                    tmp_filter_tests_details['r'] = y.split('=')[1]
-                elif 'i' in y.split('=')[0]:
+                elif 'i' in y.split('=')[0] or 'idenpotent' in y.split('=')[0]:
                    tmp_filter_tests_details['i'] = y.split('=')[1]
-                elif 'o' in y.split('=')[0]:
+                elif 'o' in y.split('=')[0] or  'output' in y.split('=')[0]:
                    tmp_filter_tests_details['o'] = y.split('=')[1]
+                elif 'p' in y.split('=')[0] or  'profile' in y.split('=')[0]:
+                   tmp_filter_tests_details['p'] = y.split('=')[1]
             filter_tests_details = (True, tmp_filter_tests_details)
         elif opt in ("--novoms"):
             voms = False
