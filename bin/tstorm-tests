@@ -114,7 +114,7 @@ if __name__ == '__main__':
                    tmp_filter_tests_details['f'] = y.split('=')[1].split(',')
                    if 'o' in tmp_filter_tests_details['f']:
                        msg = 'This parameter only considers '
-                       msg += 't/type, r/regression, rfc, i/idenpotent,'
+                       msg += 'i/id, t/type, r/regression, rfc, i/idenpotent,'
                        msg += 'range, n/name, and d/description values'
                        print msg
                        usage()
