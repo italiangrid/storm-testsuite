@@ -40,11 +40,34 @@ def usage():
     print """                    [-d|--destfile] [-i|--ids] [-f|--file-ids] """
     print """                    [--noreport] [--novoms]"""
     print """                    [-s|--filter-list] [-l|--list]"""
+    print """where:"""
+    print """- version, noreport, novoms and list are not followed by any"""
+    print """  values"""
+    print """- conf, destfile, and file-ids are followed by a value"""
+    print """- ids is followed by a sequence of id values separated by , """
+    print """  and between '"""
+    print """- filter-list is followed by a sequence of values separated """
+    print """  by ; and between ', the values of which are"""
+    print """  t|test=sequence of types of tests separated by , as """
+    print """      (AT,UT,ST,DT) that filters in relation with the """
+    print """      the type of test"""
+    print """  r|regression=false|true that expresses if the test """
+    print """      belongs to the regression category"""
+    print """  idenpotent=false|true that expresses if the test belongs """
+    print """      to the idenpotent category"""
+    print """  o|output=filename that allows user to save ids in the """
+    print """      specified filename"""
+    print """  f|format=n|name,d|description,range,rfc,i|id,idenpotent that """
+    print """      allows user to specify the order of print of test """
+    print """      information""",
     print """Example: if you want to run tests without producing a report"""
-    print """         tstorm-tests --noreport"""
+    print """      tstorm-tests --noreport"""
     print """Example: if you want to run tests providing tests sequence"""
-    print """         tstorm-tests -i <id1>, <id2>, ..."""
-
+    print """      tstorm-tests -i '<id1>, <id2>, ...'"""
+    print """Example: if you want to get tests information providing a """
+    print """filter"""
+    print """      tstorm-tests --filter-list 't=AT,UT,ST;regression=true;f=n,d,rfc,id"""
+    
 if __name__ == '__main__':
     tfn = 'tstorm.ini'
 
