@@ -8,7 +8,7 @@
     "",
     "SRM LS",
     "Verify ls operation on a file that does not exist by using the lcg client",
-    "at.ts_lcg_ls_unexist_file(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "at.ts_lcg_ls_unexist_file(tfn,ifn,dfn,back_ifn,uid,lfn)"
     ],
   "ts_storm_gtp_wo":[
     "6d69e7",
@@ -19,7 +19,7 @@
     "",
     "SRM GET TRANSFER PROTOCOLS",
     "Verify gtp operation by using the StoRM client",
-    "at.ts_storm_gtp_wo(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "at.ts_storm_gtp_wo(tfn,ifn,dfn,back_ifn,uid,lfn)"
     ],
   "ts_gluetwo_endpoint_undefined":[
     "9cc43b",
@@ -30,7 +30,7 @@
     "",
     "STORM BUG: GLUE2ENDPOINTCAPABILITY AND GLUE2ENDPOINTINTERFACENAME CONTAIN WRONG VALUES",
     "Yaim-Storm for GLUE2 configuration set wrong values in the GLUE2EndpointCapability and GLUE2EndpointInterfaceName attributes of the GLUE2.0 schema",
-    "rlt.ts_gluetwo_endpoint_undefined(tfn, uid, lfn)"
+    "rlt.ts_gluetwo_endpoint_undefined(tfn,uid,lfn)"
     ],
   "ts_glue_available_space":[
     "884d3b",
@@ -41,7 +41,7 @@
     "",
     "WRONG CALCULATION OF SA_AVAILABLE_SIZE_KB AND SA_USED_SIZE_KB",
     "Wrong calculation of SA_AVAILABLE_SPACE",
-    "rlt.ts_glue_available_space(tfn, uid, lfn)"
+    "rlt.ts_glue_available_space(tfn,uid,lfn)"
     ],
   "ts_update_used_space_upon_pd":[
     "b740fb",
@@ -52,7 +52,7 @@
     "",
     "STORM BUG: SPACE TOKEN USED SPACE IS NOT UPDATE",
     "StoRM does not provides updated used space value for Space Token due to a bug in the update of the used space after the srmPutDone operation",
-    "rt.ts_update_used_space_upon_pd(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "rt.ts_update_used_space_upon_pd(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_eight_digit_string_checksum":[
     "244fca",
@@ -63,7 +63,7 @@
     "",
     "COMPARISON BUG IN LCG-CR COPYING TO STORM",
     "The StoRM GridFTP component stores the checksum value computed during the file transfer as a long number, discarding in this way leading zeroes. The default ADLER32 checksum match algorithm considers checksum values as strings so the leading zeroes matters",
-    "rt.ts_eight_digit_string_checksum(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "rt.ts_eight_digit_string_checksum(tfn,ifn,dfn,back_ifn,uid,lfn)"
     ],
   "ts_dcache_rm_file":[
     "44d230",
@@ -74,7 +74,7 @@
     "",
     "SRM RM",
     "Verify rm operation of a given file by using the dcache client",
-    "at.ts_dcache_rm_file(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "at.ts_dcache_rm_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_non_ascii_chars":[
     "09829e",
@@ -85,7 +85,7 @@
     "",
     "STORM BUG: REQUEST WITH AUTHORIZATION ID PARAMETERS WITH NON ASCII CHARACTERS MAKES FE CRASH",
     "StoRM Frontend crashes when managing asynchronous requests providing string parameters containing non ASCII characters",
-    "rt.ts_non_ascii_chars(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "rt.ts_non_ascii_chars(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_lcg_ls_dir":[
     "068ab0",
@@ -96,7 +96,7 @@
     "",
     "SRM LS",
     "Verify ls operation on a directory that exists by using the lcg client",
-    "at.ts_lcg_ls_dir(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "at.ts_lcg_ls_dir(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_storm_gtp":[
     "882900",
@@ -107,7 +107,7 @@
     "",
     "SRM GET TRANSFER PROTOCOLS",
     "Verify gtp operation by using the StoRM client",
-    "at.ts_storm_gtp(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "at.ts_storm_gtp(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_size_in_namespace_file":[
     "c23e05",
@@ -118,7 +118,7 @@
     "",
     "WRONG SETTINGS OF SIZE IN NAMESPACE.XML",
     "Wrong settings of size in namespace.xml",
-    "rct.ts_size_in_namespace_file(tfn, uid, lfn)"
+    "rct.ts_size_in_namespace_file(tfn, uid,lfn)"
     ],
   "ts_storm_gridhttps_authorization_denied":[
     "d58db9",
@@ -129,7 +129,7 @@
     "",
     "AUTHORIZATION REST SERVICE DENY AUTHORIZATION",
     "StoRM Backend Gridhttps does not work if the SA accesspoint is not included in the SA root path",
-    "rt.ts_storm_gridhttps_authorization_denied(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "rt.ts_storm_gridhttps_authorization_denied(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_dt":[
     "cda37a",
@@ -140,7 +140,7 @@
     "",
     "DATA TRANSDER OUT IN USING GSIFTP",
     "Verify that a given file can be transferred out and in",
-    "ft.ts_dt(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "ft.ts_dt(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_backend_logrotate_file":[
     "ad63ac",
@@ -151,7 +151,7 @@
     "",
     "STORN BACKEND LOGROTATE FILE POINTS TO NON EXISTING FILE",
     "StoRM Backend logrotate file points to non existing file",
-    "rct.ts_backend_logrotate_file(tfn, uid, lfn)"
+    "rct.ts_backend_logrotate_file(tfn, uid,lfn)"
     ],
   "ts_glue_available_space_info_service":[
     "2f6695",
@@ -162,7 +162,7 @@
     "",
     "INFO SERVICE ALWAYS RETURNS A ZERO AVAILABLE SPACE",
     "Info Service always returns a zero available space",
-    "rlt.ts_glue_available_space_info_service(tfn, uid, lfn)"
+    "rlt.ts_glue_available_space_info_service(tfn, uid,lfn)"
     ],
   "ts_dcache_mkdir_exist":[
     "74a033",
@@ -173,7 +173,7 @@
     "",
     "SRM MKDIR",
     "Verify mkdir operation on a directory that already exists by using the dcache client",
-    "at.ts_dcache_mkdir_exist(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "at.ts_dcache_mkdir_exist(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_conf":[
     "8b4923",
@@ -184,7 +184,7 @@
     "",
     "CONFIGURATION INI FILE CORRECTNESS",
     "Verify the content of test ini file",
-    "cts.ts_conf(tfn,ifn,back_ifn,lfn)"
+    "cts.ts_conf(tfn,ifn,back_ifn,uid,lfn)"
     ],
   "ts_glue_service":[
     "6ec220",
@@ -195,7 +195,7 @@
     "",
     "STORM BUG: GLUESERVICENAME AND GLUESERVIVETYPE CONTAIN WRONG VALUES",
     "Yaim-Storm for GLUE2 configuration called a worng script setting wrong values in the GlueServiceName and GlueServiceType attributes of the GLUE1.3 schema",
-    "rlt.ts_glue_service(tfn, uid, lfn)"
+    "rlt.ts_glue_service(tfn, uid,lfn)"
     ],
   "ts_cw":[
     "e4a8c7",
@@ -206,7 +206,7 @@
     "",
     "SRM OPERATIONS",
     "Verify that a given file can be transferred out and in",
-    "ft.ts_cw(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "ft.ts_cw(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_backend_server_name_status":[
     "e055f5",
@@ -217,7 +217,7 @@
     "",
     "WRONG STORM BACKEND SERVER NAME RETURNED DURING THE EXECUTION OF STATUS",
     "StoRM Backend Server name is wrong",
-    "rct.ts_backend_server_name_status(tfn, uid, lfn)"
+    "rct.ts_backend_server_name_status(tfn, uid,lfn)"
     ],
   "ts_gluetwo_endpoint":[
     "eecdc3",
@@ -228,7 +228,7 @@
     "",
     "STORM BUG: GLUE2ENDPOINTCAPABILITY AND GLUE2ENDPOINTINTERFACENAME CONTAIN WRONG VALUES",
     "Yaim-Storm for GLUE2 configuration set wrong values in the GLUE2EndpointCapability and GLUE2EndpointInterfaceName attributes of the GLUE2.0 schema",
-    "rlt.ts_gluetwo_endpoint_undefined(tfn, uid, lfn)"
+    "rlt.ts_gluetwo_endpoint_undefined(tfn, uid,lfn)"
     ],
   "ts_storm_ping":[
     "6d06c2",
@@ -239,7 +239,7 @@
     "",
     "SRM PING",
     "Verify ping operation by using the StoRM client",
-    "at.ts_storm_ping(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "at.ts_storm_ping(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_get_space_metadata_failure":[
     "6e21ed",
@@ -250,7 +250,7 @@
     "",
     "GET SPACE METADATA FAILURE WITHOUT VOMS EXTENSIONS",
     "StoRM Backend Server returns an exception when it receives a GetSpaceMetadata request without voms extension",
-    "rtnv.ts_get_space_metadata_failure(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "rtnv.ts_get_space_metadata_failure(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_info_service_failure":[
     "82dc47",
@@ -261,7 +261,7 @@
     "",
     "REST INFO SERVICE FAILURE",
     "Rest info service fails when non-mandatory parameters are missing",
-    "rlt.ts_info_service_failure(tfn, uid, lfn)"
+    "rlt.ts_info_service_failure(tfn, uid,lfn)"
     ],
   "ts_https_voms":[
     "c976b0",
@@ -272,7 +272,7 @@
     "",
     "DATA TRANSDER OUT IN USING HTTPS",
     "Verify that a given file can be transferred out and in",
-    "ft.ts_https_voms(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "ft.ts_https_voms(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_gridhttps_plugin_links":[
     "84e55b",
@@ -283,7 +283,7 @@
     "",
     "REMOVED GRIDHTTPS PLUGIN LINKS DURING UPGRADE FROM 1.7.0 to 1.7.1",
     "Removed gridhttpds plugin links during upgrade from 1.7.0 to 1.7.1",
-    "rct.ts_gridhttps_plugin_links(tfn, uid, lfn)"
+    "rct.ts_gridhttps_plugin_links(tfn, uid,lfn)"
     ],
   "ts_backend_server_status":[
     "1fee07",
@@ -294,7 +294,7 @@
     "",
     "EXTRA STORM BACKEND SERVICE INFORMATION RETURNED DURING THE EXECUTION OF STATUS",
     "Extra information are returned by storm backend server init script during the execution of status",
-    "rct.ts_backend_server_status(tfn, uid, lfn)"
+    "rct.ts_backend_server_status(tfn, uid,lfn)"
     ],
   "ts_backend_cron_file":[
     "71272d",
@@ -305,7 +305,7 @@
     "",
     "STORM BACKEND DOES NOT ROTATE LOG FILES",
     "StoRM Backend does not rotate log files",
-    "rct.ts_backend_cron_file(tfn, uid, lfn)"
+    "rct.ts_backend_cron_file(tfn, uid,lfn)"
     ],
   "ts_dcache_mkdir":[
     "d55993",
@@ -316,7 +316,7 @@
     "",
     "SRM MKDIR",
     "Verify mkdir operation on a directory by using the dcache client",
-    "at.ts_dcache_mkdir(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "at.ts_dcache_mkdir(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_update_free_space_upon_rm":[
     "b9aa3c",
@@ -327,7 +327,7 @@
     "",
     "INCORRECT INFORMATION PUBLISHED BY STORM",
     "StoRM does not publish correctly values for used and free space on the  BDII due to a bug in the update of the free space after the the srmRm operation",
-    "rt.ts_update_free_space_upon_rm(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "rt.ts_update_free_space_upon_rm(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_yaim_version_file":[
     "b57772",
@@ -338,7 +338,7 @@
     "",
     "WRONG VERSION IN THE YAIM-VERSION FILE",
     "Wrong version in the yaim-storm file",
-    "rct.ts_yaim_version_file(tfn, uid, lfn)"
+    "rct.ts_yaim_version_file(tfn, uid,lfn)"
     ],
   "ts_gluetwo_storage_undefined":[
     "14c174",
@@ -349,7 +349,7 @@
     "",
     "STORM BUG: GLUE2STORAGESHAREACCESSMODE",
     "Yaim-Storm for GLUE2 configuration set wrong values in the GLUE2StorageAccessMode attribute of the GLUE2.0 schema",
-    "rlt.ts_gluetwo_storage_undefined(tfn, uid, lfn)"
+    "rlt.ts_gluetwo_storage_undefined(tfn, uid,lfn)"
     ],
   "ts_unsupported_protocols":[
     "b0ca16",
@@ -360,7 +360,7 @@
     "",
     "STORM BUG: SRM TRANSFER COMMANDS DOES NOT REPORT ERRONEOUS PROTOCOL REQUESTS",
     "StoRM does not returns SRM_NOT_SUPPORTED error code when file transfer operation (srmPrepareToPut,srmPrepareToGet,srmBringOnline) are called providing a list of not supported desired transfer protocols to a bug in the management of file transfer operation. StoRM does not verifies if the provided protocols are supported",
-    "rt.ts_unsupported_protocols(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "rt.ts_unsupported_protocols(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_mysql_storage_space_update":[
     "efacfe",
@@ -371,7 +371,7 @@
     "",
     "NO UPDATING OF STORAGE SPACE IN DB AFTER A TOTAL ONLINE SIZE CHANGE IN THE NAMESPACE.XML",
     "When the TotalOnlineSize value has changed in the namespace.xml, the storm-backend-server process does not update the  corrispondent field in the storage_space table of the storm_be_ISAM  database",
-    "rct.ts_mysql_storage_space_update(tfn, uid, lfn)"
+    "rct.ts_mysql_storage_space_update(tfn, uid,lfn)"
     ],
   "ts_cksm":[
     "eea4be",
@@ -382,7 +382,7 @@
     "",
     "CKSUM",
     "Verify that the checksum is calculated for the transferred file using the gsiftp protocol",
-    "ft.ts_cksm(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "ft.ts_cksm(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_storm_ping_wo":[
     "2c2f66",
@@ -393,7 +393,7 @@
     "",
     "SRM PING",
     "Verify ping operation with wrong option by using the StoRM client",
-    "at.ts_storm_ping_wo(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "at.ts_storm_ping_wo(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_storm_database_password":[
     "0b20a0",
@@ -404,7 +404,7 @@
     "",
     "ERROR IN LOADING DATABASE PASSWORD",
     "StoRM Backend Server does not load database password correctly when its values is not the default one",
-    "rt.ts_storm_database_password(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "rt.ts_storm_database_password(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_lcg_cp_in":[
     "a61b97",
@@ -415,7 +415,7 @@
     "",
     "SRM CP",
     "Transfer a file from SE by using the lcg client",
-    "at.ts_lcg_cp_in(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "at.ts_lcg_cp_in(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_storm_backend_age":[
     "b76e61",
@@ -426,7 +426,7 @@
     "",
     "WRONG STORM BACKEND AGE RETURNED BY SRM PING",
     "Wrong the StoRM backend age returned by the command srm ping",
-    "rt.ts_storm_backend_age(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "rt.ts_storm_backend_age(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_https":[
     "4188c4",
@@ -437,7 +437,7 @@
     "",
     "DATA TRANSFER USING HTTPS",
     "Verify transferring operation without voms",
-    "ftnv.ts_https(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "ftnv.ts_https(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_lcg_cp_out":[
     "037104",
@@ -448,7 +448,7 @@
     "",
     "SRM CP",
     "Transfer a file on a SE by using the lcg client",
-    "at.ts_lcg_cp_out(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "at.ts_lcg_cp_out(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_glue_used_space":[
     "50155e",
@@ -459,7 +459,7 @@
     "",
     "WRONG CALCULATION OF SA_AVAILABLE_SIZE_KB AND SA_USED_SIZE_KB",
     "Wrong calculation of SA_USED_SPACE",
-    "rlt.ts_glue_used_space(tfn, uid, lfn)"
+    "rlt.ts_glue_used_space(tfn, uid,lfn)"
     ],
   "ts_gluetwo_storage_share_capacity":[
     "aae0b5",
@@ -470,7 +470,7 @@
     "",
     "GLUE2 GLUE2STORAGESHARECAPACITY* SIZES ALWAYS ZERO",
     "Glue2 GLUE2StorageShareCapacity* sizes always 0",
-    "rlt.ts_gluetwo_storage_share_capacity(tfn, uid, lfn)"
+    "rlt.ts_gluetwo_storage_share_capacity(tfn, uid,lfn)"
     ],
   "ts_gluetwo_service":[
     "6f5b9a",
@@ -481,7 +481,7 @@
     "",
     "OBJECT CLASS GLUE2STORAGESERVICE MISSING IN GLUE2SERVICE",
     "Yaim-Storm for GLUE2 configuration does not include ObjectClass:GLUE2StorageService in GLUE2Service",
-    "rlt.ts_gluetwo_service(tfn, uid, lfn)"
+    "rlt.ts_gluetwo_service(tfn, uid,lfn)"
     ],
   "ts_dcache_rm_unexist_dir":[
     "f1efe5",
@@ -492,7 +492,7 @@
     "",
     "SRM RMDIR",
     "Verify rmdir operation of a directory that does not exist by using the dcache client",
-    "at.ts_dcache_rm_unexist_dir(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "at.ts_dcache_rm_unexist_dir(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_dcache_rm_unexist_file":[
     "b76fcf",
@@ -503,7 +503,7 @@
     "",
     "SRM RM",
     "Verify rm operation of a file that does not exist by using the dcache client",
-    "at.ts_dcache_rm_unexist_file(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "at.ts_dcache_rm_unexist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_size":[
     "ca2419",
@@ -514,7 +514,7 @@
     "",
     "GET_SIZE INCORRECTLY HANDLES THE INFO",
     "Wrong calculation of SA_USED_SPACE",
-    "rlt.ts_size(tfn, uid, lfn)"
+    "rlt.ts_size(tfn, uid,lfn)"
     ],
   "ts_mysql_connector_java_links":[
     "ad7c8b",
@@ -525,7 +525,7 @@
     "",
     "MYSQL-CONNECTOR-JAVA DOWNLOADING FAILURE",
     "mysql-connector-java is not downloaded due to an issue in its owner repository",
-    "rct.ts_mysql_connector_java_links(tfn, uid, lfn)"
+    "rct.ts_mysql_connector_java_links(tfn, uid,lfn)"
     ],
   "ts_http":[
     "32429c",
@@ -536,7 +536,7 @@
     "",
     "DATA TRANSFER USING HTTP",
     "Verify transferring operation without voms",
-    "ftnv.ts_http(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "ftnv.ts_http(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_backend_gridhttps":[
     "09a5b7",
@@ -547,7 +547,7 @@
     "",
     "DEFAULT GRIDHTTPS SERVER PORT NUMBER CONFLICTS WITH BACKEND DEFAULT XMLRPC PORT NUMBER",
     "Default GridHTTPs server port number conflicts with Backend default xmlrpc port number",
-    "rct.ts_backend_gridhttps(tfn, uid, lfn)"
+    "rct.ts_backend_gridhttps(tfn, uid,lfn)"
     ],
   "ts_both_sup_and_unsup_protocols":[
     "4f21be",
@@ -569,6 +569,6 @@
     "",
     "SRM LS",
     "Verify ls operation on a file that exists by using the lcg client",
-    "at.ts_lcg_ls_file(tfn,ifn,dfn,back_ifn, uid, lfn)"
+    "at.ts_lcg_ls_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ]
 }
