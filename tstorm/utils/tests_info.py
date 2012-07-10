@@ -5,7 +5,15 @@ class TestsInfo:
     def __init__(self, mti_info, info={}):
         self.mti_info = mti_info
         self.info = info
-        self.list_keys = {'i':0,'id':0,'t':1,'type':1,'r':2,'regression':3,'rfc':3,'idenpotent':4,'range':5,'n':6,'name':6,'d':7,'description':7}
+        self.list_keys = {
+           'i':0, 'id':0,
+           't':1, 'type':1,
+           'r':2, 'regression':2,
+           'rfc':3,
+           'idenpotent':4,
+           'range':5,
+           'n':6, 'name':6,
+           'd':7, 'description':7}
 
     def __print_all_system_ids(self):
         print 'ID      RFC'
@@ -103,7 +111,6 @@ class TestsInfo:
                 df.write(id + '\n')
             df.close() 
             
-    # t=AT,FT r=true i=true o=profile-regression-check.txt
     def get_system_info(self):
         if len(self.info) == 0:
             self.__print_all_system_ids()
