@@ -10,23 +10,14 @@ from tstorm.utils import utils
 __author__ = 'Elisabetta Ronchieri'
 
 class LdapTest(unittest.TestCase):
-    def __init__(self, testname, tfn, uid, lfn, filter='', attributes=''):
+    def __init__(self, testname, tfn, lfn, filter='', attributes=''):
         super(LdapTest, self).__init__(testname)
         self.tsets = configuration.LoadConfiguration(conf_file = tfn).get_test_settings()
         self.filter = filter
         self.attributes = attributes
-        self.uid = uid
         self.lfn=lfn
 
     def test_glue_service(self):
-        self.lfn.put_name(self.uid['test_glue_service'][6])
-        self.lfn.put_description(self.uid['test_glue_service'][7])
-        if self.uid.has_key('test_glue_service'):
-            self.lfn.put_uuid(self.uid['test_glue_service'][0])
-        else:
-            print 'ADD UID for test_glue_service'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid(self.uid['test_glue_service'][3])
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
@@ -40,14 +31,6 @@ class LdapTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_glue_available_space_info_service(self):
-        self.lfn.put_name(self.uid['test_glue_available_space_info_service'][6])
-        self.lfn.put_description(self.uid['test_glue_available_space_info_service'][7])
-        if self.uid.has_key('test_glue_available_space_info_service'):
-            self.lfn.put_uuid(self.uid['test_glue_available_space_info_service'][0])
-        else:
-            print 'ADD UID for test_glue_available_space_info_service'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid(self.uid['test_glue_available_space_info_service'][3])
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
@@ -69,14 +52,6 @@ class LdapTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_glue_available_space(self):
-        self.lfn.put_name(self.uid['test_glue_available_space_info_service'][6])
-        self.lfn.put_description(self.uid['test_glue_available_space_info_service'][7])
-        if self.uid.has_key('test_glue_available_space'):
-            self.lfn.put_uuid(self.uid['test_glue_available_space'][0])
-        else:
-            print 'ADD UID for test_glue_available_space'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid(self.uid['test_glue_available_space_info_service'][3])
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
@@ -108,14 +83,6 @@ class LdapTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_glue_used_space(self):
-        self.lfn.put_name(self.uid['test_glue_used_space'][6])
-        self.lfn.put_description(self.uid['test_glue_used_space'][7])
-        if self.uid.has_key('test_glue_used_space'):
-            self.lfn.put_uuid(self.uid['test_glue_used_space'][0])
-        else:
-            print 'ADD UID for test_glue_used_space'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid(self.uid['test_glue_used_space'][3])
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
@@ -147,14 +114,6 @@ class LdapTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_size(self):
-        self.lfn.put_name(self.uid['test_size'][6])
-        self.lfn.put_description(self.uid['test_size'][7])
-        if self.uid.has_key('test_size'):
-            self.lfn.put_uuid(self.uid['test_size'][0])
-        else:
-            print 'ADD UID for test_size'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid(self.uid['test_size'][3])
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
@@ -195,14 +154,6 @@ class LdapTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_info_service_failure(self):
-        self.lfn.put_name(self.uid['test_info_service_failure'][6])
-        self.lfn.put_description(self.uid['test_info_service_failure'][7])
-        if self.uid.has_key('test_info_service_failure'):
-            self.lfn.put_uuid(self.uid['test_info_service_failure'][0])
-        else:
-            print 'ADD UID for test_info_service_failure'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid(self.uid['test_info_service_failure'][3])
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],

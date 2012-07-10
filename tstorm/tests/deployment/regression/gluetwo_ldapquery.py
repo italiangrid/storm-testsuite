@@ -10,23 +10,14 @@ from tstorm.utils import utils
 __author__ = 'Elisabetta Ronchieri'
 
 class GluetwoLdapTest(unittest.TestCase):
-    def __init__(self, testname, tfn, uid, lfn, filter='', attributes=''):
+    def __init__(self, testname, tfn, lfn, filter='', attributes=''):
         super(GluetwoLdapTest, self).__init__(testname)
         self.tsets = configuration.LoadConfiguration(conf_file = tfn).get_test_settings()
         self.filter = filter
         self.attributes = attributes
-        self.uid = uid
         self.lfn=lfn
 
     def test_gluetwo_storage_share_capacity(self):
-        self.lfn.put_name(self.uid['test_gluetwo_storage_share_capacity'][6])
-        self.lfn.put_description(self.uid['test_gluetwo_storage_share_capacity'][7])
-        if self.uid.has_key('test_gluetwo_storage_share_capacity'):
-            self.lfn.put_uuid(self.uid['test_gluetwo_storage_share_capacity'][0])
-        else:
-            print 'ADD UID for test_gluetwo_storage_share_capacity'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid(self.uid['test_gluetwo_storage_share_capacity'][3])
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
@@ -59,14 +50,6 @@ class GluetwoLdapTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_gluetwo_endpoint_undefined(self):
-        self.lfn.put_name(self.uid['test_gluetwo_endpoint_undefined'][6])
-        self.lfn.put_description(self.uid['test_gluetwo_endpoint_undefined'][7])
-        if self.uid.has_key('test_gluetwo_endpoint_undefined'):
-            self.lfn.put_uuid(self.uid['test_gluetwo_endpoint_undefined'][0])
-        else:
-            print 'ADD UID for test_gluetwo_endpoint_undefined'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid(self.uid['test_gluetwo_endpoint_undefined'][3])
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
@@ -87,14 +70,6 @@ class GluetwoLdapTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_gluetwo_storage_undefined(self):
-        self.lfn.put_name(self.uid['test_gluetwo_storage_undefined'][6])
-        self.lfn.put_description(self.uid['test_gluetwo_storage_undefined'][7])
-        if self.uid.has_key('test_gluetwo_storage_undefined'):
-            self.lfn.put_uuid(self.uid['test_gluetwo_storage_undefined'][0])
-        else:
-            print 'ADD UID for test_gluetwo_storage_undefined'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid(self.uid['test_gluetwo_storage_undefined'][3])
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
@@ -111,14 +86,6 @@ class GluetwoLdapTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_gluetwo_endpoint(self):
-        self.lfn.put_name(self.uid['test_gluetwo_endpoint'][6])
-        self.lfn.put_description(self.uid['test_gluetwo_endpoint'][7])
-        if self.uid.has_key('test_gluetwo_endpoint'):
-            self.lfn.put_uuid(self.uid['test_gluetwo_endpoint'][0])
-        else:
-            print 'ADD UID for test_gluetwo_endpoint'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid(self.uid['test_gluetwo_endpoint'][3])
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
@@ -136,14 +103,6 @@ class GluetwoLdapTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_gluetwo_service(self):
-        self.lfn.put_name(self.uid['test_gluetwo_service'][6])
-        self.lfn.put_description(self.uid['test_gluetwo_service'][7])
-        if self.uid.has_key('test_gluetwo_service'):
-            self.lfn.put_uuid(self.uid['test_gluetwo_service'][0])
-        else:
-            print 'ADD UID for test_gluetwo_service'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid(self.uid['test_gluetwo_service'][3])
         self.lfn.put_output()
 
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],

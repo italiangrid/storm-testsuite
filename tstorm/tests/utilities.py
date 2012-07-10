@@ -8,23 +8,14 @@ from tstorm.utils import removefile
 from tstorm.utils import utils
 
 class UtilitiesTest(unittest.TestCase):
-    def __init__(self, testname, tfn, ifn, dfn, bifn, uid, lfn):
+    def __init__(self, testname, tfn, ifn, bifn, lfn):
         super(UtilitiesTest, self).__init__(testname)
         self.tsets = config.TestSettings(tfn).get_test_sets()
         self.ifn = ifn
-        self.dfn = dfn
         self.bifn = bifn
-        self.uid = uid
         self.lfn = lfn
     
     def test_settings(self):
-        self.lfn.put_name(self.uid['test_settings'][6])
-        self.lfn.put_description(self.uid['test_settings'][7])
-        if self.uid.has_key('test_settings'):
-            self.lfn.put_uuid(self.uid['test_settings'][0])
-        else:
-            print 'ADD UID for test_settings'
-            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         self.lfn.put_cmd('')
@@ -38,13 +29,6 @@ class UtilitiesTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_dd(self):
-        self.lfn.put_name(self.uid['test_dd'][6])
-        self.lfn.put_description(self.uid['test_dd'][7])
-        if self.uid.has_key('test_dd'):
-            self.lfn.put_uuid(self.uid['test_dd'][0])
-        else:
-            print 'ADD UID for test_dd'
-            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         dd = createfile.Dd(self.ifn)
@@ -56,13 +40,6 @@ class UtilitiesTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_cr_lf(self):
-        self.lfn.put_name(self.uid['test_cr_lf'][6])
-        self.lfn.put_description(self.uid['test_cr_lf'][7])
-        if self.uid.has_key('test_cr_lf'):
-            self.lfn.put_uuid(self.uid['test_cr_lf'][0])
-        else:
-            print 'ADD UID for test_cr_lf'
-            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         self.cf_result = createfile.Cf(self.ifn).get_output()
@@ -72,13 +49,6 @@ class UtilitiesTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_rm_lf(self):
-        self.lfn.put_name(self.uid['test_rm_lf'][6])
-        self.lfn.put_description(self.uid['test_rm_lf'][7])
-        if self.uid.has_key('test_rm_lf'):
-            self.lfn.put_uuid(self.uid['test_rm_lf'][0])
-        else:
-            print 'ADD UID for test_rm_lf'
-            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         rm_lf = removefile.RmLf(self.ifn, self.bifn)

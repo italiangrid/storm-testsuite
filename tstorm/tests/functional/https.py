@@ -11,7 +11,7 @@ from tstorm.commands import rm
 from tstorm.utils import utils
 
 class HttpsTest(unittest.TestCase):
-    def __init__(self, testname, tfn, ifn, dfn, bifn, prt, uid, lfn, voms=False):
+    def __init__(self, testname, tfn, ifn, dfn, bifn, prt, lfn, voms=False):
         super(HttpsTest, self).__init__(testname)
         self.tsets = config.TestSettings(tfn).get_test_sets()
         self.ifn = ifn
@@ -19,17 +19,9 @@ class HttpsTest(unittest.TestCase):
         self.prt = prt
         self.bifn = bifn
         self.lfn = lfn
-        self.uid = uid
         self.voms = voms
 
     def test_srm_transfer_outbound_http(self):
-        self.lfn.put_name(self.uid['test_srm_transfer_outbound_http'][6])
-        self.lfn.put_description(self.uid['test_srm_transfer_outbound_http'][7])
-        if self.uid.has_key('test_srm_transfer_outbound_http'):
-            self.lfn.put_uuid(self.uid['test_srm_transfer_outbound_http'][0])
-        else:
-            print 'ADD UID for test_srm_transfer_outbound_http'
-            self.lfn.put_uuid(utils.get_uuid())        
         self.lfn.put_output()
 
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
@@ -66,13 +58,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_direct_transfer_outbound_http(self):
-        self.lfn.put_name(self.uid['test_direct_transfer_outbound_http'][6])
-        self.lfn.put_description(self.uid['test_direct_transfer_outbound_http'][7])
-        if self.uid.has_key('test_direct_transfer_outbound_http'):
-            self.lfn.put_uuid(self.uid['test_direct_transfer_outbound_http'][0])
-        else:
-            print 'ADD UID for test_direct_transfer_outbound_http'
-            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         t=datetime.datetime.now()
@@ -88,13 +73,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_direct_transfer_outbound_http_exist_file(self):
-        self.lfn.put_name(self.uid['test_direct_transfer_outbound_http_exist_file'][6])
-        self.lfn.put_description(self.uid['test_direct_transfer_outbound_http_exist_file'][7])
-        if self.uid.has_key('test_direct_transfer_outbound_http_exist_file'):
-            self.lfn.put_uuid(self.uid['test_direct_transfer_outbound_http_exist_file'][0])
-        else:
-            print 'ADD UID for test_direct_transfer_outbound_http_exist_file'
-            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         a = 'http://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['http_port'] + '/storageArea/'+ self.tsets['http']['no_voms'] +  self.dfn
@@ -108,13 +86,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_direct_transfer_inbound_http(self):
-        self.lfn.put_name(self.uid['test_direct_transfer_inbound_http'][6])
-        self.lfn.put_description(self.uid['test_direct_transfer_inbound_http'][7])
-        if self.uid.has_key('test_direct_transfer_inbound_http'):
-            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_http'][0])
-        else:
-            print 'ADD UID for test_direct_transfer_inbound_http'
-            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         a = 'http://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['http_port'] + '/storageArea/'+ self.tsets['http']['no_voms'] +  self.dfn
@@ -128,13 +99,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_direct_transfer_inbound_http_unexist_file(self):
-        self.lfn.put_name(self.uid['test_direct_transfer_inbound_http_unexist_file'][6])
-        self.lfn.put_description(self.uid['test_direct_transfer_inbound_http_unexist_file'][7])
-        if self.uid.has_key('test_direct_transfer_inbound_http_unexist_file'):
-            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_http_unexist_file'][0])
-        else:
-            print 'ADD UID for test_direct_transfer_inbound_http_unexist_file'
-            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         t=datetime.datetime.now()
@@ -150,13 +114,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_srm_transfer_inbound_http(self):
-        self.lfn.put_name(self.uid['test_srm_transfer_inbound_http'][6])
-        self.lfn.put_description(self.uid['test_srm_transfer_inbound_http'][7])
-        if self.uid.has_key('test_srm_transfer_inbound_http'):
-            self.lfn.put_uuid(self.uid['test_srm_transfer_inbound_http'][0])
-        else:
-            print 'ADD UID for test_srm_transfer_inbound_http'
-            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         storm_ptg = cp.StoRMPtg(self.tsets['general']['endpoint'],
@@ -187,13 +144,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_srm_transfer_outbound_https(self):
-        self.lfn.put_name(self.uid['test_srm_transfer_outbound_https'][6])
-        self.lfn.put_description(self.uid['test_srm_transfer_outbound_https'][7])
-        if self.uid.has_key('test_srm_transfer_outbound_https'):
-            self.lfn.put_uuid(self.uid['test_srm_transfer_outbound_https'][0])
-        else:
-            print 'ADD UID for test_srm_transfer_outbound_https'
-            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
@@ -230,13 +180,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_direct_transfer_outbound_https(self):
-        self.lfn.put_name(self.uid['test_direct_transfer_outbound_https'][6])
-        self.lfn.put_description(self.uid['test_direct_transfer_outbound_https'][7])
-        if self.uid.has_key('test_direct_transfer_outbound_https'):
-            self.lfn.put_uuid(self.uid['test_direct_transfer_outbound_https'][0])
-        else:
-            print 'ADD UID for test_direct_transfer_outbound_https'
-            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         t=datetime.datetime.now()
@@ -252,13 +195,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_direct_transfer_outbound_https_exist_file(self):
-        self.lfn.put_name(self.uid['test_direct_transfer_outbound_https_exist_file'][6])
-        self.lfn.put_description(self.uid['test_direct_transfer_outbound_https_exist_file'][7])
-        if self.uid.has_key('test_direct_transfer_outbound_https_exist_file'):
-            self.lfn.put_uuid(self.uid['test_direct_transfer_outbound_https_exist_file'][0])
-        else:
-            print 'ADD UID for test_direct_transfer_outbound_https_exist_file'
-            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['no_voms'] + self.dfn
@@ -272,13 +208,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_direct_transfer_inbound_https(self):
-        self.lfn.put_name(self.uid['test_direct_transfer_inbound_https'][6])
-        self.lfn.put_description(self.uid['test_direct_transfer_inbound_https'][7])
-        if self.uid.has_key('test_direct_transfer_inbound_https'):
-            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_https'][0])
-        else:
-            print 'ADD UID for test_direct_transfer_inbound_https'
-            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['no_voms']  + self.dfn
@@ -292,13 +221,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_direct_transfer_inbound_https_no_auth(self):
-        self.lfn.put_name(self.uid['test_direct_transfer_inbound_https_no_auth'][6])
-        self.lfn.put_description(self.uid['test_direct_transfer_inbound_https_no_auth'][7])
-        if self.uid.has_key('test_direct_transfer_inbound_https_no_auth'):
-            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_https_no_auth'][0])
-        else:
-            print 'ADD UID for test_direct_transfer_inbound_https_no_auth'
-            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['no_auth']  + self.dfn
@@ -312,13 +234,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_direct_transfer_inbound_https_unexist_file(self):
-        self.lfn.put_name(self.uid['test_direct_transfer_inbound_https_unexist_file'][6])
-        self.lfn.put_description(self.uid['test_direct_transfer_inbound_https_unexist_file'][7])
-        if self.uid.has_key('test_direct_transfer_inbound_https_unexist_file'):
-            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_https_unexist_file'][0])
-        else:
-            print 'ADD UID for test_direct_transfer_inbound_https_unexist_file'
-            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         t=datetime.datetime.now()
@@ -334,13 +249,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_srm_transfer_inbound_https(self):
-        self.lfn.put_name(self.uid['test_srm_transfer_inbound_https'][6])
-        self.lfn.put_description(self.uid['test_srm_transfer_inbound_https'][7])
-        if self.uid.has_key('test_srm_transfer_inbound_https'):
-            self.lfn.put_uuid(self.uid['test_srm_transfer_inbound_https'][0])
-        else:
-            print 'ADD UID for test_srm_transfer_inbound_https'
-            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         storm_ptg = cp.StoRMPtg(self.tsets['general']['endpoint'],
@@ -371,13 +279,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_srm_transfer_outbound_https_voms(self):
-        self.lfn.put_name(self.uid['test_srm_transfer_outbound_https_voms'][6])
-        self.lfn.put_description(self.uid['test_srm_transfer_outbound_https_voms'][7])
-        if self.uid.has_key('test_srm_transfer_outbound_https_voms'):
-            self.lfn.put_uuid(self.uid['test_srm_transfer_outbound_https_voms'][0])
-        else:
-            print 'ADD UID for test_srm_transfer_outbound_https_voms'
-            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
@@ -414,13 +315,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_direct_transfer_outbound_https_voms(self):
-        self.lfn.put_name(self.uid['test_direct_transfer_outbound_https_voms'][6])
-        self.lfn.put_description(self.uid['test_direct_transfer_outbound_https_voms'][7])
-        if self.uid.has_key('test_direct_transfer_outbound_https_voms'):
-            self.lfn.put_uuid(self.uid['test_direct_transfer_outbound_https_voms'][0])
-        else:
-            print 'ADD UID for test_direct_transfer_outbound_https_voms'
-            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         t=datetime.datetime.now()
@@ -436,13 +330,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_direct_transfer_outbound_https_voms_exist_file(self):
-        self.lfn.put_name(self.uid['test_direct_transfer_outbound_https_voms_exist_file'][6])
-        self.lfn.put_description(self.uid['test_direct_transfer_outbound_https_voms_exist_file'][7])
-        if self.uid.has_key('test_direct_transfer_outbound_https_voms_exist_file'):
-            self.lfn.put_uuid(self.uid['test_direct_transfer_outbound_https_voms_exist_file'][0])
-        else:
-            print 'ADD UID for test_direct_transfer_outbound_https_voms_exist_file'
-            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['voms'] + self.dfn
@@ -456,13 +343,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_direct_transfer_inbound_https_voms(self):
-        self.lfn.put_name(self.uid['test_direct_transfer_inbound_https_voms'][6])
-        self.lfn.put_description(self.uid['test_direct_transfer_inbound_https_voms'][7])
-        if self.uid.has_key('test_direct_transfer_inbound_https_voms'):
-            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_https_voms'][0])
-        else:
-            print 'ADD UID for test_direct_transfer_inbound_https_voms'
-            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['voms'] + self.dfn
@@ -476,13 +356,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_direct_transfer_inbound_https_voms_no_auth(self):
-        self.lfn.put_name(self.uid['test_direct_transfer_inbound_https_voms_no_auth'][6])
-        self.lfn.put_description(self.uid['test_direct_transfer_inbound_https_voms_no_auth'][7])
-        if self.uid.has_key('test_direct_transfer_inbound_https_voms_no_auth'):
-            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_https_voms_no_auth'][0])
-        else:
-            print 'ADD UID for test_direct_transfer_inbound_https_voms_no_auth'
-            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['no_auth'] + self.dfn
@@ -496,13 +369,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_direct_transfer_inbound_https_voms_unexist_file(self):
-        self.lfn.put_name(self.uid['test_direct_transfer_inbound_https_voms_unexist_file'][6])
-        self.lfn.put_description(self.uid['test_direct_transfer_inbound_https_voms_unexist_file'][7])
-        if self.uid.has_key('test_direct_transfer_inbound_https_voms_unexist_file'):
-            self.lfn.put_uuid(self.uid['test_direct_transfer_inbound_https_voms_unexist_file'][0])
-        else:
-            print 'ADD UID for test_direct_transfer_inbound_https_voms_unexist_file'
-            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         t=datetime.datetime.now()
@@ -518,13 +384,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_srm_transfer_inbound_https_voms(self):
-        self.lfn.put_name(self.uid['test_srm_transfer_inbound_https_voms'][6])
-        self.lfn.put_description(self.uid['test_srm_transfer_inbound_https_voms'][7])
-        if self.uid.has_key('test_srm_transfer_inbound_https_voms'):
-            self.lfn.put_uuid(self.uid['test_srm_transfer_inbound_https_voms'][0])
-        else:
-            print 'ADD UID for test_srm_transfer_inbound_https_voms'
-            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         storm_ptg = cp.StoRMPtg(self.tsets['general']['endpoint'],

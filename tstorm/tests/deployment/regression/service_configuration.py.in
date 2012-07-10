@@ -12,21 +12,12 @@ from tstorm.utils import listinfo
 __author__ = 'Elisabetta Ronchieri'
 
 class RegressionConfigurationTest(unittest.TestCase):
-    def __init__(self, testname, tfn, uid, lfn):
+    def __init__(self, testname, tfn, lfn):
         super(RegressionConfigurationTest, self).__init__(testname)
         self.tsets = configuration.LoadConfiguration(conf_file = tfn).get_test_settings()
-        self.uid = uid
         self.lfn = lfn
 
     def test_backend_server_status(self):
-        self.lfn.put_name(self.uid['test_backend_server_status'][5])
-        self.lfn.put_description(self.uid['test_backend_server_status'][6])
-        if self.uid.has_key('test_backend_server_status'):
-            self.lfn.put_uuid(self.uid['test_backend_server_status'][0])
-        else:
-            print 'ADD UID for test_backend_server_status'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/114')
         self.lfn.put_output()
 
         sr = service.Service('storm-backend-server')
@@ -38,14 +29,6 @@ class RegressionConfigurationTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_backend_logrotate_file(self):
-        self.lfn.put_name(self.uid['test_backend_logrotate_file'][5])
-        self.lfn.put_description(self.uid['test_backend_logrotate_file'][6])
-        if self.uid.has_key('test_backend_logrotate_file'):
-            self.lfn.put_uuid(self.uid['test_backend_logrotate_file'][0])
-        else:
-            print 'ADD UID for test_backend_logrotate_file'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/134')
         self.lfn.put_output()
 
         read_cat = readfile.Cat('/etc/logrotate.d/storm-backend-server')
@@ -63,14 +46,6 @@ class RegressionConfigurationTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_backend_cron_file(self):
-        self.lfn.put_name(self.uid['test_backend_cron_file'][5])
-        self.lfn.put_description(self.uid['test_backend_cron_file'][6])
-        if self.uid.has_key('test_backend_cron_file'):
-            self.lfn.put_uuid(self.uid['test_backend_cron_file'][0])
-        else:
-            print 'ADD UID for test_backend_cron_file'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/135')
         self.lfn.put_output()
 
         read_cat = readfile.Cat('/etc/cron.d/storm-backend-server.cron')
@@ -86,14 +61,6 @@ class RegressionConfigurationTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_backend_gridhttps(self):
-        self.lfn.put_name(self.uid['test_backend_gridhttps'][5])
-        self.lfn.put_description(self.uid['test_backend_gridhttps'][6])
-        if self.uid.has_key('test_backend_gridhttps'):
-            self.lfn.put_uuid(self.uid['test_backend_gridhttps'][0])
-        else:
-            print 'ADD UID for test_backend_server_gridhttps'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/140')
         self.lfn.put_output()
 
         sr = service.Service('storm-backend-server')
@@ -114,14 +81,6 @@ class RegressionConfigurationTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_yaim_version_file(self):
-        self.lfn.put_name(self.uid['test_yaim_version_file'][5])
-        self.lfn.put_description(self.uid['test_yaim_version_file'][6])
-        if self.uid.has_key('test_yaim_version_file'):
-            self.lfn.put_uuid(self.uid['test_yaim_version_file'][0])
-        else:
-            print 'ADD UID for test_yaim_version_file'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/149')
         self.lfn.put_output()
 
         read_cat = readfile.Cat('/opt/glite/yaim/etc/versions/yaim-storm')
@@ -141,14 +100,6 @@ class RegressionConfigurationTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_size_in_namespace_file(self):
-        self.lfn.put_name(self.uid['test_size_in_namespace_file'][5])
-        self.lfn.put_description(self.uid['test_size_in_namespace_file'][6])
-        if self.uid.has_key('test_size_in_namespace_file'):
-            self.lfn.put_uuid(self.uid['test_size_in_namespace_file'][0])
-        else:
-            print 'ADD UID for test_size_in_namespace_file'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/151')
         self.lfn.put_output()
 
         read_cat = readfile.Cat(self.tsets['yaim']['def_path'])
@@ -184,14 +135,6 @@ class RegressionConfigurationTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_gridhttps_plugin_links(self):
-        self.lfn.put_name(self.uid['test_gridhttps_plugin_links'][5])
-        self.lfn.put_description(self.uid['test_gridhttps_plugin_links'][6])
-        if self.uid.has_key('test_gridhttps_plugin_links'):
-            self.lfn.put_uuid(self.uid['test_gridhttps_plugin_links'][0])
-        else:
-            print 'ADD UID for test_gridhttps_plugin_links'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/154')
         self.lfn.put_output()
 
         ls_ls = listinfo.Ls('/usr/share/java/storm-backend-server/storm-gridhttps-plugin.jar')
@@ -213,14 +156,6 @@ class RegressionConfigurationTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_backend_server_name_status(self):
-        self.lfn.put_name(self.uid['test_backend_server_name_status'][5])
-        self.lfn.put_description(self.uid['test_backend_server_name_status'][6])
-        if self.uid.has_key('test_backend_server_name_status'):
-            self.lfn.put_uuid(self.uid['test_backend_server_name_status'][0])
-        else:
-            print 'ADD UID for test_backend_server_name_status'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/160')
         self.lfn.put_output()
 
         sr = service.Service('storm-backend-server')
@@ -233,14 +168,6 @@ class RegressionConfigurationTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_mysql_storage_space_update(self):
-        self.lfn.put_name(self.uid['test_mysql_storage_space_update'][5])
-        self.lfn.put_description(self.uid['test_mysql_storage_space_update'][6])
-        if self.uid.has_key('test_mysql_storage_space_update'):
-            self.lfn.put_uuid(self.uid['test_mysql_storage_space_update'][0])
-        else:
-            print 'ADD UID for test_mysql_storage_space_update'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/168')
         self.lfn.put_output()
 
         read_cat = readfile.Cat(self.tsets['yaim']['def_path'])
@@ -355,14 +282,6 @@ class RegressionConfigurationTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_mysql_connector_java_links(self):
-        self.lfn.put_name(self.uid['test_mysql_connector_java_links'][5])
-        self.lfn.put_description(self.uid['test_mysql_connector_java_links'][6])
-        if self.uid.has_key('test_mysql_connector_java_links'):
-            self.lfn.put_uuid(self.uid['test_mysql_connector_java_links'][0])
-        else:
-            print 'ADD UID for test_mysql_storage_connector_java_links'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid('https://storm.cnaf.infn.it:8443/redmine/issues/179')
         self.lfn.put_output()
 
         ls_ls = listinfo.Ls('/usr/share/java/storm-backend-server/mysql-connector-java-5.1.13-bin.jar')

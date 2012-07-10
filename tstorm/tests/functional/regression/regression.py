@@ -18,25 +18,16 @@ from tstorm.utils import removefile
 from tstorm.utils import utils
 
 class RegressionTest(unittest.TestCase):
-    def __init__(self, testname, tfn, ifn, dfn, bifn, uid, lfn, prt = 'gsiftp'):
+    def __init__(self, testname, tfn, ifn, dfn, bifn, lfn, prt = 'gsiftp'):
         super(RegressionTest, self).__init__(testname)
         self.tsets = config.TestSettings(tfn).get_test_sets()
         self.ifn = ifn
         self.dfn = dfn
         self.bifn = bifn
         self.prt = prt
-        self.uid = uid
         self.lfn = lfn
 
     def test_eight_digit_string_checksum(self):
-        self.lfn.put_name(self.uid['test_eight_digit_string_checksum'][5])
-        self.lfn.put_description(self.uid['test_eight_digit_string_checksum'][6])
-        if self.uid.has_key('test_eight_digit_string_checksum'):
-            self.lfn.put_uuid(self.uid['test_eight_digit_string_checksum'][0])
-        else:
-            print 'ADD UID for test_eight_digit_string_checksum'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid(self.uid['test_eight_digit_string_checksum'][3])
         self.lfn.put_output()
 
         dd = createfile.Dd(self.ifn)
@@ -92,14 +83,6 @@ class RegressionTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_update_free_space_upon_rm(self):
-        self.lfn.put_name(self.uid['test_update_free_space_upon_rm'][5])
-        self.lfn.put_description(self.uid['test_update_free_space_upon_rm'][6])
-        if self.uid.has_key('test_update_free_space_upon_rm'):
-            self.lfn.put_uuid(self.uid['test_update_free_space_upon_rm'][0])
-        else:
-            print 'ADD UID for test_update_free_space_upon_rm'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid(self.uid['test_update_free_space_upon_rm'][3])
         self.lfn.put_output()
 
         dd = createfile.Dd(self.ifn)
@@ -185,14 +168,6 @@ class RegressionTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_update_used_space_upon_pd(self):
-        self.lfn.put_name(self.uid['test_update_used_space_upon_pd'][5])
-        self.lfn.put_description(self.uid['test_update_used_space_upon_pd'][6])
-        if self.uid.has_key('test_update_used_space_upon_pd'):
-            self.lfn.put_uuid(self.uid['test_update_used_space_upon_pd'][0])
-        else:
-            print 'ADD UID for test_update_used_space_upon_pd'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid(self.uid['test_update_used_space_upon_pd'][3])
         self.lfn.put_output()
 
         dd = createfile.Dd(self.ifn)
@@ -270,14 +245,6 @@ class RegressionTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_unsupported_protocols(self):
-        self.lfn.put_name(self.uid['test_unsupported_protocols'][5])
-        self.lfn.put_description(self.uid['test_unsupported_protocols'][6])
-        if self.uid.has_key('test_unsupported_protocols'):
-            self.lfn.put_uuid(self.uid['test_unsupported_protocols'][0])
-        else:
-            print 'ADD UID for test_update_unsupported_protocols'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid(self.uid['test_unsupported_protocols'][3])
         self.lfn.put_output()
 
         storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
@@ -292,14 +259,6 @@ class RegressionTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_both_sup_and_unsup_protocols(self):
-        self.lfn.put_name(self.uid['test_both_sup_and_unsup_protocols'][5])
-        self.lfn.put_description(self.uid['test_both_sup_and_unsup_protocols'][6])
-        if self.uid.has_key('test_both_sup_and_unsup_protocols'):
-            self.lfn.put_uuid(self.uid['test_both_sup_and_unsup_protocols'][0])
-        else:
-            print 'ADD UID for test_both_sup_and_unsup_protocols'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid(self.uid['test_both_sup_and_unsup_protocols'][3])
         self.lfn.put_output()
 
         storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
@@ -325,14 +284,6 @@ class RegressionTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_non_ascii_chars(self):
-        self.lfn.put_name(self.uid['test_non_ascii_chars'][5])
-        self.lfn.put_description(self.uid['test_non_ascii_chars'][6])
-        if self.uid.has_key('test_non_ascii_chars'):
-            self.lfn.put_uuid(self.uid['test_non_ascii_chars'][0])
-        else:
-            print 'ADD UID for test_non_ascii_chars'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid(self.uid['test_non_ascii_chars'][3])
         self.lfn.put_output()
 
         storm_ls = ls.StoRMLs(self.tsets['general']['endpoint'],
@@ -356,14 +307,6 @@ class RegressionTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_storm_backend_age(self):
-        self.lfn.put_name(self.uid['test_storm_backend_age'][5])
-        self.lfn.put_description(self.uid['test_storm_backend_age'][6])
-        if self.uid.has_key('test_storm_backend_age'):
-            self.lfn.put_uuid(self.uid['test_storm_backend_age'][0])
-        else:
-            print 'ADD UID for test_storm_ackend_age'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid(self.uid['test_storm_backend_age'][3])
         self.lfn.put_output()
 
         storm_ping = ping.StoRMPing(self.tsets['general']['endpoint'])
@@ -381,14 +324,6 @@ class RegressionTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_get_space_metadata_failure(self):
-        self.lfn.put_name(self.uid['test_get_space_metadata_failure'][5])
-        self.lfn.put_description(self.uid['test_get_space_metadata_failure'][6])
-        if self.uid.has_key('test_get_space_metadata_failure'):
-            self.lfn.put_uuid(self.uid['test_get_space_metadata_failure'][0])
-        else:
-            print 'ADD UID for test_get_space_metadata_failure'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid(self.uid['test_get_space_metadata_failure'][3])
         self.lfn.put_output()
 
         storm_gst = space.StoRMGst(self.tsets['general']['endpoint'],
@@ -409,14 +344,6 @@ class RegressionTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_storm_database_password(self):
-        self.lfn.put_name(self.uid['test_storm_database_password'][5])
-        self.lfn.put_description(self.uid['test_storm_database_password'][6])
-        if self.uid.has_key('test_storm_database_password'):
-            self.lfn.put_uuid(self.uid['test_storm_database_password'][0])
-        else:
-            print 'ADD UID for test_storm_database_password'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid(self.uid['test_storm_database_password'][3])
         self.lfn.put_output()
 
         dd = createfile.Dd(self.ifn)
@@ -470,14 +397,6 @@ class RegressionTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_storm_gridhttps_authorization_denied(self):
-        self.lfn.put_name(self.uid['test_storm_gridhttps_authorization_denied'][5])
-        self.lfn.put_description(self.uid['test_storm_gridhttps_authorization_denied'][6])
-        if self.uid.has_key('test_storm_gridhttps_authorization_denied'):
-            self.lfn.put_uuid(self.uid['test_storm_gridhttps_authorization_denied'][0])
-        else:
-            print 'ADD UID for test_storm_gridhttps_authorization_denied'
-            self.lfn.put_uuid(utils.get_uuid())
-        self.lfn.put_ruid(self.uid['test_storm_gridhttps_authorization_denied'][3])
         self.lfn.put_output()
 
         self.cf_result = createfile.Cf(self.ifn).get_output()

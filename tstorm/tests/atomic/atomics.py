@@ -17,24 +17,15 @@ from tstorm.utils import cksm
 from tstorm.utils import utils
 
 class AtomicsTest(unittest.TestCase):
-    def __init__(self, testname, tfn, ifn, dfn, bifn, uid, lfn):
+    def __init__(self, testname, tfn, ifn, dfn, bifn, lfn):
         super(AtomicsTest, self).__init__(testname)
         self.tsets = config.TestSettings(tfn).get_test_sets()
         self.ifn = ifn
         self.dfn = dfn
         self.bifn = bifn
-        self.uid = uid
         self.lfn = lfn
 
     def test_dcache_ping(self):
-        self.lfn.put_name(self.uid['test_dcache_ping'][6])
-        self.lfn.put_description(self.uid['test_dcache_ping'][7])
-        if self.uid.has_key('test_dcache_ping'):
-            self.lfn.put_uuid(self.uid['test_dcache_ping'][0])
-        else:
-            print 'ADD UID for test_dcache_ping'
-            self.lfn.put_uuid(utils.get_uuid())        
-        self.lfn.put_uid('')
         self.lfn.put_output()
 
         srm_ping = ping.SrmPing(self.tsets['general']['endpoint'])
@@ -49,13 +40,6 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_storm_ping(self):
-        self.lfn.put_name(self.uid['test_storm_ping'][6])
-        self.lfn.put_description(self.uid['test_storm_ping'][7])
-        if self.uid.has_key('test_storm_ping'):
-            self.lfn.put_uuid(self.uid['test_storm_ping'][0])
-        else:
-            print 'ADD UID for test_storm_ping'
-            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         storm_ping = ping.StoRMPing(self.tsets['general']['endpoint'])
@@ -73,13 +57,6 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_storm_ping_wo(self):
-        self.lfn.put_name(self.uid['test_storm_ping_wo'][6])
-        self.lfn.put_description(self.uid['test_storm_ping_wo'][7])
-        if self.uid.has_key('test_storm_ping_wo'):
-            self.lfn.put_uuid(self.uid['test_storm_ping_wo'][0])
-        else:
-            print 'ADD UID for test_storm_ping_wo'
-            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         storm_ping = ping.StoRMPing(self.tsets['general']['endpoint'])
@@ -91,13 +68,6 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_storm_gtp(self):
-        self.lfn.put_name(self.uid['test_storm_gtp'][6])
-        self.lfn.put_description(self.uid['test_storm_gtp'][7])
-        if self.uid.has_key('test_storm_gtp'):
-            self.lfn.put_uuid(self.uid['test_storm_gtp'][0])
-        else:
-            print 'ADD UID for test_storm_gtp'
-            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         storm_protocol = protocol.StoRMGtp(self.tsets['general']['endpoint'])
@@ -110,13 +80,6 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_storm_gtp_wo(self):
-        self.lfn.put_name(self.uid['test_storm_gtp_wo'][6])
-        self.lfn.put_description(self.uid['test_storm_gtp_wo'][7])
-        if self.uid.has_key('test_storm_gtp_wo'):
-            self.lfn.put_uuid(self.uid['test_storm_gtp_wo'][0])
-        else:
-            print 'ADD UID for test_storm_gtp_wo'
-            self.lfn.put_uuid(utils.get_uuid())
         self.lfn.put_output()
 
         storm_protocol = protocol.StoRMGtp(self.tsets['general']['endpoint'])
@@ -127,14 +90,7 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
-    def test_ls_unexist_file(self):
-        self.lfn.put_name(self.uid['test_ls_unexist_file'][6])
-        self.lfn.put_description(self.uid['test_ls_unexist_file'][7])
-        if self.uid.has_key('test_ls_unexist_file'):
-            self.lfn.put_uuid(self.uid['test_ls_unexist_file'][0])
-        else:
-            print 'ADD UID for test_ls_unexist_file'
-            self.lfn.put_uuid(utils.get_uuid())
+    def test_lcg_ls_unexist_file(self):
         self.lfn.put_output()
 
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
@@ -146,14 +102,7 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
-    def test_ls_unexist_dir(self):
-        self.lfn.put_name(self.uid['test_ls_unexist_dir'][6])
-        self.lfn.put_description(self.uid['test_ls_unexist_dir'][7])
-        if self.uid.has_key('test_ls_unexist_dir'):
-            self.lfn.put_uuid(self.uid['test_ls_unexist_dir'][0])
-        else:
-            print 'ADD UID for test_ls_unexist_dir'
-            self.lfn.put_uuid(utils.get_uuid())
+    def test_lcg_ls_unexist_dir(self):
         self.lfn.put_output()
 
         if '/' in self.dfn:
@@ -167,14 +116,7 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
-    def test_mkdir_dir(self):
-        self.lfn.put_name(self.uid['test_mkdir_dir'][6])
-        self.lfn.put_description(self.uid['test_mkdir_dir'][7])
-        if self.uid.has_key('test_mkdir_dir'):
-            self.lfn.put_uuid(self.uid['test_mkdir_dir'][0])
-        else:
-            print 'ADD UID for test_mkdir_dir'
-            self.lfn.put_uuid(utils.get_uuid())
+    def test_dcache_mkdir(self):
         self.lfn.put_output()
 
         if '/' in self.dfn:
@@ -197,14 +139,7 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
-    def test_mkdir_exist_dir(self):
-        self.lfn.put_name(self.uid['test_mkdir_exist_dir'][6])
-        self.lfn.put_description(self.uid['test_mkdir_exist_dir'][7])
-        if self.uid.has_key('test_mkdir_exist_dir'):
-            self.lfn.put_uuid(self.uid['test_mkdir_exist_dir'][0])
-        else:
-            print 'ADD UID for test_mkdir_exist_dir'
-            self.lfn.put_uuid(utils.get_uuid())
+    def test_dcache_mkdir_exist_dir(self):
         self.lfn.put_output()
 
         if '/' in self.dfn:
@@ -227,14 +162,7 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
-    def test_ls_dir(self):
-        self.lfn.put_name(self.uid['test_ls_dir'][6])
-        self.lfn.put_description(self.uid['test_ls_dir'][7])
-        if self.uid.has_key('test_ls_dir'):
-            self.lfn.put_uuid(self.uid['test_ls_dir'][0])
-        else:
-            print 'ADD UID for test_ls_dir'
-            self.lfn.put_uuid(utils.get_uuid())
+    def test_lcg_ls_dir(self):
         self.lfn.put_output()
 
         if '/' in self.dfn:
@@ -248,14 +176,7 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
-    def test_cp_bt(self):
-        self.lfn.put_name(self.uid['test_cp_bt'][6])
-        self.lfn.put_description(self.uid['test_cp_bt'][7])
-        if self.uid.has_key('test_cp_bt'):
-            self.lfn.put_uuid(self.uid['test_cp_bt'][0])
-        else:
-            print 'ADD UID for test_cp_bt'
-            self.lfn.put_uuid(utils.get_uuid())
+    def test_lcg_cp_out(self):
         self.lfn.put_output()
 
         lcg_cp = cp.LcgCp(self.tsets['general']['endpoint'],
@@ -268,14 +189,7 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
-    def test_ls_file(self):
-        self.lfn.put_name(self.uid['test_ls_file'][6])
-        self.lfn.put_description(self.uid['test_ls_file'][7])
-        if self.uid.has_key('test_ls_file'):
-            self.lfn.put_uuid(self.uid['test_ls_file'][0])
-        else:
-            print 'ADD UID for test_ls_file'
-            self.lfn.put_uuid(utils.get_uuid())
+    def test_lcg_ls_file(self):
         self.lfn.put_output()
 
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
@@ -291,34 +205,20 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
-    def test_cp_at(self):
-        self.lfn.put_name(self.uid['test_cp_at'][6])
-        self.lfn.put_description(self.uid['test_cp_at'][7])
-        if self.uid.has_key('test_cp_at'):
-            self.lfn.put_uuid(self.uid['test_cp_at'][0])
-        else:
-            print 'ADD UID for test_cp_at'
-            self.lfn.put_uuid(utils.get_uuid())
+    def test_lcg_cp_in(self):
         self.lfn.put_output()
 
         lcg_cp = cp.LcgCp(self.tsets['general']['endpoint'],
                  self.tsets['general']['accesspoint'], self.ifn, self.dfn,
                  self.bifn)
-        self.lfn.put_cmd(lcg_cp.get_command())
+        self.lfn.put_cmd(lcg_cp.get_command(False))
         cp_result = lcg_cp.get_output(False)
         self.assert_(cp_result['status'] == 'PASS')
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
-    def test_rm_file(self):
-        self.lfn.put_name(self.uid['test_rm_file'][6])
-        self.lfn.put_description(self.uid['test_rm_file'][7])
-        if self.uid.has_key('test_rm_file'):
-            self.lfn.put_uuid(self.uid['test_rm_file'][0])
-        else:
-            print 'ADD UID for test_rm_file'
-            self.lfn.put_uuid(utils.get_uuid())
+    def test_dcache_rm_file(self):
         self.lfn.put_output()
 
         srm_rm = rm.SrmRm(self.tsets['general']['endpoint'],
@@ -330,14 +230,7 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
-    def test_rm_unexist_file(self):
-        self.lfn.put_name(self.uid['test_rm_unexist_file'][6])
-        self.lfn.put_description(self.uid['test_rm_unexist_file'][7])
-        if self.uid.has_key('test_rm_unexist_file'):
-            self.lfn.put_uuid(self.uid['test_rm_unexist_file'][0])
-        else:
-            print 'ADD UID for test_rm_unexist_file'
-            self.lfn.put_uuid(utils.get_uuid())
+    def test_dcache_rm_unexist_file(self):
         self.lfn.put_output()
 
         srm_rm = rm.SrmRm(self.tsets['general']['endpoint'],
@@ -349,14 +242,7 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
-    def test_rm_dir(self):
-        self.lfn.put_name(self.uid['test_rm_dir'][6])
-        self.lfn.put_description(self.uid['test_rm_dir'][7])
-        if self.uid.has_key('test_rm_dir'):
-            self.lfn.put_uuid(self.uid['test_rm_dir'][0])
-        else:
-            print 'ADD UID for test_rm_dir'
-            self.lfn.put_uuid(utils.get_uuid())
+    def test_dcache_rm_dir(self):
         self.lfn.put_output()
 
         if '/' in self.dfn:
@@ -376,14 +262,7 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
-    def test_rm_unexist_dir(self):
-        self.lfn.put_name(self.uid['test_rm_unexist_dir'][6])
-        self.lfn.put_description(self.uid['test_rm_unexist_dir'][7])
-        if self.uid.has_key('test_rm_unexist_dir'):
-            self.lfn.put_uuid(self.uid['test_rm_unexist_dir'][0])
-        else:
-            print 'ADD UID for test_rm_unexist_dir'
-            self.lfn.put_uuid(utils.get_uuid())
+    def test_dcache_rm_unexist_dir(self):
         self.lfn.put_output()
 
         if '/' in self.dfn:
