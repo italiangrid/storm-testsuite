@@ -12,7 +12,7 @@ def ts_glue_service(conf, uid, lfn):
     lfn.put_name(uid['ts_glue_service'][6])
     lfn.put_description(uid['ts_glue_service'][7])
     lfn.put_uuid(uid['ts_glue_service'][0])
-    lfn.put_ruid(self.uid['ts_glue_service'][3])
+    lfn.put_ruid(uid['ts_glue_service'][3])
     lfn.flush_file()
 
     s.addTest(ldapquery.LdapTest('test_glue_service',
@@ -28,7 +28,7 @@ def ts_glue_available_space_info_service(conf, uid, lfn):
     lfn.put_name(uid['ts_glue_available_space_info_service'][6])
     lfn.put_description(uid['ts_glue_available_space_info_service'][7])
     lfn.put_uuid(uid['ts_glue_available_space_info_service'][0])
-    lfn.put_ruid(self.uid['ts_glue_available_space_info_service'][3])
+    lfn.put_ruid(uid['ts_glue_available_space_info_service'][3])
     lfn.flush_file()
 
     s.addTest(ldapquery.LdapTest('test_glue_available_space_info_service',
@@ -44,7 +44,7 @@ def ts_glue_available_space(conf, uid, lfn):
     lfn.put_name(uid['ts_glue_available_space'][6])
     lfn.put_description(uid['ts_glue_available_space'][7])
     lfn.put_uuid(uid['ts_glue_available_space'][0])
-    lfn.put_ruid(self.uid['ts_glue_available_space'][3])
+    lfn.put_ruid(uid['ts_glue_available_space'][3])
     lfn.flush_file()
 
     s.addTest(ldapquery.LdapTest('test_glue_available_space',
@@ -60,7 +60,7 @@ def ts_glue_used_space(conf, uid, lfn):
     lfn.put_name(uid['ts_glue_used_space'][6])
     lfn.put_description(uid['ts_glue_used_space'][7])
     lfn.put_uuid(uid['ts_glue_used_space'][0])
-    lfn.put_ruid(self.uid['ts_glue_used_space'][3])
+    lfn.put_ruid(uid['ts_glue_used_space'][3])
     lfn.flush_file()
 
     s.addTest(ldapquery.LdapTest('test_glue_used_space',
@@ -76,7 +76,7 @@ def ts_size(conf, uid, lfn):
     lfn.put_name(uid['ts_size'][6])
     lfn.put_description(uid['ts_size'][7])
     lfn.put_uuid(uid['ts_size'][0])
-    lfn.put_ruid(self.uid['ts_size'][3])
+    lfn.put_ruid(uid['ts_size'][3])
     lfn.flush_file()
 
     s.addTest(ldapquery.LdapTest('test_size',
@@ -92,7 +92,7 @@ def ts_info_service_failure(conf, uid, lfn):
     lfn.put_name(uid['ts_info_service_failure'][6])
     lfn.put_description(uid['ts_info_service_failure'][7])
     lfn.put_uuid(uid['ts_info_service_failure'][0])
-    lfn.put_ruid(self.uid['ts_info_service_failure'][3])
+    lfn.put_ruid(uid['ts_info_service_failure'][3])
     lfn.flush_file()
 
     s.addTest(ldapquery.LdapTest('test_info_service_failure',
@@ -108,7 +108,7 @@ def ts_gluetwo_endpoint_undefined(conf, uid, lfn):
     lfn.put_name(uid['ts_gluetwo_endpoint_undefined'][6])
     lfn.put_description(uid['ts_gluetwo_endpoint_undefined'][7])
     lfn.put_uuid(uid['ts_gluetwo_endpoint_undefined'][0])
-    lfn.put_ruid(self.uid['ts_gluetwo_endpoint_undefined'][3])
+    lfn.put_ruid(uid['ts_gluetwo_endpoint_undefined'][3])
     lfn.flush_file()
 
     s.addTest(ldapquery.LdapTest('test_gluetwo_endpoint_undefined',
@@ -124,7 +124,7 @@ def ts_gluetwo_storage_share_capacity(conf, uid, lfn):
     lfn.put_name(uid['ts_gluetwo_storage_share_capacity'][6])
     lfn.put_description(uid['ts_gluetwo_storage_share_capacity'][7])
     lfn.put_uuid(uid['ts_gluetwo_storage_share_capacity'][0])
-    lfn.put_ruid(self.uid['ts_gluetwo_storage_share_capacity'][3])
+    lfn.put_ruid(uid['ts_gluetwo_storage_share_capacity'][3])
     lfn.flush_file()
 
     s.addTest(gluetwo_ldapquery.GluetwoLdapTest('test_gluetwo_storage_share_capacity',
@@ -138,7 +138,7 @@ def ts_gluetwo_endpoint_undefined(conf, uid, lfn):
     lfn.put_name(uid['ts_gluetwo_endpoint_undefined'][6])
     lfn.put_description(uid['ts_gluetwo_endpoint_undefined'][7])
     lfn.put_uuid(uid['ts_gluetwo_endpoint_undefined'][0])
-    lfn.put_ruid(self.uid['ts_gluetwo_endpoint_undefined'][3])
+    lfn.put_ruid(uid['ts_gluetwo_endpoint_undefined'][3])
     lfn.flush_file()
 
     s.addTest(gluetwo_ldapquery.GluetwoLdapTest('test_gluetwo_endpoint_undefined',
@@ -152,7 +152,7 @@ def ts_gluetwo_storage_undefined(conf, uid, lfn):
     lfn.put_name(uid['ts_gluetwo_storage_undefined'][6])
     lfn.put_description(uid['ts_gluetwo_storage_undefined'][7])
     lfn.put_uuid(uid['ts_gluetwo_storage_undefined'][0])
-    lfn.put_ruid(self.uid['ts_gluetwo_storage_undefined'][3])
+    lfn.put_ruid(uid['ts_gluetwo_storage_undefined'][3])
     lfn.flush_file()
      
     s.addTest(gluetwo_ldapquery.GluetwoLdapTest('test_gluetwo_storage_undefined',
@@ -166,7 +166,7 @@ def ts_gluetwo_endpoint(conf, uid, lfn):
     lfn.put_name(uid['ts_gluetwo_endpoint'][6])
     lfn.put_description(uid['ts_gluetwo_endpoint'][7])
     lfn.put_uuid(uid['ts_gluetwo_endpoint'][0])
-    lfn.put_ruid(self.uid['ts_gluetwo_endpoint'][3])
+    lfn.put_ruid(uid['ts_gluetwo_endpoint'][3])
     lfn.flush_file()
 
     s.addTest(gluetwo_ldapquery.GluetwoLdapTest('test_gluetwo_endpoint',
@@ -180,7 +180,7 @@ def ts_gluetwo_service(conf, uid, lfn):
     lfn.put_name(uid['ts_gluetwo_service'][6])
     lfn.put_description(uid['ts_gluetwo_service'][7])
     lfn.put_uuid(uid['ts_gluetwo_service'][0])
-    lfn.put_ruid(self.uid['ts_gluetwo_service'][3])
+    lfn.put_ruid(uid['ts_gluetwo_service'][3])
     lfn.flush_file()
 
     s.addTest(gluetwo_ldapquery.GluetwoLdapTest('test_gluetwo_service',
