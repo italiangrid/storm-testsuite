@@ -174,9 +174,9 @@ if __name__ == '__main__':
     log_file = report_file.ReportFile(report = report)
 
     if tests_sequence[0]:
-        tests_methods = tests_methods.TestsMethods(mti_info, sequence = tests_sequence[1])
+        tests_methods = tests_methods.TestsMethods(mti_info, storm_release, sequence = tests_sequence[1])
     else:
-        tests_methods = tests_methods.TestsMethods(mti_info)
+        tests_methods = tests_methods.TestsMethods(mti_info, storm_release)
 
     for key, value in tests_methods.get_system_methods().items():
         run_tests(value, mti_info, log_file, key,

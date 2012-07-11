@@ -11,7 +11,7 @@ class TestsMethods:
                 if len(sequence) == 0 or \
                    value[0] in sequence:
                     for val in value[3]:
-                       if range_checks.RangeChecks(self.storm_release, val[1]).is_valid():
+                       if range_checks.RangeChecks(storm_release, val[1]).is_valid():
                            self.methods[key] = (value[1], value[2], value[7])
                 #elif value[0] in sequence:
                 #    self.methods[key] = (value[1], value[2], value[7])
