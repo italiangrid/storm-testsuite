@@ -116,6 +116,11 @@ if __name__ == '__main__':
             filter_tests_details = (True, tmp_filter_tests_details)
         elif opt in ("-r", "--storm-release"):
             storm_release = value.replace('-','.')
+            if len(storm_release.split('.')) != 4:
+                msg = 'storm release string is not well formed'
+                print msg
+                usage()
+                sys.exit(0)
         elif opt in ("--novoms"):
             voms = False
         elif opt in ("--noreport"):
