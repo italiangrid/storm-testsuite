@@ -204,6 +204,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/tstorm/utils/createfile.py
 %{python_sitelib}/tstorm/utils/createfile.pyc
 %{python_sitelib}/tstorm/utils/createfile.pyo
+%{python_sitelib}/tstorm/utils/filters_checks.py
+%{python_sitelib}/tstorm/utils/filters_checks.pyc
+%{python_sitelib}/tstorm/utils/filters_checks.pyo
 %{python_sitelib}/tstorm/utils/findstrings.py
 %{python_sitelib}/tstorm/utils/findstrings.pyc
 %{python_sitelib}/tstorm/utils/findstrings.pyo
@@ -225,6 +228,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/tstorm/utils/mysqlquery.py
 %{python_sitelib}/tstorm/utils/mysqlquery.pyc
 %{python_sitelib}/tstorm/utils/mysqlquery.pyo
+%{python_sitelib}/tstorm/utils/range_checks.py
+%{python_sitelib}/tstorm/utils/range_checks.pyc
+%{python_sitelib}/tstorm/utils/range_checks.pyo
 %{python_sitelib}/tstorm/utils/readfile.py
 %{python_sitelib}/tstorm/utils/readfile.pyc
 %{python_sitelib}/tstorm/utils/readfile.pyo
@@ -243,9 +249,6 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/tstorm/utils/settings.py
 %{python_sitelib}/tstorm/utils/settings.pyc
 %{python_sitelib}/tstorm/utils/settings.pyo
-%{python_sitelib}/tstorm/utils/tests_checks.py
-%{python_sitelib}/tstorm/utils/tests_checks.pyc
-%{python_sitelib}/tstorm/utils/tests_checks.pyo
 %{python_sitelib}/tstorm/utils/tests_info.py
 %{python_sitelib}/tstorm/utils/tests_info.pyc
 %{python_sitelib}/tstorm/utils/tests_info.pyo
