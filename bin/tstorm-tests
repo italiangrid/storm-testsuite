@@ -8,7 +8,7 @@ import getopt
 
 from tstorm.utils import report_file 
 from tstorm.utils import settings
-from tstorm.utils import tests_checks
+from tstorm.utils import filters_checks
 from tstorm.utils import tests_info
 from tstorm.utils import tests_methods
 from tstorm.utils import configuration
@@ -40,10 +40,12 @@ def usage():
     print """                    [-d|--destfile] [-i|--ids] [-f|--file-ids] """
     print """                    [--noreport] [--novoms]"""
     print """                    [-s|--filter-list] [-l|--list]"""
+    print """                    [-r|--storm-release]"""
     print """where:"""
     print """- version, noreport, novoms and list are not followed by any"""
     print """  values"""
-    print """- conf, destfile, and file-ids are followed by a value"""
+    print """- conf, destfile, storm-release and file-ids are followed by """
+    print """  a value """
     print """- ids is followed by a sequence of id values separated by , """
     print """  and between '"""
     print """- filter-list is followed by a sequence of values separated """
@@ -73,9 +75,10 @@ if __name__ == '__main__':
 
     try:
         opts, args = getopt.getopt(sys.argv[1:],
-            "hvlc:d:i:f:s:",
+            "hvlc:d:i:f:s:r:",
             ["help","noreport","novoms","list", "conf=","destfile=",
-            "ids=","file-ids=","version","filter-list="])
+            "ids=","file-ids=","version","filter-list=",
+            "storm-release="])
     except getopt.GetoptError, err:
         print str(err)
         usage()
@@ -89,6 +92,7 @@ if __name__ == '__main__':
     tests_sequence_file = (False, '')
     list_tests_details = (False, {})
     filter_tests_details = (False, {})
+    storm_release = __import__('tstorm').get_storm_release().replace('-','.')
 
     for opt, value in opts:
         if opt in ("-h", "--help"):
@@ -108,8 +112,10 @@ if __name__ == '__main__':
         elif opt in ("-l", "--list"):
             list_tests_details = (True, {})            
         elif opt in ("-s", "--filter-list"):
-            tmp_filter_tests_details = tests_checks.TestsChecks(value).get_filters()
+            tmp_filter_tests_details = filters_checks.FiltersChecks(value).get_filters()
             filter_tests_details = (True, tmp_filter_tests_details)
+        elif opt in ("-r", "--storm-release"):
+            storm_release = value.replace('-','.')
         elif opt in ("--novoms"):
             voms = False
         elif opt in ("--noreport"):
@@ -125,11 +131,12 @@ if __name__ == '__main__':
         sys.exit(4)
 
     if list_tests_details[0]:
-        tests_info.TestsInfo(mti_info).get_system_info()
+        tests_info.TestsInfo(mti_info, storm_release).get_system_info()
         sys.exit(0)
 
     if filter_tests_details[0]:
-        tests_info.TestsInfo(mti_info, info=filter_tests_details[1]).get_system_info()
+        tests_info.TestsInfo(mti_info, storm_release, \
+            info=filter_tests_details[1]).get_system_info()
         sys.exit(0)
 
     if tests_sequence_file[0]:

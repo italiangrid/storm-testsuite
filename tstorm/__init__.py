@@ -13,3 +13,6 @@ def get_version():
 def get_release():
     release = VERSION[3]
     return release
+
+def get_storm_release():
+    return '1.10.0-1'

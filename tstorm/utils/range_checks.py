@@ -2,8 +2,8 @@ import sys
 import os
 
 class RangeChecks:
-    def __init__(self, revision, range):
-        self.revision = revision.replace('-','.').strip().split(',')
+    def __init__(self, storm_release, range):
+        self.storm_release = storm_release.replace('-','.')
         self.sup = range[len(range)-1]
         self.inf = range[0]
         self.range = \
@@ -15,7 +15,7 @@ class RangeChecks:
             return True
         return False
 
-    def __check_revision(self, val):
+    def __check_release(self, val):
         if len(val) == 4:
             return True
         return False
@@ -52,27 +52,27 @@ class RangeChecks:
 
     def __check_run_test(self):
         if self.inf == '(' and self.sup == ')':
-            if self.range[0] < self.revision and self.revision < self.range[1]:
+            if self.range[0] > self.revision and self.revision < self.range[1]:
                 return True
         if self.inf == '(' and self.sup == ']':
-            if self.range[0] < self.revision and self.revision <= self.range[1]:
+            if self.range[0] > self.revision and self.revision <= self.range[1]:
                 return True
         if self.inf == '[' and self.sup == ')':
-            if self.range[0] <= self.revision and self.revision < self.range[1]:
+            if self.range[0] >= self.revision and self.revision < self.range[1]:
                 return True
         if self.inf == '[' and self.sup == ']':
-            if self.range[0] <= self.revision and self.revision <= self.range[1]:
+            if self.range[0] >= self.revision and self.revision <= self.range[1]:
                 return True
         return False
 
     def is_valid(self):
         if not self.__check_outer():
             return False
-        if not self.__check_revision(self.revision):
+        if not self.__check_release(self.release):
             return False
         if not self.__check_size():
             return False
-        if not self.__check_revision(self.range[0]):
+        if not self.__check_release(self.range[0]):
             return False
         for x in self.range:
             if not self.__check_type(x):
