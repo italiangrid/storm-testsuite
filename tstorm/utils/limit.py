@@ -11,6 +11,10 @@ class Limit:
     def __init__(self, value):
         if value in (')', ']', '(', '['):
             self.limit = value
+            if value in (')', '('):
+                self.extreme_included = False
+            else:
+                self.extreme_included = True
         else:
             raise LimitError(3, 'limit is not well specified %s' % value)
                 
@@ -23,3 +27,6 @@ class Limit:
         if self.limit in ('(','['):
             return True
         return False
+
+    def is_extreme_included(value):
+        return self.extreme_included
