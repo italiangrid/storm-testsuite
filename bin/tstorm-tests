@@ -8,6 +8,9 @@ import getopt
 
 from tstorm.utils import report_file 
 from tstorm.utils import settings
+#from tstorm.utils import structure
+#from tstorm.utils import details
+from tstorm.utils import release_checks
 from tstorm.utils import filters_checks
 from tstorm.utils import tests_info
 from tstorm.utils import tests_methods
@@ -97,10 +100,11 @@ if __name__ == '__main__':
     for opt, value in opts:
         if opt in ("-h", "--help"):
             usage()
-            sys.exit()
+            sys.exit(0)
         elif opt in ("-v", "--version"):
-            print 'T-StoRM version %s' % (__import__('tstorm').get_version())
-            sys.exit()
+            msg = 'T-StoRM version %s' % (__import__('tstorm').get_version())
+            print msg
+            sys.exit(0)
         elif opt in ("-c", "--conf"):
             tfn = value
         elif opt in ("-d", "--destfile"):
@@ -115,12 +119,12 @@ if __name__ == '__main__':
             tmp_filter_tests_details = filters_checks.FiltersChecks(value).get_filters()
             filter_tests_details = (True, tmp_filter_tests_details)
         elif opt in ("-r", "--storm-release"):
-            storm_release = value.replace('-','.')
-            if len(storm_release.split('.')) != 4:
-                msg = 'storm release string is not well formed'
-                print msg
+            try:
+                storm_release = release_checks.ReleaseChecks(value)
+            except release_checks.ReleaseChecks, err:
+                print '\n\nExecution: ', err[1]
                 usage()
-                sys.exit(0)
+                sys.exit(2)
         elif opt in ("--novoms"):
             voms = False
         elif opt in ("--noreport"):
@@ -128,60 +132,78 @@ if __name__ == '__main__':
         else:
             assert False, "unhandled option"
 
-    if settings.configuration_file_exists(file_name = 'map_tests_ids.json'):
-        '''Get Test Id Mapping Info from file'''
-        mti_info =  settings.get_json_file_information(file_name = 'map_tests_ids.json')
-    else:
-        print '''Include map-tests-ids.json file in the right locations'''
-        sys.exit(4)
-
-    if list_tests_details[0]:
-        tests_info.TestsInfo(mti_info, storm_release).get_system_info()
-        sys.exit(0)
-
-    if filter_tests_details[0]:
-        tests_info.TestsInfo(mti_info, storm_release, \
-            info=filter_tests_details[1]).get_system_info()
-        sys.exit(0)
-
-    if tests_sequence_file[0]:
-        if settings.file_exists(tests_sequence_file[1]):
-            tests_sequence = (True,
-                tests_sequence[1] + settings.get_tests_sequence(tests_sequence_file[1]))
+    try:
+        if settings.configuration_file_exists(file_name = 'map_tests_ids.json'):
+            '''Get Test Id Mapping Info from file'''
+            mti_info =  settings.get_json_file_information(file_name = 'map_tests_ids.json')
         else:
-            print '''File that contains tests sequence does not exist'''
-            sys.exit(6)
+            print '''Include map-tests-ids.json file in the right locations'''
+            sys.exit(4)
 
-    if tests_sequence[0]:
-        if not settings.is_tests_sequence_valid(tests_sequence[1],
-            mti_info.values()):
-            print '''Wrong Tests Sequence %s'''
-            sys.exit(7)
+        #mti_info = structure.Structure().get_info()
+    
+        #details.Details(list_tests_details, filter_tests_details).get_details(mti_info)
 
-    if settings.configuration_file_exists(file_name = tfn):
-        tfn = settings.get_configuration_file(file_name = tfn)
-    else:
-        print '''Include ini file in the right locations'''
-        sys.exit(5)
+        if list_tests_details[0]:
+            tests_info.TestsInfo(mti_info, storm_release).get_system_info()
+            sys.exit(0)
 
-    check_configuration_file = configuration.LoadConfiguration(conf_file = tfn)
-    if not check_configuration_file.is_configuration_file_valid():
-        print '''Wrong Test Configuration file'''
-        print '''Example of ini configuration file:\n'''
-        check_configuration_file.print_configuration_file_template()
-        sys.exit(3)
+        if filter_tests_details[0]:
+            tests_info.TestsInfo(mti_info, storm_release, \
+                info=filter_tests_details[1]).get_system_info()
+            sys.exit(0)
 
-    log_file = report_file.ReportFile(report = report)
+        #a = sequence.Sequence(tests_sequence_file, tests_sequence)
+        #tests_sequence = a.get_sequence(mti_info)
+        #tests_methods = a.get_methods(storm_release, tests_sequence)
+        #a.run_tests(mti_info, log_file, custom_destination_file[0], custom_destination_file[1])
+    
+        if tests_sequence_file[0]:
+            if settings.file_exists(tests_sequence_file[1]):
+                tests_sequence = (True,
+                    tests_sequence[1] + settings.get_tests_sequence(tests_sequence_file[1]))
+            else:
+                print '''File that contains tests sequence does not exist'''
+                sys.exit(6)
 
-    if tests_sequence[0]:
-        tests_methods = tests_methods.TestsMethods(mti_info, storm_release, sequence = tests_sequence[1])
-    else:
-        tests_methods = tests_methods.TestsMethods(mti_info, storm_release)
+        if tests_sequence[0]:
+            if not settings.is_tests_sequence_valid(tests_sequence[1],
+                mti_info.values()):
+                print '''Wrong Tests Sequence %s'''
+                sys.exit(7)
 
-    for key, value in tests_methods.get_system_methods().items():
+        if settings.configuration_file_exists(file_name = tfn):
+            tfn = settings.get_configuration_file(file_name = tfn)
+        else:
+            print '''Include ini file in the right locations'''
+            sys.exit(5)
+
+        check_configuration_file = configuration.LoadConfiguration(conf_file = tfn)
+        if not check_configuration_file.is_configuration_file_valid():
+            print '''Wrong Test Configuration file'''
+            print '''Example of ini configuration file:\n'''
+            check_configuration_file.print_configuration_file_template()
+            sys.exit(3)
+
+        log_file = report_file.ReportFile(report = report)
+
+        if tests_sequence[0]:
+            tests_methods = tests_methods.TestsMethods(mti_info, storm_release, sequence = tests_sequence[1])
+        else:
+            tests_methods = tests_methods.TestsMethods(mti_info, storm_release)
+
+        for key, value in tests_methods.get_system_methods().items():
         run_tests(value, mti_info, log_file, key,
             custom_destination_file[0], custom_destination_file[1])
 
-    log_file.close_file() 
+        log_file.close_file()
 
-  
+    except range_checks.RangeError, err:
+        print '\n\nExecution: ', err
+    except limit.LimitError, err[1]:
+        print '\n\nExecution: ', err
+    except release_checks.ReleaseChecks:
+        print '\n\nExecution: ', err
+    except KeyboardInterrupt:
+        print '\n\nExecution n!'
+        sys.exit(1)

@@ -1,111 +1,50 @@
 import sys
 import os
+from wndoes.utils import release_checks
+from wnodes.utils import limit
+
+class RangeError(Exceptions):
+    def __init__(self, errno, msg):
+        self.args = (errno, msg)
+        self.errno = errno
+        self.errmsg = msg
 
 class RangeChecks:
-    def __init__(self, storm_release, range):
-        self.storm_release = storm_release.replace('-','.')
-        self.sup = range[len(range)-1]
-        self.inf = range[0]
-        self.range = \
-            range[1:len(range)-1].replace('-','.').strip().split(',')
+    def __init__(self, range):
+        try:
+            self.sup = limit.Limit(range[len(range)-1])
+            if not self.sup.is_sup():
+                raise RangeError(2, 'Superior Limit is not well specified %s' % sup)
 
-    def __check_outer(self):
-        if (self.sup == ')' or self.sup == ']') and \
-            (self.inf == '(' or self.inf == '['):
-            return True
-        return False
+            self.inf = limit.Limit(range[0])
+            if not self.inf.is_sup():
+                raise RangeError(2, 'Inferior Limit is not well specified %s' % sup)
 
-    def __check_release(self, val):
-        if len(val.split('.')) == 4:
-            return True
-        return False
+            extreme = range[1:len(range)-1].strip().split(',')
+            self.min_release = release_checks.ReleaseChecks(extreme[0])
+            self.max_release = release_checks.ReleaseChecks(extreme[1])
 
-    def __check_int_type(self, val):
-        if not map(int, val):
-            return False
-        return True
+        except limit.LimitError:
+            raise RangeError(2, 'Extreme Limit is not well specified %s' % sup)
+        except release_checks.ReleaseError:
+            raise RangeError(2, 'Release is not well specified %s' % sup)
 
-    def __check_str_type(self, val):
-        if val != '*':
-            return False
-        return True
-
-    def __check_size(self):
-        if len(self.range[0]) != len(self.range[1]):
-            if self.__check_int_type(self.range[0]) and \
-                self.__check_int_type(self.range[1]):
-                return False
-        return True
-
-    def __check_type(self, val):
-        if self.__check_str_type(val):
-            return True
-        if self.__check_int_type(val):
-            return True
-        return False
-
-    def __check_run_test(self):
+    def is_included(self, release):
         if self.inf == '(' and self.sup == ')':
-            if self.__check_str_type(self.range[0]) and self.__check_str_type(self.range[1]):
+            if self.min_release.is_greater(release) and \
+                self.max_release.is_lower(release):
                 return True
-            elif self.__check_str_type(self.range[0]) and self.__check_int_type(self.range[1]):
-                if self.storm_revision < self.range[1]:
-                    return True
-            elif self.__check_int_type(self.range[0]) and self.__check_str_type(self.range[1]):
-                if self.storm_revision > self.range[0]:
-                    return True
-            elif self.__check_int_type(self.range[0]) and self.__check_int_type(self.range[1]):
-                if self.storm_revision > self.range[0] and self.storm_revision < self.range[1]:
-                    return True
         elif self.inf == '(' and self.sup == ']':
-            if self.__check_str_type(self.range[0]) and self.__check_str_type(self.range[1]):
+            if self.min_release.is_greater(release) and \
+                self.max_release.is_lower_and_equal(release):
                 return True
-            elif self.__check_str_type(self.range[0]) and self.__check_int_type(self.range[1]):
-                if self.storm_revision <= self.range[1]:
-                    return True
-            elif self.__check_int_type(self.range[0]) and self.__check_str_type(self.range[1]):
-                if self.storm_revision > self.range[0]:
-                    return True
-            elif self.__check_int_type(self.range[0]) and self.__check_int_type(self.range[1]):
-                if self.storm_revision > self.range[0] and self.storm_revision <= self.range[1]:
-                    return True
         elif self.inf == '[' and self.sup == ')':
-            if self.__check_str_type(self.range[0]) and self.__check_str_type(self.range[1]):
+            if self.min_release.is_greater_and_equal(release) and \
+                self.max_release.is_lower(release):
                 return True
-            elif self.__check_str_type(self.range[0]) and self.__check_int_type(self.range[1]):
-                if self.storm_revision < self.range[1]:
-                    return True
-            elif self.__check_int_type(self.range[0]) and self.__check_str_type(self.range[1]):
-                if self.storm_revision >= self.range[0]:
-                    return True
-            elif self.__check_int_type(self.range[0]) and self.__check_int_type(self.range[1]):
-                if self.storm_revision >= self.range[0] and self.storm_revision < self.range[1]:
-                    return True
         elif self.inf == '[' and self.sup == ']':
-            if self.__check_str_type(self.range[0]) and self.__check_str_type(self.range[1]):
+            if self.min_release.is_greater_and_equal(release) and \
+                self.max_release.is_lower_and_equal(release):
                 return True
-            elif self.__check_str_type(self.range[0]) and self.__check_int_type(self.range[1]):
-                if self.storm_revision <= self.range[1]:
-                    return True
-            elif self.__check_int_type(self.range[0]) and self.__check_str_type(self.range[1]):
-                if self.storm_revision >= self.range[0]:
-                    return True
-            elif self.__check_int_type(self.range[0]) and self.__check_int_type(self.range[1]):
-                if self.storm_revision >= self.range[0] and self.storm_revision <= self.range[1]:
-                    return True
 
         return False
-
-    def is_valid(self):
-        if not self.__check_outer():
-            return False
-        if not self.__check_release(self.storm_release):
-            return False
-        if not self.__check_size():
-            return False
-        for x in self.range:
-            if not self.__check_type(x):
-                return False
-        if not self.__check_run_test():
-            return False
-        return True

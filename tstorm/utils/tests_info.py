@@ -3,10 +3,10 @@ import os
 from tstorm.utils import range_checks
 
 class TestsInfo:
-    def __init__(self, mti_info, storm_release, info={}):
+    def __init__(self, mti_info, release, info={}):
         self.mti_info = mti_info
         self.info = info
-        self.storm_release = storm_release
+        self.release = release
         self.list_keys = {
            'i':0, 'id':0,
            't':1, 'type':1,
@@ -22,7 +22,7 @@ class TestsInfo:
         for key, value in self.mti_info.items():
             if 'ts' in key and value[1] != 'DT':
                 for val in value[3]:
-                    if range_checks.RangeChecks(self.storm_release, val[1]).is_valid(): 
+                    if range_checks.RangeChecks(val[1]).is_included(self.release): 
                         print '%s  %s' % (value[0], val[0])
 
     def __print_all_sanity_ids(self):
@@ -30,7 +30,7 @@ class TestsInfo:
         for key, value in self.mti_info.items():
             if 'ts' in key and value[1] == 'DT':
                 for val in value[3]:
-                    if range_checks.RangeChecks(self.storm_release, val[1]).is_valid():
+                    if range_checks.RangeChecks(val[1]).is_included(self.release):
                         print '%s  %s' % (value[0], val[0])
 
     def __build_header_format(self):

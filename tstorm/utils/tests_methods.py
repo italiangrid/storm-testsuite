@@ -3,7 +3,7 @@ import os
 from tstorm.utils import range_checks
 
 class TestsMethods:
-    def __init__(self, mti_info, storm_release, sequence=[]):
+    def __init__(self, mti_info, release, sequence=[]):
         self.methods = {}
 
         for key, value in mti_info.items():
@@ -11,7 +11,7 @@ class TestsMethods:
                 if len(sequence) == 0 or \
                    value[0] in sequence:
                     for val in value[3]:
-                       if range_checks.RangeChecks(storm_release, val[1]).is_valid():
+                       if range_checks.RangeChecks(val[1]).is_included(release):
                            self.methods[key] = (value[1], value[2], value[7])
                 #elif value[0] in sequence:
                 #    self.methods[key] = (value[1], value[2], value[7])
