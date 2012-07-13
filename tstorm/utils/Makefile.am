@@ -121,7 +121,7 @@ CLEANFILES= \
     yaim.pyo \
     map_tests_ids.pyo \
     range.pyo \
-    release.pyo
+    release.pyo \
     filters.pyo \
     tests_info.pyo \
     tests_methods.pyo
