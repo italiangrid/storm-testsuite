@@ -1,6 +1,6 @@
 import sys
 import os
-from tstorm.utils import range_checks
+from tstorm.utils import range
 
 class TestsInfo:
     def __init__(self, mti_info, release, info={}):
@@ -22,7 +22,7 @@ class TestsInfo:
         for key, value in self.mti_info.items():
             if 'ts' in key and value[1] != 'DT':
                 for val in value[3]:
-                    if range_checks.RangeChecks(val[1]).is_included(self.release): 
+                    if range.Range(val[1]).is_included(self.release): 
                         print '%s  %s' % (value[0], val[0])
 
     def __print_all_sanity_ids(self):
@@ -30,7 +30,7 @@ class TestsInfo:
         for key, value in self.mti_info.items():
             if 'ts' in key and value[1] == 'DT':
                 for val in value[3]:
-                    if range_checks.RangeChecks(val[1]).is_included(self.release):
+                    if range.Range(val[1]).is_included(self.release):
                         print '%s  %s' % (value[0], val[0])
 
     def __build_header_format(self):

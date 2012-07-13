@@ -39,8 +39,9 @@ tstormutils_PYTHON = \
     listinfo.py \
     yaim.py \
     map_tests_ids.py \
-    range_checks.py \
-    filters_checks.py \
+    range.py \
+    release.py \
+    filters.py \
     tests_info.py \
     tests_methods.py
 
@@ -66,8 +67,9 @@ EXTRA_DIST = \
     listinfo.py \
     yaim.py \
     map_tests_ids.py \
-    range_checks.py \
-    filters_checks.py \
+    range.py \
+    filters.py \
+    release.py \
     tests_info.py \
     tests_methods.py
 
@@ -118,7 +120,8 @@ CLEANFILES= \
     listinfo.pyo \
     yaim.pyo \
     map_tests_ids.pyo \
-    range_checks.pyo \
-    filters_checks.pyo \
+    range.pyo \
+    release.pyo
+    filters.pyo \
     tests_info.pyo \
     tests_methods.pyo

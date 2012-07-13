@@ -1,7 +1,7 @@
 import sys
 import os
 
-class FiltersChecks:
+class Filters:
     def __init__(self, value, sanity = False):
         self.filters = value.split(';')
         self.sanity = sanity

@@ -2,9 +2,8 @@ import sys
 import os
 
 class LimitError(Exception):
-    def __init__(self, errno, msg):
-        self.args = (errno, msg)
-        self.errno = errno
+    def __init__(self, msg):
+        self.args = (msg)
         self.errmsg = msg
 
 class Limit:
@@ -16,7 +15,7 @@ class Limit:
             else:
                 self.extreme_included = True
         else:
-            raise LimitError(3, 'limit is not well specified %s' % value)
+            raise LimitError('limit is not well specified %s' % value)
                 
     def is_sup():
         if self.limit in (')',']'):

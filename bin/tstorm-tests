@@ -10,8 +10,8 @@ from tstorm.utils import report_file
 from tstorm.utils import settings
 #from tstorm.utils import structure
 #from tstorm.utils import details
-from tstorm.utils import release_checks
-from tstorm.utils import filters_checks
+from tstorm.utils import release
+from tstorm.utils import filters
 from tstorm.utils import tests_info
 from tstorm.utils import tests_methods
 from tstorm.utils import configuration
@@ -116,13 +116,13 @@ if __name__ == '__main__':
         elif opt in ("-l", "--list"):
             list_tests_details = (True, {})            
         elif opt in ("-s", "--filter-list"):
-            tmp_filter_tests_details = filters_checks.FiltersChecks(value).get_filters()
+            tmp_filter_tests_details = filters.Filters(value).get_filters()
             filter_tests_details = (True, tmp_filter_tests_details)
         elif opt in ("-r", "--storm-release"):
             try:
-                storm_release = release_checks.ReleaseChecks(value)
-            except release_checks.ReleaseChecks, err:
-                print '\n\nExecution: ', err[1]
+                storm_release = release.Release(value)
+            except release.ReleaseError, err:
+                print '\n\nExecution: ', err
                 usage()
                 sys.exit(2)
         elif opt in ("--novoms"):
@@ -139,19 +139,33 @@ if __name__ == '__main__':
         else:
             print '''Include map-tests-ids.json file in the right locations'''
             sys.exit(4)
+    except:
+        sys.exit(4)
 
         #mti_info = structure.Structure().get_info()
     
         #details.Details(list_tests_details, filter_tests_details).get_details(mti_info)
 
+    try:
         if list_tests_details[0]:
             tests_info.TestsInfo(mti_info, storm_release).get_system_info()
+    
             sys.exit(0)
 
         if filter_tests_details[0]:
             tests_info.TestsInfo(mti_info, storm_release, \
                 info=filter_tests_details[1]).get_system_info()
             sys.exit(0)
+    except range.RangeError, err:
+        print '\n\nExecution: ', err
+    except limit.Limit, err:
+        print '\n\nExecution: ', err
+    except release.Release:
+        print '\n\nExecution: ', err
+    except KeyboardInterrupt:
+        print '\n\nExecution n!'
+        sys.exit(1)
+
 
         #a = sequence.Sequence(tests_sequence_file, tests_sequence)
         #tests_sequence = a.get_sequence(mti_info)
@@ -187,6 +201,7 @@ if __name__ == '__main__':
 
         log_file = report_file.ReportFile(report = report)
 
+    try:
         if tests_sequence[0]:
             tests_methods = tests_methods.TestsMethods(mti_info, storm_release, sequence = tests_sequence[1])
         else:
@@ -195,15 +210,14 @@ if __name__ == '__main__':
         for key, value in tests_methods.get_system_methods().items():
         run_tests(value, mti_info, log_file, key,
             custom_destination_file[0], custom_destination_file[1])
-
-        log_file.close_file()
-
-    except range_checks.RangeError, err:
+    except range.RangeError, err:
         print '\n\nExecution: ', err
-    except limit.LimitError, err[1]:
+    except limit.Limit:
         print '\n\nExecution: ', err
-    except release_checks.ReleaseChecks:
+    except release.Release:
         print '\n\nExecution: ', err
     except KeyboardInterrupt:
         print '\n\nExecution n!'
         sys.exit(1)
+
+        log_file.close_file()

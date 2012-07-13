@@ -7,7 +7,7 @@ import unittest
 import getopt
 from tstorm.utils import report_file
 from tstorm.utils import settings
-from tstorm.utils import filters_checks
+from tstorm.utils import filters
 from tstorm.utils import tests_info
 from tstorm.utils import tests_methods
 from tstorm.utils import configuration
@@ -87,7 +87,7 @@ if __name__ == '__main__':
         elif opt in ("-l", "--list"):
             list_tests_details = (True, {})
         elif opt in ("-s", "--filter-list"):
-            tmp_filter_tests_details = filters_checks.TestsChecks(value).get_filters()
+            tmp_filter_tests_details = filters.Filters(value).get_filters()
 #            x = value.split(' ')
 #            for y in x:
 #                if 't' in y.split('=')[0]:
