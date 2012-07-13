@@ -11,6 +11,8 @@ from tstorm.utils import settings
 #from tstorm.utils import structure
 #from tstorm.utils import details
 from tstorm.utils import release
+from tstorm.utils import range
+from tstorm.utils import limit
 from tstorm.utils import filters
 from tstorm.utils import tests_info
 from tstorm.utils import tests_methods
@@ -95,7 +97,12 @@ if __name__ == '__main__':
     tests_sequence_file = (False, '')
     list_tests_details = (False, {})
     filter_tests_details = (False, {})
-    storm_release = __import__('tstorm').get_storm_release().replace('-','.')
+    try:
+        storm_release = release.Release(__import__('tstorm').get_storm_release())
+    except release.ReleaseError, err:
+        print '\n\nExecution: ', err
+        usage()
+        sys.exit(2)
 
     for opt, value in opts:
         if opt in ("-h", "--help"):
@@ -156,7 +163,7 @@ if __name__ == '__main__':
             tests_info.TestsInfo(mti_info, storm_release, \
                 info=filter_tests_details[1]).get_system_info()
             sys.exit(0)
-    except range.RangeError, err:
+    except range.RangeError,err:
         print '\n\nExecution: ', err
     except limit.Limit, err:
         print '\n\nExecution: ', err
