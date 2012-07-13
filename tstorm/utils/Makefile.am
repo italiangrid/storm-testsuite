@@ -35,6 +35,7 @@ tstormutils_PYTHON = \
     __init__.py \
     utils.py \
     ldapsearch.py \
+    limit.py \
     version.py \
     listinfo.py \
     yaim.py \
@@ -63,6 +64,7 @@ EXTRA_DIST = \
     __init__.py \
     utils.py \
     ldapsearch.py \
+    limit.py \
     version.py \
     listinfo.py \
     yaim.py \
@@ -91,6 +93,7 @@ CLEANFILES= \
     __init__.pyc \
     utils.pyc \
     ldapsearch.pyc \
+    limit.py \
     version.pyc \
     listinfo.pyc \
     yaim.pyc \
@@ -116,6 +119,7 @@ CLEANFILES= \
     __init__.pyo \
     utils.pyo \
     ldapsearch.pyo \
+    limit.pyo \
     version.pyo \
     listinfo.pyo \
     yaim.pyo \

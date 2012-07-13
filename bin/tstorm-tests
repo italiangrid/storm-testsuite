@@ -208,8 +208,8 @@ if __name__ == '__main__':
             tests_methods = tests_methods.TestsMethods(mti_info, storm_release)
 
         for key, value in tests_methods.get_system_methods().items():
-        run_tests(value, mti_info, log_file, key,
-            custom_destination_file[0], custom_destination_file[1])
+            run_tests(value, mti_info, log_file, key,
+                custom_destination_file[0], custom_destination_file[1])
     except range.RangeError, err:
         print '\n\nExecution: ', err
     except limit.Limit:

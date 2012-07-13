@@ -219,6 +219,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/tstorm/utils/ldapsearch.py
 %{python_sitelib}/tstorm/utils/ldapsearch.pyc
 %{python_sitelib}/tstorm/utils/ldapsearch.pyo
+%{python_sitelib}/tstorm/utils/limit.py
+%{python_sitelib}/tstorm/utils/limit.pyc
+%{python_sitelib}/tstorm/utils/limit.pyo
 %{python_sitelib}/tstorm/utils/listinfo.py
 %{python_sitelib}/tstorm/utils/listinfo.pyc
 %{python_sitelib}/tstorm/utils/listinfo.pyo

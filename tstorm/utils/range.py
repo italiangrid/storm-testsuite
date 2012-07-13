@@ -1,7 +1,7 @@
 import sys
 import os
-from wndoes.utils import release
-from wnodes.utils import limit
+from tstorm.utils import release
+from tstorm.utils import limit
 
 class RangeError(Exceptions):
     def __init__(self, msg):
