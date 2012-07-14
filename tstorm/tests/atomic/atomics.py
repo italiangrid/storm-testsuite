@@ -26,8 +26,6 @@ class AtomicsTest(unittest.TestCase):
         self.lfn = lfn
 
     def test_dcache_ping(self):
-        self.lfn.put_output()
-
         srm_ping = ping.SrmPing(self.tsets['general']['endpoint'])
         self.lfn.put_cmd(srm_ping.get_command())
         ping_result = srm_ping.get_output()
@@ -40,8 +38,6 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_storm_ping(self):
-        self.lfn.put_output()
-
         storm_ping = ping.StoRMPing(self.tsets['general']['endpoint'])
         self.lfn.put_cmd(storm_ping.get_command())
         ping_result = storm_ping.get_output()
@@ -57,8 +53,6 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_storm_ping_wo(self):
-        self.lfn.put_output()
-
         storm_ping = ping.StoRMPing(self.tsets['general']['endpoint'])
         self.lfn.put_cmd(storm_ping.get_command(wrong_option=True))
         ping_result = storm_ping.get_output(wrong_option=True)
@@ -68,8 +62,6 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_storm_gtp(self):
-        self.lfn.put_output()
-
         storm_protocol = protocol.StoRMGtp(self.tsets['general']['endpoint'])
         self.lfn.put_cmd(storm_protocol.get_command())
         protocol_result = storm_protocol.get_output()
@@ -80,8 +72,6 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_storm_gtp_wo(self):
-        self.lfn.put_output()
-
         storm_protocol = protocol.StoRMGtp(self.tsets['general']['endpoint'])
         self.lfn.put_cmd(storm_protocol.get_command(wrong_option=True))
         protocol_result = storm_protocol.get_output(wrong_option=True)
@@ -91,8 +81,6 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_lcg_ls_unexist_file(self):
-        self.lfn.put_output()
-
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
                  self.tsets['general']['accesspoint'], self.dfn)
         self.lfn.put_cmd(lcg_ls.get_command())
@@ -103,8 +91,6 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_lcg_ls_unexist_dir(self):
-        self.lfn.put_output()
-
         if '/' in self.dfn:
             a=os.path.dirname(self.dfn)
             lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
@@ -117,8 +103,6 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_dcache_mkdir(self):
-        self.lfn.put_output()
-
         if '/' in self.dfn:
             a=os.path.dirname(self.dfn)
             srm_mkdir = mkdir.SrmMkdir(self.tsets['general']['endpoint'],
@@ -140,8 +124,6 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_dcache_mkdir_exist_dir(self):
-        self.lfn.put_output()
-
         if '/' in self.dfn:
             a=os.path.dirname(self.dfn)
             srm_mkdir = mkdir.SrmMkdir(self.tsets['general']['endpoint'],
@@ -163,8 +145,6 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_lcg_ls_dir(self):
-        self.lfn.put_output()
-
         if '/' in self.dfn:
             a=os.path.dirname(self.dfn)
             lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
@@ -177,8 +157,6 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_lcg_cp_out(self):
-        self.lfn.put_output()
-
         lcg_cp = cp.LcgCp(self.tsets['general']['endpoint'],
                  self.tsets['general']['accesspoint'], self.ifn, self.dfn,
                  self.bifn)
@@ -190,8 +168,6 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_lcg_ls_file(self):
-        self.lfn.put_output()
-
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
                  self.tsets['general']['accesspoint'], self.dfn)
         self.lfn.put_cmd(lcg_ls.get_command())
@@ -206,8 +182,6 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_lcg_cp_in(self):
-        self.lfn.put_output()
-
         lcg_cp = cp.LcgCp(self.tsets['general']['endpoint'],
                  self.tsets['general']['accesspoint'], self.ifn, self.dfn,
                  self.bifn)
@@ -219,8 +193,6 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_dcache_rm_file(self):
-        self.lfn.put_output()
-
         srm_rm = rm.SrmRm(self.tsets['general']['endpoint'],
                  self.tsets['general']['accesspoint'], self.dfn)
         self.lfn.put_cmd(srm_rm.get_command())
@@ -231,8 +203,6 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_dcache_rm_unexist_file(self):
-        self.lfn.put_output()
-
         srm_rm = rm.SrmRm(self.tsets['general']['endpoint'],
                  self.tsets['general']['accesspoint'], self.dfn)
         self.lfn.put_cmd(srm_rm.get_command())
@@ -243,8 +213,6 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_dcache_rm_dir(self):
-        self.lfn.put_output()
-
         if '/' in self.dfn:
             a=os.path.dirname(self.dfn)
             srm_rmdir = rmdir.SrmRmdir(self.tsets['general']['endpoint'],
@@ -263,8 +231,6 @@ class AtomicsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_dcache_rm_unexist_dir(self):
-        self.lfn.put_output()
-
         if '/' in self.dfn:
             a=os.path.dirname(self.dfn)
             srm_rmdir = rmdir.SrmRmdir(self.tsets['general']['endpoint'],

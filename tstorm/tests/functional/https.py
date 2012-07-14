@@ -22,8 +22,6 @@ class HttpsTest(unittest.TestCase):
         self.voms = voms
 
     def test_srm_transfer_outbound_http(self):
-        self.lfn.put_output()
-
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
                  self.tsets['http']['no_voms'], self.dfn)
         self.lfn.put_cmd(lcg_ls.get_command())
@@ -58,8 +56,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_direct_transfer_outbound_http(self):
-        self.lfn.put_output()
-
         t=datetime.datetime.now()
         ts=str(time.mktime(t.timetuple()))
         a = 'http://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['http_port'] + '/storageArea/'+ self.tsets['http']['no_voms'] +  self.dfn + ts
@@ -73,8 +69,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_direct_transfer_outbound_http_exist_file(self):
-        self.lfn.put_output()
-
         a = 'http://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['http_port'] + '/storageArea/'+ self.tsets['http']['no_voms'] +  self.dfn
 
         cp_curl = cp.curl(self.ifn, self.bifn, a)
@@ -86,8 +80,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_direct_transfer_inbound_http(self):
-        self.lfn.put_output()
-
         a = 'http://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['http_port'] + '/storageArea/'+ self.tsets['http']['no_voms'] +  self.dfn
   
         cp_curl = cp.curl(self.ifn, self.bifn, a)
@@ -99,8 +91,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_direct_transfer_inbound_http_unexist_file(self):
-        self.lfn.put_output()
-
         t=datetime.datetime.now()
         ts=str(time.mktime(t.timetuple()))
         a = 'http://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['http_port'] + '/storageArea/'+ self.tsets['http']['no_voms'] +  self.dfn + ts
@@ -114,8 +104,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_srm_transfer_inbound_http(self):
-        self.lfn.put_output()
-
         storm_ptg = cp.StoRMPtg(self.tsets['general']['endpoint'],
                     self.tsets['http']['no_voms'], self.dfn, self.prt)
         self.lfn.put_cmd(storm_ptg.get_command())
@@ -144,8 +132,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_srm_transfer_outbound_https(self):
-        self.lfn.put_output()
-
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
                  self.tsets['https']['no_voms'], self.dfn)
         self.lfn.put_cmd(lcg_ls.get_command())
@@ -180,8 +166,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_direct_transfer_outbound_https(self):
-        self.lfn.put_output()
-
         t=datetime.datetime.now()
         ts=str(time.mktime(t.timetuple()))
         a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['no_voms'] + self.dfn + ts
@@ -195,8 +179,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_direct_transfer_outbound_https_exist_file(self):
-        self.lfn.put_output()
-
         a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['no_voms'] + self.dfn
 
         cp_curl = cp.curl(self.ifn, self.bifn, a)
@@ -208,8 +190,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_direct_transfer_inbound_https(self):
-        self.lfn.put_output()
-
         a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['no_voms']  + self.dfn
 
         cp_curl = cp.curl(self.ifn, self.bifn, a)
@@ -221,8 +201,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_direct_transfer_inbound_https_no_auth(self):
-        self.lfn.put_output()
-
         a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['no_auth']  + self.dfn
 
         cp_curl = cp.curl(self.ifn, self.bifn, a)
@@ -234,8 +212,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_direct_transfer_inbound_https_unexist_file(self):
-        self.lfn.put_output()
-
         t=datetime.datetime.now()
         ts=str(time.mktime(t.timetuple()))
         a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['no_voms']  + self.dfn + ts
@@ -249,8 +225,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_srm_transfer_inbound_https(self):
-        self.lfn.put_output()
-
         storm_ptg = cp.StoRMPtg(self.tsets['general']['endpoint'],
                     self.tsets['https']['no_voms'], self.dfn, self.prt)
         self.lfn.put_cmd(storm_ptg.get_command())
@@ -279,8 +253,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_srm_transfer_outbound_https_voms(self):
-        self.lfn.put_output()
-
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
                  self.tsets['https']['voms'], self.dfn)
         self.lfn.put_cmd(lcg_ls.get_command())
@@ -315,8 +287,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_direct_transfer_outbound_https_voms(self):
-        self.lfn.put_output()
-
         t=datetime.datetime.now()
         ts=str(time.mktime(t.timetuple()))
         a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['voms'] + self.dfn + ts
@@ -330,8 +300,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_direct_transfer_outbound_https_voms_exist_file(self):
-        self.lfn.put_output()
-
         a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['voms'] + self.dfn
 
         cp_curl = cp.curl(self.ifn, self.bifn, a)
@@ -343,8 +311,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_direct_transfer_inbound_https_voms(self):
-        self.lfn.put_output()
-
         a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['voms'] + self.dfn
 
         cp_curl = cp.curl(self.ifn, self.bifn, a)
@@ -356,8 +322,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_direct_transfer_inbound_https_voms_no_auth(self):
-        self.lfn.put_output()
-
         a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['no_auth'] + self.dfn
   
         cp_curl = cp.curl(self.ifn, self.bifn, a)
@@ -369,8 +333,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_direct_transfer_inbound_https_voms_unexist_file(self):
-        self.lfn.put_output()
-
         t=datetime.datetime.now()
         ts=str(time.mktime(t.timetuple()))
         a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['voms'] + self.dfn + ts
@@ -384,8 +346,6 @@ class HttpsTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_srm_transfer_inbound_https_voms(self):
-        self.lfn.put_output()
-
         storm_ptg = cp.StoRMPtg(self.tsets['general']['endpoint'],
                     self.tsets['https']['voms'], self.dfn, self.prt)
         self.lfn.put_cmd(storm_ptg.get_command())

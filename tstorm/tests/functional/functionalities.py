@@ -24,8 +24,6 @@ class FunctionalitiesTest(unittest.TestCase):
         self.lfn = lfn
 
     def test_cksm(self):
-        self.lfn.put_output()
-
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'], 
                  self.tsets['general']['accesspoint'], self.dfn)
         self.lfn.put_cmd(lcg_ls.get_command())
@@ -68,8 +66,6 @@ class FunctionalitiesTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_data_transfer_out_file(self):
-        self.lfn.put_output()
-
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
                  self.tsets['general']['accesspoint'], self.dfn)
         self.lfn.put_cmd(lcg_ls.get_command())
@@ -93,8 +89,6 @@ class FunctionalitiesTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_data_transfer_out_exist_file(self):
-        self.lfn.put_output()
-
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
                  self.tsets['general']['accesspoint'], self.dfn)
         self.lfn.put_cmd(lcg_ls.get_command())
@@ -112,8 +106,6 @@ class FunctionalitiesTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_data_transfer_in_file(self):
-        self.lfn.put_output()
-
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
                  self.tsets['general']['accesspoint'], self.dfn)
         self.lfn.put_cmd(lcg_ls.get_command())
@@ -131,8 +123,6 @@ class FunctionalitiesTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_data_transfer_in_unexist_file(self):
-        self.lfn.put_output()
-
         t=datetime.datetime.now()
         ts=str(time.mktime(t.timetuple()))
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],

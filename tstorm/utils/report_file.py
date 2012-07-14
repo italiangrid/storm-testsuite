@@ -34,9 +34,14 @@ class ReportFile:
         if  len(text) > 0:
             self.log_file.write(text)
 
+    def put_epilogue(self):
+        if self.report:
+            self.put('\n')
+            self.put_separator()
+
     def put_name(self, text = ""):
         if self.report:
-            self.put_separator()
+            self.put_epilogue()
             self.put('Name          : %s\n' % text)
 
     def put_description(self, text = ""):
@@ -54,8 +59,6 @@ class ReportFile:
     def put_result(self, text = ""):
         if self.report:
             self.put('Result        : %s\n' % text)
-            self.put_separator()
-            self.put('\n')
 
     def put_ruid(self, text = ""):
         if self.report:
@@ -64,6 +67,11 @@ class ReportFile:
     def put_uuid(self, text = ""):
         if self.report:
             self.put('Unique ID     : %s\n' % text)
+
+    def put_prologue(self):
+        if self.report:
+            self.put_separator()
+            self.put('\n')
  
     def put_separator(self):
         if self.report:

@@ -28,8 +28,6 @@ class RegressionTest(unittest.TestCase):
         self.lfn = lfn
 
     def test_eight_digit_string_checksum(self):
-        self.lfn.put_output()
-
         dd = createfile.Dd(self.ifn)
         self.lfn.put_cmd(dd.get_command())
         dd_result = dd.get_output()
@@ -83,8 +81,6 @@ class RegressionTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_update_free_space_upon_rm(self):
-        self.lfn.put_output()
-
         dd = createfile.Dd(self.ifn)
         self.lfn.put_cmd(dd.get_command())
         self.dd_result = dd.get_output()
@@ -168,8 +164,6 @@ class RegressionTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_update_used_space_upon_pd(self):
-        self.lfn.put_output()
-
         dd = createfile.Dd(self.ifn)
         self.lfn.put_cmd(dd.get_command())
         self.dd_result = dd.get_output()
@@ -245,8 +239,6 @@ class RegressionTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_unsupported_protocols(self):
-        self.lfn.put_output()
-
         storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
                    self.tsets['general']['accesspoint'], self.dfn,
                    'unsupported')
@@ -259,8 +251,6 @@ class RegressionTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_both_sup_and_unsup_protocols(self):
-        self.lfn.put_output()
-
         storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
                    self.tsets['general']['accesspoint'], self.dfn, 
                    self.prt + ',unsupported')
@@ -284,8 +274,6 @@ class RegressionTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_non_ascii_chars(self):
-        self.lfn.put_output()
-
         storm_ls = ls.StoRMLs(self.tsets['general']['endpoint'],
                    self.tsets['general']['accesspoint'], self.dfn + 't3y8#')
         self.lfn.put_cmd(storm_ls.get_command())
@@ -307,8 +295,6 @@ class RegressionTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_storm_backend_age(self):
-        self.lfn.put_output()
-
         storm_ping = ping.StoRMPing(self.tsets['general']['endpoint'])
         self.lfn.put_cmd(storm_ping.get_command())
         ping_result = storm_ping.get_output()
@@ -324,8 +310,6 @@ class RegressionTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_get_space_metadata_failure(self):
-        self.lfn.put_output()
-
         storm_gst = space.StoRMGst(self.tsets['general']['endpoint'],
                    self.tsets['general']['accesspoint'],
                    self.tsets['general']['spacetoken'])
@@ -344,8 +328,6 @@ class RegressionTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_storm_database_password(self):
-        self.lfn.put_output()
-
         dd = createfile.Dd(self.ifn)
         self.lfn.put_cmd(dd.get_command())
         self.dd_result = dd.get_output()
@@ -397,8 +379,6 @@ class RegressionTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_storm_gridhttps_authorization_denied(self):
-        self.lfn.put_output()
-
         self.cf_result = createfile.Cf(self.ifn).get_output()
         self.assert_(self.cf_result['status'] == 'PASS')
 

@@ -18,8 +18,6 @@ class GluetwoLdapTest(unittest.TestCase):
         self.lfn=lfn
 
     def test_gluetwo_storage_share_capacity(self):
-        self.lfn.put_output()
-
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
             "(&(objectclass=GLUE2StorageServiceCapacity)(GLUE2StorageServiceCapacityType=online))",
             ['GLUE2StorageServiceCapacityFreeSize',
@@ -50,8 +48,6 @@ class GluetwoLdapTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_gluetwo_endpoint_undefined(self):
-        self.lfn.put_output()
-
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
             "(&(objectclass=GLUE2Endpoint)(GLUE2EndpointInterfaceName=emi.storm))", 
             ['GLUE2EndpointSupportedProfile', 'GLUE2EndpointInterfaceExtension',
@@ -70,8 +66,6 @@ class GluetwoLdapTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_gluetwo_storage_undefined(self):
-        self.lfn.put_output()
-
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
             "(objectclass=GLUE2StorageShare)",
             ['GLUE2StorageShareAccessMode'],
@@ -86,8 +80,6 @@ class GluetwoLdapTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_gluetwo_endpoint(self):
-        self.lfn.put_output()
-
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
             "(&(objectclass=GLUE2Endpoint)(GLUE2EndpointInterfaceName=emi.storm))", 
             ['GLUE2EndpointCapability'], self.tsets['bdii']['glue_two_basedn'])
@@ -103,8 +95,6 @@ class GluetwoLdapTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_gluetwo_service(self):
-        self.lfn.put_output()
-
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
             "(&(objectclass=GLUE2Service))",
             ['GLUE2StorageServie'], self.tsets['bdii']['glue_two_basedn'])

@@ -18,8 +18,6 @@ class LdapTest(unittest.TestCase):
         self.lfn=lfn
 
     def test_glue_service(self):
-        self.lfn.put_output()
-
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
             self.filter, self.attributes, self.tsets['bdii']['basedn'])
         self.lfn.put_cmd('')
@@ -31,8 +29,6 @@ class LdapTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_glue_available_space_info_service(self):
-        self.lfn.put_output()
-
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
             self.filter, self.attributes, self.tsets['bdii']['basedn'])
         self.lfn.put_cmd('')
@@ -52,8 +48,6 @@ class LdapTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_glue_available_space(self):
-        self.lfn.put_output()
-
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
             self.filter, self.attributes, self.tsets['bdii']['basedn'])
         self.lfn.put_cmd('')
@@ -83,8 +77,6 @@ class LdapTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_glue_used_space(self):
-        self.lfn.put_output()
-
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
             self.filter, self.attributes, self.tsets['bdii']['basedn'])
         self.lfn.put_cmd('')
@@ -114,8 +106,6 @@ class LdapTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_size(self):
-        self.lfn.put_output()
-
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
             self.filter, self.attributes, self.tsets['bdii']['basedn'])
         self.lfn.put_cmd('')
@@ -154,8 +144,6 @@ class LdapTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_info_service_failure(self):
-        self.lfn.put_output()
-
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
             self.filter, self.attributes, self.tsets['bdii']['basedn'])
         self.lfn.put_cmd('')

@@ -10,7 +10,9 @@ def ts_get_space_metadata_failure(conf, ifn, dfn, bifn, uid, lfn):
     lfn.put_description(uid['ts_get_space_metadata_failure'][7])
     lfn.put_uuid(uid['ts_get_space_metadata_failure'][0])
     lfn.put_ruid(uid['ts_get_space_metadata_failure'][3])
-
+    lfn.put_output()
+    lfn.flush_file()
     s.addTest(re.RegressionTest('test_get_space_metadata_failure',conf, ifn, dfn, bifn, lfn))
+    lfn.put_prologue()
 
     return s

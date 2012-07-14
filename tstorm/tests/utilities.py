@@ -16,8 +16,6 @@ class UtilitiesTest(unittest.TestCase):
         self.lfn = lfn
     
     def test_settings(self):
-        self.lfn.put_output()
-
         self.lfn.put_cmd('')
 
         for x in self.tsets:
@@ -29,8 +27,6 @@ class UtilitiesTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_dd(self):
-        self.lfn.put_output()
-
         dd = createfile.Dd(self.ifn)
         self.lfn.put_cmd(dd.get_command())
         self.dd_result = dd.get_output()
@@ -40,8 +36,6 @@ class UtilitiesTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_cr_lf(self):
-        self.lfn.put_output()
-
         self.cf_result = createfile.Cf(self.ifn).get_output()
         self.assert_(self.cf_result['status'] == 'PASS')
 
@@ -49,8 +43,6 @@ class UtilitiesTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_rm_lf(self):
-        self.lfn.put_output()
-
         rm_lf = removefile.RmLf(self.ifn, self.bifn)
         self.lfn.put_cmd(rm_lf.get_command())
         self.rmlf_result = rm_lf.get_output()
