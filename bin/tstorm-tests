@@ -37,8 +37,9 @@ def run_tests(tpi, uid, lfn, tt, n_df, n_dfn):
     elif 'ts_https_voms' in tpi[2]:
         sd=False
     ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,subdir=sd)
-    if tpi[2] != "":
+    if tp2[3] != "":
         runner = unittest.TextTestRunner(verbosity=2).run(eval(tpi[2]))
+        lfn.put_prologue()
 
 def usage():
     print """Usage: tstorm-tests [-h|--help] [-v|--version] [-c|--conf] """

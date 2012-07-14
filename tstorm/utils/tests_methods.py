@@ -13,8 +13,6 @@ class TestsMethods:
                     for val in value[3]:
                        if range.Range(val[1]).is_included(release):
                            self.methods[key] = (value[1], value[2], value[7])
-                #elif value[0] in sequence:
-                #    self.methods[key] = (value[1], value[2], value[7])
  
     def get_system_methods(self):
         system_methods = {}
