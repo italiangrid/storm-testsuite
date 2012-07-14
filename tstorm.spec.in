@@ -78,6 +78,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %{_bindir}/tstorm-tests
+%{_bindir}/tstorm-stress-tests
 %dir %{_sysconfdir}/tstorm/
 %attr(644,%{default_user},%{default_user}) %{_sysconfdir}/tstorm/tstorm.ini
 %dir %{python_sitelib}/tstorm/

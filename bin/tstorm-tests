@@ -8,8 +8,6 @@ import getopt
 
 from tstorm.utils import report_file 
 from tstorm.utils import settings
-#from tstorm.utils import structure
-#from tstorm.utils import details
 from tstorm.utils import release
 from tstorm.utils import range
 from tstorm.utils import limit
@@ -27,20 +25,6 @@ from tstorm.tests.functional import tapetests as tt
 from tstorm.tests.functional.regression import regressiontests as rt
 from tstorm.tests.functional.regression import regressiontests_novoms as rtnv
 
-#def run_tests(tpi, uid, lfn, tt, n_df, n_dfn):
-#    sd=True
-#    if tpi[1]:
-#        sd=False
-#    elif 'ts_https' in tpi[2]:
-#        sd=False
-#    elif 'ts_http' in tpi[2]:
-#        sd=False
-#    elif 'ts_https_voms' in tpi[2]:
-#        sd=False
-#    ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,subdir=sd)
-#    if tpi[2] != "":
-#        runner = unittest.TextTestRunner(verbosity=2).run(eval(tpi[2]))
-#        lfn.put_prologue()
 
 def run_tests(uid, lfn, tt, n_df, n_dfn):
     sd=True
@@ -146,8 +130,13 @@ if __name__ == '__main__':
         elif opt in ("-l", "--list"):
             list_tests_details = (True, {})            
         elif opt in ("-s", "--filter-list"):
-            tmp_filter_tests_details = filters.Filters(value).get_filters()
-            filter_tests_details = (True, tmp_filter_tests_details)
+            try:
+                tmp_filter_tests_details = filters.Filters(value).get_filters()
+                filter_tests_details = (True, tmp_filter_tests_details)
+            except filters.FiltersError, err:
+                print '\n\nExecution: ', err
+                usage()
+                sys.exit(2)
         elif opt in ("-r", "--storm-release"):
             try:
                 storm_release = release.Release(value)

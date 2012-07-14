@@ -1,6 +1,11 @@
 import sys
 import os
 
+class FiltersError:
+    def __init__(self, msg):
+        self.args = msg
+        self.errmsg = msg
+
 class Filters:
     def __init__(self, value, sanity = False):
         self.filters = value.split(';')
@@ -16,14 +21,14 @@ class Filters:
         if self.sanity:
             if len(values) > 1:
                 self.__print_check_tests_types_msg()
-                sys.exit()
+                raise FiltersError('Filters are not correct for sanity tests')
             elif 'DT' not in values:
                 self.__print_check_tests_types_msg()
-                sys.exit()
+                raise FiltersError('Filters are not correct for sanity tests')
         else:
             if 'DT' in values:
                 self.__print_check_tests_types_msg()
-                sys.exit()
+                raise FiltersError('Filters are not correct for sanity tests')
 
     def __print_check_tests_data_structure_msg(self):
         msg = 'This parameter only considers the following parameters:\n'
@@ -35,7 +40,7 @@ class Filters:
         for val in values:
             if val == 'o' or val not in self.get_tests_data_structure():
                 self.__print_check_tests_data_structure_msg()
-                sys.exit()
+                raise FiltersError('Filters are not correct for tests')
 
     def get_tests_types(self):
         if self.sanity:
