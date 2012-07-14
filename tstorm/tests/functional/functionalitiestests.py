@@ -11,7 +11,7 @@ def ts_cksm(conf, ifn, dfn, bifn, uid, lfn):
     s = unittest.TestSuite()
 
     lfn.put_name(uid['ts_cksm'][5])
-    lfn.put_description(uid['ts_cksm'[6])
+    lfn.put_description(uid['ts_cksm'][6])
     lfn.put_uuid(uid['ts_cksm'][0])
     lfn.put_output()
     s.addTest(utilities.UtilitiesTest('test_dd',conf, ifn, bifn, lfn))

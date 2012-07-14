@@ -37,7 +37,7 @@ def run_tests(tpi, uid, lfn, tt, n_df, n_dfn):
     elif 'ts_https_voms' in tpi[2]:
         sd=False
     ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,subdir=sd)
-    if tp2[3] != "":
+    if tpi[2] != "":
         runner = unittest.TextTestRunner(verbosity=2).run(eval(tpi[2]))
         lfn.put_prologue()
 
@@ -180,34 +180,34 @@ if __name__ == '__main__':
         #tests_methods = a.get_methods(storm_release, tests_sequence)
         #a.run_tests(mti_info, log_file, custom_destination_file[0], custom_destination_file[1])
     
-        if tests_sequence_file[0]:
-            if settings.file_exists(tests_sequence_file[1]):
-                tests_sequence = (True,
-                    tests_sequence[1] + settings.get_tests_sequence(tests_sequence_file[1]))
-            else:
-                print '''File that contains tests sequence does not exist'''
-                sys.exit(6)
-
-        if tests_sequence[0]:
-            if not settings.is_tests_sequence_valid(tests_sequence[1],
-                mti_info.values()):
-                print '''Wrong Tests Sequence %s'''
-                sys.exit(7)
-
-        if settings.configuration_file_exists(file_name = tfn):
-            tfn = settings.get_configuration_file(file_name = tfn)
+    if tests_sequence_file[0]:
+        if settings.file_exists(tests_sequence_file[1]):
+            tests_sequence = (True,
+                tests_sequence[1] + settings.get_tests_sequence(tests_sequence_file[1]))
         else:
-            print '''Include ini file in the right locations'''
-            sys.exit(5)
+            print '''File that contains tests sequence does not exist'''
+            sys.exit(6)
 
-        check_configuration_file = configuration.LoadConfiguration(conf_file = tfn)
-        if not check_configuration_file.is_configuration_file_valid():
-            print '''Wrong Test Configuration file'''
-            print '''Example of ini configuration file:\n'''
-            check_configuration_file.print_configuration_file_template()
-            sys.exit(3)
+    if tests_sequence[0]:
+        if not settings.is_tests_sequence_valid(tests_sequence[1],
+            mti_info.values()):
+            print '''Wrong Tests Sequence %s'''
+            sys.exit(7)
 
-        log_file = report_file.ReportFile(report = report)
+    if settings.configuration_file_exists(file_name = tfn):
+        tfn = settings.get_configuration_file(file_name = tfn)
+    else:
+        print '''Include ini file in the right locations'''
+        sys.exit(5)
+
+    check_configuration_file = configuration.LoadConfiguration(conf_file = tfn)
+    if not check_configuration_file.is_configuration_file_valid():
+        print '''Wrong Test Configuration file'''
+        print '''Example of ini configuration file:\n'''
+        check_configuration_file.print_configuration_file_template()
+        sys.exit(3)
+
+    log_file = report_file.ReportFile(report = report)
 
     try:
         if tests_sequence[0]:
@@ -228,4 +228,4 @@ if __name__ == '__main__':
         print '\n\nExecution n!'
         sys.exit(1)
 
-        log_file.close_file()
+    log_file.close_file()
