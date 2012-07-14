@@ -13,6 +13,7 @@ from tstorm.utils import settings
 from tstorm.utils import release
 from tstorm.utils import range
 from tstorm.utils import limit
+from tstorm.utils import test
 from tstorm.utils import filters
 from tstorm.utils import tests_info
 from tstorm.utils import tests_methods
@@ -26,19 +27,40 @@ from tstorm.tests.functional import tapetests as tt
 from tstorm.tests.functional.regression import regressiontests as rt
 from tstorm.tests.functional.regression import regressiontests_novoms as rtnv
 
-def run_tests(tpi, uid, lfn, tt, n_df, n_dfn):
+#def run_tests(tpi, uid, lfn, tt, n_df, n_dfn):
+#    sd=True
+#    if tpi[1]:
+#        sd=False
+#    elif 'ts_https' in tpi[2]:
+#        sd=False
+#    elif 'ts_http' in tpi[2]:
+#        sd=False
+#    elif 'ts_https_voms' in tpi[2]:
+#        sd=False
+#    ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,subdir=sd)
+#    if tpi[2] != "":
+#        runner = unittest.TextTestRunner(verbosity=2).run(eval(tpi[2]))
+#        lfn.put_prologue()
+
+def run_tests(uid, lfn, tt, n_df, n_dfn):
     sd=True
-    if tpi[1]:
+    if uid.is_regression():
         sd=False
-    elif 'ts_https' in tpi[2]:
+    elif 'ts_https' in uid.get_aggregator():
         sd=False
-    elif 'ts_http' in tpi[2]:
+    elif 'ts_http' in uid.get_aggregator():
         sd=False
-    elif 'ts_https_voms' in tpi[2]:
+    elif 'ts_https_voms' in uid.get_aggregator():
         sd=False
     ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,subdir=sd)
-    if tpi[2] != "":
-        runner = unittest.TextTestRunner(verbosity=2).run(eval(tpi[2]))
+    if uid.get_aggregator() != "":
+        lfn.put_name(uid.get_name())
+        lfn.put_description(uid.get_description())
+        lfn.put_uuid(uid.get_id())
+        if uid.is_regression():
+            lfn.put_ruid(uid.get_rfc())
+        lfn.put_output()
+        runner = unittest.TextTestRunner(verbosity=2).run(eval(uid.get_aggregator()))
         lfn.put_prologue()
 
 def usage():
@@ -216,13 +238,16 @@ if __name__ == '__main__':
             tests_methods = tests_methods.TestsMethods(mti_info, storm_release)
 
         for key, value in tests_methods.get_system_methods().items():
-            run_tests(value, mti_info, log_file, key,
+            #run_tests(value, mti_info, log_file, key,
+            run_tests(value, log_file, key,
                 custom_destination_file[0], custom_destination_file[1])
     except range.RangeError, err:
         print '\n\nExecution: ', err
     except limit.Limit:
         print '\n\nExecution: ', err
     except release.Release:
+        print '\n\nExecution: ', err
+    except test.TestStructureError, err:
         print '\n\nExecution: ', err
     except KeyboardInterrupt:
         print '\n\nExecution n!'

@@ -3,7 +3,7 @@ import os
 
 class LimitError:
     def __init__(self, msg):
-        self.args = (msg)
+        self.args = msg
         self.errmsg = msg
 
 class Limit:

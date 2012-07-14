@@ -5,11 +5,5 @@ from tstorm.tests import utilities as ut
 
 def ts_conf(conf, ifn, bifn, uid, lfn):
     s = unittest.TestSuite()
-
-    lfn.put_name(uid['ts_conf'][5])
-    lfn.put_description(uid['ts_conf'][5])
-    lfn.put_uuid(uid['ts_conf'][0])
-    lfn.put_output()
     s.addTest(ut.UtilitiesTest('test_settings', conf, ifn, bifn, lfn))
-
     return s

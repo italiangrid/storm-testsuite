@@ -44,7 +44,8 @@ tstormutils_PYTHON = \
     release.py \
     filters.py \
     tests_info.py \
-    tests_methods.py
+    tests_methods.py \
+    test.py
 
 EXTRA_DIST = \
     check_testplan.py \
@@ -73,7 +74,8 @@ EXTRA_DIST = \
     filters.py \
     release.py \
     tests_info.py \
-    tests_methods.py
+    tests_methods.py \
+    test.py
 
 CLEANFILES= \
     check_testplan.pyc \
@@ -128,4 +130,6 @@ CLEANFILES= \
     release.pyo \
     filters.pyo \
     tests_info.pyo \
-    tests_methods.pyo
+    tests_methods.pyo \
+    test.pyc \
+    test.pyo

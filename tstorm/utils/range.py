@@ -36,9 +36,6 @@ class Range:
                 
 
     def is_included(self, value):
-        #cambiare  i controlli sul tipo delle parentesi con chiamate a:
-        #self.inf.is_extreme_included():
-        
         if self.inf.is_extreme_included():
             if self.sup.is_extreme_included():
                 if self.min_release.is_infinity() and self.max_release.is_infinity():
