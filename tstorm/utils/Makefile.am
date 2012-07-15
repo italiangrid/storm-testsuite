@@ -44,9 +44,8 @@ tstormutils_PYTHON = \
     range.py \
     release.py \
     filters.py \
-    tests_info.py \
-    tests_methods.py \
-    test.py
+    test.py \
+    tests.py
 
 EXTRA_DIST = \
     check_testplan.py \
@@ -75,9 +74,8 @@ EXTRA_DIST = \
     range.py \
     filters.py \
     release.py \
-    tests_info.py \
-    tests_methods.py \
-    test.py
+    test.py \
+    tests.py
 
 CLEANFILES= \
     check_testplan.pyc \
@@ -104,8 +102,6 @@ CLEANFILES= \
     map_tests_ids.pyc \
     range_checks.pyc \
     test_checks.pyc \
-    test_info.pyc \
-    test_methods.pyc \
     check_testplan.pyo \
     mysqlquery.pyo \
     cksm.pyo \
@@ -131,9 +127,9 @@ CLEANFILES= \
     range.pyo \
     release.pyo \
     filters.pyo \
-    tests_info.pyo \
-    tests_methods.pyo \
     test.pyc \
     test.pyo \
+    tests.pyc \
+    tests.pyo \
     sequence.pyo \
     sequence.pyc

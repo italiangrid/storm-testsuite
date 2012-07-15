@@ -262,12 +262,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/tstorm/utils/test.py
 %{python_sitelib}/tstorm/utils/test.pyc
 %{python_sitelib}/tstorm/utils/test.pyo
-%{python_sitelib}/tstorm/utils/tests_info.py
-%{python_sitelib}/tstorm/utils/tests_info.pyc
-%{python_sitelib}/tstorm/utils/tests_info.pyo
-%{python_sitelib}/tstorm/utils/tests_methods.py
-%{python_sitelib}/tstorm/utils/tests_methods.pyc
-%{python_sitelib}/tstorm/utils/tests_methods.pyo
+%{python_sitelib}/tstorm/utils/tests.py
+%{python_sitelib}/tstorm/utils/tests.pyc
+%{python_sitelib}/tstorm/utils/tests.pyo
 %{python_sitelib}/tstorm/utils/utils.py
 %{python_sitelib}/tstorm/utils/utils.pyc
 %{python_sitelib}/tstorm/utils/utils.pyo

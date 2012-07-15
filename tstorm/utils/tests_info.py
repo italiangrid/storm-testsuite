@@ -3,10 +3,9 @@ import os
 from tstorm.utils import range
 
 class TestsInfo:
-    def __init__(self, mti_info, release, info={}):
-        self.mti_info = mti_info
+    def __init__(self, tests, info={}):
+        self.tests = tests
         self.info = info
-        self.release = release
         self.list_keys = {
            'i':0, 'id':0,
            't':1, 'type':1,
@@ -19,19 +18,15 @@ class TestsInfo:
 
     def __print_all_system_ids(self):
         print 'ID      RFC'
-        for key, value in self.mti_info.items():
-            if 'ts' in key and value[1] != 'DT':
-                for val in value[3]:
-                    if range.Range(val[1]).is_included(self.release): 
-                        print '%s  %s' % (value[0], val[0])
+        for key, value in self.tests.items():
+            if value[1] != 'DT':
+                print '%s  %s' % (value[0], val[0])
 
     def __print_all_sanity_ids(self):
         print 'ID      RFC'
-        for key, value in self.mti_info.items():
-            if 'ts' in key and value[1] == 'DT':
-                for val in value[3]:
-                    if range.Range(val[1]).is_included(self.release):
-                        print '%s  %s' % (value[0], val[0])
+        for key, value in self.tests.items():
+            if value[1] == 'DT':
+                print '%s  %s' % (value[0], val[0])
 
     def __build_header_format(self):
         if 'f' not in self.info.keys():
@@ -44,9 +39,7 @@ class TestsInfo:
 
     def __build_body_format(self, value):
         if 'f' not in self.info.keys():
-            for val in value[3]:
-                if range_checks.RangeChecks(self.storm_release, val[1]).is_valid():
-                    print '%s  %s' % (value[0], val[0])
+            print '%s  %s' % (value[0], val[0])
         else:
             msg = ''
             for x in self.info['f']:
@@ -57,7 +50,7 @@ class TestsInfo:
         filter_info = []
         if 't' in self.info.keys() and 'r' in self.info.keys() and 'i' in self.info.keys():
             self.__build_header_format()
-            for key, value in self.mti_info.items():
+            for key, value in self.tests.items():
                 if 'ts' in key:
                     for x in self.info['t']:
                         if x == value[1] and \
@@ -67,7 +60,7 @@ class TestsInfo:
                             self.__build_body_format(value)
         elif 't' in self.info.keys() and 'r' in self.info.keys():
             self.__build_header_format()
-            for key, value in self.mti_info.items():
+            for key, value in self.tests.items():
                 if 'ts' in key:
                     for x in self.info['t']:
                         if x == value[1] and \
@@ -76,7 +69,7 @@ class TestsInfo:
                             self.__build_body_format(value)
         elif 't' in self.info.keys() and 'i' in self.info.keys():
             self.__build_header_format()
-            for key, value in self.mti_info.items():
+            for key, value in self.tests.items():
                 if 'ts' in key:
                     for x in self.info['t']:
                         if x == value[1] and \
@@ -85,7 +78,7 @@ class TestsInfo:
                             self.__build_body_format(value)
         elif 'r' in self.info.keys() and 'i' in self.info.keys():
             self.__build_header_format()
-            for key, value in self.mti_info.items():
+            for key, value in self.tests.items():
                 if 'ts' in key:
                     if str(self.info['r']).lower() == str(self.value[2]).lower() and \
                         str(self.info['i']).lower() == str(value[4]).lower():
@@ -93,7 +86,7 @@ class TestsInfo:
                         self.__build_body_format(value)
         elif 't' in self.info.keys():
             self.__build_header_format()
-            for key, value in self.mti_info.items():
+            for key, value in self.tests.items():
                 if 'ts' in key:
                     for x in self.info['t']:
                         if x == value[1]:
@@ -119,7 +112,7 @@ class TestsInfo:
                 df.write(id + '\n')
             df.close() 
             
-    def get_system_info(self):
+    def get_info(self):
         if len(self.info) == 0:
             self.__print_all_system_ids()
         else:
@@ -130,4 +123,3 @@ class TestsInfo:
             self.__print_all_sanity_ids()
         else:
             self.__print_with_filters()
-

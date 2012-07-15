@@ -8,14 +8,14 @@ import getopt
 
 from tstorm.utils import report_file 
 from tstorm.utils import settings
+
 from tstorm.utils import sequence
 from tstorm.utils import release
 from tstorm.utils import range
 from tstorm.utils import limit
 from tstorm.utils import test
+from tstorm.utils import tests
 from tstorm.utils import filters
-from tstorm.utils import tests_info
-from tstorm.utils import tests_methods
 from tstorm.utils import configuration
 
 from tstorm.tests import commontests as cts
@@ -31,6 +31,11 @@ class OptionError:
         self.args = msg
         self.errmsg = msg
 
+class RunTestsError:
+    def __init__(self, msg):
+        self.args = msg
+        self.errmsg = msg
+
 class RunTests:
     def __init__(self):
         self.parameters['tfn'] = 'tstorm.ini'
@@ -40,7 +45,6 @@ class RunTests:
             print '\n\nExecution: ', err
             self.usage()
             sys.exit(2)
-        self.ct=False
         self.parameters['voms'] = True
         self.parameters['report'] = True
         self.parameters['custom_destination_file'] = (False, '')
@@ -48,6 +52,12 @@ class RunTests:
         self.parameters['tests_sequence_file']= (False, '')
         self.parameters['list_tests_details'] = (False, {})
         self.parameters['filter_tests_details'] = (False, {})
+        self.parameters['valid_tests'] = {}
+        if settings.configuration_file_exists(file_name = 'map_tests_ids.json'):
+            '''Get Test Id Mapping Info from file'''
+            self.parameters['mti_info'] =  settings.get_json_file_information(file_name = 'map_tests_ids.json')
+        else:
+            raise RunTestsError("map-tests-ids.json file is not in the right location")
 
     def __usage():
         print """Usage: tstorm-tests [-h|--help] [-v|--version] [-c|--conf] """
@@ -84,6 +94,18 @@ class RunTests:
         print """filter"""
         print """      tstorm-tests --filter-list 't=AT,UT,ST;regression=true;f=n,d,rfc,id"""
 
+    def __verify_conf_file(self):
+        if settings.configuration_file_exists(file_name = self.parameters['tfn']):
+            self.parameters['tfn'] = settings.get_configuration_file(file_name = self.parameters['tfn'])
+        else:
+            raise RunTestsError("ini file is not in the right location")
+
+        check_configuration_file = configuration.LoadConfiguration(conf_file = self.parameters['tfn'])
+        if not check_configuration_file.is_configuration_file_valid():
+            print '''Example of ini configuration file:\n'''
+            check_configuration_file.print_configuration_file_template()
+            raise RunTestsError("Wrong Test Configuration file")
+
     def __parse(self):
         try:
             opts, args = getopt.getopt(sys.argv[1:],
@@ -112,7 +134,6 @@ class RunTests:
                 try:
                     tmp_sequence_tests = sequence.Sequence(value).get_sequence()
                     self.parameters['tests_sequence'] = (True, tmp_sequence_tests)
-                    #(True, [x.strip() for x in value.split(',')])
                 except sequence.SequenceError, err:
                     print '\n\nExecution: ', err
                     self.__usage()
@@ -143,7 +164,12 @@ class RunTests:
             else:
                 raise OptionError("Unhandled option")
 
-    def run_tests(uid, lfn, tt, n_df, n_dfn):
+        self.__verify_conf_file()
+
+        self.tests_instance = tests.Tests(self.parameters['mti_info'], \
+            self.parameters['storm_release'])
+
+    def run_tests(self, uid, lfn, tt, n_df, n_dfn):
         sd=True
         if uid.is_regression():
             sd=False
@@ -163,96 +189,66 @@ class RunTests:
             lfn.put_output()
             runner = unittest.TextTestRunner(verbosity=2).run(eval(uid.get_aggregator()))
             lfn.put_prologue()
+
+    def __set_valid_tests(self):
+        self.parameters['valid_tests'] = self.tests_instance.get_valid_tests()
    
-    def do_work():
-        try:
-            if settings.configuration_file_exists(file_name = 'map_tests_ids.json'):
-                '''Get Test Id Mapping Info from file'''
-                mti_info =  settings.get_json_file_information(file_name = 'map_tests_ids.json')
+    def __modify_valid_tests(self):
+        new_valid_tests = {}
+        for key, value in self.parameters['valid_tests']:
+            if value.get_id() in self.parameters['tests_sequence']:
+                new_valid_tests[key] = value
+        return new_valid_tests
+ 
+    def do_pre_run():
+        self.__parse()
+        self.__set_valid_tests()
+
+        if self.parameters['list_tests_details'][0]:
+            self.tests_instance.get_info()
+            sys.exit(0)
+        if self.parameters['filter_tests_details'][0]:
+            self.tests_instance.get_info(info=self.parameters['filter_tests_details'][1])
+            sys.exit(0)
+
+        if self.parameters['tests_sequence_file'][0]:
+            if settings.file_exists(sel.parameters['tests_sequence_file'][1]):
+                self.parameters['tests_sequence'] = (True,
+                   self.parameters['tests_sequence'][1] + settings.get_tests_sequence(self.parameters['tests_sequence_file'][1]))
             else:
-                print '''Include map-tests-ids.json file in the right locations'''
-                sys.exit(4)
-        except:
-            sys.exit(4)
+                raise RunTestsErrors("File that contains tests sequence does not exist")
 
-        try:
-            if list_tests_details[0]:
-                tests_info.TestsInfo(mti_info, storm_release).get_system_info()
-
-                sys.exit(0)
-
-            if filter_tests_details[0]:
-                tests_info.TestsInfo(mti_info, storm_release, \
-                    info=filter_tests_details[1]).get_system_info()
-                sys.exit(0)
-        except range.RangeError,err:
-            print '\n\nExecution: ', err
-        except limit.Limit, err:
-            print '\n\nExecution: ', err
-        except release.Release:
-            print '\n\nExecution: ', err
-        except KeyboardInterrupt:
-            print '\n\nExecution n!'
-            sys.exit(1)
-
-        if tests_sequence_file[0]:
-            if settings.file_exists(tests_sequence_file[1]):
-                tests_sequence = (True,
-                   tests_sequence[1] + settings.get_tests_sequence(tests_sequence_file[1]))
-            else:
-                print '''File that contains tests sequence does not exist'''
-                sys.exit(6)
+        if self.parameters['tests_sequence'][0]:
+            if not settings.is_tests_sequence_valid(self.parameters['tests_sequence'][1],
+                self.parameters['mti_info'].values()):
+                raise RunTestsErrors("Wrong Tests Sequence")
 
         if tests_sequence[0]:
-            if not settings.is_tests_sequence_valid(tests_sequence[1],
-                mti_info.values()):
-                print '''Wrong Tests Sequence %s'''
-                sys.exit(7)
+            self.parameters['valid_tests'] = self.__modify_valid_tests()
 
-        if settings.configuration_file_exists(file_name = tfn):
-            tfn = settings.get_configuration_file(file_name = tfn)
-        else:
-            print '''Include ini file in the right locations'''
-            sys.exit(5)
+    def do_run_tests():
 
-        check_configuration_file = configuration.LoadConfiguration(conf_file = tfn)
-        if not check_configuration_file.is_configuration_file_valid():
-            print '''Wrong Test Configuration file'''
-            print '''Example of ini configuration file:\n'''
-            check_configuration_file.print_configuration_file_template()
-            sys.exit(3)
+        log_file = report_file.ReportFile(report = self.parameters['report'])
 
-        log_file = report_file.ReportFile(report = report)
+        tests_methods = self.tests_instance.get_methods(tests = self.parameters['valid_tests'])
 
-        try:
-            if tests_sequence[0]:
-                tests_methods = tests_methods.TestsMethods(mti_info, storm_release, sequence = tests_sequence[1])
-            else:
-                tests_methods = tests_methods.TestsMethods(mti_info, storm_release)
-
-            for key, value in tests_methods.get_system_methods().items():
-                #run_tests(value, mti_info, log_file, key,
-                self.run_tests(value, log_file, key,
-                   custom_destination_file[0], custom_destination_file[1])
-        except range.RangeError, err:
-            print '\n\nExecution: ', err
-        except limit.Limit:
-            print '\n\nExecution: ', err
-        except release.Release:
-            print '\n\nExecution: ', err
-        except test.TestStructureError, err:
-            print '\n\nExecution: ', err
-        except KeyboardInterrupt:
-            print '\n\nExecution n!'
-            sys.exit(1)
+        for key, value in tests_methods.get_methods().items():
+            self.__run_tests(value, log_file, key,
+                self.parameters['custom_destination_file'][0], \
+                self.parameters['custom_destination_file'][1])
 
         log_file.close_file()
 
 if __name__ == '__main__':
     try:
         a = RunTests()
-        a.do_work()
+        a.do_pre_run()
+        a.do_run_tests()
     except range.OptionError, err:
+        print '\n\nExecution: ', err
+    except tests.TestsError, err:
+        print '\n\nExecution: ', err
+    except range.RunTestsError, err:
         print '\n\nExecution: ', err
     except range.RangeError, err:
         print '\n\nExecution: ', err
