@@ -58,6 +58,7 @@ class RunTests:
             self.parameters['mti_info'] =  settings.get_json_file_information(file_name = 'map_tests_ids.json')
         else:
             raise RunTestsError("map-tests-ids.json file is not in the right location")
+        self.tests_instance = tests.Tests(self.parameters['mti_info']) 
 
     def __usage():
         print """Usage: tstorm-tests [-h|--help] [-v|--version] [-c|--conf] """
@@ -166,9 +167,6 @@ class RunTests:
 
         self.__verify_conf_file()
 
-        self.tests_instance = tests.Tests(self.parameters['mti_info'], \
-            self.parameters['storm_release'])
-
     def run_tests(self, uid, lfn, tt, n_df, n_dfn):
         sd=True
         if uid.is_regression():
@@ -191,7 +189,7 @@ class RunTests:
             lfn.put_prologue()
 
     def __set_valid_tests(self):
-        self.parameters['valid_tests'] = self.tests_instance.get_valid_tests()
+        self.parameters['valid_tests'] = self.tests_instance.get_valid_tests(release)
    
     def __modify_valid_tests(self):
         new_valid_tests = {}

@@ -9,17 +9,18 @@ class TestsError:
         self.errmsg = msg
 
 class Tests:
-    def __init__(self, data, release):
+    def __init__(self, data):
         self.list_keys = {
-           'i':0, 'id':0,
-           't':1, 'type':1,
-           'r':2, 'regression':2,
-           'rfc':3,
-           'idenpotent':4,
-           'range':3,
-           'n':5, 'name':5,
-           'd':6, 'description':6}
+           'i':'get_id()', 'id':'get_id()',
+           't':'get_test_type()', 'type':'get_test_type()',
+           'r':'is_regression()', 'regression':'is_regression()',
+           'rfc':'get_rfc()',
+           'idenpotent':'is_idenpotent()',
+           'range':'get_range()',
+           'n':'get_name()', 'name':'get_name()',
+           'd':'get_description()', 'description':'det_description()'}
 
+        self.data = data
         self.tests = {}
         for key, value in data().items():
              for val in value[3]:
@@ -65,7 +66,7 @@ class Tests:
         else:
             msg = ''
             for x in info['f']:
-                msg += value[self.list_keys[x]] + '  '
+                msg += eval(value.list_keys[x]) + '  '
             print msg
 
     def __print_with_filters(self, info={}):
@@ -153,7 +154,15 @@ class Tests:
                 sanity_methods[key] = value
         return sanity_methods
 
-    def get_valid_tests(self):
+    def get_valid_tests(self, release):
+        for key, value in self.data().items():
+            for val in value[3]:
+                if range.Range(val[1]).is_included(release):
+                    test_structure = test.TestStructure(value, val[0], val[1])
+                    if key in self.tests.keys():
+                        self.tests[key+str(random.random())[0:5]] = test_structure
+                    else:
+                        self.tests[key] = test_structure
         return self.tests
 
     
