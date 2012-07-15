@@ -22,26 +22,18 @@ class Tests:
 
         self.data = data
         self.tests = {}
-        for key, value in data().items():
-             for val in value[3]:
-                 if range.Range(val[1]).is_included(release):
-                     test_structure = test.TestStructure(value, val[0], val[1])
-                     if key in self.tests.keys():
-                         self.tests[key+str(random.random())[0:5]] = test_structure
-                     else:
-                         self.tests[key] = test_structure
 
     def __print_all_ids(self):
         print 'ID      RFC'
         for key, value in self.tests.items():
             if value.get_test_type() != 'DT':
-                print '%s  %s' % (value.get_test_type(), value.get_rfc())
+                print '%s  %s' % (value.get_id(), value.get_rfc())
 
     def __print_all_sanity_ids(self):
         print 'ID      RFC'
         for key, value in self.tests.items():
             if value.get_test_type() == 'DT':
-                print '%s  %s' % (value.get_test_type(), value.get_rfc())
+                print '%s  %s' % (value.get_id(), value.get_rfc())
 
     def __build_header_format(self, info):
         if len(info) == 0:
@@ -66,7 +58,7 @@ class Tests:
         else:
             msg = ''
             for x in info['f']:
-                msg += eval(value.list_keys[x]) + '  '
+                msg += eval('value.' + self.list_keys[x]) + '  '
             print msg
 
     def __print_with_filters(self, info={}):
@@ -76,8 +68,8 @@ class Tests:
             for key, value in self.tests.items():
                 for x in info['t']:
                     if x == value.get_test_type() and \
-                        str(info['r']).lower() == str(value.get_regression()).lower() and \
-                        str(info['i']).lower() == str(value.get_idenpotent()).lower():
+                        str(info['r']).lower() == str(value.is_regression()).lower() and \
+                        str(info['i']).lower() == str(value.is_idenpotent()).lower():
                         filter_info.append(value.get_id())
                         self.__build_body_format(value, info)
         elif 't' in info.keys() and 'r' in info.keys():
@@ -85,7 +77,7 @@ class Tests:
             for key, value in self.tests.items():
                 for x in info['t']:
                     if x == value.get_test_type() and \
-                        str(info['r']).lower() == str(value.get_regression()).lower():
+                        str(info['r']).lower() == str(value.is_regression()).lower():
                         filter_info.append(value.get_id())
                         self.__build_body_format(value, info)
         elif 't' in info.keys() and 'i' in info.keys():
@@ -93,14 +85,14 @@ class Tests:
             for key, value in self.tests.items():
                 for x in info['t']:
                     if x == value.get_test_type() and \
-                        str(info['i']).lower() == str(value.get_idenpotent()).lower():
+                        str(info['i']).lower() == str(value.is_idenpotent()).lower():
                         filter_info.append(value.get_id())
                         self.__build_body_format(value, info)
         elif 'r' in info.keys() and 'i' in info.keys():
             self.__build_header_format(info)
             for key, value in self.tests.items():
-                if str(info['r']).lower() == str(self.value.get_regression()).lower() and \
-                    str(info['i']).lower() == str(value.get_idenpotent).lower():
+                if str(info['r']).lower() == str(value.is_regression()).lower() and \
+                    str(info['i']).lower() == str(value.is_idenpotent).lower():
                     filter_info.append(value.get_id())
                     self.__build_body_format(value, info)
         elif 't' in info.keys():
@@ -113,13 +105,13 @@ class Tests:
         elif 'r' in info.keys():
             self.__build_header_format(info)
             for key, value in self.tests.items():
-                if str(info['r']).lower() == str(value.get_regression()).lower():
+                if str(info['r']).lower() == str(value.is_regression()).lower():
                     filter_info.append(value.get_id())
                     self.__build_body_format(value, info)
         elif 'i' in info.keys():
             self.__build_header_format(info)
             for key, value in self.mti_info.items():
-                if str(info['i']).lower() == str(value.idenpotent()).lower():
+                if str(info['i']).lower() == str(value.is_idenpotent()).lower():
                     filter_info.append(value.get_id())
                     self.__build_body_format(value, info)
         if 'o' in info.keys():
@@ -130,7 +122,7 @@ class Tests:
 
     def get_info(self, info = {}):
         if len(info) == 0:
-            self.__print_all_system_ids()
+            self.__print_all_ids()
         else:
             self.__print_with_filters(info=info)
 
@@ -141,7 +133,7 @@ class Tests:
             self.__print_with_filters(info=info)
 
     def get_methods(self, tests):
-        system_methods = {}
+        methods = {}
         for key, value in tests.items():
             if 'DT' != value.get_test_type():
                 methods[key] = value
@@ -155,7 +147,7 @@ class Tests:
         return sanity_methods
 
     def get_valid_tests(self, release):
-        for key, value in self.data().items():
+        for key, value in self.data.items():
             for val in value[3]:
                 if range.Range(val[1]).is_included(release):
                     test_structure = test.TestStructure(value, val[0], val[1])

@@ -38,6 +38,7 @@ class RunTestsError:
 
 class RunTests:
     def __init__(self):
+        self.parameters = {}
         self.parameters['tfn'] = 'tstorm.ini'
         try:
             storm_release = release.Release(__import__('tstorm').get_storm_release())
@@ -60,7 +61,7 @@ class RunTests:
             raise RunTestsError("map-tests-ids.json file is not in the right location")
         self.tests_instance = tests.Tests(self.parameters['mti_info']) 
 
-    def __usage():
+    def __usage(self):
         print """Usage: tstorm-tests [-h|--help] [-v|--version] [-c|--conf] """
         print """                    [-d|--destfile] [-i|--ids] [-f|--file-ids] """
         print """                    [--noreport] [--novoms]"""
@@ -93,7 +94,7 @@ class RunTests:
         print """      tstorm-tests -i '<id1>, <id2>, ...'"""
         print """Example: if you want to get tests information providing a """
         print """filter"""
-        print """      tstorm-tests --filter-list 't=AT,UT,ST;regression=true;f=n,d,rfc,id"""
+        print """      tstorm-tests --filter-list 't=AT,UT,ST;regression=true;f=n,d,rfc,id'"""
 
     def __verify_conf_file(self):
         if settings.configuration_file_exists(file_name = self.parameters['tfn']):
@@ -167,7 +168,7 @@ class RunTests:
 
         self.__verify_conf_file()
 
-    def run_tests(self, uid, lfn, tt, n_df, n_dfn):
+    def __run_tests(self, tfn, uid, lfn, tt, n_df, n_dfn):
         sd=True
         if uid.is_regression():
             sd=False
@@ -198,7 +199,7 @@ class RunTests:
                 new_valid_tests[key] = value
         return new_valid_tests
  
-    def do_pre_run():
+    def do_pre_run(self):
         self.__parse()
         self.__set_valid_tests()
 
@@ -221,17 +222,18 @@ class RunTests:
                 self.parameters['mti_info'].values()):
                 raise RunTestsErrors("Wrong Tests Sequence")
 
-        if tests_sequence[0]:
+        if self.parameters['tests_sequence'][0]:
             self.parameters['valid_tests'] = self.__modify_valid_tests()
 
-    def do_run_tests():
+    def do_run_tests(self):
 
         log_file = report_file.ReportFile(report = self.parameters['report'])
 
         tests_methods = self.tests_instance.get_methods(tests = self.parameters['valid_tests'])
 
-        for key, value in tests_methods.get_methods().items():
-            self.__run_tests(value, log_file, key,
+        for key, value in tests_methods.items():
+            self.__run_tests(self.parameters['tfn'], \
+                value, log_file, key,
                 self.parameters['custom_destination_file'][0], \
                 self.parameters['custom_destination_file'][1])
 
@@ -242,11 +244,11 @@ if __name__ == '__main__':
         a = RunTests()
         a.do_pre_run()
         a.do_run_tests()
-    except range.OptionError, err:
+    except OptionError, err:
         print '\n\nExecution: ', err
     except tests.TestsError, err:
         print '\n\nExecution: ', err
-    except range.RunTestsError, err:
+    except RunTestsError, err:
         print '\n\nExecution: ', err
     except range.RangeError, err:
         print '\n\nExecution: ', err

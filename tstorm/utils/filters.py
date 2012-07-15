@@ -5,6 +5,7 @@ class FiltersError:
     def __init__(self, msg):
         self.args = msg
         self.errmsg = msg
+        print self.errmsg
 
 class Filters:
     def __init__(self, value, sanity = False):
@@ -28,7 +29,7 @@ class Filters:
         else:
             if 'DT' in values:
                 self.__print_check_tests_types_msg()
-                raise FiltersError('Filters are not correct for sanity tests')
+                raise FiltersError('Filters are not correct for tests')
 
     def __print_check_tests_data_structure_msg(self):
         msg = 'This parameter only considers the following parameters:\n'
@@ -49,7 +50,7 @@ class Filters:
 
     def get_tests_data_structure(self):
         return ('t', 'test', \
-            'r', 'regression', 'rfc', 'i', 'idenpotent', \
+            'r', 'regression', 'rfc', 'i', 'id', 'idenpotent', \
             'range', 'n', 'name', 'd', 'description')
 
     def get_filters(self):
