@@ -5,160 +5,48 @@ __author__ = 'Elisabetta Ronchieri'
 import sys
 import unittest
 import getopt
+
 from tstorm.utils import report_file
 from tstorm.utils import settings
+
+from tstorm.utils import sequence
+from tstorm.utils import release
+from tstorm.utils import range
+from tstorm.utils import limit
+from tstorm.utils import test
+from tstorm.utils import tests
 from tstorm.utils import filters
-from tstorm.utils import tests_info
-from tstorm.utils import tests_methods
 from tstorm.utils import configuration
-from tstorm.tests.deployment.regression import regression_conftests as rct
-from tstorm.tests.deployment.regression import regression_ldaptests as rlt
 
-def run_tests(tpi, uid, lfn, tt):
-    if tpi[2] != "":
-        runner = unittest.TextTestRunner(verbosity=2).run(eval(tpi[2]))
-
-def usage():
-    print """Usage: tstorm-sanity-tests [-h|--help] [-v|--version] """
-    print """                    [-c|--conf] """
-    print """                    [-i|--ids] [-f|--file-ids] """
-    print """                    [--noreport] """
-    print """                    [-s|--filter-list] [-l|--list]"""
-    print """where:"""
-    print """- version, noreport, and list are not followed by any"""
-    print """  values"""
-    print """- conf, and file-ids are followed by a value"""
-    print """- ids is followed by a sequence of id values separated by , """
-    print """  and between '"""
-    print """- filter-list is followed by a sequence of values separated """
-    print """  by ; and between ', the values of which are"""
-    print """  t|test=DT that filters in relation with the """
-    print """      the type of test"""
-    print """  r|regression=false|true that expresses if the test """
-    print """      belongs to the regression category"""
-    print """  idenpotent=false|true that expresses if the test belongs """
-    print """      to the idenpotent category"""
-    print """  o|output=filename that allows user to save ids in the """
-    print """      specified filename"""
-    print """  f|format=n|name,d|description,range,rfc,i|id,idenpotent that """
-    print """      allows user to specify the order of print of test """
-    print """      information""",
-    print """Example: if you want to run tests without producing a report"""
-    print """      tstorm-tests --noreport"""
-    print """Example: if you want to run tests providing tests sequence"""
-    print """      tstorm-tests -i '<id1>, <id2>, ...'"""
-    print """Example: if you want to get tests information providing a """
-    print """filter"""
-    print """      tstorm-tests --filter-list 't=DT;regression=true;f=n,d,rfc,id"""
-
+from tstorm.utils import run_tests
+from tstorm.utils import run_sanity_tests
 
 if __name__ == '__main__':
-    tfn = 'tstorm-sanity.ini'
-    
     try:
-        opts, args = getopt.getopt(sys.argv[1:],
-            "hvlc:i:f:s:", 
-            ["help","noreport","novoms","list", "conf=",
-             "ids=","file-ids=","version","filter-list="])
-    except getopt.GetoptError, err:
-        print str(err)
-        usage()
-        sys.exit(2)
+        rst = run_sanity_tests.RunSanityTests()
+        rst.do_pre_run()
+        rst.do_run_tests()
+    except sequence.SequenceError, err:
+        print '\n\nExecution: ', err
+    except filters.FiltersError, err:
+        print '\n\nExecution: ', err
+    except run_tests.OptionError, err:
+        print '\n\nExecution: ', err
+    except tests.TestsError, err:
+        print '\n\nExecution: ', err
+    except run_tests.RunTestsError, err:
+        print '\n\nExecution: ', err
+    except run_sanity_tests.RunSanityTestsError, err:
+        print '\n\nExecution: ', err
+    except range.RangeError, err:
+        print '\n\nExecution: ', err
+    except limit.LimitError:
+        print '\n\nExecution: ', err
+    except release.ReleaseError:
+        print '\n\nExecution: ', err
+    except test.TestStructureError, err:
+        print '\n\nExecution: ', err
+    except KeyboardInterrupt:
+        print '\n\nExecution n!'
+        sys.exit(1)
 
-    report = True
-    tests_sequence = (False, [])
-    tests_sequence_file = (False, '')
-    list_tests_details = (False, {})
-    filter_tests_details = (False, {})
-   
-    for opt, value in opts: 
-        if opt in ("-h", "--help"):
-            usage()
-            sys.exit()
-        elif opt in ("-v", "--version"):
-            print 'T-StoRM version %s' % (__import__('tstorm').get_version())
-            sys.exit()
-        elif opt in ("-c", "--conf"):
-            tfn = value
-        elif opt in ("-i", "--ids"):
-            tests_sequence = (True, [x.strip() for x in value.split(',')])
-        elif opt in ("-f", "--file-ids"):
-            tests_sequence_file = (True, value)
-        elif opt in ("-l", "--list"):
-            list_tests_details = (True, {})
-        elif opt in ("-s", "--filter-list"):
-            tmp_filter_tests_details = filters.Filters(value).get_filters()
-#            x = value.split(' ')
-#            for y in x:
-#                if 't' in y.split('=')[0]:
-#                   tmp_filter_tests_details['t'] = y.split('=')[1].split(',')
-#                   if 'AT' in tmp_filter_tests_details['t'] or \
-#                       'ST' in tmp_filter_tests_details['t']:
-#                       print 'This script only runs DT and UT tests'
-#                       usage()
-#                       sys.exit()
-#                elif 'r' in y.split('=')[0]:
-#                   tmp_filter_tests_details['r'] = y.split('=')[1]
-#                elif 'i' in y.split('=')[0]:
-#                   tmp_filter_tests_details['i'] = y.split('=')[1]
-#                elif 'o' in y.split('=')[0]:
-#                   tmp_filter_tests_details['o'] = y.split('=')[1]
-            filter_tests_details = (True, tmp_filter_tests_details)
-        elif opt in ("--noreport"):
-            report = False
-        else:
-            assert False, "unhandled option"
-
-    if settings.configuration_file_exists(file_name = 'map_tests_ids.json'):
-        '''Get Test Id Mapping Info from file'''
-        mti_info =  settings.get_json_file_information(file_name = 'map_tests_ids.json')
-    else:
-        print '''Include map-tests-ids.json file in the right locations'''
-        sys.exit(4)
-
-    if list_tests_details[0]:
-        tests_info.TestsInfo(mti_info).get_sanity_info()
-        sys.exit(0)
-
-    if filter_tests_details[0]:
-        tests_info.TestsInfo(mti_info, info=filter_tests_details[1]).get_info()
-        sys.exit(0)
-
-    if tests_sequence_file[0]:
-        if settings.file_exists(tests_sequence_file[1]):
-            tests_sequence = (True, 
-                tests_sequence[1] + settings.get_tests_sequence(tests_sequence_file[1]))
-        else:
-            print '''File that contains tests sequence does not exist'''
-            sys.exit(6)
-
-    if tests_sequence[0]:
-        if not settings.is_tests_sequence_valid(tests_sequence[1],
-            mti_info.values()):
-            print '''Wrong Tests Sequence'''
-            sys.exit(7)
-
-    if settings.configuration_file_exists(file_name = tfn):
-        tfn = settings.get_configuration_file(file_name = tfn)
-    else:
-        print '''Include ini file in the right locations'''
-        sys.exit(5)
-
-    check_configuration_file = configuration.LoadConfiguration(conf_file = tfn)
-    if not check_configuration_file.is_configuration_file_valid():
-        print "Wrong Test Configuration file"
-        print "Example of ini configuration file:\n"
-        check_configuration_file.print_configuration_file_template()
-        sys.exit(3)
-        
-    log_file = report_file.ReportFile(report = report)
-
-    if tests_sequence[0]:
-        tests_methods = tests_methods.TestsMethods(mti_info, sequence = tests_sequence[1])
-    else:
-        tests_methods = tests_methods.TestsMethods(mti_info)
-
-    for key, value in tests_methods.get_sanity_methods().items():
-        run_tests(value, mti_info, log_file, key)
-
-    log_file.close_file() 

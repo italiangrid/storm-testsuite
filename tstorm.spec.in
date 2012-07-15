@@ -250,6 +250,15 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/tstorm/utils/rpm.py
 %{python_sitelib}/tstorm/utils/rpm.pyc
 %{python_sitelib}/tstorm/utils/rpm.pyo
+%{python_sitelib}/tstorm/utils/run_sanity_tests.py
+%{python_sitelib}/tstorm/utils/run_sanity_tests.pyc
+%{python_sitelib}/tstorm/utils/run_sanity_tests.pyo
+%{python_sitelib}/tstorm/utils/run_stress_tests.py
+%{python_sitelib}/tstorm/utils/run_stress_tests.pyc
+%{python_sitelib}/tstorm/utils/run_stress_tests.pyo
+%{python_sitelib}/tstorm/utils/run_tests.py
+%{python_sitelib}/tstorm/utils/run_tests.pyc
+%{python_sitelib}/tstorm/utils/run_tests.pyo
 %{python_sitelib}/tstorm/utils/sequence.py
 %{python_sitelib}/tstorm/utils/sequence.pyc
 %{python_sitelib}/tstorm/utils/sequence.pyo

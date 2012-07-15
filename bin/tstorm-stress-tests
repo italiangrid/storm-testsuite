@@ -6,34 +6,32 @@ import sys
 import unittest
 import getopt
 
-from tstorm.utils import report_file 
-from tstorm.utils import settings
+from tstorm.utils import stress_file
+from tstorm.utils import report_file
 
-from tstorm.utils import sequence
+from tstorm.utils import settings
 from tstorm.utils import release
 from tstorm.utils import range
 from tstorm.utils import limit
 from tstorm.utils import test
 from tstorm.utils import tests
-from tstorm.utils import filters
 from tstorm.utils import configuration
 
 from tstorm.utils import run_tests
+from tstorm.utils import run_stress_tests
 
 if __name__ == '__main__':
     try:
-        rt = run_tests.RunTests()
-        rt.do_pre_run()
-        rt.do_run_tests()
-    except sequence.SequenceError, err:
-        print '\n\nExecution: ', err
-    except filters.FiltersError, err:
-        print '\n\nExecution: ', err
+        rst = run_stress_tests.RunStressTests()
+        rst.do_pre_run()
+        rst.do_run_tests()
     except run_tests.OptionError, err:
         print '\n\nExecution: ', err
     except tests.TestsError, err:
         print '\n\nExecution: ', err
     except run_tests.RunTestsError, err:
+        print '\n\nExecution: ', err
+    except run_tests.RunStressTestsError, err:
         print '\n\nExecution: ', err
     except range.RangeError, err:
         print '\n\nExecution: ', err

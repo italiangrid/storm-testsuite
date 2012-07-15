@@ -45,7 +45,11 @@ tstormutils_PYTHON = \
     release.py \
     filters.py \
     test.py \
-    tests.py
+    tests.py \
+    run_tests.py \
+    run_sanity_tests.py \
+    run_stress_tests.py \
+    stress_file.py
 
 EXTRA_DIST = \
     check_testplan.py \
@@ -75,7 +79,11 @@ EXTRA_DIST = \
     filters.py \
     release.py \
     test.py \
-    tests.py
+    tests.py \
+    run_tests.py \
+    run_sanity_tests.py \
+    run_stress_tests.py \
+    stress_file.py
 
 CLEANFILES= \
     check_testplan.pyc \
@@ -132,4 +140,13 @@ CLEANFILES= \
     tests.pyc \
     tests.pyo \
     sequence.pyo \
-    sequence.pyc
+    sequence.pyc \
+    run_tests.pyo \
+    run_tests.pyc \
+    run_sanity_tests.pyo \
+    run_sanity_tests.pyc \
+    run_stress_tests.pyo \
+    run_stress_tests.pyc \
+    stress_file.pyo \
+    stress_file.pyc
+    
