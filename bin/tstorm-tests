@@ -8,6 +8,7 @@ import getopt
 
 from tstorm.utils import report_file 
 from tstorm.utils import settings
+from tstorm.utils import sequence
 from tstorm.utils import release
 from tstorm.utils import range
 from tstorm.utils import limit
@@ -25,211 +26,234 @@ from tstorm.tests.functional import tapetests as tt
 from tstorm.tests.functional.regression import regressiontests as rt
 from tstorm.tests.functional.regression import regressiontests_novoms as rtnv
 
+class OptionError:
+    def __init__(self, msg):
+        self.args = msg
+        self.errmsg = msg
 
-def run_tests(uid, lfn, tt, n_df, n_dfn):
-    sd=True
-    if uid.is_regression():
-        sd=False
-    elif 'ts_https' in uid.get_aggregator():
-        sd=False
-    elif 'ts_http' in uid.get_aggregator():
-        sd=False
-    elif 'ts_https_voms' in uid.get_aggregator():
-        sd=False
-    ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,subdir=sd)
-    if uid.get_aggregator() != "":
-        lfn.put_name(uid.get_name())
-        lfn.put_description(uid.get_description())
-        lfn.put_uuid(uid.get_id())
+class RunTests:
+    def __init__(self):
+        self.parameters['tfn'] = 'tstorm.ini'
+        try:
+            storm_release = release.Release(__import__('tstorm').get_storm_release())
+        except release.ReleaseError, err:
+            print '\n\nExecution: ', err
+            self.usage()
+            sys.exit(2)
+        self.ct=False
+        self.parameters['voms'] = True
+        self.parameters['report'] = True
+        self.parameters['custom_destination_file'] = (False, '')
+        self.parameters['tests_sequence'] = (False, [])
+        self.parameters['tests_sequence_file']= (False, '')
+        self.parameters['list_tests_details'] = (False, {})
+        self.parameters['filter_tests_details'] = (False, {})
+
+    def __usage():
+        print """Usage: tstorm-tests [-h|--help] [-v|--version] [-c|--conf] """
+        print """                    [-d|--destfile] [-i|--ids] [-f|--file-ids] """
+        print """                    [--noreport] [--novoms]"""
+        print """                    [-s|--filter-list] [-l|--list]"""
+        print """                    [-r|--storm-release]"""
+        print """where:"""
+        print """- version, noreport, novoms and list are not followed by any"""
+        print """  values"""
+        print """- conf, destfile, storm-release and file-ids are followed by """
+        print """  a value """
+        print """- ids is followed by a sequence of id values separated by , """
+        print """  and between '"""
+        print """- filter-list is followed by a sequence of values separated """
+        print """  by ; and between ', the values of which are"""
+        print """  t|test=sequence of types of tests separated by , as """
+        print """      (AT,UT,ST,DT) that filters in relation with the """
+        print """      the type of test"""
+        print """  r|regression=false|true that expresses if the test """
+        print """      belongs to the regression category"""
+        print """  idenpotent=false|true that expresses if the test belongs """
+        print """      to the idenpotent category"""
+        print """  o|output=filename that allows user to save ids in the """
+        print """      specified filename"""
+        print """  f|format=n|name,d|description,range,rfc,i|id,idenpotent that """
+        print """      allows user to specify the order of print of test """
+        print """      information""",
+        print """Example: if you want to run tests without producing a report"""
+        print """      tstorm-tests --noreport"""
+        print """Example: if you want to run tests providing tests sequence"""
+        print """      tstorm-tests -i '<id1>, <id2>, ...'"""
+        print """Example: if you want to get tests information providing a """
+        print """filter"""
+        print """      tstorm-tests --filter-list 't=AT,UT,ST;regression=true;f=n,d,rfc,id"""
+
+    def __parse(self):
+        try:
+            opts, args = getopt.getopt(sys.argv[1:],
+                "hvlc:d:i:f:s:r:",
+                ["help","noreport","novoms","list", "conf=","destfile=",
+                "ids=","file-ids=","version","filter-list=",
+                "storm-release="])
+        except getopt.GetoptError, err:
+            print str(err)
+            self.__usage()
+            sys.exit(2)
+
+        for opt, value in opts:
+            if opt in ("-h", "--help"):
+                self.__usage()
+                sys.exit(0)
+            elif opt in ("-v", "--version"):
+                msg = 'T-StoRM version %s' % (__import__('tstorm').get_version())
+                print msg
+                sys.exit(0)
+            elif opt in ("-c", "--conf"):
+                self.parameters['tfn'] = value
+            elif opt in ("-d", "--destfile"):
+                self.parameters['custom_destination_file'] = (True, value)
+            elif opt in ("-i", "--ids"):
+                try:
+                    tmp_sequence_tests = sequence.Sequence(value).get_sequence()
+                    self.parameters['tests_sequence'] = (True, tmp_sequence_tests)
+                    #(True, [x.strip() for x in value.split(',')])
+                except sequence.SequenceError, err:
+                    print '\n\nExecution: ', err
+                    self.__usage()
+                    sys.exit(2)
+            elif opt in ("-f", "--file-ids"):
+                self.parameters['tests_sequence_file'] = (True, value)
+            elif opt in ("-l", "--list"):
+                self.parameters['list_tests_details'] = (True, {})
+            elif opt in ("-s", "--filter-list"):
+                try:
+                    tmp_filter_tests_details = filters.Filters(value).get_filters()
+                    self.parameters['filter_tests_details'] = (True, tmp_filter_tests_details)
+                except filters.FiltersError, err:
+                    print '\n\nExecution: ', err
+                    self.__usage()
+                    sys.exit(2)
+            elif opt in ("-r", "--storm-release"):
+                try:
+                    self.parameters['storm_release'] = release.Release(value)
+                except release.ReleaseError, err:
+                    print '\n\nExecution: ', err
+                    self.__usage()
+                    sys.exit(2)
+            elif opt in ("--novoms"):
+                self.parameters['voms'] = False
+            elif opt in ("--noreport"):
+                self.parameters['report'] = False
+            else:
+                raise OptionError("Unhandled option")
+
+    def run_tests(uid, lfn, tt, n_df, n_dfn):
+        sd=True
         if uid.is_regression():
-            lfn.put_ruid(uid.get_rfc())
-        lfn.put_output()
-        runner = unittest.TextTestRunner(verbosity=2).run(eval(uid.get_aggregator()))
-        lfn.put_prologue()
-
-def usage():
-    print """Usage: tstorm-tests [-h|--help] [-v|--version] [-c|--conf] """
-    print """                    [-d|--destfile] [-i|--ids] [-f|--file-ids] """
-    print """                    [--noreport] [--novoms]"""
-    print """                    [-s|--filter-list] [-l|--list]"""
-    print """                    [-r|--storm-release]"""
-    print """where:"""
-    print """- version, noreport, novoms and list are not followed by any"""
-    print """  values"""
-    print """- conf, destfile, storm-release and file-ids are followed by """
-    print """  a value """
-    print """- ids is followed by a sequence of id values separated by , """
-    print """  and between '"""
-    print """- filter-list is followed by a sequence of values separated """
-    print """  by ; and between ', the values of which are"""
-    print """  t|test=sequence of types of tests separated by , as """
-    print """      (AT,UT,ST,DT) that filters in relation with the """
-    print """      the type of test"""
-    print """  r|regression=false|true that expresses if the test """
-    print """      belongs to the regression category"""
-    print """  idenpotent=false|true that expresses if the test belongs """
-    print """      to the idenpotent category"""
-    print """  o|output=filename that allows user to save ids in the """
-    print """      specified filename"""
-    print """  f|format=n|name,d|description,range,rfc,i|id,idenpotent that """
-    print """      allows user to specify the order of print of test """
-    print """      information""",
-    print """Example: if you want to run tests without producing a report"""
-    print """      tstorm-tests --noreport"""
-    print """Example: if you want to run tests providing tests sequence"""
-    print """      tstorm-tests -i '<id1>, <id2>, ...'"""
-    print """Example: if you want to get tests information providing a """
-    print """filter"""
-    print """      tstorm-tests --filter-list 't=AT,UT,ST;regression=true;f=n,d,rfc,id"""
-    
-if __name__ == '__main__':
-    tfn = 'tstorm.ini'
-
-    try:
-        opts, args = getopt.getopt(sys.argv[1:],
-            "hvlc:d:i:f:s:r:",
-            ["help","noreport","novoms","list", "conf=","destfile=",
-            "ids=","file-ids=","version","filter-list=",
-            "storm-release="])
-    except getopt.GetoptError, err:
-        print str(err)
-        usage()
-        sys.exit(2)
-
-    ct=False
-    voms = True
-    report = True
-    custom_destination_file = (False, '')
-    tests_sequence = (False, [])
-    tests_sequence_file = (False, '')
-    list_tests_details = (False, {})
-    filter_tests_details = (False, {})
-    try:
-        storm_release = release.Release(__import__('tstorm').get_storm_release())
-    except release.ReleaseError, err:
-        print '\n\nExecution: ', err
-        usage()
-        sys.exit(2)
-
-    for opt, value in opts:
-        if opt in ("-h", "--help"):
-            usage()
-            sys.exit(0)
-        elif opt in ("-v", "--version"):
-            msg = 'T-StoRM version %s' % (__import__('tstorm').get_version())
-            print msg
-            sys.exit(0)
-        elif opt in ("-c", "--conf"):
-            tfn = value
-        elif opt in ("-d", "--destfile"):
-            custom_destination_file = (True, value)
-        elif opt in ("-i", "--ids"):
-            tests_sequence = (True, [x.strip() for x in value.split(',')])
-        elif opt in ("-f", "--file-ids"):
-            tests_sequence_file = (True, value)
-        elif opt in ("-l", "--list"):
-            list_tests_details = (True, {})            
-        elif opt in ("-s", "--filter-list"):
-            try:
-                tmp_filter_tests_details = filters.Filters(value).get_filters()
-                filter_tests_details = (True, tmp_filter_tests_details)
-            except filters.FiltersError, err:
-                print '\n\nExecution: ', err
-                usage()
-                sys.exit(2)
-        elif opt in ("-r", "--storm-release"):
-            try:
-                storm_release = release.Release(value)
-            except release.ReleaseError, err:
-                print '\n\nExecution: ', err
-                usage()
-                sys.exit(2)
-        elif opt in ("--novoms"):
-            voms = False
-        elif opt in ("--noreport"):
-            report = False
-        else:
-            assert False, "unhandled option"
-
-    try:
-        if settings.configuration_file_exists(file_name = 'map_tests_ids.json'):
-            '''Get Test Id Mapping Info from file'''
-            mti_info =  settings.get_json_file_information(file_name = 'map_tests_ids.json')
-        else:
-            print '''Include map-tests-ids.json file in the right locations'''
+            sd=False
+        elif 'ts_https' in uid.get_aggregator():
+            sd=False
+        elif 'ts_http' in uid.get_aggregator():
+            sd=False
+        elif 'ts_https_voms' in uid.get_aggregator():
+            sd=False
+        ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,subdir=sd)
+        if uid.get_aggregator() != "":
+            lfn.put_name(uid.get_name())
+            lfn.put_description(uid.get_description())
+            lfn.put_uuid(uid.get_id())
+            if uid.is_regression():
+                lfn.put_ruid(uid.get_rfc())
+            lfn.put_output()
+            runner = unittest.TextTestRunner(verbosity=2).run(eval(uid.get_aggregator()))
+            lfn.put_prologue()
+   
+    def do_work():
+        try:
+            if settings.configuration_file_exists(file_name = 'map_tests_ids.json'):
+                '''Get Test Id Mapping Info from file'''
+                mti_info =  settings.get_json_file_information(file_name = 'map_tests_ids.json')
+            else:
+                print '''Include map-tests-ids.json file in the right locations'''
+                sys.exit(4)
+        except:
             sys.exit(4)
-    except:
-        sys.exit(4)
 
-        #mti_info = structure.Structure().get_info()
-    
-        #details.Details(list_tests_details, filter_tests_details).get_details(mti_info)
+        try:
+            if list_tests_details[0]:
+                tests_info.TestsInfo(mti_info, storm_release).get_system_info()
 
-    try:
-        if list_tests_details[0]:
-            tests_info.TestsInfo(mti_info, storm_release).get_system_info()
-    
-            sys.exit(0)
+                sys.exit(0)
 
-        if filter_tests_details[0]:
-            tests_info.TestsInfo(mti_info, storm_release, \
-                info=filter_tests_details[1]).get_system_info()
-            sys.exit(0)
-    except range.RangeError,err:
-        print '\n\nExecution: ', err
-    except limit.Limit, err:
-        print '\n\nExecution: ', err
-    except release.Release:
-        print '\n\nExecution: ', err
-    except KeyboardInterrupt:
-        print '\n\nExecution n!'
-        sys.exit(1)
+            if filter_tests_details[0]:
+                tests_info.TestsInfo(mti_info, storm_release, \
+                    info=filter_tests_details[1]).get_system_info()
+                sys.exit(0)
+        except range.RangeError,err:
+            print '\n\nExecution: ', err
+        except limit.Limit, err:
+            print '\n\nExecution: ', err
+        except release.Release:
+            print '\n\nExecution: ', err
+        except KeyboardInterrupt:
+            print '\n\nExecution n!'
+            sys.exit(1)
 
+        if tests_sequence_file[0]:
+            if settings.file_exists(tests_sequence_file[1]):
+                tests_sequence = (True,
+                   tests_sequence[1] + settings.get_tests_sequence(tests_sequence_file[1]))
+            else:
+                print '''File that contains tests sequence does not exist'''
+                sys.exit(6)
 
-        #a = sequence.Sequence(tests_sequence_file, tests_sequence)
-        #tests_sequence = a.get_sequence(mti_info)
-        #tests_methods = a.get_methods(storm_release, tests_sequence)
-        #a.run_tests(mti_info, log_file, custom_destination_file[0], custom_destination_file[1])
-    
-    if tests_sequence_file[0]:
-        if settings.file_exists(tests_sequence_file[1]):
-            tests_sequence = (True,
-                tests_sequence[1] + settings.get_tests_sequence(tests_sequence_file[1]))
-        else:
-            print '''File that contains tests sequence does not exist'''
-            sys.exit(6)
-
-    if tests_sequence[0]:
-        if not settings.is_tests_sequence_valid(tests_sequence[1],
-            mti_info.values()):
-            print '''Wrong Tests Sequence %s'''
-            sys.exit(7)
-
-    if settings.configuration_file_exists(file_name = tfn):
-        tfn = settings.get_configuration_file(file_name = tfn)
-    else:
-        print '''Include ini file in the right locations'''
-        sys.exit(5)
-
-    check_configuration_file = configuration.LoadConfiguration(conf_file = tfn)
-    if not check_configuration_file.is_configuration_file_valid():
-        print '''Wrong Test Configuration file'''
-        print '''Example of ini configuration file:\n'''
-        check_configuration_file.print_configuration_file_template()
-        sys.exit(3)
-
-    log_file = report_file.ReportFile(report = report)
-
-    try:
         if tests_sequence[0]:
-            tests_methods = tests_methods.TestsMethods(mti_info, storm_release, sequence = tests_sequence[1])
-        else:
-            tests_methods = tests_methods.TestsMethods(mti_info, storm_release)
+            if not settings.is_tests_sequence_valid(tests_sequence[1],
+                mti_info.values()):
+                print '''Wrong Tests Sequence %s'''
+                sys.exit(7)
 
-        for key, value in tests_methods.get_system_methods().items():
-            #run_tests(value, mti_info, log_file, key,
-            run_tests(value, log_file, key,
-                custom_destination_file[0], custom_destination_file[1])
+        if settings.configuration_file_exists(file_name = tfn):
+            tfn = settings.get_configuration_file(file_name = tfn)
+        else:
+            print '''Include ini file in the right locations'''
+            sys.exit(5)
+
+        check_configuration_file = configuration.LoadConfiguration(conf_file = tfn)
+        if not check_configuration_file.is_configuration_file_valid():
+            print '''Wrong Test Configuration file'''
+            print '''Example of ini configuration file:\n'''
+            check_configuration_file.print_configuration_file_template()
+            sys.exit(3)
+
+        log_file = report_file.ReportFile(report = report)
+
+        try:
+            if tests_sequence[0]:
+                tests_methods = tests_methods.TestsMethods(mti_info, storm_release, sequence = tests_sequence[1])
+            else:
+                tests_methods = tests_methods.TestsMethods(mti_info, storm_release)
+
+            for key, value in tests_methods.get_system_methods().items():
+                #run_tests(value, mti_info, log_file, key,
+                self.run_tests(value, log_file, key,
+                   custom_destination_file[0], custom_destination_file[1])
+        except range.RangeError, err:
+            print '\n\nExecution: ', err
+        except limit.Limit:
+            print '\n\nExecution: ', err
+        except release.Release:
+            print '\n\nExecution: ', err
+        except test.TestStructureError, err:
+            print '\n\nExecution: ', err
+        except KeyboardInterrupt:
+            print '\n\nExecution n!'
+            sys.exit(1)
+
+        log_file.close_file()
+
+if __name__ == '__main__':
+    try:
+        a = RunTests()
+        a.do_work()
+    except range.OptionError, err:
+        print '\n\nExecution: ', err
     except range.RangeError, err:
         print '\n\nExecution: ', err
     except limit.Limit:
@@ -241,5 +265,3 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         print '\n\nExecution n!'
         sys.exit(1)
-
-    log_file.close_file()

@@ -32,6 +32,7 @@ tstormutils_PYTHON = \
     service.py \
     infosystem.py \
     settings.py \
+    sequence.py \
     __init__.py \
     utils.py \
     ldapsearch.py \
@@ -60,6 +61,7 @@ EXTRA_DIST = \
     rpm.py \
     findstrings.py \
     service.py \
+    sequence.py \
     infosystem.py \
     settings.py \
     __init__.py \
@@ -132,4 +134,6 @@ CLEANFILES= \
     tests_info.pyo \
     tests_methods.pyo \
     test.pyc \
-    test.pyo
+    test.pyo \
+    sequence.pyo \
+    sequence.pyc

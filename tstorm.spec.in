@@ -250,6 +250,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/tstorm/utils/rpm.py
 %{python_sitelib}/tstorm/utils/rpm.pyc
 %{python_sitelib}/tstorm/utils/rpm.pyo
+%{python_sitelib}/tstorm/utils/sequence.py
+%{python_sitelib}/tstorm/utils/sequence.pyc
+%{python_sitelib}/tstorm/utils/sequence.pyo
 %{python_sitelib}/tstorm/utils/service.py
 %{python_sitelib}/tstorm/utils/service.pyc
 %{python_sitelib}/tstorm/utils/service.pyo
