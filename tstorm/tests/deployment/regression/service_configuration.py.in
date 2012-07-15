@@ -18,8 +18,6 @@ class RegressionConfigurationTest(unittest.TestCase):
         self.lfn = lfn
 
     def test_backend_server_status(self):
-        self.lfn.put_output()
-
         sr = service.Service('storm-backend-server')
         self.lfn.put_cmd(sr.get_command())
         sr_result = sr.get_output()
@@ -29,8 +27,6 @@ class RegressionConfigurationTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_backend_logrotate_file(self):
-        self.lfn.put_output()
-
         read_cat = readfile.Cat('/etc/logrotate.d/storm-backend-server')
         self.lfn.put_cmd(read_cat.get_command())
         cat_result = read_cat.get_output()
@@ -46,8 +42,6 @@ class RegressionConfigurationTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_backend_cron_file(self):
-        self.lfn.put_output()
-
         read_cat = readfile.Cat('/etc/cron.d/storm-backend-server.cron')
         self.lfn.put_cmd(read_cat.get_command())
         cat_result = read_cat.get_output()
@@ -61,8 +55,6 @@ class RegressionConfigurationTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_backend_gridhttps(self):
-        self.lfn.put_output()
-
         sr = service.Service('storm-backend-server')
         self.lfn.put_cmd(sr.get_command())
         sr_result = sr.get_output()
@@ -100,8 +92,6 @@ class RegressionConfigurationTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_size_in_namespace_file(self):
-        self.lfn.put_output()
-
         read_cat = readfile.Cat(self.tsets['yaim']['def_path'])
         self.lfn.put_cmd(read_cat.get_command())
         cat_result = read_cat.get_output()
@@ -135,8 +125,6 @@ class RegressionConfigurationTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_gridhttps_plugin_links(self):
-        self.lfn.put_output()
-
         ls_ls = listinfo.Ls('/usr/share/java/storm-backend-server/storm-gridhttps-plugin.jar')
         self.lfn.put_cmd(ls_ls.get_command())
         ls_result = ls_ls.get_output()
@@ -156,8 +144,6 @@ class RegressionConfigurationTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_backend_server_name_status(self):
-        self.lfn.put_output()
-
         sr = service.Service('storm-backend-server')
         self.lfn.put_cmd(sr.get_command())
         sr_result = sr.get_output()
@@ -168,8 +154,6 @@ class RegressionConfigurationTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_mysql_storage_space_update(self):
-        self.lfn.put_output()
-
         read_cat = readfile.Cat(self.tsets['yaim']['def_path'])
         self.lfn.put_cmd(read_cat.get_command())
         cat_result = read_cat.get_output()
@@ -282,8 +266,6 @@ class RegressionConfigurationTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_mysql_connector_java_links(self):
-        self.lfn.put_output()
-
         ls_ls = listinfo.Ls('/usr/share/java/storm-backend-server/mysql-connector-java-5.1.13-bin.jar')
         self.lfn.put_cmd(ls_ls.get_command())
         ls_result = ls_ls.get_output()
