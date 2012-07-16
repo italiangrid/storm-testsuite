@@ -1,8 +1,9 @@
 import sys
 import os
+import exceptions
 
 class SequenceError(exceptions.Exception):
-    pass:
+    pass
 
 class Sequence:
     def __init__(self, value):

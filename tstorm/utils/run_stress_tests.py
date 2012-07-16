@@ -93,7 +93,7 @@ class RunStressTests(run_tests.RunTests):
 
         self.__verify_conf_file()
 
-     def __run_tests(self, tfn, slfn, uid, lfn, tt, n_df, n_dfn):
+     def __run_tests(self, tfn, uid, lfn, tt, slfn, n_df, n_dfn):
         sd=True
         if uid.is_regression():
             sd=False
@@ -128,8 +128,8 @@ class RunStressTests(run_tests.RunTests):
         for key, value in tests_methods.items():
             if not value.is_regression() and value.is_idenpotent():
                 self.__run_tests(self.parameters['tfn'],
-                    stress_log_file,
-                    value, log_file, key)
+                    value, log_file, key,
+                    stress_log_file)
 
         log_file.close_file()
         stress_log_file.close_file()

@@ -3,7 +3,7 @@ import os
 import exceptions
 
 class ReleaseError(exceptions.Exception):
-    pass:
+    pass
 
 class Release:
     def __init__(self, value):

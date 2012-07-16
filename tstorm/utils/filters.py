@@ -3,7 +3,7 @@ import os
 import exceptions
 
 class FiltersError(exceptions.Exception):
-    pass:
+    pass
 
 class Filters:
     def __init__(self, value, sanity = False):
