@@ -33,7 +33,7 @@ class OptionError(exceptions.Exception):
 class RunTestsError(exceptions.Exception):
     pass
 
-class RunTests:
+class RunTestss:
     def __init__(self):
         self.parameters = {}
         self.parameters['tfn'] = 'tstorm.ini'
@@ -254,7 +254,7 @@ class RunTests:
 
         self.__verify_conf_file()
 
-    def __run_tests(self, tfn, uid, lfn, tt, n_df, n_dfn):
+    def __run_test(self, tfn, uid, lfn, tt, n_df, n_dfn):
         sd=True
         if uid.is_regression():
             sd=False
@@ -319,7 +319,7 @@ class RunTests:
         tests_methods = self.tests_instance.get_methods(tests = self.parameters['valid_tests'])
 
         for key, value in tests_methods.items():
-            self.__run_tests(self.parameters['tfn'], \
+            self.__run_test(self.parameters['tfn'], \
                 value, log_file, key,
                 self.parameters['custom_destination_file'][0], \
                 self.parameters['custom_destination_file'][1])

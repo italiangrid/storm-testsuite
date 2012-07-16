@@ -7,29 +7,28 @@ import unittest
 import getopt
 import exceptions
 
-from tstorm.utils import report_file 
-from tstorm.utils import settings
+from tstorm.run import run_tests
+#from tstorm.utils import report_file 
+#from tstorm.utils import settings
 
-from tstorm.utils import sequence
-from tstorm.utils import release
-from tstorm.utils import range
-from tstorm.utils import limit
-from tstorm.utils import test
-from tstorm.utils import tests
-from tstorm.utils import filters
-from tstorm.utils import configuration
-
-from tstorm.utils import cippa
+#from tstorm.utils import sequence
+#from tstorm.utils import release
+#from tstorm.utils import range
+#from tstorm.utils import limit
+#from tstorm.utils import test
+#from tstorm.utils import tests
+#from tstorm.utils import filters
+#from tstorm.utils import configuration
 
 #from tstorm.tests.deployment.regression import regression_conftests as rct
 #from tstorm.tests.deployment.regression import regression_ldaptests as rlt
 
-class RunSanityTestsError(exceptions.Exceptions):
+class RunSanityTestsError(exceptions.Exception):
     pass
 
-class RunSanityTests(cippa.RunTestss):
+class RunSanityTests(run_tests.RunTestss):
     def __init__(self):
-        super(cippa.RunTestss, self).__init__()
+        super(run_tests.RunTestss, self).__init__()
         self.parameters['tfn'] = 'tstorm-sanity.ini'
         self.parameters['voms'] = False
 
@@ -108,7 +107,7 @@ class RunSanityTests(cippa.RunTestss):
             elif opt in ("--noreport"):
                 self.parameters['report'] = False
             else:
-                raise cippa.OptionError("Unhandled option")
+                raise run_tests.OptionError("Unhandled option")
 
         self.__verify_conf_file()
 

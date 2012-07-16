@@ -17,8 +17,8 @@ from tstorm.utils import test
 from tstorm.utils import tests
 from tstorm.utils import configuration
 
-from tstorm.utils import run_tests
-from tstorm.utils import run_stress_tests
+from tstorm.run import run_tests
+from tstorm.run import run_stress_tests
 
 if __name__ == '__main__':
     try:

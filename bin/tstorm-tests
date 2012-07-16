@@ -18,7 +18,7 @@ from tstorm.utils import tests
 from tstorm.utils import filters
 from tstorm.utils import configuration
 
-from tstorm.utils import run_tests
+from tstorm.run import run_tests
 
 if __name__ == '__main__':
     try:

@@ -3,7 +3,7 @@ import os
 import sys
 import time
 
-class StressFile:
+class StressReportFile:
     def __init__(self, fPath = '/tmp', fName = "tstorm-stress", report = True):
         self.fpath = fPath
         t=datetime.datetime.now()

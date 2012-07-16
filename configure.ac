@@ -76,6 +76,7 @@ AC_CONFIG_FILES([
    conf/Makefile
    tstorm/Makefile
    tstorm/utils/Makefile
+   tstorm/run/Makefile
    tstorm/commands/Makefile
    tstorm/tests/Makefile
    tstorm/tests/atomic/Makefile

@@ -16,14 +16,25 @@
 # Authors: Elisabetta Ronchieri <elisabetta.ronchieri@cnaf.infn.it>
 #
 
-SUBDIRS = commands utils tests run
-
-tstormdir = @pyexecdir@/tstorm
-tstorm_PYTHON = __init__.py
+tstormrundir = @pyexecdir@/tstorm/run
+tstormrun_PYTHON = \
+    __init__.py \
+    run_tests.py \
+    run_sanity_tests.py \
+    run_stress_tests.py 
 
 EXTRA_DIST = \
-   __init__.py
+    __init__.py \
+    run_tests.py \
+    run_sanity_tests.py \
+    run_stress_tests.py 
 
-CLEANFILES=\
-   __init__.pyc \
-   __init__.pyo
+CLEANFILES= \
+    __init__.pyo \
+    __init__.pyc \
+    run_tests.pyo \
+    run_tests.pyc \
+    run_sanity_tests.pyo \
+    run_sanity_tests.pyc \
+    run_stress_tests.pyo \
+    run_stress_tests.pyc 
