@@ -5,6 +5,7 @@ __author__ = 'Elisabetta Ronchieri'
 import sys
 import unittest
 import getopt
+import exceptions
 
 from tstorm.utils import report_file 
 from tstorm.utils import settings
@@ -26,15 +27,11 @@ from tstorm.tests.functional import tapetests as tt
 from tstorm.tests.functional.regression import regressiontests as rt
 from tstorm.tests.functional.regression import regressiontests_novoms as rtnv
 
-class OptionError:
-    def __init__(self, msg):
-        self.args = msg
-        self.errmsg = msg
+class OptionError(exceptions.Exception):
+    pass
 
-class RunTestsError:
-    def __init__(self, msg):
-        self.args = msg
-        self.errmsg = msg
+class RunTestsError(exceptions.Exception):
+    pass
 
 class RunTests:
     def __init__(self):
@@ -61,40 +58,129 @@ class RunTests:
             raise RunTestsError("map-tests-ids.json file is not in the right location")
         self.tests_instance = tests.Tests(self.parameters['mti_info']) 
 
+    def __usage_version(self,opt=True):
+        if not opt:
+            print """- version is not followed by any value"""
+        else:
+            print """                   [-v|--version] """
+
+    def __usage_noreport(self,opt=True):
+        if not opt:
+            print """- noreport is not followed by any value"""
+        else:
+            print """                   [--noreport] """
+
+    def __usage_novoms(self,opt=True):
+        if not opt:
+            print """- novoms is not followed by any values"""
+        else:
+            print """                   [--novoms]"""
+
+    def __usage_list(self,opt=True):
+        if not opt:
+            print """- list is not followed by any values"""
+        else:
+            print """                   [-l|--list]"""
+
+    def __usage_conf(self,opt=True):
+        if not opt:
+            print """- conf is followed by a value"""
+        else:
+            print """                   [-c|--conf] """
+
+    def __usage_dest_file(self,opt=True):
+        if not opt:
+            print """- destfile is followed by a value"""
+        else:
+            print """                   [-d|--destfile] """
+
+    def __usage_storm_release(self,opt=True):
+        if not opt:
+            print """- storm-release is followed by a value"""
+        else:
+            print """                   [-r|--storm-release]"""
+
+    def __usage_ids(self,opt=True):
+        if not opt:
+            print """- ids is followed by a sequence of id values separated """
+            print """  by , and between '"""
+        else:
+            print """                   [-i|--ids] """
+
+    def __usage_file_ids(self,opt=True):
+        if not opt:
+            print """- file-ids is followed by a value """
+        else:
+            print """                   [-f|--file-ids] """
+
+    def __usage_filter_list(self,opt=True,run=''):
+        if not opt:
+            print """- filter-list is followed by a sequence of values separated"""
+            print """  by ; and between ', the values of which are"""
+            if run == 'sanity':
+                print """  t|test=DT filters in relation with the type of tests """
+                print """  r|regression=false|true that expresses if the test """
+                print """      belongs to the regression category"""
+                print """  idenpotent=false|true that expresses if the test belongs """
+                print """      to the idenpotent category"""
+            else:
+                print """  t|test=sequence of types of tests separated by , as """
+                print """      (AT,UT,ST,DT) that filters in relation with the """
+                print """      the type of test"""
+                print """  r|regression=false|true that expresses if the test """
+                print """      belongs to the regression category"""
+                print """  idenpotent=false|true that expresses if the test belongs """
+                print """      to the idenpotent category"""
+            print """  o|output=filename that allows user to save ids in the """
+            print """      specified filename"""
+            print """  f|format=n|name,d|description,range,rfc,i|id,idenpotent that """
+            print """      allows user to specify the order of print of test """
+            print """      information"""
+        else:
+            print """                   [-s|--filter-list] """
+
+    def __usage_example_noreport(self):
+            print """Example: if you want to run tests without producing a report"""
+            print """    tstorm-tests --noreport"""
+    
+    def __usage_example_ids(self):
+            print """Example: if you want to run tests providing tests sequence"""
+            print """    tstorm-tests -i '<id1>, <id2>, ...'"""
+
+    def __usage_example_filter_list(self, run=''):
+            print """Example: if you want to get tests information providing a """
+            print """filter"""
+            if run == 'sanity':
+                print """    tstorm-tests --filter-list 't=DT;regression=true;f=n,d,rfc,id'"""
+            else:
+                print """    tstorm-tests --filter-list 't=AT,UT,ST;regression=true;f=n,d,rfc,id'"""
+
     def __usage(self):
-        print """Usage: tstorm-tests [-h|--help] [-v|--version] [-c|--conf] """
-        print """                    [-d|--destfile] [-i|--ids] [-f|--file-ids] """
-        print """                    [--noreport] [--novoms]"""
-        print """                    [-s|--filter-list] [-l|--list]"""
-        print """                    [-r|--storm-release]"""
+        print """Usage: tstorm-test [-h|--help] """
+        self.__usage_version()
+        self.__usage_noreport()
+        self.__usage_novoms()
+        self.__usage_list()
+        self.__usage_filter_list()
+        self.__usage_conf()
+        self.__usage_destfile()
+        self.__usage_storm_release()
+        self.__usage_ids()
+        self.__usage_file_ids()
         print """where:"""
-        print """- version, noreport, novoms and list are not followed by any"""
-        print """  values"""
-        print """- conf, destfile, storm-release and file-ids are followed by """
-        print """  a value """
-        print """- ids is followed by a sequence of id values separated by , """
-        print """  and between '"""
-        print """- filter-list is followed by a sequence of values separated """
-        print """  by ; and between ', the values of which are"""
-        print """  t|test=sequence of types of tests separated by , as """
-        print """      (AT,UT,ST,DT) that filters in relation with the """
-        print """      the type of test"""
-        print """  r|regression=false|true that expresses if the test """
-        print """      belongs to the regression category"""
-        print """  idenpotent=false|true that expresses if the test belongs """
-        print """      to the idenpotent category"""
-        print """  o|output=filename that allows user to save ids in the """
-        print """      specified filename"""
-        print """  f|format=n|name,d|description,range,rfc,i|id,idenpotent that """
-        print """      allows user to specify the order of print of test """
-        print """      information""",
-        print """Example: if you want to run tests without producing a report"""
-        print """      tstorm-tests --noreport"""
-        print """Example: if you want to run tests providing tests sequence"""
-        print """      tstorm-tests -i '<id1>, <id2>, ...'"""
-        print """Example: if you want to get tests information providing a """
-        print """filter"""
-        print """      tstorm-tests --filter-list 't=AT,UT,ST;regression=true;f=n,d,rfc,id'"""
+        self.__usage_version(opt=False)
+        self.__usage_noreport(opt=False)
+        self.__usage_novoms(opt=False)
+        self.__usage_list(opt=False)
+        self.__usage_filter_list(opt=False)
+        self.__usage_conf(opt=False)
+        self.__usage_destfile(opt=False)
+        self.__usage_storm_release(opt=False)
+        self.__usage_ids(opt=False)
+        self.__usage_file_ids(opt=False)
+        self.__usage_example_noreport()
+        self.__usage_example_ids()
+        self.__usage_example_filter_list()
 
     def __verify_conf_file(self):
         if settings.configuration_file_exists(file_name = self.parameters['tfn']):
@@ -193,23 +279,6 @@ class RunTests:
         self.parameters['valid_tests'] = self.tests_instance.get_valid_tests(release)
    
     def __modify_valid_tests(self):
-        new_valid_tests = {}
-        for key, value in self.parameters['valid_tests']:
-            if value.get_id() in self.parameters['tests_sequence']:
-                new_valid_tests[key] = value
-        return new_valid_tests
- 
-    def do_pre_run(self):
-        self.__parse()
-        self.__set_valid_tests()
-
-        if self.parameters['list_tests_details'][0]:
-            self.tests_instance.get_info()
-            sys.exit(0)
-        if self.parameters['filter_tests_details'][0]:
-            self.tests_instance.get_info(info=self.parameters['filter_tests_details'][1])
-            sys.exit(0)
-
         if self.parameters['tests_sequence_file'][0]:
             if settings.file_exists(sel.parameters['tests_sequence_file'][1]):
                 self.parameters['tests_sequence'] = (True,
@@ -222,8 +291,26 @@ class RunTests:
                 self.parameters['mti_info'].values()):
                 raise RunTestsErrors("Wrong Tests Sequence")
 
+        new_valid_tests = {}
+        for key, value in self.parameters['valid_tests']:
+            if value.get_id() in self.parameters['tests_sequence']:
+                new_valid_tests[key] = value
+        return new_valid_tests
+ 
+    def do_pre_run(self):
+        self.__parse()
+        self.__set_valid_tests()
+
         if self.parameters['tests_sequence'][0]:
             self.parameters['valid_tests'] = self.__modify_valid_tests()
+
+    def do_list(self):
+        if self.parameters['list_tests_details'][0]:
+            self.tests_instance.get_info()
+            sys.exit(0)
+        if self.parameters['filter_tests_details'][0]:
+            self.tests_instance.get_info(info=self.parameters['filter_tests_details'][1])
+            sys.exit(0)
 
     def do_run_tests(self):
 

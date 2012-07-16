@@ -1,10 +1,9 @@
 import sys
 import os
+import exceptions
 
-class ReleaseError:
-    def __init__(self, msg):
-        self.args = msg
-        self.errmsg = msg
+class ReleaseError(exceptions.Exception):
+    pass:
 
 class Release:
     def __init__(self, value):
@@ -13,15 +12,15 @@ class Release:
             if value == '*':
                 self.infinity = True;
             else:
-                raise VersionError('release is not set to *')
+                raise ReleaseError('release is not set to *')
         elif len(value) > 1 and '-' in value and '.' in value:
             tmp = map(int, value.replace('-','.').split('.'))
             if len(tmp) == 4 :
                 self.release = tmp
             else:
-                raise VersionError('release is not set to x.y.z-w')
+                raise ReleaseError('release is not set to x.y.z-w')
         else: 
-            raise VersionError('release is not well specified')
+            raise ReleaseError('release is not well specified')
     
     def get_release(self):
         return self.release

@@ -1,11 +1,9 @@
 import sys
 import os
+import exceptions
 
-class FiltersError:
-    def __init__(self, msg):
-        self.args = msg
-        self.errmsg = msg
-        print self.errmsg
+class FiltersError(exceptions.Exception):
+    pass:
 
 class Filters:
     def __init__(self, value, sanity = False):

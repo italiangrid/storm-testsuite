@@ -25,6 +25,7 @@ if __name__ == '__main__':
     try:
         rst = run_sanity_tests.RunSanityTests()
         rst.do_pre_run()
+        rst.do_list()
         rst.do_run_tests()
     except sequence.SequenceError, err:
         print '\n\nExecution: ', err

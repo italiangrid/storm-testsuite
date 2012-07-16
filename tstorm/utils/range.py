@@ -1,12 +1,11 @@
 import sys
 import os
+import exceptions
 from tstorm.utils import release
 from tstorm.utils import limit
 
-class RangeError(object):
-    def __init__(self, msg):
-        self.args = msg
-        self.errmsg = msg
+class RangeError(exceptions.Exception):
+    pass
 
 class Range:
     def __init__(self, range):

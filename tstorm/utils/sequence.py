@@ -1,10 +1,8 @@
 import sys
 import os
 
-class SequenceError:
-    def __init__(self, msg):
-        self.args = msg
-        self.errmsg = msg
+class SequenceError(exceptions.Exception):
+    pass:
 
 class Sequence:
     def __init__(self, value):

@@ -5,6 +5,7 @@ __author__ = 'Elisabetta Ronchieri'
 import sys
 import unittest
 import getopt
+import exceptions
 
 from tstorm.utils import report_file 
 from tstorm.utils import settings
@@ -26,46 +27,43 @@ from tstorm.tests.functional import tapetests as tt
 from tstorm.tests.functional.regression import regressiontests as rt
 from tstorm.tests.functional.regression import regressiontests_novoms as rtnv
 
-class RunStressTestsError:
-    def __init__(self, msg):
-        self.args = msg
-        self.errmsg = msg
+class RunStressTestsError(exceptions.Exception):
+    pass
 
 class RunStressTests(run_tests.RunTests):
     def __init__(self):
         super(run_tests.RunTests, self).__init__()
         self.parameters['tfn'] = 'tstorm-stress-tests.ini'
         self.parameters['stfn'] = 'tstorm-performed-stress-tests.ini'
-        self.parameters['report'] = False
-        self.parameters['cycles'] = 100
-        if settings.configuration_file_exists(file_name = 'map_tests_ids.json'):
-            '''Get Test Id Mapping Info from file'''
-            self.parameters['mti_info'] =  settings.get_json_file_information(file_name = 'map_tests_ids.json')
+        self.parameters['number_cycles'] = 100
+
+    def __usage_number_cycles(self,opt=True):
+        if not opt:
+            print """- number-cycles is followed by a value"""
         else:
-            raise RunTestsError("map-tests-ids.json file is not in the right location")
-        self.tests_instance = tests.Tests(self.parameters['mti_info']) 
+            print """                   [-n|--number-cycles] """ 
 
     def __usage(self):
-        print """Usage: tstorm-stress-tests [-h|--help] [-v|--version] """
-        print """                    [-c|--cycles] """
-        print """                    [--report] """
-        print """                    [-r|--storm-release]"""
+        print """Usage: tstorm-stress-test [-h|--help] """
+        self.__usage_version()
+        self.__usage_noreport()
+        self.__usage_number_cycles()
+        self.__usage_storm_release()
         print """where:"""
-        print """- version and report are not followed by any"""
-        print """  values"""
-        print """- storm-release is followed by """
-        print """  a value """
-        print """Example: if you want to run tests  producing a report"""
-        print """      tstorm-tests --report"""
-        print """Example: if you want to run tests for a certain number"""
-        print """      tstorm-tests -c 10000'"""
+        self.__usage_version(opt=False)
+        self.__usage_noreport(opt=False)
+        self.__usage_number_cycles(opt=False)
+        self.__usage_storm_release(opt=False)
+        self.__usage_example_noreport()
+        self.__usage_example_number_cycles()
 
     def __parse(self):
         try:
             opts, args = getopt.getopt(sys.argv[1:],
-                "hvlc:r:",
-                ["help","report","cycles=",
-                "storm-release="])
+                "hvn:r:",
+                ["help","noreport",
+                 "version","number-cycles=",
+                 "storm-release="])
         except getopt.GetoptError, err:
             print str(err)
             self.__usage()
@@ -79,8 +77,8 @@ class RunStressTests(run_tests.RunTests):
                 msg = 'T-StoRM version %s' % (__import__('tstorm').get_version())
                 print msg
                 sys.exit(0)
-            elif opt in ("-c", "--cycles"):
-                self.parameters['cycles'] = value
+            elif opt in ("-n", "--number-cycles"):
+                self.parameters['number-cycles'] = int(value)
             elif opt in ("-r", "--storm-release"):
                 try:
                     self.parameters['storm_release'] = release.Release(value)
@@ -88,14 +86,14 @@ class RunStressTests(run_tests.RunTests):
                     print '\n\nExecution: ', err
                     self.__usage()
                     sys.exit(2)
-            elif opt in ("report"):
+            elif opt in ("noreport"):
                 self.parameters['report'] = True
             else:
-                raise OptionError("Unhandled option")
+                raise run_tests.OptionError("Unhandled option")
 
         self.__verify_conf_file()
 
-     def __run_tests(self, tfn, uid, lfn, tt, n_df, n_dfn):
+     def __run_tests(self, tfn, slfn, uid, lfn, tt, n_df, n_dfn):
         sd=True
         if uid.is_regression():
             sd=False
@@ -106,7 +104,7 @@ class RunStressTests(run_tests.RunTests):
         elif 'ts_https_voms' in uid.get_aggregator():
             sd=False
         ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,subdir=sd)
-        if uid.get_aggregator() != "":
+        if uid.get_aggregator() != "" and uid.is_idenpotent():
             lfn.put_name(uid.get_name())
             lfn.put_description(uid.get_description())
             lfn.put_uuid(uid.get_id())
@@ -116,9 +114,9 @@ class RunStressTests(run_tests.RunTests):
             runner = unittest.TextTestRunner(verbosity=2).run(eval(uid.get_aggregator()))
             lfn.put_prologue()
 
-    def do_pre_run(self):
-        self.__parse()
-        self.__set_valid_tests()
+#    def do_pre_run(self):
+#        self.__parse()
+#        self.__set_valid_tests()
 
     def do_run_tests(self):
 
@@ -129,7 +127,8 @@ class RunStressTests(run_tests.RunTests):
 
         for key, value in tests_methods.items():
             if not value.is_regression() and value.is_idenpotent():
-                self.__run_tests(self.parameters['tfn'], \
+                self.__run_tests(self.parameters['tfn'],
+                    stress_log_file,
                     value, log_file, key)
 
         log_file.close_file()

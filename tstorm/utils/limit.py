@@ -1,10 +1,9 @@
 import sys
 import os
+import exceptions
 
-class LimitError:
-    def __init__(self, msg):
-        self.args = msg
-        self.errmsg = msg
+class LimitError(exceptions.Exception):
+    pass
 
 class Limit:
     def __init__(self, value):
