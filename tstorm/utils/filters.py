@@ -39,9 +39,13 @@ class Filters:
 
     def __check_tests_data_structure(self, values):
         for val in values:
-            if val == 'o' or val not in self.get_tests_data_structure():
+            if val == 'o':
                 self.__print_check_tests_data_structure_msg()
                 raise FiltersError('Filters are not correct for tests')
+            for x in self.get_tests_data_structure():
+                if val != x:
+                    self.__print_check_tests_data_structure_msg()
+                    raise FiltersError('Filters are not correct for tests')
 
     def get_tests_types(self,run=''):
         if run=='sanity':
@@ -56,23 +60,25 @@ class Filters:
     def get_filters(self,run=''):
         tmp_filter_tests_details = {}
         for filter in self.filters:
-            if 't' in filter.split('=')[0] or 'test' in filter.split('=')[0]:
+            if 't' == filter.split('=')[0] or 'test' == filter.split('=')[0]:
                 tmp_filter_tests_details['t'] = \
                     [val.strip() for val in filter.split('=')[1].split(',')]
                 self.__check_tests_types(tmp_filter_tests_details['t'],run=run)
-            elif 'r' in filter.split('=')[0] or \
-                'regression' in filter.split('=')[0]:
+            elif 'r' == filter.split('=')[0] or \
+                'regression' == filter.split('=')[0]:
                 tmp_filter_tests_details['r'] = filter.split('=')[1]
-            elif 'i' in filter.split('=')[0] or \
-                'idenpotent' in filter.split('=')[0]:
+            elif 'i' == filter.split('=')[0] or \
+                'idenpotent' == filter.split('=')[0]:
                 tmp_filter_tests_details['i'] = filter.split('=')[1]
-            elif 'o' in filter.split('=')[0] or \
-                'output' in filter.split('=')[0]:
+            elif 'o' == filter.split('=')[0] or \
+                'output' == filter.split('=')[0]:
                 tmp_filter_tests_details['o'] = filter.split('=')[1]
-            elif 'f' in filter.split('=')[0] or \
-                'format' in filter.split('=')[0]:
+            elif 'f' == filter.split('=')[0] or \
+                'format' == filter.split('=')[0]:
                 tmp_filter_tests_details['f'] = \
                     [val.strip() for val in filter.split('=')[1].split(',')]
                 self.__check_tests_data_structure(tmp_filter_tests_details['f'])
+            else:
+                raise FiltersError('Filters are not well specified')
 
         return tmp_filter_tests_details

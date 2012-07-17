@@ -9,6 +9,7 @@ import exceptions
 
 from tstorm.run import run_tests
 
+from tstorm.utils import stress_file
 from tstorm.utils import report_file
 from tstorm.utils import settings
 from tstorm.utils import usage
@@ -21,13 +22,13 @@ from tstorm.utils import tests
 from tstorm.utils import filters
 from tstorm.utils import configuration
 
-#from tstorm.tests import commontests as cts
-#from tstorm.tests.atomic import atomicstests as at
-#from tstorm.tests.functional import functionalitiestests as ft
-#from tstorm.tests.functional import functionalitiestests_novoms as ftnv
-#from tstorm.tests.functional import tapetests as tt
-#from tstorm.tests.functional.regression import regressiontests as rt
-#from tstorm.tests.functional.regression import regressiontests_novoms as rtnv
+from tstorm.tests import commontests as cts
+from tstorm.tests.atomic import atomicstests as at
+from tstorm.tests.functional import functionalitiestests as ft
+from tstorm.tests.functional import functionalitiestests_novoms as ftnv
+from tstorm.tests.functional import tapetests as tt
+from tstorm.tests.functional.regression import regressiontests as rt
+from tstorm.tests.functional.regression import regressiontests_novoms as rtnv
 
 class RunStressTestsError(exceptions.Exception):
     pass
@@ -35,9 +36,8 @@ class RunStressTestsError(exceptions.Exception):
 class RunStressTests(run_tests.RunTests):
     def __init__(self):
         super(RunStressTests, self).__init__()
-        self.parameters['tfn'] = 'tstorm-stress-tests.ini'
         self.parameters['stress_report'] = True
-        self.parameters['number_cycles'] = 100
+        self.parameters['number_cycles'] = 2
 
     def parse(self):
         try:
@@ -68,25 +68,24 @@ class RunStressTests(run_tests.RunTests):
                     print '\n\nExecution: ', err
                     usage.get_usage(run='stress')
                     sys.exit(2)
-            elif opt in ("noreport"):
+            elif opt in ("--noreport"):
                 self.parameters['report'] = False
-            elif opt in ("nostressreport"):
+            elif opt in ("--nostressreport"):
                 self.parameters['stress_report'] = False
             else:
                 raise run_tests.OptionError("Unhandled option")
 
-    def run_test(self, tfn, uid, lfn, tt):
+    def run_test(self, tfn, uid, lfn, tt, n_df,n_dfn):
         sd=True
-        if uid.is_regression():
-            sd=False
-        elif 'ts_https' in uid.get_aggregator():
+        if 'ts_https' in uid.get_aggregator():
             sd=False
         elif 'ts_http' in uid.get_aggregator():
             sd=False
         elif 'ts_https_voms' in uid.get_aggregator():
             sd=False
         ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,subdir=sd)
-        if uid.get_aggregator() != "" and uid.is_idenpotent():
+        print tfn, ifn, dfn, back_ifn
+        if uid.get_aggregator() != "":
             lfn.put_name(uid.get_name())
             lfn.put_description(uid.get_description())
             lfn.put_uuid(uid.get_id())
@@ -101,12 +100,16 @@ class RunStressTests(run_tests.RunTests):
         log_file = report_file.ReportFile(report = self.parameters['report'])
         self.stress_instance = stress_file.StressReportFile(report = self.parameters['stress_report'])
 
-        tests_methods = self.tests_instance.get_methods(tests = self.parameters['valid_tests'])
-
-        for key, value in tests_methods.items():
-            if not value.is_regression() and value.is_idenpotent():
-                self.__run_test(self.parameters['tfn'],
-                    value, log_file, key)
+        tests_methods = self.tests_instance.get_methods(tests = self.parameters['valid_tests'],run='stress')
+        print tests_methods
+        count = 0
+        while count < self.parameters['number_cycles']:
+            for key, value in tests_methods.items():
+                self.run_test(self.parameters['tfn'],
+                    value, log_file, key,
+                    self.parameters['custom_destination_file'][0], \
+                    self.parameters['custom_destination_file'][1])
+            count += 1
 
         log_file.close_file()
         self.stress_instance.close_file()

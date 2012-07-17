@@ -128,8 +128,6 @@ class RunTests(object):
             else:
                 raise OptionError("Unhandled option")
 
-        self.verify_conf_file()
-
     def run_test(self, tfn, uid, lfn, tt, n_df, n_dfn):
         sd=True
         if uid.is_regression():
@@ -175,6 +173,7 @@ class RunTests(object):
  
     def do_pre_run(self):
         self.parse()
+        self.verify_conf_file()
         self.set_valid_tests()
 
         if self.parameters['tests_sequence'][0]:
@@ -195,7 +194,7 @@ class RunTests(object):
         tests_methods = self.tests_instance.get_methods(tests = self.parameters['valid_tests'])
 
         for key, value in tests_methods.items():
-            self.__run_test(self.parameters['tfn'], \
+            self.run_test(self.parameters['tfn'], \
                 value, log_file, key,
                 self.parameters['custom_destination_file'][0], \
                 self.parameters['custom_destination_file'][1])

@@ -83,10 +83,11 @@ class Tests:
                         self.__build_body_format(value, info)
             elif 't' in info.keys() and 'i' in info.keys():
                 for x in info['t']:
-                    if x == value.get_test_type() and \
-                        str(info['i']).lower() == str(value.is_idenpotent()).lower():
-                        filter_info.append(value.get_id())
-                        self.__build_body_format(value, info)
+                    if x == value.get_test_type(): 
+                        #print 'uffa %s %s' % (str(info['i']).lower(), str(value.is_idenpotent()).lower())
+                        if str(info['i']).lower() == str(value.is_idenpotent()).lower():
+                            filter_info.append(value.get_id())
+                            self.__build_body_format(value, info)
             elif 'r' in info.keys() and 'i' in info.keys():
                 if str(info['r']).lower() == str(value.is_regression()).lower() and \
                     str(info['i']).lower() == str(value.is_idenpotent).lower():
@@ -117,10 +118,22 @@ class Tests:
         else:
             self.__print_ids_with_filters(info=info,run=run)
 
-    def get_methods(self, tests):
+    def get_methods(self, tests, run=''):
         methods = {}
         for key, value in tests.items():
-            if 'DT' != value.get_test_type():
+            if run == 'sanity':
+                if 'DT' == value.get_test_type():
+                    methods[key] = value
+                else:
+                    continue
+            elif run == 'stress':
+                if 'DT' != value.get_test_type() and \
+                    value.is_idenpotent() and \
+                    not value.is_regression():
+                    methods[key] = value
+                else:
+                    continue
+            elif 'DT' != value.get_test_type():
                 methods[key] = value
         return methods
 

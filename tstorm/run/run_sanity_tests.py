@@ -21,8 +21,8 @@ from tstorm.utils import tests
 from tstorm.utils import filters
 from tstorm.utils import configuration
 
-#from tstorm.tests.deployment.regression import regression_conftests as rct
-#from tstorm.tests.deployment.regression import regression_ldaptests as rlt
+from tstorm.tests.deployment.regression import regression_conftests as rct
+from tstorm.tests.deployment.regression import regression_ldaptests as rlt
 
 class RunSanityTestsError(exceptions.Exception):
     pass
@@ -109,8 +109,8 @@ class RunSanityTests(run_tests.RunTests):
 
     def do_run_tests(self):
         log_file = report_file.ReportFile(report = self.parameters['report'])
-        tests_methods = self.tests_instance.get_sanity_methods(tests = self.parameters['valid_tests'])
+        tests_methods = self.tests_instance.get_methods(tests = self.parameters['valid_tests'],run='sanity')
         for key, value in tests_methods.items():
-            self.__run_test(self.parameters['tfn'], \
+            self.run_test(self.parameters['tfn'], \
                 value, log_file, key)
         log_file.close_file()
