@@ -139,7 +139,7 @@ class RunTests(object):
         elif 'ts_https_voms' in uid.get_aggregator():
             sd=False
         ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,subdir=sd)
-        if uid.get_aggregator() != "":
+        if uid.get_aggregator() != "" and '_wo' not in uid.get_aggregator():
             lfn.put_name(uid.get_name())
             lfn.put_description(uid.get_description())
             lfn.put_uuid(uid.get_id())

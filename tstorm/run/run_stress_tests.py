@@ -84,8 +84,7 @@ class RunStressTests(run_tests.RunTests):
         elif 'ts_https_voms' in uid.get_aggregator():
             sd=False
         ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,subdir=sd)
-        print tfn, ifn, dfn, back_ifn
-        if uid.get_aggregator() != "":
+        if uid.get_aggregator() != "" and '_wo' not in uid.get_aggregator():
             lfn.put_name(uid.get_name())
             lfn.put_description(uid.get_description())
             lfn.put_uuid(uid.get_id())
@@ -101,7 +100,6 @@ class RunStressTests(run_tests.RunTests):
         self.stress_instance = stress_file.StressReportFile(report = self.parameters['stress_report'])
 
         tests_methods = self.tests_instance.get_methods(tests = self.parameters['valid_tests'],run='stress')
-        print tests_methods
         count = 0
         while count < self.parameters['number_cycles']:
             for key, value in tests_methods.items():
