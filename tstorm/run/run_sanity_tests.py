@@ -7,20 +7,19 @@ import unittest
 import getopt
 import exceptions
 
-from tstorm.utils import usage
 from tstorm.run import run_tests
 
-#from tstorm.utils import report_file 
-#from tstorm.utils import settings
-
-#from tstorm.utils import sequence
-#from tstorm.utils import release
-#from tstorm.utils import range
-#from tstorm.utils import limit
-#from tstorm.utils import test
-#from tstorm.utils import tests
-#from tstorm.utils import filters
-#from tstorm.utils import configuration
+from tstorm.utils import report_file
+from tstorm.utils import settings
+from tstorm.utils import usage
+from tstorm.utils import sequence
+from tstorm.utils import release
+from tstorm.utils import range
+from tstorm.utils import limit
+from tstorm.utils import test
+from tstorm.utils import tests
+from tstorm.utils import filters
+from tstorm.utils import configuration
 
 #from tstorm.tests.deployment.regression import regression_conftests as rct
 #from tstorm.tests.deployment.regression import regression_ldaptests as rlt
@@ -70,8 +69,9 @@ class RunSanityTests(run_tests.RunTests):
                 self.parameters['list_tests_details'] = (True, {})
             elif opt in ("-s", "--filter-list"):
                 try:
-                    tmp_filter_tests_details = filters.Filters(value).get_filters()
+                    tmp_filter_tests_details = filters.Filters(value).get_filters(run='sanity')
                     self.parameters['filter_tests_details'] = (True, tmp_filter_tests_details)
+                    print self.parameters['filter_tests_details']
                 except filters.FiltersError, err:
                     print '\n\nExecution: ', err
                     usage.get_usage(run='sanity')
@@ -101,10 +101,10 @@ class RunSanityTests(run_tests.RunTests):
 
     def do_list(self):
         if self.parameters['list_tests_details'][0]:
-            self.tests_instance.get_sanity_info()
+            self.tests_instance.get_info(run='sanity')
             sys.exit(0)
         if self.parameters['filter_tests_details'][0]:
-            self.tests_instance.get_sanity_info(info=self.parameters['filter_tests_details'][1])
+            self.tests_instance.get_info(info=self.parameters['filter_tests_details'][1],run='sanity')
             sys.exit(0)
 
     def do_run_tests(self):

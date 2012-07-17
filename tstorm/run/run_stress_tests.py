@@ -9,19 +9,17 @@ import exceptions
 
 from tstorm.run import run_tests
 
+from tstorm.utils import report_file
+from tstorm.utils import settings
 from tstorm.utils import usage
-
-#from tstorm.utils import report_file 
-#from tstorm.utils import settings
-
-#from tstorm.utils import sequence
-#from tstorm.utils import release
-#from tstorm.utils import range
-#from tstorm.utils import limit
-#from tstorm.utils import test
-#from tstorm.utils import tests
-#from tstorm.utils import filters
-#from tstorm.utils import configuration
+from tstorm.utils import sequence
+from tstorm.utils import release
+from tstorm.utils import range
+from tstorm.utils import limit
+from tstorm.utils import test
+from tstorm.utils import tests
+from tstorm.utils import filters
+from tstorm.utils import configuration
 
 #from tstorm.tests import commontests as cts
 #from tstorm.tests.atomic import atomicstests as at
