@@ -129,6 +129,46 @@
     "StoRM Backend Gridhttps does not work if the SA accesspoint is not included in the SA root path",
     "rt.ts_storm_gridhttps_authorization_denied(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
+  "ts_data_transfer_out_file":[
+    "4d0ea9",
+    "ST",
+    false,
+    [["","(*,*)"]],
+    true,
+    "DATA TRANSDER OUT USING GSIFTP",
+    "Verify that a given file can be transferred out",
+    "ft.ts_data_transfer_out_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_data_transfer_out_file_exist":[
+    "75afce",
+    "ST",
+    false,
+    [["","(*,*)"]],
+    true,
+    "DATA TRANSDER OUT USING GSIFTP",
+    "Verify that a given file has already been transferred out",
+    "ft.ts_data_transfer_out_file_exist(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_data_transfer_in_file":[
+    "9011fd",
+    "ST",
+    false,
+    [["","(*,*)"]],
+    true,
+    "DATA TRANSDER IN USING GSIFTP",
+    "Verify that a given file can be transferred in",
+    "ft.ts_data_transfer_in_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_data_transfer_in_unexist_file":[
+    "8e34f5",
+    "ST",
+    false,
+    [["","(*,*)"]],
+    true,
+    "DATA TRANSDER IN USING GSIFTP",
+    "Verify that a given file cannot be transferred in",
+    "ft.ts_data_transfer_in_unexist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
   "ts_dt":[
     "cda37a",
     "ST",
@@ -364,7 +404,7 @@
     "ST",
     false,
     [["","(*,*)"]],
-    false,
+    true,
     "CKSUM",
     "Verify that the checksum is calculated for the transferred file using the gsiftp protocol",
     "ft.ts_cksm(tfn,ifn,dfn,back_ifn, uid,lfn)"

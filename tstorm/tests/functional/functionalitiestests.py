@@ -6,12 +6,45 @@ from tstorm.tests.functional import https
 from tstorm.tests.atomic import atomics
 from tstorm.tests import utilities 
 
-
 def ts_cksm(conf, ifn, dfn, bifn, uid, lfn):
     s = unittest.TestSuite()
     s.addTest(utilities.UtilitiesTest('test_dd',conf, ifn, bifn, lfn))
     s.addTest(fu.FunctionalitiesTest('test_cksm',conf, ifn, dfn, bifn, lfn)) 
     s.addTest(utilities.UtilitiesTest('test_rm_lf',conf, ifn, bifn, lfn))
+    return s
+
+def ts_data_transfer_out_file(conf, ifn, dfn, bifn, uid, lfn):
+    s = unittest.TestSuite()
+    s.addTest(utilities.UtilitiesTest('test_dd',conf, ifn, bifn, lfn))
+    s.addTest(fu.FunctionalitiesTest('test_data_transfer_out_file',conf, ifn, dfn, bifn, lfn))
+    s.addTest(atomics.AtomicsTest('test_dcache_rm_file',conf, ifn, dfn, bifn, lfn))
+    s.addTest(atomics.AtomicsTest('test_dcache_rm_dir',conf, ifn, dfn, bifn, lfn))
+    s.addTest(utilities.UtilitiesTest('test_rm_lf',conf, ifn, bifn, lfn))
+    return s
+
+def ts_data_transfer_out_file_exist(conf, ifn, dfn, bifn, uid, lfn):
+    s = unittest.TestSuite()
+    s.addTest(utilities.UtilitiesTest('test_dd',conf, ifn, bifn, lfn))
+    s.addTest(fu.FunctionalitiesTest('test_data_transfer_out_file',conf, ifn, dfn, bifn, lfn))
+    s.addTest(fu.FunctionalitiesTest('test_data_transfer_out_exist_file',conf, ifn, dfn, bifn, lfn))
+    s.addTest(atomics.AtomicsTest('test_dcache_rm_file',conf, ifn, dfn, bifn, lfn))
+    s.addTest(atomics.AtomicsTest('test_dcache_rm_dir',conf, ifn, dfn, bifn, lfn))
+    s.addTest(utilities.UtilitiesTest('test_rm_lf',conf, ifn, bifn, lfn))
+    return s
+
+def ts_data_transfer_in_file(conf, ifn, dfn, bifn, uid, lfn):
+    s = unittest.TestSuite()
+    s.addTest(utilities.UtilitiesTest('test_dd',conf, ifn, bifn, lfn))
+    s.addTest(fu.FunctionalitiesTest('test_data_transfer_out_file',conf, ifn, dfn, bifn, lfn))
+    s.addTest(fu.FunctionalitiesTest('test_data_transfer_in_file',conf, ifn, dfn, bifn, lfn))
+    s.addTest(atomics.AtomicsTest('test_dcache_rm_file',conf, ifn, dfn, bifn, lfn))
+    s.addTest(atomics.AtomicsTest('test_dcache_rm_dir',conf, ifn, dfn, bifn, lfn))
+    s.addTest(utilities.UtilitiesTest('test_rm_lf',conf, ifn, bifn, lfn))
+    return s
+
+def ts_data_transfer_in_unexist_file(conf, ifn, dfn, bifn, uid, lfn):
+    s = unittest.TestSuite()
+    s.addTest(fu.FunctionalitiesTest('test_data_transfer_in_unexist_file',conf, ifn, dfn, bifn, lfn))
     return s
 
 def ts_dt(conf, ifn, dfn, bifn, uid, lfn):
