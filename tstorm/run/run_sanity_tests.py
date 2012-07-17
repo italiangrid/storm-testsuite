@@ -33,7 +33,7 @@ class RunSanityTests(run_tests.RunTests):
         self.parameters['tfn'] = 'tstorm-sanity.ini'
         self.parameters['voms'] = False
 
-    def parse(self):
+    def do_parse(self):
         try:
             opts, args = getopt.getopt(sys.argv[1:],
                 "hvlc:i:f:s:r:",

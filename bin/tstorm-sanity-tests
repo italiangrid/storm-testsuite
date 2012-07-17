@@ -24,6 +24,7 @@ from tstorm.run import run_sanity_tests
 if __name__ == '__main__':
     try:
         rst = run_sanity_tests.RunSanityTests()
+        rst.do_parse()
         rst.do_pre_run()
         rst.do_list()
         rst.do_run_tests()

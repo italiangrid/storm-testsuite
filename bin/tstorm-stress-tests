@@ -23,6 +23,7 @@ from tstorm.run import run_stress_tests
 if __name__ == '__main__':
     try:
         rst = run_stress_tests.RunStressTests()
+        rst.do_parse()
         rst.do_pre_run()
         rst.do_run_tests()
     except run_tests.OptionError, err:

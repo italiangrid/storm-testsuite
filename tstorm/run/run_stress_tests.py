@@ -39,7 +39,7 @@ class RunStressTests(run_tests.RunTests):
         self.parameters['stress_report'] = True
         self.parameters['number_cycles'] = 2
 
-    def parse(self):
+    def do_parse(self):
         try:
             opts, args = getopt.getopt(sys.argv[1:],
                 "hvn:r:",
@@ -60,7 +60,7 @@ class RunStressTests(run_tests.RunTests):
                 print msg
                 sys.exit(0)
             elif opt in ("-n", "--number-cycles"):
-                self.parameters['number-cycles'] = int(value)
+                self.parameters['number_cycles'] = int(value)
             elif opt in ("-r", "--storm-release"):
                 try:
                     self.parameters['storm_release'] = release.Release(value)

@@ -23,6 +23,7 @@ from tstorm.run import run_tests
 if __name__ == '__main__':
     try:
         rt = run_tests.RunTests()
+        rt.do_parse()
         rt.do_pre_run()
         rt.do_list()
         rt.do_run_tests()

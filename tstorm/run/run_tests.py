@@ -70,7 +70,7 @@ class RunTests(object):
             check_configuration_file.print_configuration_file_template()
             raise RunTestsError("Wrong Test Configuration file")
 
-    def parse(self):
+    def do_parse(self):
         try:
             opts, args = getopt.getopt(sys.argv[1:],
                 "hvlc:d:i:f:s:r:",
@@ -170,9 +170,8 @@ class RunTests(object):
             if value.get_id() in self.parameters['tests_sequence']:
                 new_valid_tests[key] = value
         return new_valid_tests
- 
+
     def do_pre_run(self):
-        self.parse()
         self.verify_conf_file()
         self.set_valid_tests()
 
