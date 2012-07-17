@@ -9,6 +9,16 @@
     "Verify ls operation on a file that does not exist by using the lcg client",
     "at.ts_lcg_ls_unexist_file(tfn,ifn,dfn,back_ifn,uid,lfn)"
     ],
+  "ts_lcg_ls_unexist_dir":[
+    "4a153e",
+    "AT",
+    false,
+    [["","(*,*)"]],
+    true,
+    "SRM LS",
+    "Verify ls operation on a directory that does not exist by using the lcg client",
+    "at.ts_lcg_ls_unexist_dir(tfn,ifn,dfn,back_ifn,uid,lfn)"
+    ],
   "ts_storm_gtp_wo":[
     "6d69e7",
     "AT",
@@ -64,7 +74,7 @@
     "AT",
     false,
     [["","(*,*)"]],
-    false,
+    true,
     "SRM RM",
     "Verify rm operation of a given file by using the dcache client",
     "at.ts_dcache_rm_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
@@ -84,7 +94,7 @@
     "AT",
     false,
     [["","(*,*)"]],
-    false,
+    true,
     "SRM LS",
     "Verify ls operation on a directory that exists by using the lcg client",
     "at.ts_lcg_ls_dir(tfn,ifn,dfn,back_ifn, uid,lfn)"
@@ -154,7 +164,7 @@
     "AT",
     false,
     [["","(*,*)"]],
-    false,
+    true,
     "SRM MKDIR",
     "Verify mkdir operation on a directory that already exists by using the dcache client",
     "at.ts_dcache_mkdir_exist(tfn,ifn,dfn,back_ifn, uid,lfn)"
@@ -218,6 +228,16 @@
     "SRM PING",
     "Verify ping operation by using the StoRM client",
     "at.ts_storm_ping(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_dcache_ping":[
+    "2076cb",
+    "AT",
+    false,
+    [["","(*,*)"]],
+    true,
+    "SRM PING",
+    "Verify ping operation by using the dcache client",
+    "at.ts_dcache_ping(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_get_space_metadata_failure":[
     "6e21ed",
@@ -284,7 +304,7 @@
     "AT",
     false,
     [["","(*,*)"]],
-    false,
+    true,
     "SRM MKDIR",
     "Verify mkdir operation on a directory by using the dcache client",
     "at.ts_dcache_mkdir(tfn,ifn,dfn,back_ifn, uid,lfn)"
@@ -439,6 +459,16 @@
     "Yaim-Storm for GLUE2 configuration does not include ObjectClass:GLUE2StorageService in GLUE2Service",
     "rlt.ts_gluetwo_service(tfn, uid,lfn)"
     ],
+  "ts_dcache_rm_dir":[
+    "2d8030",
+    "AT",
+    false,
+    [["","(*,*)"]],
+    true,
+    "SRM RMDIR",
+    "Verify rmdir operation of a directory by using the dcache client",
+    "at.ts_dcache_rm_dir(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
   "ts_dcache_rm_unexist_dir":[
     "f1efe5",
     "AT",
@@ -514,7 +544,7 @@
     "AT",
     false,
     [["","(*,*)"]],
-    false,
+    true,
     "SRM LS",
     "Verify ls operation on a file that exists by using the lcg client",
     "at.ts_lcg_ls_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
