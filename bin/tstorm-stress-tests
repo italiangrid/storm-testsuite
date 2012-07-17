@@ -31,7 +31,7 @@ if __name__ == '__main__':
         print '\n\nExecution: ', err
     except run_tests.RunTestsError, err:
         print '\n\nExecution: ', err
-    except run_tests.RunStressTestsError, err:
+    except run_stress_tests.RunStressTestsError, err:
         print '\n\nExecution: ', err
     except range.RangeError, err:
         print '\n\nExecution: ', err

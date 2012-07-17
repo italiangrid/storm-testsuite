@@ -7,7 +7,9 @@ import unittest
 import getopt
 import exceptions
 
+from tstorm.utils import usage
 from tstorm.run import run_tests
+
 #from tstorm.utils import report_file 
 #from tstorm.utils import settings
 
@@ -26,36 +28,13 @@ from tstorm.run import run_tests
 class RunSanityTestsError(exceptions.Exception):
     pass
 
-class RunSanityTests(run_tests.RunTestss):
+class RunSanityTests(run_tests.RunTests):
     def __init__(self):
-        super(run_tests.RunTestss, self).__init__()
+        super(RunSanityTests, self).__init__()
         self.parameters['tfn'] = 'tstorm-sanity.ini'
         self.parameters['voms'] = False
 
-    def __usage(self):
-        print """Usage: tstorm-sanity-test [-h|--help] """
-        self.__usage_version()
-        self.__usage_noreport()
-        self.__usage_list()
-        self.__usage_filter_list()
-        self.__usage_conf()
-        self.__usage_storm_release()
-        self.__usage_ids()
-        self.__usage_file_ids()
-        print """where:"""
-        self.__usage_version(opt=False)
-        self.__usage_noreport(opt=False)
-        self.__usage_list(opt=False)
-        self.__usage_filter_list(opt=False,run='sanity')
-        self.__usage_conf(opt=False)
-        self.__usage_storm_release(opt=False)
-        self.__usage_ids(opt=False)
-        self.__usage_file_ids(opt=False)
-        self.__usage_example_noreport()
-        self.__usage_example_ids()
-        self.__usage_example_filter_list(run='sanity')
-
-    def __parse(self):
+    def parse(self):
         try:
             opts, args = getopt.getopt(sys.argv[1:],
                 "hvlc:i:f:s:r:",
@@ -64,12 +43,12 @@ class RunSanityTests(run_tests.RunTestss):
                  "storm-release="])
         except getopt.GetoptError, err:
             print str(err)
-            self.__usage()
+            usage.get_usage(run='sanity')
             sys.exit(2)
 
         for opt, value in opts:
             if opt in ("-h", "--help"):
-                self.__usage()
+                usage.get_usage(run='sanity')
                 sys.exit(0)
             elif opt in ("-v", "--version"):
                 msg = 'T-StoRM version %s' % (__import__('tstorm').get_version())
@@ -83,7 +62,7 @@ class RunSanityTests(run_tests.RunTestss):
                     self.parameters['tests_sequence'] = (True, tmp_sequence_tests)
                 except sequence.SequenceError, err:
                     print '\n\nExecution: ', err
-                    self.__usage()
+                    usage.get_usage(run='sanity')
                     sys.exit(2)
             elif opt in ("-f", "--file-ids"):
                 self.parameters['tests_sequence_file'] = (True, value)
@@ -95,23 +74,21 @@ class RunSanityTests(run_tests.RunTestss):
                     self.parameters['filter_tests_details'] = (True, tmp_filter_tests_details)
                 except filters.FiltersError, err:
                     print '\n\nExecution: ', err
-                    self.__usage()
+                    usage.get_usage(run='sanity')
                     sys.exit(2)
             elif opt in ("-r", "--storm-release"):
                 try:
                     self.parameters['storm_release'] = release.Release(value)
                 except release.ReleaseError, err:
                     print '\n\nExecution: ', err
-                    self.__usage()
+                    usage.get_usage(run='sanity')
                     sys.exit(2)
             elif opt in ("--noreport"):
                 self.parameters['report'] = False
             else:
                 raise run_tests.OptionError("Unhandled option")
 
-        self.__verify_conf_file()
-
-    def __run_test(self, tfn, uid, lfn, tt):
+    def run_test(self, tfn, uid, lfn, tt):
         if uid.get_aggregator() != "":
             lfn.put_name(uid.get_name())
             lfn.put_description(uid.get_description())

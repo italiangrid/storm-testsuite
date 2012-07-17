@@ -24,6 +24,7 @@ if __name__ == '__main__':
     try:
         rt = run_tests.RunTests()
         rt.do_pre_run()
+        rt.do_list()
         rt.do_run_tests()
     except sequence.SequenceError, err:
         print '\n\nExecution: ', err
