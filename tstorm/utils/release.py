@@ -14,7 +14,10 @@ class Release:
             else:
                 raise ReleaseError('release is not set to *')
         elif len(value) > 1 and '-' in value and '.' in value:
-            tmp = map(int, value.replace('-','.').split('.'))
+            try:
+                tmp = map(int, value.replace('-','.').split('.'))
+            except ValueError, er:
+                raise ReleaseError('release is not set to x.y.z-w - %s' % value)
             if len(tmp) == 4 :
                 self.release = tmp
             else:

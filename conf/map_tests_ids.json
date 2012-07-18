@@ -33,17 +33,17 @@
     "9cc43b",
     "DT",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/207","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/207","[1.8.2-1*,*)"]],
     false,
-    "STORM BUG: GLUE2ENDPOINTCAPABILITY AND GLUE2ENDPOINTINTERFACENAME CONTAIN WRONG VALUES",
-    "Yaim-Storm for GLUE2 configuration set wrong values in the GLUE2EndpointCapability and GLUE2EndpointInterfaceName attributes of the GLUE2.0 schema",
+    "STORM BUG: SOME GLUE2ENDPOINT ATTRIBUTES ARE NOT WELL DEFINED",
+    "Yaim-Storm for GLUE2 configuration set wrong values for GLUE2Endpoint Attributes of the GLUE2.0 schema",
     "rlt.ts_gluetwo_endpoint_undefined(tfn,uid,lfn)"
     ],
   "ts_glue_available_space":[
     "884d3b",
     "DT",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/150","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/150","[1.8.0-1*,*)"]],
     false,
     "WRONG CALCULATION OF SA_AVAILABLE_SIZE_KB AND SA_USED_SIZE_KB",
     "Wrong calculation of SA_AVAILABLE_SPACE",
@@ -53,7 +53,7 @@
     "b740fb",
     "ST",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/109","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/109","[1.7.0-1,*)"]],
     false,
     "STORM BUG: SPACE TOKEN USED SPACE IS NOT UPDATE",
     "StoRM does not provides updated used space value for Space Token due to a bug in the update of the used space after the srmPutDone operation",
@@ -63,7 +63,7 @@
     "244fca",
     "ST",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/108","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/108","[1.7.0-1,*)"]],
     false,
     "COMPARISON BUG IN LCG-CR COPYING TO STORM",
     "The StoRM GridFTP component stores the checksum value computed during the file transfer as a long number, discarding in this way leading zeroes. The default ADLER32 checksum match algorithm considers checksum values as strings so the leading zeroes matters",
@@ -83,7 +83,7 @@
     "09829e",
     "ST",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/137","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/137","[1.7.1-1,*)"]],
     false,
     "STORM BUG: REQUEST WITH AUTHORIZATION ID PARAMETERS WITH NON ASCII CHARACTERS MAKES FE CRASH",
     "StoRM Frontend crashes when managing asynchronous requests providing string parameters containing non ASCII characters",
@@ -113,7 +113,7 @@
     "c23e05",
     "DT",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/151","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/151","[1.8.0-1,*)"]],
     false,
     "WRONG SETTINGS OF SIZE IN NAMESPACE.XML",
     "Wrong settings of size in namespace.xml",
@@ -123,7 +123,7 @@
     "d58db9",
     "ST",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/209","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/209","[1.8.2-1,*)"]],
     false,
     "AUTHORIZATION REST SERVICE DENY AUTHORIZATION",
     "StoRM Backend Gridhttps does not work if the SA accesspoint is not included in the SA root path",
@@ -147,7 +147,7 @@
     true,
     "DATA TRANSDER OUT USING HTTP",
     "Verify that a given file can be transferred out",
-    "ft.ts_srm_transfer_outbound_http(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ftnv.ts_srm_transfer_outbound_http(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_srm_transfer_outbound_https":[
     "bbddf2",
@@ -157,7 +157,7 @@
     true,
     "DATA TRANSDER OUT USING HTTPS",
     "Verify that a given file can be transferred out",
-    "ft.ts_srm_transfer_outbound_https(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ftnv.ts_srm_transfer_outbound_https(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_direct_transfer_outbound_https_voms":[
     "21d919",
@@ -177,7 +177,7 @@
     true,
     "DATA TRANSDER OUT USING HTTP",
     "Verify that a given file can be transferred out",
-    "ft.ts_direct_transfer_outbound_https_voms(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ftnv.ts_direct_transfer_outbound_http(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_direct_transfer_outbound_https":[
     "f92c33",
@@ -187,7 +187,7 @@
     true,
     "DATA TRANSDER OUT USING HTTPS",
     "Verify that a given file can be transferred out",
-    "ft.ts_direct_transfer_outbound_https(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ftnv.ts_direct_transfer_outbound_https(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_direct_transfer_outbound_https_voms_exist_file":[
     "8b5ba0",
@@ -207,7 +207,7 @@
     true,
     "DATA TRANSDER OUT USING HTTP",
     "Verify that a given file already exists",
-    "ft.ts_direct_transfer_outbound_http_exist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ftnv.ts_direct_transfer_outbound_http_exist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_direct_transfer_outbound_https_exist_file":[
     "d9d057",
@@ -217,7 +217,7 @@
     true,
     "DATA TRANSDER OUT USING HTTPS",
     "Verify that a given file already exists",
-    "ft.ts_direct_transfer_outbound_https_exist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ftnv.ts_direct_transfer_outbound_https_exist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_direct_transfer_inbound_https_voms":[
     "ab1064",
@@ -237,7 +237,7 @@
     true,
     "DATA TRANSDER IN USING HTTP",
     "Verify that a given file can be transferred in",
-    "ft.ts_direct_transfer_inbound_http(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ftnv.ts_direct_transfer_inbound_http(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_direct_transfer_inbound_https":[
     "47d6d5",
@@ -247,7 +247,7 @@
     true,
     "DATA TRANSDER IN USING HTTPS",
     "Verify that a given file can be transferred in",
-    "ft.ts_direct_transfer_inbound_https(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ftnv.ts_direct_transfer_inbound_https(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_direct_transfer_inbound_https_voms_no_auth":[
     "d60cc0",
@@ -267,7 +267,7 @@
     true,
     "DATA TRANSDER IN USING HTTPS",
     "Verify that a given file can be transferred in because wrong user permission",
-    "ft.ts_direct_transfer_inbound_https_no_auth(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ftnv.ts_direct_transfer_inbound_https_no_auth(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_direct_transfer_inbound_https_voms_unexist_file":[
     "bd37f7",
@@ -287,7 +287,7 @@
     true,
     "DATA TRANSDER IN USING HTTP",
     "Verify that a given file does not exists",
-    "ft.ts_direct_transfer_inbound_http_unexist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ftnv.ts_direct_transfer_inbound_http_unexist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_direct_transfer_inbound_https_unexists_file":[
     "acea33",
@@ -297,7 +297,7 @@
     true,
     "DATA TRANSDER IN USING HTTPS",
     "Verify that a given file does not exists",
-    "ft.ts_direct_transfer_inbound_https_unexist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ftnv.ts_direct_transfer_inbound_https_unexist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_srm_transfer_inbound_https_voms":[
     "e94e78",
@@ -317,7 +317,7 @@
     true,
     "DATA TRANSDER IN USING HTTP",
     "Verify that a given file can be transferred in",
-    "ft.ts_srm_transfer_inbound_http(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ftnv.ts_srm_transfer_inbound_http(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_srm_transfer_inbound_https":[
     "47d6d4",
@@ -327,7 +327,7 @@
     true,
     "DATA TRANSDER IN USING HTTPS",
     "Verify that a given file can be transferred in",
-    "ft.ts_srm_transfer_inbound_http(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ftnv.ts_srm_transfer_inbound_http(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_data_transfer_out_file":[
     "4d0ea9",
@@ -383,7 +383,7 @@
     "ad63ac",
     "DT",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/134","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/134","[1.7.1-1,*)"]],
     false,
     "STORN BACKEND LOGROTATE FILE POINTS TO NON EXISTING FILE",
     "StoRM Backend logrotate file points to non existing file",
@@ -393,7 +393,7 @@
     "2f6695",
     "DT",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/147","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/148","[1.8.0-1,*)"]],
     false,
     "INFO SERVICE ALWAYS RETURNS A ZERO AVAILABLE SPACE",
     "Info Service always returns a zero available space",
@@ -443,7 +443,7 @@
     "e055f5",
     "DT",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/160","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/160","[1.8.1-1,*)"]],
     false,
     "WRONG STORM BACKEND SERVER NAME RETURNED DURING THE EXECUTION OF STATUS",
     "StoRM Backend Server name is wrong",
@@ -453,7 +453,7 @@
     "eecdc3",
     "DT",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/208","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/208","[1.8.2-1,*)"]],
     false,
     "STORM BUG: GLUE2ENDPOINTCAPABILITY AND GLUE2ENDPOINTINTERFACENAME CONTAIN WRONG VALUES",
     "Yaim-Storm for GLUE2 configuration set wrong values in the GLUE2EndpointCapability and GLUE2EndpointInterfaceName attributes of the GLUE2.0 schema",
@@ -483,7 +483,7 @@
     "6e21ed",
     "ST",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/189","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/189","[1.8.1-1,*)"]],
     false,
     "GET SPACE METADATA FAILURE WITHOUT VOMS EXTENSIONS",
     "StoRM Backend Server returns an exception when it receives a GetSpaceMetadata request without voms extension",
@@ -493,7 +493,7 @@
     "82dc47",
     "DT",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/153","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/153","[1.8.1-1,*)"]],
     false,
     "REST INFO SERVICE FAILURE",
     "Rest info service fails when non-mandatory parameters are missing",
@@ -513,7 +513,7 @@
     "84e55b",
     "DT",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/154","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/154","[1.8.0-1,*)"]],
     false,
     "REMOVED GRIDHTTPS PLUGIN LINKS DURING UPGRADE FROM 1.7.0 to 1.7.1",
     "Removed gridhttpds plugin links during upgrade from 1.7.0 to 1.7.1",
@@ -523,7 +523,7 @@
     "1fee07",
     "DT",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/114","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/114","[1.7.1-1,*)"]],
     false,
     "EXTRA STORM BACKEND SERVICE INFORMATION RETURNED DURING THE EXECUTION OF STATUS",
     "Extra information are returned by storm backend server init script during the execution of status",
@@ -533,7 +533,7 @@
     "71272d",
     "DT",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/135","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/135","[1.7.1-1,*)"]],
     false,
     "STORM BACKEND DOES NOT ROTATE LOG FILES",
     "StoRM Backend does not rotate log files",
@@ -553,7 +553,7 @@
     "b9aa3c",
     "ST",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/106","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/106","[1.7.0-1,*)"]],
     false,
     "INCORRECT INFORMATION PUBLISHED BY STORM",
     "StoRM does not publish correctly values for used and free space on the  BDII due to a bug in the update of the free space after the the srmRm operation",
@@ -563,7 +563,7 @@
     "b57772",
     "DT",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/149","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/149","[1.8.0-1,*)"]],
     false,
     "WRONG VERSION IN THE YAIM-VERSION FILE",
     "Wrong version in the yaim-storm file",
@@ -573,7 +573,7 @@
     "14c174",
     "DT",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/207","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/207","[1.8.2-1,*)"]],
     false,
     "STORM BUG: GLUE2STORAGESHAREACCESSMODE",
     "Yaim-Storm for GLUE2 configuration set wrong values in the GLUE2StorageAccessMode attribute of the GLUE2.0 schema",
@@ -583,7 +583,7 @@
     "b0ca16",
     "ST",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/127","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/127","[1.7.1-1,*)"]],
     false,
     "STORM BUG: SRM TRANSFER COMMANDS DOES NOT REPORT ERRONEOUS PROTOCOL REQUESTS",
     "StoRM does not returns SRM_NOT_SUPPORTED error code when file transfer operation (srmPrepareToPut,srmPrepareToGet,srmBringOnline) are called providing a list of not supported desired transfer protocols to a bug in the management of file transfer operation. StoRM does not verifies if the provided protocols are supported",
@@ -593,7 +593,7 @@
     "efacfe",
     "DT",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/168","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/168","[1.8.1-1,*)"]],
     false,
     "NO UPDATING OF STORAGE SPACE IN DB AFTER A TOTAL ONLINE SIZE CHANGE IN THE NAMESPACE.XML",
     "When the TotalOnlineSize value has changed in the namespace.xml, the storm-backend-server process does not update the  corrispondent field in the storage_space table of the storm_be_ISAM  database",
@@ -623,7 +623,7 @@
     "0b20a0",
     "ST",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/227","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/227","[1.8.2-1,*)"]],
     false,
     "ERROR IN LOADING DATABASE PASSWORD",
     "StoRM Backend Server does not load database password correctly when its values is not the default one",
@@ -643,7 +643,7 @@
     "b76e61",
     "ST",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/181","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/181","[1.8.0-1,*)"]],
     false,
     "WRONG STORM BACKEND AGE RETURNED BY SRM PING",
     "Wrong the StoRM backend age returned by the command srm ping",
@@ -673,7 +673,7 @@
     "50155e",
     "DT",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/150","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/150","[1.8.0-1,*)"]],
     false,
     "WRONG CALCULATION OF SA_AVAILABLE_SIZE_KB AND SA_USED_SIZE_KB",
     "Wrong calculation of SA_USED_SPACE",
@@ -683,7 +683,7 @@
     "aae0b5",
     "DT",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/147","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/147","[1.8.0-1,*)"]],
     false,
     "GLUE2 GLUE2STORAGESHARECAPACITY* SIZES ALWAYS ZERO",
     "Glue2 GLUE2StorageShareCapacity* sizes always 0",
@@ -733,7 +733,7 @@
     "ca2419",
     "DT",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/146","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/146","[1.8.0-1,*)"]],
     false,
     "GET_SIZE INCORRECTLY HANDLES THE INFO",
     "Wrong calculation of SA_USED_SPACE",
@@ -743,7 +743,7 @@
     "ad7c8b",
     "DT",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/179","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/179","[1.8.0-1,*)"]],
     false,
     "MYSQL-CONNECTOR-JAVA DOWNLOADING FAILURE",
     "mysql-connector-java is not downloaded due to an issue in its owner repository",
@@ -763,17 +763,17 @@
     "09a5b7",
     "DT",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/140","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/140","[1.7.1-1,*)"]],
     false,
     "DEFAULT GRIDHTTPS SERVER PORT NUMBER CONFLICTS WITH BACKEND DEFAULT XMLRPC PORT NUMBER",
     "Default GridHTTPs server port number conflicts with Backend default xmlrpc port number",
     "rct.ts_backend_gridhttps(tfn, uid,lfn)"
     ],
   "ts_both_sup_and_unsup_protocols":[
-    "4f21be",
+    "mcj7dm",
     "ST",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/126","(*,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/126","[1.7.1-1,*)"]],
     false,
     "STORM FRONTEND PRODUCES HUGE LOG FILE WHEN MANAGING REQUESTS THAT CONTAIN SUPPORTED PROTOCOLS",
     "StoRM produced huge log file when file transfer operation (srmPrepareToPut,srmPrepareToGet,srmBringOnline) are called with a list of desired transfered protocols",

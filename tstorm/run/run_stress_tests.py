@@ -77,13 +77,13 @@ class RunStressTests(run_tests.RunTests):
 
     def run_test(self, tfn, uid, lfn, tt, n_df,n_dfn):
         sd=True
-        if 'ts_https' in uid.get_aggregator():
-            sd=False
-        elif 'ts_http' in uid.get_aggregator():
-            sd=False
-        elif 'ts_https_voms' in uid.get_aggregator():
-            sd=False
-        elif '_https_' in uid.get_aggregator():
+        if 'ts_https' in uid.get_aggregator() or \
+           'ts_http' in uid.get_aggregator() or \
+           'ts_https_voms' in uid.get_aggregator() or \
+           '_https_' in uid.get_aggregator() or \
+           '_http_' in uid.get_aggregator() or \
+           '_https' in uid.get_aggregator() or \
+           '_http' in uid.get_aggregator():
             sd=False
         ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,subdir=sd)
         if uid.get_aggregator() != "" and '_wo' not in uid.get_aggregator():
@@ -118,7 +118,7 @@ class RunStressTests(run_tests.RunTests):
                 count += 1
             tests_status[tests_status.items()[test_index][0]]=(True, tests_status.items()[test_index][1][1]+count)
 
-        #print tests_status
+        print tests_status
         if self.parameters['report']:
             log_file.close_file()
         self.stress_instance.close_file()

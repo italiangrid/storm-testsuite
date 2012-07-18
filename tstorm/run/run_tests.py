@@ -133,11 +133,13 @@ class RunTests(object):
         sd=True
         if uid.is_regression():
             sd=False
-        elif 'ts_https' in uid.get_aggregator():
-            sd=False
-        elif 'ts_http' in uid.get_aggregator():
-            sd=False
-        elif 'ts_https_voms' in uid.get_aggregator():
+        elif 'ts_https' in uid.get_aggregator() or \
+           'ts_http' in uid.get_aggregator() or \
+           'ts_https_voms' in uid.get_aggregator() or \
+           '_https_' in uid.get_aggregator() or \
+           '_http_' in uid.get_aggregator() or \
+           '_https' in uid.get_aggregator() or \
+           '_http' in uid.get_aggregator():
             sd=False
         ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,subdir=sd)
         if uid.get_aggregator() != "" and '_wo' not in uid.get_aggregator():
