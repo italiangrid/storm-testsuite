@@ -86,12 +86,17 @@ class Release:
     def is_lower_and_equal(self,value):
         if self.infinity:
             if value.is_infinity():
+                print '15'
                 return True
             else:
+                print '16'
                 return False
         elif value.is_infinity():
+            print '17'
             return True
         elif self.release <= value.get_release():
+            print '18'
             return True
         else:
+            print '19'
             return False

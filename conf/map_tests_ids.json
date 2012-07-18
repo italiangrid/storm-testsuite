@@ -129,6 +129,76 @@
     "StoRM Backend Gridhttps does not work if the SA accesspoint is not included in the SA root path",
     "rt.ts_storm_gridhttps_authorization_denied(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
+  "ts_srm_transfer_outbound_https_voms":[
+    "aea1bc",
+    "ST",
+    false,
+    [["","[1.7.0-1,*)"]],
+    true,
+    "DATA TRANSDER OUT USING HTTPS",
+    "Verify that a given file can be transferred out",
+    "ft.ts_srm_transfer_outbound_https_voms(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_direct_transfer_outbound_https_voms":[
+    "21d919",
+    "ST",
+    false,
+    [["","[1.7.0-1,*)"]],
+    true,
+    "DATA TRANSDER OUT USING HTTPS",
+    "Verify that a given file can be transferred out",
+    "ft.ts_direct_transfer_outbound_https_voms(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_direct_transfer_outbound_https_voms_exist_file":[
+    "8b5ba0",
+    "ST",
+    false,
+    [["","[1.7.0-1,*)"]],
+    true,
+    "DATA TRANSDER OUT USING HTTPS",
+    "Verify that a given file already exists",
+    "ft.ts_direct_transfer_outbound_https_voms_exist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_direct_transfer_inbound_https_voms":[
+    "ab1064",
+    "ST",
+    false,
+    [["","[1.7.0-1,*)"]],
+    true,
+    "DATA TRANSDER IN USING HTTPS",
+    "Verify that a given file can be transferred in",
+    "ft.ts_direct_transfer_inbound_https_voms(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_direct_transfer_inbound_https_voms_no_auth":[
+    "d60cc0",
+    "ST",
+    false,
+    [["","[1.7.0-1,*)"]],
+    true,
+    "DATA TRANSDER IN USING HTTPS",
+    "Verify that a given file can be transferred in because wrong user permission",
+    "ft.ts_direct_transfer_inbound_https_voms_no_auth(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_direct_transfer_inbound_https_voms_unexist_file":[
+    "bd37f7",
+    "ST",
+    false,
+    [["","[1.7.0-1,*)"]],
+    true,
+    "DATA TRANSDER IN USING HTTPS",
+    "Verify that a given file does not exists",
+    "ft.ts_direct_transfer_inbound_https_voms_unexist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_srm_transfer_inbound_https_voms":[
+    "e94e78",
+    "ST",
+    false,
+    [["","[1.7.0-1,*)"]],
+    true,
+    "DATA TRANSDER IN USING HTTPS",
+    "Verify that a given file can be transferred in",
+    "ft.ts_srm_transfer_inbound_https_voms(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
   "ts_data_transfer_out_file":[
     "4d0ea9",
     "ST",

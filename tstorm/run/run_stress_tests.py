@@ -6,6 +6,7 @@ import sys
 import unittest
 import getopt
 import exceptions
+import random
 
 from tstorm.run import run_tests
 
@@ -36,6 +37,7 @@ class RunStressTestsError(exceptions.Exception):
 class RunStressTests(run_tests.RunTests):
     def __init__(self):
         super(RunStressTests, self).__init__()
+        self.parameters['report'] = False
         self.parameters['stress_report'] = True
         self.parameters['number_cycles'] = 2
 
@@ -43,7 +45,7 @@ class RunStressTests(run_tests.RunTests):
         try:
             opts, args = getopt.getopt(sys.argv[1:],
                 "hvn:r:",
-                ["help","noreport","nostressreport",
+                ["help","nostressreport",
                  "version","number-cycles=",
                  "storm-release="])
         except getopt.GetoptError, err:
@@ -68,8 +70,6 @@ class RunStressTests(run_tests.RunTests):
                     print '\n\nExecution: ', err
                     usage.get_usage(run='stress')
                     sys.exit(2)
-            elif opt in ("--noreport"):
-                self.parameters['report'] = False
             elif opt in ("--nostressreport"):
                 self.parameters['stress_report'] = False
             else:
@@ -82,6 +82,8 @@ class RunStressTests(run_tests.RunTests):
         elif 'ts_http' in uid.get_aggregator():
             sd=False
         elif 'ts_https_voms' in uid.get_aggregator():
+            sd=False
+        elif '_https_' in uid.get_aggregator():
             sd=False
         ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,subdir=sd)
         if uid.get_aggregator() != "" and '_wo' not in uid.get_aggregator():
@@ -100,14 +102,23 @@ class RunStressTests(run_tests.RunTests):
         self.stress_instance = stress_file.StressReportFile(report = self.parameters['stress_report'])
 
         tests_methods = self.tests_instance.get_methods(tests = self.parameters['valid_tests'],run='stress')
-        count = 0
-        while count < self.parameters['number_cycles']:
-            for key, value in tests_methods.items():
+
+        #print tests_methods.keys()
+        tests_status = {}
+        tests_status = tests_status.fromkeys(tests_methods, (False,0))
+
+        while False in [x[0] for x in tests_status.values()]:
+            count = 0
+            test_index = random.choice([n for n,x in enumerate(tests_methods.items())])
+            while count < self.parameters['number_cycles']:
                 self.run_test(self.parameters['tfn'],
-                    value, log_file, key,
+                    tests_methods.items()[test_index][1], log_file, tests_methods.items()[test_index][0],
                     self.parameters['custom_destination_file'][0], \
                     self.parameters['custom_destination_file'][1])
-            count += 1
+                count += 1
+            tests_status[tests_status.items()[test_index][0]]=(True, tests_status.items()[test_index][1][1]+count)
 
-        log_file.close_file()
+        #print tests_status
+        if self.parameters['report']:
+            log_file.close_file()
         self.stress_instance.close_file()

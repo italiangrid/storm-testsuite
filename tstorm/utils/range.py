@@ -32,7 +32,6 @@ class Range:
                if not (self.min_release.is_lower(self.max_release.get_release()) and \
                    self.max_release.is_greater(self.min_release.get_release())):
                    raise RangeError('The couple Min,Max is not well specified in the range - %s' % sup)
-                
 
     def is_included(self, value):
         if self.inf.is_extreme_included():
@@ -40,8 +39,8 @@ class Range:
                 if self.min_release.is_infinity() and self.max_release.is_infinity():
                     return True
                 else:
-                    if self.min_release.is_greater_and_equal(value) and \
-                        self.max_release.is_lower_and_equal(value):
+                    if self.min_release.is_lower_and_equal(value) and \
+                        self.max_release.is_greater_and_equal(value):
                         return True
                     else:
                         return False
@@ -49,8 +48,8 @@ class Range:
                 if self.min_release.is_infinity() and self.max_release.is_infinity():
                     return True
                 else:
-                    if self.min_release.is_greater_and_equal(value) and \
-                        self.max_release.is_lower(value):
+                    if self.min_release.is_lower_and_equal(value) and \
+                        self.max_release.is_greater(value):
                         return True
                     else:
                         return False
@@ -59,8 +58,8 @@ class Range:
                 if self.min_release.is_infinity() and self.max_release.is_infinity():
                     return True
                 else:
-                    if self.min_release.is_greater(value) and \
-                        self.max_release.is_lower_and_equal(value):
+                    if self.min_release.is_lower(value) and \
+                        self.max_release.is_greater_and_equal(value):
                         return True
                     else:
                         return False
@@ -68,8 +67,8 @@ class Range:
                 if self.min_release.is_infinity() and self.max_release.is_infinity():
                     return True
                 else:
-                    if self.min_release.is_greater(value) and \
-                        self.max_release.is_lower(value):
+                    if self.min_release.is_lower(value) and \
+                        self.max_release.is_greater(value):
                         return True
                     else:
                         return False

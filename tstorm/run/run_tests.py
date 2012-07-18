@@ -43,6 +43,7 @@ class RunTests(object):
             print '\n\nExecution: ', err
             usage.get_usage()
             sys.exit(2)
+        self.parameters['storm_release'] = storm_release
         self.parameters['voms'] = True
         self.parameters['report'] = True
         self.parameters['custom_destination_file'] = (False, '')
@@ -150,7 +151,7 @@ class RunTests(object):
             lfn.put_prologue()
 
     def set_valid_tests(self):
-        self.parameters['valid_tests'] = self.tests_instance.get_valid_tests(release)
+        self.parameters['valid_tests'] = self.tests_instance.get_valid_tests(self.parameters['storm_release'])
    
     def modify_valid_tests(self):
         if self.parameters['tests_sequence_file'][0]:

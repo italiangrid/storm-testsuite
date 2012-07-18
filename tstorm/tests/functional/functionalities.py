@@ -123,16 +123,16 @@ class FunctionalitiesTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_data_transfer_in_unexist_file(self):
-        t=datetime.datetime.now()
-        ts=str(time.mktime(t.timetuple()))
-        lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
-                 self.tsets['general']['accesspoint'], self.dfn)
-        self.lfn.put_cmd(lcg_ls.get_command())
-        ls_result = lcg_ls.get_output()
-        self.assert_(ls_result['status'] == 'PASS')
+        #t=datetime.datetime.now()
+        #ts=str(time.mktime(t.timetuple()))
+        #lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
+        #         self.tsets['general']['accesspoint'], self.dfn)
+        #self.lfn.put_cmd(lcg_ls.get_command())
+        #ls_result = lcg_ls.get_output()
+        #self.assert_(ls_result['status'] == 'PASS')
 
         lcg_cp = cp.LcgCp(self.tsets['general']['endpoint'],
-                 self.tsets['general']['accesspoint'], self.ifn, self.dfn+ts,
+                 self.tsets['general']['accesspoint'], self.ifn, self.dfn,
                  self.bifn)
         self.lfn.put_cmd(lcg_cp.get_command(False))
         cp_result = lcg_cp.get_output(False)
