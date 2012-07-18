@@ -139,6 +139,26 @@
     "Verify that a given file can be transferred out",
     "ft.ts_srm_transfer_outbound_https_voms(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
+  "ts_srm_transfer_outbound_http":[
+    "4244ec",
+    "ST",
+    false,
+    [["","[1.7.0-1,*)"]],
+    true,
+    "DATA TRANSDER OUT USING HTTP",
+    "Verify that a given file can be transferred out",
+    "ft.ts_srm_transfer_outbound_http(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_srm_transfer_outbound_https":[
+    "bbddf2",
+    "ST",
+    false,
+    [["","[1.7.0-1,*)"]],
+    true,
+    "DATA TRANSDER OUT USING HTTPS",
+    "Verify that a given file can be transferred out",
+    "ft.ts_srm_transfer_outbound_https(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
   "ts_direct_transfer_outbound_https_voms":[
     "21d919",
     "ST",
@@ -148,6 +168,26 @@
     "DATA TRANSDER OUT USING HTTPS",
     "Verify that a given file can be transferred out",
     "ft.ts_direct_transfer_outbound_https_voms(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_direct_transfer_outbound_http":[
+    "6967f9",
+    "ST",
+    false,
+    [["","[1.7.0-1,*)"]],
+    true,
+    "DATA TRANSDER OUT USING HTTP",
+    "Verify that a given file can be transferred out",
+    "ft.ts_direct_transfer_outbound_https_voms(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_direct_transfer_outbound_https":[
+    "f92c33",
+    "ST",
+    false,
+    [["","[1.7.0-1,*)"]],
+    true,
+    "DATA TRANSDER OUT USING HTTPS",
+    "Verify that a given file can be transferred out",
+    "ft.ts_direct_transfer_outbound_https(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_direct_transfer_outbound_https_voms_exist_file":[
     "8b5ba0",
@@ -159,6 +199,26 @@
     "Verify that a given file already exists",
     "ft.ts_direct_transfer_outbound_https_voms_exist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
+  "ts_direct_transfer_outbound_http_exist_file":[
+    "45880a",
+    "ST",
+    false,
+    [["","[1.7.0-1,*)"]],
+    true,
+    "DATA TRANSDER OUT USING HTTP",
+    "Verify that a given file already exists",
+    "ft.ts_direct_transfer_outbound_http_exist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_direct_transfer_outbound_https_exist_file":[
+    "d9d057",
+    "ST",
+    false,
+    [["","[1.7.0-1,*)"]],
+    true,
+    "DATA TRANSDER OUT USING HTTPS",
+    "Verify that a given file already exists",
+    "ft.ts_direct_transfer_outbound_https_exist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
   "ts_direct_transfer_inbound_https_voms":[
     "ab1064",
     "ST",
@@ -168,6 +228,26 @@
     "DATA TRANSDER IN USING HTTPS",
     "Verify that a given file can be transferred in",
     "ft.ts_direct_transfer_inbound_https_voms(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_direct_transfer_inbound_http":[
+    "fd0f95",
+    "ST",
+    false,
+    [["","[1.7.0-1,*)"]],
+    true,
+    "DATA TRANSDER IN USING HTTP",
+    "Verify that a given file can be transferred in",
+    "ft.ts_direct_transfer_inbound_http(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_direct_transfer_inbound_https":[
+    "47d6d5",
+    "ST",
+    false,
+    [["","[1.7.0-1,*)"]],
+    true,
+    "DATA TRANSDER IN USING HTTPS",
+    "Verify that a given file can be transferred in",
+    "ft.ts_direct_transfer_inbound_https(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_direct_transfer_inbound_https_voms_no_auth":[
     "d60cc0",
@@ -179,6 +259,16 @@
     "Verify that a given file can be transferred in because wrong user permission",
     "ft.ts_direct_transfer_inbound_https_voms_no_auth(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
+  "ts_direct_transfer_inbound_https_no_auth":[
+    "6db50f",
+    "ST",
+    false,
+    [["","[1.7.0-1,*)"]],
+    true,
+    "DATA TRANSDER IN USING HTTPS",
+    "Verify that a given file can be transferred in because wrong user permission",
+    "ft.ts_direct_transfer_inbound_https_no_auth(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
   "ts_direct_transfer_inbound_https_voms_unexist_file":[
     "bd37f7",
     "ST",
@@ -189,6 +279,26 @@
     "Verify that a given file does not exists",
     "ft.ts_direct_transfer_inbound_https_voms_unexist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
+  "ts_direct_transfer_inbound_http_unexist_file":[
+    "acea34",
+    "ST",
+    false,
+    [["","[1.7.0-1,*)"]],
+    true,
+    "DATA TRANSDER IN USING HTTP",
+    "Verify that a given file does not exists",
+    "ft.ts_direct_transfer_inbound_http_unexist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_direct_transfer_inbound_https_unexists_file":[
+    "acea33",
+    "ST",
+    false,
+    [["","[1.7.0-1,*)"]],
+    true,
+    "DATA TRANSDER IN USING HTTPS",
+    "Verify that a given file does not exists",
+    "ft.ts_direct_transfer_inbound_https_unexist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
   "ts_srm_transfer_inbound_https_voms":[
     "e94e78",
     "ST",
@@ -198,6 +308,26 @@
     "DATA TRANSDER IN USING HTTPS",
     "Verify that a given file can be transferred in",
     "ft.ts_srm_transfer_inbound_https_voms(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_srm_transfer_inbound_http":[
+    "39612c",
+    "ST",
+    false,
+    [["","[1.7.0-1,*)"]],
+    true,
+    "DATA TRANSDER IN USING HTTP",
+    "Verify that a given file can be transferred in",
+    "ft.ts_srm_transfer_inbound_http(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_srm_transfer_inbound_https":[
+    "47d6d4",
+    "ST",
+    false,
+    [["","[1.7.0-1,*)"]],
+    true,
+    "DATA TRANSDER IN USING HTTPS",
+    "Verify that a given file can be transferred in",
+    "ft.ts_srm_transfer_inbound_http(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_data_transfer_out_file":[
     "4d0ea9",
