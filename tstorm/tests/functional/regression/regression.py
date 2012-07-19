@@ -328,6 +328,27 @@ class RegressionTest(unittest.TestCase):
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
+    def test_get_space_metadata_on_valid_space_token(self):
+        storm_gst = space.StoRMRs(self.tsets['general']['endpoint'],
+                   self.tsets['general']['accesspoint'],
+                   'newSpaceToken')
+        self.lfn.put_cmd(storm_gst.get_command())
+        self.st_result = storm_gst.get_output()
+        self.assert_(self.st_result['status'] == 'PASS')
+
+        storm_gsm1 = space.StoRMGsm(self.tsets['general']['endpoint'],
+                     self.tsets['general']['accesspoint'],
+                     self.st_result['spaceToken'])
+        self.lfn.put_cmd(storm_gsm1.get_command())
+        self.sm1_result = storm_gsm1.get_output()
+        print self.sm1_result
+        self.assert_('SRM_SUCCESS' in self.sm1_result['statusCode'])
+        print self.sm1_result
+        self.assert_(self.sm1_result['status'] == 'PASS')
+
+        self.lfn.put_result('PASSED')
+        self.lfn.flush_file()
+
     def test_storm_database_password(self):
         dd = createfile.Dd(self.ifn)
         self.lfn.put_cmd(dd.get_command())

@@ -489,6 +489,16 @@
     "StoRM Backend Server returns an exception when it receives a GetSpaceMetadata request without voms extension",
     "rtnv.ts_get_space_metadata_failure(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
+  "ts_get_space_metadata_on_valid_space_token":[
+    "ba45e1",
+    "ST",
+    true,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/284","[1.8.3-1,*)"]],
+    false,
+    "GET SPACE METADATA FAILURE ON USER SPACE TOKENS",
+    "GetSpaceMetadata returns SRM_INTERNAL_ERROR and 'Storage Space not initialized yet' on a valid space token created via a RserveSpace",
+    "rt.ts_get_space_metadata_on_valid_space_token(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
   "ts_info_service_failure":[
     "82dc47",
     "DT",
