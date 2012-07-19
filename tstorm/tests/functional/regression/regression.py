@@ -48,7 +48,7 @@ class RegressionTest(unittest.TestCase):
 
         self.lfn.put_cmd(lcg_ls.get_command())
         ll = lcg_ls.get_output()
-        self.assert_(len(ll['Checksum']) == 8)
+        self.assert_(len(ll['Checksum'].split(' ')[0]) == 8)
         self.assert_(ll['status'] == 'PASS')
 
         lcksm_result = cksm.CksmLf(self.ifn).get_output()

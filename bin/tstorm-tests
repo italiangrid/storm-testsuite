@@ -39,9 +39,9 @@ if __name__ == '__main__':
         print '\n\nExecution: ', err
     except range.RangeError, err:
         print '\n\nExecution: ', err
-    except limit.LimitError:
+    except limit.LimitError, err:
         print '\n\nExecution: ', err
-    except release.ReleaseError:
+    except release.ReleaseError, err:
         print '\n\nExecution: ', err
     except test.TestStructureError, err:
         print '\n\nExecution: ', err
