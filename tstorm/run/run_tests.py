@@ -37,6 +37,7 @@ class RunTests(object):
     def __init__(self):
         self.parameters = {}
         self.parameters['tfn'] = 'tstorm.ini'
+        print __import__('tstorm').get_storm_release()
         try:
             storm_release = release.Release(__import__('tstorm').get_storm_release())
         except release.ReleaseError, err:
@@ -154,6 +155,8 @@ class RunTests(object):
 
     def set_valid_tests(self):
         self.parameters['valid_tests'] = self.tests_instance.get_valid_tests(self.parameters['storm_release'])
+        #for x,y in self.parameters['valid_tests'].items():
+        #    print y.get_id()
    
     def modify_valid_tests(self):
         if self.parameters['tests_sequence_file'][0]:
@@ -169,9 +172,12 @@ class RunTests(object):
                 raise RunTestsError("Wrong Tests Sequence")
 
         new_valid_tests = {}
-        for key, value in self.parameters['valid_tests']:
-            if value.get_id() in self.parameters['tests_sequence']:
-                new_valid_tests[key] = value
+        for x in self.parameters['tests_sequence'][1]:
+            for key, value in self.parameters['valid_tests'].items():
+                if x == value.get_id():
+                    new_valid_tests[key] = value
+                    #print new_valid_tests[key], key, value
+                    break
         return new_valid_tests
 
     def do_pre_run(self):

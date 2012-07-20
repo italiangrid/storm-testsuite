@@ -499,6 +499,16 @@
     "GetSpaceMetadata returns SRM_INTERNAL_ERROR and 'Storage Space not initialized yet' on a valid space token created via a RserveSpace",
     "rt.ts_get_space_metadata_on_valid_space_token(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
+  "ts_prepare_to_put_wrong_space_token":[
+    "c396a1",
+    "ST",
+    true,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/282","[1.8.3-1,*)"]],
+    false,
+    "PREPARE TO PUT WRONG ERROR CODE",
+    "PrepareToPut returns SRM_SPACE_LIFETIME_EXPIRED instead of SRM_INVALID_REQUEST",
+    "rt.ts_prepare_to_put_wrong_space_token(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
   "ts_info_service_failure":[
     "82dc47",
     "DT",

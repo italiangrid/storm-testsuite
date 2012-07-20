@@ -29,7 +29,7 @@ class HttpsTest(unittest.TestCase):
         self.assert_(self.ls_result['status'] == 'FAILURE')
 
         storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
-                    self.tsets['http']['no_voms'], self.dfn, self.prt)
+                    self.tsets['http']['no_voms'], self.dfn, protocol=self.prt)
         self.lfn.put_cmd(storm_ptp.get_command())
         self.ptp_result = storm_ptp.get_output()
         self.assert_(self.ptp_result['status'] == 'PASS')
@@ -139,7 +139,7 @@ class HttpsTest(unittest.TestCase):
         self.assert_(self.lsbt_result['status'] == 'FAILURE')
 
         storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
-                    self.tsets['https']['no_voms'], self.dfn, self.prt)
+                    self.tsets['https']['no_voms'], self.dfn, protocol=self.prt)
         self.lfn.put_cmd(storm_ptp.get_command())
         self.ptp_result = storm_ptp.get_output()
         self.assert_(self.ptp_result['status'] == 'PASS')
@@ -260,7 +260,7 @@ class HttpsTest(unittest.TestCase):
         self.assert_(self.lsbt_result['status'] == 'FAILURE')
 
         storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
-                    self.tsets['https']['voms'], self.dfn, self.prt)
+                    self.tsets['https']['voms'], self.dfn, protocol=self.prt)
         self.lfn.put_cmd(storm_ptp.get_command())
         self.ptp_result = storm_ptp.get_output()
         self.assert_(self.ptp_result['status'] == 'PASS')

@@ -42,11 +42,13 @@ class LcgCp:
 
 class StoRMPtp:
     '''StoRM Prepare To Put'''
-    def __init__(self, endpoint, accesspoint, dst_filename, protocol='gsiftp'):
+    def __init__(self, endpoint, accesspoint, dst_filename, \
+        target_space_token='unexistentToken', protocol='gsiftp'):
         self.endpoint = endpoint
         self.accesspoint = accesspoint
         self.dst_filename = dst_filename
         self.protocol = protocol
+        self.target_space_token = target_space_token
         self.cmd = {
             'name': 'clientSRM',
             'rqst_protocol': 'httpg',
@@ -61,7 +63,8 @@ class StoRMPtp:
             'TURL': '',
             'requestToken':''}
 
-    def get_command(self, wrong_request=False, wrong_option=False):
+    def get_command(self, polling=True, target_space_token=False, \
+        wrong_request=False, wrong_option=False):
         #a = self.cmd['name'] + ' ptp -e ' + self.cmd['rqst_protocol'] + '://' + self.endpoint + ':8444/' + ' -s ' + self.cmd['protocol'] + '://' + self.endpoint + ':8444/srm/managerv2?SFN=/' + self.accesspoint + self.dst_filename + ' -T -P ' + self.prt + ' -p'
         a = self.cmd['name'] + ' ptp '
         if wrong_option:
@@ -77,19 +80,29 @@ class StoRMPtp:
         a += ' -s ' + self.cmd['protocol'] + '://'
         a += self.endpoint + ':' + self.cmd['port'] + '/srm/managerv2?SFN=/'
         a += self.accesspoint +  self.dst_filename
-        a += ' -T -P ' + self.protocol + ' -p'
+        a += ' -T -P ' + self.protocol
+        if target_space_token:
+            a += ' -t ' + self.target_space_token
+        if polling:
+            a += ' -p'
         return a
 
-    def run_command(self, wrong_request=False, wrong_option=False):
+    def run_command(self, polling=True, target_space_token=False, \
+        wrong_request=False, wrong_option=False):
         a=()
         if utils.cmd_exist(self.cmd['name']):
             a=commands.getstatusoutput(self.get_command(
+                polling=polling,
+                target_space_token=target_space_token,
                 wrong_request=wrong_request,
                 wrong_option=wrong_option))
         return a
 
-    def get_output(self, wrong_request=False, wrong_option=False):
-        a=self.run_command(wrong_request=wrong_request,
+    def get_output(self, polling=True, target_space_token=False, \
+        wrong_request=False, wrong_option=False):
+        a=self.run_command(polling=polling,
+            target_space_token=target_space_token,
+            wrong_request=wrong_request,
             wrong_option=wrong_option)
         if len(a) > 0 and a[0] == 0:
             if 'SRM_SUCCESS' in a[1]:
@@ -114,6 +127,17 @@ class StoRMPtp:
                         for z in y:
                             if x in z:
                                 self.otpt[x].append(z.split(x)[1].split('="')[1].split('"')[0])
+            elif 'SRM_REQUEST_QUEUED' in a[1]:
+                for x in self.otpt:
+                    if x == 'status':
+                        self.otpt['status'] = 'PASS'
+                    elif x == 'requestToken':
+                        self.otpt[x] = a[1].split(x)[1].split('="')[1].split('"')[0]
+                    elif x in ('statusCode', 'explanation'):
+                        y = a[1].split('\n')
+                        for z in y:
+                            if x in z:
+                                self.otpt[x].append(z.split(x)[1].split('="')[1].split('"')[0])
             else:
                 self.otpt['status'] = 'FAILURE'
         else:
@@ -123,15 +147,12 @@ class StoRMPtp:
 
 class StoRMSptp:
     '''StoRM Status Of Put Request'''
-    def __init__(self, endpoint, accesspoint, dst_filename, request_token):
+    def __init__(self, endpoint, request_token):
         self.endpoint = endpoint
-        self.accesspoint = accesspoint
-        self.dst_filename = dst_filename
         self.request_token = request_token
         self.cmd = {
             'name': 'clientSRM',
             'rqst_protocol': 'httpg',
-            'protocol': 'srm',
             'port': '8444'}
         self.wrong_request = {
             'port': '8443'}
@@ -139,11 +160,9 @@ class StoRMSptp:
             'status':'',
             'statusCode':[],
             'explanation':[],
-            'TURL': '',
-            'requestToken':''}
+            'SURL': ''}
 
     def get_command(self, wrong_request=False, wrong_option=False):
-        #a = self.cmd['name'] + ' sptp -e ' + self.cmd['rqst_protocol'] + '://' + self.endpoint + ':8444/' + ' -s ' + self.cmd['protocol'] + '://' + self.endpoint + ':8444/srm/managerv2?SFN=/' + self.accesspoint + self.self.dst_filename + ' -t ' + self.token
         a = self.cmd['name'] + ' sptp '
         if wrong_option:
             a += '-f '
@@ -155,9 +174,6 @@ class StoRMSptp:
         else:
             a += self.cmd['rqst_protocol'] + '://'
             a += self.endpoint + ':' + self.cmd['port'] + '/'
-        a += ' -s ' + self.cmd['protocol'] + '://'
-        a += self.endpoint + ':' + self.cmd['port'] + '/srm/managerv2?SFN=/'
-        a += self.accesspoint +  self.dst_filename
         a += ' -t ' + self.request_token
         return a
 
@@ -177,7 +193,7 @@ class StoRMSptp:
                 for x in self.otpt:
                     if x == 'status':
                         self.otpt['status'] = 'PASS'
-                    elif x in ('TURL', 'requestToken'):
+                    elif x == 'SURL':
                         self.otpt[x] = a[1].split(x)[1].split('="')[1].split('"')[0]
                     else:
                         y = a[1].split('\n')
@@ -188,13 +204,24 @@ class StoRMSptp:
                 for x in self.otpt:
                     if x == 'status':
                         self.otpt['status'] = 'FAILURE'
-                    elif x == 'requestToken':
+                    elif x == 'SURL':
                         self.otpt[x] = a[1].split(x)[1].split('="')[1].split('"')[0]
                     elif x in ('statusCode', 'explanation'):
                         y = a[1].split('\n')
                         for z in y:
                             if x in z:
                                 self.otpt[x].append(z.split(x)[1].split('="')[1].split('"')[0])
+            elif 'SRM_REQUEST_QUEUED' in a[1]:
+                for x in self.otpt:
+                    if x == 'status':
+                        self.otpt['status'] = 'PASS'
+                    elif x == 'SURL':
+                        self.otpt[x] = a[1].split(x)[1].split('="')[1].split('"')[0]
+                    elif x in ('statusCode', 'explanation'):
+                        y = a[1].split('\n')
+                        for z in y:
+                            if x in z:
+                                self.otpt[x].append(z.split(x)[1].split('="')[1].split('"')[0]) 
             else:
                 self.otpt['status'] = 'FAILURE'
         else:

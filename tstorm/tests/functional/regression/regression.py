@@ -239,10 +239,62 @@ class RegressionTest(unittest.TestCase):
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
+    def test_prepare_to_put_wrong_space_token(self):
+        storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
+                   self.tsets['general']['accesspoint'], self.dfn,
+                   target_space_token='unexistentToken')
+        self.lfn.put_cmd(storm_ptp.get_command(polling=False, target_space_token=True))
+        self.ptp_result = storm_ptp.get_output(polling=False, target_space_token=True)
+        self.assert_(self.ptp_result['status'] == 'PASS')
+        self.assert_('SRM_REQUEST_QUEUED' in self.ptp_result['statusCode'])
+
+        storm_sptp = cp.StoRMSptp(self.tsets['general']['endpoint'],
+                   self.ptp_result['requestToken'])
+        self.lfn.put_cmd(storm_sptp.get_command())
+        self.sptp_result = storm_sptp.get_output()
+        #print self.sptp_result
+        self.assert_(self.sptp_result['status'] == 'PASS')
+        self.assert_('SRM_INVALID_REQUEST' in self.sptp_result['statusCode'])
+
+        storm_rm = rm.StoRMRm(self.tsets['general']['endpoint'],
+                   self.tsets['https']['voms'], self.dfn)
+        self.lfn.put_cmd(storm_rm.get_command())
+        self.rm_result = storm_rm.get_output()
+        self.assert_(self.rm_result['status'] == 'PASS')
+        if '/' in self.dfn:
+            a=os.path.dirname(self.dfn)
+            storm_rmdir = rmdir.StoRMRmdir(self.tsets['general']['endpoint'],
+                          self.tsets['general']['accesspoint'], a)
+
+            y=a
+            while y != '/':
+                self.lfn.put_cmd(storm_rmdir.get_command(y))
+                y=os.path.dirname(y)
+
+            rmdir_result = storm_rmdir.get_output()
+            for x in rmdir_result['status']:
+                self.assert_(x == 'PASS')
+
+        self.lfn.put_result('PASSED')
+        self.lfn.flush_file()
+
+    def ts_prepare_to_put_expired_space_token(self):
+        storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
+                   self.tsets['general']['accesspoint'], self.dfn,
+                   protocol='unsupported')
+        self.lfn.put_cmd(storm_ptp.get_command())
+        self.ptp_result = storm_ptp.get_output()
+        self.assert_(self.ptp_result['status'] == 'FAILURE')
+        self.assert_('SRM_NOT_SUPPORTED' in self.ptp_result['statusCode'])
+
+        self.lfn.put_result('PASSED')
+        self.lfn.flush_file()
+
+
     def test_unsupported_protocols(self):
         storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
                    self.tsets['general']['accesspoint'], self.dfn,
-                   'unsupported')
+                   protocol='unsupported')
         self.lfn.put_cmd(storm_ptp.get_command())
         self.ptp_result = storm_ptp.get_output()
         self.assert_(self.ptp_result['status'] == 'FAILURE')
@@ -254,7 +306,7 @@ class RegressionTest(unittest.TestCase):
     def test_both_sup_and_unsup_protocols(self):
         storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
                    self.tsets['general']['accesspoint'], self.dfn, 
-                   self.prt + ',unsupported')
+                   protocol=self.prt + ',unsupported')
         self.lfn.put_cmd(storm_ptp.get_command())
         self.ptp_result = storm_ptp.get_output()
         self.assert_(self.ptp_result['status'] == 'PASS')
@@ -411,7 +463,7 @@ class RegressionTest(unittest.TestCase):
         self.assert_(self.lsbt_result['status'] == 'FAILURE')
 
         storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
-                    self.tsets['https']['sftn'], self.dfn, 'https')
+                    self.tsets['https']['sftn'], self.dfn, protocol='https')
         self.lfn.put_cmd(storm_ptp.get_command())
         self.ptp_result = storm_ptp.get_output()
         self.assert_(self.ptp_result['status'] == 'PASS')
