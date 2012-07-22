@@ -18,20 +18,32 @@
 
 tstormfunregressiondir = @pyexecdir@/tstorm/tests/functional/regression
 tstormfunregression_PYTHON = \
+    glueone_ldapquery.py \
+    gluetwo_ldapquery.py \
     __init__.py \
     regression.py \
+    regression_ldaptests.py \
     regressiontests_novoms.py \
     regressiontests.py 
 
 EXTRA_DIST = \
+    glueone_ldapquery.py \
+    gluetwo_ldapquery.py \
     __init__.py \
     regression.py \
+    regression_ldaptests.py \
     regressiontests_novoms.py \
     regressiontests.py
 
 CLEANFILES= \
+    glueone_ldapquery.pyc \
+    glueone_ldapquery.pyo \
+    gluetwo_ldapquery.pyc \
+    gluetwo_ldapquery.pyo \
     __init__.pyc \
     regression.pyc \
+    regression_ldaptests.pyc \
+    regression_ldaptests.pyo \
     regressiontests_novoms.pyc \
     regressiontests.pyc \
     __init__.pyo \
