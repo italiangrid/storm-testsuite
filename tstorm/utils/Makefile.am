@@ -47,7 +47,8 @@ tstormutils_PYTHON = \
     test.py \
     tests.py \
     stress_file.py \
-    usage.py
+    usage.py \
+    library_dependencies.py
 
 EXTRA_DIST = \
     check_testplan.py \
@@ -79,7 +80,8 @@ EXTRA_DIST = \
     test.py \
     tests.py \
     stress_file.py \
-    usage.py 
+    usage.py  \
+    library_dependencies.py 
 
 CLEANFILES= \
     check_testplan.pyc \
@@ -140,5 +142,7 @@ CLEANFILES= \
     stress_file.pyo \
     stress_file.pyc \
     usage.pyo \
-    usage.pyc
+    usage.pyc  \
+    library_dependencies.pyo  \
+    library_dependencies.pyc
     

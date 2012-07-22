@@ -8,6 +8,7 @@ from tstorm.utils import mysqlquery as mq
 from tstorm.utils import yaim
 from tstorm.utils import utils
 from tstorm.utils import listinfo
+from tstorm.utils import library_dependencies
 
 __author__ = 'Elisabetta Ronchieri'
 
@@ -73,8 +74,6 @@ class RegressionConfigurationTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_yaim_version_file(self):
-        self.lfn.put_output()
-
         read_cat = readfile.Cat('/opt/glite/yaim/etc/versions/yaim-storm')
         self.lfn.put_cmd(read_cat.get_command())
         cat_result = read_cat.get_output()
@@ -276,5 +275,32 @@ class RegressionConfigurationTest(unittest.TestCase):
         ls_result = ls_ls.get_output()
         self.assert_(ls_result['status'] == 'PASS')
 
+        self.lfn.put_result('PASSED')
+        self.lfn.flush_file()
+
+    def test_path_authz_db(self):
+        rpm_out = rpm.Rpm('storm-backend-server')
+        self.lfn.put_cmd(rpm_out.get_command(conffile=True))
+        rpm_result = rpm_out.get_output(conffile=True)
+        self.assert_(rpm_result['status'] == 'PASS')
+        
+        self.assert_('/etc/storm/backend-server/path-authz.db' in rpm_result['otpt'])
+
+        self.lfn.put_result('PASSED')
+        self.lfn.flush_file()
+
+    def test_storm_backend_service_crashes_on_gpfs(self):
+        fi = '/usr/lib64/storm-backend-server/libgpfsapi_interface.so'
+        lib_dep = library_dependencies.Ldd(fi)
+        self.lfn.put_cmd(lib_dep.get_command())
+        lib_dep_result = lib_dep.get_output()
+        self.assert_(lib_dep_result['status'] == 'PASS')
+
+        self.assert_('libgpfs.so' in lib_dep_result['otpt'])
+
+        self.lfn.put_result('PASSED')
+        self.lfn.flush_file()
+        
+    def test_configuration_folders_permissions(self):
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()

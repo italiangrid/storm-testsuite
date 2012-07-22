@@ -117,7 +117,7 @@
     false,
     "WRONG SETTINGS OF SIZE IN NAMESPACE.XML",
     "Wrong settings of size in namespace.xml",
-    "rct.ts_size_in_namespace_file(tfn, uid,lfn)"
+    "rct.ts_size_in_namespace_file(tfn, lfn)"
     ],
   "ts_storm_gridhttps_authorization_denied":[
     "d58db9",
@@ -387,7 +387,7 @@
     false,
     "STORN BACKEND LOGROTATE FILE POINTS TO NON EXISTING FILE",
     "StoRM Backend logrotate file points to non existing file",
-    "rct.ts_backend_logrotate_file(tfn, uid,lfn)"
+    "rct.ts_backend_logrotate_file(tfn, lfn)"
     ],
   "ts_available_space_info_service":[
     "2f6695",
@@ -447,7 +447,7 @@
     false,
     "WRONG STORM BACKEND SERVER NAME RETURNED DURING THE EXECUTION OF STATUS",
     "StoRM Backend Server name is wrong",
-    "rct.ts_backend_server_name_status(tfn, uid,lfn)"
+    "rct.ts_backend_server_name_status(tfn, lfn)"
     ],
   "ts_gluetwo_endpoint":[
     "eecdc3",
@@ -493,7 +493,7 @@
     "ba45e1",
     "ST",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/284","[1.8.3-1,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/284","[1.8.3-1,1.9.0-1)"],["https://storm.cnaf.infn.it:8443/redmine/issues/277","[1.10.0-1,*)"]],
     false,
     "GET SPACE METADATA FAILURE ON USER SPACE TOKENS",
     "GetSpaceMetadata returns SRM_INTERNAL_ERROR and 'Storage Space not initialized yet' on a valid space token created via a RserveSpace",
@@ -503,7 +503,7 @@
     "c396a1",
     "ST",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/282","[1.8.3-1,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/282","[1.8.3-1,1.9.0-1)"],["https://storm.cnaf.infn.it:8443/redmine/issues/279","[1.10.0-1,*)"]],
     false,
     "PREPARE TO PUT WRONG ERROR CODE",
     "PrepareToPut returns SRM_SPACE_LIFETIME_EXPIRED instead of SRM_INVALID_REQUEST",
@@ -537,7 +537,7 @@
     false,
     "REMOVED GRIDHTTPS PLUGIN LINKS DURING UPGRADE FROM 1.7.0 to 1.7.1",
     "Removed gridhttpds plugin links during upgrade from 1.7.0 to 1.7.1",
-    "rct.ts_gridhttps_plugin_links(tfn, uid,lfn)"
+    "rct.ts_gridhttps_plugin_links(tfn, lfn)"
     ],
   "ts_backend_server_status":[
     "1fee07",
@@ -547,7 +547,7 @@
     false,
     "EXTRA STORM BACKEND SERVICE INFORMATION RETURNED DURING THE EXECUTION OF STATUS",
     "Extra information are returned by storm backend server init script during the execution of status",
-    "rct.ts_backend_server_status(tfn, uid,lfn)"
+    "rct.ts_backend_server_status(tfn, lfn)"
     ],
   "ts_backend_cron_file":[
     "71272d",
@@ -557,7 +557,7 @@
     false,
     "STORM BACKEND DOES NOT ROTATE LOG FILES",
     "StoRM Backend does not rotate log files",
-    "rct.ts_backend_cron_file(tfn, uid,lfn)"
+    "rct.ts_backend_cron_file(tfn, lfn)"
     ],
   "ts_dcache_mkdir":[
     "d55993",
@@ -587,7 +587,7 @@
     false,
     "WRONG VERSION IN THE YAIM-VERSION FILE",
     "Wrong version in the yaim-storm file",
-    "rct.ts_yaim_version_file(tfn, uid,lfn)"
+    "rct.ts_yaim_version_file(tfn, lfn)"
     ],
   "ts_gluetwo_storage_undefined":[
     "14c174",
@@ -617,7 +617,7 @@
     false,
     "NO UPDATING OF STORAGE SPACE IN DB AFTER A TOTAL ONLINE SIZE CHANGE IN THE NAMESPACE.XML",
     "When the TotalOnlineSize value has changed in the namespace.xml, the storm-backend-server process does not update the  corrispondent field in the storage_space table of the storm_be_ISAM  database",
-    "rct.ts_mysql_storage_space_update(tfn, uid,lfn)"
+    "rct.ts_mysql_storage_space_update(tfn, lfn)"
     ],
   "ts_cksm":[
     "eea4be",
@@ -767,7 +767,7 @@
     false,
     "MYSQL-CONNECTOR-JAVA DOWNLOADING FAILURE",
     "mysql-connector-java is not downloaded due to an issue in its owner repository",
-    "rct.ts_mysql_connector_java_links(tfn, uid,lfn)"
+    "rct.ts_mysql_connector_java_links(tfn, lfn)"
     ],
   "ts_http":[
     "32429c",
@@ -787,7 +787,7 @@
     false,
     "DEFAULT GRIDHTTPS SERVER PORT NUMBER CONFLICTS WITH BACKEND DEFAULT XMLRPC PORT NUMBER",
     "Default GridHTTPs server port number conflicts with Backend default xmlrpc port number",
-    "rct.ts_backend_gridhttps(tfn, uid,lfn)"
+    "rct.ts_backend_gridhttps(tfn, lfn)"
     ],
   "ts_both_sup_and_unsup_protocols":[
     "mcj7dm",
@@ -808,5 +808,35 @@
     "SRM LS",
     "Verify ls operation on a file that exists by using the lcg client",
     "at.ts_lcg_ls_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_path_authz_db":[
+    "5e6c78",
+    "DT",
+    true,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/293","[1.8.3-1,1.9.0-1)"],["https://storm.cnaf.infn.it:8443/redmine/issues/267","[1.10.0-1,*)],
+    false,
+    "PATH AUTHZ DB IS NOT RECOGNIZED AS A CONFIGURATION FILE",
+    "File path_authz.db is not recognized as a configuration file by the storm-backend-server rpm",
+    "rct.ts_path_authz_db(tfn,lfn)"
+    ],
+  "ts_storm_backend_service_crashes_on_gpfs":[
+    "92bb4a",
+    "DT",
+    true,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/288","[1.10.0-1,*)"]],
+    false,
+    "STORM BACKEND SERVICE CRASHES ON TOP OF THE GPFS FILESYSTEM",
+    "The StoRM backend service crashes on top of the gpfs filesystem",
+    "rct.ts_storm_backend_service_crashes_on_gpfs(tfn,lfn)"
+    ],
+  "ts_configuration_folders_permissions":[
+    "927b4a",
+    "DT",
+    true,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/286","[1.8.3-1,*)"],["https://storm.cnaf.infn.it:8443/redmine/issues/270","[1.10.0-1,*)],
+    false,
+    "CONFIGURATION FOLDERS PERMISSIONS",
+    "The StoRM components configuration folder and files have permission grant to others.",
+    "rct.ts_configuration_folders_permissions(tfn,lfn)"
     ]
 }
