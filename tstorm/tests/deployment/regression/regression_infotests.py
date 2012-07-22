@@ -7,7 +7,7 @@ from tstorm.tests.deployment.regression import info_ldapquery
 
 def ts_available_space_info_service(conf, uid, lfn):
     s = unittest.TestSuite()
-    s.addTest(ldapquery.LdapTest('test_available_space_info_service',
+    s.addTest(info_ldapquery.InfoTest('test_available_space_info_service',
         conf, lfn,
         'objectclass=GlueSA',
         ['GlueSALocalID']))

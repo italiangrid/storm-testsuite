@@ -1,8 +1,8 @@
 __author__ = 'Elisabetta Ronchieri'
 
 import unittest
-from tstorm.tests.deployment.regression import glueone_ldapquery 
-from tstorm.tests.deployment.regression import gluetwo_ldapquery
+from tstorm.tests.functional.regression import glueone_ldapquery 
+from tstorm.tests.functional.regression import gluetwo_ldapquery
 
 # test for glue1.3
 
