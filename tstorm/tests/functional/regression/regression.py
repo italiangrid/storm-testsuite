@@ -393,9 +393,9 @@ class RegressionTest(unittest.TestCase):
                      self.st_result['spaceToken'])
         self.lfn.put_cmd(storm_gsm1.get_command())
         self.sm1_result = storm_gsm1.get_output()
-        print self.sm1_result
+        #print self.sm1_result
         self.assert_('SRM_SUCCESS' in self.sm1_result['statusCode'])
-        print self.sm1_result
+        #print self.sm1_result
         self.assert_(self.sm1_result['status'] == 'PASS')
 
         self.lfn.put_result('PASSED')

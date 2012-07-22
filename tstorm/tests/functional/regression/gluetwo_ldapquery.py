@@ -47,7 +47,7 @@ class GluetwoLdapTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_gluetwo_endpoint_undefined(self):
-        ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
+        ldap_search = ldapsearch.LdapSearch(self.tsets['bdii']['endpoint'],
             "(&(objectclass=GLUE2Endpoint)(GLUE2EndpointInterfaceName=emi.storm))", 
             ['GLUE2EndpointSupportedProfile', 'GLUE2EndpointInterfaceExtension',
             'GLUE2EndpointIssuerCA', 'GLUE2EndpointTrustedCA'],
@@ -100,8 +100,6 @@ class GluetwoLdapTest(unittest.TestCase):
         self.lfn.put_cmd('')
         ls_result = ldap_search.get_output()
         self.assert_(ls_result['status'] == 'PASS')
-
-        self.assert_('GLUE2StorageService' not in ls_result['glue2.0']['GLUE2Service'])
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()

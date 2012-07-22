@@ -14,13 +14,13 @@ def ts_glueone_service(conf, uid, lfn):
        ['GlueServiceType', 'GlueServiceName']))
     return s
 
-def ts_gluetwo_endpoint_undefined(conf, uid, lfn):
-    s = unittest.TestSuite()
-    s.addTest(ldapquery.LdapTest('test_gluetwo_endpoint_undefined',
-        conf, lfn,
-        'objectclass=GlueSA',
-        ['GlueSALocalID']))
-    return s
+#def ts_gluetwo_endpoint_undefined(conf, uid, lfn):
+#    s = unittest.TestSuite()
+#    s.addTest(gluetwo_ldapquery.LdapTest('test_gluetwo_endpoint_undefined',
+#        conf, lfn,
+#        'objectclass=GlueSA',
+#        ['GlueSALocalID']))
+#    return s
 
 def ts_gluetwo_storage_share_capacity(conf, uid, lfn):
     s = unittest.TestSuite()

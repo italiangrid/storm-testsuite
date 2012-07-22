@@ -457,7 +457,7 @@
     false,
     "STORM BUG: GLUE2ENDPOINTCAPABILITY AND GLUE2ENDPOINTINTERFACENAME CONTAIN WRONG VALUES",
     "Yaim-Storm for GLUE2 configuration set wrong values in the GLUE2EndpointCapability and GLUE2EndpointInterfaceName attributes of the GLUE2.0 schema",
-    "rlt.ts_gluetwo_endpoint_undefined(tfn, uid,lfn)"
+    "rlt.ts_gluetwo_endpoint(tfn, uid,lfn)"
     ],
   "ts_storm_ping":[
     "6d06c2",
@@ -709,7 +709,6 @@
     "Glue2 GLUE2StorageShareCapacity* sizes always 0",
     "rlt.ts_gluetwo_storage_share_capacity(tfn, uid,lfn)"
     ],
-t
   "ts_gluetwo_service":[
     "6f5b9a",
     "ST",
