@@ -30,6 +30,7 @@ from tstorm.tests.functional import functionalitiestests_novoms as ftnv
 from tstorm.tests.functional import tapetests as tt
 from tstorm.tests.functional.regression import regressiontests as rt
 from tstorm.tests.functional.regression import regressiontests_novoms as rtnv
+from tstorm.tests.functional.regression import regression_ldaptests as rlt
 
 class RunStressTestsError(exceptions.Exception):
     pass
@@ -86,7 +87,10 @@ class RunStressTests(run_tests.RunTests):
            '_http' in uid.get_aggregator():
             sd=False
         ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,subdir=sd)
-        if uid.get_aggregator() != "" and '_wo' not in uid.get_aggregator():
+        if uid.get_aggregator() != "" and \
+            ('_wo' not in uid.get_aggregator() or \
+            '_glueone' not in uid.get_aggregator() or \
+            '_gluetwo' not in uid.get_aggregator()):
             lfn.put_name(uid.get_name())
             lfn.put_description(uid.get_description())
             lfn.put_uuid(uid.get_id())

@@ -18,28 +18,28 @@
 
 tstormregressiondir = @pyexecdir@/tstorm/tests/deployment/regression
 tstormregression_PYTHON = \
-    ldapquery.py \
-    regression_ldaptests.py \
+    info_ldapquery.py \
     __init__.py \
+    regression_infotests.py \
     regression_conftests.py \
     service_configuration.py
 
 EXTRA_DIST = \
-    ldapquery.py \
-    regression_ldaptests.py \
+    info_ldapquery.py \
     __init__.py \
+    regression_infotests.py \
     regression_conftests.py \
     service_configuration.py.in
 
 CLEANFILES= \
     service_configuration.py \
-    ldapquery.pyc \
-    regression_ldaptests.pyc \
+    info_ldapquery.pyc \
+    regression_infotests.pyc \
     __init__.pyc \
     regression_conftests.pyc \
     service_configuration.pyc \
-    ldapquery.pyo \
-    regression_ldaptests.pyo \
+    info_ldapquery.pyo \
+    regression_infotests.pyo \
     __init__.pyo \
     regression_conftests.pyo \
     service_configuration.pyo

@@ -31,7 +31,7 @@
     ],
   "ts_gluetwo_endpoint_undefined":[
     "9cc43b",
-    "DT",
+    "ST",
     true,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/207","[1.8.2-1,*)"]],
     false,
@@ -39,7 +39,7 @@
     "Yaim-Storm for GLUE2 configuration set wrong values for GLUE2Endpoint Attributes of the GLUE2.0 schema",
     "rlt.ts_gluetwo_endpoint_undefined(tfn,uid,lfn)"
     ],
-  "ts_glue_available_space":[
+  "ts_available_space":[
     "884d3b",
     "DT",
     true,
@@ -47,7 +47,7 @@
     false,
     "WRONG CALCULATION OF SA_AVAILABLE_SIZE_KB AND SA_USED_SIZE_KB",
     "Wrong calculation of SA_AVAILABLE_SPACE",
-    "rlt.ts_glue_available_space(tfn,uid,lfn)"
+    "rit.ts_available_space(tfn,uid,lfn)"
     ],
   "ts_update_used_space_upon_pd":[
     "b740fb",
@@ -389,7 +389,7 @@
     "StoRM Backend logrotate file points to non existing file",
     "rct.ts_backend_logrotate_file(tfn, uid,lfn)"
     ],
-  "ts_glue_available_space_info_service":[
+  "ts_available_space_info_service":[
     "2f6695",
     "DT",
     true,
@@ -397,7 +397,7 @@
     false,
     "INFO SERVICE ALWAYS RETURNS A ZERO AVAILABLE SPACE",
     "Info Service always returns a zero available space",
-    "rlt.ts_glue_available_space_info_service(tfn, uid,lfn)"
+    "rit.ts_available_space_info_service(tfn, uid,lfn)"
     ],
   "ts_dcache_mkdir_exist":[
     "74a033",
@@ -419,15 +419,15 @@
     "Verify the content of test ini file",
     "cts.ts_conf(tfn,ifn,back_ifn,uid,lfn)"
     ],
-  "ts_glue_service":[
+  "ts_glueone_service":[
     "6ec220",
-    "DT",
+    "ST",
     true,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/143","(*,*)"]],
     false,
     "STORM BUG: GLUESERVICENAME AND GLUESERVIVETYPE CONTAIN WRONG VALUES",
     "Yaim-Storm for GLUE2 configuration called a worng script setting wrong values in the GlueServiceName and GlueServiceType attributes of the GLUE1.3 schema",
-    "rlt.ts_glue_service(tfn, uid,lfn)"
+    "rlt.ts_glueone_service(tfn, uid,lfn)"
     ],
   "ts_cw":[
     "e4a8c7",
@@ -451,7 +451,7 @@
     ],
   "ts_gluetwo_endpoint":[
     "eecdc3",
-    "DT",
+    "ST",
     true,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/208","[1.8.2-1,*)"]],
     false,
@@ -509,7 +509,7 @@
     "PrepareToPut returns SRM_SPACE_LIFETIME_EXPIRED instead of SRM_INVALID_REQUEST",
     "rt.ts_prepare_to_put_wrong_space_token(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
-  "ts_info_service_failure":[
+  "ts_service_failure":[
     "82dc47",
     "DT",
     true,
@@ -517,7 +517,7 @@
     false,
     "REST INFO SERVICE FAILURE",
     "Rest info service fails when non-mandatory parameters are missing",
-    "rlt.ts_info_service_failure(tfn, uid,lfn)"
+    "rit.ts_service_failure(tfn, uid,lfn)"
     ],
   "ts_https_voms":[
     "c976b0",
@@ -591,7 +591,7 @@
     ],
   "ts_gluetwo_storage_undefined":[
     "14c174",
-    "DT",
+    "ST",
     true,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/207","[1.8.2-1,*)"]],
     false,
@@ -689,7 +689,7 @@
     "Transfer a file on a SE by using the lcg client",
     "at.ts_lcg_cp_out(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
-  "ts_glue_used_space":[
+  "ts_used_space":[
     "50155e",
     "DT",
     true,
@@ -697,11 +697,11 @@
     false,
     "WRONG CALCULATION OF SA_AVAILABLE_SIZE_KB AND SA_USED_SIZE_KB",
     "Wrong calculation of SA_USED_SPACE",
-    "rlt.ts_glue_used_space(tfn, uid,lfn)"
+    "rit.ts_used_space(tfn, uid,lfn)"
     ],
   "ts_gluetwo_storage_share_capacity":[
     "aae0b5",
-    "DT",
+    "ST",
     true,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/147","[1.8.0-1,*)"]],
     false,
@@ -709,9 +709,10 @@
     "Glue2 GLUE2StorageShareCapacity* sizes always 0",
     "rlt.ts_gluetwo_storage_share_capacity(tfn, uid,lfn)"
     ],
+t
   "ts_gluetwo_service":[
     "6f5b9a",
-    "DT",
+    "ST",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/245","[1.9.0-1,*)"]],
     false,
@@ -757,7 +758,7 @@
     false,
     "GET_SIZE INCORRECTLY HANDLES THE INFO",
     "Wrong calculation of SA_USED_SPACE",
-    "rlt.ts_size(tfn, uid,lfn)"
+    "rit.ts_size(tfn, uid,lfn)"
     ],
   "ts_mysql_connector_java_links":[
     "ad7c8b",

@@ -6,7 +6,7 @@ from tstorm.tests.deployment.regression import gluetwo_ldapquery
 
 # test for glue1.3
 
-def ts_glue_service(conf, uid, lfn):
+def ts_glueone_service(conf, uid, lfn):
     s = unittest.TestSuite()
     s.addTest(glueone_ldapquery.LdapTest('test_glueone_service',
        conf, lfn,

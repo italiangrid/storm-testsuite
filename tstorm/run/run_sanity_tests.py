@@ -22,7 +22,7 @@ from tstorm.utils import filters
 from tstorm.utils import configuration
 
 from tstorm.tests.deployment.regression import regression_conftests as rct
-from tstorm.tests.deployment.regression import regression_ldaptests as rlt
+from tstorm.tests.deployment.regression import regression_infotests as rit
 
 class RunSanityTestsError(exceptions.Exception):
     pass

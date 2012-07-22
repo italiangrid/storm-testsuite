@@ -9,7 +9,7 @@ from tstorm.utils import utils
 
 __author__ = 'Elisabetta Ronchieri'
 
-class LdapTest(unittest.TestCase):
+class InfoTest(unittest.TestCase):
     def __init__(self, testname, tfn, lfn, filter='', attributes=''):
         super(LdapTest, self).__init__(testname)
         self.tsets = configuration.LoadConfiguration(conf_file = tfn).get_test_settings()
@@ -17,7 +17,7 @@ class LdapTest(unittest.TestCase):
         self.attributes = attributes
         self.lfn=lfn
 
-    def test_glue_available_space_info_service(self):
+    def test_available_space_info_service(self):
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
             self.filter, self.attributes, self.tsets['bdii']['basedn'])
         self.lfn.put_cmd('')
@@ -36,7 +36,7 @@ class LdapTest(unittest.TestCase):
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
-    def test_glue_available_space(self):
+    def test_available_space(self):
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
             self.filter, self.attributes, self.tsets['bdii']['basedn'])
         self.lfn.put_cmd('')
@@ -65,7 +65,7 @@ class LdapTest(unittest.TestCase):
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
-    def test_glue_used_space(self):
+    def test_used_space(self):
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
             self.filter, self.attributes, self.tsets['bdii']['basedn'])
         self.lfn.put_cmd('')
@@ -132,7 +132,7 @@ class LdapTest(unittest.TestCase):
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
-    def test_info_service_failure(self):
+    def test_service_failure(self):
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
             self.filter, self.attributes, self.tsets['bdii']['basedn'])
         self.lfn.put_cmd('')
