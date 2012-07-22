@@ -17,17 +17,6 @@ class LdapTest(unittest.TestCase):
         self.attributes = attributes
         self.lfn=lfn
 
-    def test_glue_service(self):
-        ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
-            self.filter, self.attributes, self.tsets['bdii']['basedn'])
-        self.lfn.put_cmd('')
-        ls_result = ldap_search.get_output()
-        self.assert_(ls_result['status'] == 'PASS')
-        self.assert_('emi.storm' not in ls_result['glue1.3']['GlueServiceType'])
-
-        self.lfn.put_result('PASSED')
-        self.lfn.flush_file()
-
     def test_glue_available_space_info_service(self):
         ldap_search = ls.LdapSearch(self.tsets['bdii']['endpoint'],
             self.filter, self.attributes, self.tsets['bdii']['basedn'])

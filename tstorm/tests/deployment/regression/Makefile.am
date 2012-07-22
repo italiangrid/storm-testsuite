@@ -17,7 +17,7 @@
 #
 
 tstormregressiondir = @pyexecdir@/tstorm/tests/deployment/regression
-tstormregression_PYTHON = gluetwo_ldapquery.py \
+tstormregression_PYTHON = \
     ldapquery.py \
     regression_ldaptests.py \
     __init__.py \
@@ -25,7 +25,6 @@ tstormregression_PYTHON = gluetwo_ldapquery.py \
     service_configuration.py
 
 EXTRA_DIST = \
-    gluetwo_ldapquery.py \
     ldapquery.py \
     regression_ldaptests.py \
     __init__.py \
@@ -34,13 +33,11 @@ EXTRA_DIST = \
 
 CLEANFILES= \
     service_configuration.py \
-    gluetwo_ldapquery.pyc \
     ldapquery.pyc \
     regression_ldaptests.pyc \
     __init__.pyc \
     regression_conftests.pyc \
     service_configuration.pyc \
-    gluetwo_ldapquery.pyo \
     ldapquery.pyo \
     regression_ldaptests.pyo \
     __init__.pyo \

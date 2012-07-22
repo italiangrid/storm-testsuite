@@ -2,7 +2,6 @@ __author__ = 'Elisabetta Ronchieri'
 
 import unittest
 from tstorm.tests.deployment.regression import ldapquery 
-from tstorm.tests.deployment.regression import gluetwo_ldapquery
 
 # test for glue1.3
 
