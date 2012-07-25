@@ -38,7 +38,6 @@ class RunTests(object):
     def __init__(self):
         self.parameters = {}
         self.parameters['tfn'] = 'tstorm.ini'
-        print __import__('tstorm').get_storm_release()
         try:
             storm_release = release.Release(__import__('tstorm').get_storm_release())
         except release.ReleaseError, err:
@@ -155,7 +154,9 @@ class RunTests(object):
             lfn.put_prologue()
 
     def set_valid_tests(self):
+        print self.parameters['storm_release']
         self.parameters['valid_tests'] = self.tests_instance.get_valid_tests(self.parameters['storm_release'])
+        print self.parameters['valid_tests']
         #for x,y in self.parameters['valid_tests'].items():
         #    print y.get_id()
    

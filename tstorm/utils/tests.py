@@ -145,14 +145,21 @@ class Tests:
         return sanity_methods
 
     def get_valid_tests(self, release):
-        for key, value in self.data.items():
-            for val in value[3]:
+        for data_key, data_value in self.data.items():
+            for val in data_value[3]:
                 if range.Range(val[1]).is_included(release):
-                    test_structure = test.TestStructure(value, val[0], val[1])
-                    if key in self.tests.keys():
-                        self.tests[key+str(random.random())[0:5]] = test_structure
+                    test_structure = test.TestStructure(data_value, val[0], val[1])
+                    multi_entry = False
+                    for tests_key in self.tests.keys():
+                        if data_key == tests_key:
+                            multi_entry = True
+                            break
+                    if multi_entry:
+                        #print data_key, val[1]
+                        self.tests[data_key+str(random.random())[0:5]] = test_structure
                     else:
-                        self.tests[key] = test_structure
+                        #print data_key, val[1]
+                        self.tests[data_key] = test_structure
         return self.tests
 
     

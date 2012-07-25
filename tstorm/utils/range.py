@@ -11,11 +11,11 @@ class Range:
     def __init__(self, range):
         self.sup = limit.Limit(range[len(range)-1])
         if not self.sup.is_sup():
-            raise RangeError('Superior Limit is not well specified - %s' % sup)
+            raise RangeError('Superior Limit is not well specified - %s' % self.sup)
 
         self.inf = limit.Limit(range[0])
         if not self.inf.is_inf():
-            raise RangeError('Inferior Limit is not well specified - %s' % sup)
+            raise RangeError('Inferior Limit is not well specified - %s' % self.inf)
 
         if ',' not in range:
             raise RangeError('Range is not well specified - %s' % range)
@@ -29,9 +29,9 @@ class Range:
 
         if not self.min_release.is_infinity():
            if not self.max_release.is_infinity():
-               if not (self.min_release.is_lower(self.max_release.get_release()) and \
-                   self.max_release.is_greater(self.min_release.get_release())):
-                   raise RangeError('The couple Min,Max is not well specified in the range - %s' % sup)
+               if not (self.min_release.is_lower(self.max_release) and \
+                   self.max_release.is_greater(self.min_release)):
+                   raise RangeError('The couple Min,Max is not well specified in the range - %s' % range)
 
     def is_included(self, value):
         if self.inf.is_extreme_included():
@@ -52,6 +52,7 @@ class Range:
                         self.max_release.is_greater(value):
                         return True
                     else:
+                        #print 'no %s %s' % (self.min_release.get_release(), self.max_release.get_release())
                         return False
         else:
             if self.sup.is_extreme_included():

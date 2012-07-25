@@ -38,8 +38,8 @@ def get_json_file_information(file_name = 'tstorm-tp.json'):
 
     try:
         tp_info=simplejson.load(open(json_file,'r'))
-    except ValueError, e:
-        print "Value Error, wrong conf file"
+    except ValueError, err:
+        print "Wrong json file: %s" % err
         sys.exit(2)
       
     return tp_info
