@@ -685,7 +685,7 @@
     false,
     [["","(*,*)"]],
     false,
-    "(*,*)",
+    "TRANSFER A FILE ON A SE",
     "Transfer a file on a SE by using the lcg client",
     "at.ts_lcg_cp_out(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],

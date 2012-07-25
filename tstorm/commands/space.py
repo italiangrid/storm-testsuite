@@ -185,6 +185,9 @@ class StoRMGsm:
                         self.otpt['unusedSize'] =a[1].split('unusedSize')[1].split('=')[1].split('\n')[0]
                     else:
                         y = a[1].split('\n')
+                        for z in y:
+                            if x in z:
+                                self.otpt[x].append(z.split(x)[1].split('="')[1].split('"')[0])
             else:
                 self.otpt['status'] = 'FAILURE'
         else:

@@ -211,7 +211,7 @@ class StoRMSptp:
                         for z in y:
                             if x in z:
                                 self.otpt[x].append(z.split(x)[1].split('="')[1].split('"')[0])
-            elif 'SRM_REQUEST_QUEUED' in a[1]:
+            elif 'SRM_REQUEST_QUEUED' in a[1] or 'SRM_REQUEST_INPROGRESS' in a[1]:
                 for x in self.otpt:
                     if x == 'status':
                         self.otpt['status'] = 'PASS'

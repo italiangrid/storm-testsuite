@@ -248,12 +248,16 @@ class RegressionTest(unittest.TestCase):
         self.assert_(self.ptp_result['status'] == 'PASS')
         self.assert_('SRM_REQUEST_QUEUED' in self.ptp_result['statusCode'])
 
-        storm_sptp = cp.StoRMSptp(self.tsets['general']['endpoint'],
-                   self.ptp_result['requestToken'])
-        self.lfn.put_cmd(storm_sptp.get_command())
-        self.sptp_result = storm_sptp.get_output()
-        #print self.sptp_result
-        self.assert_(self.sptp_result['status'] == 'PASS')
+        status_wrong = True
+        while status_wrong:
+            storm_sptp = cp.StoRMSptp(self.tsets['general']['endpoint'],
+                       self.ptp_result['requestToken'])
+            self.lfn.put_cmd(storm_sptp.get_command())
+            self.sptp_result = storm_sptp.get_output()
+            self.assert_(self.sptp_result['status'] == 'PASS')
+            if 'SRM_INVALID_REQUEST' in self.sptp_result['statusCode']:
+                 status_wrong = False
+              
         self.assert_('SRM_INVALID_REQUEST' in self.sptp_result['statusCode'])
 
         storm_rm = rm.StoRMRm(self.tsets['general']['endpoint'],
@@ -393,9 +397,7 @@ class RegressionTest(unittest.TestCase):
                      self.st_result['spaceToken'])
         self.lfn.put_cmd(storm_gsm1.get_command())
         self.sm1_result = storm_gsm1.get_output()
-        #print self.sm1_result
         self.assert_('SRM_SUCCESS' in self.sm1_result['statusCode'])
-        #print self.sm1_result
         self.assert_(self.sm1_result['status'] == 'PASS')
 
         self.lfn.put_result('PASSED')
@@ -466,6 +468,7 @@ class RegressionTest(unittest.TestCase):
                     self.tsets['https']['sftn'], self.dfn, protocol='https')
         self.lfn.put_cmd(storm_ptp.get_command())
         self.ptp_result = storm_ptp.get_output()
+        print self.ptp_result
         self.assert_(self.ptp_result['status'] == 'PASS')
 
         cp_curl = cp.curl(self.ifn, self.bifn, self.ptp_result['TURL'])
