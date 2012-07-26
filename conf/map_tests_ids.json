@@ -119,11 +119,21 @@
     "Wrong settings of size in namespace.xml",
     "rct.ts_size_in_namespace_file(tfn, lfn)"
     ],
-  "ts_storm_gridhttps_authorization_denied":[
+  "ts_storm_gridhttps_authorization_denied_on_no_sub_string":[
     "d58db9",
     "ST",
     true,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/209","[1.8.2-1,*)"]],
+    false,
+    "AUTHORIZATION REST SERVICE DENY AUTHORIZATION",
+    "StoRM Backend Gridhttps does not work if the SA accesspoint is not included in the SA root path",
+    "rt.ts_storm_gridhttps_authorization_denied_on_no_sub_string(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_storm_gridhttps_authorization_denied":[
+    "d59db8",
+    "ST",
+    true,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/209","[1.8.3-1,*)"]],
     false,
     "AUTHORIZATION REST SERVICE DENY AUTHORIZATION",
     "StoRM Backend Gridhttps does not work if the SA accesspoint is not included in the SA root path",

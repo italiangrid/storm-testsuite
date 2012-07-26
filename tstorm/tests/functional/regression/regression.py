@@ -454,18 +454,18 @@ class RegressionTest(unittest.TestCase):
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
-    def test_storm_gridhttps_authorization_denied(self):
+    def test_storm_gridhttps_authorization_denied_on_no_sub_string(self):
         self.cf_result = createfile.Cf(self.ifn).get_output()
         self.assert_(self.cf_result['status'] == 'PASS')
 
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
-                 self.tsets['https']['sftn'], self.dfn)
+                 self.tsets['https']['no_sub_string'], self.dfn)
         self.lfn.put_cmd(lcg_ls.get_command())
         self.lsbt_result = lcg_ls.get_output()
         self.assert_(self.lsbt_result['status'] == 'FAILURE')
 
         storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
-                    self.tsets['https']['sftn'], self.dfn, protocol='https')
+                    self.tsets['https']['no_sub_string'], self.dfn, protocol='https')
         self.lfn.put_cmd(storm_ptp.get_command())
         self.ptp_result = storm_ptp.get_output()
         print self.ptp_result
@@ -477,14 +477,57 @@ class RegressionTest(unittest.TestCase):
         self.assert_(self.curl_result['status'] == 'PASS')
 
         storm_pd = cp.StoRMPd(self.tsets['general']['endpoint'],
-                   self.tsets['https']['sftn'], self.dfn,
+                   self.tsets['https']['no_sub_string'], self.dfn,
                    self.ptp_result['requestToken'])
         self.lfn.put_cmd(storm_pd.get_command())
         self.pd_result = storm_pd.get_output()
         self.assert_(self.pd_result['status'] == 'PASS')
 
         lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
-                 self.tsets['https']['sftn'], self.dfn)
+                 self.tsets['https']['no_sub_string'], self.dfn)
+        self.lfn.put_cmd(lcg_ls.get_command())
+        self.lsat_result = lcg_ls.get_output()
+        self.assert_(self.lsat_result['status'] == 'PASS')
+
+        rm_lf = removefile.RmLf(self.ifn, self.bifn)
+        self.lfn.put_cmd(rm_lf.get_command())
+        self.rmlf_result = rm_lf.get_output()
+        self.assert_(self.rmlf_result['status'] == 'PASS')
+
+        self.lfn.put_result('PASSED')
+        self.lfn.flush_file()
+
+    def test_storm_gridhttps_authorization_denied(self):
+        self.cf_result = createfile.Cf(self.ifn).get_output()
+        self.assert_(self.cf_result['status'] == 'PASS')
+
+        lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
+                 self.tsets['https']['sub_string'], self.dfn)
+        self.lfn.put_cmd(lcg_ls.get_command())
+        self.lsbt_result = lcg_ls.get_output()
+        self.assert_(self.lsbt_result['status'] == 'FAILURE')
+
+        storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
+                    self.tsets['https']['sub_string'], self.dfn, protocol='https')
+        self.lfn.put_cmd(storm_ptp.get_command())
+        self.ptp_result = storm_ptp.get_output()
+        print self.ptp_result
+        self.assert_(self.ptp_result['status'] == 'PASS')
+
+        cp_curl = cp.curl(self.ifn, self.bifn, self.ptp_result['TURL'])
+        self.lfn.put_cmd(cp_curl.get_command(True, True))
+        self.curl_result = cp_curl.get_output(True, True)
+        self.assert_(self.curl_result['status'] == 'PASS')
+
+        storm_pd = cp.StoRMPd(self.tsets['general']['endpoint'],
+                   self.tsets['https']['sub_string'], self.dfn,
+                   self.ptp_result['requestToken'])
+        self.lfn.put_cmd(storm_pd.get_command())
+        self.pd_result = storm_pd.get_output()
+        self.assert_(self.pd_result['status'] == 'PASS')
+
+        lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
+                 self.tsets['https']['sub_string'], self.dfn)
         self.lfn.put_cmd(lcg_ls.get_command())
         self.lsat_result = lcg_ls.get_output()
         self.assert_(self.lsat_result['status'] == 'PASS')
