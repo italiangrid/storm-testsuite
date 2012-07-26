@@ -42,7 +42,7 @@ class RunStressTests(run_tests.RunTests):
         self.parameters['stress_report'] = True
         self.parameters['number_cycles'] = 2
         self.parameters['number_hours'] = 2
-        self.parameters['refresh_report'] = 2
+        self.parameters['refresh_report'] = 10
 
     def do_parse(self):
         try:
