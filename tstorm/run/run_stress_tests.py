@@ -40,7 +40,7 @@ class RunStressTests(run_tests.RunTests):
         super(RunStressTests, self).__init__()
         self.parameters['report'] = False
         self.parameters['stress_report'] = True
-        self.parameters['number_cycles'] = 2
+        self.parameters['number_cycles'] = 30
         self.parameters['number_hours'] = 2
         self.parameters['refresh_report'] = 10
 
@@ -118,16 +118,29 @@ class RunStressTests(run_tests.RunTests):
         tests_status = {}
         tests_status = tests_status.fromkeys(tests_methods, (False,0))
 
-        while False in [x[0] for x in tests_status.values()]:
-            count = 0
+        count = 0
+        while count < self.parameters['number_cycles']:
             test_index = random.choice([n for n,x in enumerate(tests_methods.items())])
-            while count < self.parameters['number_cycles']:
-                self.run_test(self.parameters['tfn'],
-                    tests_methods.items()[test_index][1], log_file, tests_methods.items()[test_index][0],
-                    self.parameters['custom_destination_file'][0], \
-                    self.parameters['custom_destination_file'][1])
-                count += 1
-            tests_status[tests_status.items()[test_index][0]]=(True, tests_status.items()[test_index][1][1]+count)
+            #print tests_methods.items()[test_index][1]
+            #print tests_methods.items()[test_index][0]
+            self.run_test(self.parameters['tfn'],
+                tests_methods.items()[test_index][1], log_file, tests_methods.items()[test_index][0],
+                self.parameters['custom_destination_file'][0], \
+                self.parameters['custom_destination_file'][1])
+            tests_status[tests_status.items()[test_index][0]]=(True, tests_status.items()[test_index][1][1]+1)
+            count += 1
+
+        print tests_status
+        if False in [x[0] for x in tests_status.values()]:
+            for key, value in tests_status.items():
+                 if not value[0]:
+                     #print tests_methods[key]
+                     #print key
+                     self.run_test(self.parameters['tfn'],
+                         tests_methods[key], log_file, key,
+                         self.parameters['custom_destination_file'][0], \
+                         self.parameters['custom_destination_file'][1])
+                     tests_status[key]=(True, tests_status[key][1]+1)
 
         print tests_status
         if self.parameters['report']:
