@@ -41,6 +41,8 @@ class RunStressTests(run_tests.RunTests):
         self.parameters['report'] = False
         self.parameters['stress_report'] = True
         self.parameters['number_cycles'] = 2
+        self.parameters['number_hours'] = 2
+        self.parameters['refresh_report'] = 2
 
     def do_parse(self):
         try:
@@ -48,6 +50,7 @@ class RunStressTests(run_tests.RunTests):
                 "hvn:r:",
                 ["help","nostressreport",
                  "version","number-cycles=",
+                 "number-hours=","refresh-report="
                  "storm-release="])
         except getopt.GetoptError, err:
             print str(err)
@@ -64,6 +67,10 @@ class RunStressTests(run_tests.RunTests):
                 sys.exit(0)
             elif opt in ("-n", "--number-cycles"):
                 self.parameters['number_cycles'] = int(value)
+            elif opt in ("--number-hours"):
+                self.parameters['number_hours'] = int(value)
+            elif opt in ("--refresh-report"):
+                self.parameters['refresh_report'] = int(value)
             elif opt in ("-r", "--storm-release"):
                 try:
                     self.parameters['storm_release'] = release.Release(value)

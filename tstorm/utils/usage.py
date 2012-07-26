@@ -93,6 +93,19 @@ def usage_number_cycles(opt=True):
     else:
         print """                   [-n|--number-cycles] """
 
+def usage_number_hours(opt=True):
+    if not opt:
+        print """- number-hours is followed by a value"""
+    else:
+        print """                   [--number-hours] """
+
+def usage_refresh_report(opt=True):
+    if not opt:
+        print """- refresh-report is followed by a value that"""
+        print """    represents time in seconds"""
+    else:
+        print """                   [--refresh-report] """
+
 def usage_example_noreport(cmd=''):
     print """Example: if you want to run tests without producing a report"""
     print '    %s --noreport' % cmd
@@ -128,6 +141,8 @@ def get_usage(run=''):
     if run == 'stress':
         usage_nostressreport()
         usage_number_cycles()
+        usage_number_hours()
+        usage_refresh_report()
 
     if run not in ('sanity', 'stress'):
         usage_novoms()
@@ -150,6 +165,8 @@ def get_usage(run=''):
     if run == 'stress':
         usage_nostressreport(opt=False)
         usage_number_cycles(opt=False)
+        usage_number_hours(opt=False)
+        usage_refresh_report(opt=False)
 
     if run not in ('sanity', 'stress'):
         usage_novoms(opt=False)
