@@ -133,7 +133,7 @@
     "d59db8",
     "ST",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/209","[1.8.3-1,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/209","[1.9.0-1,*)"]],
     false,
     "AUTHORIZATION REST SERVICE DENY AUTHORIZATION",
     "StoRM Backend Gridhttps does not work if the SA accesspoint is not included in the SA root path",
