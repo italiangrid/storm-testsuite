@@ -468,7 +468,6 @@ class RegressionTest(unittest.TestCase):
                     self.tsets['https']['no_sub_string'], self.dfn, protocol='https')
         self.lfn.put_cmd(storm_ptp.get_command())
         self.ptp_result = storm_ptp.get_output()
-        print self.ptp_result
         self.assert_(self.ptp_result['status'] == 'PASS')
 
         cp_curl = cp.curl(self.ifn, self.bifn, self.ptp_result['TURL'])
@@ -511,7 +510,6 @@ class RegressionTest(unittest.TestCase):
                     self.tsets['https']['sub_string'], self.dfn, protocol='https')
         self.lfn.put_cmd(storm_ptp.get_command())
         self.ptp_result = storm_ptp.get_output()
-        print self.ptp_result
         self.assert_(self.ptp_result['status'] == 'PASS')
 
         cp_curl = cp.curl(self.ifn, self.bifn, self.ptp_result['TURL'])
