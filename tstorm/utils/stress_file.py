@@ -34,16 +34,19 @@ class StressReportFile:
         if  len(text) > 0:
             self.log_file.write(text)
 
-    def put_epilogue(self):
+    def put_epilogue(self, cycle='', elapsed_time=''):
         if self.report:
-            self.put('\n')
-            self.put_separator()
+            self.put_separator(cycle=cycle, elapsed_time=elapsed_time)
 
     def put_prologue(self):
         if self.report:
             self.put_separator()
-            self.put('\n')
  
-    def put_separator(self):
+    def put_separator(self, cycle='', elapsed_time=''):
         if self.report:
-            self.put('==========================================\n')
+            msg = '=========================================='
+            if cycle != '':
+                msg += ' ' + cycle
+            if elapsed_time != '':
+                msg += ' ' + elapsed_time
+            self.put(msg + '\n')

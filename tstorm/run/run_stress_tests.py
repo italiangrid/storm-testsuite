@@ -7,6 +7,8 @@ import unittest
 import getopt
 import exceptions
 import random
+import time
+import datetime
 
 from tstorm.run import run_tests
 
@@ -41,7 +43,7 @@ class RunStressTests(run_tests.RunTests):
         self.parameters['report'] = False
         self.parameters['stress_report'] = True
         self.parameters['number_cycles'] = 30
-        self.parameters['number_hours'] = 2
+        self.parameters['number_hours'] = 0
         self.parameters['refresh_report'] = 10
 
     def do_parse(self):
@@ -57,6 +59,8 @@ class RunStressTests(run_tests.RunTests):
             usage.get_usage(run='stress')
             sys.exit(2)
 
+        n_cycles = False
+        n_hours = False
         for opt, value in opts:
             if opt in ("-h", "--help"):
                 usage.get_usage(run='stress')
@@ -67,8 +71,10 @@ class RunStressTests(run_tests.RunTests):
                 sys.exit(0)
             elif opt in ("-n", "--number-cycles"):
                 self.parameters['number_cycles'] = int(value)
+                n_cycles = True
             elif opt in ("--number-hours"):
                 self.parameters['number_hours'] = int(value)
+                n_hours = True
             elif opt in ("--refresh-report"):
                 self.parameters['refresh_report'] = int(value)
             elif opt in ("-r", "--storm-release"):
@@ -83,6 +89,11 @@ class RunStressTests(run_tests.RunTests):
             else:
                 raise run_tests.OptionError("Unhandled option")
 
+        if n_cycles and n_hours:
+            msg = 'The options number-hours and number-cycles are'
+            msg += ' mutually exclusive'
+            raise run_tests.OptionError(msg)
+
     def run_test(self, tfn, uid, lfn, tt, n_df,n_dfn):
         sd=True
         if 'ts_https' in uid.get_aggregator() or \
@@ -94,55 +105,96 @@ class RunStressTests(run_tests.RunTests):
            '_http' in uid.get_aggregator():
             sd=False
         ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,subdir=sd)
-        if uid.get_aggregator() != "" and \
-            ('_wo' not in uid.get_aggregator() or \
-            '_glueone' not in uid.get_aggregator() or \
-            '_gluetwo' not in uid.get_aggregator()):
-            lfn.put_name(uid.get_name())
-            lfn.put_description(uid.get_description())
-            lfn.put_uuid(uid.get_id())
-            if uid.is_regression():
-                lfn.put_ruid(uid.get_rfc())
-            lfn.put_output()
-            runner = unittest.TextTestRunner(verbosity=2).run(eval(uid.get_aggregator()))
-            lfn.put_prologue()
+        #if uid.get_aggregator() != "" and \
+        #    ('_wo' not in uid.get_aggregator() or \
+        #    '_glueone' not in uid.get_aggregator() or \
+        #    '_gluetwo' not in uid.get_aggregator()):
+        lfn.put_name(uid.get_name())
+        lfn.put_description(uid.get_description())
+        lfn.put_uuid(uid.get_id())
+        if uid.is_regression():
+            lfn.put_ruid(uid.get_rfc())
+        lfn.put_output()
+        runner = unittest.TextTestRunner(verbosity=2).run(eval(uid.get_aggregator()))
+        lfn.put_prologue()
+
+    def __is_time_elapsed(self, ct):
+        nt=time.mktime(datetime.datetime.now().timetuple())
+        pt=nt-ct
+        if pt >= self.parameters['refresh_report']:
+            return True
+        return False
 
     def do_run_tests(self):
 
         log_file = report_file.ReportFile(report = self.parameters['report'])
-        self.stress_instance = stress_file.StressReportFile(report = self.parameters['stress_report'])
+        stress_log_file = stress_file.StressReportFile(report = self.parameters['stress_report'])
 
         tests_methods = self.tests_instance.get_methods(tests = self.parameters['valid_tests'],run='stress')
 
-        #print tests_methods.keys()
         tests_status = {}
-        tests_status = tests_status.fromkeys(tests_methods, (False,0))
-
+        tests_status = tests_status.fromkeys(tests_methods, (False,0,0))
+        
+        passed_time = time.mktime(datetime.datetime.now().timetuple())
         count = 0
         while count < self.parameters['number_cycles']:
             test_index = random.choice([n for n,x in enumerate(tests_methods.items())])
             #print tests_methods.items()[test_index][1]
             #print tests_methods.items()[test_index][0]
-            self.run_test(self.parameters['tfn'],
-                tests_methods.items()[test_index][1], log_file, tests_methods.items()[test_index][0],
-                self.parameters['custom_destination_file'][0], \
-                self.parameters['custom_destination_file'][1])
-            tests_status[tests_status.items()[test_index][0]]=(True, tests_status.items()[test_index][1][1]+1)
-            count += 1
+            if tests_methods.items()[test_index][1].get_aggregator() != "" and \
+                ('_wo' not in tests_methods.items()[test_index][1].get_aggregator() or \
+                '_glueone' not in tests_methods.items()[test_index][1].get_aggregator() or \
+                '_gluetwo' not in tests_methods.items()[test_index][1].get_aggregator()):
+                self.run_test(self.parameters['tfn'],
+                    tests_methods.items()[test_index][1], log_file, tests_methods.items()[test_index][0],
+                    self.parameters['custom_destination_file'][0], \
+                    self.parameters['custom_destination_file'][1])
 
-        print tests_status
+                test_number = tests_status.items()[test_index][1][1]+1
+                test_total_number = tests_status.items()[test_index][1][2]
+                tests_status[tests_status.items()[test_index][0]]=(True, test_number, test_total_number)
+                count += 1
+                if self.__is_time_elapsed(passed_time):
+                    new_time=datetime.datetime.now()
+
+                    stress_log_file.put_epilogue(cycle=str(count), elapsed_time=new_time.ctime())
+                    for key, value in tests_status.items():
+                        msg = '%s    %s    %s\n' % (key, value[1], value[1]+value[2])
+                        stress_log_file.put(msg)
+                        tests_status[key]=(value[0],0,value[2]+value[1])
+
+                    passed_time = time.mktime(new_time.timetuple())
+
+        #print tests_status
         if False in [x[0] for x in tests_status.values()]:
             for key, value in tests_status.items():
                  if not value[0]:
                      #print tests_methods[key]
                      #print key
-                     self.run_test(self.parameters['tfn'],
-                         tests_methods[key], log_file, key,
-                         self.parameters['custom_destination_file'][0], \
-                         self.parameters['custom_destination_file'][1])
-                     tests_status[key]=(True, tests_status[key][1]+1)
+                     if tests_methods[key].get_aggregator() != "" and \
+                         ('_wo' not in tests_methods[key].get_aggregator() or \
+                         '_glueone' not in tests_methods[key].get_aggregator() or \
+                         '_gluetwo' not in tests_methods[key].get_aggregator()):
+                         self.run_test(self.parameters['tfn'],
+                              tests_methods[key], log_file, key,
+                              self.parameters['custom_destination_file'][0], \
+                              self.parameters['custom_destination_file'][1])
+                         test_number = tests_status[key][1]+1
+                         test_total_number = tests_status[key][2]
+                         tests_status[key]=(True, test_number, test_total_number)
+                         count +=1
+                         if self.__is_time_elapsed(passed_time):
+                             new_time=datetime.datetime.now()
 
-        print tests_status
+                             stress_log_file.put_epilogue(cycle=str(count), elapsed_time=new_time.ctime())
+                             for key, value in tests_status.items():
+                                 msg = '%s    %s    %s\n' % (key, value[1], value[1]+value[2])
+                                 stress_log_file.put(msg)
+                                 tests_status[key]=(value[0],0,value[2]+value[1])
+
+                             passed_time = time.mktime(new_time.timetuple())
+
+        #print tests_status
         if self.parameters['report']:
             log_file.close_file()
-        self.stress_instance.close_file()
+        stress_log_file.close_file()
