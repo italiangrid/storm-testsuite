@@ -34,6 +34,10 @@ class StressReportFile:
         if  len(text) > 0:
             self.log_file.write(text)
 
+    def put_header(self, stamp, cycle='', elapsed_time=''):
+        if self.report:
+            self.put_separator(stamp=stamp, cycle=cycle, elapsed_time=elapsed_time)
+
     def put_epilogue(self, cycle='', elapsed_time=''):
         if self.report:
             self.put_separator(cycle=cycle, elapsed_time=elapsed_time)
@@ -42,9 +46,11 @@ class StressReportFile:
         if self.report:
             self.put_separator()
  
-    def put_separator(self, cycle='', elapsed_time=''):
+    def put_separator(self, stamp='',cycle='', elapsed_time=''):
         if self.report:
             msg = '=========================================='
+            if stamp != '':
+                msg += ' ' + stamp
             if cycle != '':
                 msg += ' ' + cycle
             if elapsed_time != '':

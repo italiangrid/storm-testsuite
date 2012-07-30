@@ -94,7 +94,7 @@ class RunStressTests(run_tests.RunTests):
             msg += ' mutually exclusive'
             raise run_tests.OptionError(msg)
 
-    def run_test(self, tfn, uid, lfn, tt, n_df,n_dfn):
+    def run_test(self, tfn, uid, lfn, n_df,n_dfn):
         sd=True
         if 'ts_https' in uid.get_aggregator() or \
            'ts_http' in uid.get_aggregator() or \
@@ -125,16 +125,8 @@ class RunStressTests(run_tests.RunTests):
         later = time.time() + self.parameters['number_hours']*3600
         return time.strptime(time.ctime(later))
 
-    def for_hours(self, log_file, stress_log_file):
-        tests_methods = self.tests_instance.get_methods(tests = self.parameters['valid_tests'], run='stress')
-
-        tests_status = {}
-        tests_status = tests_status.fromkeys(tests_methods, (False,0,0))
-
-        passed_time = time.mktime(datetime.datetime.now().timetuple())
+    def for_hours(self, tests_status, tests_methods, count, passed_time, log_file, stress_log_file):
         end_time = self.__get_end_time()
-
-        count = 0
         c_time = 0
         while c_time < end_time:
             test_index = random.choice([n for n,x in enumerate(tests_methods.items())])
@@ -193,15 +185,10 @@ class RunStressTests(run_tests.RunTests):
                                  tests_status[key]=(value[0],0,value[2]+value[1])
 
                              passed_time = time.mktime(new_time.timetuple())
+
+        return tests_status, count
  
-    def for_cycles(self, log_file, stress_log_file):
-        tests_methods = self.tests_instance.get_methods(tests = self.parameters['valid_tests'], run='stress')
-
-        tests_status = {}
-        tests_status = tests_status.fromkeys(tests_methods, (False,0,0))
-
-        passed_time = time.mktime(datetime.datetime.now().timetuple())
-        count = 0
+    def for_cycles(self, tests_status, tests_methods, count, passed_time, log_file, stress_log_file):
         while count < self.parameters['number_cycles']:
             test_index = random.choice([n for n,x in enumerate(tests_methods.items())])
             #print tests_methods.items()[test_index][1]
@@ -258,15 +245,40 @@ class RunStressTests(run_tests.RunTests):
                                  tests_status[key]=(value[0],0,value[2]+value[1])
 
                              passed_time = time.mktime(new_time.timetuple())
-         
+
+        return tests_status, count
+
     def do_run_tests(self):
         log_file = report_file.ReportFile(report = self.parameters['report'])
-        stress_log_file = stress_file.StressReportFile(report = self.parameters['stress_report'])
+        stress_log_file = stress_file.StressReportFile(\
+            report = self.parameters['stress_report'])
+        tests_methods = self.tests_instance.get_methods(\
+            tests = self.parameters['valid_tests'], run='stress')
+        tests_status = {}
+        tests_status = tests_status.fromkeys(tests_methods, (False,0,0))
+        start_time = datetime.datetime.now()
+        count = 0
+        stress_log_file.put_header('START', cycle=str(count), \
+            elapsed_time=start_time.ctime())
+        passed_time = time.mktime(start_time.timetuple())
 
         if self.parameters['number_hours'] != 0:
-            self.for_hours(log_file, stress_log_file)
+            tests_status, count=self.for_hours(tests_status, tests_methods, \
+                count, passed_time, log_file, stress_log_file)
         else:
-            self.for_cycles(log_file, stress_log_file)
+            tests_status, count=self.for_cycles(tests_status, tests_methods, \
+                count, passed_time, log_file, stress_log_file)
+
+        new_time=datetime.datetime.now()
+        stress_log_file.put_epilogue(cycle=str(count), \
+            elapsed_time=new_time.ctime())
+        for key, value in tests_status.items():
+            msg = '%s    %s    %s\n' % (key, value[1], value[1]+value[2])
+            stress_log_file.put(msg)
+            tests_status[key]=(value[0],0,value[2]+value[1])
+        passed_time = time.mktime(new_time.timetuple())
+        stress_log_file.put_header('END', cycle=str(count), \
+            elapsed_time=new_time.ctime())
 
         #print tests_status
         if self.parameters['report']:

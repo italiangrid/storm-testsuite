@@ -130,7 +130,7 @@ class RunTests(object):
             else:
                 raise OptionError("Unhandled option")
 
-    def run_test(self, tfn, uid, lfn, tt, n_df, n_dfn):
+    def run_test(self, tfn, uid, lfn, n_df, n_dfn):
         sd=True
         if uid.is_regression():
             sd=False

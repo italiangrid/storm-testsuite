@@ -88,7 +88,7 @@ class RunSanityTests(run_tests.RunTests):
             else:
                 raise run_tests.OptionError("Unhandled option")
 
-    def run_test(self, tfn, uid, lfn, tt):
+    def run_test(self, tfn, uid, lfn):
         if uid.get_aggregator() != "":
             lfn.put_name(uid.get_name())
             lfn.put_description(uid.get_description())
