@@ -45,6 +45,8 @@ class RunStressTests(run_tests.RunTests):
         self.parameters['number_cycles'] = 30
         self.parameters['number_hours'] = 0
         self.parameters['refresh_report'] = 10
+        self.parameters['tests_status'] = {}
+        self.parameters['tests_methods'] = {}
 
     def do_parse(self):
         try:
@@ -125,137 +127,114 @@ class RunStressTests(run_tests.RunTests):
         later = time.time() + self.parameters['number_hours']*3600
         return time.strptime(time.ctime(later))
 
-    def for_hours(self, tests_status, tests_methods, count, passed_time, log_file, stress_log_file):
+    def for_hours(self, count, passed_time, log_file, stress_log_file):
         end_time = self.__get_end_time()
         c_time = 0
         while c_time < end_time:
-            test_index = random.choice([n for n,x in enumerate(tests_methods.items())])
-            #print tests_methods.items()[test_index][1]
-            #print tests_methods.items()[test_index][0]
-            if tests_methods.items()[test_index][1].get_aggregator() != "" and \
-                ('_wo' not in tests_methods.items()[test_index][1].get_aggregator() or \
-                '_glueone' not in tests_methods.items()[test_index][1].get_aggregator() or \
-                '_gluetwo' not in tests_methods.items()[test_index][1].get_aggregator()):
+            test_index = self.__get_randomly_test_index()
+            if self.parameters['tests_methods'].items()[test_index][1].get_aggregator() != "" and \
+                ('_wo' not in self.parameters['tests_methods'].items()[test_index][1].get_aggregator() or \
+                '_glueone' not in self.parameters['tests_methods'].items()[test_index][1].get_aggregator() or \
+                '_gluetwo' not in self.parameters['tests_methods'].items()[test_index][1].get_aggregator()):
                 self.run_test(self.parameters['tfn'],
-                    tests_methods.items()[test_index][1], log_file, tests_methods.items()[test_index][0],
+                    self.parameters['tests_methods'].items()[test_index][1], log_file, \
                     self.parameters['custom_destination_file'][0], \
                     self.parameters['custom_destination_file'][1])
 
-                test_number = tests_status.items()[test_index][1][1]+1
-                test_total_number = tests_status.items()[test_index][1][2]
-                tests_status[tests_status.items()[test_index][0]]=(True, test_number, test_total_number)
+                test_number = self.parameters['tests_status'].items()[test_index][1][1]+1
+                test_total_number = self.parameters['tests_status'].items()[test_index][1][2]
+                self.parameters['tests_status'][self.parameters['tests_status'].items()[test_index][0]]=(True, test_number, test_total_number)
                 count += 1
                 c_time = time.strptime(time.ctime())
                 if self.__is_time_elapsed(passed_time):
                     new_time=datetime.datetime.now()
   
                     stress_log_file.put_epilogue(cycle=str(count), elapsed_time=new_time.ctime())
-                    for key, value in tests_status.items():
+                    for key, value in self.parameters['tests_status'].items():
                         msg = '%s    %s    %s\n' % (key, value[1], value[1]+value[2])
                         stress_log_file.put(msg)
-                        tests_status[key]=(value[0],0,value[2]+value[1])
+                        self.parameters['tests_status'][key]=(value[0],0,value[2]+value[1])
 
                     passed_time = time.mktime(new_time.timetuple())
 
-        #print tests_status
-        if False in [x[0] for x in tests_status.values()]:
-            for key, value in tests_status.items():
-                 if not value[0]:
-                     #print tests_methods[key]
-                     #print key
-                     if tests_methods[key].get_aggregator() != "" and \
-                         ('_wo' not in tests_methods[key].get_aggregator() or \
-                         '_glueone' not in tests_methods[key].get_aggregator() or \
-                         '_gluetwo' not in tests_methods[key].get_aggregator()):
-                         self.run_test(self.parameters['tfn'],
-                              tests_methods[key], log_file, key,
-                              self.parameters['custom_destination_file'][0], \
-                              self.parameters['custom_destination_file'][1])
-                         test_number = tests_status[key][1]+1
-                         test_total_number = tests_status[key][2]
-                         tests_status[key]=(True, test_number, test_total_number)
-                         count +=1
-                         if self.__is_time_elapsed(passed_time):
-                             new_time=datetime.datetime.now()
+        return count
 
-                             stress_log_file.put_epilogue(cycle=str(count), elapsed_time=new_time.ctime())
-                             for key, value in tests_status.items():
-                                 msg = '%s    %s    %s\n' % (key, value[1], value[1]+value[2])
-                                 stress_log_file.put(msg)
-                                 tests_status[key]=(value[0],0,value[2]+value[1])
-
-                             passed_time = time.mktime(new_time.timetuple())
-
-        return tests_status, count
+    def __get_randomly_test_index(self):
+        ti = random.choice([n for n,x in enumerate(self.parameters['tests_status'].items())])
+        #print 'key ', self.parameters['tests_status'].items()[ti][0]
+        flag = self.parameters['tests_status'].items()[ti][1][0]
+        while flag:
+            tmp = [x[0] for x in self.parameters['tests_status'].values()]
+            #print tmp
+            if False in tmp:
+                ti = random.choice([m for m,z in enumerate(self.parameters['tests_status'].items())])
+                #print 'new index ', ti
+                #print 'key ', self.parameters['tests_status'].items()[ti][0]
+            else:
+                #print 'cippa cippa cippa cippa cippa'
+                break
+            flag = self.parameters['tests_status'].items()[ti][1][0]
+            #print 'no cippa ', flag
+        #print 'index ', ti
+        return ti
  
-    def for_cycles(self, tests_status, tests_methods, count, passed_time, log_file, stress_log_file):
+    def for_cycles(self, count, passed_time, log_file, stress_log_file):
+        #print self.parameters['tests_status']        
         while count < self.parameters['number_cycles']:
-            test_index = random.choice([n for n,x in enumerate(tests_methods.items())])
-            #print tests_methods.items()[test_index][1]
-            #print tests_methods.items()[test_index][0]
-            if tests_methods.items()[test_index][1].get_aggregator() != "" and \
-                ('_wo' not in tests_methods.items()[test_index][1].get_aggregator() or \
-                '_glueone' not in tests_methods.items()[test_index][1].get_aggregator() or \
-                '_gluetwo' not in tests_methods.items()[test_index][1].get_aggregator()):
-                self.run_test(self.parameters['tfn'],
-                    tests_methods.items()[test_index][1], log_file, tests_methods.items()[test_index][0],
-                    self.parameters['custom_destination_file'][0], \
-                    self.parameters['custom_destination_file'][1])
+            test_index = self.__get_randomly_test_index()
 
-                test_number = tests_status.items()[test_index][1][1]+1
-                test_total_number = tests_status.items()[test_index][1][2]
-                tests_status[tests_status.items()[test_index][0]]=(True, test_number, test_total_number)
-                count += 1
-                if self.__is_time_elapsed(passed_time):
-                    new_time=datetime.datetime.now()
+            key = self.parameters['tests_status'].items()[test_index][0]
 
-                    stress_log_file.put_epilogue(cycle=str(count), elapsed_time=new_time.ctime())
-                    for key, value in tests_status.items():
-                        msg = '%s    %s    %s\n' % (key, value[1], value[1]+value[2])
-                        stress_log_file.put(msg)
-                        tests_status[key]=(value[0],0,value[2]+value[1])
+            if self.parameters['tests_methods'][key].get_aggregator() != "":
+                if '_wo' not in self.parameters['tests_methods'][key].get_aggregator() and \
+                    '_glueone' not in self.parameters['tests_methods'][key].get_aggregator() and \
+                    '_gluetwo' not in self.parameters['tests_methods'][key].get_aggregator():
+                    self.run_test(self.parameters['tfn'],
+                        self.parameters['tests_methods'][key], log_file, \
+                        self.parameters['custom_destination_file'][0], \
+                        self.parameters['custom_destination_file'][1])
 
-                    passed_time = time.mktime(new_time.timetuple())
+                    test_number = self.parameters['tests_status'].items()[test_index][1][1]+1
+                    test_total_number = self.parameters['tests_status'].items()[test_index][1][2]
+                    self.parameters['tests_status'][self.parameters['tests_status'].items()[test_index][0]]=(True, test_number, test_total_number)
+                    count += 1
+                    if self.__is_time_elapsed(passed_time):
+                        new_time=datetime.datetime.now()
 
-        #print tests_status
-        if False in [x[0] for x in tests_status.values()]:
-            for key, value in tests_status.items():
-                 if not value[0]:
-                     #print tests_methods[key]
-                     #print key
-                     if tests_methods[key].get_aggregator() != "" and \
-                         ('_wo' not in tests_methods[key].get_aggregator() or \
-                         '_glueone' not in tests_methods[key].get_aggregator() or \
-                         '_gluetwo' not in tests_methods[key].get_aggregator()):
-                         self.run_test(self.parameters['tfn'],
-                              tests_methods[key], log_file, key,
-                              self.parameters['custom_destination_file'][0], \
-                              self.parameters['custom_destination_file'][1])
-                         test_number = tests_status[key][1]+1
-                         test_total_number = tests_status[key][2]
-                         tests_status[key]=(True, test_number, test_total_number)
-                         count +=1
-                         if self.__is_time_elapsed(passed_time):
-                             new_time=datetime.datetime.now()
+                        stress_log_file.put_epilogue(cycle=str(count), elapsed_time=new_time.ctime())
+                        for ke, value in self.parameters['tests_status'].items():
+                            if self.parameters['tests_methods'][ke].get_aggregator() != "": 
+                                if '_wo' not in ke and \
+                                   '_glueone' not in ke and \
+                                   '_gluetwo' not in ke:
+                                   msg = '%s    %s    %s\n' % (ke, value[1], value[1]+value[2])
+                                   stress_log_file.put(msg)
+                                   self.parameters['tests_status'][ke]=(value[0],0,value[2]+value[1])
 
-                             stress_log_file.put_epilogue(cycle=str(count), elapsed_time=new_time.ctime())
-                             for key, value in tests_status.items():
-                                 msg = '%s    %s    %s\n' % (key, value[1], value[1]+value[2])
-                                 stress_log_file.put(msg)
-                                 tests_status[key]=(value[0],0,value[2]+value[1])
+                        stress_log_file.flush_file()
+                        passed_time = time.mktime(new_time.timetuple())
 
-                             passed_time = time.mktime(new_time.timetuple())
+        return count
 
-        return tests_status, count
+    def __set_tests_methods(self):
+        self.parameters['tests_methods'] = self.tests_instance.get_methods(\
+            tests = self.parameters['valid_tests'], run='stress')
+
+    def __set_tests_status(self):
+        self.parameters['tests_status'] = self.parameters['tests_status'].fromkeys(self.parameters['tests_methods'], (False, 0, 0))
+        for key, value in self.parameters['tests_status'].items():
+            if '_wo' in key or \
+                '_glueone' in key or \
+                '_gluetwo' in key:
+                 self.parameters['tests_status'][key] = (True, 0, 0)
 
     def do_run_tests(self):
         log_file = report_file.ReportFile(report = self.parameters['report'])
         stress_log_file = stress_file.StressReportFile(\
             report = self.parameters['stress_report'])
-        tests_methods = self.tests_instance.get_methods(\
-            tests = self.parameters['valid_tests'], run='stress')
-        tests_status = {}
-        tests_status = tests_status.fromkeys(tests_methods, (False,0,0))
+        self.__set_tests_methods()
+        self.__set_tests_status()
+
         start_time = datetime.datetime.now()
         count = 0
         stress_log_file.put_header('START', cycle=str(count), \
@@ -263,24 +242,26 @@ class RunStressTests(run_tests.RunTests):
         passed_time = time.mktime(start_time.timetuple())
 
         if self.parameters['number_hours'] != 0:
-            tests_status, count=self.for_hours(tests_status, tests_methods, \
+            count=self.for_hours(\
                 count, passed_time, log_file, stress_log_file)
         else:
-            tests_status, count=self.for_cycles(tests_status, tests_methods, \
+            count=self.for_cycles(\
                 count, passed_time, log_file, stress_log_file)
 
         new_time=datetime.datetime.now()
         stress_log_file.put_epilogue(cycle=str(count), \
             elapsed_time=new_time.ctime())
-        for key, value in tests_status.items():
-            msg = '%s    %s    %s\n' % (key, value[1], value[1]+value[2])
-            stress_log_file.put(msg)
-            tests_status[key]=(value[0],0,value[2]+value[1])
-        passed_time = time.mktime(new_time.timetuple())
+        for key, value in self.parameters['tests_status'].items():
+            if self.parameters['tests_methods'][key].get_aggregator() != "": 
+                if '_wo' not in key and \
+                    '_glueone' not in key and \
+                    '_gluetwo' not in key:
+                    msg = '%s    %s    %s\n' % (key, value[1], value[1]+value[2])
+                    stress_log_file.put(msg)
+
         stress_log_file.put_header('END', cycle=str(count), \
             elapsed_time=new_time.ctime())
 
-        #print tests_status
         if self.parameters['report']:
             log_file.close_file()
         stress_log_file.close_file()
