@@ -162,9 +162,9 @@ class RunStressTests(run_tests.RunTests):
 
         for key, value in self.parameters['tests_status'].items():
             if self.parameters['tests_methods'][key].get_aggregator() != "":
-                if '_wo' not in ke and \
-                    '_glueone' not in ke and \
-                    '_gluetwo' not in ke:
+                if '_wo' not in key and \
+                    '_glueone' not in key and \
+                    '_gluetwo' not in key:
                     msg = '%s    %s    %s\n' % (key, value[1], \
                         value[1]+value[2])
                     stress_log_file.put(msg)

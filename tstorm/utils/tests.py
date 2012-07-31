@@ -3,10 +3,8 @@ import os
 from tstorm.utils import range
 from tstorm.utils import test
 
-class TestsError:
-    def __init__(self, msg):
-        self.args = msg
-        self.errmsg = msg
+class TestsError(exceptions.Exception):
+    pass
 
 class Tests:
     def __init__(self, data):

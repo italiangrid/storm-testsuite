@@ -1,10 +1,8 @@
 import sys
 import os
 
-class TestStructureError:
-    def __init__(self, msg):
-        self.args = msg
-        self.errmsg = msg
+class TestStructureError(exceptions.Exception):
+    pass
 
 class TestStructure:
     def __init__(self, value, rfc, range):
