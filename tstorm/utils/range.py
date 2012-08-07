@@ -1,5 +1,3 @@
-import sys
-import os
 import exceptions
 from tstorm.utils import release
 from tstorm.utils import limit
@@ -12,7 +10,7 @@ class Range:
         self.sup = limit.Limit(range[len(range)-1])
         if not self.sup.is_sup():
             raise RangeError('Superior Limit is not well specified - %s' % self.sup)
-
+            
         self.inf = limit.Limit(range[0])
         if not self.inf.is_inf():
             raise RangeError('Inferior Limit is not well specified - %s' % self.inf)
