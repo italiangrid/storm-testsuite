@@ -20,7 +20,7 @@ class Limit:
     def is_sup(self):
         if self.limit in (')',']'):
             return True
-
+        return False
 
     def is_inf(self):
         if self.limit in ('(','['):
