@@ -29,7 +29,7 @@ class Release:
     def is_infinity(self):
         return self.infinity
                 
-    def is_greater(self,value):
+    def is_greater(self, value):
         if self.infinity:
             if value.is_infinity():
                 return False
