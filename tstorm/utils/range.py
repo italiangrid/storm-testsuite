@@ -22,14 +22,16 @@ class Range:
         if len(extreme) == 2:
             self.min_release = release.Release(extreme[0])
             self.max_release = release.Release(extreme[1])
-        else:
-            raise RangeError('Range is not well specified - %s' % range)
+        #else:
+        #    raise RangeError('Range is not well specified - %s' % range)
 
         if not self.min_release.is_infinity():
            if not self.max_release.is_infinity():
                if not (self.min_release.is_lower(self.max_release) and \
                    self.max_release.is_greater(self.min_release)):
-                   raise RangeError('The couple Min,Max is not well specified in the range - %s' % range)
+                   msg = 'The couple Min,Max is not well specified in'
+                   msg += 'the range - ' + range
+                   raise RangeError(msg)
 
     def is_included(self, value):
         if self.inf.is_extreme_included():
