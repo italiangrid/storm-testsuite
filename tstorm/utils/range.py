@@ -52,7 +52,6 @@ class Range:
                         self.max_release.is_greater(value):
                         return True
                     else:
-                        #print 'no %s %s' % (self.min_release.get_release(), self.max_release.get_release())
                         return False
         else:
             if self.sup.is_extreme_included():
@@ -73,4 +72,3 @@ class Range:
                         return True
                     else:
                         return False
-        return False
