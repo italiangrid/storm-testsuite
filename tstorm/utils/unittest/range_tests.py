@@ -5,6 +5,7 @@ Created on Aug 7, 2012
 '''
 import unittest
 from tstorm.utils import range
+from tstorm.utils import release
 from tstorm.utils import limit
 
 class RangeTest(unittest.TestCase):
@@ -30,6 +31,13 @@ class RangeTest(unittest.TestCase):
         except range.RangeError:
             pass
         
+        try:
+            range.Range('()')
+        except limit.LimitError:
+            pass
+        except range.RangeError:
+            pass
+        
     def test_init_with_wrong_sup_input(self):
         try:
             range.Range(',(')
@@ -48,15 +56,37 @@ class RangeTest(unittest.TestCase):
             self.fail("expected a RangeError")
         pass
     
-    def test_init_with_wrong_range_input(self):
+    def test_init_with_wrong_extreme_input(self):
         try:
-            range.Range('()')
+            range.Range('(1.2.3-1,)')
+        except release.ReleaseError:
+            pass    
         except range.RangeError:
             pass
         else:
             self.fail("expected a RangeError")
         pass
-
+    
+    def test_init_with_wrong_extreme_inputs(self):
+        try:
+            range.Range('(1.2.3-1,1.2.2-1)')  
+        except range.RangeError:
+            pass
+        else:
+            self.fail("expected a RangeError")
+        pass
+       
+    def test_init_with_range_input(self):
+        range.Range('[1.2.3-1,1.2.10-4]')
+        pass
+    
+    def test_if_release_is_included_in_range(self):
+        a = range.Range('[1.2.3-1,1.2.10-4]')
+        b = release.Release('1.2.5-2')
+        self.failIf(not a.is_included(b))
+        pass
+            
+        
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()
