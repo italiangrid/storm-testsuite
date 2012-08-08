@@ -80,12 +80,95 @@ class RangeTest(unittest.TestCase):
         range.Range('[1.2.3-1,1.2.10-4]')
         pass
     
-    def test_if_release_is_included_in_range(self):
+    def test_if_release_is_included_in_range_included(self):
         a = range.Range('[1.2.3-1,1.2.10-4]')
         b = release.Release('1.2.5-2')
         self.failIf(not a.is_included(b))
         pass
+    
+    def test_if_release_is_not_included_in_range_included(self):
+        a = range.Range('[1.2.3-1,1.2.10-4]')
+        b = release.Release('1.3.5-2')
+        self.failIf(a.is_included(b))
+        pass
+    
+    def test_if_release_is_included_in_range_sup_included(self):
+        a = range.Range('(1.2.3-1,1.2.10-4]')
+        b = release.Release('1.2.5-2')
+        self.failIf(not a.is_included(b))
+        pass
+    
+    def test_if_release_is_included_in_range_inf_included(self):
+        a = range.Range('[1.2.3-1,1.2.10-4)')
+        b = release.Release('1.2.5-2')
+        self.failIf(not a.is_included(b))
+        pass
+    
+    def test_if_release_is_included_in_range(self):
+        a = range.Range('(1.2.3-1,1.2.10-4)')
+        b = release.Release('1.2.5-2')
+        self.failIf(not a.is_included(b))
+        pass
+    
+    def test_if_release_infinity_is_not_included_in_range_included(self):
+        a = range.Range('[1.2.3-1,1.2.10-4]')
+        b = release.Release('*')
+        self.failIf(a.is_included(b))
+        pass
+    
+    def test_if_release_infinity_is_included_in_range_infinity_included(self):
+        a = range.Range('[*,*]')
+        b = release.Release('*')
+        self.failIf(not a.is_included(b))
+        pass
+    
+    def test_if_release_infinity_is_included_in_range_infinity_sup_included(self):
+        a = range.Range('(*,*]')
+        b = release.Release('*')
+        self.failIf(not a.is_included(b))
+        pass
+    
+    def test_if_release_infinity_is_included_in_range_infinity_inf_included(self):
+        a = range.Range('[*,*)')
+        b = release.Release('*')
+        self.failIf(not a.is_included(b))
+        pass
             
+    def test_if_release_infinity_is_included_in_range_infinity(self):
+        a = range.Range('(*,*)')
+        b = release.Release('*')
+        self.failIf(not a.is_included(b))
+        pass
+    
+    def test_if_release_infinity_is_not_included_in_range_sup_included(self):
+        a = range.Range('(1.2.3-1,1.2.10-4]')
+        b = release.Release('*')
+        self.failIf(a.is_included(b))
+        pass
+    
+    def test_if_release_infinity_is_not_included_in_range_inf_included(self):
+        a = range.Range('[1.2.3-1,1.2.10-4)')
+        b = release.Release('*')
+        self.failIf(a.is_included(b))
+        pass
+    
+    def test_if_release_infinity_is_not_included_in_range(self):
+        a = range.Range('(1.2.3-1,1.2.10-4)')
+        b = release.Release('*')
+        self.failIf(a.is_included(b))
+        pass        
+            
+    def test_if_release_infinity_is_included_in_range_infinity_included(self):
+        a = range.Range('[*,*]')
+        b = release.Release('*')
+        self.failIf(not a.is_included(b))
+        pass
+    
+    def test_if_release_infinity_is_included_in_range_infinity(self):
+        a = range.Range('(*,*)')
+        b = release.Release('*')
+        self.failIf(not a.is_included(b))
+        pass
         
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
