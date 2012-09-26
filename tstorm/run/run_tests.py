@@ -160,7 +160,7 @@ class RunTests(object):
    
     def modify_valid_tests(self):
         if self.parameters['tests_sequence_file'][0]:
-            if settings.file_exists(sel.parameters['tests_sequence_file'][1]):
+            if settings.file_exists(self.parameters['tests_sequence_file'][1]):
                 self.parameters['tests_sequence'] = (True,
                    self.parameters['tests_sequence'][1] + settings.get_tests_sequence(self.parameters['tests_sequence_file'][1]))
             else:
@@ -185,6 +185,9 @@ class RunTests(object):
         self.set_valid_tests()
 
         if self.parameters['tests_sequence'][0]:
+            self.parameters['valid_tests'] = self.modify_valid_tests()
+
+        if self.parameters['tests_sequence_file'][0]:
             self.parameters['valid_tests'] = self.modify_valid_tests()
 
     def do_list(self):
