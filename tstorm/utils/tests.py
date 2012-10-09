@@ -1,5 +1,6 @@
 import sys
 import os
+import exceptions
 from tstorm.utils import range
 from tstorm.utils import test
 

@@ -1,5 +1,6 @@
 import sys
 import os
+import exceptions
 
 class TestStructureError(exceptions.Exception):
     pass

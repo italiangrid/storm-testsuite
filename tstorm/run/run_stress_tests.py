@@ -54,7 +54,7 @@ class RunStressTests(run_tests.RunTests):
                 "hvn:r:",
                 ["help","nostressreport",
                  "version","number-cycles=",
-                 "number-hours=","refresh-report="
+                 "number-hours=","refresh-report=",
                  "storm-release="])
         except getopt.GetoptError, err:
             print str(err)

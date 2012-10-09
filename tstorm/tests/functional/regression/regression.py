@@ -55,7 +55,7 @@ class RegressionTest(unittest.TestCase):
         self.assert_(ll['Checksum'] == lcksm_result['Checksum'])
 
         storm_rm = rm.StoRMRm(self.tsets['general']['endpoint'],
-                   self.tsets['https']['voms'], self.dfn)
+                   self.tsets['general']['accesspoint'], self.dfn)
         self.lfn.put_cmd(storm_rm.get_command())
         rm_result = storm_rm.get_output()
         self.assert_(rm_result['status'] == 'PASS')
@@ -119,7 +119,7 @@ class RegressionTest(unittest.TestCase):
         self.assert_(ll['status'] == 'PASS')
 
         storm_rm = rm.StoRMRm(self.tsets['general']['endpoint'],
-                   self.tsets['https']['voms'], self.dfn)
+                   self.tsets['general']['accesspoint'], self.dfn)
         self.lfn.put_cmd(storm_rm.get_command())
         self.rm_result = storm_rm.get_output()
         self.assert_(self.rm_result['status'] == 'PASS')
@@ -213,7 +213,7 @@ class RegressionTest(unittest.TestCase):
         self.assert_(int(self.lls_result['size']) == a)
 
         storm_rm = rm.StoRMRm(self.tsets['general']['endpoint'],
-                   self.tsets['https']['voms'], self.dfn)
+                   self.tsets['general']['accesspoint'], self.dfn)
         self.lfn.put_cmd(storm_rm.get_command())
         self.rm_result = storm_rm.get_output()
         self.assert_(self.rm_result['status'] == 'PASS')
@@ -261,7 +261,7 @@ class RegressionTest(unittest.TestCase):
         self.assert_('SRM_INVALID_REQUEST' in self.sptp_result['statusCode'])
 
         storm_rm = rm.StoRMRm(self.tsets['general']['endpoint'],
-                   self.tsets['https']['voms'], self.dfn)
+                   self.tsets['general']['accesspoint'], self.dfn)
         self.lfn.put_cmd(storm_rm.get_command())
         self.rm_result = storm_rm.get_output()
         self.assert_(self.rm_result['status'] == 'PASS')
@@ -423,7 +423,7 @@ class RegressionTest(unittest.TestCase):
         self.assert_(self.cp_result['status'] == 'PASS')
 
         storm_rm = rm.StoRMRm(self.tsets['general']['endpoint'],
-                   self.tsets['https']['voms'], self.dfn)
+                   self.tsets['general']['accesspoint'], self.dfn)
         self.lfn.put_cmd(storm_rm.get_command())
         rm_result = storm_rm.get_output()
         self.assert_(rm_result['status'] == 'PASS')

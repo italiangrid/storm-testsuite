@@ -206,7 +206,7 @@ class RunTests(object):
 
         for key, value in tests_methods.items():
             self.run_test(self.parameters['tfn'], \
-                value, log_file, key,
+                value, log_file, \
                 self.parameters['custom_destination_file'][0], \
                 self.parameters['custom_destination_file'][1])
 
