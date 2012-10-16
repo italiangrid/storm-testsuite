@@ -113,7 +113,7 @@ class RunStressTests(run_tests.RunTests):
         if uid.is_regression():
             lfn.put_ruid(uid.get_rfc())
         lfn.put_output()
-        runner = unittest.TextTestRunner(verbosity=2).run(eval(uid.get_aggregator()))
+        runner = unittest.TextTestRunner(verbosity=1).run(eval(uid.get_aggregator()))
         lfn.put_prologue()
 
     def __is_time_elapsed(self, ct):
@@ -153,8 +153,15 @@ class RunStressTests(run_tests.RunTests):
         for key, value in self.parameters['tests_status'].items():
             if '_wo' in key or \
                 '_glueone' in key or \
-                '_gluetwo' in key:
-                 self.parameters['tests_status'][key] = (True, 0, 0)
+                '_gluetwo' in key or \
+                'ts_https' in key or \
+                'ts_http' in key or \
+                'ts_https_voms' in key or \
+                '_https_' in key or \
+                '_http_' in key or \
+                '_https' in key or \
+                '_http' in key:
+                self.parameters['tests_status'][key] = (True, 0, 0)
  
     def __refresh_stress_tests_info(self, count, new_time, stress_log_file):
         stress_log_file.put_epilogue(cycle=str(count), \
@@ -164,7 +171,14 @@ class RunStressTests(run_tests.RunTests):
             if self.parameters['tests_methods'][key].get_aggregator() != "":
                 if '_wo' not in key and \
                     '_glueone' not in key and \
-                    '_gluetwo' not in key:
+                    '_gluetwo' not in key and \
+                    'ts_https' not in key and \
+                    'ts_http' not in key and \
+                    'ts_https_voms' not in key and \
+                    '_https_' not in key and \
+                    '_http_' not in key and \
+                    '_https' not in key and \
+                    '_http' not in key:
                     msg = '%s    %s    %s\n' % (key, value[1], \
                         value[1]+value[2])
                     stress_log_file.put(msg)
@@ -183,7 +197,14 @@ class RunStressTests(run_tests.RunTests):
 
                 if '_wo' not in tm_val.get_aggregator() and \
                     '_glueone' not in tm_val.get_aggregator() and \
-                    '_gluetwo' not in tm_val.get_aggregator():
+                    '_gluetwo' not in tm_val.get_aggregator() and \
+                    'ts_https' not in tm_val.get_aggregator() and \
+                    'ts_http' not in tm_val.get_aggregator() and \
+                    'ts_https_voms' not in tm_val.get_aggregator() and \
+                    '_https_' not in tm_val.get_aggregator() and \
+                    '_http_' not in tm_val.get_aggregator() and \
+                    '_https' not in tm_val.get_aggregator() and \
+                    '_http' not in tm_val.get_aggregator():
                     self.run_test(self.parameters['tfn'],
                         tm_val, log_file, \
                         self.parameters['custom_destination_file'][0], \
@@ -207,7 +228,7 @@ class RunStressTests(run_tests.RunTests):
 
     def for_hours(self, count, passed_time, log_file, stress_log_file):
         end_time = self.__get_end_time()
-        c_time = 0 
+        c_time = 0
         while c_time < end_time:
             test_index = self.__get_randomly_test_index()
             key = self.parameters['tests_status'].items()[test_index][0]
@@ -217,7 +238,14 @@ class RunStressTests(run_tests.RunTests):
 
                 if '_wo' not in tm_val.get_aggregator() and \
                     '_glueone' not in tm_val.get_aggregator() and \
-                    '_gluetwo' not in tm_val.get_aggregator():
+                    '_gluetwo' not in tm_val.get_aggregator() and \
+                    'ts_https' not in tm_val.get_aggregator() and \
+                    'ts_http' not in tm_val.get_aggregator() and \
+                    'ts_https_voms' not in tm_val.get_aggregator() and \
+                    '_https_' not in tm_val.get_aggregator() and \
+                    '_http_' not in tm_val.get_aggregator() and \
+                    '_https' not in tm_val.get_aggregator() and \
+                    '_http' not in tm_val.get_aggregator():
                     self.run_test(self.parameters['tfn'],
                         tm_val, log_file, \
                         self.parameters['custom_destination_file'][0], \
@@ -231,7 +259,6 @@ class RunStressTests(run_tests.RunTests):
                         test_total_number)
                     count += 1
                     c_time = time.strptime(time.ctime())
-
                     if self.__is_time_elapsed(passed_time):
                         new_time=datetime.datetime.now()
                         self.__refresh_stress_tests_info(count, new_time, \
