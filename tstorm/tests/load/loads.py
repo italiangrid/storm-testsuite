@@ -39,8 +39,8 @@ class LoadsTest(unittest.TestCase):
         storm_ls = ls.StoRMLs(self.tsets['general']['endpoint'],
                    self.tsets['general']['accesspoint'], self.dfn)
         self.lfn.put_cmd(storm_ls.get_command())
-        self.ls_result = storm_ls.get_output()
-        self.assert_(self.ls_result['status'] == 'FAILURE')
+        ls_result = storm_ls.get_output()
+        self.assert_(ls_result['status'] == 'FAILURE')
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
@@ -51,8 +51,8 @@ class LoadsTest(unittest.TestCase):
             storm_ls = ls.StoRMLs(self.tsets['general']['endpoint'],
                    self.tsets['general']['accesspoint'], a)
             self.lfn.put_cmd(storm_ls.get_command())
-            self.ls_result = storm_ls.get_output()
-            self.assert_(self.ls_result['status'] == 'FAILURE')
+            ls_result = storm_ls.get_output()
+            self.assert_(ls_result['status'] == 'FAILURE')
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
@@ -60,20 +60,20 @@ class LoadsTest(unittest.TestCase):
     def test_storm_ls_dir(self):
         if '/' in self.dfn:
             a=os.path.dirname(self.dfn)
-            lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
-                     self.tsets['general']['accesspoint'], a)
-            self.lfn.put_cmd(lcg_ls.get_command())
-            ls_result = lcg_ls.get_output()
+            storm_ls = ls.StoRMLs(self.tsets['general']['endpoint'],
+                   self.tsets['general']['accesspoint'], a)
+            self.lfn.put_cmd(storm_ls.get_command())
+            ls_result = storm_ls.get_output()
             self.assert_(ls_result['status'] == 'PASS')
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
     def test_storm_ls_file(self):
-        lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
-                 self.tsets['general']['accesspoint'], self.dfn)
-        self.lfn.put_cmd(lcg_ls.get_command())
-        ls_result = lcg_ls.get_output()
+        storm_ls = ls.StoRMLs(self.tsets['general']['endpoint'],
+                   self.tsets['general']['accesspoint'], self.dfn)
+        self.lfn.put_cmd(storm_ls.get_command())
+        ls_result = storm_ls.get_output()
         self.assert_(ls_result['status'] == 'PASS')
 
         cksm_lf = cksm.CksmLf(self.ifn)
@@ -86,7 +86,7 @@ class LoadsTest(unittest.TestCase):
     def test_storm_mkdir(self):
         if '/' in self.dfn:
             a=os.path.dirname(self.dfn)
-            srm_mkdir = mkdir.SrmMkdir(self.tsets['general']['endpoint'],
+            storm_mkdir = mkdir.StoRMMkdir(self.tsets['general']['endpoint'],
                         self.tsets['general']['accesspoint'], a)
 
             dtc=a.split('/')
@@ -94,10 +94,10 @@ class LoadsTest(unittest.TestCase):
             y='/' 
             for x in dtc:
                 if x != '':
-                    self.lfn.put_cmd(srm_mkdir.get_command(y + x))
+                    self.lfn.put_cmd(storm_mkdir.get_command(y + x))
                     y = y + x + '/' 
 
-            mkdir_result = srm_mkdir.get_output()
+            mkdir_result = storm_mkdir.get_output()
             for x in mkdir_result['status']:
                 self.assert_(x == 'PASS')
 
@@ -107,7 +107,7 @@ class LoadsTest(unittest.TestCase):
     def test_storm_mkdir_exist_dir(self):
         if '/' in self.dfn:
             a=os.path.dirname(self.dfn)
-            srm_mkdir = mkdir.SrmMkdir(self.tsets['general']['endpoint'],
+            storm_mkdir = mkdir.StoRMMkdir(self.tsets['general']['endpoint'],
                         self.tsets['general']['accesspoint'], a)
 
             dtc=a.split('/')
@@ -115,53 +115,31 @@ class LoadsTest(unittest.TestCase):
             y='/'
             for x in dtc:
                 if x != '':
-                    self.lfn.put_cmd(srm_mkdir.get_command(y + x))
+                    self.lfn.put_cmd(storm_mkdir.get_command(y + x))
                     y = y + x + '/'
 
-            mkdir_result = srm_mkdir.get_output()
+            mkdir_result = storm_mkdir.get_output()
             for x in mkdir_result['status']:
                 self.assert_(x == 'FAILURE')
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
-    def test_storm_cp_out(self):
-        lcg_cp = cp.LcgCp(self.tsets['general']['endpoint'],
-                 self.tsets['general']['accesspoint'], self.ifn, self.dfn,
-                 self.bifn)
-        self.lfn.put_cmd(lcg_cp.get_command())
-        cp_result = lcg_cp.get_output()
-        self.assert_(cp_result['status'] == 'PASS')
-
-        self.lfn.put_result('PASSED')
-        self.lfn.flush_file()
-
-    def test_storm_cp_in(self):
-        lcg_cp = cp.LcgCp(self.tsets['general']['endpoint'],
-                 self.tsets['general']['accesspoint'], self.ifn, self.dfn,
-                 self.bifn)
-        self.lfn.put_cmd(lcg_cp.get_command(False))
-        cp_result = lcg_cp.get_output(False)
-        self.assert_(cp_result['status'] == 'PASS')
-
-        self.lfn.put_result('PASSED')
-        self.lfn.flush_file()
-
     def test_storm_rm_file(self):
-        srm_rm = rm.SrmRm(self.tsets['general']['endpoint'],
+        storm_rm = rm.StoRMRm(self.tsets['general']['endpoint'],
                  self.tsets['general']['accesspoint'], self.dfn)
-        self.lfn.put_cmd(srm_rm.get_command())
-        rm_result = srm_rm.get_output()
+        self.lfn.put_cmd(storm_rm.get_command())
+        rm_result = storm_rm.get_output()
         self.assert_(rm_result['status'] == 'PASS')
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
     def test_storm_rm_unexist_file(self):
-        srm_rm = rm.SrmRm(self.tsets['general']['endpoint'],
-                 self.tsets['general']['accesspoint'], self.dfn)
-        self.lfn.put_cmd(srm_rm.get_command())
-        rm_result = srm_rm.get_output()
+        storm_rm = rm.StoRMRm(self.tsets['general']['endpoint'],
+                   self.tsets['general']['accesspoint'], self.dfn)
+        self.lfn.put_cmd(storm_rm.get_command())
+        rm_result = storm_rm.get_output()
         self.assert_(rm_result['status'] == 'FAILURE')
 
         self.lfn.put_result('PASSED')
@@ -170,15 +148,15 @@ class LoadsTest(unittest.TestCase):
     def test_storm_rm_dir(self):
         if '/' in self.dfn:
             a=os.path.dirname(self.dfn)
-            srm_rmdir = rmdir.SrmRmdir(self.tsets['general']['endpoint'],
+            storm_rmdir = rmdir.StoRMRmdir(self.tsets['general']['endpoint'],
                                self.tsets['general']['accesspoint'], a)
 
             y=a
             while y != '/':
-                self.lfn.put_cmd(srm_rmdir.get_command(y))
+                self.lfn.put_cmd(storm_rmdir.get_command(y))
                 y=os.path.dirname(y)
 
-            rmdir_result = srm_rmdir.get_output()
+            rmdir_result = storm_rmdir.get_output()
             for x in rmdir_result['status']:
                 self.assert_(x == 'PASS')
 
@@ -188,17 +166,71 @@ class LoadsTest(unittest.TestCase):
     def test_storm_rm_unexist_dir(self):
         if '/' in self.dfn:
             a=os.path.dirname(self.dfn)
-            srm_rmdir = rmdir.SrmRmdir(self.tsets['general']['endpoint'],
+            storm_rmdir = rmdir.StoRMRmdir(self.tsets['general']['endpoint'],
                         self.tsets['general']['accesspoint'], a)
 
             y=a
             while y != '/':
-                self.lfn.put_cmd(srm_rmdir.get_command(y))
+                self.lfn.put_cmd(storm_rmdir.get_command(y))
                 y=os.path.dirname(y)
 
-            rmdir_result = srm_rmdir.get_output()
+            rmdir_result = storm_rmdir.get_output()
             for x in rmdir_result['status']:
                 self.assert_(x == 'FAILURE')
+
+        self.lfn.put_result('PASSED')
+        self.lfn.flush_file()
+
+    def test_storm_prepare_to_get(self):
+        storm_ptg = cp.StoRMPtg(self.tsets['general']['endpoint'],
+                    self.tsets['general']['accesspoint'], self.dfn)
+        self.lfn.put_cmd(storm_ptg.get_command())
+        ptg_result = storm_ptg.get_output()
+        self.assert_(ptg_result['status'] == 'PASS')
+
+        self.lfn.put_result('PASSED')
+        self.lfn.flush_file()
+
+    def test_storm_release_file(self):
+        storm_ptg = cp.StoRMPtg(self.tsets['general']['endpoint'],
+                    self.tsets['general']['accesspoint'], self.dfn)
+        self.lfn.put_cmd(storm_ptg.get_command())
+        ptg_result = storm_ptg.get_output()
+        self.assert_(ptg_result['status'] == 'PASS')
+
+        storm_rf = cp.StoRMRf(self.tsets['general']['endpoint'],
+                   self.tsets['general']['accesspoint'], self.dfn,
+                   ptg_result['requestToken'])
+        self.lfn.put_cmd(storm_rf.get_command())
+        rf_result = storm_rf.get_output()
+        self.assert_(rf_result['status'] == 'PASS')
+
+        self.lfn.put_result('PASSED')
+        self.lfn.flush_file()
+
+    def test_storm_prepare_to_put(self):
+        storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
+                    self.tsets['general']['accesspoint'], self.dfn)
+        self.lfn.put_cmd(storm_ptp.get_command())
+        ptp_result = storm_ptp.get_output()
+        self.assert_(ptp_result['status'] == 'PASS')
+
+        self.lfn.put_result('PASSED')
+        self.lfn.flush_file()
+
+    def test_storm_put_done(self):
+        storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
+                    self.tsets['general']['accesspoint'], self.dfn)
+        self.lfn.put_cmd(storm_ptp.get_command())
+        ptp_result = storm_ptp.get_output()
+        self.assert_(ptp_result['status'] == 'PASS')
+
+        storm_pd = cp.StoRMPd(self.tsets['general']['endpoint'],
+                   self.tsets['http']['no_voms'], self.dfn,
+                   ptp_result['requestToken'])
+        self.lfn.put_cmd(storm_pd.get_command())
+        pd_result = storm_pd.get_output()
+        self.assert_(pd_result['status'] == 'PASS')
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()

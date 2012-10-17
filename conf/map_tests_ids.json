@@ -99,6 +99,16 @@
     "Verify rm operation of a given file by using the dcache client",
     "at.ts_dcache_rm_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
+  "ts_storm_rm_file":[
+    "44d233",
+    "LT",
+    false,
+    [["","(*,*)"]],
+    true,
+    "SRM RM",
+    "Verify rm operation of a given file by using the StoRM client",
+    "lt.ts_storm_rm_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
   "ts_non_ascii_chars":[
     "09829e",
     "ST",
@@ -118,6 +128,16 @@
     "SRM LS",
     "Verify ls operation on a directory that exists by using the lcg client",
     "at.ts_lcg_ls_dir(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_storm_ls_dir":[
+    "068ab1",
+    "LT",
+    false,
+    [["","(*,*)"]],
+    true,
+    "SRM LS",
+    "Verify ls operation on a directory that exists by using the StoRM client",
+    "lt.ts_storm_ls_dir(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_storm_gtp":[
     "882900",
@@ -449,6 +469,16 @@
     "Verify mkdir operation on a directory that already exists by using the dcache client",
     "at.ts_dcache_mkdir_exist(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
+  "ts_storm_mkdir_exist":[
+    "74a333",
+    "LT",
+    false,
+    [["","(*,*)"]],
+    true,
+    "SRM MKDIR",
+    "Verify mkdir operation on a directory that already exists by using the StoRM client",
+    "lt.ts_storm_mkdir_exist(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
   "ts_conf":[
     "8b4923",
     "UT",
@@ -609,6 +639,16 @@
     "Verify mkdir operation on a directory by using the dcache client",
     "at.ts_dcache_mkdir(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
+  "ts_storm_mkdir":[
+    "d55999",
+    "LT",
+    false,
+    [["","(*,*)"]],
+    true,
+    "SRM MKDIR",
+    "Verify mkdir operation on a directory by using the StoRM client",
+    "lt.ts_storm_mkdir(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
   "ts_update_free_space_upon_rm":[
     "b9aa3c",
     "ST",
@@ -729,6 +769,46 @@
     "Transfer a file on a SE by using the lcg client",
     "at.ts_lcg_cp_out(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
+  "ts_storm_prepare_to_put":[
+    "037144",
+    "LT",
+    false,
+    [["","(*,*)"]],
+    false,
+    "PREPARE TO PUT A FILE ON A SE",
+    "Prepare to put a file on a SE by using the StoRM client",
+    "lt.ts_storm_prepare_to_put(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_storm_prepare_to_get":[
+    "037166",
+    "LT",
+    false,
+    [["","(*,*)"]],
+    false,
+    "PREPARE TO GET A FILE FROM A SE",
+    "Prepare to get a file from a SE by using the StoRM client",
+    "lt.ts_storm_prepare_to_get(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_storm_put_done":[
+    "037155",
+    "LT",
+    false,
+    [["","(*,*)"]],
+    false,
+    "PUT A FILE ON A SE",
+    "Put a file on a SE by using the StoRM client",
+    "lt.ts_storm_put_done(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_storm_release_file":[
+    "037555",
+    "LT",
+    false,
+    [["","(*,*)"]],
+    false,
+    "RELEASE A FILE ON A SE",
+    "Release a file on a SE by using the StoRM client",
+    "lt.ts_storm_release_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
   "ts_used_space":[
     "50155e",
     "DT",
@@ -769,6 +849,16 @@
     "Verify rmdir operation of a directory by using the dcache client",
     "at.ts_dcache_rm_dir(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
+  "ts_storm_rm_dir":[
+    "2d8031",
+    "LT",
+    false,
+    [["","(*,*)"]],
+    true,
+    "SRM RMDIR",
+    "Verify rmdir operation of a directory by using the StoRM client",
+    "lt.ts_storm_rm_dir(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
   "ts_dcache_rm_unexist_dir":[
     "f1efe5",
     "AT",
@@ -779,6 +869,16 @@
     "Verify rmdir operation of a directory that does not exist by using the dcache client",
     "at.ts_dcache_rm_unexist_dir(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
+  "ts_storm_rm_unexist_dir":[
+    "f1ef55",
+    "LT",
+    false,
+    [["","(*,*)"]],
+    false,
+    "SRM RMDIR",
+    "Verify rmdir operation of a directory that does not exist by using the StoRM client",
+    "lt.ts_storm_rm_unexist_dir(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
   "ts_dcache_rm_unexist_file":[
     "b76fcf",
     "AT",
@@ -788,6 +888,16 @@
     "SRM RM",
     "Verify rm operation of a file that does not exist by using the dcache client",
     "at.ts_dcache_rm_unexist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_storm_rm_unexist_file":[
+    "b76fff",
+    "LT",
+    false,
+    [["","(*,*)"]],
+    false,
+    "SRM RM",
+    "Verify rm operation of a file that does not exist by using the StoRM client",
+    "lt.ts_storm_rm_unexist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_size":[
     "ca2419",
@@ -848,6 +958,16 @@
     "SRM LS",
     "Verify ls operation on a file that exists by using the lcg client",
     "at.ts_lcg_ls_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_storm_ls_file":[
+    "184a33",
+    "LT",
+    false,
+    [["","(*,*)"]],
+    true,
+    "SRM LS",
+    "Verify ls operation on a file that exists by using the StoRM client",
+    "lt.ts_storm_ls_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_path_authz_db":[
     "5e6c78",

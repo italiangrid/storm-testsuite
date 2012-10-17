@@ -27,6 +27,7 @@ from tstorm.tests.functional import tapetests as tt
 from tstorm.tests.functional.regression import regressiontests as rt
 from tstorm.tests.functional.regression import regressiontests_novoms as rtnv
 from tstorm.tests.functional.regression import regression_ldaptests as rlt
+from tstorm.tests.load import loadstests as lt
 
 class OptionError(exceptions.Exception):
     pass

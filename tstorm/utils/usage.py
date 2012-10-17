@@ -65,7 +65,7 @@ def usage_filter_list(opt=True,run=''):
             print """  t|test=LT filters in relation with the type of test"""
         else:
             print """  t|test=sequence of types of tests separated by , as """
-            print """      (AT,UT,ST) that filters in relation with the """
+            print """      (AT,UT,ST,LT) that filters in relation with the """
             print """      the type of test"""
         print """  r|regression=false|true that expresses if the test """
         print """      belongs to the regression category"""
@@ -124,7 +124,7 @@ def usage_example_filter_list(cmd='',run=''):
     elif run == 'stress':
         print "    %s --filter-list 't=LT;regression=true;f=n,d,rfc,id'" % cmd
     else:
-        print "    %s --filter-list 't=AT,UT,ST;regression=true;f=n,d,rfc,id'" % cmd
+        print "    %s --filter-list 't=AT,UT,ST,LT;regression=true;f=n,d,rfc,id'" % cmd
 
 def get_usage(run=''):
     if run == 'sanity':
