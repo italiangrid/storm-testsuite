@@ -18,7 +18,7 @@ from tstorm.utils import utils
 
 class LoadsTest(unittest.TestCase):
     def __init__(self, testname, tfn, ifn, dfn, bifn, lfn):
-        super(AtomicsTest, self).__init__(testname)
+        super(LoadsTest, self).__init__(testname)
         self.tsets = config.TestSettings(tfn).get_test_sets()
         self.ifn = ifn
         self.dfn = dfn
@@ -86,6 +86,7 @@ class LoadsTest(unittest.TestCase):
     def test_storm_mkdir(self):
         if '/' in self.dfn:
             a=os.path.dirname(self.dfn)
+            print self.dfn, a
             storm_mkdir = mkdir.StoRMMkdir(self.tsets['general']['endpoint'],
                         self.tsets['general']['accesspoint'], a)
 
@@ -98,6 +99,7 @@ class LoadsTest(unittest.TestCase):
                     y = y + x + '/' 
 
             mkdir_result = storm_mkdir.get_output()
+            print mkdir_result
             for x in mkdir_result['status']:
                 self.assert_(x == 'PASS')
 

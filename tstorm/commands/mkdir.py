@@ -57,6 +57,7 @@ class StoRMMkdir:
         self.wrong_request = {
             'port': '8443'}
         self.otpt = {
+            'path':[],
             'status':[],
             'statusCode':[],
             'explanation':[]}

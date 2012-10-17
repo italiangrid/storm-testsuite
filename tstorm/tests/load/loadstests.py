@@ -1,6 +1,7 @@
 __author__ = 'Elisabetta Ronchieri'
 
 import unittest
+from tstorm.tests.atomic import atomics
 from tstorm.tests.load import loads
 from tstorm.tests import utilities
 
@@ -39,7 +40,7 @@ def ts_storm_mkdir_exist(conf, ifn, dfn, bifn, uid, lfn):
     s = unittest.TestSuite()
     s.addTest(loads.LoadsTest('test_storm_mkdir',conf, ifn, dfn, bifn, lfn))
     s.addTest(loads.LoadsTest('test_storm_mkdir_exist_dir',conf, ifn, dfn, bifn, lfn))
-    s.addTest(laods.LoadsTest('test_storm_rm_dir',conf, ifn, dfn, bifn, lfn))
+    s.addTest(loads.LoadsTest('test_storm_rm_dir',conf, ifn, dfn, bifn, lfn))
     return s
 
 def ts_storm_rm_dir(conf, ifn, dfn, bifn, uid, lfn):
