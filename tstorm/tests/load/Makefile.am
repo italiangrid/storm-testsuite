@@ -16,23 +16,21 @@
 # Authors: Elisabetta Ronchieri <elisabetta.ronchieri@cnaf.infn.it>
 #
 
-SUBDIRS = atomic deployment functional load
-
-tstormtestsdir = @pyexecdir@/tstorm/tests
-tstormtests_PYTHON =  \
-    commontests.py \
-    __init__.py \
-    utilities.py 
+tstormloaddir = @pyexecdir@/tstorm/tests/load
+tstormload_PYTHON = \
+    loads.py \
+    loadstests.py \
+    __init__.py 
 
 EXTRA_DIST = \
-    commontests.py \
-    __init__.py \
-    utilities.py
+    loads.py \
+    loadstests.py \
+    __init__.py 
 
 CLEANFILES= \
-    commontests.pyc \
+    loads.pyc \
+    loads.pyo \
+    loadstests.pyc \
+    loadstests.pyo \
     __init__.pyc \
-    utilities.pyc \
-    commontests.pyo \
-    __init__.pyo \
-    utilities.pyo
+    __init__.pyo

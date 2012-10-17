@@ -33,6 +33,7 @@ from tstorm.tests.functional import tapetests as tt
 from tstorm.tests.functional.regression import regressiontests as rt
 from tstorm.tests.functional.regression import regressiontests_novoms as rtnv
 from tstorm.tests.functional.regression import regression_ldaptests as rlt
+from tstorm.tests.load import loadstests as lt
 
 class RunStressTestsError(exceptions.Exception):
     pass
@@ -266,6 +267,14 @@ class RunStressTests(run_tests.RunTests):
                         passed_time = time.mktime(new_time.timetuple())
 
         return count
+
+    def do_list(self):
+        if self.parameters['list_tests_details'][0]:
+            self.tests_instance.get_info(run='stress')
+            sys.exit(0)
+        if self.parameters['filter_tests_details'][0]:
+            self.tests_instance.get_info(info=self.parameters['filter_tests_details'][1],run='stress')
+            sys.exit(0)
 
     def do_run_tests(self):
         # Prepare log file

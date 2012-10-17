@@ -9,6 +9,16 @@
     "Verify ls operation on a file that does not exist by using the lcg client",
     "at.ts_lcg_ls_unexist_file(tfn,ifn,dfn,back_ifn,uid,lfn)"
     ],
+  "ts_storm_ls_unexist_file":[
+    "469b33",
+    "LT",
+    false,
+    [["","(*,*)"]],
+    true,
+    "SRM LS",
+    "Verify ls operation on a file that does not exist by using the StoRM client",
+    "lt.ts_storm_ls_unexist_file(tfn,ifn,dfn,back_ifn,uid,lfn)"
+    ],
   "ts_lcg_ls_unexist_dir":[
     "4a153e",
     "AT",
@@ -18,6 +28,16 @@
     "SRM LS",
     "Verify ls operation on a directory that does not exist by using the lcg client",
     "at.ts_lcg_ls_unexist_dir(tfn,ifn,dfn,back_ifn,uid,lfn)"
+    ],
+  "ts_storm_ls_unexist_dir":[
+    "4a15ee",
+    "LT",
+    false,
+    [["","(*,*)"]],
+    true,
+    "SRM LS",
+    "Verify ls operation on a directory that does not exist by using the StoRM client",
+    "lt.ts_storm_ls_unexist_dir(tfn,ifn,dfn,back_ifn,uid,lfn)"
     ],
   "ts_storm_gtp_wo":[
     "6d69e7",
@@ -108,6 +128,16 @@
     "SRM GET TRANSFER PROTOCOLS",
     "Verify gtp operation by using the StoRM client",
     "at.ts_storm_gtp(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_storm_get_transfer_protocols":[
+    "882901",
+    "LT",
+    false,
+    [["","(*,*)"]],
+    true,
+    "SRM GET TRANSFER PROTOCOLS",
+    "Verify gtp operation by using the StoRM client",
+    "lt.ts_storm_get_transfer_protocols(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_size_in_namespace_file":[
     "c23e05",
@@ -471,7 +501,7 @@
     ],
   "ts_storm_ping":[
     "6d06c2",
-    "AT",
+    "LT",
     false,
     [["","(*,*)"]],
     true,

@@ -19,3 +19,10 @@ class TestsMethods:
             if 'DT' == value.get_test_type():
                 sanity_methods[key] = value
         return sanity_methods
+
+    def get_stress_methods(self):
+        stress_methods = {}
+        for key, value in self.methods.items():
+            if 'LT' == value.get_test_type():
+                stress_methods[key] = value
+        return stress_methods

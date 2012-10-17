@@ -26,6 +26,13 @@ class Filters:
             elif 'DT' not in values:
                 self.__print_check_tests_types_msg(run=run)
                 raise FiltersError('Filters are not correct for sanity tests')
+        elif run == 'stress':
+            if len(values) > 1:
+                self.__print_check_tests_types_msg(run=run)
+                raise FiltersError('Filters are not correct for sanity tests')
+            elif 'LT' not in values:
+                self.__print_check_tests_types_msg(run=run)
+                raise FiltersError('Filters are not correct for sanity tests')
         else:
             if 'DT' in values:
                 self.__print_check_tests_types_msg(run=run)
@@ -48,9 +55,11 @@ class Filters:
                     raise FiltersError('Filters are not correct for tests')
 
     def get_tests_types(self,run=''):
-        if run=='sanity':
+        if run == 'sanity':
             return ('DT')
-        return ('AT', 'ST', 'UT')
+        elif run == 'stress':
+            return ('LT')
+        return ('AT', 'ST', 'UT', 'LT')
 
     def get_tests_data_structure(self):
         return ('t', 'test', \

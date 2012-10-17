@@ -28,6 +28,9 @@ class Tests:
             if run == 'sanity':
                 if value.get_test_type() == 'DT':
                     print '%s  %s' % (value.get_id(), value.get_rfc())
+            elif run == 'stress':
+                if value.get_test_type() == 'LT':
+                    print '%s  %s' % (value.get_id(), value.get_rfc())
             else:
                 if value.get_test_type() != 'DT':
                     print '%s  %s' % (value.get_id(), value.get_rfc())
@@ -64,6 +67,9 @@ class Tests:
         for key, value in self.tests.items():
             if run == 'sanity':
                 if value.get_test_type() != 'DT':
+                    continue
+            elif run == 'stress':
+                if value.get_test_type() != 'LT':
                     continue
             elif value.get_test_type() == 'DT':
                 continue
@@ -126,9 +132,11 @@ class Tests:
                 else:
                     continue
             elif run == 'stress':
-                if 'DT' != value.get_test_type() and \
-                    value.is_idenpotent() and \
-                    not value.is_regression():
+                #if 'DT' != value.get_test_type() and \
+                #    value.is_idenpotent() and \
+                #    not value.is_regression():
+                #    methods[key] = value
+                if 'LT' == value.get_test_type():
                     methods[key] = value
                 else:
                     continue
@@ -142,6 +150,13 @@ class Tests:
             if 'DT' == value.get_test_type():
                 sanity_methods[key] = value
         return sanity_methods
+
+    def get_stress_methods(self, tests):
+        stress_methods = {}
+        for key, value in tests.items():
+            if 'LT' == value.get_test_type():
+                stress_methods[key] = value
+        return stress_methods
 
     def get_valid_tests(self, release):
         for data_key, data_value in self.data.items():

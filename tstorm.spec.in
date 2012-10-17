@@ -180,6 +180,16 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/tstorm/tests/functional/regression/regressiontests.py
 %{python_sitelib}/tstorm/tests/functional/regression/regressiontests.pyc
 %{python_sitelib}/tstorm/tests/functional/regression/regressiontests.pyo
+%dir %{python_sitelib}/tstorm/tests/load
+%{python_sitelib}/tstorm/tests/load/loads.py
+%{python_sitelib}/tstorm/tests/load/loads.pyc
+%{python_sitelib}/tstorm/tests/load/loads.pyo
+%{python_sitelib}/tstorm/tests/load/loadstests.py
+%{python_sitelib}/tstorm/tests/load/loadstests.pyc
+%{python_sitelib}/tstorm/tests/load/loadstests.pyo
+%{python_sitelib}/tstorm/tests/load/__init__.py
+%{python_sitelib}/tstorm/tests/load/__init__.pyc
+%{python_sitelib}/tstorm/tests/load/__init__.pyo
 %dir %{_datadir}/doc/tstorm-%{version}
 %doc %{_datadir}/doc/tstorm-%{version}/AUTHORS
 %doc %{_datadir}/doc/tstorm-%{version}/ChangeLog

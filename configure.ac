@@ -26,7 +26,7 @@ AC_CONFIG_MACRO_DIR([m4])
 # Release number
 osdist=`cat /etc/redhat-release | awk 'BEGIN {FS="release "} {print $2}'| awk 'BEGIN {FS="."} {print $1}'| awk 'BEGIN {FS="("} {print $1}'`
 AC_SUBST([TSTORM_SO], [sl$osdist])
-AC_SUBST([TSTORM_AGE_NUMBER], [2])
+AC_SUBST([TSTORM_AGE_NUMBER], [3])
 
 # Notices.
 AC_COPYRIGHT([See LICENCE file for details])
@@ -85,6 +85,7 @@ AC_CONFIG_FILES([
    tstorm/tests/deployment/regression/service_configuration.py
    tstorm/tests/functional/Makefile
    tstorm/tests/functional/regression/Makefile
+   tstorm/tests/load/Makefile
    tstorm.spec
 ])
 

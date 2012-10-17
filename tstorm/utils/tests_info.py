@@ -28,6 +28,12 @@ class TestsInfo:
             if value[1] == 'DT':
                 print '%s  %s' % (value[0], val[0])
 
+    def __print_all_stress_ids(self):
+        print 'ID      RFC'
+        for key, value in self.tests.items():
+            if value[1] == 'LT':
+                print '%s  %s' % (value[0], val[0])
+
     def __build_header_format(self):
         if 'f' not in self.info.keys():
             print 'ID      RFC'
@@ -123,3 +129,10 @@ class TestsInfo:
             self.__print_all_sanity_ids()
         else:
             self.__print_with_filters()
+
+    def get_stress_info(self):
+        if len(self.info) == 0:
+            self.__print_all_stress_ids()
+        else:
+            self.__print_with_filters()
+

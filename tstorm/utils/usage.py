@@ -61,18 +61,16 @@ def usage_filter_list(opt=True,run=''):
         print """  by ; and between ', the values of which are"""
         if run == 'sanity':
             print """  t|test=DT filters in relation with the type of tests """
-            print """  r|regression=false|true that expresses if the test """
-            print """      belongs to the regression category"""
-            print """  idenpotent=false|true that expresses if the test belongs """
-            print """      to the idenpotent category"""
+        elif run == 'stress':
+            print """  t|test=LT filters in relation with the type of test"""
         else:
             print """  t|test=sequence of types of tests separated by , as """
-            print """      (AT,UT,LT,ST,DT) that filters in relation with the """
+            print """      (AT,UT,ST) that filters in relation with the """
             print """      the type of test"""
-            print """  r|regression=false|true that expresses if the test """
-            print """      belongs to the regression category"""
-            print """  idenpotent=false|true that expresses if the test belongs """
-            print """      to the idenpotent category"""
+        print """  r|regression=false|true that expresses if the test """
+        print """      belongs to the regression category"""
+        print """  idenpotent=false|true that expresses if the test belongs """
+        print """      to the idenpotent category"""
         print """  o|output=filename that allows user to save ids in the """
         print """      specified filename"""
         print """  f|format=n|name,d|description,range,rfc,i|id,idenpotent that """
@@ -123,8 +121,10 @@ def usage_example_filter_list(cmd='',run=''):
     print """filter"""
     if run == 'sanity':
         print "    %s --filter-list 't=DT;regression=true;f=n,d,rfc,id'" % cmd
+    elif run == 'stress':
+        print "    %s --filter-list 't=LT;regression=true;f=n,d,rfc,id'" % cmd
     else:
-        print "    %s --filter-list 't=AT,LT,UT,ST;regression=true;f=n,d,rfc,id'" % cmd
+        print "    %s --filter-list 't=AT,UT,ST;regression=true;f=n,d,rfc,id'" % cmd
 
 def get_usage(run=''):
     if run == 'sanity':
