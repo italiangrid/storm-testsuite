@@ -134,8 +134,6 @@ def ts_storm_prepare_to_get_unexist_file(conf, ifn, dfn, bifn, uid, lfn):
     s = unittest.TestSuite()
     s.addTest(utilities.UtilitiesTest('test_dd',conf, ifn, bifn, lfn))
     s.addTest(loads.LoadsTest('test_storm_prepare_to_get_unexist_file',conf, ifn, dfn, bifn, lfn))
-    s.addTest(loads.LoadsTest('test_storm_rm_file',conf, ifn, dfn, bifn, lfn))
-    s.addTest(loads.LoadsTest('test_storm_rm_dir',conf, ifn, dfn, bifn, lfn))
     s.addTest(utilities.UtilitiesTest('test_rm_lf',conf, ifn, bifn, lfn))
     return s
 
