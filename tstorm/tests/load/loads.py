@@ -86,7 +86,7 @@ class LoadsTest(unittest.TestCase):
     def test_storm_mkdir(self):
         if '/' in self.dfn:
             a=os.path.dirname(self.dfn)
-            print self.dfn, a
+            #print self.dfn, a
             storm_mkdir = mkdir.StoRMMkdir(self.tsets['general']['endpoint'],
                         self.tsets['general']['accesspoint'], a)
 

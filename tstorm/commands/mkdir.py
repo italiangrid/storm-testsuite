@@ -106,7 +106,7 @@ class StoRMMkdir:
                                 yy = a[1].split('\n')
                                 for z in yy:
                                     if w in z:
-                                        self.otpt[x].append(z.split(w)[1].split('="')[1].split('"')[0])
+                                        self.otpt[w].append(z.split(w)[1].split('="')[1].split('"')[0])
                     else:
                         self.otpt['status'].append('FAILURE')
                 else:
