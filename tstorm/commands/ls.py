@@ -86,7 +86,7 @@ class StoRMLs:
             a += self.endpoint + ':' + self.cmd['port'] + '/'
         a += ' -s ' + self.cmd['protocol'] + '://'
         a += self.endpoint + ':' + self.cmd['port'] + '/srm/managerv2?SFN=/'
-        a += self.accesspoint + self.dst_filename
+        a += self.accesspoint + self.dst_filename + ' -l'
         return a
 
     def run_command(self, wrong_request=False, wrong_option=False):
@@ -109,7 +109,7 @@ class StoRMLs:
                         for z in y:
                             if x in z:
                               if x == 'fileLocality':
-                                  self.otpt[x] = self.map(c[z.split(x)[1].split('=')[1]])
+                                  self.otpt[x] = self.map[z.split(x)[1].split('=')[1]]
                               elif x in ('checkSumType', 'checkSumValue'):
                                   self.otpt[x] = z.split(x)[1].split('="')[1].split('"')[0]
                               else:

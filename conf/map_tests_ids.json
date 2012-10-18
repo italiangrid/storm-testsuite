@@ -779,6 +779,16 @@
     "Prepare to put a file on a SE by using the StoRM client",
     "lt.ts_storm_prepare_to_put(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
+  "ts_storm_prepare_to_put_exist_file":[
+    "037444",
+    "LT",
+    false,
+    [["","(*,*)"]],
+    false,
+    "PREPARE TO PUT AN EXISTING FILE ON A SE",
+    "Prepare to put an existing file on a SE by using the StoRM client",
+    "lt.ts_storm_prepare_to_put_exist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
   "ts_storm_prepare_to_get":[
     "037166",
     "LT",
@@ -788,6 +798,16 @@
     "PREPARE TO GET A FILE FROM A SE",
     "Prepare to get a file from a SE by using the StoRM client",
     "lt.ts_storm_prepare_to_get(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    ],
+  "ts_storm_prepare_to_get_unexist_file":[
+    "037666",
+    "LT",
+    false,
+    [["","(*,*)"]],
+    false,
+    "PREPARE TO GET AN UNEXISTING FILE FROM A SE",
+    "Prepare to get an unexisting file from a SE by using the StoRM client",
+    "lt.ts_storm_prepare_to_get_unexist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
     ],
   "ts_storm_put_done":[
     "037155",
