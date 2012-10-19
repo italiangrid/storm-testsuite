@@ -97,7 +97,7 @@ class RunStressTests(run_tests.RunTests):
             msg += ' mutually exclusive'
             raise run_tests.OptionError(msg)
 
-    def run_test(self, tfn, uid, lfn, n_df,n_dfn):
+    def run_test(self, tfn, uid, lfn, sfn, n_df, n_dfn):
         sd=True
         if 'ts_https' in uid.get_aggregator() or \
            'ts_http' in uid.get_aggregator() or \
@@ -107,14 +107,14 @@ class RunStressTests(run_tests.RunTests):
            '_https' in uid.get_aggregator() or \
            '_http' in uid.get_aggregator():
             sd=False
-        ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,subdir=sd)
+        ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,path=sfn.get_path(),subdir=sd)
         lfn.put_name(uid.get_name())
         lfn.put_description(uid.get_description())
         lfn.put_uuid(uid.get_id())
         if uid.is_regression():
             lfn.put_ruid(uid.get_rfc())
         lfn.put_output()
-        runner = unittest.TextTestRunner(verbosity=1).run(eval(uid.get_aggregator()))
+        runner = unittest.TextTestRunner(verbosity=2).run(eval(uid.get_aggregator()))
         lfn.put_prologue()
 
     def __is_time_elapsed(self, ct):
@@ -207,7 +207,7 @@ class RunStressTests(run_tests.RunTests):
                     '_https' not in tm_val.get_aggregator() and \
                     '_http' not in tm_val.get_aggregator():
                     self.run_test(self.parameters['tfn'],
-                        tm_val, log_file, \
+                        tm_val, log_file, stress_log_file,\
                         self.parameters['custom_destination_file'][0], \
                         self.parameters['custom_destination_file'][1])
 
@@ -248,7 +248,7 @@ class RunStressTests(run_tests.RunTests):
                     '_https' not in tm_val.get_aggregator() and \
                     '_http' not in tm_val.get_aggregator():
                     self.run_test(self.parameters['tfn'],
-                        tm_val, log_file, \
+                        tm_val, log_file, stress_log_file,\
                         self.parameters['custom_destination_file'][0], \
                         self.parameters['custom_destination_file'][1])
 

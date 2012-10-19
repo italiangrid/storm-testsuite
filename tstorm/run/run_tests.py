@@ -143,7 +143,7 @@ class RunTests(object):
            '_https' in uid.get_aggregator() or \
            '_http' in uid.get_aggregator():
             sd=False
-        ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,subdir=sd)
+        ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,path=lfn.get_path(),subdir=sd)
         if uid.get_aggregator() != "" and '_wo' not in uid.get_aggregator():
             lfn.put_name(uid.get_name())
             lfn.put_description(uid.get_description())

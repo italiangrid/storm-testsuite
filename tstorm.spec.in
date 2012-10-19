@@ -65,12 +65,14 @@ echo Building %{name}-%{version}
 
 %build
 /bin/bash bootstrap
-./configure --prefix=/usr --datadir=/usr/share --sysconfdir=/etc --bindir=/usr/bin --exec_prefix=/usr 
+./configure --prefix=/usr --datadir=/usr/share --sysconfdir=/etc --bindir=/usr/bin --exec_prefix=/usr --localstatedir=/var
 make
 
 %install
 rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
+mkdir -p $RPM_BUILD_ROOT/%{_localstatedir}/log/tstorm
+mkdir -p $RPM_BUILD_ROOT/%{_localstatedir}/log/tstorm/stress
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -79,8 +81,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %{_bindir}/tstorm-tests
 %{_bindir}/tstorm-stress-tests
+
+%attr(777,%{default_user},%{default_user}) %dir %{_localstatedir}/log/tstorm/stress
+
 %dir %{_sysconfdir}/tstorm/
-%attr(644,%{default_user},%{default_user}) %{_sysconfdir}/tstorm/tstorm.ini
+%attr(644,%{default_user},%{default_user}) %config(noreplace) %{_sysconfdir}/tstorm/tstorm.ini
 %dir %{python_sitelib}/tstorm/
 %dir %{python_sitelib}/tstorm/commands
 %attr(644,%{default_user},%{default_user}) %{python_sitelib}/tstorm/commands/abort.py
@@ -202,6 +207,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/tstorm-tests-ids
 %dir %{_sysconfdir}/tstorm
 %dir %{_sysconfdir}/tstorm/common
+
+%attr(777,%{default_user},%{default_user}) %dir %{_localstatedir}/log/tstorm
+
 %attr(644,%{default_user},%{default_user}) %{_sysconfdir}/tstorm/common/map_tests_ids.json
 %doc  %{_docdir}/tstorm-%{version}/*
 %dir %{python_sitelib}/tstorm/
@@ -325,7 +333,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/tstorm-sanity-tests
 %dir %{_sysconfdir}/tstorm
 %dir %{_sysconfdir}/tstorm/sanity
-%attr(750,%{default_user},%{default_user}) %{_sysconfdir}/tstorm/sanity/tstorm-sanity.ini
+%attr(750,%{default_user},%{default_user}) %config(noreplace) %{_sysconfdir}/tstorm/sanity/tstorm-sanity.ini
 %dir %{python_sitelib}/tstorm/
 %dir %{python_sitelib}/tstorm/tests/
 %dir %{python_sitelib}/tstorm/tests/deployment

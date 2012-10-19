@@ -106,6 +106,15 @@ class StoRMMkdir:
                                 for z in yy:
                                     if w in z:
                                         self.otpt[w].append(z.split(w)[1].split('="')[1].split('"')[0])
+                    elif 'SRM_DUPLICATION_ERROR' in a[1]:
+                        for w in self.otpt:
+                            if w == 'status':
+                                self.otpt['status'].append('PASS')
+                            else:
+                                yy = a[1].split('\n')
+                                for z in yy:
+                                    if w in z:
+                                        self.otpt[w].append(z.split(w)[1].split('="')[1].split('"')[0])
                     else:
                         self.otpt['status'].append('FAILURE')
                 else:

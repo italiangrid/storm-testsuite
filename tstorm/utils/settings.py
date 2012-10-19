@@ -6,28 +6,37 @@ import time
 import os
 import simplejson
 import check_testplan as ctp
+import utils
 
-def set_inpt_fn(n_df, n_dfn, subdir=True):
+
+def set_inpt_fn(n_df, n_dfn, path='', subdir=True):
     '''Set Input filename (ifn), Back filename (bfn) and Destinatin filename (dfn)'''
 
-    t=datetime.datetime.now()
-    ts=str(time.mktime(t.timetuple()))
+    #t=datetime.datetime.now()
+    #ts=str(time.mktime(t.timetuple()))
 
-    ifn = '/tmp/tstorm-input-file-' + ts + '.txt'
-    bfn = '/tmp/tstorm-back-input-file-' + ts + '.txt'
+    id = utils.get_uuid()
+    #ifn = path + '/tstorm-input-file-' + ts + '.txt'
+    #bfn = path + '/tstorm-back-input-file-' + ts + '.txt'
+    ifn = path + '/tstorm-input-file-' + id + '.txt'
+    bfn = path + '/tstorm-back-input-file-' + id + '.txt'
 
     if n_df:
         if '/' in n_dfn:
             dfn = '/'
             tmp_d = os.path.dirname(n_dfn).split('/')[1:]
             for x in tmp_d:
-                dfn = dfn + x + ts + '/'
-            dfn = dfn + os.path.basename(n_dfn) + '.' + ts
+                dfn = dfn + x + id + '/'
+                #dfn = dfn + x + ts + '/'
+            #dfn = dfn + os.path.basename(n_dfn) + '.' + ts
+            dfn = dfn + os.path.basename(n_dfn) + '.' + id
     else:
         if subdir:
-            dfn = '/a'+ ts + '/b' + ts + '/tstorm-output-file-' + ts + '.txt'
+            dfn = '/a'+ id + '/b' + id + '/tstorm-output-file-' + id + '.txt'
+            #dfn = '/a'+ ts + '/b' + ts + '/tstorm-output-file-' + ts + '.txt'
         else:
-            dfn = '/tstorm-output-file-' + ts + '.txt'
+            dfn = '/tstorm-output-file-' + id + '.txt'
+            #dfn = '/tstorm-output-file-' + ts + '.txt'
 
     return ifn,dfn,bfn
 

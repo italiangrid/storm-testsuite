@@ -2,12 +2,17 @@ import datetime
 import os
 import sys
 import time
+import utils
 
 class StressReportFile:
-    def __init__(self, fPath = '/tmp', fName = "tstorm-stress", report = True):
-        self.fpath = fPath
+    def __init__(self, fPath = '/var/log/tstorm/stress', fName = "tstorm-stress", report = True):
         t=datetime.datetime.now()
         ts=str(time.mktime(t.timetuple()))
+        id = utils.get_uuid()
+        #self.fpath = fPath + '/' + ts
+        self.fpath = fPath + '/' + id
+        if not os.path.isdir(self.fpath):
+            os.makedirs(self.fpath)
         self.fname = fName + '_' + ts + '.log'
         self.log_file = ""
         self.report = report
@@ -21,6 +26,12 @@ class StressReportFile:
             fail ("Log file path must be valid")
         if self.report:
             self.log_file = open(os.path.join(self.fpath, self.fname), 'a+')
+
+    def get_filename(self):
+        return self.fname
+
+    def get_path(self):
+        return self.fpath
 
     def close_file(self):
         if self.report:
