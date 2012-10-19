@@ -57,7 +57,6 @@ class StoRMMkdir:
         self.wrong_request = {
             'port': '8443'}
         self.otpt = {
-            'path':[],
             'status':[],
             'statusCode':[],
             'explanation':[]}
@@ -96,7 +95,7 @@ class StoRMMkdir:
                 a=self.run_command(y + x, wrong_request=wrong_request,
                     wrong_option=wrong_option)
                 y = y + x + '/'
-                self.otpt['path'].append(y)
+                #self.otpt['path'].append(y)
                 if len(a) > 0 and a[0] == 0:
                     if 'SRM_SUCCESS' in a[1]:
                         for w in self.otpt:
