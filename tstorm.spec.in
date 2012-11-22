@@ -2,7 +2,7 @@
 
 %define name         @PACKAGE@
 %define version      @VERSION@
-%define release      @TSTORM_AGE_NUMBER@.@TSTORM_SO@
+%define release      @TSTORM_AGE_NUMBER@
 
 %define builddir     @RPM_BUILD_DIR@/build-%{name}-%{version}
 
@@ -10,7 +10,7 @@
 
 Name:           %{name}
 Version:        %{version}
-Release:        %{release}
+Release:        %{release}%{?dist}
 Vendor:         EMI
 License:        Apache License
 URL:            http://grid-it.cnaf.infn.it
