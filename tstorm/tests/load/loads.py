@@ -133,7 +133,7 @@ class LoadsTest(unittest.TestCase):
 
             mkdir_result = storm_mkdir.get_output()
             for x in mkdir_result['status']:
-                self.assert_(x == 'FAILURE')
+                self.assert_(x == 'PASS')
 
         self.lfn.put_result('PASSED')
         self.lfn.flush_file()
