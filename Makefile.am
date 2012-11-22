@@ -62,6 +62,15 @@ RPM_RPM = $(RPM_MAIN_DIR)/RPMS
 RPM_SRPM = $(RPM_MAIN_DIR)/SRPMS
 RPM_DIRS = $(RPM_MAIN_DIR) $(RPM_SOURCE) $(RPM_SPEC) $(RPM_BUILD) $(RPM_RPM) $(RPM_SRPM)
 
+srpm: dist
+	/bin/mkdir -p $(RPM_DIRS)
+	/bin/cp -u @PACKAGE@-@VERSION@.tar.gz $(RPM_SOURCE)
+	/bin/cp $(SPEC_FILE) $(RPM_SPEC)
+	/usr/bin/rpmbuild  --define "_topdir $(RPM_MAIN_DIR)" --nodeps -bs $(RPM_SPEC)/$(SPEC_FILE)
+
+rpm: srpm
+	/usr/bin/rpmbuild  --rebuild --define "_topdir $(RPM_MAIN_DIR)" --define "dist .@TSTORM_OS@"  $(RPM_SRPM)/@PACKAGE@-@VERSION@-@TSTORM_AGE_NUMBER@.src.rpm
+
 rpm: dist
 	/bin/mkdir -p $(RPM_DIRS)
 	/bin/cp -u @PACKAGE@-@VERSION@.tar.gz $(RPM_SOURCE)
@@ -92,13 +101,13 @@ stage:
 
 distsrc:
 	mkdir -p @DISTSOURCE@
-	cp $(distdir).tar.gz @DISTSOURCE@/$(distdir)-@TSTORM_AGE_NUMBER@.@TSTORM_SO@.src.tar.gz
+	cp $(distdir).tar.gz @DISTSOURCE@/$(distdir)-@TSTORM_AGE_NUMBER@.@TSTORM_OS@.src.tar.gz
 	cp $(RPM_SRPM)/*.rpm @DISTSOURCE@
 
 distbin: stage
 	mkdir -p @DISTBIN@; \
 	mkdir -p etics-tmp; \
-        cd etics-tmp; tar -zcf $(distdir).noarch.tar.gz etc usr; cp $(distdir).noarch.tar.gz @DISTBIN@/$(distdir)-@TSTORM_AGE_NUMBER@.@TSTORM_SO@.noarch.tar.gz; cd ..; \
+        cd etics-tmp; tar -zcf $(distdir).noarch.tar.gz etc usr; cp $(distdir).noarch.tar.gz @DISTBIN@/$(distdir)-@TSTORM_AGE_NUMBER@.@TSTORM_OS@.noarch.tar.gz; cd ..; \
         cp $(RPM_RPM)/*/*.rpm @DISTBIN@
 
 clean-local:
