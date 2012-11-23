@@ -86,7 +86,6 @@ def configuration_path_exists():
 
 def get_configuration_path(file_name='map_tests_ids.json'):
     '''Get the configuration path'''
-    print file_name
     configuration_path = os.path.dirname(file_name)
 
     return configuration_path
@@ -96,14 +95,16 @@ def configuration_file_exists(file_name='map_tests_ids.json'):
 
     result=False
 
-    paths = get_configuration_paths()
+    if os.path.isfile(file_name):
+        result=True
+    else:
+        paths = get_configuration_paths()
+        for x in paths:
+            if os.path.isfile(os.path.join(x,file_name)):
+                result=True
+                break
 
-    for x in paths:
-        if os.path.isfile(os.path.join(x,file_name)):
-            #print 'file %s exist ' % (x+file_name)
-            result=True
-            break
-
+    #print 'res %s is for %s ' % (result,file_name)
     return result
 
 def get_configuration_file(file_name='map_tests_ids.json'):
@@ -111,13 +112,16 @@ def get_configuration_file(file_name='map_tests_ids.json'):
 
     configuration_file=''
 
-    paths = get_configuration_paths()
+    if os.path.isfile(file_name):
+        configuration_file=file_name
+    else:
+        paths = get_configuration_paths()
 
-    for x in paths:
-        if os.path.isfile(os.path.join(x,file_name)):
-            configuration_file=(x+file_name)
-            #print 'file %s ' % configuration_file
-            break
+        for x in paths:
+            if os.path.isfile(os.path.join(x,file_name)):
+                configuration_file=(x+file_name)
+                #print 'file %s ' % configuration_file
+                break
 
     return configuration_file 
 

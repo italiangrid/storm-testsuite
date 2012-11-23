@@ -49,8 +49,15 @@ class Filters:
             if val == 'o':
                 self.__print_check_tests_data_structure_msg()
                 raise FiltersError('Filters are not correct for tests')
-            for x in self.get_tests_data_structure():
-                if val != x:
+            if val not in self.get_tests_data_structure():
+                self.__print_check_tests_data_structure_msg()
+                raise FiltersError('Filters are not correct for tests')
+            else:
+                found=False
+                for x in self.get_tests_data_structure():
+                    if val == x:
+                        found = True
+                if found == False:
                     self.__print_check_tests_data_structure_msg()
                     raise FiltersError('Filters are not correct for tests')
 
