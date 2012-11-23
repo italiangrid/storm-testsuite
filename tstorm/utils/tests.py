@@ -111,6 +111,9 @@ class Tests:
                 if str(info['i']).lower() == str(value.is_idenpotent()).lower():
                     filter_info.append(value.get_id())
                     self.__build_body_format(value, info)
+            else:
+                filter_info.append(value.get_id())
+                self.__build_body_format(value, info)
             if 'o' in info.keys():
                 df = open(info['o'], 'w')
                 for id in filter_info:
