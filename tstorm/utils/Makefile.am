@@ -101,7 +101,7 @@ CLEANFILES= \
     __init__.pyc \
     utils.pyc \
     ldapsearch.pyc \
-    limit.py \
+    limit.pyc \
     version.pyc \
     listinfo.pyc \
     yaim.pyc \

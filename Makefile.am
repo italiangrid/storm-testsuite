@@ -71,13 +71,13 @@ srpm: dist
 rpm: srpm
 	/usr/bin/rpmbuild  --rebuild --define "_topdir $(RPM_MAIN_DIR)" --define "dist .@TSTORM_OS@"  $(RPM_SRPM)/@PACKAGE@-@VERSION@-@TSTORM_AGE_NUMBER@.src.rpm
 
-rpm: dist
-	/bin/mkdir -p $(RPM_DIRS)
-	/bin/cp -u @PACKAGE@-@VERSION@.tar.gz $(RPM_SOURCE)
-	/bin/cp $(SPEC_FILE) $(RPM_SPEC)
-	cd $(RPM_SPEC); \
-        /usr/bin/rpmbuild  --define "_topdir $(RPM_MAIN_DIR)" --nodeps -ba $(RPM_SPEC)/$(SPEC_FILE)
-	mkdir -p @DISTSOURCE@ @DISTBIN@	
+#rpm: dist
+#	/bin/mkdir -p $(RPM_DIRS)
+#	/bin/cp -u @PACKAGE@-@VERSION@.tar.gz $(RPM_SOURCE)
+#	/bin/cp $(SPEC_FILE) $(RPM_SPEC)
+#	cd $(RPM_SPEC); \
+#       /usr/bin/rpmbuild  --define "_topdir $(RPM_MAIN_DIR)" --nodeps -ba $(RPM_SPEC)/$(SPEC_FILE)
+#	mkdir -p @DISTSOURCE@ @DISTBIN@	
 
 stage:
 	@set fnord $(MAKEFLAGS); amf=$$2; \
