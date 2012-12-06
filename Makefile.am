@@ -69,7 +69,7 @@ srpm: dist
 	/usr/bin/rpmbuild  --define "_topdir $(RPM_MAIN_DIR)" --nodeps -bs $(RPM_SPEC)/$(SPEC_FILE)
 
 rpm: srpm
-	/usr/bin/rpmbuild  --rebuild --define "_topdir $(RPM_MAIN_DIR)" --define "dist .@TSTORM_OS@"  $(RPM_SRPM)/@PACKAGE@-@VERSION@-@TSTORM_AGE_NUMBER@.src.rpm
+	/usr/bin/rpmbuild  --rebuild --define "_topdir $(RPM_MAIN_DIR)" --define "dist .@TSTORM_OS@"  $(RPM_SRPM)/@PACKAGE@-@VERSION@-@TSTORM_AGE_NUMBER@*.src.rpm
 
 #rpm: dist
 #	/bin/mkdir -p $(RPM_DIRS)

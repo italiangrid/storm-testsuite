@@ -131,7 +131,7 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitearch}/tstorm/tests/commontests.pyo
 %{python_sitearch}/tstorm/tests/utilities.py
 %{python_sitearch}/tstorm/tests/utilities.pyc
-%{python_sitearchb}/tstorm/tests/utilities.pyo
+%{python_sitearch}/tstorm/tests/utilities.pyo
 %dir %{python_sitearch}/tstorm/tests/atomic
 %{python_sitearch}/tstorm/tests/atomic/atomics.py
 %{python_sitearch}/tstorm/tests/atomic/atomics.pyc
