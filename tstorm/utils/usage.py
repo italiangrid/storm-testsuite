@@ -108,6 +108,10 @@ def usage_example_noreport(cmd=''):
     print """Example: if you want to run tests without producing a report"""
     print '    %s --noreport' % cmd
 
+def usage_example_storm_release(cmd=''):
+    print """Example: if you want to run tests specifying storm release"""
+    print "    %s -r '<major-release.minor-release.revision-release>-age'" % cmd
+
 def usage_example_ids(cmd=''):
     print """Example: if you want to run tests providing tests sequence"""
     print '    %s -i ' % cmd
@@ -184,6 +188,7 @@ def get_usage(run=''):
     usage_storm_release(opt=False)
 
     usage_example_noreport(cmd=cmd)
+    usage_example_storm_release(cmd=cmd)
     if run != 'stress':
         usage_example_ids(cmd=cmd)
         usage_example_filter_list(cmd=cmd, run=run)
