@@ -43,11 +43,11 @@ def usage_storm_release(opt=True):
         print """                   [-r|--storm-release]"""
 
 def usage_ids(opt=True):
-        if not opt:
-            print """- ids is followed by a sequence of id values separated """
-            print """  by , and between '"""
-        else:
-            print """                   [-i|--ids] """
+    if not opt:
+        print """- ids is followed by a sequence of id values separated """
+        print """  by , and between '"""
+    else:
+        print """                   [-i|--ids] """
 
 def usage_file_ids(opt=True):
     if not opt:
