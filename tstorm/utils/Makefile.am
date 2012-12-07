@@ -18,7 +18,6 @@
 
 tstormutilsdir = @pyexecdir@/tstorm/utils
 tstormutils_PYTHON = \
-    check_testplan.py \
     mysqlquery.py \
     cksm.py \
     readfile.py \
@@ -40,7 +39,6 @@ tstormutils_PYTHON = \
     version.py \
     listinfo.py \
     yaim.py \
-    map_tests_ids.py \
     range.py \
     release.py \
     filters.py \
@@ -51,7 +49,6 @@ tstormutils_PYTHON = \
     library_dependencies.py
 
 EXTRA_DIST = \
-    check_testplan.py \
     mysqlquery.py \
     cksm.py \
     readfile.py \
@@ -73,7 +70,6 @@ EXTRA_DIST = \
     version.py \
     listinfo.py \
     yaim.py \
-    map_tests_ids.py \
     range.py \
     filters.py \
     release.py \
@@ -84,7 +80,6 @@ EXTRA_DIST = \
     library_dependencies.py 
 
 CLEANFILES= \
-    check_testplan.pyc \
     mysqlquery.pyc \
     cksm.pyc \
     readfile.pyc \
@@ -105,10 +100,8 @@ CLEANFILES= \
     version.pyc \
     listinfo.pyc \
     yaim.pyc \
-    map_tests_ids.pyc \
     range_checks.pyc \
     test_checks.pyc \
-    check_testplan.pyo \
     mysqlquery.pyo \
     cksm.pyo \
     readfile.pyo \
@@ -129,7 +122,6 @@ CLEANFILES= \
     version.pyo \
     listinfo.pyo \
     yaim.pyo \
-    map_tests_ids.pyo \
     range.pyo \
     release.pyo \
     filters.pyo \

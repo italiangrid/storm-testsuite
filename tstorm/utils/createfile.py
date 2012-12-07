@@ -8,13 +8,19 @@ class Dd:
     def __init__(self, fn='input-file'):
         self.ifn = fn
         self.cmd = {
-                   'name':'dd',
-                   'size':'1M'}
+            'name':'dd',
+            'size':'1M'}
         self.otpt = {
-                   'status':''}
+            'status':''}
 
     def get_command(self):
-        a = self.cmd['name'] + ' if=/dev/urandom of='+ self.ifn + ' bs=' + self.cmd['size'] + ' count=1'
+        opt = ' if=/dev/urandom '
+        opt += ' of='+ self.ifn
+        opt += ' bs=' + self.cmd['size']
+        opt += ' count=1'
+
+        a = self.cmd['name'] + opt
+        #' if=/dev/urandom of='+ self.ifn + ' bs=' + self.cmd['size'] + ' count=1'
         return a
 
     def run_command(self):
@@ -36,7 +42,7 @@ class Cf:
     def __init__(self, fn='input-file'):
         self.ifn = fn
         self.otpt = {
-                    'status':''}
+            'status':''}
 
     def get_output(self):
         c = 'a'

@@ -10,14 +10,14 @@ class TestsError(exceptions.Exception):
 class Tests:
     def __init__(self, data):
         self.list_keys = {
-           'i':'get_id()', 'id':'get_id()',
-           't':'get_test_type()', 'type':'get_test_type()',
-           'r':'is_regression()', 'regression':'is_regression()',
-           'rfc':'get_rfc()',
-           'idenpotent':'is_idenpotent()',
-           'range':'get_range()',
-           'n':'get_name()', 'name':'get_name()',
-           'd':'get_description()', 'description':'det_description()'}
+            'i':'get_id()', 'id':'get_id()',
+            't':'get_test_type()', 'type':'get_test_type()',
+            'r':'is_regression()', 'regression':'is_regression()',
+            'rfc':'get_rfc()',
+            'idenpotent':'is_idenpotent()',
+            'range':'get_range()',
+            'n':'get_name()', 'name':'get_name()',
+            'd':'get_description()', 'description':'det_description()'}
 
         self.data = data
         self.tests = {}

@@ -231,9 +231,6 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitearch}/tstorm/run/run_tests.pyc
 %{python_sitearch}/tstorm/run/run_tests.pyo
 %dir %{python_sitearch}/tstorm/utils
-%{python_sitearch}/tstorm/utils/check_testplan.py
-%{python_sitearch}/tstorm/utils/check_testplan.pyc
-%{python_sitearch}/tstorm/utils/check_testplan.pyo
 %{python_sitearch}/tstorm/utils/cksm.py
 %{python_sitearch}/tstorm/utils/cksm.pyc
 %{python_sitearch}/tstorm/utils/cksm.pyo

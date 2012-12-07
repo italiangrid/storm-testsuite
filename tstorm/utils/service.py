@@ -8,10 +8,10 @@ class Service:
     def __init__(self, sn):
         self.sn = sn
         self.cmd = {
-                   'name':'service'}
+            'name':'service'}
         self.otpt = {
-                    'status':'',
-                    'otpt':''}
+            'status':'',
+            'otpt':''}
 
     def get_command(self):
         a = self.cmd['name'] + ' ' + self.sn + ' status'

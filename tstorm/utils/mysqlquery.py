@@ -7,19 +7,19 @@ from tstorm.utils import utils
 class Mysql:
     def __init__(self, db_name, db_table, db_field, db_host, token, db_user='storm', db_pwd='storm'):
         self.db = {
-                  'name': db_name,
-                  'table': db_table,
-                  'host': db_host,
-                  'user': db_user,
-                  'pwd': db_pwd,
-                  'field': db_field
-                  }
+            'name': db_name,
+            'table': db_table,
+            'host': db_host,
+            'user': db_user,
+            'pwd': db_pwd,
+            'field': db_field
+            }
         self.storage_space = ['total_size', 'available_size', 'free_size']
         self.cmd = {
-                   'name':'mysql'}
+            'name':'mysql'}
         self.otpt = {
-                   'status':[],
-                   'token':{}}
+            'status':[],
+            'token':{}}
         self.token = token
 
     def get_command(self, alias_value):

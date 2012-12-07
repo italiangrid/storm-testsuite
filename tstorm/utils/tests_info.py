@@ -7,14 +7,14 @@ class TestsInfo:
         self.tests = tests
         self.info = info
         self.list_keys = {
-           'i':0, 'id':0,
-           't':1, 'type':1,
-           'r':2, 'regression':2,
-           'rfc':3,
-           'idenpotent':4,
-           'range':3,
-           'n':5, 'name':5,
-           'd':6, 'description':6}
+            'i':0, 'id':0,
+            't':1, 'type':1,
+            'r':2, 'regression':2,
+            'rfc':3,
+            'idenpotent':4,
+            'range':3,
+            'n':5, 'name':5,
+            'd':6, 'description':6}
 
     def __print_all_system_ids(self):
         print 'ID      RFC'

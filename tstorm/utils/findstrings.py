@@ -8,11 +8,11 @@ class Grep:
     def __init__(self, fn='/var/log/storm/storm-frontend-server.log'):
         self.ifn = fn
         self.cmd = {
-                   'name':'grep'
-                   }
+            'name':'grep'
+            }
         self.ipt_strings = 'Cannot add or update a child row: a foreign key constraint fails'
         self.otpt = {
-                    'status':''}
+            'status':''}
 
     def get_command(self):
         a = self.cmd['name'] + '"' + self.ipt_strings + '" ' + self.ifn
