@@ -5,5 +5,5 @@ from tstorm.tests import utilities as ut
 
 def ts_conf(conf, ifn, bifn, uid, lfn):
     s = unittest.TestSuite()
-    s.addTest(ut.UtilitiesTest('test_settings', conf, ifn, bifn, lfn))
+    s.addTest(ut.UtilitiesTest('test_settings', conf, ifn, bifn, uid, lfn))
     return s

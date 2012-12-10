@@ -267,9 +267,6 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitearch}/tstorm/utils/listinfo.py
 %{python_sitearch}/tstorm/utils/listinfo.pyc
 %{python_sitearch}/tstorm/utils/listinfo.pyo
-%{python_sitearch}/tstorm/utils/map_tests_ids.py
-%{python_sitearch}/tstorm/utils/map_tests_ids.pyc
-%{python_sitearch}/tstorm/utils/map_tests_ids.pyo
 %{python_sitearch}/tstorm/utils/mysqlquery.py
 %{python_sitearch}/tstorm/utils/mysqlquery.pyc
 %{python_sitearch}/tstorm/utils/mysqlquery.pyo

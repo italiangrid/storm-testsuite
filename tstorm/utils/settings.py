@@ -5,7 +5,7 @@ import datetime
 import time
 import os
 import simplejson
-import check_testplan as ctp
+#import check_testplan as ctp
 import utils
 
 
@@ -161,34 +161,34 @@ def print_configuration_file_template(file_name = 'tstorm.ini.template'):
     #    print "Unexpected error:", sys.exc_info()[0]
     #    sys.exit(2)
 
-def is_json_file_valid(tp_info):
-    '''Check validity of the test plan conf file'''
+#def is_json_file_valid(tp_info):
+#    '''Check validity of the test plan conf file'''
 
-    result=False
+#    result=False
 
-    a=ctp.CheckTestplan()
-    kw=a.get_key_word()
-    tp_categories=a.get_test_plan_categories()
-    available_methods=a.get_test_suites()
+#    a=ctp.CheckTestplan()
+#    kw=a.get_key_word()
+#    tp_categories=a.get_test_plan_categories()
+#    available_methods=a.get_test_suites()
 
-    for x in tp_info:
-        if x == kw:
-            result=True
-            break
+#    for x in tp_info:
+#        if x == kw:
+#            result=True
+#            break
 
-    try:
-        for x in tp_info[kw]:
-            if x in tp_categories:
-                result=True
-                for y in tp_info[x]:
-                  if y not in available_methods:
-                      return False
-            else:
-                return False
-    except KeyError:
-        return False
+#    try:
+#        for x in tp_info[kw]:
+#            if x in tp_categories:
+#                result=True
+#                for y in tp_info[x]:
+#                  if y not in available_methods:
+#                      return False
+#            else:
+#                return False
+#    except KeyError:
+#        return False
 
-    return result
+#    return result
 
 def is_tests_sequence_valid(ts_info, uid):
     '''Check validity of the tests sequence'''
