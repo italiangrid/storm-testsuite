@@ -98,7 +98,7 @@ class LoadsTest(unittest.TestCase):
                 print err
                 self.lfn.put_result('FAILED')
             else:
-                self.lfn.put_result('PASSED'))
+                self.lfn.put_result('PASSED')
 
             self.lfn.flush_file()
 
@@ -123,7 +123,7 @@ class LoadsTest(unittest.TestCase):
                 print err
                 self.lfn.put_result('FAILED')
             else:
-                self.lfn.put_result('PASSED'))
+                self.lfn.put_result('PASSED')
 
             self.lfn.flush_file()
 
