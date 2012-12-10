@@ -18,43 +18,47 @@ class UtilitiesTest(unittest.TestCase):
         self.lfn = lfn
     
     def test_settings(self):
-        self.lfn.put_cmd('')
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
 
-        for x in self.tsets:
-            try:
+        try:
+            self.lfn.put_cmd('')
+
+            for x in self.tsets:
                 msg = 'Section %s is wrong in the conf file' % x
                 self.assert_(x in ('general','ping','https','http','tape',
                     'bdii','yaim','log','node'),
-                    '%s - FAILED, %s, Test ID %s' %
-                    (inspect.stack()[1][3], msg, self.id))
-            except AssertionError, err:
-                print err
-                self.lfn.put_result('FAILED')
-                break
+                    '%s, %s - FAILED, %s, Test ID %s' %
+                    (path, method, msg, self.id))
 
             for y in self.tsets[x]:
-                try:
-                    msg = 'Option value %s is not set' % y
-                    self.assert_(y != '',
-                        '%s - FAILED, %s, Test ID %s' %
-                        (inspect.stack()[1][3], msg, self.id))
-                except AssertionError, err:
-                    print err
-                    self.lfn.put_result('FAILED')
-                    break
+                msg = 'Option value %s is not set' % y
+                self.assert_(y != '',
+                    '%s, %s - FAILED, %s, Test ID %s' %
+                    (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
 
-        self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
     def test_dd(self):
-        dd = createfile.Dd(self.ifn)
-        self.lfn.put_cmd(dd.get_command())
-        self.dd_result = dd.get_output()
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
         try:
+            dd = createfile.Dd(self.ifn)
+            self.lfn.put_cmd(dd.get_command())
+            self.dd_result = dd.get_output()
+
             msg = 'Input file %s has not been created' % self.ifn
             self.assert_(self.dd_result['status'] == 'PASS',
-                '%s - FAILED, %s, Test ID %s' %
-                (inspect.stack()[1][3], msg, self.id))
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
@@ -64,12 +68,17 @@ class UtilitiesTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_cr_lf(self):
-        self.cf_result = createfile.Cf(self.ifn).get_output()
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
         try:
+            self.cf_result = createfile.Cf(self.ifn).get_output()
+
             msg = 'Local file %s has not been created' % self.ifn
             self.assert_(self.cf_result['status'] == 'PASS',
-                '%s - FAILED, %s, Test ID %s' %
-                (inspect.stack()[1][3], msg, self.id))
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
@@ -79,15 +88,20 @@ class UtilitiesTest(unittest.TestCase):
         self.lfn.flush_file()
 
     def test_rm_lf(self):
-        rm_lf = removefile.RmLf(self.ifn, self.bifn)
-        self.lfn.put_cmd(rm_lf.get_command())
-        self.rmlf_result = rm_lf.get_output()
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
         try:
+            rm_lf = removefile.RmLf(self.ifn, self.bifn)
+            self.lfn.put_cmd(rm_lf.get_command())
+            self.rmlf_result = rm_lf.get_output()\
+
             msg = 'Local files (%s,%s) have not been removed' % \
                 (self.ifn, self.bifn)
             self.assert_(self.rmlf_result['status'] == 'PASS',
-                '%s - FAILED, %s, Test ID %s' %
-                (inspect.stack()[1][3], msg, self.id))
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
