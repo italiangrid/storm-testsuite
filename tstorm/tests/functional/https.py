@@ -33,20 +33,29 @@ class HttpsTest(unittest.TestCase):
             self.lfn.put_cmd(lcg_ls.get_command())
             self.ls_result = lcg_ls.get_output()
 
-            self.assert_(self.ls_result['status'] == 'FAILURE')
+            msg = 'lcg ls status'
+            self.assert_(self.ls_result['status'] == 'FAILURE',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
             storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
                  self.tsets['http']['no_voms'], self.dfn, protocol=self.prt)
             self.lfn.put_cmd(storm_ptp.get_command())
             self.ptp_result = storm_ptp.get_output()
 
-            self.assert_(self.ptp_result['status'] == 'PASS')
+            msg = 'storm ptp status'
+            self.assert_(self.ptp_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
             cp_curl = cp.curl(self.ifn, self.bifn, self.ptp_result['TURL'])
             self.lfn.put_cmd(cp_curl.get_command())
             self.curl_result = cp_curl.get_output(False, True)
 
-            self.assert_(self.curl_result['status'] == 'PASS')
+            msg = 'curl status'
+            self.assert_(self.curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
             storm_pd = cp.StoRMPd(self.tsets['general']['endpoint'],
                  self.tsets['http']['no_voms'], self.dfn,
@@ -54,14 +63,20 @@ class HttpsTest(unittest.TestCase):
             self.lfn.put_cmd(storm_pd.get_command())
             self.pd_result = storm_pd.get_output()
 
-            self.assert_(self.pd_result['status'] == 'PASS')
+            msg = 'storm pd status'
+            self.assert_(self.pd_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
             lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
                 self.tsets['http']['no_voms'], self.dfn)
             self.lfn.put_cmd(lcg_ls.get_command())
             self.ls_result = lcg_ls.get_output()
 
-            self.assert_(self.ls_result['status'] == 'PASS')
+            msg = 'lcg ls status'
+            self.assert_(self.ls_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
@@ -78,13 +93,19 @@ class HttpsTest(unittest.TestCase):
         try:
             t=datetime.datetime.now()
             ts=str(time.mktime(t.timetuple()))
-            a = 'http://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['http_port'] + '/storageArea/'+ self.tsets['http']['no_voms'] +  self.dfn + ts
+            turl = 'http://'
+            turl += self.tsets['general']['gridhttp_server_hostname'] + ':'
+            turl += self.tsets['general']['http_port'] + '/storageArea/'
+            turl += self.tsets['http']['no_voms'] +  self.dfn + ts
 
-            cp_curl = cp.curl(self.ifn, self.bifn, a)
+            cp_curl = cp.curl(self.ifn, self.bifn, turl)
             self.lfn.put_cmd(cp_curl.get_command())
             self.curl_result = cp_curl.get_output(False, True)
 
-            self.assert_(self.curl_result['status'] == 'FAILURE')
+            msg = 'curl status'
+            self.assert_(self.curl_result['status'] == 'FAILURE',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
@@ -99,13 +120,19 @@ class HttpsTest(unittest.TestCase):
         method = stack_value[3]
 
         try:
-            a = 'http://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['http_port'] + '/storageArea/'+ self.tsets['http']['no_voms'] +  self.dfn
+            turl = 'http://'
+            turl += self.tsets['general']['gridhttp_server_hostname'] + ':'
+            turl += self.tsets['general']['http_port'] + '/storageArea/'
+            turl += self.tsets['http']['no_voms'] +  self.dfn
 
-            cp_curl = cp.curl(self.ifn, self.bifn, a)
+            cp_curl = cp.curl(self.ifn, self.bifn, turl)
             self.lfn.put_cmd(cp_curl.get_command())
             self.curl_result = cp_curl.get_output(False, True)
 
-            self.assert_(self.curl_result['status'] == 'PASS')
+            msg = 'curl status'
+            self.assert_(self.curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
@@ -120,13 +147,19 @@ class HttpsTest(unittest.TestCase):
         method = stack_value[3]
 
         try:
-            a = 'http://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['http_port'] + '/storageArea/'+ self.tsets['http']['no_voms'] +  self.dfn
+            turl = 'http://' 
+            turl += self.tsets['general']['gridhttp_server_hostname'] + ':' 
+            turl += self.tsets['general']['http_port'] + '/storageArea/'
+            turl += self.tsets['http']['no_voms'] +  self.dfn
   
-            cp_curl = cp.curl(self.ifn, self.bifn, a)
+            cp_curl = cp.curl(self.ifn, self.bifn, turl)
             self.lfn.put_cmd(cp_curl.get_command())
             self.curl_result = cp_curl.get_output(False, False)
 
-            self.assert_(self.curl_result['status'] == 'PASS')
+            msg = 'curl status'
+            self.assert_(self.curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
@@ -143,13 +176,19 @@ class HttpsTest(unittest.TestCase):
         try:
             t=datetime.datetime.now()
             ts=str(time.mktime(t.timetuple()))
-            a = 'http://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['http_port'] + '/storageArea/'+ self.tsets['http']['no_voms'] +  self.dfn + ts
+            turl = 'http://'
+            turl += self.tsets['general']['gridhttp_server_hostname'] + ':'
+            turl += self.tsets['general']['http_port'] + '/storageArea/'
+            turl += self.tsets['http']['no_voms'] +  self.dfn + ts
 
-            cp_curl = cp.curl(self.ifn, self.bifn, a)
+            cp_curl = cp.curl(self.ifn, self.bifn, turl)
             self.lfn.put_cmd(cp_curl.get_command())
             self.curl_result = cp_curl.get_output(False, False)
 
-            self.assert_(self.curl_result['status'] == 'FAILURE')
+            msg = 'curl status'
+            self.assert_(self.curl_result['status'] == 'FAILURE',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
@@ -169,27 +208,40 @@ class HttpsTest(unittest.TestCase):
             self.lfn.put_cmd(storm_ptg.get_command())
             self.ptg_result = storm_ptg.get_output()
 
-            self.assert_(self.ptg_result['status'] == 'PASS')
+            msg = 'storm ptg status'
+            self.assert_(self.ptg_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
             cp_curl = cp.curl(self.ifn, self.bifn, self.ptg_result['transferURL'])
             self.lfn.put_cmd(cp_curl.get_command())
             self.curl_result = cp_curl.get_output(False, False)
 
-            self.assert_(self.curl_result['status'] == 'PASS')
+            msg = 'curl status'
+            self.assert_(self.curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
             storm_rf = cp.StoRMRf(self.tsets['general']['endpoint'],
                  self.tsets['http']['no_voms'], self.dfn,
                  self.ptg_result['requestToken'])
             self.lfn.put_cmd(storm_rf.get_command())
             self.rf_result = storm_rf.get_output()
-            self.assert_(self.rf_result['status'] == 'PASS')
+
+            msg = 'storm rf status'
+            self.assert_(self.rf_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
             storm_rm = rm.StoRMRm(self.tsets['general']['endpoint'],
                  self.tsets['http']['no_voms'], self.dfn)
             self.lfn.put_cmd(storm_rm.get_command())
             self.rm_result = storm_rm.get_output()
 
-            self.assert_(self.rm_result['status'] == 'PASS')
+            msg = 'storm rm status'
+            self.assert_(self.rm_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
@@ -209,20 +261,29 @@ class HttpsTest(unittest.TestCase):
             self.lfn.put_cmd(lcg_ls.get_command())
             self.lsbt_result = lcg_ls.get_output()
 
-            self.assert_(self.lsbt_result['status'] == 'FAILURE')
+            msg = 'lcg ls status'
+            self.assert_(self.lsbt_result['status'] == 'FAILURE',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
             storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
                  self.tsets['https']['no_voms'], self.dfn, protocol=self.prt)
             self.lfn.put_cmd(storm_ptp.get_command())
             self.ptp_result = storm_ptp.get_output()
 
-            self.assert_(self.ptp_result['status'] == 'PASS')
+            msg = 'storm ptp status'
+            self.assert_(self.ptp_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
             cp_curl = cp.curl(self.ifn, self.bifn, self.ptp_result['TURL'])
             self.lfn.put_cmd(cp_curl.get_command())
             self.curl_result = cp_curl.get_output(True, True)
 
-            self.assert_(self.curl_result['status'] == 'PASS')
+            msg = 'curl status'
+            self.assert_(self.curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
             storm_pd = cp.StoRMPd(self.tsets['general']['endpoint'],
                  self.tsets['https']['no_voms'], self.dfn,
@@ -230,14 +291,20 @@ class HttpsTest(unittest.TestCase):
             self.lfn.put_cmd(storm_pd.get_command())
             self.pd_result = storm_pd.get_output()
 
-            self.assert_(self.pd_result['status'] == 'PASS')
+            msg = 'storm pd status'
+            self.assert_(self.pd_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
             lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
                  self.tsets['https']['no_voms'], self.dfn)
             self.lfn.put_cmd(lcg_ls.get_command())
             self.lsat_result = lcg_ls.get_output()
 
-            self.assert_(self.lsat_result['status'] == 'PASS')
+            msg = 'lcg ls status'
+            self.assert_(self.lsat_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
@@ -254,13 +321,19 @@ class HttpsTest(unittest.TestCase):
         try:
             t=datetime.datetime.now()
             ts=str(time.mktime(t.timetuple()))
-            a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['no_voms'] + self.dfn + ts
+            turl = 'https://'
+            turl += self.tsets['general']['gridhttp_server_hostname'] + ':'
+            turl += self.tsets['general']['https_port'] + '/storageArea/'
+            turl += self.tsets['https']['no_voms'] + self.dfn + ts
 
-            cp_curl = cp.curl(self.ifn, self.bifn, a)
+            cp_curl = cp.curl(self.ifn, self.bifn, turl)
             self.lfn.put_cmd(cp_curl.get_command())
             self.curl_result = cp_curl.get_output(True, True)
 
-            self.assert_(self.curl_result['status'] == 'FAILURE')
+            msg = 'curl status'
+            self.assert_(self.curl_result['status'] == 'FAILURE',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
@@ -275,13 +348,19 @@ class HttpsTest(unittest.TestCase):
         method = stack_value[3]
 
         try:
-            a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['no_voms'] + self.dfn
+            turl = 'https://'
+            turl += self.tsets['general']['gridhttp_server_hostname'] + ':'
+            turl += self.tsets['general']['https_port'] + '/storageArea/'
+            turl += self.tsets['https']['no_voms'] + self.dfn
 
-            cp_curl = cp.curl(self.ifn, self.bifn, a)
+            cp_curl = cp.curl(self.ifn, self.bifn, turl)
             self.lfn.put_cmd(cp_curl.get_command())
             self.curl_result = cp_curl.get_output(True, True)
 
-            self.assert_(self.curl_result['status'] == 'PASS')
+            msg = 'curl status'
+            self.assert_(self.curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
@@ -296,13 +375,19 @@ class HttpsTest(unittest.TestCase):
         method = stack_value[3]
 
         try:
-            a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['no_voms']  + self.dfn
+            turl = 'https://'
+            turl += self.tsets['general']['gridhttp_server_hostname'] + ':'
+            turl += self.tsets['general']['https_port'] + '/storageArea/'
+            turl += self.tsets['https']['no_voms']  + self.dfn
 
-            cp_curl = cp.curl(self.ifn, self.bifn, a)
+            cp_curl = cp.curl(self.ifn, self.bifn, turl)
             self.lfn.put_cmd(cp_curl.get_command())
             self.curl_result = cp_curl.get_output(True, False)
 
-            self.assert_(self.curl_result['status'] == 'PASS')
+            msg = 'curl status'
+            self.assert_(self.curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
@@ -317,13 +402,19 @@ class HttpsTest(unittest.TestCase):
         method = stack_value[3]
 
         try:
-            a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['no_auth']  + self.dfn
+            turl = 'https://'
+            turl += self.tsets['general']['gridhttp_server_hostname'] + ':'
+            turl += self.tsets['general']['https_port'] + '/storageArea/'
+            turl += self.tsets['https']['no_auth']  + self.dfn
 
-            cp_curl = cp.curl(self.ifn, self.bifn, a)
+            cp_curl = cp.curl(self.ifn, self.bifn, turl)
             self.lfn.put_cmd(cp_curl.get_command())
             self.curl_result = cp_curl.get_output(True, False)
 
-            self.assert_(self.curl_result['status'] == 'FAILURE')
+            msg = 'curl status'
+            self.assert_(self.curl_result['status'] == 'FAILURE',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
@@ -340,13 +431,19 @@ class HttpsTest(unittest.TestCase):
         try:
             t=datetime.datetime.now()
             ts=str(time.mktime(t.timetuple()))
-            a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['no_voms']  + self.dfn + ts
+            turl = 'https://'
+            turl += self.tsets['general']['gridhttp_server_hostname'] + ':'
+            turl += self.tsets['general']['https_port'] + '/storageArea/'
+            turl += self.tsets['https']['no_voms']  + self.dfn + ts
 
             cp_curl = cp.curl(self.ifn, self.bifn, a)
             self.lfn.put_cmd(cp_curl.get_command())
             self.curl_result = cp_curl.get_output(True, False)
 
-            self.assert_(self.curl_result['status'] == 'FAILURE')
+            msg = 'curl status'
+            self.assert_(self.curl_result['status'] == 'FAILURE',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
@@ -366,12 +463,19 @@ class HttpsTest(unittest.TestCase):
             self.lfn.put_cmd(storm_ptg.get_command())
             self.ptg_result = storm_ptg.get_output()
 
-            self.assert_(self.ptg_result['status'] == 'PASS')
+            msg = 'storm ptg status'
+            self.assert_(self.ptg_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
             cp_curl = cp.curl(self.ifn, self.bifn, self.ptg_result['transferURL'])
             self.lfn.put_cmd(cp_curl.get_command())
             self.curl_result = cp_curl.get_output(True, False)
-            self.assert_(self.curl_result['status'] == 'PASS')
+
+            msg = 'curl status'
+            self.assert_(self.curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
             storm_rf = cp.StoRMRf(self.tsets['general']['endpoint'],
                  self.tsets['https']['no_voms'], self.dfn,
@@ -379,14 +483,20 @@ class HttpsTest(unittest.TestCase):
             self.lfn.put_cmd(storm_rf.get_command())
             self.rf_result = storm_rf.get_output()
 
-            self.assert_(self.rf_result['status'] == 'PASS')
+            msg = 'storm rf status'
+            self.assert_(self.rf_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
             storm_rm = rm.StoRMRm(self.tsets['general']['endpoint'],
                  self.tsets['https']['no_voms'], self.dfn)
             self.lfn.put_cmd(storm_rm.get_command())
             self.rm_result = storm_rm.get_output()
 
-            self.assert_(self.rm_result['status'] == 'PASS')
+            msg = 'storm rm status'
+            self.assert_(self.rm_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
@@ -406,18 +516,29 @@ class HttpsTest(unittest.TestCase):
             self.lfn.put_cmd(lcg_ls.get_command())
             self.lsbt_result = lcg_ls.get_output()
 
-            self.assert_(self.lsbt_result['status'] == 'FAILURE')
+            msg = 'lcg ls status'
+            self.assert_(self.lsbt_result['status'] == 'FAILURE',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
             storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
                  self.tsets['https']['voms'], self.dfn, protocol=self.prt)
             self.lfn.put_cmd(storm_ptp.get_command())
             self.ptp_result = storm_ptp.get_output()
-            self.assert_(self.ptp_result['status'] == 'PASS')
+
+            msg = 'storm ptp status'
+            self.assert_(self.ptp_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
             cp_curl = cp.curl(self.ifn, self.bifn, self.ptp_result['TURL'])
             self.lfn.put_cmd(cp_curl.get_command())
             self.curl_result = cp_curl.get_output(True, True)
-            self.assert_(self.curl_result['status'] == 'PASS')
+
+            msg = 'curl status'
+            self.assert_(self.curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
             storm_pd = cp.StoRMPd(self.tsets['general']['endpoint'],
                  self.tsets['https']['voms'], self.dfn,
@@ -425,14 +546,20 @@ class HttpsTest(unittest.TestCase):
             self.lfn.put_cmd(storm_pd.get_command())
             self.pd_result = storm_pd.get_output()
 
-            self.assert_(self.pd_result['status'] == 'PASS')
+            msg = 'storm pd status'
+            self.assert_(self.pd_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
             lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
                 self.tsets['https']['voms'], self.dfn)
             self.lfn.put_cmd(lcg_ls.get_command())
             self.lsat_result = lcg_ls.get_output()
 
-            self.assert_(self.lsat_result['status'] == 'PASS')
+            msg = 'lcg ls status'
+            self.assert_(self.lsat_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
@@ -449,13 +576,19 @@ class HttpsTest(unittest.TestCase):
         try:
             t=datetime.datetime.now()
             ts=str(time.mktime(t.timetuple()))
-            a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['voms'] + self.dfn + ts
+            turl = 'https://'
+            turl += self.tsets['general']['gridhttp_server_hostname'] + ':'
+            turl += self.tsets['general']['https_port'] + '/storageArea/'
+            turl += self.tsets['https']['voms'] + self.dfn + ts
 
-            cp_curl = cp.curl(self.ifn, self.bifn, a)
+            cp_curl = cp.curl(self.ifn, self.bifn, turl)
             self.lfn.put_cmd(cp_curl.get_command())
             self.curl_result = cp_curl.get_output(True, True)
 
-            self.assert_(self.curl_result['status'] == 'FAILURE')
+            msg = 'curl status'
+            self.assert_(self.curl_result['status'] == 'FAILURE',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
@@ -470,13 +603,18 @@ class HttpsTest(unittest.TestCase):
         method = stack_value[3]
 
         try:
-            a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['voms'] + self.dfn
+            turl = 'https://'
+            turl += self.tsets['general']['gridhttp_server_hostname'] + ':'
+            turl += self.tsets['general']['https_port'] + '/storageArea/'
+            turl += self.tsets['https']['voms'] + self.dfn
 
-            cp_curl = cp.curl(self.ifn, self.bifn, a)
+            cp_curl = cp.curl(self.ifn, self.bifn, turl)
             self.lfn.put_cmd(cp_curl.get_command())
             self.curl_result = cp_curl.get_output(True, True)
 
-            self.assert_(self.curl_result['status'] == 'PASS')
+            self.assert_(self.curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
@@ -491,13 +629,19 @@ class HttpsTest(unittest.TestCase):
         method = stack_value[3]
 
         try:
-            a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['voms'] + self.dfn
+            turl = 'https://'
+            turl += self.tsets['general']['gridhttp_server_hostname'] + ':' 
+            turl += self.tsets['general']['https_port'] + '/storageArea/'
+            turl += self.tsets['https']['voms'] + self.dfn
 
-            cp_curl = cp.curl(self.ifn, self.bifn, a)
+            cp_curl = cp.curl(self.ifn, self.bifn, turl)
             self.lfn.put_cmd(cp_curl.get_command())
             self.curl_result = cp_curl.get_output(True, False)
 
-            self.assert_(self.curl_result['status'] == 'PASS')
+            msg = 'curl status'
+            self.assert_(self.curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
@@ -512,13 +656,19 @@ class HttpsTest(unittest.TestCase):
         method = stack_value[3]
 
         try:
-            a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['no_auth'] + self.dfn
+            turl = 'https://'
+            turl += self.tsets['general']['gridhttp_server_hostname'] + ':'
+            turl += self.tsets['general']['https_port'] + '/storageArea/'
+            turl += self.tsets['https']['no_auth'] + self.dfn
   
-            cp_curl = cp.curl(self.ifn, self.bifn, a)
+            cp_curl = cp.curl(self.ifn, self.bifn, turl)
             self.lfn.put_cmd(cp_curl.get_command())
             self.curl_result = cp_curl.get_output(True, False)
 
-            self.assert_(self.curl_result['status'] == 'FAILURE')
+            msg = 'curl status'
+            self.assert_(self.curl_result['status'] == 'FAILURE',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
@@ -535,13 +685,19 @@ class HttpsTest(unittest.TestCase):
         try:
             t=datetime.datetime.now()
             ts=str(time.mktime(t.timetuple()))
-            a = 'https://' + self.tsets['general']['gridhttp_server_hostname'] + ':' + self.tsets['general']['https_port'] + '/storageArea/'+ self.tsets['https']['voms'] + self.dfn + ts
+            turl = 'https://'
+            turl += self.tsets['general']['gridhttp_server_hostname'] + ':'
+            turl += self.tsets['general']['https_port'] + '/storageArea/'
+            turl += self.tsets['https']['voms'] + self.dfn + ts
 
-            cp_curl = cp.curl(self.ifn, self.bifn, a)
+            cp_curl = cp.curl(self.ifn, self.bifn, turl)
             self.lfn.put_cmd(cp_curl.get_command())
             self.curl_result = cp_curl.get_output(True, False)
 
-            self.assert_(self.curl_result['status'] == 'FAILURE')
+            msg = 'curl status'
+            self.assert_(self.curl_result['status'] == 'FAILURE',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
@@ -560,25 +716,41 @@ class HttpsTest(unittest.TestCase):
                  self.tsets['https']['voms'], self.dfn, self.prt)
             self.lfn.put_cmd(storm_ptg.get_command())
             self.ptg_result = storm_ptg.get_output()
-            self.assert_(self.ptg_result['status'] == 'PASS')
+
+            msg = 'storm ptg status'
+            self.assert_(self.ptg_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
             cp_curl = cp.curl(self.ifn, self.bifn, self.ptg_result['transferURL'])
             self.lfn.put_cmd(cp_curl.get_command())
             self.curl_result = cp_curl.get_output(True, False)
-            self.assert_(self.curl_result['status'] == 'PASS')
+
+            msg = 'curl status'
+            self.assert_(self.curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
             storm_rf = cp.StoRMRf(self.tsets['general']['endpoint'],
                  self.tsets['https']['voms'], self.dfn,
                  self.ptg_result['requestToken'])
             self.lfn.put_cmd(storm_rf.get_command())
             self.rf_result = storm_rf.get_output()
-            self.assert_(self.rf_result['status'] == 'PASS')
+
+            msg = 'storm rf status'
+            self.assert_(self.rf_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
             storm_rm = rm.StoRMRm(self.tsets['general']['endpoint'],
                  self.tsets['https']['voms'], self.dfn)
             self.lfn.put_cmd(storm_rm.get_command())
             self.rm_result = storm_rm.get_output()
-            self.assert_(self.rm_result['status'] == 'PASS')
+
+            msg = 'storm rm status'
+            self.assert_(self.rm_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
         except AssertionError, err:
             print err
