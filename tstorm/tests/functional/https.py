@@ -4,6 +4,7 @@ import datetime
 import time
 import os 
 import unittest
+import inspect
 from tstorm.utils import config
 from tstorm.commands import ls
 from tstorm.commands import cp

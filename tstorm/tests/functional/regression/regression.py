@@ -2,6 +2,7 @@ __author__ = 'Elisabetta Ronchieri'
 
 import os 
 import unittest
+import inspect
 
 from tstorm.utils import config
 from tstorm.commands import ls
@@ -18,524 +19,964 @@ from tstorm.utils import removefile
 from tstorm.utils import utils
 
 class RegressionTest(unittest.TestCase):
-    def __init__(self, testname, tfn, ifn, dfn, bifn, lfn, prt = 'gsiftp'):
+    def __init__(self, testname, tfn, ifn, dfn, bifn, uid, lfn, prt = 'gsiftp'):
         super(RegressionTest, self).__init__(testname)
         self.tsets = config.TestSettings(tfn).get_test_sets()
         self.ifn = ifn
         self.dfn = dfn
         self.bifn = bifn
         self.prt = prt
+        self.id = uid.get_id()
         self.lfn = lfn
 
     def test_eight_digit_string_checksum(self):
-        dd = createfile.Dd(self.ifn)
-        self.lfn.put_cmd(dd.get_command())
-        dd_result = dd.get_output()
-        self.assert_(dd_result['status'] == 'PASS')
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
 
-        lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
-                 self.tsets['general']['accesspoint'], self.dfn)
-        self.lfn.put_cmd(lcg_ls.get_command())
-        ll = lcg_ls.get_output()
-        self.assert_(ll['status'] == 'FAILURE')
+        try:
+            dd = createfile.Dd(self.ifn)
+            self.lfn.put_cmd(dd.get_command())
+            dd_result = dd.get_output()
 
-        lcg_cp = cp.LcgCp(self.tsets['general']['endpoint'],
-                 self.tsets['general']['accesspoint'], self.ifn, self.dfn,
-                 self.bifn)
-        self.lfn.put_cmd(lcg_cp.get_command())
-        cp_result = lcg_cp.get_output()
-        self.assert_(cp_result['status'] == 'PASS')
+            msg = 'dd status'
+            self.assert_(dd_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-        self.lfn.put_cmd(lcg_ls.get_command())
-        ll = lcg_ls.get_output()
-        self.assert_(len(ll['Checksum'].split(' ')[0]) == 8)
-        self.assert_(ll['status'] == 'PASS')
+            lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'], self.dfn)
+            self.lfn.put_cmd(lcg_ls.get_command())
+            ll = lcg_ls.get_output()
 
-        lcksm_result = cksm.CksmLf(self.ifn).get_output()
-        self.assert_(ll['Checksum'] == lcksm_result['Checksum'])
+            msg = 'lcg ls status'
+            self.assert_(ll['status'] == 'FAILURE',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-        storm_rm = rm.StoRMRm(self.tsets['general']['endpoint'],
-                   self.tsets['general']['accesspoint'], self.dfn)
-        self.lfn.put_cmd(storm_rm.get_command())
-        rm_result = storm_rm.get_output()
-        self.assert_(rm_result['status'] == 'PASS')
-        if '/' in self.dfn:
-            a=os.path.dirname(self.dfn)
-            storm_rmdir = rmdir.StoRMRmdir(self.tsets['general']['endpoint'],
-                          self.tsets['general']['accesspoint'], a)
+            lcg_cp = cp.LcgCp(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'], self.ifn, self.dfn,
+                self.bifn)
+            self.lfn.put_cmd(lcg_cp.get_command())
+            cp_result = lcg_cp.get_output()
 
-            y=a
-            while y != '/':
-                self.lfn.put_cmd(storm_rmdir.get_command(y))
-                y=os.path.dirname(y)
+            msg = 'lcg cp status'
+            self.assert_(cp_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-            rmdir_result = storm_rmdir.get_output()
-            for x in rmdir_result['status']:
-                self.assert_(x == 'PASS')
+            self.lfn.put_cmd(lcg_ls.get_command())
+            ll = lcg_ls.get_output()
 
-        rm_lf = removefile.RmLf(self.ifn, self.bifn)
-        self.lfn.put_cmd(rm_lf.get_command())
-        rmlf_result = rm_lf.get_output()
-        self.assert_(rmlf_result['status'] == 'PASS')
+            msg = 'Wrong Checksum value'
+            self.assert_(len(ll['Checksum'].split(' ')[0]) == 8,
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-        self.lfn.put_result('PASSED')
+            msg = 'lcg ls status'
+            self.assert_(ll['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            lcksm_result = cksm.CksmLf(self.ifn).get_output()
+
+            msg = 'Wrong checksum value'
+            self.assert_(ll['Checksum'] == lcksm_result['Checksum'],
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            storm_rm = rm.StoRMRm(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'], self.dfn)
+            self.lfn.put_cmd(storm_rm.get_command())
+            rm_result = storm_rm.get_output()
+
+            msg = 'storm rm status'
+            self.assert_(rm_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+            if '/' in self.dfn:
+                a=os.path.dirname(self.dfn)
+                storm_rmdir = rmdir.StoRMRmdir(self.tsets['general']['endpoint'],
+                    self.tsets['general']['accesspoint'], a)
+
+                y=a
+                while y != '/':
+                    self.lfn.put_cmd(storm_rmdir.get_command(y))
+                    y=os.path.dirname(y)
+    
+                rmdir_result = storm_rmdir.get_output()
+
+                msg = 'storm rmdir status'
+                for x in rmdir_result['status']:
+                    self.assert_(x == 'PASS',
+                        '%s, %s - FAILED, %s, Test ID %s' %
+                       (path, method, msg, self.id))
+
+            rm_lf = removefile.RmLf(self.ifn, self.bifn)
+            self.lfn.put_cmd(rm_lf.get_command())
+            rmlf_result = rm_lf.get_output()
+
+            msg = 'rm lf status'
+            self.assert_(rmlf_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
         self.lfn.flush_file()
 
     def test_update_free_space_upon_rm(self):
-        dd = createfile.Dd(self.ifn)
-        self.lfn.put_cmd(dd.get_command())
-        self.dd_result = dd.get_output()
-        self.assert_(self.dd_result['status'] == 'PASS')
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
 
-        lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
-                 self.tsets['general']['accesspoint'], self.dfn)
-        self.lfn.put_cmd(lcg_ls.get_command())
-        ll = lcg_ls.get_output()
-        self.assert_(ll['status'] == 'FAILURE')
+        try:
+            dd = createfile.Dd(self.ifn)
+            self.lfn.put_cmd(dd.get_command())
+            self.dd_result = dd.get_output()
 
-        lcg_cp = cp.LcgCp(self.tsets['general']['endpoint'],
-                 self.tsets['general']['accesspoint'], self.ifn,
-                 self.dfn, self.bifn)
-        self.lfn.put_cmd(lcg_cp.get_command())
-        self.cp_result = lcg_cp.get_output()
-        self.assert_(self.cp_result['status'] == 'PASS')
+            msg = 'dd status'
+            self.assert_(self.dd_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-        storm_gst = space.StoRMGst(self.tsets['general']['endpoint'],
-                   self.tsets['general']['accesspoint'],
-                   self.tsets['general']['spacetoken'])
-        self.lfn.put_cmd(storm_gst.get_command())
-        self.st_result = storm_gst.get_output()
-        self.assert_(self.st_result['status'] == 'PASS')
+            lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'], self.dfn)
+            self.lfn.put_cmd(lcg_ls.get_command())
+            ll = lcg_ls.get_output()
 
-        storm_gsm1 = space.StoRMGsm(self.tsets['general']['endpoint'],
-                     self.tsets['general']['accesspoint'],
-                     self.st_result['arrayOfSpaceTokens'])
-        self.lfn.put_cmd(storm_gsm1.get_command())
-        self.sm1_result = storm_gsm1.get_output()
-        self.assert_(self.sm1_result['status'] == 'PASS')
+            msg = 'lcg ls status'
+            self.assert_(ll['status'] == 'FAILURE',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-        self.lfn.put_cmd(lcg_ls.get_command())
-        ll = lcg_ls.get_output()
-        self.assert_(ll['status'] == 'PASS')
+            lcg_cp = cp.LcgCp(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'], self.ifn,
+                self.dfn, self.bifn)
+            self.lfn.put_cmd(lcg_cp.get_command())
+            self.cp_result = lcg_cp.get_output()
 
-        storm_rm = rm.StoRMRm(self.tsets['general']['endpoint'],
-                   self.tsets['general']['accesspoint'], self.dfn)
-        self.lfn.put_cmd(storm_rm.get_command())
-        self.rm_result = storm_rm.get_output()
-        self.assert_(self.rm_result['status'] == 'PASS')
-        if '/' in self.dfn:
-            a=os.path.dirname(self.dfn)
-            storm_rmdir = rmdir.StoRMRmdir(self.tsets['general']['endpoint'],
-                          self.tsets['general']['accesspoint'], a)
+            msg = 'lcg cp status'
+            self.assert_(self.cp_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-            y=a
-            while y != '/':
-                self.lfn.put_cmd(storm_rmdir.get_command(y))
-                y=os.path.dirname(y)
+            storm_gst = space.StoRMGst(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'],
+                self.tsets['general']['spacetoken'])
+            self.lfn.put_cmd(storm_gst.get_command())
+            self.st_result = storm_gst.get_output()
 
-            rmdir_result = storm_rmdir.get_output()
-            for x in rmdir_result['status']:
-                self.assert_(x == 'PASS')
+            msg = 'storm gst status'
+            self.assert_(self.st_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-        self.lfn.put_cmd(lcg_ls.get_command())
-        ll = lcg_ls.get_output()
-        self.assert_(ll['status'] == 'FAILURE')
+            storm_gsm1 = space.StoRMGsm(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'],
+                self.st_result['arrayOfSpaceTokens'])
+            self.lfn.put_cmd(storm_gsm1.get_command())
+            self.sm1_result = storm_gsm1.get_output()
 
-        ls_ls = ls.Ls(self.ifn)
-        self.lfn.put_cmd(ls_ls.get_command())
-        self.lls_result = ls_ls.get_output()
-        self.assert_(self.lls_result['status'] == 'PASS')
+            msg = 'storm gsm status'
+            self.assert_(self.sm1_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-        storm_gsm2 = space.StoRMGsm(self.tsets['general']['endpoint'],
-                     self.tsets['general']['accesspoint'],
-                     self.st_result['arrayOfSpaceTokens'])
-        self.lfn.put_cmd(storm_gsm2.get_command())
-        self.sm2_result = storm_gsm2.get_output()
-        self.assert_(self.sm2_result['status'] == 'PASS')
+            self.lfn.put_cmd(lcg_ls.get_command())
+            ll = lcg_ls.get_output()
+
+            msg = 'lcg ls status'
+            self.assert_(ll['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            storm_rm = rm.StoRMRm(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'], self.dfn)
+            self.lfn.put_cmd(storm_rm.get_command())
+            self.rm_result = storm_rm.get_output()
+
+            msg = 'storm rm status'
+            self.assert_(self.rm_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+            if '/' in self.dfn:
+                a=os.path.dirname(self.dfn)
+                storm_rmdir = rmdir.StoRMRmdir(self.tsets['general']['endpoint'],
+                    self.tsets['general']['accesspoint'], a)
+
+                y=a
+                while y != '/':
+                    self.lfn.put_cmd(storm_rmdir.get_command(y))
+                    y=os.path.dirname(y)
+
+                rmdir_result = storm_rmdir.get_output()
+                msg = 'storm rmdir status'
+                for x in rmdir_result['status']:
+                    self.assert_(x == 'PASS',
+                        '%s, %s - FAILED, %s, Test ID %s' %
+                        (path, method, msg, self.id))
+
+            self.lfn.put_cmd(lcg_ls.get_command())
+            ll = lcg_ls.get_output()
+
+            msg = 'lcg ls status'
+            self.assert_(ll['status'] == 'FAILURE',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            ls_ls = ls.Ls(self.ifn)
+            self.lfn.put_cmd(ls_ls.get_command())
+            self.lls_result = ls_ls.get_output()
+
+            msg = 'lcg ls status'
+            self.assert_(self.lls_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            storm_gsm2 = space.StoRMGsm(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'],
+                self.st_result['arrayOfSpaceTokens'])
+            self.lfn.put_cmd(storm_gsm2.get_command())
+            self.sm2_result = storm_gsm2.get_output()
+
+            msg = 'storm gsm status'
+            self.assert_(self.sm2_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
  
-        a=int(self.sm2_result['unusedSize']) - int(self.sm1_result['unusedSize'])
-        self.assert_(int(self.lls_result['size']) == a)
+            a=int(self.sm2_result['unusedSize']) - int(self.sm1_result['unusedSize'])
 
-        rm_lf = removefile.RmLf(self.ifn, self.bifn)
-        self.lfn.put_cmd(rm_lf.get_command())
-        self.rmlf_result = rm_lf.get_output()
-        self.assert_(self.rmlf_result['status'] == 'PASS')
+            msg = 'Wrong size value'
+            self.assert_(int(self.lls_result['size']) == a,
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-        self.lfn.put_result('PASSED')
+            rm_lf = removefile.RmLf(self.ifn, self.bifn)
+            self.lfn.put_cmd(rm_lf.get_command())
+            self.rmlf_result = rm_lf.get_output()
+
+            msg = 'rm lf status'
+            self.assert_(self.rmlf_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
         self.lfn.flush_file()
 
     def test_update_used_space_upon_pd(self):
-        dd = createfile.Dd(self.ifn)
-        self.lfn.put_cmd(dd.get_command())
-        self.dd_result = dd.get_output()
-        self.assert_(self.dd_result['status'] == 'PASS')
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
 
-        storm_gst = space.StoRMGst(self.tsets['general']['endpoint'],
-                    self.tsets['general']['accesspoint'],
-                    self.tsets['general']['spacetoken'])
-        self.lfn.put_cmd(storm_gst.get_command())
-        self.st_result = storm_gst.get_output()
-        self.assert_(self.st_result['status'] == 'PASS')
+        try:
+            dd = createfile.Dd(self.ifn)
+            self.lfn.put_cmd(dd.get_command())
+            self.dd_result = dd.get_output()
 
-        storm_gsm1 = space.StoRMGsm(self.tsets['general']['endpoint'],
-                     self.tsets['general']['accesspoint'],
-                     self.st_result['arrayOfSpaceTokens'])
-        self.lfn.put_cmd(storm_gsm1.get_command())
-        self.sm1_result = storm_gsm1.get_output()
-        self.assert_(self.sm1_result['status'] == 'PASS')
+            msg = 'dd status'
+            self.assert_(self.dd_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-        lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
-                 self.tsets['general']['accesspoint'], self.dfn)
-        self.lfn.put_cmd(lcg_ls.get_command())
-        self.ls_result = lcg_ls.get_output()
-        self.assert_(self.ls_result['status'] == 'FAILURE')
+            storm_gst = space.StoRMGst(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'],
+                self.tsets['general']['spacetoken'])
+            self.lfn.put_cmd(storm_gst.get_command())
+            self.st_result = storm_gst.get_output()
 
-        lcg_cp = cp.LcgCp(self.tsets['general']['endpoint'],
-                 self.tsets['general']['accesspoint'], self.ifn, self.dfn,
-                 self.bifn)
-        self.lfn.put_cmd(lcg_cp.get_command())
-        self.cp_result = lcg_cp.get_output()
-        self.assert_(self.cp_result['status'] == 'PASS')
+            msg = 'storm gst status'
+            self.assert_(self.st_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-        ls_ls = ls.Ls(self.ifn)
-        self.lfn.put_cmd(ls_ls.get_command())
-        self.lls_result = ls_ls.get_output()
-        self.assert_(self.lls_result['status'] == 'PASS')
+            storm_gsm1 = space.StoRMGsm(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'],
+                self.st_result['arrayOfSpaceTokens'])
+            self.lfn.put_cmd(storm_gsm1.get_command())
+            self.sm1_result = storm_gsm1.get_output()
 
-        storm_gsm2 = space.StoRMGsm(self.tsets['general']['endpoint'],
-                     self.tsets['general']['accesspoint'],
-                     self.st_result['arrayOfSpaceTokens'])
-        self.lfn.put_cmd(storm_gsm2.get_command())
-        self.sm2_result = storm_gsm2.get_output()
-        self.assert_(self.sm2_result['status'] == 'PASS')
+            msg = 'storm gsm status'
+            self.assert_(self.sm1_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-        a=(int(self.sm1_result['unusedSize']) - int(self.sm2_result['unusedSize']))
-        self.assert_(int(self.lls_result['size']) == a)
+            lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'], self.dfn)
+            self.lfn.put_cmd(lcg_ls.get_command())
+            self.ls_result = lcg_ls.get_output()
 
-        storm_rm = rm.StoRMRm(self.tsets['general']['endpoint'],
-                   self.tsets['general']['accesspoint'], self.dfn)
-        self.lfn.put_cmd(storm_rm.get_command())
-        self.rm_result = storm_rm.get_output()
-        self.assert_(self.rm_result['status'] == 'PASS')
-        if '/' in self.dfn:
-            a=os.path.dirname(self.dfn)
-            storm_rmdir = rmdir.StoRMRmdir(self.tsets['general']['endpoint'],
-                          self.tsets['general']['accesspoint'], a)
+            msg = 'lcg ls status'
+            self.assert_(self.ls_result['status'] == 'FAILURE',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-            y=a
-            while y != '/':
-                self.lfn.put_cmd(storm_rmdir.get_command(y))
-                y=os.path.dirname(y)
+            lcg_cp = cp.LcgCp(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'], self.ifn, self.dfn,
+                self.bifn)
+            self.lfn.put_cmd(lcg_cp.get_command())
+            self.cp_result = lcg_cp.get_output()
 
-            rmdir_result = storm_rmdir.get_output()
-            for x in rmdir_result['status']:
-                self.assert_(x == 'PASS')
+            msg = 'lcg cp status'
+            self.assert_(self.cp_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-        rm_lf = removefile.RmLf(self.ifn, self.bifn)
-        self.lfn.put_cmd(rm_lf.get_command())
-        self.rmlf_result = rm_lf.get_output()
-        self.assert_(self.rmlf_result['status'] == 'PASS')
+            ls_ls = ls.Ls(self.ifn)
+            self.lfn.put_cmd(ls_ls.get_command())
+            self.lls_result = ls_ls.get_output()
 
-        self.lfn.put_result('PASSED')
+            msg = 'ls status'
+            self.assert_(self.lls_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            storm_gsm2 = space.StoRMGsm(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'],
+                self.st_result['arrayOfSpaceTokens'])
+            self.lfn.put_cmd(storm_gsm2.get_command())
+            self.sm2_result = storm_gsm2.get_output()
+
+            msg = 'storm gsm status'
+            self.assert_(self.sm2_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            a=(int(self.sm1_result['unusedSize']) - int(self.sm2_result['unusedSize']))
+
+            msg = 'Wrong size value'
+            self.assert_(int(self.lls_result['size']) == a,
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            storm_rm = rm.StoRMRm(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'], self.dfn)
+            self.lfn.put_cmd(storm_rm.get_command())
+            self.rm_result = storm_rm.get_output()
+
+            msg = 'storm rm status'
+            self.assert_(self.rm_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+            if '/' in self.dfn:
+                a=os.path.dirname(self.dfn)
+                storm_rmdir = rmdir.StoRMRmdir(self.tsets['general']['endpoint'],
+                    self.tsets['general']['accesspoint'], a)
+
+                y=a
+                while y != '/':
+                    self.lfn.put_cmd(storm_rmdir.get_command(y))
+                    y=os.path.dirname(y)
+
+                rmdir_result = storm_rmdir.get_output()
+                msg = 'storm rmdir status'
+                for x in rmdir_result['status']:
+                    self.assert_(x == 'PASS',
+                        '%s, %s - FAILED, %s, Test ID %s' %
+                        (path, method, msg, self.id))
+
+            rm_lf = removefile.RmLf(self.ifn, self.bifn)
+            self.lfn.put_cmd(rm_lf.get_command())
+            self.rmlf_result = rm_lf.get_output()
+
+            msg = 'rm lf status'
+            self.assert_(self.rmlf_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
         self.lfn.flush_file()
 
     def test_prepare_to_put_wrong_space_token(self):
-        storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
-                   self.tsets['general']['accesspoint'], self.dfn,
-                   target_space_token='unexistentToken')
-        self.lfn.put_cmd(storm_ptp.get_command(polling=False, target_space_token=True))
-        self.ptp_result = storm_ptp.get_output(polling=False, target_space_token=True)
-        self.assert_(self.ptp_result['status'] == 'PASS')
-        self.assert_('SRM_REQUEST_QUEUED' in self.ptp_result['statusCode'])
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
 
-        status_wrong = True
-        while status_wrong:
-            storm_sptp = cp.StoRMSptp(self.tsets['general']['endpoint'],
-                       self.ptp_result['requestToken'])
-            self.lfn.put_cmd(storm_sptp.get_command())
-            self.sptp_result = storm_sptp.get_output()
-            self.assert_(self.sptp_result['status'] == 'PASS')
-            if 'SRM_INVALID_REQUEST' in self.sptp_result['statusCode']:
-                 status_wrong = False
+        try:
+            storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'], self.dfn,
+                target_space_token='unexistentToken')
+            self.lfn.put_cmd(storm_ptp.get_command(polling=False, target_space_token=True))
+            self.ptp_result = storm_ptp.get_output(polling=False, target_space_token=True)
+
+            msg = 'storm ptp status'
+            self.assert_(self.ptp_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            msg = 'Wrong statusCode value'
+            self.assert_('SRM_REQUEST_QUEUED' in self.ptp_result['statusCode'],
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            status_wrong = True
+            while status_wrong:
+                storm_sptp = cp.StoRMSptp(self.tsets['general']['endpoint'],
+                    self.ptp_result['requestToken'])
+                self.lfn.put_cmd(storm_sptp.get_command())
+                self.sptp_result = storm_sptp.get_output()
+
+                msg = 'storm sptp'
+                self.assert_(self.sptp_result['status'] == 'PASS',
+                    '%s, %s - FAILED, %s, Test ID %s' %
+                    (path, method, msg, self.id))
+                if 'SRM_INVALID_REQUEST' in self.sptp_result['statusCode']:
+                     status_wrong = False
               
-        self.assert_('SRM_INVALID_REQUEST' in self.sptp_result['statusCode'])
+            msg = 'Wrong statusCode value'
+            self.assert_('SRM_INVALID_REQUEST' in self.sptp_result['statusCode'],
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-        storm_rm = rm.StoRMRm(self.tsets['general']['endpoint'],
-                   self.tsets['general']['accesspoint'], self.dfn)
-        self.lfn.put_cmd(storm_rm.get_command())
-        self.rm_result = storm_rm.get_output()
-        self.assert_(self.rm_result['status'] == 'PASS')
-        if '/' in self.dfn:
-            a=os.path.dirname(self.dfn)
-            storm_rmdir = rmdir.StoRMRmdir(self.tsets['general']['endpoint'],
-                          self.tsets['general']['accesspoint'], a)
+            storm_rm = rm.StoRMRm(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'], self.dfn)
+            self.lfn.put_cmd(storm_rm.get_command())
+            self.rm_result = storm_rm.get_output()
 
-            y=a
-            while y != '/':
-                self.lfn.put_cmd(storm_rmdir.get_command(y))
-                y=os.path.dirname(y)
+            msg = 'storm rm status'
+            self.assert_(self.rm_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+            if '/' in self.dfn:
+                a=os.path.dirname(self.dfn)
+                storm_rmdir = rmdir.StoRMRmdir(self.tsets['general']['endpoint'],
+                    self.tsets['general']['accesspoint'], a)
 
-            rmdir_result = storm_rmdir.get_output()
-            for x in rmdir_result['status']:
-                self.assert_(x == 'PASS')
+                y=a
+                while y != '/':
+                    self.lfn.put_cmd(storm_rmdir.get_command(y))
+                    y=os.path.dirname(y)
 
-        self.lfn.put_result('PASSED')
+                rmdir_result = storm_rmdir.get_output()
+                msg = 'storm rmdir status'
+                for x in rmdir_result['status']:
+                    self.assert_(x == 'PASS',
+                        '%s, %s - FAILED, %s, Test ID %s' %
+                        (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
         self.lfn.flush_file()
 
     def ts_prepare_to_put_expired_space_token(self):
-        storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
-                   self.tsets['general']['accesspoint'], self.dfn,
-                   protocol='unsupported')
-        self.lfn.put_cmd(storm_ptp.get_command())
-        self.ptp_result = storm_ptp.get_output()
-        self.assert_(self.ptp_result['status'] == 'FAILURE')
-        self.assert_('SRM_NOT_SUPPORTED' in self.ptp_result['statusCode'])
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
 
-        self.lfn.put_result('PASSED')
+        try:
+            storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'], self.dfn,
+                protocol='unsupported')
+            self.lfn.put_cmd(storm_ptp.get_command())
+            self.ptp_result = storm_ptp.get_output()
+
+            msg = 'storm ptp status'
+            self.assert_(self.ptp_result['status'] == 'FAILURE',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            msg = 'Wrong statusCode value'
+            self.assert_('SRM_NOT_SUPPORTED' in self.ptp_result['statusCode'],
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
         self.lfn.flush_file()
 
 
     def test_unsupported_protocols(self):
-        storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
-                   self.tsets['general']['accesspoint'], self.dfn,
-                   protocol='unsupported')
-        self.lfn.put_cmd(storm_ptp.get_command())
-        self.ptp_result = storm_ptp.get_output()
-        self.assert_(self.ptp_result['status'] == 'FAILURE')
-        self.assert_('SRM_NOT_SUPPORTED' in self.ptp_result['statusCode'])
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
 
-        self.lfn.put_result('PASSED')
+        try:
+            storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'], self.dfn,
+                protocol='unsupported')
+            self.lfn.put_cmd(storm_ptp.get_command())
+            self.ptp_result = storm_ptp.get_output()
+
+            msg = 'storm ptp status'
+            self.assert_(self.ptp_result['status'] == 'FAILURE',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            msg = 'Wrong statusCode value'
+            self.assert_('SRM_NOT_SUPPORTED' in self.ptp_result['statusCode'],
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
         self.lfn.flush_file()
 
     def test_both_sup_and_unsup_protocols(self):
-        storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
-                   self.tsets['general']['accesspoint'], self.dfn, 
-                   protocol=self.prt + ',unsupported')
-        self.lfn.put_cmd(storm_ptp.get_command())
-        self.ptp_result = storm_ptp.get_output()
-        self.assert_(self.ptp_result['status'] == 'PASS')
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
 
-        fs_grep = findstrings.Grep().get_output()
-        self.lfn.put_cmd(fs_grep.get_command())
-        self.fs_result = fs_grep.get_output()
-        self.assert_(self.fs_result['status'] == 'FAILURE')
+        try:
+            storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'], self.dfn, 
+                protocol=self.prt + ',unsupported')
+            self.lfn.put_cmd(storm_ptp.get_command())
+            self.ptp_result = storm_ptp.get_output()
+            
+            msg = 'storm ptp status'
+            self.assert_(self.ptp_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-        storm_ar = abort.StoRMAr(self.tsets['general']['endpoint'],
-                   self.tsets['general']['accesspoint'],
-                   self.ptp_result['requestToken'])
-        self.lfn.put_cmd(storm_ar.get_command())
-        self.ar_result = storm_ar.get_output()
-        self.assert_(self.ar_result['status'] == 'PASS')
+            fs_grep = findstrings.Grep().get_output()
+            self.lfn.put_cmd(fs_grep.get_command())
+            self.fs_result = fs_grep.get_output()
 
-        self.lfn.put_result('PASSED')
+            msg = 'grep status'
+            self.assert_(self.fs_result['status'] == 'FAILURE',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            storm_ar = abort.StoRMAr(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'],
+                self.ptp_result['requestToken'])
+            self.lfn.put_cmd(storm_ar.get_command())
+            self.ar_result = storm_ar.get_output()
+
+            msg = 'storm ar status'
+            self.assert_(self.ar_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
         self.lfn.flush_file()
 
     def test_non_ascii_chars(self):
-        storm_ls = ls.StoRMLs(self.tsets['general']['endpoint'],
-                   self.tsets['general']['accesspoint'], self.dfn + 't3y8#')
-        self.lfn.put_cmd(storm_ls.get_command())
-        self.ls_result = storm_ls.get_output()
-        self.assert_(self.ls_result['status'] == 'FAILURE')
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
 
-        storm_ping = ping.StoRMPing(self.tsets['general']['endpoint'])
-        self.lfn.put_cmd(storm_ping.get_command())
-        ping_result = storm_ping.get_output()
-        self.assert_(ping_result['status'] == 'PASS')
-        self.assert_(ping_result['versionInfo'] == self.tsets['ping']['versioninfo'])
-        for x in ping_result['key']:
-            if x == 'backend_type':
-                self.assert_(ping_result['value'][ping_result['key'].index(x)] == self.tsets['ping']['backend_type'])
-            elif x == 'backend_version':
-                self.assert_(ping_result['value'][ping_result['key'].index(x)] == self.tsets['ping']['backend_version'])
+        try:
+            storm_ls = ls.StoRMLs(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'], self.dfn + 't3y8#')
+            self.lfn.put_cmd(storm_ls.get_command())
+            self.ls_result = storm_ls.get_output()
 
-        self.lfn.put_result('PASSED')
+            msg = 'storm ls status'
+            self.assert_(self.ls_result['status'] == 'FAILURE',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            storm_ping = ping.StoRMPing(self.tsets['general']['endpoint'])
+            self.lfn.put_cmd(storm_ping.get_command())
+            ping_result = storm_ping.get_output()
+
+            msg = 'storm ping status'
+            self.assert_(ping_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            msg = 'Wrong version info value'
+            self.assert_(ping_result['versionInfo'] == self.tsets['ping']['versioninfo'],
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+            for x in ping_result['key']:
+                if x == 'backend_type':
+                    msg = 'Wrong backend type value'
+                    self.assert_(ping_result['value'][ping_result['key'].index(x)] == self.tsets['ping']['backend_type'],
+                        '%s, %s - FAILED, %s, Test ID %s' %
+                        (path, method, msg, self.id))
+                elif x == 'backend_version':
+                    msg = 'Wrong backend version value'
+                    self.assert_(ping_result['value'][ping_result['key'].index(x)] == self.tsets['ping']['backend_version'],
+                        '%s, %s - FAILED, %s, Test ID %s' %
+                        (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
         self.lfn.flush_file()
 
     def test_storm_backend_age(self):
-        storm_ping = ping.StoRMPing(self.tsets['general']['endpoint'])
-        self.lfn.put_cmd(storm_ping.get_command())
-        ping_result = storm_ping.get_output()
-        self.assert_(ping_result['status'] == 'PASS')
-        self.assert_(ping_result['versionInfo'] == self.tsets['ping']['versioninfo'])
-        for x in ping_result['key']:
-            if x == 'backend_type':
-                self.assert_(ping_result['value'][ping_result['key'].index(x)] == self.tsets['ping']['backend_type'])
-            elif x == 'backend_version':
-                self.assert_(ping_result['value'][ping_result['key'].index(x)] == self.tsets['ping']['backend_version'])
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
 
-        self.lfn.put_result('PASSED')
+        try:
+            storm_ping = ping.StoRMPing(self.tsets['general']['endpoint'])
+            self.lfn.put_cmd(storm_ping.get_command())
+            ping_result = storm_ping.get_output()
+
+            msg = 'storm ping status'
+            self.assert_(ping_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            msg = 'Wrong version info value'
+            self.assert_(ping_result['versionInfo'] == self.tsets['ping']['versioninfo'],
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+            for x in ping_result['key']:
+                if x == 'backend_type':
+                    msg = 'Wrong backend type value'
+                    self.assert_(ping_result['value'][ping_result['key'].index(x)] == self.tsets['ping']['backend_type'],
+                        '%s, %s - FAILED, %s, Test ID %s' %
+                        (path, method, msg, self.id))
+                elif x == 'backend_version':
+                    msg = 'Wrong backend version value'
+                    self.assert_(ping_result['value'][ping_result['key'].index(x)] == self.tsets['ping']['backend_version'],
+                        '%s, %s - FAILED, %s, Test ID %s' %
+                        (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
         self.lfn.flush_file()
 
     def test_get_space_metadata_failure(self):
-        storm_gst = space.StoRMGst(self.tsets['general']['endpoint'],
-                   self.tsets['general']['accesspoint'],
-                   self.tsets['general']['spacetoken'])
-        self.lfn.put_cmd(storm_gst.get_command())
-        self.st_result = storm_gst.get_output()
-        self.assert_(self.st_result['status'] == 'PASS')
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
 
-        storm_gsm1 = space.StoRMGsm(self.tsets['general']['endpoint'],
-                     self.tsets['general']['accesspoint'],
-                     self.st_result['arrayOfSpaceTokens'])
-        self.lfn.put_cmd(storm_gsm1.get_command())
-        self.sm1_result = storm_gsm1.get_output()
-        self.assert_(self.sm1_result['status'] == 'PASS')
+        try:
+            storm_gst = space.StoRMGst(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'],
+                self.tsets['general']['spacetoken'])
+            self.lfn.put_cmd(storm_gst.get_command())
+            self.st_result = storm_gst.get_output()
 
-        self.lfn.put_result('PASSED')
+            msg = 'storm gst status'
+            self.assert_(self.st_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            storm_gsm1 = space.StoRMGsm(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'],
+                self.st_result['arrayOfSpaceTokens'])
+            self.lfn.put_cmd(storm_gsm1.get_command())
+            self.sm1_result = storm_gsm1.get_output()
+
+            msg = 'storm gsm status'
+            self.assert_(self.sm1_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
     def test_get_space_metadata_on_valid_space_token(self):
-        storm_gst = space.StoRMRs(self.tsets['general']['endpoint'],
-                   self.tsets['general']['accesspoint'],
-                   'newSpaceToken')
-        self.lfn.put_cmd(storm_gst.get_command())
-        self.st_result = storm_gst.get_output()
-        self.assert_(self.st_result['status'] == 'PASS')
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
 
-        storm_gsm1 = space.StoRMGsm(self.tsets['general']['endpoint'],
-                     self.tsets['general']['accesspoint'],
-                     self.st_result['spaceToken'])
-        self.lfn.put_cmd(storm_gsm1.get_command())
-        self.sm1_result = storm_gsm1.get_output()
-        self.assert_('SRM_SUCCESS' in self.sm1_result['statusCode'])
-        self.assert_(self.sm1_result['status'] == 'PASS')
+        try:
+            storm_gst = space.StoRMRs(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'],
+                'newSpaceToken')
+            self.lfn.put_cmd(storm_gst.get_command())
+            self.st_result = storm_gst.get_output()
 
-        self.lfn.put_result('PASSED')
+            msg = 'storm gst status'
+            self.assert_(self.st_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            storm_gsm1 = space.StoRMGsm(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'],
+                self.st_result['spaceToken'])
+            self.lfn.put_cmd(storm_gsm1.get_command())
+            self.sm1_result = storm_gsm1.get_output()
+
+            msg = 'Wrong status code value'
+            self.assert_('SRM_SUCCESS' in self.sm1_result['statusCode'],
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            msg = 'storm gsm status'
+            self.assert_(self.sm1_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
     def test_storm_database_password(self):
-        dd = createfile.Dd(self.ifn)
-        self.lfn.put_cmd(dd.get_command())
-        self.dd_result = dd.get_output()
-        self.assert_(self.dd_result['status'] == 'PASS')
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
 
-        lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
-                 self.tsets['general']['accesspoint'], self.dfn)
-        self.lfn.put_cmd(lcg_ls.get_command())
-        ll = lcg_ls.get_output()
-        self.assert_(ll['status'] == 'FAILURE')
+        try:
+            dd = createfile.Dd(self.ifn)
+            self.lfn.put_cmd(dd.get_command())
+            self.dd_result = dd.get_output()
 
-        lcg_cp = cp.LcgCp(self.tsets['general']['endpoint'],
-                 self.tsets['general']['accesspoint'], self.ifn,
-                 self.dfn, self.bifn)
-        self.lfn.put_cmd(lcg_cp.get_command())
-        self.cp_result = lcg_cp.get_output()
-        self.assert_(self.cp_result['status'] == 'PASS')
+            msg = 'dd status'
+            self.assert_(self.dd_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-        storm_rm = rm.StoRMRm(self.tsets['general']['endpoint'],
-                   self.tsets['general']['accesspoint'], self.dfn)
-        self.lfn.put_cmd(storm_rm.get_command())
-        rm_result = storm_rm.get_output()
-        self.assert_(rm_result['status'] == 'PASS')
-        if '/' in self.dfn:
-            a=os.path.dirname(self.dfn)
-            storm_rmdir = rmdir.StoRMRmdir(self.tsets['general']['endpoint'],
-                          self.tsets['general']['accesspoint'], a)
+            lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'], self.dfn)
+            self.lfn.put_cmd(lcg_ls.get_command())
+            ll = lcg_ls.get_output()
 
-            y=a
-            while y != '/':
-                self.lfn.put_cmd(storm_rmdir.get_command(y))
-                y=os.path.dirname(y)
+            msg = 'lcg ls status'
+            self.assert_(ll['status'] == 'FAILURE',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-            rmdir_result = storm_rmdir.get_output()
-            for x in rmdir_result['status']:
-                self.assert_(x == 'PASS')
+            lcg_cp = cp.LcgCp(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'], self.ifn,
+                self.dfn, self.bifn)
+            self.lfn.put_cmd(lcg_cp.get_command())
+            self.cp_result = lcg_cp.get_output()
 
-        ls_ls = ls.Ls(self.ifn)
-        self.lfn.put_cmd(ls_ls.get_command())
-        self.lls_result = ls_ls.get_output()
-        self.assert_(self.lls_result['status'] == 'PASS')
+            msg = 'lcg cp status'
+            self.assert_(self.cp_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-        rm_lf = removefile.RmLf(self.ifn, self.bifn)
-        self.lfn.put_cmd(rm_lf.get_command())
-        self.rmlf_result = rm_lf.get_output()
-        self.assert_(self.rmlf_result['status'] == 'PASS')
+            storm_rm = rm.StoRMRm(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'], self.dfn)
+            self.lfn.put_cmd(storm_rm.get_command())
+            rm_result = storm_rm.get_output()
 
-        self.lfn.put_result('PASSED')
+            msg = 'storm rm status'
+            self.assert_(rm_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+            if '/' in self.dfn:
+                a=os.path.dirname(self.dfn)
+                storm_rmdir = rmdir.StoRMRmdir(self.tsets['general']['endpoint'],
+                    self.tsets['general']['accesspoint'], a)
+
+                y=a
+                while y != '/':
+                    self.lfn.put_cmd(storm_rmdir.get_command(y))
+                    y=os.path.dirname(y)
+
+                rmdir_result = storm_rmdir.get_output()
+                msg = 'storm rmdir status'
+                for x in rmdir_result['status']:
+                    self.assert_(x == 'PASS',
+                        '%s, %s - FAILED, %s, Test ID %s' %
+                        (path, method, msg, self.id))                        
+
+            ls_ls = ls.Ls(self.ifn)
+            self.lfn.put_cmd(ls_ls.get_command())
+            self.lls_result = ls_ls.get_output()
+
+            msg = 'ls status'
+            self.assert_(self.lls_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            rm_lf = removefile.RmLf(self.ifn, self.bifn)
+            self.lfn.put_cmd(rm_lf.get_command())
+            self.rmlf_result = rm_lf.get_output()
+
+            msg = 'rm lf status'
+            self.assert_(self.rmlf_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
         self.lfn.flush_file()
 
     def test_storm_gridhttps_authorization_denied_on_no_sub_string(self):
-        self.cf_result = createfile.Cf(self.ifn).get_output()
-        self.assert_(self.cf_result['status'] == 'PASS')
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
 
-        lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
-                 self.tsets['https']['no_sub_string'], self.dfn)
-        self.lfn.put_cmd(lcg_ls.get_command())
-        self.lsbt_result = lcg_ls.get_output()
-        self.assert_(self.lsbt_result['status'] == 'FAILURE')
+        try:
+            self.cf_result = createfile.Cf(self.ifn).get_output()
 
-        storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
-                    self.tsets['https']['no_sub_string'], self.dfn, protocol='https')
-        self.lfn.put_cmd(storm_ptp.get_command())
-        self.ptp_result = storm_ptp.get_output()
-        self.assert_(self.ptp_result['status'] == 'PASS')
+            msg = 'cf status'
+            self.assert_(self.cf_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-        cp_curl = cp.curl(self.ifn, self.bifn, self.ptp_result['TURL'])
-        self.lfn.put_cmd(cp_curl.get_command(True, True))
-        self.curl_result = cp_curl.get_output(True, True)
-        self.assert_(self.curl_result['status'] == 'PASS')
+            lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
+                self.tsets['https']['no_sub_string'], self.dfn)
+            self.lfn.put_cmd(lcg_ls.get_command())
+            self.lsbt_result = lcg_ls.get_output()
 
-        storm_pd = cp.StoRMPd(self.tsets['general']['endpoint'],
-                   self.tsets['https']['no_sub_string'], self.dfn,
-                   self.ptp_result['requestToken'])
-        self.lfn.put_cmd(storm_pd.get_command())
-        self.pd_result = storm_pd.get_output()
-        self.assert_(self.pd_result['status'] == 'PASS')
+            msg = 'lcg ls status'
+            self.assert_(self.lsbt_result['status'] == 'FAILURE',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-        lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
-                 self.tsets['https']['no_sub_string'], self.dfn)
-        self.lfn.put_cmd(lcg_ls.get_command())
-        self.lsat_result = lcg_ls.get_output()
-        self.assert_(self.lsat_result['status'] == 'PASS')
+            storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
+                self.tsets['https']['no_sub_string'], self.dfn, protocol='https')
+            self.lfn.put_cmd(storm_ptp.get_command())
+            self.ptp_result = storm_ptp.get_output()
 
-        rm_lf = removefile.RmLf(self.ifn, self.bifn)
-        self.lfn.put_cmd(rm_lf.get_command())
-        self.rmlf_result = rm_lf.get_output()
-        self.assert_(self.rmlf_result['status'] == 'PASS')
+            msg = 'storm ptp'
+            self.assert_(self.ptp_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-        self.lfn.put_result('PASSED')
+            cp_curl = cp.curl(self.ifn, self.bifn, self.ptp_result['TURL'])
+            self.lfn.put_cmd(cp_curl.get_command(True, True))
+            self.curl_result = cp_curl.get_output(True, True)
+
+            msg = 'curl status'
+            self.assert_(self.curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            storm_pd = cp.StoRMPd(self.tsets['general']['endpoint'],
+                self.tsets['https']['no_sub_string'], self.dfn,
+                self.ptp_result['requestToken'])
+            self.lfn.put_cmd(storm_pd.get_command())
+            self.pd_result = storm_pd.get_output()
+
+            msg = 'storm pd status'
+            self.assert_(self.pd_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
+                self.tsets['https']['no_sub_string'], self.dfn)
+            self.lfn.put_cmd(lcg_ls.get_command())
+            self.lsat_result = lcg_ls.get_output()
+
+            msg = 'lcg ls status'
+            self.assert_(self.lsat_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            rm_lf = removefile.RmLf(self.ifn, self.bifn)
+            self.lfn.put_cmd(rm_lf.get_command())
+            self.rmlf_result = rm_lf.get_output()
+
+            msg = 'rm lf status'
+            self.assert_(self.rmlf_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
     def test_storm_gridhttps_authorization_denied(self):
-        self.cf_result = createfile.Cf(self.ifn).get_output()
-        self.assert_(self.cf_result['status'] == 'PASS')
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
 
-        lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
-                 self.tsets['https']['sub_string'], self.dfn)
-        self.lfn.put_cmd(lcg_ls.get_command())
-        self.lsbt_result = lcg_ls.get_output()
-        self.assert_(self.lsbt_result['status'] == 'FAILURE')
+        try:
+            self.cf_result = createfile.Cf(self.ifn).get_output()
 
-        storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
-                    self.tsets['https']['sub_string'], self.dfn, protocol='https')
-        self.lfn.put_cmd(storm_ptp.get_command())
-        self.ptp_result = storm_ptp.get_output()
-        self.assert_(self.ptp_result['status'] == 'PASS')
+            msg = 'cf status'
+            self.assert_(self.cf_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-        cp_curl = cp.curl(self.ifn, self.bifn, self.ptp_result['TURL'])
-        self.lfn.put_cmd(cp_curl.get_command(True, True))
-        self.curl_result = cp_curl.get_output(True, True)
-        self.assert_(self.curl_result['status'] == 'PASS')
+            lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
+                self.tsets['https']['sub_string'], self.dfn)
+            self.lfn.put_cmd(lcg_ls.get_command())
+            self.lsbt_result = lcg_ls.get_output()
 
-        storm_pd = cp.StoRMPd(self.tsets['general']['endpoint'],
-                   self.tsets['https']['sub_string'], self.dfn,
-                   self.ptp_result['requestToken'])
-        self.lfn.put_cmd(storm_pd.get_command())
-        self.pd_result = storm_pd.get_output()
-        self.assert_(self.pd_result['status'] == 'PASS')
+            msg = 'lcg ls status'
+            self.assert_(self.lsbt_result['status'] == 'FAILURE',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-        lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
-                 self.tsets['https']['sub_string'], self.dfn)
-        self.lfn.put_cmd(lcg_ls.get_command())
-        self.lsat_result = lcg_ls.get_output()
-        self.assert_(self.lsat_result['status'] == 'PASS')
+            storm_ptp = cp.StoRMPtp(self.tsets['general']['endpoint'],
+                self.tsets['https']['sub_string'], self.dfn, protocol='https')
+            self.lfn.put_cmd(storm_ptp.get_command())
+            self.ptp_result = storm_ptp.get_output()
 
-        rm_lf = removefile.RmLf(self.ifn, self.bifn)
-        self.lfn.put_cmd(rm_lf.get_command())
-        self.rmlf_result = rm_lf.get_output()
-        self.assert_(self.rmlf_result['status'] == 'PASS')
+            msg = 'storm ptp status'
+            self.assert_(self.ptp_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-        self.lfn.put_result('PASSED')
+            cp_curl = cp.curl(self.ifn, self.bifn, self.ptp_result['TURL'])
+            self.lfn.put_cmd(cp_curl.get_command(True, True))
+            self.curl_result = cp_curl.get_output(True, True)
+
+            msg = 'curl status'
+            self.assert_(self.curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            storm_pd = cp.StoRMPd(self.tsets['general']['endpoint'],
+                self.tsets['https']['sub_string'], self.dfn,
+                self.ptp_result['requestToken'])
+            self.lfn.put_cmd(storm_pd.get_command())
+            self.pd_result = storm_pd.get_output()
+
+            msg = 'storm pd status'
+            self.assert_(self.pd_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
+                self.tsets['https']['sub_string'], self.dfn)
+            self.lfn.put_cmd(lcg_ls.get_command())
+            self.lsat_result = lcg_ls.get_output()
+
+            msg = 'lcg ls status'
+            self.assert_(self.lsat_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            rm_lf = removefile.RmLf(self.ifn, self.bifn)
+            self.lfn.put_cmd(rm_lf.get_command())
+            self.rmlf_result = rm_lf.get_output()
+
+            msg = 'rm lf status'
+            self.assert_(self.rmlf_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
         self.lfn.flush_file()
 
         

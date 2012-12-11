@@ -5,5 +5,5 @@ from tstorm.tests.functional.regression import regression as re
 
 def ts_get_space_metadata_failure(conf, ifn, dfn, bifn, uid, lfn):
     s = unittest.TestSuite()
-    s.addTest(re.RegressionTest('test_get_space_metadata_failure',conf, ifn, dfn, bifn, lfn))
+    s.addTest(re.RegressionTest('test_get_space_metadata_failure',conf, ifn, dfn, bifn, uid, lfn))
     return s
