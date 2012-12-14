@@ -437,7 +437,7 @@ class HttpsTest(unittest.TestCase):
             turl += self.tsets['general']['https_port'] + '/storageArea/'
             turl += self.tsets['https']['no_voms']  + self.dfn + ts
 
-            cp_curl = cp.curl(self.ifn, self.bifn, a)
+            cp_curl = cp.curl(self.ifn, self.bifn, turl)
             self.lfn.put_cmd(cp_curl.get_command())
             self.curl_result = cp_curl.get_output(True, False)
 
@@ -613,6 +613,7 @@ class HttpsTest(unittest.TestCase):
             self.lfn.put_cmd(cp_curl.get_command())
             self.curl_result = cp_curl.get_output(True, True)
 
+            msg = 'curl status'
             self.assert_(self.curl_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))

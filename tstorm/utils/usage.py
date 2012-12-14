@@ -169,7 +169,8 @@ def get_usage(run=''):
         usage_filter_list()
         usage_ids()
         usage_file_ids()
-        usage_conf()
+
+    usage_conf()
 
     if run not in ('sanity', 'stress'):
         usage_dest_file()
@@ -195,7 +196,8 @@ def get_usage(run=''):
         usage_filter_list(opt=False,run=run)
         usage_ids(opt=False)
         usage_file_ids(opt=False)
-        usage_conf(opt=False)
+
+    usage_conf(opt=False)
 
     if run not in ('sanity', 'stress'):
         usage_dest_file(opt=False)

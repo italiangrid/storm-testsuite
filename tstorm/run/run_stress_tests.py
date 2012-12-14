@@ -52,9 +52,9 @@ class RunStressTests(run_tests.RunTests):
     def do_parse(self):
         try:
             opts, args = getopt.getopt(sys.argv[1:],
-                "hvn:r:",
+                "hvc:n:r:",
                 ["help","nostressreport","report",
-                 "version","number-cycles=",
+                 "version","conf=","number-cycles=",
                  "number-hours=","refresh-report=",
                  "storm-release="])
         except getopt.GetoptError, err:
@@ -75,6 +75,8 @@ class RunStressTests(run_tests.RunTests):
             elif opt in ("-n", "--number-cycles"):
                 self.parameters['number_cycles'] = int(value)
                 n_cycles = True
+            elif opt in ("-c", "--conf"):
+                self.parameters['custom_conf_file'] = (True, value)
             elif opt in ("--number-hours"):
                 self.parameters['number_hours'] = int(value)
                 n_hours = True
@@ -208,7 +210,7 @@ class RunStressTests(run_tests.RunTests):
                     '_http_' not in tm_val.get_aggregator() and \
                     '_https' not in tm_val.get_aggregator() and \
                     '_http' not in tm_val.get_aggregator():
-                    self.run_test(self.parameters['tfn'],
+                    self.run_test(self.parameters['custom_conf_file'][1],
                         tm_val, log_file, stress_log_file,\
                         self.parameters['custom_destination_file'][0], \
                         self.parameters['custom_destination_file'][1])
@@ -249,7 +251,7 @@ class RunStressTests(run_tests.RunTests):
                     '_http_' not in tm_val.get_aggregator() and \
                     '_https' not in tm_val.get_aggregator() and \
                     '_http' not in tm_val.get_aggregator():
-                    self.run_test(self.parameters['tfn'],
+                    self.run_test(self.parameters['custom_conf_file'][1],
                         tm_val, log_file, stress_log_file,\
                         self.parameters['custom_destination_file'][0], \
                         self.parameters['custom_destination_file'][1])
