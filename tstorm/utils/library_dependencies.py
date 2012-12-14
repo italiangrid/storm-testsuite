@@ -16,7 +16,7 @@ class Ldd:
 
     def get_command(self):
         a = self.cmd['name']
-        a += ' ' + self.pn
+        a += ' ' + self.library
         return a
 
     def run_command(self):

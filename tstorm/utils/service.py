@@ -25,7 +25,7 @@ class Service:
 
     def get_output(self):
         a=self.run_command()
-        if a[0] == 0:
+        if len(a) > 0 and a[0] == 0:
             if len(a[1].split('\n')) == 1:
                 self.otpt['status'] = 'PASS'
                 self.otpt['otpt'] = a[1]

@@ -231,13 +231,21 @@ class RegressionConfigurationTest(unittest.TestCase):
             read_cat = readfile.Cat(self.tsets['yaim']['def_path'])
             self.lfn.put_cmd(read_cat.get_command())
             cat_result = read_cat.get_output()
-            self.assert_(cat_result['status'] == 'PASS')
+
+            msg = 'cat status'
+            self.assert_(cat_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
             var=cat_result['otpt'].split('\n')
 
             read_catn = readfile.Cat('/etc/storm/backend-server/namespace.xml')
             self.lfn.put_cmd(read_catn.get_command())
             catn_result = read_catn.get_output()
-            self.assert_(catn_result['status'] == 'PASS')
+
+            msg = 'cat status'
+            self.assert_(catn_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
             varn=catn_result['otpt']
 
             for x in var:
