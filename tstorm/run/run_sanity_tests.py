@@ -30,7 +30,7 @@ class RunSanityTestsError(exceptions.Exception):
 class RunSanityTests(run_tests.RunTests):
     def __init__(self):
         super(RunSanityTests, self).__init__()
-        self.parameters['tfn'] = 'tstorm-sanity.ini'
+        self.parameters['custorm_conf_file'] = (False, 'tstorm-sanity.ini')
         self.parameters['voms'] = False
 
     def do_parse(self):
@@ -54,7 +54,7 @@ class RunSanityTests(run_tests.RunTests):
                 print msg
                 sys.exit(0)
             elif opt in ("-c", "--conf"):
-                self.parameters['tfn'] = value
+                self.parameters['custom_conf_file'] = (True, value)
             elif opt in ("-i", "--ids"):
                 try:
                     tmp_sequence_tests = sequence.Sequence(value).get_sequence()
@@ -71,7 +71,6 @@ class RunSanityTests(run_tests.RunTests):
                 try:
                     tmp_filter_tests_details = filters.Filters(value).get_filters(run='sanity')
                     self.parameters['filter_tests_details'] = (True, tmp_filter_tests_details)
-                    print self.parameters['filter_tests_details']
                 except filters.FiltersError, err:
                     print '\n\nExecution: ', err
                     usage.get_usage(run='sanity')
@@ -109,8 +108,11 @@ class RunSanityTests(run_tests.RunTests):
 
     def do_run_tests(self):
         log_file = report_file.ReportFile(report = self.parameters['report'])
+
         tests_methods = self.tests_instance.get_methods(tests = self.parameters['valid_tests'],run='sanity')
+
         for key, value in tests_methods.items():
-            self.run_test(self.parameters['tfn'], \
+            self.run_test(self.parameters['custom_conf_file'][1], \
                 value, log_file, key)
+
         log_file.close_file()

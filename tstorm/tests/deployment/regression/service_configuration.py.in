@@ -13,294 +13,576 @@ from tstorm.utils import library_dependencies
 __author__ = 'Elisabetta Ronchieri'
 
 class RegressionConfigurationTest(unittest.TestCase):
-    def __init__(self, testname, tfn, lfn):
+    def __init__(self, testname, tfn, uid, lfn):
         super(RegressionConfigurationTest, self).__init__(testname)
         self.tsets = configuration.LoadConfiguration(conf_file = tfn).get_test_settings()
+        self.id = uid.get_id()
         self.lfn = lfn
 
     def test_backend_server_status(self):
-        sr = service.Service('storm-backend-server')
-        self.lfn.put_cmd(sr.get_command())
-        sr_result = sr.get_output()
-        self.assert_(sr_result['status'] == 'PASS')
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
 
-        self.lfn.put_result('PASSED')
+        try:
+            sr = service.Service('storm-backend-server')
+            self.lfn.put_cmd(sr.get_command())
+            sr_result = sr.get_output()
+
+            msg = 'service status'
+            self.assert_(sr_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
         self.lfn.flush_file()
 
     def test_backend_logrotate_file(self):
-        read_cat = readfile.Cat('/etc/logrotate.d/storm-backend-server')
-        self.lfn.put_cmd(read_cat.get_command())
-        cat_result = read_cat.get_output()
-        self.assert_(cat_result['status'] == 'PASS')
-        self.assert_('/opt/storm/backend/var/log/storm-backend.stdout' not in cat_result['otpt'])
-        self.assert_('/opt/storm/backend/var/log/storm-backend.stderr' not in cat_result['otpt'])
-        self.assert_('/opt/storm/backend/var/log/lcmaps.log' not in cat_result['otpt'])
-        self.assert_('/var/log/storm/storm-backend.stdout' in cat_result['otpt'])
-        self.assert_('/var/log/storm/storm-backend.stderr' in cat_result['otpt'])
-        self.assert_('/var/log/storm/lcmaps.log' in cat_result['otpt'])
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
 
-        self.lfn.put_result('PASSED')
+        try:
+            read_cat = readfile.Cat('/etc/logrotate.d/storm-backend-server')
+            self.lfn.put_cmd(read_cat.get_command())
+            cat_result = read_cat.get_output()
+
+            msg = 'cat status'
+            self.assert_(cat_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            msg = 'File storm-backend.stdout was found'
+            self.assert_('/opt/storm/backend/var/log/storm-backend.stdout' not in cat_result['otpt'],
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            msg = 'File storm-backend.stderr was found'
+            self.assert_('/opt/storm/backend/var/log/storm-backend.stderr' not in cat_result['otpt'],
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            msg = 'File lcmaps.log was found'
+            self.assert_('/opt/storm/backend/var/log/lcmaps.log' not in cat_result['otpt'],
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            msg = 'File storm-backend.stdout was not found'
+            self.assert_('/var/log/storm/storm-backend.stdout' in cat_result['otpt'],
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            msg = 'File storm-backend.stderr was not found'
+            self.assert_('/var/log/storm/storm-backend.stderr' in cat_result['otpt'],
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            msg = 'File lcmaps.log was not found'
+            self.assert_('/var/log/storm/lcmaps.log' in cat_result['otpt'],
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
         self.lfn.flush_file()
 
     def test_backend_cron_file(self):
-        read_cat = readfile.Cat('/etc/cron.d/storm-backend-server.cron')
-        self.lfn.put_cmd(read_cat.get_command())
-        cat_result = read_cat.get_output()
-        self.assert_(cat_result['status'] == 'PASS')
-        self.assert_('/opt/storm/backend/etc/logrotate.d/logrotate.status' not in cat_result['otpt'])
-        self.assert_('/opt/storm/backend/etc/logrotate.d/storm-backend.logrotate' not in cat_result['otpt'])
-        self.assert_('/etc/logrotate.d/storm-backend-server' in cat_result['otpt'])
-        self.assert_('/etc/logrotate.d/logrotate.status' in cat_result['otpt'])
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
 
-        self.lfn.put_result('PASSED')
+        try:
+            read_cat = readfile.Cat('/etc/cron.d/storm-backend-server.cron')
+            self.lfn.put_cmd(read_cat.get_command())
+            cat_result = read_cat.get_output()
+
+            msg = 'cat status'
+            self.assert_(cat_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            msg = 'File logrotate.status was found'
+            self.assert_('/opt/storm/backend/etc/logrotate.d/logrotate.status' not in cat_result['otpt'],
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            msg = 'File storm-backend.logrotate was found'
+            self.assert_('/opt/storm/backend/etc/logrotate.d/storm-backend.logrotate' not in cat_result['otpt'],
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            msg = 'File storm-backend-server was not found'
+            self.assert_('/etc/logrotate.d/storm-backend-server' in cat_result['otpt'],
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            msg = 'File logrotate.status was not found'
+            self.assert_('/etc/logrotate.d/logrotate.status' in cat_result['otpt'],
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
         self.lfn.flush_file()
 
     def test_backend_gridhttps(self):
-        sr = service.Service('storm-backend-server')
-        self.lfn.put_cmd(sr.get_command())
-        sr_result = sr.get_output()
-        self.assert_(sr_result['status'] == 'PASS')
-        self.assert_('RUNNING' in sr_result['otpt'])
-        self.assert_('NOT' not in sr_result['otpt'])
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
 
-        sr = service.Service('tomcat@TOMCATVERSION@')
-        self.lfn.put_cmd(sr.get_command())
-        sr_result = sr.get_output()
+        try:
+            sr = service.Service('storm-backend-server')
+            self.lfn.put_cmd(sr.get_command())
+            sr_result = sr.get_output()
 
-        self.assert_(sr_result['status'] == 'PASS')
-        self.assert_('running' in sr_result['otpt'])
+            msg = 'service status'
+            self.assert_(sr_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-        self.lfn.put_result('PASSED')
+            msg = 'RUNNING was not found'
+            self.assert_('RUNNING' in sr_result['otpt'],
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            msg = 'NOT was found'
+            self.assert_('NOT' not in sr_result['otpt'],
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            sr = service.Service('tomcat@TOMCATVERSION@')
+            self.lfn.put_cmd(sr.get_command())
+            sr_result = sr.get_output()
+
+            msg = 'service status'
+            self.assert_(sr_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            msg = 'running was not found'
+            self.assert_('running' in sr_result['otpt'],
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
         self.lfn.flush_file()
 
     def test_yaim_version_file(self):
-        read_cat = readfile.Cat('/opt/glite/yaim/etc/versions/yaim-storm')
-        self.lfn.put_cmd(read_cat.get_command())
-        cat_result = read_cat.get_output()
-        self.assert_(cat_result['status'] == 'PASS')
-        pn=cat_result['otpt'].split(' ')
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
 
-        rpm_out = rpm.Rpm(pn[0])
-        self.lfn.put_cmd(rpm_out.get_command())
-        rpm_result = rpm_out.get_output()
-        self.assert_(rpm_result['status'] == 'PASS')
-        v=rpm_result['otpt'].split(pn[0] + '-')[1].split('.noarch')
-        self.assert_(pn[1] == v[0])
+        try:
+            read_cat = readfile.Cat('/opt/glite/yaim/etc/versions/yaim-storm')
+            self.lfn.put_cmd(read_cat.get_command())
+            cat_result = read_cat.get_output()
 
-        self.lfn.put_result('PASSED')
+            msg = 'cat status'
+            self.assert_(cat_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            pn=cat_result['otpt'].split(' ')
+            rpm_out = rpm.Rpm(pn[0])
+            self.lfn.put_cmd(rpm_out.get_command())
+            rpm_result = rpm_out.get_output()
+
+            msg = 'rpm status'
+            self.assert_(rpm_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            v=rpm_result['otpt'].split(pn[0] + '-')[1].split('.noarch')
+
+            msg = 'Wrong version value'
+            self.assert_(pn[1] == v[0],
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
         self.lfn.flush_file()
 
     def test_size_in_namespace_file(self):
-        read_cat = readfile.Cat(self.tsets['yaim']['def_path'])
-        self.lfn.put_cmd(read_cat.get_command())
-        cat_result = read_cat.get_output()
-        self.assert_(cat_result['status'] == 'PASS')
-        var=cat_result['otpt'].split('\n')
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
 
-        read_catn = readfile.Cat('/etc/storm/backend-server/namespace.xml')
-        self.lfn.put_cmd(read_catn.get_command())
-        catn_result = read_catn.get_output()
-        self.assert_(catn_result['status'] == 'PASS')
-        varn=catn_result['otpt']
+        try:
+            read_cat = readfile.Cat(self.tsets['yaim']['def_path'])
+            self.lfn.put_cmd(read_cat.get_command())
+            cat_result = read_cat.get_output()
+            self.assert_(cat_result['status'] == 'PASS')
+            var=cat_result['otpt'].split('\n')
 
-        for x in var:
-            if "ONLINE_SIZE" in x or "NEARLINE_SIZE" in x:
-                ls=x.split('SIZE')[1].split('=')
-                bs=int(ls[1])*1024*1024*1024
-            if 'ONLINE_SIZE' in x:
-                ols='<TotalOnlineSize unit=\"Byte\" limited-size=\"true\">' + str(bs) + '</TotalOnlineSize>'
-                self.assert_(ols in varn)
-            elif 'NEARLINE_SIZE' in x:
-                nls='<TotalNearlineSize unit=\"Byte\">' + str(bs) + '</TotalNearlineSize>'
-                dnls='<TotalNearlineSize unit=\"Byte\">0</TotalNearlineSize>'
-                for y in var:
-                    if ls[0] + 'STORAGECLASS' in y:
-                        sc=x.split('STORAGECLASS')[1].split('=')[1][1:len(x.split('STORAGECLASS')[1].split('=')[1])-1]
-                        if sc == 'T1D0':
-                            self.assert_(nls in varn)
-                            break
+            read_catn = readfile.Cat('/etc/storm/backend-server/namespace.xml')
+            self.lfn.put_cmd(read_catn.get_command())
+            catn_result = read_catn.get_output()
+            self.assert_(catn_result['status'] == 'PASS')
+            varn=catn_result['otpt']
 
-        self.lfn.put_result('PASSED')
+            for x in var:
+                if "ONLINE_SIZE" in x or "NEARLINE_SIZE" in x:
+                    ls=x.split('SIZE')[1].split('=')
+                    bs=int(ls[1])*1024*1024*1024
+                if 'ONLINE_SIZE' in x:
+                    ols='<TotalOnlineSize unit=\"Byte\" limited-size=\"true\">' + str(bs) + '</TotalOnlineSize>'
+
+                    msg = 'Wrong totalonlinesize value'
+                    self.assert_(ols in varn,
+                        '%s, %s - FAILED, %s, Test ID %s' %
+                        (path, method, msg, self.id))
+                elif 'NEARLINE_SIZE' in x:
+                    nls='<TotalNearlineSize unit=\"Byte\">' + str(bs) + '</TotalNearlineSize>'
+                    dnls='<TotalNearlineSize unit=\"Byte\">0</TotalNearlineSize>'
+                    for y in var:
+                        if ls[0] + 'STORAGECLASS' in y:
+                            sc=x.split('STORAGECLASS')[1].split('=')[1][1:len(x.split('STORAGECLASS')[1].split('=')[1])-1]
+                            if sc == 'T1D0':
+                                msg = 'Wrong totalnearlinesize value'
+                                self.assert_(nls in varn,
+                                    '%s, %s - FAILED, %s, Test ID %s' %
+                                    (path, method, msg, self.id))
+                                break
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
         self.lfn.flush_file()
 
     def test_gridhttps_plugin_links(self):
-        ls_ls = listinfo.Ls('/usr/share/java/storm-backend-server/storm-gridhttps-plugin.jar')
-        self.lfn.put_cmd(ls_ls.get_command())
-        ls_result = ls_ls.get_output()
-        self.assert_(ls_result['status'] == 'PASS')
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
 
-        ls_ls = listinfo.Ls('/usr/share/java/storm-backend-server/httpclient.jar')
-        self.lfn.put_cmd(ls_ls.get_command())
-        ls_result = ls_ls.get_output()
-        self.assert_(ls_result['status'] == 'PASS')
+        try:
+            ls_ls = listinfo.Ls('/usr/share/java/storm-backend-server/storm-gridhttps-plugin.jar')
+            self.lfn.put_cmd(ls_ls.get_command())
+            ls_result = ls_ls.get_output()
 
-        ls_ls = listinfo.Ls('/usr/share/java/storm-backend-server/httpcore.jar')
-        self.lfn.put_cmd(ls_ls.get_command())
-        ls_result = ls_ls.get_output()
-        self.assert_(ls_result['status'] == 'PASS')
+            msg = 'ls status'
+            self.assert_(ls_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-        self.lfn.put_result('PASSED')
+            ls_ls = listinfo.Ls('/usr/share/java/storm-backend-server/httpclient.jar')
+            self.lfn.put_cmd(ls_ls.get_command())
+            ls_result = ls_ls.get_output()
+
+            msg = 'ls status'
+            self.assert_(ls_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            ls_ls = listinfo.Ls('/usr/share/java/storm-backend-server/httpcore.jar')
+            self.lfn.put_cmd(ls_ls.get_command())
+            ls_result = ls_ls.get_output()
+
+            msg = 'ls status'
+            self.assert_(ls_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
         self.lfn.flush_file()
 
     def test_backend_server_name_status(self):
-        sr = service.Service('storm-backend-server')
-        self.lfn.put_cmd(sr.get_command())
-        sr_result = sr.get_output()
-        self.assert_(sr_result['status'] == 'PASS')
-        self.assert_('storm-backend-server' in sr_result['otpt'])
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
 
-        self.lfn.put_result('PASSED')
+        try:
+            sr = service.Service('storm-backend-server')
+            self.lfn.put_cmd(sr.get_command())
+            sr_result = sr.get_output()
+
+            msg = 'service status'
+            self.assert_(sr_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            msg = 'storm-backend-server was not found'
+            self.assert_('storm-backend-server' in sr_result['otpt'],
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
         self.lfn.flush_file()
 
     def test_mysql_storage_space_update(self):
-        read_cat = readfile.Cat(self.tsets['yaim']['def_path'])
-        self.lfn.put_cmd(read_cat.get_command())
-        cat_result = read_cat.get_output()
-        self.assert_(cat_result['status'] == 'PASS')
-        var=cat_result['otpt'].split('\n')
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
 
-        storage_area = {}
-        replace_storage_area = {}
-        token = {}
-        db_user = ''
-        db_pwd = ''
-        for x in var:
-            if "ONLINE_SIZE" in x:
-                ls=x.split('SIZE')[1].split('=')
-                #storage_area[x.split('STORM_')[1].split('_ONLINE_SIZE')[0]] = str(int(ls[1])*1024*1024*1024)
-                #replace_storage_area[x.split('STORM_')[1].split('_ONLINE_SIZE')[0]] = str(int(ls[1])*1024*1024*1024*502)
-                storage_area[x.split('STORM_')[1].split('_ONLINE_SIZE')[0]] = str(int(ls[1]))
-                replace_storage_area[x.split('STORM_')[1].split('_ONLINE_SIZE')[0]] = str(int(ls[1])*502)
-                #replace_storage_area[x.split('STORM_')[1].split('_ONLINE_SIZE')[0]] = str(4)
-            if "TOKEN" in x:
-                ls=x.split('TOKEN')[1].split('=')
-                token[x.split('STORM_')[1].split('_TOKEN')[0]] = ls[1]
-            if "STORM_DB_USER" in x:
-                db_user = x.split('=')[1]
-            if "STORM_DB_PWD" in x:
-                db_pwd = x.split('=')[1]
+        try:
+            read_cat = readfile.Cat(self.tsets['yaim']['def_path'])
+            self.lfn.put_cmd(read_cat.get_command())
+            cat_result = read_cat.get_output()
 
-        if len(token) != len(storage_area):
-           for x in storage_area.keys():
-               if x not in token.keys():
-                   token[x] = x+'_TOKEN' 
+            msg = 'cat status'
+            self.assert_(cat_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+            var=cat_result['otpt'].split('\n')
 
+            storage_area = {}
+            replace_storage_area = {}
+            token = {}
+            db_user = ''
+            db_pwd = ''
+            for x in var:
+                if "ONLINE_SIZE" in x:
+                    ls=x.split('SIZE')[1].split('=')
+                    #storage_area[x.split('STORM_')[1].split('_ONLINE_SIZE')[0]] = str(int(ls[1])*1024*1024*1024)
+                    #replace_storage_area[x.split('STORM_')[1].split('_ONLINE_SIZE')[0]] = str(int(ls[1])*1024*1024*1024*502)
+                    storage_area[x.split('STORM_')[1].split('_ONLINE_SIZE')[0]] = str(int(ls[1]))
+                    replace_storage_area[x.split('STORM_')[1].split('_ONLINE_SIZE')[0]] = str(int(ls[1])*502)
+                    #replace_storage_area[x.split('STORM_')[1].split('_ONLINE_SIZE')[0]] = str(4)
+                if "TOKEN" in x:
+                    ls=x.split('TOKEN')[1].split('=')
+                    token[x.split('STORM_')[1].split('_TOKEN')[0]] = ls[1]
+                if "STORM_DB_USER" in x:
+                    db_user = x.split('=')[1]
+                if "STORM_DB_PWD" in x:
+                    db_pwd = x.split('=')[1]
 
-        #print storage_area
-        #print replace_storage_area
-        #print token
+            if len(token) != len(storage_area):
+                for x in storage_area.keys():
+                    if x not in token.keys():
+                       token[x] = x+'_TOKEN' 
 
-        self.assert_(len(storage_area) > 0)
-        self.assert_(len(replace_storage_area) > 0)
-        self.assert_(len(storage_area) == len(replace_storage_area))
+            #print storage_area
+            #print replace_storage_area
+            #print token
+            msg = 'Wrong storage area value'
+            self.assert_(len(storage_area) > 0,
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
 
-        db_name = 'storm_be_ISAM'
-        db_table = 'storage_space'
-        db_field = ['total_size', 'available_size']
+            msg = 'Wrong storage area value'
+            self.assert_(len(replace_storage_area) > 0,
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            msg = 'Wrong storage area value'
+            self.assert_(len(storage_area) == len(replace_storage_area),
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            db_name = 'storm_be_ISAM'
+            db_table = 'storage_space'
+            db_field = ['total_size', 'available_size']
         
-        if db_user != '' and db_pwd != '':
-            mysql_query = mq.Mysql(db_name, db_table, db_field, 
-                          self.tsets['general']['backend_hostname'],
-                          token, db_user=db_user, db_pwd=db_pwd)
-        elif db_user != '' and db_pwd == '':
-            mysql_query = mq.Mysql(db_name, db_table, db_field,
-                          self.tsets['general']['backend_hostname'],
-                          token, db_user=db_user)
-        elif db_user == '' and db_pwd != '':
-            mysql_query = mq.Mysql(db_name, db_table, db_field,
-                          self.tsets['general']['backend_hostname'],
-                          token, db_pwd=db_pwd)
+            if db_user != '' and db_pwd != '':
+                mysql_query = mq.Mysql(db_name, db_table, db_field, 
+                    self.tsets['general']['backend_hostname'],
+                    token, db_user=db_user, db_pwd=db_pwd)
+            elif db_user != '' and db_pwd == '':
+                mysql_query = mq.Mysql(db_name, db_table, db_field,
+                    self.tsets['general']['backend_hostname'],
+                    token, db_user=db_user)
+            elif db_user == '' and db_pwd != '':
+                mysql_query = mq.Mysql(db_name, db_table, db_field,
+                    self.tsets['general']['backend_hostname'],
+                    token, db_pwd=db_pwd)
+            else:
+                mysql_query = mq.Mysql(db_name, db_table, db_field, 
+                    self.tsets['general']['backend_hostname'],
+                    token)
+            for x in token.keys():
+                self.lfn.put_cmd(mysql_query.get_command(token[x]))
+            mysql1_result = mysql_query.get_output()
+            for x in mysql1_result['status']:
+                msg = 'mysql status'
+                self.assert_(x == 'PASS',
+                    '%s, %s - FAILED, %s, Test ID %s' %
+                    (path, method, msg, self.id))
+
+            modify_deffile = yaim.ModifyDeffile(self.tsets['yaim']['def_path'],
+                storage_area, replace_storage_area)
+            md_result = modify_deffile.get_output()
+
+            msg = 'modify yaim status'
+            self.assert_(md_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            run_yaim = yaim.Yaim(self.tsets['yaim']['def_path'],
+                back_end=self.tsets['node']['backend'])
+            self.lfn.put_cmd(run_yaim.get_command()) 
+            yaim_result = run_yaim.get_output()
+
+            msg = 'run yaim status'
+            self.assert_(yaim_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            if db_user != '' and db_pwd != '':
+                mysql_query = mq.Mysql(db_name, db_table, db_field, 
+                    self.tsets['general']['backend_hostname'],
+                    token, db_user=db_user, db_pwd=db_pwd)
+            elif db_user != '' and db_pwd == '':
+                mysql_query = mq.Mysql(db_name, db_table, db_field,
+                    self.tsets['general']['backend_hostname'],
+                    token, db_user=db_user)
+            elif db_user == '' and db_pwd != '':
+                mysql_query = mq.Mysql(db_name, db_table, db_field,
+                    self.tsets['general']['backend_hostname'],
+                    token, db_pwd=db_pwd)
+            else:
+                mysql_query = mq.Mysql(db_name, db_table, db_field, 
+                    self.tsets['general']['backend_hostname'],
+                    token)
+
+            for x in token.keys():
+                self.lfn.put_cmd(mysql_query.get_command(token[x]))
+            mysql2_result = mysql_query.get_output()
+            for x in mysql2_result['status']:
+                msg = 'mysql status'
+                self.assert_(x == 'PASS',
+                    '%s, %s - FAILED, %s, Test ID %s' %
+                    (path, method, msg, self.id))
+
+            for x in mysql1_result['token'].keys():
+                u1=mysql1_result['token'][x][0]
+                u2=mysql2_result['token'][x][0]
+                f1=mysql1_result['token'][x][1]
+                f2=mysql2_result['token'][x][1]
+                msg = 'Wrong token value'
+                self.assert_(int(u1)-int(u2) == int(f1)-int(f2),
+                    '%s, %s - FAILED, %s, Test ID %s' %
+                    (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
         else:
-            mysql_query = mq.Mysql(db_name, db_table, db_field, 
-                          self.tsets['general']['backend_hostname'],
-                          token)
-        for x in token.keys():
-            self.lfn.put_cmd(mysql_query.get_command(token[x]))
-        mysql1_result = mysql_query.get_output()
-        for x in mysql1_result['status']:
-            self.assert_(x == 'PASS')
+            self.lfn.put_result('PASSED')
 
-        modify_deffile = yaim.ModifyDeffile(self.tsets['yaim']['def_path'],
-                         storage_area, replace_storage_area)
-        md_result = modify_deffile.get_output()
-        self.assert_(md_result['status'] == 'PASS')
-
-        run_yaim = yaim.Yaim(self.tsets['yaim']['def_path'],
-                             back_end=self.tsets['node']['backend'])
-        self.lfn.put_cmd(run_yaim.get_command()) 
-        yaim_result = run_yaim.get_output()
-        self.assert_(yaim_result['status'] == 'PASS')
-
-        if db_user != '' and db_pwd != '':
-            mysql_query = mq.Mysql(db_name, db_table, db_field, 
-                          self.tsets['general']['backend_hostname'],
-                          token, db_user=db_user, db_pwd=db_pwd)
-        elif db_user != '' and db_pwd == '':
-            mysql_query = mq.Mysql(db_name, db_table, db_field,
-                          self.tsets['general']['backend_hostname'],
-                          token, db_user=db_user)
-        elif db_user == '' and db_pwd != '':
-            mysql_query = mq.Mysql(db_name, db_table, db_field,
-                          self.tsets['general']['backend_hostname'],
-                          token, db_pwd=db_pwd)
-        else:
-            mysql_query = mq.Mysql(db_name, db_table, db_field, 
-                          self.tsets['general']['backend_hostname'],
-                          token)
-
-        for x in token.keys():
-            self.lfn.put_cmd(mysql_query.get_command(token[x]))
-        mysql2_result = mysql_query.get_output()
-        for x in mysql2_result['status']:
-            self.assert_(x == 'PASS')
-
-        for x in mysql1_result['token'].keys():
-            u1=mysql1_result['token'][x][0]
-            u2=mysql2_result['token'][x][0]
-            f1=mysql1_result['token'][x][1]
-            f2=mysql2_result['token'][x][1]
-            self.assert_(int(u1)-int(u2) == int(f1)-int(f2))
-
-        self.lfn.put_result('PASSED')
         self.lfn.flush_file()
 
     def test_mysql_connector_java_links(self):
-        ls_ls = listinfo.Ls('/usr/share/java/storm-backend-server/mysql-connector-java-5.1.13-bin.jar')
-        self.lfn.put_cmd(ls_ls.get_command())
-        ls_result = ls_ls.get_output()
-        self.assert_(ls_result['status'] == 'FAILURE')
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
 
-        ls_ls = listinfo.Ls('/usr/share/java/storm-backend-server/mysql-connector-java-5.1.12.jar')
-        self.lfn.put_cmd(ls_ls.get_command())
-        ls_result = ls_ls.get_output()
-        self.assert_(ls_result['status'] == 'PASS')
+        try:
+            ls_ls = listinfo.Ls('/usr/share/java/storm-backend-server/mysql-connector-java-5.1.13-bin.jar')
+            self.lfn.put_cmd(ls_ls.get_command())
+            ls_result = ls_ls.get_output()
 
-        self.lfn.put_result('PASSED')
+            msg = 'ls status'
+            self.assert_(ls_result['status'] == 'FAILURE',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            ls_ls = listinfo.Ls('/usr/share/java/storm-backend-server/mysql-connector-java-5.1.12.jar')
+            self.lfn.put_cmd(ls_ls.get_command())
+            ls_result = ls_ls.get_output()
+
+            msg = 'ls status'
+            self.assert_(ls_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
         self.lfn.flush_file()
 
     def test_path_authz_db(self):
-        rpm_out = rpm.Rpm('storm-backend-server')
-        self.lfn.put_cmd(rpm_out.get_command(conffile=True))
-        rpm_result = rpm_out.get_output(conffile=True)
-        self.assert_(rpm_result['status'] == 'PASS')
-        
-        self.assert_('/etc/storm/backend-server/path-authz.db' in rpm_result['otpt'])
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
 
-        self.lfn.put_result('PASSED')
+        try:
+            rpm_out = rpm.Rpm('storm-backend-server')
+            self.lfn.put_cmd(rpm_out.get_command(conffile=True))
+            rpm_result = rpm_out.get_output(conffile=True)
+
+            msg = 'rpm status'
+            self.assert_(rpm_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        
+            msg = 'path-authz.db was nof found'
+            self.assert_('/etc/storm/backend-server/path-authz.db' in rpm_result['otpt'],
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
         self.lfn.flush_file()
 
     def test_storm_backend_service_crashes_on_gpfs(self):
-        fi = '/usr/lib64/storm-backend-server/libgpfsapi_interface.so'
-        lib_dep = library_dependencies.Ldd(fi)
-        self.lfn.put_cmd(lib_dep.get_command())
-        lib_dep_result = lib_dep.get_output()
-        self.assert_(lib_dep_result['status'] == 'PASS')
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
 
-        self.assert_('libgpfs.so' in lib_dep_result['otpt'])
+        try:
+            fi = '/usr/lib64/storm-backend-server/libgpfsapi_interface.so'
+            lib_dep = library_dependencies.Ldd(fi)
+            self.lfn.put_cmd(lib_dep.get_command())
+            lib_dep_result = lib_dep.get_output()
 
-        self.lfn.put_result('PASSED')
+            msg = 'ldd status'
+            self.assert_(lib_dep_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            msg = 'libgpfs.so was not found'
+            self.assert_('libgpfs.so' in lib_dep_result['otpt'],
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
         self.lfn.flush_file()
         
     def test_configuration_folders_permissions(self):
-        self.lfn.put_result('PASSED')
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
         self.lfn.flush_file()
+
