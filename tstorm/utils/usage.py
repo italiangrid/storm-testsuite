@@ -12,6 +12,12 @@ def usage_noreport(opt=True):
     else:
         print """                   [--noreport] """
 
+def usage_report(opt=True):
+    if not opt:
+        print """- report is not followed by any value"""
+    else:
+        print """                   [--report] """
+
 def usage_novoms(opt=True):
     if not opt:
         print """- novoms is not followed by any values"""
@@ -140,9 +146,12 @@ def get_usage(run=''):
 
     print 'Usage: %s [-h|--help] ' % cmd
     usage_version()
-    usage_noreport()
+
+    if run != 'stress':
+        usage_noreport()
     
     if run == 'stress':
+        usage_report()
         usage_nostressreport()
         usage_number_cycles()
         usage_number_hours()
@@ -164,9 +173,11 @@ def get_usage(run=''):
     usage_storm_release()
     print """where:"""
     usage_version(opt=False)
-    usage_noreport(opt=False)
+    if run != 'stress':
+        usage_noreport(opt=False)
 
     if run == 'stress':
+        usage_report(opt=False)
         usage_nostressreport(opt=False)
         usage_number_cycles(opt=False)
         usage_number_hours(opt=False)

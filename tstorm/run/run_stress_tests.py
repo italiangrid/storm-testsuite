@@ -53,7 +53,7 @@ class RunStressTests(run_tests.RunTests):
         try:
             opts, args = getopt.getopt(sys.argv[1:],
                 "hvn:r:",
-                ["help","nostressreport",
+                ["help","nostressreport","report",
                  "version","number-cycles=",
                  "number-hours=","refresh-report=",
                  "storm-release="])
@@ -89,6 +89,8 @@ class RunStressTests(run_tests.RunTests):
                     sys.exit(2)
             elif opt in ("--nostressreport"):
                 self.parameters['stress_report'] = False
+            elif opt in ("--report"):
+                self.parameters['report'] = True
             else:
                 raise run_tests.OptionError("Unhandled option")
 
