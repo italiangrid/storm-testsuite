@@ -123,7 +123,7 @@ def usage_example_storm_release(cmd=''):
     print "    %s -r '<major-release.minor-release.revision-release>-age'" % cmd
 
 def usage_example_ids(cmd=''):
-    print """Example: if you want to run tests providing tests sequence"""
+    print """Example: if you want to run tests providing a sequence of test ids"""
     print "    %s -i '<test_id_1>,<test_id_2>" % cmd
 
 def usage_example_number_cycles(cmd=''):
