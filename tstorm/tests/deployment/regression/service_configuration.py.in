@@ -579,10 +579,14 @@ class RegressionConfigurationTest(unittest.TestCase):
         method = stack_value[3]
 
         try:
+            msg = 'in progress'
+            self.assert_('x' in 'txt',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id)) 
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
         else:
             self.lfn.put_result('PASSED')
-        self.lfn.flush_file()
 
+        self.lfn.flush_file()
