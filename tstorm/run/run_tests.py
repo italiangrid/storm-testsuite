@@ -38,7 +38,7 @@ class RunTestsError(exceptions.Exception):
 class RunTests(object):
     def __init__(self):
         self.parameters = {}
-        self.parameters['tfn'] = 'tstorm.ini'
+        self.parameters['custom_conf_file'] = (False, 'tstorm.ini')
         try:
             storm_release = release.Release(__import__('tstorm').get_storm_release())
         except release.ReleaseError, err:
@@ -62,12 +62,17 @@ class RunTests(object):
         self.tests_instance = tests.Tests(self.parameters['mti_info'])
 
     def verify_conf_file(self):
-        if settings.configuration_file_exists(file_name = self.parameters['tfn']):
-            self.parameters['tfn'] = settings.get_configuration_file(file_name = self.parameters['tfn'])
+        if self.parameters['custom_conf_file'][0]:
+            if settings.file_exists(self.parameters['custom_conf_file'][1]):
+                self.parameters['custom_conf_file'] = (True, settings.get_custom_configuration_file(file_name=self.parameters['custom_conf_file'][1]))
+            else:
+                raise RunTestsError("ini file is not in the right location")
         else:
-            raise RunTestsError("ini file is not in the right location")
-
-        check_configuration_file = configuration.LoadConfiguration(conf_file = self.parameters['tfn'])
+            if settings.configuration_file_exists(file_name = self.parameters['custom_conf_file'][1]):
+                self.parameters['custom_conf_file'] = (False, settings.get_configuration_file(file_name = self.parameters['custom_conf_file'][1]))
+            else:
+                raise RunTestsError("ini file is not in the right location")
+        check_configuration_file = configuration.LoadConfiguration(conf_file = self.parameters['custom_conf_file'][1])
         if not check_configuration_file.is_configuration_file_valid():
             print '''Example of ini configuration file:\n'''
             check_configuration_file.print_configuration_file_template()
@@ -94,7 +99,7 @@ class RunTests(object):
                 print msg
                 sys.exit(0)
             elif opt in ("-c", "--conf"):
-                self.parameters['tfn'] = value
+                self.parameters['custom_conf_file'] = (True, value)
             elif opt in ("-d", "--destfile"):
                 self.parameters['custom_destination_file'] = (True, value)
             elif opt in ("-i", "--ids"):
@@ -184,7 +189,6 @@ class RunTests(object):
     def do_pre_run(self):
         self.verify_conf_file()
         self.set_valid_tests()
-
         if self.parameters['tests_sequence'][0]:
             self.parameters['valid_tests'] = self.modify_valid_tests()
 
@@ -206,7 +210,7 @@ class RunTests(object):
         tests_methods = self.tests_instance.get_methods(tests = self.parameters['valid_tests'])
 
         for key, value in tests_methods.items():
-            self.run_test(self.parameters['tfn'], \
+            self.run_test(self.parameters['custom_conf_file'][1], \
                 value, log_file, \
                 self.parameters['custom_destination_file'][0], \
                 self.parameters['custom_destination_file'][1])

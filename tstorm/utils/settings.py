@@ -95,14 +95,11 @@ def configuration_file_exists(file_name='map_tests_ids.json'):
 
     result=False
 
-    if os.path.isfile(file_name):
-        result=True
-    else:
-        paths = get_configuration_paths()
-        for x in paths:
-            if os.path.isfile(os.path.join(x,file_name)):
-                result=True
-                break
+    paths = get_configuration_paths()
+    for x in paths:
+        if os.path.isfile(os.path.join(x,file_name)):
+            result=True
+            break
 
     #print 'res %s is for %s ' % (result,file_name)
     return result
@@ -112,16 +109,16 @@ def get_configuration_file(file_name='map_tests_ids.json'):
 
     configuration_file=''
 
-    if os.path.isfile(file_name):
-        configuration_file=file_name
-    else:
-        paths = get_configuration_paths()
+    #if os.path.isfile(file_name):
+    #    configuration_file=file_name
+    #else:
+    paths = get_configuration_paths()
 
-        for x in paths:
-            if os.path.isfile(os.path.join(x,file_name)):
-                configuration_file=(x+file_name)
-                #print 'file %s ' % configuration_file
-                break
+    for x in paths:
+        if os.path.isfile(os.path.join(x,file_name)):
+            configuration_file=(x+file_name)
+            #print 'file %s ' % configuration_file
+            break
 
     return configuration_file 
 
@@ -210,6 +207,11 @@ def file_exists(file_name):
         return True
 
     return False
+
+def get_custom_configuration_file(file_name):
+    if '/' not in file_name:
+        return os.getcwd()+'/'+file_name
+    return file_name
 
 def get_tests_sequence(file_name):
     '''Get Tests Sequence from file'''
