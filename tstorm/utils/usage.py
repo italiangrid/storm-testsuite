@@ -124,7 +124,7 @@ def usage_example_storm_release(cmd=''):
 
 def usage_example_ids(cmd=''):
     print """Example: if you want to run tests providing tests sequence"""
-    print '    %s -i ' % cmd
+    print "    %s -i '<test_id_1>,<test_id_2>" % cmd
 
 def usage_example_number_cycles(cmd=''):
     print """Example: if you want to run tests for n cycles"""
