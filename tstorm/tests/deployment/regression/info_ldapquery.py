@@ -2,6 +2,8 @@ import datetime
 import time
 import os 
 import unittest
+import inspect
+
 from tstorm.utils import configuration
 from tstorm.utils import ldapsearch as ls 
 from tstorm.utils import infosystem as ins
@@ -11,7 +13,7 @@ __author__ = 'Elisabetta Ronchieri'
 
 class InfoTest(unittest.TestCase):
     def __init__(self, testname, tfn, uid, lfn, filter='', attributes=''):
-        super(LdapTest, self).__init__(testname)
+        super(InfoTest, self).__init__(testname)
         self.tsets = configuration.LoadConfiguration(conf_file = tfn).get_test_settings()
         self.filter = filter
         self.attributes = attributes
@@ -237,7 +239,7 @@ class InfoTest(unittest.TestCase):
 
         self.lfn.flush_file()
 
-    def test_service_failure(self):
+    def test_info_service_failure(self):
         stack_value = inspect.stack()[0]
         path = stack_value[1]
         method = stack_value[3]

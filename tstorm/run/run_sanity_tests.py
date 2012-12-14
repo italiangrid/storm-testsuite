@@ -113,6 +113,6 @@ class RunSanityTests(run_tests.RunTests):
 
         for key, value in tests_methods.items():
             self.run_test(self.parameters['custom_conf_file'][1], \
-                value, log_file, key)
+                value, log_file)
 
         log_file.close_file()
