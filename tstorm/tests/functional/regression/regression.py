@@ -985,12 +985,10 @@ class RegressionTest(unittest.TestCase):
         method = stack_value[3]
 
         try:
-            dd = createfile.Cf(fn=self.ifn, txt=False)
-            self.lfn.put_cmd(dd.get_command())
-            self.dd_result = dd.get_output()
+            self.cf_result = createfile.Cf(fn=self.ifn, txt=False).get_output()
 
-            msg = 'dd status'
-            self.assert_(self.dd_result['status'] == 'PASS',
+            msg = 'cf status'
+            self.assert_(self.cf_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
@@ -1014,7 +1012,26 @@ class RegressionTest(unittest.TestCase):
             self.assert_(self.cp_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
-         except AssertionError, err:
+
+            storm_rm = rm.StoRMRm(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'], self.dfn)
+            self.lfn.put_cmd(storm_rm.get_command())
+            rm_result = storm_rm.get_output()
+
+            msg = 'storm rm status'
+            self.assert_(rm_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            rm_lf = removefile.RmLf(self.ifn, self.bifn)
+            self.lfn.put_cmd(rm_lf.get_command())
+            self.rmlf_result = rm_lf.get_output()
+
+            msg = 'rm lf status'
+            self.assert_(self.rmlf_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
         else:

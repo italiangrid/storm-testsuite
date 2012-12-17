@@ -15,4 +15,4 @@ def get_release():
     return release
 
 def get_storm_release():
-    return '1.10.0-1'
+    return '1.10.1-1'
