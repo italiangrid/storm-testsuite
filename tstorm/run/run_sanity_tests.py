@@ -21,6 +21,7 @@ from tstorm.utils import tests
 from tstorm.utils import filters
 from tstorm.utils import configuration
 
+from tstorm.tests.deployment import conftests as ct
 from tstorm.tests.deployment.regression import regression_conftests as rct
 from tstorm.tests.deployment.regression import regression_infotests as rit
 

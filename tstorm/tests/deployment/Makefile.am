@@ -19,11 +19,20 @@
 SUBDIRS = regression 
 
 tstormdeploymentdir = @pyexecdir@/tstorm/tests/deployment
-tstormdeployment_PYTHON = __init__.py
+tstormdeployment_PYTHON = \
+    conf.py \
+    conftests.py \
+    __init__.py
 
 EXTRA_DIST = \
+    conf.py \
+    conftests.py \
     __init__.py
 
 CLEANFILES= \
+    conf.pyc \
+    conf.pyo \
+    conftests.pyc \
+    conftests.pyo \
     __init__.pyc \
-    __init__.pyo
+    __init__.pyo 

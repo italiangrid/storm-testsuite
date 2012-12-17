@@ -332,6 +332,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{python_sitearch}/tstorm/
 %dir %{python_sitearch}/tstorm/tests/
 %dir %{python_sitearch}/tstorm/tests/deployment
+%{python_sitearch}/tstorm/tests/deployment/conf.py
+%{python_sitearch}/tstorm/tests/deployment/conf.pyc
+%{python_sitearch}/tstorm/tests/deployment/conf.pyo
+%{python_sitearch}/tstorm/tests/deployment/conftests.py
+%{python_sitearch}/tstorm/tests/deployment/conftests.pyc
+%{python_sitearch}/tstorm/tests/deployment/conftests.pyo
 %{python_sitearch}/tstorm/tests/deployment/__init__.py
 %{python_sitearch}/tstorm/tests/deployment/__init__.pyc
 %{python_sitearch}/tstorm/tests/deployment/__init__.pyo
