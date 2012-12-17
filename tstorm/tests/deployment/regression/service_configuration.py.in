@@ -707,3 +707,46 @@ class RegressionConfigurationTest(unittest.TestCase):
             self.lfn.put_result('PASSED')
 
         self.lfn.flush_file()
+
+    def test_yaim_storm_frontend_port_variable(self):
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
+            r_yaim_result = readfile.Rf(fn=self.tsets['yaim']['def_path']).get_output()
+
+            msg = 'rf status'
+            self.assert_(r_yaim_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            get_frontend_port = ''
+            for line in r_yaim_result['otpt'].split('\n'):
+                if 'STORM_FRONTEND_PORT' in line:
+                    get_frontend_port line.split('STORM_GRIDFTP_POOL_STRATEGY=')[1]:
+                    break
+
+            rf_result = readfile.Rf(fn='/etc/storm/frontend-server/storm-frontend-server.conf').get_output()
+
+            msg = 'rf status'
+            self.assert_(rf_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            get_fe_port = ''
+            for x in rf_result['otpt'].split('\n'):
+                if 'fe.port' in x:
+                    get_fe_port = x.split('fe.port=')[1]
+                    break
+
+            if get_frontend_port == '':
+                self.assert_(get_fe_port == '8444')
+
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
+        self.lfn.flush_file()
