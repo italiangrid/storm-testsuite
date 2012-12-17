@@ -39,16 +39,17 @@ class Dd:
         return self.otpt
 
 class Cf:
-    def __init__(self, fn='input-file'):
+    def __init__(self, fn='input-file', txt=True):
         self.ifn = fn
+        self.txt = txt
         self.otpt = {
             'status':''}
 
     def get_output(self):
-        c = 'a'
         try:
             f = open(self.ifn,'w')
-            f.write(c)
+            if self.txt:
+                f.write('a')
             f.close()
             self.otpt['status'] = 'PASS'
         except IOError:

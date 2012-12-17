@@ -529,6 +529,16 @@
     "Yaim-Storm for GLUE2 configuration set wrong values in the GLUE2EndpointCapability and GLUE2EndpointInterfaceName attributes of the GLUE2.0 schema",
     "rlt.ts_gluetwo_endpoint(tfn, uid,lfn)"
     ],
+  "ts_gsiftp_failure_of_zero_length_file":[
+    "bf9138",
+    "ST",
+    true,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/241","[1.10.1-1,*)"]],
+    false,
+    "STORM GSIFTP BUG: FAILURE IN CASE OF ZERO LENGTH FILE",
+    "Gsiftp fails when transferring a file of zero length",
+    "rt.ts_gsiftp_failure_of_zero_length_file(tfn,ifn,dfn,back_ifn,uid,lfn)"
+    ],
   "ts_storm_ping":[
     "6d06c2",
     "LT",

@@ -79,3 +79,8 @@ def ts_storm_gridhttps_authorization_denied(conf, ifn, dfn, bifn, uid, lfn):
     s = unittest.TestSuite()
     s.addTest(re.RegressionTest('test_storm_gridhttps_authorization_denied', conf, ifn, dfn, bifn, uid, lfn))
     return s
+
+def ts_gsiftp_failure_of_zero_length_file(conf, ifn, dfn, bifn, uid, lfn):
+    s = unittest.TestSuite()
+    s.addTest(re.RegressionTest('test_gsiftp_failure_of_zero_length_file', conf, ifn, dfn, bifn, uid, lfn))
+    return s

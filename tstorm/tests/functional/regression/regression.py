@@ -828,7 +828,7 @@ class RegressionTest(unittest.TestCase):
         method = stack_value[3]
 
         try:
-            self.cf_result = createfile.Cf(self.ifn).get_output()
+            self.cf_result = createfile.Cf(fn=self.ifn).get_output()
 
             msg = 'cf status'
             self.assert_(self.cf_result['status'] == 'PASS',
@@ -906,7 +906,7 @@ class RegressionTest(unittest.TestCase):
         method = stack_value[3]
 
         try:
-            self.cf_result = createfile.Cf(self.ifn).get_output()
+            self.cf_result = createfile.Cf(fn=self.ifn).get_output()
 
             msg = 'cf status'
             self.assert_(self.cf_result['status'] == 'PASS',
@@ -979,4 +979,45 @@ class RegressionTest(unittest.TestCase):
 
         self.lfn.flush_file()
 
-        
+    def test_gsiftp_failure_of_zero_length_file(self):
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
+            dd = createfile.Cf(fn=self.ifn, txt=False)
+            self.lfn.put_cmd(dd.get_command())
+            self.dd_result = dd.get_output()
+
+            msg = 'dd status'
+            self.assert_(self.dd_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            lcg_ls = ls.LcgLs(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'], self.dfn)
+            self.lfn.put_cmd(lcg_ls.get_command())
+            ll = lcg_ls.get_output()
+
+            msg = 'lcg ls status'
+            self.assert_(ll['status'] == 'FAILURE',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            lcg_cp = cp.LcgCp(self.tsets['general']['endpoint'],
+                self.tsets['general']['accesspoint'], self.ifn,
+                self.dfn, self.bifn)
+            self.lfn.put_cmd(lcg_cp.get_command())
+            self.cp_result = lcg_cp.get_output()
+
+            msg = 'lcg cp status'
+            self.assert_(self.cp_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+         except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
+        self.lfn.flush_file()

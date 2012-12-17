@@ -73,7 +73,7 @@ class UtilitiesTest(unittest.TestCase):
         method = stack_value[3]
 
         try:
-            self.cf_result = createfile.Cf(self.ifn).get_output()
+            self.cf_result = createfile.Cf(fn=self.ifn).get_output()
 
             msg = 'Local file %s has not been created' % self.ifn
             self.assert_(self.cf_result['status'] == 'PASS',
