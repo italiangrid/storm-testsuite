@@ -648,9 +648,8 @@ class RegressionConfigurationTest(unittest.TestCase):
                          else:
                              get_variable_value.append(tmp)
                 elif 'STORM_GRIDFTP_POOL_STRATEGY' in line:
-                    for value in line.split('STORM_GRIDFTP_POOL_STRATEGY=')[1]:
-                         if 'weight' in value:
-                             get_pool_strategy = 'weight'
+                    if 'weight' == line.split('STORM_GRIDFTP_POOL_STRATEGY=')[1]:
+                        get_pool_strategy = 'weight'
                 if get_pool_list != [] and get_pool_strategy != '':
                     break
 
