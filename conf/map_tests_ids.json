@@ -949,6 +949,16 @@
     "mysql-connector-java is not downloaded due to an issue in its owner repository",
     "rct.ts_mysql_connector_java_links(tfn, uid, lfn)"
     ],
+  "ts_mysql_connector_java_link":[
+    "4d5495",
+    "DT",
+    true,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/302","[1.10.1-1,*)"]],
+    false,
+    "MYSQL-CONNECTOR-JAVA LINK FAILURE",
+    "mysql-connector-java is not linked correctly",
+    "rct.ts_mysql_connector_java_link(tfn, uid, lfn)"
+    ],
   "ts_http":[
     "32429c",
     "ST",

@@ -512,7 +512,29 @@ class RegressionConfigurationTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            ls_ls = listinfo.Ls('/usr/share/java/storm-backend-server/mysql-connector-java-5.1.12.jar')
+            ls_ls = listinfo.Ls('/usr/share/java/storm-backend-server/mysql-connector-java@MYSQLCONNECTORVERSION@.jar')
+            self.lfn.put_cmd(ls_ls.get_command())
+            ls_result = ls_ls.get_output()
+
+            msg = 'ls status'
+            self.assert_(ls_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
+        self.lfn.flush_file()
+
+    def test_mysql_connector_java_link(self):
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
+            ls_ls = listinfo.Ls('/usr/share/java/storm-backend-server/mysql-connector-java@MYSQLCONNECTORVERSION@.jar')
             self.lfn.put_cmd(ls_ls.get_command())
             ls_result = ls_ls.get_output()
 

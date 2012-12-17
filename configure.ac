@@ -67,6 +67,14 @@ fi
 
 AC_SUBST([TOMCATVERSION], [$tomcat_version])
 
+if test "xsl$osdist" = "xsl6"; then
+  mysql_connector_version='-5.1.12'
+else
+  mysql_connector_version=''
+fi
+
+AC_SUBST([MYSQLCONNECTORVERSION], [$mysql_connector_version])
+
 AC_STORM([])
 
 AC_CONFIG_HEADER([autogen/config.h])

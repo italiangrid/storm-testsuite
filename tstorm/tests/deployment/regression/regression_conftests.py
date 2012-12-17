@@ -67,3 +67,8 @@ def ts_configuration_folders_permissions(conf, uid, lfn):
     s = unittest.TestSuite()
     s.addTest(sc.RegressionConfigurationTest('test_configuration_folders_permissions', conf, uid, lfn))
     return s
+
+def ts_mysql_connector_java_link(conf, uid, lfn):
+    s = unittest.TestSuite()
+    s.addTest(sc.RegressionConfigurationTest('test_mysql_connector_java_link', conf, uid, lfn))
+    return s
