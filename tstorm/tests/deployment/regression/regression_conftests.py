@@ -72,3 +72,8 @@ def ts_mysql_connector_java_link(conf, uid, lfn):
     s = unittest.TestSuite()
     s.addTest(sc.RegressionConfigurationTest('test_mysql_connector_java_link', conf, uid, lfn))
     return s
+
+def ts_yaim_storm_gridftp_pool_list_variable(conf, uid, lfn):
+    s = unittest.TestSuite()
+    s.addTest(sc.RegressionConfigurationTest('test_yaim_storm_gridftp_pool_list_variable', conf, uid, lfn))
+    return s

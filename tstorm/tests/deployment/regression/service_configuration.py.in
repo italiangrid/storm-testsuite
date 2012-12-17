@@ -622,3 +622,62 @@ class RegressionConfigurationTest(unittest.TestCase):
             self.lfn.put_result('PASSED')
 
         self.lfn.flush_file()
+
+    def test_yaim_storm_gridftp_pool_list_variable(self):
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
+            r_yaim_result = readfile.Rf(fn=self.tsets['yaim']['def_path']).get_output()
+
+            msg = 'rf status'
+            self.assert_(r_yaim_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            get_pool_list = []
+            get_pool_strategy = ''
+            for line in r_yaim_result['otpt'].split('\n'):
+                if 'STORM_GRIDFTP_POOL_LIST' in line:
+                    for value in line.split('STORM_GRIDFTP_POOL_LIST')[1].split(','):
+                         tmp = value.strip().split(' ')[1]
+                        
+                         if '"' == tmp[len(tmp)-1] or "'" == tmp[len(tmp)-1]:
+                             get_variable_value.append(tmp[:len(tmp)-1])
+                         else:
+                             get_variable_value.append(tmp)
+                elif 'STORM_GRIDFTP_POOL_STRATEGY' in line:
+                    for value in line.split('STORM_GRIDFTP_POOL_STRATEGY=')[1]:
+                         if 'weight' in value:
+                             get_pool_strategy = 'weight'
+                if get_pool_list != [] and get_pool_strategy != '':
+                    break
+
+            rf_result = readfile.Rf(fn='/etc/storm/backend-server/namespace.xml').get_output()
+
+            msg = 'rf status'
+            self.assert_(rf_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            get_namespace_lines = []
+            for x in rf_result['otpt'].split('\n'):
+                if get_pool_strategy in x:
+                    get_namespace_lines.append(x.split('weight>')[1].split('<')[0])
+
+            for weight in get_pool_list:
+                 found_weight = False
+                 for line in get_namespace_lines:
+                      if weight == line:
+                          found_weight=True
+                          break
+                 self.assert_(found_weight)
+
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
+        self.lfn.flush_file()

@@ -959,6 +959,16 @@
     "mysql-connector-java is not linked correctly",
     "rct.ts_mysql_connector_java_link(tfn, uid, lfn)"
     ],
+  "ts_yaim_storm_gridftp_pool_list_variable":[
+    "f2c5f1",
+    "DT",
+    true,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/305","[1.10.1-1,*)"]],
+    false,
+    "PARSING OF STORM_GRIDFTP_POOL_LIST FAILED",
+    "The variable STORM_GRIDFTP_POOL_LIST is not parsed correctly",
+    "rct.ts_yaim_storm_gridftp_pool_list_variable(tfn, uid, lfn)"
+    ],
   "ts_http":[
     "32429c",
     "ST",

@@ -32,3 +32,22 @@ class Cat:
             self.otpt['status'] = 'FAILURE'
 
         return self.otpt
+
+class Rf:
+    def __init__(self, fn='input-file'):
+        self.ifn = fn
+        self.otpt = {
+            'status':'',
+            'otpt':''}
+
+    def get_output(self):
+        try:
+            f = open(self.ifn,'r')
+            self.otpt['otpt'] = f.read()
+            f.close()
+            self.otpt['status'] = 'PASS'
+        except IOError:
+            self.otpt['status'] = 'FAILURE'
+            pass
+
+        return self.otpt
