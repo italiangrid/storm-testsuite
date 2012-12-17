@@ -969,6 +969,16 @@
     "The variable STORM_GRIDFTP_POOL_LIST is not parsed correctly",
     "rct.ts_yaim_storm_gridftp_pool_list_variable(tfn, uid, lfn)"
     ],
+  "ts_lcas_lcmaps_gt4_interface_rpm_missed":[
+    "df9dd5",
+    "DT",
+    true,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/313","[1.10.1-1,*)"]],
+    false,
+    "lcas-lcmaps-gt4-interface rpm MISSED",
+    "The lcas-lcmaps-gt4-interface rpm is not included in the backend metapackage",
+    "rct.ts_lcas_lcmaps_gt4_interface_rpm_missed(tfn, uid, lfn)"
+    ],
   "ts_yaim_storm_pepc_resourceid_variable":[
     "e2fb8d",
     "DT",

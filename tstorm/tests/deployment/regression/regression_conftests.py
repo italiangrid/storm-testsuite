@@ -77,3 +77,8 @@ def ts_yaim_storm_gridftp_pool_list_variable(conf, uid, lfn):
     s = unittest.TestSuite()
     s.addTest(sc.RegressionConfigurationTest('test_yaim_storm_gridftp_pool_list_variable', conf, uid, lfn))
     return s
+
+def ts_lcas_lcmaps_gt4_interface_rpm_missed(conf, uid, lfn):
+    s = unittest.TestSuite()
+    s.addTest(sc.RegressionConfigurationTest('test_lcas_lcmaps_gt4_interface_rpm_missed', conf, uid, lfn))
+    return s

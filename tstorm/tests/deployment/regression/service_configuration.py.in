@@ -557,15 +557,15 @@ class RegressionConfigurationTest(unittest.TestCase):
 
         try:
             rpm_out = rpm.Rpm('storm-backend-server')
-            self.lfn.put_cmd(rpm_out.get_command(conffile=True))
-            rpm_result = rpm_out.get_output(conffile=True)
+            self.lfn.put_cmd(rpm_out.get_command(option='-ql'))
+            rpm_result = rpm_out.get_output(option='-ql')
 
             msg = 'rpm status'
             self.assert_(rpm_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
         
-            msg = 'path-authz.db was nof found'
+            msg = 'path-authz.db was not found'
             self.assert_('/etc/storm/backend-server/path-authz.db' in rpm_result['otpt'],
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
@@ -673,6 +673,33 @@ class RegressionConfigurationTest(unittest.TestCase):
                           break
                  self.assert_(found_weight)
 
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
+        self.lfn.flush_file()
+
+    def test_lcas_lcmaps_gt4_interface_rpm_missed(self):
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
+            rpm_out = rpm.Rpm('emi-storm-backend-mp')
+            self.lfn.put_cmd(rpm_out.get_command(option='-qR'))
+            rpm_result = rpm_out.get_output(option='-qR')
+
+            msg = 'rpm status'
+            self.assert_(rpm_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            msg = 'lcas-lcmaps-gt4-interface was not found'
+            self.assert_('lcas-lcmaps-gt4-interface' in rpm_result['otpt'],
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')

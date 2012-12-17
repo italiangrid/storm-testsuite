@@ -8,30 +8,28 @@ class Rpm:
     def __init__(self, pn):
         self.pn = pn
         self.cmd = {
-            'name':'rpm',
-            'package':' -qa ',
-            'conffile':' -qc '}
+            'name':'rpm'}
         self.otpt = {
             'status':'',
             'otpt':''}
 
-    def get_command(self, conffile=False):
+    def get_command(self, option='-qa'):
         a = self.cmd['name']
-        if conffile:
-            a += self.cmd['conffile'] 
-        else:
-            a += self.cmd['package'] + '| grep '
+        if option == '-qa':
+            a += ' ' + option + ' | grep '
+        elif option in ('-ql', '-qr'):
+            a += ' ' + option + ' '
         a += self.pn
         return a
 
-    def run_command(self, conffile=False):
+    def run_command(self, option='-qa'):
         a=()
         if utils.cmd_exist(self.cmd['name']):
-            a=commands.getstatusoutput(self.get_command(conffile=conffile))
+            a=commands.getstatusoutput(self.get_command(option=option))
         return a
 
-    def get_output(self, conffile=False):
-        a=self.run_command(conffile=conffile)
+    def get_output(self, option='-qa'):
+        a=self.run_command(option=option)
         if a[0] == 0:
             self.otpt['status'] = 'PASS'
             self.otpt['otpt'] = a[1]
