@@ -1,90 +1,3 @@
-
-
-def usage_version(opt=True):
-    if not opt:
-        print """- version is not followed by any value"""
-    else:
-        print """                   [-v|--version] """
-
-def usage_noreport(opt=True):
-    if not opt:
-        print """- noreport is not followed by any value"""
-    else:
-        print """                   [--noreport] """
-
-def usage_report(opt=True):
-    if not opt:
-        print """- report is not followed by any value"""
-    else:
-        print """                   [--report] """
-
-def usage_novoms(opt=True):
-    if not opt:
-        print """- novoms is not followed by any values"""
-    else:
-        print """                   [--novoms]"""
-
-def usage_list(opt=True):
-    if not opt:
-        print """- list is not followed by any values"""
-    else:
-        print """                   [-l|--list]"""
-
-def usage_conf(opt=True):
-    if not opt:
-        print """- conf is followed by a value"""
-    else:
-        print """                   [-c|--conf] """
-
-def usage_dest_file(opt=True):
-    if not opt:
-        print """- destfile is followed by a value"""
-    else:
-        print """                   [-d|--destfile] """
-
-def usage_storm_release(opt=True):
-    if not opt:
-        print """- storm-release is followed by a value"""
-    else:
-        print """                   [-r|--storm-release]"""
-
-def usage_ids(opt=True):
-    if not opt:
-        print """- ids is followed by a sequence of id values separated """
-        print """  by , and between '"""
-    else:
-        print """                   [-i|--ids] """
-
-def usage_file_ids(opt=True):
-    if not opt:
-        print """- file-ids is followed by a value """
-    else:
-        print """                   [-f|--file-ids] """
-
-def usage_filter_list(opt=True,run=''):
-    if not opt:
-        print """- filter-list is followed by a sequence of values separated"""
-        print """  by ; and between ', the values of which are"""
-        if run == 'sanity':
-            print """  t|test=DT filters in relation with the type of tests """
-        elif run == 'stress':
-            print """  t|test=LT filters in relation with the type of test"""
-        else:
-            print """  t|test=sequence of types of tests separated by , as """
-            print """      (AT,UT,ST,LT) that filters in relation with the """
-            print """      the type of test"""
-        print """  r|regression=false|true that expresses if the test """
-        print """      belongs to the regression category"""
-        print """  idenpotent=false|true that expresses if the test belongs """
-        print """      to the idenpotent category"""
-        print """  o|output=filename that allows user to save ids in the """
-        print """      specified filename"""
-        print """  f|format=n|name,d|description,range,rfc,i|id,idenpotent that """
-        print """      allows user to specify the order of print of test """
-        print """      information"""
-    else:
-        print """                   [-s|--filter-list] """
-
 def usage_nostressreport(opt=True):
     if not opt:
         print """- nostressreport is not followed by any value"""
@@ -109,14 +22,6 @@ def usage_refresh_report(opt=True):
         print """    represents time in seconds"""
     else:
         print """                   [--refresh-report] """
-
-def usage_example_noreport(cmd=''):
-    print """Example: if you want to run tests without producing a report"""
-    print '    %s --noreport' % cmd
-
-def usage_example_report(cmd=''):
-    print """Example: if you want to run tests producing a report"""
-    print '    %s --report' % cmd
 
 def usage_example_storm_release(cmd=''):
     print """Example: if you want to run tests specifying storm release"""
@@ -148,69 +53,53 @@ def get_usage(run=''):
     else:
         cmd = 'tstorm-test'
 
-    print 'Usage: %s [-h|--help] ' % cmd
-    usage_version()
+    print ('Usage: %s [OPTION]\n'
+        % cmd +
+        'Run tests\n\n' +
+        'Mandatory arguments to long options are mandatory for short options ' +
+        'too\n')
 
     if run != 'stress':
-        usage_noreport()
+        print '    --noreport  disable the generation of the report log file'
     
     if run == 'stress':
-        usage_report()
-        usage_nostressreport()
-        usage_number_cycles()
-        usage_number_hours()
-        usage_refresh_report()
+        print '    --report    enable the generation of the report log file'
+        print '    --nostressreport  disable the generation of the stress report log file'
+        print '    -n, --number-cycles=NUMBERCYCLES   specify the number of cycles in which stress tests are executed'
+        print '    --number-hours=NUMBERHOURS  specify the number of hours in which stress tests are executed'
+        print '    --refresh-report=SECONDS  specify the seconds after which the stress report is updated'
 
     if run not in ('sanity', 'stress'):
-        usage_novoms()
+        print '    --novoms    run tests for which voms is not necessary'
 
     if run != 'stress':
-        usage_list()
-        usage_filter_list()
-        usage_ids()
-        usage_file_ids()
+        print '    -l, --list  enable the list of tests'
+        print "    -s, --filter-list='SEQUENCE'  specify a sequence of values separated by ; and between , the value of which are"
+        if run == 'sanity':
+            print '        t|test=DT filters in relation with the type of tests '
+        else:
+            print '       t|test=sequence of types of tests separated by , as '
+            print '            (AT,UT,ST,LT) that filters in relation with the '
+            print '           the type of test'
+        print '        r|regression=false|true that expresses if the test '
+        print '            belongs to the regression category'
+        print '        idenpotent=false|true that expresses if the test belongs '
+        print '            to the idenpotent category'
+        print '        o|output=filename that allows user to save ids in the '
+        print '           specified filename'
+        print '        f|format=n|name,d|description,range,rfc,i|id,idenpotent that '
+        print '            allows user to specify the order of print of test '
+        print '            information'
+        print "    -i, --ids='<test_id_1>,<test_id_2>,...'  specify the list of tests identifiers to be executed"  
+        print '    -f, --file-ids=FILEIDS specify the file name that contains the list of tests identifiers to be executed'
 
-    usage_conf()
+    print '    -c, --conf=CONFFILE  specify the configuration file'    
 
     if run not in ('sanity', 'stress'):
-        usage_dest_file()
+        print '    -d, --destfile=DESTFILE  specify the destination file'
 
-    usage_storm_release()
-    print """where:"""
-    usage_version(opt=False)
-    if run != 'stress':
-        usage_noreport(opt=False)
+    print '    -r, --storm-release=<major-release.minor-release.revision-release>-age  specify the StoRM release\n'
 
-    if run == 'stress':
-        usage_report(opt=False)
-        usage_nostressreport(opt=False)
-        usage_number_cycles(opt=False)
-        usage_number_hours(opt=False)
-        usage_refresh_report(opt=False)
-
-    if run not in ('sanity', 'stress'):
-        usage_novoms(opt=False)
-
-    if run != 'stress':
-        usage_list(opt=False)
-        usage_filter_list(opt=False,run=run)
-        usage_ids(opt=False)
-        usage_file_ids(opt=False)
-
-    usage_conf(opt=False)
-
-    if run not in ('sanity', 'stress'):
-        usage_dest_file(opt=False)
-
-    usage_storm_release(opt=False)
-
-    if run != 'stress':
-        usage_example_noreport(cmd=cmd)
-    else:
-        usage_example_report(cmd=cmd)
-    usage_example_storm_release(cmd=cmd)
-    if run != 'stress':
-        usage_example_ids(cmd=cmd)
-        usage_example_filter_list(cmd=cmd, run=run)
-    if run == 'stress':
-        usage_example_number_cycles(cmd=cmd)
+    print ('SELinux options:\n' +
+        '    -h, --help display this help and exit\n' +
+        '    -v, --version output version information and exit')
