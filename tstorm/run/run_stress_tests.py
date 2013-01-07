@@ -168,9 +168,10 @@ class RunStressTests(run_tests.RunTests):
                 '_http' in key:
                 self.parameters['tests_status'][key] = (True, 0, 0)
  
-    def __refresh_stress_tests_info(self, count, new_time, stress_log_file):
-        stress_log_file.put_epilogue(cycle=str(count), \
-            elapsed_time=new_time.ctime())
+    #def __refresh_stress_tests_info(self, count, new_time, stress_log_file):
+    def __refresh_stress_tests_info(self, stress_log_file):
+        #stress_log_file.put_epilogue(cycle=str(count), \
+        #    elapsed_time=new_time.ctime())
 
         for key, value in self.parameters['tests_status'].items():
             if self.parameters['tests_methods'][key].get_aggregator() != "":
@@ -184,8 +185,8 @@ class RunStressTests(run_tests.RunTests):
                     '_http_' not in key and \
                     '_https' not in key and \
                     '_http' not in key:
-                    msg = '%s    %s    %s\n' % (key, value[1], \
-                        value[1]+value[2])
+                    msg = '%s                                     %s    %s\n'
+                        % (key, value[1], value[1]+value[2])
                     stress_log_file.put(msg)
                     self.parameters['tests_status'][key]=(value[0],\
                         0,value[2]+value[1])
@@ -225,15 +226,16 @@ class RunStressTests(run_tests.RunTests):
 
                     if self.__is_time_elapsed(passed_time):
                         new_time=datetime.datetime.now()
-                        self.__refresh_stress_tests_info(count, new_time, \
-                            stress_log_file)
+                        stress_log_file.put_epilogue(cycle=str(count), \
+                           elapsed_time=new_time.ctime())
+                        self.__refresh_stress_tests_info(stress_log_file)
                         passed_time = time.mktime(new_time.timetuple())
 
         return count
 
-    def for_hours(self, count, passed_time, log_file, stress_log_file):
+    def for_hours(self, c_time, passed_time, log_file, stress_log_file):
         end_time = self.__get_end_time()
-        c_time = 0
+        old_c_time = time.mktime(c_time)
         while c_time < end_time:
             test_index = self.__get_randomly_test_index()
             key = self.parameters['tests_status'].items()[test_index][0]
@@ -262,15 +264,18 @@ class RunStressTests(run_tests.RunTests):
                     test_total_number = ts_val[2]
                     self.parameters['tests_status'][key]=(True, test_number, \
                         test_total_number)
-                    count += 1
+
                     c_time = time.strptime(time.ctime())
                     if self.__is_time_elapsed(passed_time):
                         new_time=datetime.datetime.now()
-                        self.__refresh_stress_tests_info(count, new_time, \
-                            stress_log_file)
+                        time.mktime(c_time) - old_c_time
+                        stress_log_file.put_epilogue(hours=str((time.mktime(c_time) - old_c_time)/3600), \
+                           elapsed_time=new_time.ctime())
+                        self.__refresh_stress_tests_info(stress_log_file)
                         passed_time = time.mktime(new_time.timetuple())
+                        old_c_time = time.mktime(c_time)
 
-        return count
+        return c_time
 
     def do_list(self):
         if self.parameters['list_tests_details'][0]:
@@ -292,23 +297,40 @@ class RunStressTests(run_tests.RunTests):
 
         # Set counters
         start_time = datetime.datetime.now()
-        count = 0
-        stress_log_file.put_header('START', cycle=str(count), \
-            elapsed_time=start_time.ctime())
-        passed_time = time.mktime(start_time.timetuple())
+        stress_log_file.put_comment()
 
         if self.parameters['number_hours'] != 0:
-            count=self.for_hours(\
-                count, passed_time, log_file, stress_log_file)
+            c_time = time.strptime(time.ctime())
+            stress_log_file.put_header('START', hours=str(c_time), \
+                elapsed_time=start_time.ctime())
+            passed_time = time.mktime(start_time.timetuple())
+
+            c_time=self.for_hours(\
+                c_time, passed_time, log_file, stress_log_file)
+
+            new_time=datetime.datetime.now()
+            stress_log_file.put_epilogue(hours=str(c_time), \
+                           elapsed_time=new_time.ctime())
+            self.__refresh_stress_tests_info(stress_log_file)
+
+            stress_log_file.put_header('END', hours==str(c_time), \
+                elapsed_time=new_time.ctime())
+            
         else:
+            count = 0
+            stress_log_file.put_header('START', cycle=str(count), \
+                elapsed_time=start_time.ctime())
+            passed_time = time.mktime(start_time.timetuple())
+
             count=self.for_cycles(\
                 count, passed_time, log_file, stress_log_file)
 
-        new_time=datetime.datetime.now()
-        self.__refresh_stress_tests_info(count, new_time, stress_log_file)
-
-        stress_log_file.put_header('END', cycle=str(count), \
-            elapsed_time=new_time.ctime())
+            new_time=datetime.datetime.now()
+            stress_log_file.put_epilogue(cycle=str(count), \
+                           elapsed_time=new_time.ctime())
+            self.__refresh_stress_tests_info(stress_log_file)
+            stress_log_file.put_header('END', cycle=str(count), \
+                elapsed_time=new_time.ctime())
 
         if self.parameters['report']:
             log_file.close_file()

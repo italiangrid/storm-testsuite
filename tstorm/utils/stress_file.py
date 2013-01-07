@@ -45,25 +45,39 @@ class StressReportFile:
         if  len(text) > 0:
             self.log_file.write(text)
 
-    def put_header(self, stamp, cycle='', elapsed_time=''):
+    def put_comment(self):
         if self.report:
-            self.put_separator(stamp=stamp, cycle=cycle, elapsed_time=elapsed_time)
+            self.put_separator()
+            msg = ('# The file contains an header of the form\n'+
+                '# ========================================== START NC:/NH: value1 ELAPSED_TIME: value2\n' +
+                '# for each refresh_file followed by\n'+
+                '# ========================================== NC:/NH: value1 ELAPSED_TIME: value2\n'+
+                '# TEST_NAME  NUMBER_OF_TEST_EXECUTION_IN_A_SET_OF_CYCLE  TOTAL_NUMBER_OF_TEST_EXECUTION\n'+
+                '# ...\n'+
+                '# followed by\n'+
+                '# ========================================== END NC:/NH: value1 ELAPSED_TIME: value2\n')  
 
-    def put_epilogue(self, cycle='', elapsed_time=''):
+    def put_header(self, stamp, hours='', cycle='', elapsed_time=''):
         if self.report:
-            self.put_separator(cycle=cycle, elapsed_time=elapsed_time)
+            self.put_separator(stamp=stamp, hours=hours, cycle=cycle, elapsed_time=elapsed_time)
+
+    def put_epilogue(self, hours='', cycle='', elapsed_time=''):
+        if self.report:
+            self.put_separator(hours=hours, cycle=cycle, elapsed_time=elapsed_time)
 
     def put_prologue(self):
         if self.report:
             self.put_separator()
  
-    def put_separator(self, stamp='',cycle='', elapsed_time=''):
+    def put_separator(self, stamp='', hours='', cycle='', elapsed_time=''):
         if self.report:
             msg = '=========================================='
             if stamp != '':
                 msg += ' ' + stamp
             if cycle != '':
-                msg += ' ' + cycle
+                msg += '  NC: ' + cycle
+            if hours != '':
+                msg += ' NH: ' + hours
             if elapsed_time != '':
-                msg += ' ' + elapsed_time
+                msg += ' ELAPSED_TIME:' + elapsed_time
             self.put(msg + '\n')
