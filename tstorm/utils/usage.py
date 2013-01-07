@@ -24,8 +24,7 @@ def get_usage(parameters, run=''):
     print ('Usage: %s [OPTION]\n'
         % cmd +
         'Run tests\n\n' +
-        'Mandatory arguments to long options are mandatory for short options ' +
-        'too\n')
+        'OPTION')
 
     if run != 'stress':
         print ('  --noreport                        disable the generation of' +
@@ -103,7 +102,6 @@ def get_usage(parameters, run=''):
 
     print ('  -r, --storm-release=<major-release.minor-release.revision-release>-age\n'+
         '                                    specify the StoRM release\n\n'
-        'SELinux options:\n' +
         '  -h, --help                        display this help and exit\n' +
         '  -v, --version                     output version information and' +
         ' exit')
