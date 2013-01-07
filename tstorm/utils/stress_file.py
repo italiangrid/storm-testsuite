@@ -48,14 +48,16 @@ class StressReportFile:
     def put_comment(self):
         if self.report:
             self.put_separator()
-            msg = ('# The file contains an header of the form\n'+
+            msg = ('############################################\n'+
+                '# The file contains an header of the form\n'+
                 '# ========================================== START NC:/NH: value1 ELAPSED_TIME: value2\n' +
-                '# for each refresh_file followed by\n'+
+                '# Then for each refresh_report time the header is followed by\n'+
                 '# ========================================== NC:/NH: value1 ELAPSED_TIME: value2\n'+
                 '# TEST_NAME  NUMBER_OF_TEST_EXECUTION_IN_A_SET_OF_CYCLE  TOTAL_NUMBER_OF_TEST_EXECUTION\n'+
                 '# ...\n'+
-                '# followed by\n'+
-                '# ========================================== END NC:/NH: value1 ELAPSED_TIME: value2\n')  
+                '# and finally followed by\n'+
+                '# ========================================== END NC:/NH: value1 ELAPSED_TIME: value2\n'+
+                '############################################\n')  
 
     def put_header(self, stamp, hours='', cycle='', elapsed_time=''):
         if self.report:
