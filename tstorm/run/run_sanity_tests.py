@@ -43,12 +43,12 @@ class RunSanityTests(run_tests.RunTests):
                  "storm-release="])
         except getopt.GetoptError, err:
             print str(err)
-            usage.get_usage(run='sanity')
+            usage.get_usage(self.parameters, run='sanity')
             sys.exit(2)
 
         for opt, value in opts:
             if opt in ("-h", "--help"):
-                usage.get_usage(run='sanity')
+                usage.get_usage(self.parameters, run='sanity')
                 sys.exit(0)
             elif opt in ("-v", "--version"):
                 msg = 'T-StoRM version %s' % (__import__('tstorm').get_version())
@@ -62,7 +62,7 @@ class RunSanityTests(run_tests.RunTests):
                     self.parameters['tests_sequence'] = (True, tmp_sequence_tests)
                 except sequence.SequenceError, err:
                     print '\n\nExecution: ', err
-                    usage.get_usage(run='sanity')
+                    usage.get_usage(self.parameters, run='sanity')
                     sys.exit(2)
             elif opt in ("-f", "--file-ids"):
                 self.parameters['tests_sequence_file'] = (True, value)
@@ -74,14 +74,14 @@ class RunSanityTests(run_tests.RunTests):
                     self.parameters['filter_tests_details'] = (True, tmp_filter_tests_details)
                 except filters.FiltersError, err:
                     print '\n\nExecution: ', err
-                    usage.get_usage(run='sanity')
+                    usage.get_usage(self.parameters, run='sanity')
                     sys.exit(2)
             elif opt in ("-r", "--storm-release"):
                 try:
                     self.parameters['storm_release'] = release.Release(value)
                 except release.ReleaseError, err:
                     print '\n\nExecution: ', err
-                    usage.get_usage(run='sanity')
+                    usage.get_usage(self.parameters, run='sanity')
                     sys.exit(2)
             elif opt in ("--noreport"):
                 self.parameters['report'] = False

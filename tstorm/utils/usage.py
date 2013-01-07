@@ -1,51 +1,19 @@
-def usage_nostressreport(opt=True):
-    if not opt:
-        print """- nostressreport is not followed by any value"""
-    else:
-        print """                   [--nostressreport] """
-
-def usage_number_cycles(opt=True):
-    if not opt:
-        print """- number-cycles is followed by a value"""
-    else:
-        print """                   [-n|--number-cycles] """
-
-def usage_number_hours(opt=True):
-    if not opt:
-        print """- number-hours is followed by a value"""
-    else:
-        print """                   [--number-hours] """
-
-def usage_refresh_report(opt=True):
-    if not opt:
-        print """- refresh-report is followed by a value that"""
-        print """    represents time in seconds"""
-    else:
-        print """                   [--refresh-report] """
-
-def usage_example_storm_release(cmd=''):
-    print """Example: if you want to run tests specifying storm release"""
-    print "    %s -r '<major-release.minor-release.revision-release>-age'" % cmd
-
-def usage_example_ids(cmd=''):
-    print """Example: if you want to run tests providing a sequence of test ids"""
-    print "    %s -i '<test_id_1>,<test_id_2>" % cmd
-
-def usage_example_number_cycles(cmd=''):
-    print """Example: if you want to run tests for n cycles"""
-    print '    %s -n 2' % cmd
-
 def usage_example_filter_list(cmd='',run=''):
-    print """Example: if you want to get tests information providing a """
-    print """filter"""
+    print ('                                    Example: if you want to get tests\n'+
+        '                                    information providing a filter:')
     if run == 'sanity':
-        print "    %s --filter-list 't=DT;regression=true;f=n,d,rfc,id'" % cmd
+        print "                                    %s --filter-list 't=DT;regression=true;f=n,d,rfc,id'" % cmd
     elif run == 'stress':
-        print "    %s --filter-list 't=LT;regression=true;f=n,d,rfc,id'" % cmd
+        print "                                    %s --filter-list 't=LT;regression=true;f=n,d,rfc,id'" % cmd
     else:
-        print "    %s --filter-list 't=AT,UT,ST,LT;regression=true;f=n,d,rfc,id'" % cmd
+        print "                                    %s --filter-list 't=AT,UT,ST,LT;regression=true;f=n,d,rfc,id'" % cmd
 
-def get_usage(run=''):
+def change_val(value):
+    if value:
+        return False
+    return True
+
+def get_usage(parameters, run=''):
     if run == 'sanity':
         cmd = 'tstorm-sanity-test'
     elif run == 'stress':
@@ -60,46 +28,82 @@ def get_usage(run=''):
         'too\n')
 
     if run != 'stress':
-        print '    --noreport  disable the generation of the report log file'
+        print ('  --noreport                        disable the generation of' +
+            ' the report log file.\n' +
+            '                                    The DEFAULT of which is %s.'
+            % change_val(parameters['report']))
     
     if run == 'stress':
-        print '    --report    enable the generation of the report log file'
-        print '    --nostressreport  disable the generation of the stress report log file'
-        print '    -n, --number-cycles=NUMBERCYCLES   specify the number of cycles in which stress tests are executed'
-        print '    --number-hours=NUMBERHOURS  specify the number of hours in which stress tests are executed'
-        print '    --refresh-report=SECONDS  specify the seconds after which the stress report is updated'
+        print ('  --report                          enable the generation of' +
+            ' the report log file.\n'+
+            '                                    The DEFAULT of which is %s.\n'
+            % parameters['report'] +
+            '  --nostressreport                  disable the generation of' +
+            ' the stress report\n'+
+            '                                    log file. The DEFAULT of ' +
+            'which is %s.\n' % change_val(parameters['stress_report']) +
+            '  -n, --number-cycles=NUMBERCYCLES  specify the number of' +
+            ' cycles in which stress\n'+
+            '                                    tests are executed. The DEFAULT' +
+            ' of which is %s.\n' % str(parameters['number_cycles']) +
+            '  --number-hours=NUMBERHOURS        specify the number of' +
+            ' hours in which stress\n'+
+            '                                    tests are executed. The DEFAULT' +
+            ' of which is %s.\n' % str(parameters['number_hours']) +
+            '  --refresh-report=SECONDS          specify the seconds' +
+            ' after which the stress\n'+
+            '                                    report file is updated. The DEFAULT of\n' +
+            '                                    which is %s.'
+            % str(parameters['refresh_report']))
 
     if run not in ('sanity', 'stress'):
-        print '    --novoms    run tests for which voms is not necessary'
+        print ('  --novoms                          run tests for which voms' +
+            ' is not necessary.\n' +
+            '                                    The DEFAULT of which is %s.'
+            % change_val(parameters['voms']))
 
     if run != 'stress':
-        print '    -l, --list  enable the list of tests'
-        print "    -s, --filter-list='SEQUENCE'  specify a sequence of values separated by ; and between , the value of which are"
+        print ("  -l, --list                        enable the list of all the" +
+            " tests for a given\n " +
+            "                                   StoRM release\n" +
+            "  -s, --filter-list='SEQUENCE'      specify a sequence of " +
+            "values separated by ; \n" +
+            "                                    and between , the values of which are:")
         if run == 'sanity':
-            print '        t|test=DT filters in relation with the type of tests '
+            print ('                                    t|test=DT filters in relation with\n' +
+                '                                        the type of tests ')
         else:
-            print '       t|test=sequence of types of tests separated by , as '
-            print '            (AT,UT,ST,LT) that filters in relation with the '
-            print '           the type of test'
-        print '        r|regression=false|true that expresses if the test '
-        print '            belongs to the regression category'
-        print '        idenpotent=false|true that expresses if the test belongs '
-        print '            to the idenpotent category'
-        print '        o|output=filename that allows user to save ids in the '
-        print '           specified filename'
-        print '        f|format=n|name,d|description,range,rfc,i|id,idenpotent that '
-        print '            allows user to specify the order of print of test '
-        print '            information'
-        print "    -i, --ids='<test_id_1>,<test_id_2>,...'  specify the list of tests identifiers to be executed"  
-        print '    -f, --file-ids=FILEIDS specify the file name that contains the list of tests identifiers to be executed'
+            print ('                                    t|test=sequence of types of tests\n' + 
+                '                                        separated by , as AT,UT,ST,LT\n'+
+                '                                        that filters in relation with the\n'+
+                '                                        type of test\n' +
+                '                                    r|regression=false|true that expresses\n'+ 
+                '                                        if the test belongs to the regression\n' +
+                '                                        category\n' +
+                '                                    idenpotent=false|true that expresses\n'+
+                '                                        if the test belongs to the idenpotent\n' +
+                '                                        category\n' +
+                '                                    o|output=filename that allows user to\n'+
+                '                                        save test identifiers in the specified\n'+
+                '                                        filename\n' +
+                '                                    f|format=n|name,d|description,range,rfc,i|id,idenpotent\n' +
+                '                                        allows user to specify the order\n'+
+                '                                        of print of tests information')
+        usage_example_filter_list(cmd=cmd,run=run)
+        print ("  -i, --ids='SEQUENCE'              specify a sequence of values separated by ,\n" +
+            "                                    the values of which are the tests identifiers\n" +
+            "                                    to be executed\n" +  
+            "  -f, --file-ids=FILEIDS            specify the file name that contains\n" +
+            "                                    the list of tests identifiers to be executed")
 
-    print '    -c, --conf=CONFFILE  specify the configuration file'    
+    print '  -c, --conf=CONFFILE               specify the configuration file'    
 
     if run not in ('sanity', 'stress'):
-        print '    -d, --destfile=DESTFILE  specify the destination file'
+        print '  -d, --destfile=DESTFILE           specify the destination file'
 
-    print '    -r, --storm-release=<major-release.minor-release.revision-release>-age  specify the StoRM release\n'
-
-    print ('SELinux options:\n' +
-        '    -h, --help display this help and exit\n' +
-        '    -v, --version output version information and exit')
+    print ('  -r, --storm-release=<major-release.minor-release.revision-release>-age\n'+
+        '                                    specify the StoRM release\n\n'
+        'SELinux options:\n' +
+        '  -h, --help                        display this help and exit\n' +
+        '  -v, --version                     output version information and' +
+        ' exit')

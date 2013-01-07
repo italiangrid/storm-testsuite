@@ -43,7 +43,7 @@ class RunTests(object):
             storm_release = release.Release(__import__('tstorm').get_storm_release())
         except release.ReleaseError, err:
             print '\n\nExecution: ', err
-            usage.get_usage()
+            usage.get_usage(self.parameters)
             sys.exit(2)
         self.parameters['storm_release'] = storm_release
         self.parameters['voms'] = True
@@ -87,12 +87,12 @@ class RunTests(object):
                 "storm-release="])
         except getopt.GetoptError, err:
             print str(err)
-            usage.get_usage()
+            usage.get_usage(self.parameters)
             sys.exit(2)
 
         for opt, value in opts:
             if opt in ("-h", "--help"):
-                usage.get_usage()
+                usage.get_usage(self.parameters)
                 sys.exit(0)
             elif opt in ("-v", "--version"):
                 msg = 'T-StoRM version %s' % (__import__('tstorm').get_version())
@@ -108,7 +108,7 @@ class RunTests(object):
                     self.parameters['tests_sequence'] = (True, tmp_sequence_tests)
                 except sequence.SequenceError, err:
                     print '\n\nExecution: ', err
-                    usage.get_usage()
+                    usage.get_usage(self.parameters)
                     sys.exit(2)
             elif opt in ("-f", "--file-ids"):
                 self.parameters['tests_sequence_file'] = (True, value)
@@ -120,14 +120,14 @@ class RunTests(object):
                     self.parameters['filter_tests_details'] = (True, tmp_filter_tests_details)
                 except filters.FiltersError, err:
                     print '\n\nExecution: ', err
-                    usage.get_usage()
+                    usage.get_usage(self.parameters)
                     sys.exit(2)
             elif opt in ("-r", "--storm-release"):
                 try:
                     self.parameters['storm_release'] = release.Release(value)
                 except release.ReleaseError, err:
                     print '\n\nExecution: ', err
-                    usage.get_usage()
+                    usage.get_usage(self.parameters)
                     sys.exit(2)
             elif opt in ("--novoms"):
                 self.parameters['voms'] = False

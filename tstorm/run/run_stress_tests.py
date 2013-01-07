@@ -59,14 +59,14 @@ class RunStressTests(run_tests.RunTests):
                  "storm-release="])
         except getopt.GetoptError, err:
             print str(err)
-            usage.get_usage(run='stress')
+            usage.get_usage(self.parameters, run='stress')
             sys.exit(2)
 
         n_cycles = False
         n_hours = False
         for opt, value in opts:
             if opt in ("-h", "--help"):
-                usage.get_usage(run='stress')
+                usage.get_usage(self.parameters, run='stress')
                 sys.exit(0)
             elif opt in ("-v", "--version"):
                 msg = 'T-StoRM version %s' % (__import__('tstorm').get_version())
@@ -87,7 +87,7 @@ class RunStressTests(run_tests.RunTests):
                     self.parameters['storm_release'] = release.Release(value)
                 except release.ReleaseError, err:
                     print '\n\nExecution: ', err
-                    usage.get_usage(run='stress')
+                    usage.get_usage(self.parameters, run='stress')
                     sys.exit(2)
             elif opt in ("--nostressreport"):
                 self.parameters['stress_report'] = False
