@@ -24,6 +24,7 @@ from tstorm.utils import test
 from tstorm.utils import tests
 from tstorm.utils import filters
 from tstorm.utils import configuration
+from tstorm.utils import utils
 
 from tstorm.tests import commontests as cts
 from tstorm.tests.atomic import atomicstests as at
@@ -167,12 +168,14 @@ class RunStressTests(run_tests.RunTests):
                 '_https' in key or \
                 '_http' in key:
                 self.parameters['tests_status'][key] = (True, 0, 0)
- 
+
     #def __refresh_stress_tests_info(self, count, new_time, stress_log_file):
     def __refresh_stress_tests_info(self, stress_log_file):
         #stress_log_file.put_epilogue(cycle=str(count), \
         #    elapsed_time=new_time.ctime())
-
+         
+        max_length,longest_key = utils.get_longest_string(self.parameters['tests_status'].keys())
+        print max_length,longest_key
         for key, value in self.parameters['tests_status'].items():
             if self.parameters['tests_methods'][key].get_aggregator() != "":
                 if '_wo' not in key and \
@@ -185,8 +188,9 @@ class RunStressTests(run_tests.RunTests):
                     '_http_' not in key and \
                     '_https' not in key and \
                     '_http' not in key:
-                    msg = '%s                                     %s    %s\n'
-                        % (key, value[1], value[1]+value[2])
+                    msg = ('%s%s%s    %s\n'
+                        % (key, utils.add_empty_space(len(key),max_length), value[1], value[1]+value[2]))
+                    print msg
                     stress_log_file.put(msg)
                     self.parameters['tests_status'][key]=(value[0],\
                         0,value[2]+value[1])

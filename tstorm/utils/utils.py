@@ -34,3 +34,10 @@ def get_proxy_path():
 def get_uuid():
     return commands.getoutput('uuidgen')
 
+def get_longest_string(strings_list):
+    max_length,longest_element = max([(len(element),element) for element in strings_list])
+    return max_length,longest_element
+
+def add_empty_space(current_len, longest_string):
+    number = longest_string - current_len + 4
+    return ' '.ljust(number)

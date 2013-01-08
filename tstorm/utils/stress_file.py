@@ -47,7 +47,6 @@ class StressReportFile:
 
     def put_comment(self):
         if self.report:
-            self.put_separator()
             msg = ('############################################\n'+
                 '# The file contains an header of the form\n'+
                 '# ========================================== START NC:/NH: value1 ELAPSED_TIME: value2\n' +
@@ -57,7 +56,8 @@ class StressReportFile:
                 '# ...\n'+
                 '# and finally followed by\n'+
                 '# ========================================== END NC:/NH: value1 ELAPSED_TIME: value2\n'+
-                '############################################\n')  
+                '############################################\n')
+            self.put(msg) 
 
     def put_header(self, stamp, hours='', cycle='', elapsed_time=''):
         if self.report:
