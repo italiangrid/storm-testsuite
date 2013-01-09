@@ -7,7 +7,8 @@
     true,
     "SRM LS",
     "Verify ls operation on a file that does not exist by using the lcg client",
-    "at.ts_lcg_ls_unexist_file(tfn,ifn,dfn,back_ifn,uid,lfn)"
+    "at.ts_lcg_ls_unexist_file(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_storm_ls_unexist_file":[
     "469b33",
@@ -17,7 +18,8 @@
     true,
     "SRM LS",
     "Verify ls operation on a file that does not exist by using the StoRM client",
-    "lt.ts_storm_ls_unexist_file(tfn,ifn,dfn,back_ifn,uid,lfn)"
+    "lt.ts_storm_ls_unexist_file(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_lcg_ls_unexist_dir":[
     "4a153e",
@@ -27,7 +29,8 @@
     true,
     "SRM LS",
     "Verify ls operation on a directory that does not exist by using the lcg client",
-    "at.ts_lcg_ls_unexist_dir(tfn,ifn,dfn,back_ifn,uid,lfn)"
+    "at.ts_lcg_ls_unexist_dir(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_storm_ls_unexist_dir":[
     "4a15ee",
@@ -37,7 +40,8 @@
     true,
     "SRM LS",
     "Verify ls operation on a directory that does not exist by using the StoRM client",
-    "lt.ts_storm_ls_unexist_dir(tfn,ifn,dfn,back_ifn,uid,lfn)"
+    "lt.ts_storm_ls_unexist_dir(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_storm_gtp_wo":[
     "6d69e7",
@@ -47,7 +51,8 @@
     true,
     "SRM GET TRANSFER PROTOCOLS",
     "Verify gtp operation by using the StoRM client",
-    "at.ts_storm_gtp_wo(tfn,ifn,dfn,back_ifn,uid,lfn)"
+    "at.ts_storm_gtp_wo(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_gluetwo_endpoint_undefined":[
     "9cc43b",
@@ -57,7 +62,8 @@
     false,
     "STORM BUG: SOME GLUE2ENDPOINT ATTRIBUTES ARE NOT WELL DEFINED",
     "Yaim-Storm for GLUE2 configuration set wrong values for GLUE2Endpoint Attributes of the GLUE2.0 schema",
-    "rlt.ts_gluetwo_endpoint_undefined(tfn,uid,lfn)"
+    "rlt.ts_gluetwo_endpoint_undefined(tfn,uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_available_space":[
     "884d3b",
@@ -67,7 +73,8 @@
     false,
     "WRONG CALCULATION OF SA_AVAILABLE_SIZE_KB AND SA_USED_SIZE_KB",
     "Wrong calculation of SA_AVAILABLE_SPACE",
-    "rit.ts_available_space(tfn, uid, lfn)"
+    "rit.ts_available_space(tfn, uid, lfn)",
+    ["backend"]
     ],
   "ts_update_used_space_upon_pd":[
     "b740fb",
@@ -77,7 +84,8 @@
     false,
     "STORM BUG: SPACE TOKEN USED SPACE IS NOT UPDATE",
     "StoRM does not provides updated used space value for Space Token due to a bug in the update of the used space after the srmPutDone operation",
-    "rt.ts_update_used_space_upon_pd(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "rt.ts_update_used_space_upon_pd(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_eight_digit_string_checksum":[
     "244fca",
@@ -87,7 +95,8 @@
     false,
     "COMPARISON BUG IN LCG-CR COPYING TO STORM",
     "The StoRM GridFTP component stores the checksum value computed during the file transfer as a long number, discarding in this way leading zeroes. The default ADLER32 checksum match algorithm considers checksum values as strings so the leading zeroes matters",
-    "rt.ts_eight_digit_string_checksum(tfn,ifn,dfn,back_ifn,uid,lfn)"
+    "rt.ts_eight_digit_string_checksum(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["backend","frontend","gridftp"]
     ],
   "ts_dcache_rm_file":[
     "44d230",
@@ -97,7 +106,8 @@
     true,
     "SRM RM",
     "Verify rm operation of a given file by using the dcache client",
-    "at.ts_dcache_rm_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "at.ts_dcache_rm_file(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_storm_rm_file":[
     "44d233",
@@ -107,7 +117,8 @@
     true,
     "SRM RM",
     "Verify rm operation of a given file by using the StoRM client",
-    "lt.ts_storm_rm_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "lt.ts_storm_rm_file(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_non_ascii_chars":[
     "09829e",
@@ -117,7 +128,8 @@
     false,
     "STORM BUG: REQUEST WITH AUTHORIZATION ID PARAMETERS WITH NON ASCII CHARACTERS MAKES FE CRASH",
     "StoRM Frontend crashes when managing asynchronous requests providing string parameters containing non ASCII characters",
-    "rt.ts_non_ascii_chars(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "rt.ts_non_ascii_chars(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridftp"]
     ],
   "ts_lcg_ls_dir":[
     "068ab0",
@@ -127,7 +139,8 @@
     true,
     "SRM LS",
     "Verify ls operation on a directory that exists by using the lcg client",
-    "at.ts_lcg_ls_dir(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "at.ts_lcg_ls_dir(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_storm_ls_dir":[
     "068ab1",
@@ -137,7 +150,8 @@
     true,
     "SRM LS",
     "Verify ls operation on a directory that exists by using the StoRM client",
-    "lt.ts_storm_ls_dir(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "lt.ts_storm_ls_dir(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_storm_gtp":[
     "882900",
@@ -147,7 +161,8 @@
     true,
     "SRM GET TRANSFER PROTOCOLS",
     "Verify gtp operation by using the StoRM client",
-    "at.ts_storm_gtp(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "at.ts_storm_gtp(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_storm_get_transfer_protocols":[
     "882901",
@@ -157,7 +172,8 @@
     true,
     "SRM GET TRANSFER PROTOCOLS",
     "Verify gtp operation by using the StoRM client",
-    "lt.ts_storm_get_transfer_protocols(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "lt.ts_storm_get_transfer_protocols(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_size_in_namespace_file":[
     "c23e05",
@@ -167,7 +183,8 @@
     false,
     "WRONG SETTINGS OF SIZE IN NAMESPACE.XML",
     "Wrong settings of size in namespace.xml",
-    "rct.ts_size_in_namespace_file(tfn, uid, lfn)"
+    "rct.ts_size_in_namespace_file(tfn, uid, lfn)",
+    ["backend"]
     ],
   "ts_storm_gridhttps_authorization_denied_on_no_sub_string":[
     "d58db9",
@@ -177,7 +194,8 @@
     false,
     "AUTHORIZATION REST SERVICE DENY AUTHORIZATION",
     "StoRM Backend Gridhttps does not work if the SA accesspoint is not included in the SA root path",
-    "rt.ts_storm_gridhttps_authorization_denied_on_no_sub_string(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "rt.ts_storm_gridhttps_authorization_denied_on_no_sub_string(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridhttps"]
     ],
   "ts_storm_gridhttps_authorization_denied":[
     "d59db8",
@@ -187,7 +205,8 @@
     false,
     "AUTHORIZATION REST SERVICE DENY AUTHORIZATION",
     "StoRM Backend Gridhttps does not work if the SA accesspoint is not included in the SA root path",
-    "rt.ts_storm_gridhttps_authorization_denied(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "rt.ts_storm_gridhttps_authorization_denied(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridhttps"]
     ],
   "ts_srm_transfer_outbound_https_voms":[
     "aea1bc",
@@ -197,7 +216,8 @@
     true,
     "DATA TRANSDER OUT USING HTTPS",
     "Verify that a given file can be transferred out",
-    "ft.ts_srm_transfer_outbound_https_voms(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ft.ts_srm_transfer_outbound_https_voms(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridhttps"]
     ],
   "ts_srm_transfer_outbound_http":[
     "4244ec",
@@ -207,7 +227,8 @@
     true,
     "DATA TRANSDER OUT USING HTTP",
     "Verify that a given file can be transferred out",
-    "ftnv.ts_srm_transfer_outbound_http(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ftnv.ts_srm_transfer_outbound_http(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridhttps"]
     ],
   "ts_srm_transfer_outbound_https":[
     "bbddf2",
@@ -217,7 +238,8 @@
     true,
     "DATA TRANSDER OUT USING HTTPS",
     "Verify that a given file can be transferred out",
-    "ftnv.ts_srm_transfer_outbound_https(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ftnv.ts_srm_transfer_outbound_https(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridhttps"]
     ],
   "ts_direct_transfer_outbound_https_voms":[
     "21d919",
@@ -227,7 +249,8 @@
     true,
     "DATA TRANSDER OUT USING HTTPS",
     "Verify that a given file can be transferred out",
-    "ft.ts_direct_transfer_outbound_https_voms(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ft.ts_direct_transfer_outbound_https_voms(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridhttps"]
     ],
   "ts_direct_transfer_outbound_http":[
     "6967f9",
@@ -237,7 +260,8 @@
     true,
     "DATA TRANSDER OUT USING HTTP",
     "Verify that a given file can be transferred out",
-    "ftnv.ts_direct_transfer_outbound_http(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ftnv.ts_direct_transfer_outbound_http(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridhttps"]
     ],
   "ts_direct_transfer_outbound_https":[
     "f92c33",
@@ -247,7 +271,8 @@
     true,
     "DATA TRANSDER OUT USING HTTPS",
     "Verify that a given file can be transferred out",
-    "ftnv.ts_direct_transfer_outbound_https(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ftnv.ts_direct_transfer_outbound_https(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridhttps"]
     ],
   "ts_direct_transfer_outbound_https_voms_exist_file":[
     "8b5ba0",
@@ -257,7 +282,8 @@
     true,
     "DATA TRANSDER OUT USING HTTPS",
     "Verify that a given file already exists",
-    "ft.ts_direct_transfer_outbound_https_voms_exist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ft.ts_direct_transfer_outbound_https_voms_exist_file(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridhttps"]
     ],
   "ts_direct_transfer_outbound_http_exist_file":[
     "45880a",
@@ -267,7 +293,8 @@
     true,
     "DATA TRANSDER OUT USING HTTP",
     "Verify that a given file already exists",
-    "ftnv.ts_direct_transfer_outbound_http_exist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ftnv.ts_direct_transfer_outbound_http_exist_file(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridhttps"]
     ],
   "ts_direct_transfer_outbound_https_exist_file":[
     "d9d057",
@@ -277,7 +304,8 @@
     true,
     "DATA TRANSDER OUT USING HTTPS",
     "Verify that a given file already exists",
-    "ftnv.ts_direct_transfer_outbound_https_exist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ftnv.ts_direct_transfer_outbound_https_exist_file(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridhttps"]
     ],
   "ts_direct_transfer_inbound_https_voms":[
     "ab1064",
@@ -287,7 +315,8 @@
     true,
     "DATA TRANSDER IN USING HTTPS",
     "Verify that a given file can be transferred in",
-    "ft.ts_direct_transfer_inbound_https_voms(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ft.ts_direct_transfer_inbound_https_voms(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridhttps"]
     ],
   "ts_direct_transfer_inbound_http":[
     "fd0f95",
@@ -297,7 +326,8 @@
     true,
     "DATA TRANSDER IN USING HTTP",
     "Verify that a given file can be transferred in",
-    "ftnv.ts_direct_transfer_inbound_http(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ftnv.ts_direct_transfer_inbound_http(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridhttps"]
     ],
   "ts_direct_transfer_inbound_https":[
     "47d6d5",
@@ -307,7 +337,8 @@
     true,
     "DATA TRANSDER IN USING HTTPS",
     "Verify that a given file can be transferred in",
-    "ftnv.ts_direct_transfer_inbound_https(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ftnv.ts_direct_transfer_inbound_https(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridhttps"]
     ],
   "ts_direct_transfer_inbound_https_voms_no_auth":[
     "d60cc0",
@@ -317,7 +348,8 @@
     true,
     "DATA TRANSDER IN USING HTTPS",
     "Verify that a given file can be transferred in because wrong user permission",
-    "ft.ts_direct_transfer_inbound_https_voms_no_auth(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ft.ts_direct_transfer_inbound_https_voms_no_auth(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridhttps"]
     ],
   "ts_direct_transfer_inbound_https_no_auth":[
     "6db50f",
@@ -327,7 +359,8 @@
     true,
     "DATA TRANSDER IN USING HTTPS",
     "Verify that a given file can be transferred in because wrong user permission",
-    "ftnv.ts_direct_transfer_inbound_https_no_auth(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ftnv.ts_direct_transfer_inbound_https_no_auth(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridhttps"]
     ],
   "ts_direct_transfer_inbound_https_voms_unexist_file":[
     "bd37f7",
@@ -337,7 +370,8 @@
     true,
     "DATA TRANSDER IN USING HTTPS",
     "Verify that a given file does not exists",
-    "ft.ts_direct_transfer_inbound_https_voms_unexist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ft.ts_direct_transfer_inbound_https_voms_unexist_file(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridhttps"]
     ],
   "ts_direct_transfer_inbound_http_unexist_file":[
     "acea34",
@@ -347,7 +381,8 @@
     true,
     "DATA TRANSDER IN USING HTTP",
     "Verify that a given file does not exists",
-    "ftnv.ts_direct_transfer_inbound_http_unexist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ftnv.ts_direct_transfer_inbound_http_unexist_file(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridhttps"]
     ],
   "ts_direct_transfer_inbound_https_unexists_file":[
     "acea33",
@@ -357,7 +392,8 @@
     true,
     "DATA TRANSDER IN USING HTTPS",
     "Verify that a given file does not exists",
-    "ftnv.ts_direct_transfer_inbound_https_unexist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ftnv.ts_direct_transfer_inbound_https_unexist_file(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridhttps"]
     ],
   "ts_srm_transfer_inbound_https_voms":[
     "e94e78",
@@ -367,7 +403,8 @@
     true,
     "DATA TRANSDER IN USING HTTPS",
     "Verify that a given file can be transferred in",
-    "ft.ts_srm_transfer_inbound_https_voms(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ft.ts_srm_transfer_inbound_https_voms(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridhttps"]
     ],
   "ts_srm_transfer_inbound_http":[
     "39612c",
@@ -377,7 +414,8 @@
     true,
     "DATA TRANSDER IN USING HTTP",
     "Verify that a given file can be transferred in",
-    "ftnv.ts_srm_transfer_inbound_http(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ftnv.ts_srm_transfer_inbound_http(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridhttps"]
     ],
   "ts_srm_transfer_inbound_https":[
     "47d6d4",
@@ -387,7 +425,8 @@
     true,
     "DATA TRANSDER IN USING HTTPS",
     "Verify that a given file can be transferred in",
-    "ftnv.ts_srm_transfer_inbound_http(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ftnv.ts_srm_transfer_inbound_http(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridhttps"]
     ],
   "ts_data_transfer_out_file":[
     "4d0ea9",
@@ -397,7 +436,8 @@
     true,
     "DATA TRANSDER OUT USING GSIFTP",
     "Verify that a given file can be transferred out",
-    "ft.ts_data_transfer_out_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ft.ts_data_transfer_out_file(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridftp"]
     ],
   "ts_data_transfer_out_file_exist":[
     "75afce",
@@ -407,7 +447,8 @@
     true,
     "DATA TRANSDER OUT USING GSIFTP",
     "Verify that a given file has already been transferred out",
-    "ft.ts_data_transfer_out_file_exist(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ft.ts_data_transfer_out_file_exist(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridftp"]
     ],
   "ts_data_transfer_in_file":[
     "9011fd",
@@ -417,7 +458,8 @@
     true,
     "DATA TRANSDER IN USING GSIFTP",
     "Verify that a given file can be transferred in",
-    "ft.ts_data_transfer_in_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ft.ts_data_transfer_in_file(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridftp"]
     ],
   "ts_data_transfer_in_unexist_file":[
     "8e34f5",
@@ -427,7 +469,8 @@
     true,
     "DATA TRANSDER IN USING GSIFTP",
     "Verify that a given file cannot be transferred in",
-    "ft.ts_data_transfer_in_unexist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ft.ts_data_transfer_in_unexist_file(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridftp"]
     ],
   "ts_dt":[
     "cda37a",
@@ -437,7 +480,8 @@
     false,
     "DATA TRANSDER OUT IN USING GSIFTP",
     "Verify that a given file can be transferred out and in",
-    "ft.ts_dt(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ft.ts_dt(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridftp"]
     ],
   "ts_backend_logrotate_file":[
     "ad63ac",
@@ -447,7 +491,8 @@
     false,
     "STORN BACKEND LOGROTATE FILE POINTS TO NON EXISTING FILE",
     "StoRM Backend logrotate file points to non existing file",
-    "rct.ts_backend_logrotate_file(tfn, uid, lfn)"
+    "rct.ts_backend_logrotate_file(tfn, uid, lfn)",
+    ["backend"]
     ],
   "ts_available_space_info_service":[
     "2f6695",
@@ -457,7 +502,8 @@
     false,
     "INFO SERVICE ALWAYS RETURNS A ZERO AVAILABLE SPACE",
     "Info Service always returns a zero available space",
-    "rit.ts_available_space_info_service(tfn, uid,lfn)"
+    "rit.ts_available_space_info_service(tfn, uid,lfn)",
+    ["backend"]
     ],
   "ts_dcache_mkdir_exist":[
     "74a033",
@@ -467,7 +513,8 @@
     true,
     "SRM MKDIR",
     "Verify mkdir operation on a directory that already exists by using the dcache client",
-    "at.ts_dcache_mkdir_exist(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "at.ts_dcache_mkdir_exist(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_storm_mkdir_exist":[
     "74a333",
@@ -477,7 +524,8 @@
     true,
     "SRM MKDIR",
     "Verify mkdir operation on a directory that already exists by using the StoRM client",
-    "lt.ts_storm_mkdir_exist(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "lt.ts_storm_mkdir_exist(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_conf":[
     "8b4923",
@@ -487,7 +535,8 @@
     false,
     "CONFIGURATION INI FILE CORRECTNESS",
     "Verify the content of test ini file",
-    "cts.ts_conf(tfn,ifn,back_ifn,uid,lfn)"
+    "cts.ts_conf(tfn,ifn,back_ifn,uid,lfn)",
+    ["backend","frontend","gridftp","gridhttps"]
     ],
   "ts_glueone_service":[
     "6ec220",
@@ -497,7 +546,8 @@
     false,
     "STORM BUG: GLUESERVICENAME AND GLUESERVIVETYPE CONTAIN WRONG VALUES",
     "Yaim-Storm for GLUE2 configuration called a worng script setting wrong values in the GlueServiceName and GlueServiceType attributes of the GLUE1.3 schema",
-    "rlt.ts_glueone_service(tfn, uid,lfn)"
+    "rlt.ts_glueone_service(tfn, uid,lfn)",
+    ["backend"]
     ],
   "ts_cw":[
     "e4a8c7",
@@ -507,7 +557,8 @@
     false,
     "SRM OPERATIONS",
     "Verify that a given file can be transferred out and in",
-    "ft.ts_cw(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ft.ts_cw(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridftp"]
     ],
   "ts_backend_server_name_status":[
     "e055f5",
@@ -517,7 +568,8 @@
     false,
     "WRONG STORM BACKEND SERVER NAME RETURNED DURING THE EXECUTION OF STATUS",
     "StoRM Backend Server name is wrong",
-    "rct.ts_backend_server_name_status(tfn, uid, lfn)"
+    "rct.ts_backend_server_name_status(tfn, uid, lfn)",
+    ["backend"]
     ],
   "ts_gluetwo_endpoint":[
     "eecdc3",
@@ -527,7 +579,8 @@
     false,
     "STORM BUG: GLUE2ENDPOINTCAPABILITY AND GLUE2ENDPOINTINTERFACENAME CONTAIN WRONG VALUES",
     "Yaim-Storm for GLUE2 configuration set wrong values in the GLUE2EndpointCapability and GLUE2EndpointInterfaceName attributes of the GLUE2.0 schema",
-    "rlt.ts_gluetwo_endpoint(tfn, uid,lfn)"
+    "rlt.ts_gluetwo_endpoint(tfn, uid,lfn)",
+    ["backend"]
     ],
   "ts_gsiftp_failure_of_zero_length_file":[
     "bf9138",
@@ -537,7 +590,8 @@
     false,
     "STORM GSIFTP BUG: FAILURE IN CASE OF ZERO LENGTH FILE",
     "Gsiftp fails when transferring a file of zero length",
-    "rt.ts_gsiftp_failure_of_zero_length_file(tfn,ifn,dfn,back_ifn,uid,lfn)"
+    "rt.ts_gsiftp_failure_of_zero_length_file(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["backend","frontend","gridftp"]
     ],
   "ts_storm_ping":[
     "6d06c2",
@@ -547,7 +601,8 @@
     true,
     "SRM PING",
     "Verify ping operation by using the StoRM client",
-    "at.ts_storm_ping(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "at.ts_storm_ping(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_dcache_ping":[
     "2076cb",
@@ -557,7 +612,8 @@
     true,
     "SRM PING",
     "Verify ping operation by using the dcache client",
-    "at.ts_dcache_ping(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "at.ts_dcache_ping(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_get_space_metadata_failure":[
     "6e21ed",
@@ -567,7 +623,8 @@
     false,
     "GET SPACE METADATA FAILURE WITHOUT VOMS EXTENSIONS",
     "StoRM Backend Server returns an exception when it receives a GetSpaceMetadata request without voms extension",
-    "rtnv.ts_get_space_metadata_failure(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "rtnv.ts_get_space_metadata_failure(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_get_space_metadata_on_valid_space_token":[
     "ba45e1",
@@ -577,7 +634,8 @@
     false,
     "GET SPACE METADATA FAILURE ON USER SPACE TOKENS",
     "GetSpaceMetadata returns SRM_INTERNAL_ERROR and 'Storage Space not initialized yet' on a valid space token created via a RserveSpace",
-    "rt.ts_get_space_metadata_on_valid_space_token(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "rt.ts_get_space_metadata_on_valid_space_token(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_prepare_to_put_wrong_space_token":[
     "c396a1",
@@ -587,7 +645,8 @@
     false,
     "PREPARE TO PUT WRONG ERROR CODE",
     "PrepareToPut returns SRM_SPACE_LIFETIME_EXPIRED instead of SRM_INVALID_REQUEST",
-    "rt.ts_prepare_to_put_wrong_space_token(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "rt.ts_prepare_to_put_wrong_space_token(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_service_failure":[
     "82dc47",
@@ -597,7 +656,8 @@
     false,
     "REST INFO SERVICE FAILURE",
     "Rest info service fails when non-mandatory parameters are missing",
-    "rit.ts_service_failure(tfn, uid,lfn)"
+    "rit.ts_service_failure(tfn, uid,lfn)",
+    ["backend"]
     ],
   "ts_https_voms":[
     "c976b0",
@@ -607,7 +667,8 @@
     false,
     "DATA TRANSDER OUT IN USING HTTPS",
     "Verify that a given file can be transferred out and in",
-    "ft.ts_https_voms(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ft.ts_https_voms(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridhttps"]
     ],
   "ts_gridhttps_plugin_links":[
     "84e55b",
@@ -616,8 +677,9 @@
     [["https://storm.cnaf.infn.it:8443/redmine/issues/154","[1.8.0-1,*)"]],
     false,
     "REMOVED GRIDHTTPS PLUGIN LINKS DURING UPGRADE FROM 1.7.0 to 1.7.1",
-    "Removed gridhttpds plugin links during upgrade from 1.7.0 to 1.7.1",
-    "rct.ts_gridhttps_plugin_links(tfn, uid, lfn)"
+    "Removed gridhttps plugin links during upgrade from 1.7.0 to 1.7.1",
+    "rct.ts_gridhttps_plugin_links(tfn, uid, lfn)",
+    ["backend","gridhttps"]
     ],
   "ts_backend_server_status":[
     "1fee07",
@@ -627,7 +689,8 @@
     false,
     "EXTRA STORM BACKEND SERVICE INFORMATION RETURNED DURING THE EXECUTION OF STATUS",
     "Extra information are returned by storm backend server init script during the execution of status",
-    "rct.ts_backend_server_status(tfn, uid, lfn)"
+    "rct.ts_backend_server_status(tfn, uid, lfn)",
+    ["backend"]
     ],
   "ts_backend_cron_file":[
     "71272d",
@@ -637,7 +700,8 @@
     false,
     "STORM BACKEND DOES NOT ROTATE LOG FILES",
     "StoRM Backend does not rotate log files",
-    "rct.ts_backend_cron_file(tfn, uid, lfn)"
+    "rct.ts_backend_cron_file(tfn, uid, lfn)",
+    ["backend"]
     ],
   "ts_dcache_mkdir":[
     "d55993",
@@ -647,7 +711,8 @@
     true,
     "SRM MKDIR",
     "Verify mkdir operation on a directory by using the dcache client",
-    "at.ts_dcache_mkdir(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "at.ts_dcache_mkdir(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_storm_mkdir":[
     "d55999",
@@ -657,7 +722,8 @@
     true,
     "SRM MKDIR",
     "Verify mkdir operation on a directory by using the StoRM client",
-    "lt.ts_storm_mkdir(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "lt.ts_storm_mkdir(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_update_free_space_upon_rm":[
     "b9aa3c",
@@ -667,7 +733,8 @@
     false,
     "INCORRECT INFORMATION PUBLISHED BY STORM",
     "StoRM does not publish correctly values for used and free space on the  BDII due to a bug in the update of the free space after the the srmRm operation",
-    "rt.ts_update_free_space_upon_rm(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "rt.ts_update_free_space_upon_rm(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_yaim_version_file":[
     "b57772",
@@ -677,7 +744,8 @@
     false,
     "WRONG VERSION IN THE YAIM-VERSION FILE",
     "Wrong version in the yaim-storm file",
-    "rct.ts_yaim_version_file(tfn, uid, lfn)"
+    "rct.ts_yaim_version_file(tfn, uid, lfn)",
+    ["backend","frontend","gridftp","gridhttps"]
     ],
   "ts_gluetwo_storage_undefined":[
     "14c174",
@@ -687,7 +755,8 @@
     false,
     "STORM BUG: GLUE2STORAGESHAREACCESSMODE",
     "Yaim-Storm for GLUE2 configuration set wrong values in the GLUE2StorageAccessMode attribute of the GLUE2.0 schema",
-    "rlt.ts_gluetwo_storage_undefined(tfn, uid,lfn)"
+    "rlt.ts_gluetwo_storage_undefined(tfn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_unsupported_protocols":[
     "b0ca16",
@@ -697,7 +766,8 @@
     false,
     "STORM BUG: SRM TRANSFER COMMANDS DOES NOT REPORT ERRONEOUS PROTOCOL REQUESTS",
     "StoRM does not returns SRM_NOT_SUPPORTED error code when file transfer operation (srmPrepareToPut,srmPrepareToGet,srmBringOnline) are called providing a list of not supported desired transfer protocols to a bug in the management of file transfer operation. StoRM does not verifies if the provided protocols are supported",
-    "rt.ts_unsupported_protocols(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "rt.ts_unsupported_protocols(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_mysql_storage_space_update":[
     "efacfe",
@@ -707,7 +777,8 @@
     false,
     "NO UPDATING OF STORAGE SPACE IN DB AFTER A TOTAL ONLINE SIZE CHANGE IN THE NAMESPACE.XML",
     "When the TotalOnlineSize value has changed in the namespace.xml, the storm-backend-server process does not update the  corrispondent field in the storage_space table of the storm_be_ISAM  database",
-    "rct.ts_mysql_storage_space_update(tfn, uid, lfn)"
+    "rct.ts_mysql_storage_space_update(tfn, uid, lfn)",
+    ["backend"]
     ],
   "ts_cksm":[
     "eea4be",
@@ -717,7 +788,8 @@
     true,
     "CKSUM",
     "Verify that the checksum is calculated for the transferred file using the gsiftp protocol",
-    "ft.ts_cksm(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ft.ts_cksm(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridftp"]
     ],
   "ts_storm_ping_wo":[
     "2c2f66",
@@ -727,7 +799,8 @@
     true,
     "SRM PING",
     "Verify ping operation with wrong option by using the StoRM client",
-    "at.ts_storm_ping_wo(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "at.ts_storm_ping_wo(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_storm_database_password":[
     "0b20a0",
@@ -737,7 +810,8 @@
     false,
     "ERROR IN LOADING DATABASE PASSWORD",
     "StoRM Backend Server does not load database password correctly when its values is not the default one",
-    "rt.ts_storm_database_password(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "rt.ts_storm_database_password(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_lcg_cp_in":[
     "a61b97",
@@ -747,7 +821,8 @@
     false,
     "SRM CP",
     "Transfer a file from SE by using the lcg client",
-    "at.ts_lcg_cp_in(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "at.ts_lcg_cp_in(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridftp"]
     ],
   "ts_storm_backend_age":[
     "b76e61",
@@ -757,7 +832,8 @@
     false,
     "WRONG STORM BACKEND AGE RETURNED BY SRM PING",
     "Wrong the StoRM backend age returned by the command srm ping",
-    "rt.ts_storm_backend_age(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "rt.ts_storm_backend_age(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_https":[
     "4188c4",
@@ -767,7 +843,8 @@
     false,
     "DATA TRANSFER USING HTTPS",
     "Verify transferring operation without voms",
-    "ftnv.ts_https(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ftnv.ts_https(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridhttps"]
     ],
   "ts_lcg_cp_out":[
     "037104",
@@ -777,7 +854,8 @@
     false,
     "TRANSFER A FILE ON A SE",
     "Transfer a file on a SE by using the lcg client",
-    "at.ts_lcg_cp_out(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "at.ts_lcg_cp_out(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridftp"]
     ],
   "ts_storm_prepare_to_put":[
     "037144",
@@ -787,7 +865,8 @@
     false,
     "PREPARE TO PUT A FILE ON A SE",
     "Prepare to put a file on a SE by using the StoRM client",
-    "lt.ts_storm_prepare_to_put(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "lt.ts_storm_prepare_to_put(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridftp"]
     ],
   "ts_storm_prepare_to_put_exist_file":[
     "037444",
@@ -797,7 +876,8 @@
     false,
     "PREPARE TO PUT AN EXISTING FILE ON A SE",
     "Prepare to put an existing file on a SE by using the StoRM client",
-    "lt.ts_storm_prepare_to_put_exist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "lt.ts_storm_prepare_to_put_exist_file(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridftp"]
     ],
   "ts_storm_prepare_to_get":[
     "037166",
@@ -807,7 +887,8 @@
     false,
     "PREPARE TO GET A FILE FROM A SE",
     "Prepare to get a file from a SE by using the StoRM client",
-    "lt.ts_storm_prepare_to_get(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "lt.ts_storm_prepare_to_get(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridftp"]
     ],
   "ts_storm_prepare_to_get_unexist_file":[
     "037666",
@@ -817,7 +898,8 @@
     false,
     "PREPARE TO GET AN UNEXISTING FILE FROM A SE",
     "Prepare to get an unexisting file from a SE by using the StoRM client",
-    "lt.ts_storm_prepare_to_get_unexist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "lt.ts_storm_prepare_to_get_unexist_file(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridftp"]
     ],
   "ts_storm_put_done":[
     "037155",
@@ -827,7 +909,8 @@
     false,
     "PUT A FILE ON A SE",
     "Put a file on a SE by using the StoRM client",
-    "lt.ts_storm_put_done(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "lt.ts_storm_put_done(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_storm_release_file":[
     "037555",
@@ -837,7 +920,8 @@
     false,
     "RELEASE A FILE ON A SE",
     "Release a file on a SE by using the StoRM client",
-    "lt.ts_storm_release_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "lt.ts_storm_release_file(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_used_space":[
     "50155e",
@@ -847,7 +931,8 @@
     false,
     "WRONG CALCULATION OF SA_AVAILABLE_SIZE_KB AND SA_USED_SIZE_KB",
     "Wrong calculation of SA_USED_SPACE",
-    "rit.ts_used_space(tfn, uid,lfn)"
+    "rit.ts_used_space(tfn, uid,lfn)",
+    ["backend"]
     ],
   "ts_gluetwo_storage_share_capacity":[
     "aae0b5",
@@ -857,7 +942,8 @@
     false,
     "GLUE2 GLUE2STORAGESHARECAPACITY* SIZES ALWAYS ZERO",
     "Glue2 GLUE2StorageShareCapacity* sizes always 0",
-    "rlt.ts_gluetwo_storage_share_capacity(tfn, uid,lfn)"
+    "rlt.ts_gluetwo_storage_share_capacity(tfn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_gluetwo_service":[
     "6f5b9a",
@@ -867,7 +953,8 @@
     false,
     "OBJECT CLASS GLUE2STORAGESERVICE MISSING IN GLUE2SERVICE",
     "Yaim-Storm for GLUE2 configuration does not include ObjectClass:GLUE2StorageService in GLUE2Service",
-    "rlt.ts_gluetwo_service(tfn, uid,lfn)"
+    "rlt.ts_gluetwo_service(tfn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_dcache_rm_dir":[
     "2d8030",
@@ -877,7 +964,8 @@
     true,
     "SRM RMDIR",
     "Verify rmdir operation of a directory by using the dcache client",
-    "at.ts_dcache_rm_dir(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "at.ts_dcache_rm_dir(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_storm_rm_dir":[
     "2d8031",
@@ -887,7 +975,8 @@
     true,
     "SRM RMDIR",
     "Verify rmdir operation of a directory by using the StoRM client",
-    "lt.ts_storm_rm_dir(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "lt.ts_storm_rm_dir(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_dcache_rm_unexist_dir":[
     "f1efe5",
@@ -897,7 +986,8 @@
     false,
     "SRM RMDIR",
     "Verify rmdir operation of a directory that does not exist by using the dcache client",
-    "at.ts_dcache_rm_unexist_dir(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "at.ts_dcache_rm_unexist_dir(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_storm_rm_unexist_dir":[
     "f1ef55",
@@ -907,7 +997,8 @@
     false,
     "SRM RMDIR",
     "Verify rmdir operation of a directory that does not exist by using the StoRM client",
-    "lt.ts_storm_rm_unexist_dir(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "lt.ts_storm_rm_unexist_dir(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_dcache_rm_unexist_file":[
     "b76fcf",
@@ -917,7 +1008,8 @@
     false,
     "SRM RM",
     "Verify rm operation of a file that does not exist by using the dcache client",
-    "at.ts_dcache_rm_unexist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "at.ts_dcache_rm_unexist_file(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_storm_rm_unexist_file":[
     "b76fff",
@@ -927,7 +1019,8 @@
     false,
     "SRM RM",
     "Verify rm operation of a file that does not exist by using the StoRM client",
-    "lt.ts_storm_rm_unexist_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "lt.ts_storm_rm_unexist_file(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_size":[
     "ca2419",
@@ -937,7 +1030,8 @@
     false,
     "GET_SIZE INCORRECTLY HANDLES THE INFO",
     "Wrong calculation of SA_USED_SPACE",
-    "rit.ts_size(tfn, uid,lfn)"
+    "rit.ts_size(tfn, uid,lfn)",
+    ["backend"]
     ],
   "ts_mysql_connector_java_links":[
     "ad7c8b",
@@ -947,7 +1041,8 @@
     false,
     "MYSQL-CONNECTOR-JAVA DOWNLOADING FAILURE",
     "mysql-connector-java is not downloaded due to an issue in its owner repository",
-    "rct.ts_mysql_connector_java_links(tfn, uid, lfn)"
+    "rct.ts_mysql_connector_java_links(tfn, uid, lfn)",
+    ["backend"]
     ],
   "ts_mysql_connector_java_link":[
     "4d5495",
@@ -957,7 +1052,8 @@
     false,
     "MYSQL-CONNECTOR-JAVA LINK FAILURE",
     "mysql-connector-java is not linked correctly",
-    "rct.ts_mysql_connector_java_link(tfn, uid, lfn)"
+    "rct.ts_mysql_connector_java_link(tfn, uid, lfn)",
+    ["backend"]
     ],
   "ts_yaim_storm_gridftp_pool_list_variable":[
     "f2c5f1",
@@ -967,7 +1063,8 @@
     false,
     "PARSING OF STORM_GRIDFTP_POOL_LIST FAILED",
     "The variable STORM_GRIDFTP_POOL_LIST is not parsed correctly",
-    "rct.ts_yaim_storm_gridftp_pool_list_variable(tfn, uid, lfn)"
+    "rct.ts_yaim_storm_gridftp_pool_list_variable(tfn, uid, lfn)",
+    ["backend"]
     ],
   "ts_yaim_storm_frontend_port_variable":[
     "fe4793",
@@ -977,7 +1074,8 @@
     false,
     "STORM_FRONTEND_PORT WITHOUT A DEFAULT VALUE",
     "The variable STORM_FRONTEND_PORT does not contain any default value",
-    "rct.ts_yaim_storm_frontend_port_variable(tfn, uid, lfn)"
+    "rct.ts_yaim_storm_frontend_port_variable(tfn, uid, lfn)",
+    ["frontend"]
     ],
   "ts_lcas_lcmaps_gt4_interface_rpm_missed":[
     "df9dd5",
@@ -987,7 +1085,8 @@
     false,
     "lcas-lcmaps-gt4-interface rpm MISSED",
     "The lcas-lcmaps-gt4-interface rpm is not included in the backend metapackage",
-    "rct.ts_lcas_lcmaps_gt4_interface_rpm_missed(tfn, uid, lfn)"
+    "rct.ts_lcas_lcmaps_gt4_interface_rpm_missed(tfn, uid, lfn)",
+    ["backend"]
     ],
   "ts_yaim_storm_pepc_resourceid_variable":[
     "e2fb8d",
@@ -997,7 +1096,8 @@
     false,
     "STORM_PEPC_RESOURCEID ADDED",
     "The variable STORM_PEPC_RESOURCEID has been added",
-    "ct.ts_yaim_storm_pepc_resourceid_variable(tfn, uid, lfn)"
+    "ct.ts_yaim_storm_pepc_resourceid_variable(tfn, uid, lfn)",
+    ["backend"]
     ],
   "ts_http":[
     "32429c",
@@ -1007,7 +1107,8 @@
     false,
     "DATA TRANSFER USING HTTP",
     "Verify transferring operation without voms",
-    "ftnv.ts_http(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "ftnv.ts_http(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend","gridhttps"]
     ],
   "ts_backend_gridhttps":[
     "09a5b7",
@@ -1017,7 +1118,8 @@
     false,
     "DEFAULT GRIDHTTPS SERVER PORT NUMBER CONFLICTS WITH BACKEND DEFAULT XMLRPC PORT NUMBER",
     "Default GridHTTPs server port number conflicts with Backend default xmlrpc port number",
-    "rct.ts_backend_gridhttps(tfn, uid, lfn)"
+    "rct.ts_backend_gridhttps(tfn, uid, lfn)",
+    ["backend","gridhttps"]
     ],
   "ts_both_sup_and_unsup_protocols":[
     "mcj7dm",
@@ -1027,7 +1129,8 @@
     false,
     "STORM FRONTEND PRODUCES HUGE LOG FILE WHEN MANAGING REQUESTS THAT CONTAIN SUPPORTED PROTOCOLS",
     "StoRM produced huge log file when file transfer operation (srmPrepareToPut,srmPrepareToGet,srmBringOnline) are called with a list of desired transfered protocols",
-    ""
+    "",
+    ["backend","frontend"]
     ],
   "ts_lcg_ls_file":[
     "184ab3",
@@ -1037,7 +1140,8 @@
     true,
     "SRM LS",
     "Verify ls operation on a file that exists by using the lcg client",
-    "at.ts_lcg_ls_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "at.ts_lcg_ls_file(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_storm_ls_file":[
     "184a33",
@@ -1047,7 +1151,8 @@
     true,
     "SRM LS",
     "Verify ls operation on a file that exists by using the StoRM client",
-    "lt.ts_storm_ls_file(tfn,ifn,dfn,back_ifn, uid,lfn)"
+    "lt.ts_storm_ls_file(tfn,ifn,dfn,back_ifn, uid,lfn)",
+    ["backend","frontend"]
     ],
   "ts_path_authz_db":[
     "5e6c78",
@@ -1057,7 +1162,8 @@
     false,
     "PATH AUTHZ DB IS NOT RECOGNIZED AS A CONFIGURATION FILE",
     "File path_authz.db is not recognized as a configuration file by the storm-backend-server rpm",
-    "rct.ts_path_authz_db(tfn, uid, lfn)"
+    "rct.ts_path_authz_db(tfn, uid, lfn)",
+    ["backend"]
     ],
   "ts_storm_backend_service_crashes_on_gpfs":[
     "92bb4a",
@@ -1067,7 +1173,8 @@
     false,
     "STORM BACKEND SERVICE CRASHES ON TOP OF THE GPFS FILESYSTEM",
     "The StoRM backend service crashes on top of the gpfs filesystem",
-    "rct.ts_storm_backend_service_crashes_on_gpfs(tfn, uid, lfn)"
+    "rct.ts_storm_backend_service_crashes_on_gpfs(tfn, uid, lfn)",
+    ["backend"]
     ],
   "ts_configuration_folders_permissions":[
     "927b4a",
@@ -1077,6 +1184,7 @@
     false,
     "CONFIGURATION FOLDERS PERMISSIONS",
     "The StoRM components configuration folder and files have permission grant to others.",
-    "rct.ts_configuration_folders_permissions(tfn, uid, lfn)"
+    "rct.ts_configuration_folders_permissions(tfn, uid, lfn)",
+    ["backend"]
     ]
 }

@@ -328,7 +328,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/tstorm-sanity-tests
 %dir %{_sysconfdir}/tstorm
 %dir %{_sysconfdir}/tstorm/sanity
-%attr(750,%{default_user},%{default_user}) %config(noreplace) %{_sysconfdir}/tstorm/sanity/tstorm-sanity.ini
+%attr(644,%{default_user},%{default_user}) %config(noreplace) %{_sysconfdir}/tstorm/sanity/tstorm-sanity.ini
 %dir %{python_sitearch}/tstorm/
 %dir %{python_sitearch}/tstorm/tests/
 %dir %{python_sitearch}/tstorm/tests/deployment
