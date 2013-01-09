@@ -31,7 +31,7 @@ class RunSanityTestsError(exceptions.Exception):
 class RunSanityTests(run_tests.RunTests):
     def __init__(self):
         super(RunSanityTests, self).__init__()
-        self.parameters['custorm_conf_file'] = (False, 'tstorm-sanity.ini')
+        self.parameters['custom_conf_file'] = (False, 'tstorm-sanity.ini')
         self.parameters['voms'] = False
 
     def do_parse(self):
@@ -101,16 +101,16 @@ class RunSanityTests(run_tests.RunTests):
 
     def do_list(self):
         if self.parameters['list_tests_details'][0]:
-            self.tests_instance.get_info(run='sanity')
+            self.tests_instance.get_info(node=self.parameters['node'],run='sanity')
             sys.exit(0)
         if self.parameters['filter_tests_details'][0]:
-            self.tests_instance.get_info(info=self.parameters['filter_tests_details'][1],run='sanity')
+            self.tests_instance.get_info(info=self.parameters['filter_tests_details'][1],node=self.parameters['node'],run='sanity')
             sys.exit(0)
 
     def do_run_tests(self):
         log_file = report_file.ReportFile(report = self.parameters['report'])
 
-        tests_methods = self.tests_instance.get_methods(tests = self.parameters['valid_tests'],run='sanity')
+        tests_methods = self.tests_instance.get_methods(tests = self.parameters['valid_tests'],node=self.parameters['node'],run='sanity')
 
         for key, value in tests_methods.items():
             self.run_test(self.parameters['custom_conf_file'][1], \

@@ -38,7 +38,7 @@ class LoadConfiguration:
                 'gridftp':'',
                 'gridhttps':''}}
 
-    def __get_sections(self):
+    def __get_sections__(self):
         '''Returns sections'''
         try:
             self.parser.read(self.configuration_file)
@@ -52,7 +52,7 @@ class LoadConfiguration:
     def is_configuration_file_valid(self):
         '''Verify correctness of the configuration file'''
  
-        sections = self.__get_sections()
+        sections = self.__get_sections__()
 
         for section in sections:
             if section not in self.sections.keys():
@@ -69,7 +69,7 @@ class LoadConfiguration:
 
         test_settings = {}
 
-        sections = self.__get_sections()
+        sections = self.__get_sections__()
 
         for section in sections:
             test_settings[section] = {}

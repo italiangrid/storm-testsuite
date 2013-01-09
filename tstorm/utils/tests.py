@@ -17,23 +17,25 @@ class Tests:
             'idenpotent':'is_idenpotent()',
             'range':'get_range()',
             'n':'get_name()', 'name':'get_name()',
-            'd':'get_description()', 'description':'det_description()'}
+            'd':'get_description()', 'description':'get_description()'}
 
         self.data = data
         self.tests = {}
 
-    def __print_ids(self,run=''):
+    def __print_ids(self, node=[], run=''):
         print 'ID      RFC'
         for key, value in self.tests.items():
-            if run == 'sanity':
-                if value.get_test_type() == 'DT':
-                    print '%s  %s' % (value.get_id(), value.get_rfc())
-            elif run == 'stress':
-                if value.get_test_type() == 'LT':
-                    print '%s  %s' % (value.get_id(), value.get_rfc())
-            else:
-                if value.get_test_type() != 'DT':
-                    print '%s  %s' % (value.get_id(), value.get_rfc())
+            services = list(set(node) & set(value.get_node()))
+            if len(services) != 0:
+                if run == 'sanity':
+                    if value.get_test_type() == 'DT':
+                        print '%s  %s' % (value.get_id(), value.get_rfc())
+                elif run == 'stress':
+                    if value.get_test_type() == 'LT':
+                        print '%s  %s' % (value.get_id(), value.get_rfc())
+                else:
+                    if value.get_test_type() != 'DT':
+                        print '%s  %s' % (value.get_id(), value.get_rfc())
 
     def __build_header_format(self, info):
         if len(info) == 0:
@@ -61,10 +63,13 @@ class Tests:
                 msg += eval('value.' + self.list_keys[x]) + '  '
             print msg
 
-    def __print_ids_with_filters(self,info={},run=''):
+    def __print_ids_with_filters(self,info={},node=[],run=''):
         filter_info = []
         self.__build_header_format(info)
         for key, value in self.tests.items():
+            services = list(set(node) & set(value.get_node()))
+            if len(services) != 0:
+                continue
             if run == 'sanity':
                 if value.get_test_type() != 'DT':
                     continue
@@ -120,25 +125,24 @@ class Tests:
                     df.write(id + '\n')
                 df.close()
 
-    def get_info(self, info = {}, run=''):
+    def get_info(self, info = {}, run='', node=[]):
         if len(info) == 0:
-            self.__print_ids(run=run)
+            self.__print_ids(node=node,run=run)
         else:
-            self.__print_ids_with_filters(info=info,run=run)
+            self.__print_ids_with_filters(info=info,node=node,run=run)
 
-    def get_methods(self, tests, run=''):
+    def get_methods(self, tests, run='', node=[]):
         methods = {}
         for key, value in tests.items():
+            services = list(set(node) & set(value.get_node()))
+            if len(services) == 0:
+                continue
             if run == 'sanity':
                 if 'DT' == value.get_test_type():
                     methods[key] = value
                 else:
                     continue
             elif run == 'stress':
-                #if 'DT' != value.get_test_type() and \
-                #    value.is_idenpotent() and \
-                #    not value.is_regression():
-                #    methods[key] = value
                 if 'LT' == value.get_test_type():
                     methods[key] = value
                 else:
@@ -172,10 +176,8 @@ class Tests:
                             multi_entry = True
                             break
                     if multi_entry:
-                        #print data_key, val[1]
                         self.tests[data_key+str(random.random())[0:5]] = test_structure
                     else:
-                        #print data_key, val[1]
                         self.tests[data_key] = test_structure
         return self.tests
 

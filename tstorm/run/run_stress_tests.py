@@ -150,7 +150,7 @@ class RunStressTests(run_tests.RunTests):
 
     def __set_tests_methods(self):
         self.parameters['tests_methods'] = self.tests_instance.get_methods(\
-            tests = self.parameters['valid_tests'], run='stress')
+            tests = self.parameters['valid_tests'], node=self.parameters['node'], run='stress')
 
     def __set_tests_status(self):
         self.parameters['tests_status'] = \
@@ -267,21 +267,19 @@ class RunStressTests(run_tests.RunTests):
                     c_time = time.strptime(time.ctime())
                     if self.__is_time_elapsed(passed_time):
                         new_time=datetime.datetime.now()
-                        time.mktime(c_time) - old_c_time
                         stress_log_file.put_epilogue(hours=str((time.mktime(c_time) - old_c_time)/3600).strip('.')[0], \
                            elapsed_time=new_time.ctime())
                         self.__refresh_stress_tests_info(stress_log_file)
                         passed_time = time.mktime(new_time.timetuple())
-                        old_c_time = time.mktime(c_time)
 
         return c_time
 
     def do_list(self):
         if self.parameters['list_tests_details'][0]:
-            self.tests_instance.get_info(run='stress')
+            self.tests_instance.get_info(node=self.parameters['node'], run='stress')
             sys.exit(0)
         if self.parameters['filter_tests_details'][0]:
-            self.tests_instance.get_info(info=self.parameters['filter_tests_details'][1],run='stress')
+            self.tests_instance.get_info(info=self.parameters['filter_tests_details'][1],node=self.parameters['node'],run='stress')
             sys.exit(0)
 
     def do_run_tests(self):
@@ -312,7 +310,7 @@ class RunStressTests(run_tests.RunTests):
                            elapsed_time=new_time.ctime())
             self.__refresh_stress_tests_info(stress_log_file)
 
-            stress_log_file.put_header('END', hours==str(c_time).strip('.')[0], \
+            stress_log_file.put_header('END', hours=str(c_time).strip('.')[0], \
                 elapsed_time=new_time.ctime())
             
         else:

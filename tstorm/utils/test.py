@@ -9,7 +9,7 @@ class TestStructure:
     def __init__(self, value, rfc, range):
         if len(value) == 0:
             raise TestStructureError('Test structure is empty')
-        elif len(value) > 8:
+        elif len(value) > 999999999:
             raise TestStructureError('Test structure is not correct')
         self.id = value[0]
         self.type = value[1]
@@ -20,9 +20,13 @@ class TestStructure:
         self.name = value[5]
         self.description = value[6]
         self.aggregator = value[7]
+        self.node = value[8]
 
     def get_id(self):
         return self.id
+
+    def get_node(self):
+        return self.node
 
     def get_test_type(self):
         return self.type
