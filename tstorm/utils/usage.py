@@ -15,11 +15,11 @@ def change_val(value):
 
 def get_usage(parameters, run=''):
     if run == 'sanity':
-        cmd = 'tstorm-sanity-test'
+        cmd = 'tstorm-sanity-tests'
     elif run == 'stress':
-        cmd = 'tstorm-stress-test'
+        cmd = 'tstorm-stress-tests'
     else:
-        cmd = 'tstorm-test'
+        cmd = 'tstorm-tests'
 
     print ('Usage: %s [OPTION]\n'
         % cmd +
@@ -62,36 +62,45 @@ def get_usage(parameters, run=''):
             % change_val(parameters['voms']))
 
     if run != 'stress':
-        print ("  -l, --list                        enable the list of all the" +
-            " tests for a given\n " +
-            "                                   StoRM release\n" +
-            "  -s, --filter-list='SEQUENCE'      specify a sequence of " +
-            "values separated by ; \n" +
-            "                                    and between , the values of which are:")
+        print ("  -l, --list                        print the list of all the" +
+            " specified tests\n " +
+            " -s, --filter-list='SEQUENCE'      specify a sequence of " +
+            "filtering options separated by ';' \n" +
+            "                                    Available options are:")
         if run == 'sanity':
-            print ('                                    t|test=DT filters in relation with\n' +
-                '                                        the type of tests ')
+            print ('                                    t|test=test type\n' +
+                '                                        Available test type is:\n'+
+                '                                        DT Deployment Test')
         else:
-            print ('                                    t|test=sequence of types of tests\n' + 
-                '                                        separated by , as AT,UT,ST,LT\n'+
-                '                                        that filters in relation with the\n'+
-                '                                        type of test\n' +
-                '                                    r|regression=false|true that expresses\n'+ 
-                '                                        if the test belongs to the regression\n' +
-                '                                        category\n' +
-                '                                    idenpotent=false|true that expresses\n'+
-                '                                        if the test belongs to the idenpotent\n' +
-                '                                        category\n' +
-                '                                    o|output=filename that allows user to\n'+
-                '                                        save test identifiers in the specified\n'+
-                '                                        filename\n' +
-                '                                    f|format=n|name,d|description,range,rfc,i|id,idenpotent\n' +
-                '                                        allows user to specify the order\n'+
-                '                                        of print of tests information')
+            print ("                                    t|test=list of test types separated by ',':\n" + 
+                "                                        Available test types are:\n" +
+                "                                        AT Atomic Test\n"+
+                "                                        UT Utility Test\n"+
+                "                                        ST System Test\n"+
+                "                                        LT Load Test")
+        print ("                                    r|regression=false|true that expresses\n"+ 
+            "                                        if the test belongs to the regression\n" +
+            "                                        category\n" +
+            "                                    idenpotent=false|true that expresses\n"+
+            "                                        if the test belongs to the idenpotent\n" +
+            "                                        category\n" +
+            "                                    o|output=filename that allows user to\n"+
+            "                                        save test identifiers in the specified\n"+
+            "                                        filename\n" +
+            "                                    f|format=list of tests information, fields \n"+
+            "                                        separated by ',', printed following the \n"+
+            "                                        order of the format:\n"+
+            "                                        n|name        is the name of the test\n"+
+            "                                        d|description is the description of the test\n"+
+            "                                        range         specifies the range in which the test is valid\n"+
+            "                                        rfc           is the rfc identifier specified in the TestPlan\n"+
+            "                                        i|id          is the test identifier\n"+
+            "                                        idenpotent    specifies if the test is idenpotent or not\n" +
+            "                                        r|regression  specifies if the test is a regression one or not")
         usage_example_filter_list(cmd=cmd,run=run)
-        print ("  -i, --ids='SEQUENCE'              specify a sequence of values separated by ,\n" +
-            "                                    the values of which are the tests identifiers\n" +
-            "                                    to be executed\n" +  
+        print ("  -i, --ids='SEQUENCE'              specify a sequence of tests identifiers\n" +
+            "                                    separated by ','. Only the specified tests will\n" +
+            "                                    be executed.\n"
             "  -f, --file-ids=FILEIDS            specify the file name that contains\n" +
             "                                    the list of tests identifiers to be executed")
 
@@ -100,8 +109,8 @@ def get_usage(parameters, run=''):
     if run not in ('sanity', 'stress'):
         print '  -d, --destfile=DESTFILE           specify the destination file'
 
-    print ('  -r, --storm-release=<major-release.minor-release.revision-release>-age\n'+
-        '                                    specify the StoRM release\n\n'
+    print ('  -r, --storm-release=<major-release.minor-release.revision-age>\n'+
+        '                                    specify the StoRM target release\n\n'
         '  -h, --help                        display this help and exit\n' +
         '  -v, --version                     output version information and' +
         ' exit')
