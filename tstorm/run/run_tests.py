@@ -96,10 +96,10 @@ class RunTests(object):
             sys.exit(2)
 
         for opt, value in opts:
-            if opt in ("-h", "--help"):
+            if opt == "-h" or opt == "--help":
                 usage.get_usage(self.parameters)
                 sys.exit(0)
-            elif opt in ("-v", "--version"):
+            elif opt == "-v" or opt == "--version":
                 msg = 'T-StoRM version %s' % (__import__('tstorm').get_version())
                 print msg
                 sys.exit(0)
@@ -107,7 +107,7 @@ class RunTests(object):
                 self.parameters['custom_conf_file'] = (True, value)
             elif opt in ("-d", "--destfile"):
                 self.parameters['custom_destination_file'] = (True, value)
-            elif opt in ("-i", "--ids"):
+            elif opt == "-i" or opt == "--ids":
                 try:
                     tmp_sequence_tests = sequence.Sequence(value).get_sequence()
                     self.parameters['tests_sequence'] = (True, tmp_sequence_tests)
@@ -115,11 +115,11 @@ class RunTests(object):
                     print '\n\nExecution: ', err
                     usage.get_usage(self.parameters)
                     sys.exit(2)
-            elif opt in ("-f", "--file-ids"):
+            elif opt == "-f" or opt == "--file-ids":
                 self.parameters['tests_sequence_file'] = (True, value)
-            elif opt in ("-l", "--list"):
+            elif opt == "-l" or opt == "--list":
                 self.parameters['list_tests_details'] = (True, {})
-            elif opt in ("-s", "--filter-list"):
+            elif opt == "-s" or opt == "--filter-list":
                 try:
                     tmp_filter_tests_details = filters.Filters(value).get_filters()
                     self.parameters['filter_tests_details'] = (True, tmp_filter_tests_details)
@@ -127,16 +127,16 @@ class RunTests(object):
                     print '\n\nExecution: ', err
                     usage.get_usage(self.parameters)
                     sys.exit(2)
-            elif opt in ("-r", "--storm-release"):
+            elif opt == "-r" or opt == "--storm-release":
                 try:
                     self.parameters['storm_release'] = release.Release(value)
                 except release.ReleaseError, err:
                     print '\n\nExecution: ', err
                     usage.get_usage(self.parameters)
                     sys.exit(2)
-            elif opt in ("--novoms"):
+            elif opt == "--novoms":
                 self.parameters['voms'] = False
-            elif opt in ("--noreport"):
+            elif opt == "--noreport":
                 self.parameters['report'] = False
             else:
                 raise OptionError("Unhandled option")

@@ -29,36 +29,36 @@ def get_usage(parameters, run=''):
     if run != 'stress':
         print ('  --noreport                        disable the generation of' +
             ' the report log file.\n' +
-            '                                    The DEFAULT of which is %s.'
+            '                                    The DEFAULT value is %s.'
             % change_val(parameters['report']))
     
     if run == 'stress':
         print ('  --report                          enable the generation of' +
             ' the report log file.\n'+
-            '                                    The DEFAULT of which is %s.\n'
+            '                                    The DEFAULT value is %s.\n'
             % parameters['report'] +
             '  --nostressreport                  disable the generation of' +
             ' the stress report\n'+
-            '                                    log file. The DEFAULT of ' +
-            'which is %s.\n' % change_val(parameters['stress_report']) +
+            '                                    log file. The DEFAULT value ' +
+            'is %s.\n' % change_val(parameters['stress_report']) +
             '  -n, --number-cycles=NUMBERCYCLES  specify the number of' +
             ' cycles in which stress\n'+
             '                                    tests are executed. The DEFAULT' +
-            ' of which is %s.\n' % str(parameters['number_cycles']) +
+            ' value is %s.\n' % str(parameters['number_cycles']) +
             '  --number-hours=NUMBERHOURS        specify the number of' +
             ' hours in which stress\n'+
             '                                    tests are executed. The DEFAULT' +
-            ' of which is %s.\n' % str(parameters['number_hours']) +
+            ' value is %s.\n' % str(parameters['number_hours']) +
             '  --refresh-report=SECONDS          specify the seconds' +
             ' after which the stress\n'+
-            '                                    report file is updated. The DEFAULT of\n' +
-            '                                    which is %s.'
+            '                                    report file is updated. The DEFAULT \n' +
+            '                                    value is %s.'
             % str(parameters['refresh_report']))
 
     if run not in ('sanity', 'stress'):
         print ('  --novoms                          run tests for which voms' +
             ' is not necessary.\n' +
-            '                                    The DEFAULT of which is %s.'
+            '                                    The DEFAULT value is %s.'
             % change_val(parameters['voms']))
 
     if run != 'stress':

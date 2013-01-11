@@ -47,39 +47,69 @@ class StressReportFile:
 
     def put_comment(self):
         if self.report:
-            msg = ('############################################\n'+
-                '# The file contains an header of the form\n'+
-                '# ========================================== START NC:/NH: value1 ELAPSED_TIME: value2\n' +
-                '# Then for each refresh_report time the header is followed by\n'+
-                '# ========================================== NC:/NH: value1 ELAPSED_TIME: value2\n'+
-                '# TEST_NAME  NUMBER_OF_TEST_EXECUTION_IN_A_SET_OF_CYCLE  TOTAL_NUMBER_OF_TEST_EXECUTION\n'+
+            msg = ('###############################################################################################################\n'+
+                '# This report starts with an header that explains the requested execution.\n'+
+                '# In case a number of tests has been requested it will look like:\n'+
+                '# ========================================== Requested tests: XXX; START_TIME: <current_time>\n' +
+                '# In case a number of hours has been requested it will look like:\n'+
+                '# ========================================== Requested hours of testing: XXX; START_TIME: <current_time>\n' +
+                '# Then for each reporting cycle an header that contains testing progress is shown.\n'+
+                '# In case a number of tests has been requested it will look like:\n'+
+                '# ========================================== NT: <number_of_performed_tests>; CURRENT_TIME: <current_time>\n'+
+                '# In case a number of hours has been requested it will look like:\n'+
+                '# ========================================== NH: <number_of_elapsed_hours>; CURRENT_TIME: <current_time>\n'+
+                '# For each performed test this header is followed by a summary row that contains test name,\n'+
+                '# how many times the test has been performed in the current reporting cycle and from the beginning of\n'+
+                '# the stress testing:\n'+
+                '# TEST_NAME  NUMBER_OF_TEST_EXECUTION_THE_REPORTING_CYCLE  TOTAL_NUMBER_OF_TEST_EXECUTION\n'+
                 '# ...\n'+
-                '# and finally followed by\n'+
-                '# ========================================== END NC:/NH: value1 ELAPSED_TIME: value2\n'+
-                '############################################\n')
+                '# The report is closed by a summary footer.\n'+
+                '# In case a number of tests has been requested it will look like:\n'+
+                '# ========================================== Performed tests: XXX; ELAPSED_TIME: <elapsed_time>\n' +
+                '# In case a number of hours has been requested it will look like:\n'+
+                '# ========================================== Performed hours of testing: XXX; TESTS_PERFORMED: <num_test_performed>\n' +
+                '###############################################################################################################\n')
+
             self.put(msg) 
 
-    def put_header(self, stamp, hours='', cycle='', elapsed_time=''):
-        if self.report:
-            self.put_separator(stamp=stamp, hours=hours, cycle=cycle, elapsed_time=elapsed_time)
+    def __raw__(self):
+        return '=========================================='
 
-    def put_epilogue(self, hours='', cycle='', elapsed_time=''):
+    def put_header(self, hours='', cycle='', current_time=''):
         if self.report:
-            self.put_separator(hours=hours, cycle=cycle, elapsed_time=elapsed_time)
-
-    def put_prologue(self):
-        if self.report:
-            self.put_separator()
- 
-    def put_separator(self, stamp='', hours='', cycle='', elapsed_time=''):
-        if self.report:
-            msg = '=========================================='
-            if stamp != '':
-                msg += ' ' + stamp
+            msg = self.__raw__()
             if cycle != '':
-                msg += '  NC: ' + cycle
+                msg += ('  Requested tests: %s; START_TIME: %s'
+                    % (cycle, current_time))
+            elif hours != '':
+                msg += (' Requested hours of testing:  %s; START_TIME: %s'
+                    % (hours, current_time))
+            self.put(msg + '\n')
+
+    def put_footer(self, hours='', cycle='', elapsed_time=''):
+        if self.report:
+            msg = self.__raw__()
             if hours != '':
-                msg += ' NH: ' + hours
-            if elapsed_time != '':
-                msg += ' ELAPSED_TIME:' + elapsed_time
+                msg += ('  Performed hours of testing: %s; TESTS_PERFORMED: %s'
+                    % (hours, cycle))
+            elif cycle != '':
+                min = int(elapsed_time)/60
+                sec = int(elapsed_time)%60
+                msg += ('  Performed tests: %s; ELAPSED_TIME: %s min, %s sec' 
+                    % (cycle, min, sec))
+            self.put(msg + '\n')
+
+    def put_epilogue(self, hours='', cycle='', current_time=''):
+        if self.report:
+            self.put_separator(hours=hours, cycle=cycle, current_time=current_time)
+ 
+    def put_separator(self, hours='', cycle='', current_time=''):
+        if self.report:
+            msg = self.__raw__()
+            if cycle != '':
+                msg += ('  NT: %s; CURRENT_TIME: %s'
+                    % (cycle, current_time))
+            elif hours != '':
+                msg += ('  NH: %s; CURRENT_TIME: %s'
+                    % (hours, current_time))
             self.put(msg + '\n')
