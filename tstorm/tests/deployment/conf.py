@@ -4,6 +4,7 @@ import inspect
 
 from tstorm.utils import configuration
 from tstorm.utils import readfile
+from tstorm.utils import rpm
 
 __author__ = 'Elisabetta Ronchieri'
 
@@ -48,6 +49,49 @@ class ConfTest(unittest.TestCase):
 
             if get_resource_id != '' and get_argus_resource_id != '':
                 self.assert_(get_resource_id == get_argus_resource_id)
+
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
+        self.lfn.flush_file()
+
+    def test_emir_serp_added(self):
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
+            rpm_out = rpm.Rpm('emi-storm-backend-mp')
+            self.lfn.put_cmd(rpm_out.get_command(option='-qR'))
+            rpm_result = rpm_out.get_output(option='-qR')
+
+            msg = 'rpm status'
+            self.assert_(rpm_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            msg = 'emir-serp was not found'
+            self.assert_('emir-serp' in rpm_result['otpt'],
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
+        self.lfn.flush_file()
+
+    def test_gridhttps_certificates_folder_added(self):
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
 
         except AssertionError, err:
             print err
