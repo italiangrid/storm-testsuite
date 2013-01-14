@@ -19,15 +19,18 @@ from tstorm.utils import tests
 from tstorm.utils import filters
 from tstorm.utils import configuration
 
-from tstorm.tests import commontests as cts
-from tstorm.tests.atomic import atomicstests as at
-from tstorm.tests.functional import functionalitiestests as ft
-from tstorm.tests.functional import functionalitiestests_novoms as ftnv
-from tstorm.tests.functional import tapetests as tt
-from tstorm.tests.functional.regression import regressiontests as rt
-from tstorm.tests.functional.regression import regressiontests_novoms as rtnv
-from tstorm.tests.functional.regression import regression_ldaptests as rlt
-from tstorm.tests.load import loadstests as lt
+try:
+   from tstorm.tests import commontests as cts
+   from tstorm.tests.atomic import atomicstests as at
+   from tstorm.tests.functional import functionalitiestests as ft
+   from tstorm.tests.functional import functionalitiestests_novoms as ftnv
+   from tstorm.tests.functional import tapetests as tt
+   from tstorm.tests.functional.regression import regressiontests as rt
+   from tstorm.tests.functional.regression import regressiontests_novoms as rtnv
+   from tstorm.tests.functional.regression import regression_ldaptests as rlt
+   from tstorm.tests.load import loadstests as lt
+except ImportError, err:
+   print ''
 
 class OptionError(exceptions.Exception):
     pass
