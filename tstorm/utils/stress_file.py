@@ -50,9 +50,9 @@ class StressReportFile:
             msg = ('###############################################################################################################\n'+
                 '# This report starts with an header that explains the requested execution.\n'+
                 '# In case a number of tests has been requested it will look like:\n'+
-                '# ========================================== Requested tests: XXX; START_TIME: <current_time>\n' +
+                '# ========================================== Requested tests: <number_of_requested_tests>; START_TIME: <current_time>\n' +
                 '# In case a number of hours has been requested it will look like:\n'+
-                '# ========================================== Requested hours of testing: XXX; START_TIME: <current_time>\n' +
+                '# ========================================== Requested hours of testing: <number_of_requested_testing_hours>; START_TIME: <current_time>\n' +
                 '# Then for each reporting cycle an header that contains testing progress is shown.\n'+
                 '# In case a number of tests has been requested it will look like:\n'+
                 '# ========================================== NT: <number_of_performed_tests>; CURRENT_TIME: <current_time>\n'+
@@ -61,13 +61,13 @@ class StressReportFile:
                 '# For each performed test this header is followed by a summary row that contains test name,\n'+
                 '# how many times the test has been performed in the current reporting cycle and from the beginning of\n'+
                 '# the stress testing:\n'+
-                '# TEST_NAME  NUMBER_OF_TEST_EXECUTION_THE_REPORTING_CYCLE  TOTAL_NUMBER_OF_TEST_EXECUTION\n'+
+                '# TEST_NAME  NUMBER_OF_TEST_EXECUTION_FOR_THE_REPORTING_CYCLE  TOTAL_NUMBER_OF_TEST_EXECUTION\n'+
                 '# ...\n'+
                 '# The report is closed by a summary footer.\n'+
                 '# In case a number of tests has been requested it will look like:\n'+
-                '# ========================================== Performed tests: XXX; ELAPSED_TIME: <elapsed_time>\n' +
+                '# ========================================== Performed tests: <number_of_performed_tests>; ELAPSED_TIME: <elapsed_time>\n' +
                 '# In case a number of hours has been requested it will look like:\n'+
-                '# ========================================== Performed hours of testing: XXX; TESTS_PERFORMED: <num_test_performed>\n' +
+                '# ========================================== Performed hours of testing: <number_of_performed_testing_hours>; TESTS_PERFORMED: <num_test_performed>\n' +
                 '###############################################################################################################\n')
 
             self.put(msg) 

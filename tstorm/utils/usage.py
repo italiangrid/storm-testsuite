@@ -41,10 +41,10 @@ def get_usage(parameters, run=''):
             ' the stress report\n'+
             '                                    log file. The DEFAULT value ' +
             'is %s.\n' % change_val(parameters['stress_report']) +
-            '  -n, --number-cycles=NUMBERCYCLES  specify the number of' +
-            ' cycles in which stress\n'+
+            '  -n, --number-tests=NUMBERTESTS  specify the number of' +
+            ' tests in which stress\n'+
             '                                    tests are executed. The DEFAULT' +
-            ' value is %s.\n' % str(parameters['number_cycles']) +
+            ' value is %s.\n' % str(parameters['number_tests']) +
             '  --number-hours=NUMBERHOURS        specify the number of' +
             ' hours in which stress\n'+
             '                                    tests are executed. The DEFAULT' +
