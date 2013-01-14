@@ -22,12 +22,14 @@ tstormdeploymentdir = @pyexecdir@/tstorm/tests/deployment
 tstormdeployment_PYTHON = \
     conf.py \
     conftests.py \
-    __init__.py
+    __init__.py \
+    services.py
 
 EXTRA_DIST = \
     conf.py \
     conftests.py \
-    __init__.py
+    __init__.py \
+    services.py
 
 CLEANFILES= \
     conf.pyc \
@@ -35,4 +37,6 @@ CLEANFILES= \
     conftests.pyc \
     conftests.pyo \
     __init__.pyc \
-    __init__.pyo 
+    __init__.pyo \
+    services.pyc \
+    services.pyo 

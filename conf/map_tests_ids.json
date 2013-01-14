@@ -679,7 +679,7 @@
     "REMOVED GRIDHTTPS PLUGIN LINKS DURING UPGRADE FROM 1.7.0 to 1.7.1",
     "Removed gridhttps plugin links during upgrade from 1.7.0 to 1.7.1",
     "rct.ts_gridhttps_plugin_links(tfn, uid, lfn)",
-    ["backend","gridhttps"]
+    ["backend"]
     ],
   "ts_backend_server_status":[
     "1fee07",
@@ -1088,17 +1088,6 @@
     "rct.ts_lcas_lcmaps_gt4_interface_rpm_missed(tfn, uid, lfn)",
     ["backend"]
     ],
-  "ts_emir_serp_added":[
-    "4eb66a",
-    "DT",
-    false,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/334","[1.11.0-1,*)"]],
-    false,
-    "emir-serp rpm ADDED",
-    "The emir-serp rpm is now included in the backend metapackage",
-    "rct.ts_emir_serp_rpm_added(tfn, uid, lfn)",
-    ["backend"]
-    ],
   "ts_gridhttps_certificates_folder_added":[
     "1caf8a",
     "DT",
@@ -1107,7 +1096,18 @@
     false,
     "gridhttps certificates folder ADDED",
     "The gridhttps certificates folder is created after its configuration",
-    "rct.ts_gridhttps_certificates_folder_added(tfn, uid, lfn)",
+    "ct.ts_gridhttps_certificates_folder_added(tfn, uid, lfn)",
+    ["gridhttps"]
+    ],
+  "ts_gridhttps_conf_folder_ownership":[
+    "3cbb35",
+    "DT",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/352","[1.11.0-1,*)"]],
+    false,
+    "gridhttps conf folder ownership VERIFIED",
+    "The gridhttps conf folder ownership is verified after its configuration",
+    "ct.ts_gridhttps_conf_folder_ownership(tfn, uid, lfn)",
     ["gridhttps"]
     ],
   "ts_yaim_storm_pepc_resourceid_variable":[
@@ -1141,7 +1141,7 @@
     "DEFAULT GRIDHTTPS SERVER PORT NUMBER CONFLICTS WITH BACKEND DEFAULT XMLRPC PORT NUMBER",
     "Default GridHTTPs server port number conflicts with Backend default xmlrpc port number",
     "rct.ts_backend_gridhttps(tfn, uid, lfn)",
-    ["backend","gridhttps"]
+    ["backend"]
     ],
   "ts_both_sup_and_unsup_protocols":[
     "mcj7dm",

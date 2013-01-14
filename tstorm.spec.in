@@ -83,7 +83,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/tstorm-tests
 %{_bindir}/tstorm-stress-tests
 
-%attr(777,%{default_user},%{default_user}) %dir %{_localstatedir}/log/tstorm/stress
+%attr(755,%{default_user},%{default_user}) %dir %{_localstatedir}/log/tstorm
+%attr(755,%{default_user},%{default_user}) %dir %{_localstatedir}/log/tstorm/stress
 
 %dir %{_sysconfdir}/tstorm/
 %attr(644,%{default_user},%{default_user}) %config(noreplace) %{_sysconfdir}/tstorm/tstorm.ini
@@ -126,12 +127,12 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitearch}/tstorm/commands/space.pyc
 %{python_sitearch}/tstorm/commands/space.pyo
 %dir %{python_sitearch}/tstorm/tests
-%{python_sitearch}/tstorm/tests/commontests.py
-%{python_sitearch}/tstorm/tests/commontests.pyc
-%{python_sitearch}/tstorm/tests/commontests.pyo
-%{python_sitearch}/tstorm/tests/utilities.py
-%{python_sitearch}/tstorm/tests/utilities.pyc
-%{python_sitearch}/tstorm/tests/utilities.pyo
+#%{python_sitearch}/tstorm/tests/commontests.py
+#%{python_sitearch}/tstorm/tests/commontests.pyc
+#%{python_sitearch}/tstorm/tests/commontests.pyo
+#%{python_sitearch}/tstorm/tests/utilities.py
+#%{python_sitearch}/tstorm/tests/utilities.pyc
+#%{python_sitearch}/tstorm/tests/utilities.pyo
 %dir %{python_sitearch}/tstorm/tests/atomic
 %{python_sitearch}/tstorm/tests/atomic/atomics.py
 %{python_sitearch}/tstorm/tests/atomic/atomics.pyc
@@ -209,7 +210,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/tstorm
 %dir %{_sysconfdir}/tstorm/common
 
-%attr(777,%{default_user},%{default_user}) %dir %{_localstatedir}/log/tstorm
+%attr(755,%{default_user},%{default_user}) %dir %{_localstatedir}/log/tstorm
 
 %attr(644,%{default_user},%{default_user}) %{_sysconfdir}/tstorm/common/map_tests_ids.json
 %doc  %{_docdir}/tstorm-%{version}/*
@@ -322,6 +323,12 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitearch}/tstorm/tests/__init__.py
 %{python_sitearch}/tstorm/tests/__init__.pyc
 %{python_sitearch}/tstorm/tests/__init__.pyo
+%{python_sitearch}/tstorm/tests/commontests.py
+%{python_sitearch}/tstorm/tests/commontests.pyc
+%{python_sitearch}/tstorm/tests/commontests.pyo
+%{python_sitearch}/tstorm/tests/utilities.py
+%{python_sitearch}/tstorm/tests/utilities.pyc
+%{python_sitearch}/tstorm/tests/utilities.pyo
 
 %files sanity
 %defattr(-,root,root,-)
@@ -341,6 +348,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitearch}/tstorm/tests/deployment/__init__.py
 %{python_sitearch}/tstorm/tests/deployment/__init__.pyc
 %{python_sitearch}/tstorm/tests/deployment/__init__.pyo
+%{python_sitearch}/tstorm/tests/deployment/services.py
+%{python_sitearch}/tstorm/tests/deployment/services.pyc
+%{python_sitearch}/tstorm/tests/deployment/services.pyo
 %dir %{python_sitearch}/tstorm/tests/deployment/regression
 %{python_sitearch}/tstorm/tests/deployment/regression/info_ldapquery.py
 %{python_sitearch}/tstorm/tests/deployment/regression/info_ldapquery.pyc
