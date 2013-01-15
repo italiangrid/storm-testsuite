@@ -1,7 +1,42 @@
+class YaimSet:
+    version_folder = '/opt/glite/yaim/etc/versions'
+    version_file = 'yaim-storm'
+
+class BackendSet:
+    service = 'storm-backend-server'
+    logrotate_folder = '/etc/logrotate.d'
+    logrotate_file = 'storm-backend-server'
+    log_folder = '/var/log/storm'
+    stdout_file = 'storm-backend.stdout'
+    stderr_file = 'storm-backend.stderr'
+    lcmaps_file = 'lcmaps.log'
+    cron_folder = '/etc/cron.d'
+    cron_file = 'storm-backend-server.cron'
+    status_file = 'logrotate.status'
+    package = 'storm-backend-server'
+    conf_folder = '/etc/storm/backend-server'
+    name_file = 'namespace.xml'
+    java_folder = '/usr/share/java/storm-backend-server'
+    plugin_file = 'storm-gridhttps-plugin.jar'
+    httpclient_file = 'httpclient.jar'
+    httpcore_file = 'httpcore.jar'
+    bad_file = 'mysql-connector-java-5.1.13-bin.jar'
+    connector_file = 'mysql-connector-java@MYSQLCONNECTORVERSION@.jar'
+    path_file = 'path-authz.db'
+    lib_folder = '/usr/lib64/storm-backend-server'
+    lib_file = 'libgpfsapi_interface.so'
+    libgpfs_so = 'libgpfs.so'
+    meta_package = 'emi-storm-backend-mp'
+    lcas_dep = 'lcas-lcmaps-gt4-interface'
+
+    
+
 class GridhttpsSet:
     certificates_folder = '/etc/grid-security/gridhttps'
     conf_folder = '/etc/storm/gridhttps-server/'
     ownership = 'gridhttps'
+    package = 'storm-gridhttps-server'
+    dependency = 'tomcat@TOMCATVERSION@'
 
 class FrontendSet:
     conf_folder = '/etc/storm/frontend-server/'
