@@ -696,7 +696,7 @@
     "71272d",
     "DT",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/135","[1.7.1-1,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/135","[1.7.1-1,1.8.2-1)"]],
     false,
     "STORM BACKEND DOES NOT ROTATE LOG FILES",
     "StoRM Backend does not rotate log files",
@@ -1141,7 +1141,7 @@
     "DEFAULT GRIDHTTPS SERVER PORT NUMBER CONFLICTS WITH BACKEND DEFAULT XMLRPC PORT NUMBER",
     "Default GridHTTPs server port number conflicts with Backend default xmlrpc port number",
     "rct.ts_backend_gridhttps(tfn, uid, lfn)",
-    ["backend"]
+    ["backend", "gridhttps"]
     ],
   "ts_both_sup_and_unsup_protocols":[
     "mcj7dm",
