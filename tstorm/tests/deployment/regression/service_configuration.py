@@ -166,38 +166,49 @@ class RegressionConfigurationTest(unittest.TestCase):
         method = stack_value[3]
 
         try:
-            sr = service.Service(services.BackendSet.service)
-            self.lfn.put_cmd(sr.get_command())
-            sr_result = sr.get_output()
+            rpm_out = rpm.Rpm(services.BackendSet.package)
+            self.lfn.put_cmd(rpm_out.get_command())
+            rpm_result = rpm_out.get_output()
 
-            msg = '%s status' % services.BackendSet.service
-            self.assert_(sr_result['status'] == 'PASS',
-                '%s, %s - FAILED, %s, Test ID %s' %
-                (path, method, msg, self.id))
+            if rpm_result['status'] == 'PASS':
+                sr = service.Service(services.BackendSet.service)
+                self.lfn.put_cmd(sr.get_command())
+                sr_result = sr.get_output()
 
-            msg = 'RUNNING was not found'
-            self.assert_('RUNNING' in sr_result['otpt'],
-                '%s, %s - FAILED, %s, Test ID %s' %
-                (path, method, msg, self.id))
+                msg = '%s status' % services.BackendSet.service
+                self.assert_(sr_result['status'] == 'PASS',
+                    '%s, %s - FAILED, %s, Test ID %s' %
+                    (path, method, msg, self.id))
 
-            msg = 'NOT was found'
-            self.assert_('NOT' not in sr_result['otpt'],
-                '%s, %s - FAILED, %s, Test ID %s' %
-                (path, method, msg, self.id))
+                msg = 'RUNNING was not found'
+                self.assert_('RUNNING' in sr_result['otpt'],
+                    '%s, %s - FAILED, %s, Test ID %s' %
+                    (path, method, msg, self.id))
 
-            sr = service.Service(services.GridhttpsSet.dependency)
-            self.lfn.put_cmd(sr.get_command())
-            sr_result = sr.get_output()
+                msg = 'NOT was found'
+                self.assert_('NOT' not in sr_result['otpt'],
+                    '%s, %s - FAILED, %s, Test ID %s' %
+                    (path, method, msg, self.id))
 
-            msg = '%s status' % services.GridhttpsSet.dependency
-            self.assert_(sr_result['status'] == 'PASS',
-                '%s, %s - FAILED, %s, Test ID %s' %
-                (path, method, msg, self.id))
 
-            msg = 'running was not found'
-            self.assert_('running' in sr_result['otpt'],
-                '%s, %s - FAILED, %s, Test ID %s' %
-                (path, method, msg, self.id))
+                rpm_out = rpm.Rpm(services.GridhttpsSet.package)
+                self.lfn.put_cmd(rpm_out.get_command())
+                rpm_result = rpm_out.get_output()
+
+                if rpm_result['status'] == 'PASS':
+                    sr = service.Service(services.GridhttpsSet.dependency)
+                    self.lfn.put_cmd(sr.get_command())
+                    sr_result = sr.get_output()
+
+                    msg = '%s status' % services.GridhttpsSet.dependency
+                    self.assert_(sr_result['status'] == 'PASS',
+                        '%s, %s - FAILED, %s, Test ID %s' %
+                        (path, method, msg, self.id))
+
+                    msg = 'running was not found'
+                    self.assert_('running' in sr_result['otpt'],
+                        '%s, %s - FAILED, %s, Test ID %s' %
+                        (path, method, msg, self.id))
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
