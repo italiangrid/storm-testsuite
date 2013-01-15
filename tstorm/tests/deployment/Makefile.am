@@ -29,7 +29,7 @@ EXTRA_DIST = \
     conf.py \
     conftests.py \
     __init__.py \
-    services.py
+    services.py.in
 
 CLEANFILES= \
     conf.pyc \
@@ -38,5 +38,6 @@ CLEANFILES= \
     conftests.pyo \
     __init__.pyc \
     __init__.pyo \
+    services.py \
     services.pyc \
     services.pyo 

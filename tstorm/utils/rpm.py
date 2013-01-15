@@ -17,7 +17,7 @@ class Rpm:
         a = self.cmd['name']
         if option == '-qa':
             a += ' ' + option + ' | grep '
-        elif option in ('-ql', '-qr'):
+        elif option in ('-ql', '-qR'):
             a += ' ' + option + ' '
         a += self.pn
         return a

@@ -12,6 +12,8 @@ from tstorm.utils import utils
 from tstorm.utils import listinfo
 from tstorm.utils import library_dependencies
 
+from tstorm.tests.deployment import services
+
 __author__ = 'Elisabetta Ronchieri'
 
 class RegressionConfigurationTest(unittest.TestCase):
@@ -27,11 +29,11 @@ class RegressionConfigurationTest(unittest.TestCase):
         method = stack_value[3]
 
         try:
-            sr = service.Service('storm-backend-server')
+            sr = service.Service(services.BackendSet.service)
             self.lfn.put_cmd(sr.get_command())
             sr_result = sr.get_output()
 
-            msg = 'service status'
+            msg = '%s status' % services.BackendSet.service
             self.assert_(sr_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
@@ -49,7 +51,10 @@ class RegressionConfigurationTest(unittest.TestCase):
         method = stack_value[3]
 
         try:
-            read_cat = readfile.Cat('/etc/logrotate.d/storm-backend-server')
+            logrotate_file = ('%s/%s'
+                % (services.BackendSet.logrotate_folder,
+                services.BackendSet.logrotate_file))
+            read_cat = readfile.Cat(logroate_file)
             self.lfn.put_cmd(read_cat.get_command())
             cat_result = read_cat.get_output()
 
@@ -73,18 +78,27 @@ class RegressionConfigurationTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            msg = 'File storm-backend.stdout was not found'
-            self.assert_('/var/log/storm/storm-backend.stdout' in cat_result['otpt'],
+            stdout_file = ('%s/%s'
+                % (services.BackendSet.log_folder,
+                services.BackendSet.stdout_file))
+            msg = 'File %s was not found' % stdout_file
+            self.assert_(stdout_file in cat_result['otpt'],
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            msg = 'File storm-backend.stderr was not found'
-            self.assert_('/var/log/storm/storm-backend.stderr' in cat_result['otpt'],
+            stderr_file = ('%s/%s'
+                % (services.BackendSet.log_folder,
+                services.BackendSet.stderr_file))
+            msg = 'File %s was not found' % stderr_file
+            self.assert_(stderr_file in cat_result['otpt'],
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            msg = 'File lcmaps.log was not found'
-            self.assert_('/var/log/storm/lcmaps.log' in cat_result['otpt'],
+            lcmaps_file = ('%s/%s'
+                % (services.BackendSet.log_folder,
+                services.BackendSet.lcmaps_file))
+            msg = 'File %s was not found' % lcmaps_file
+            self.assert_(lcmaps_file in cat_result['otpt'],
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
         except AssertionError, err:
@@ -101,11 +115,14 @@ class RegressionConfigurationTest(unittest.TestCase):
         method = stack_value[3]
 
         try:
-            read_cat = readfile.Cat('/etc/cron.d/storm-backend-server.cron')
+            cron_file = ('%s/%s'
+                % (services.BackendSet.cron_folder,
+                services.BackendSet.cron_file))
+            read_cat = readfile.Cat(cron_file)
             self.lfn.put_cmd(read_cat.get_command())
             cat_result = read_cat.get_output()
 
-            msg = 'cat status'
+            msg = 'cat %s status' % cron_file
             self.assert_(cat_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
@@ -120,13 +137,19 @@ class RegressionConfigurationTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            msg = 'File storm-backend-server was not found'
-            self.assert_('/etc/logrotate.d/storm-backend-server' in cat_result['otpt'],
+            logrotate_file = ('%s/%s'
+               % (services.BackendSet.logrotate_folder,
+               services.BackendSet.logrotate_file))
+            msg = 'File %s was not found' % logroate_file
+            self.assert_(logrotate_file in cat_result['otpt'],
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            msg = 'File logrotate.status was not found'
-            self.assert_('/etc/logrotate.d/logrotate.status' in cat_result['otpt'],
+            status_file = ('%s/%s'
+               % (services.BackendSet.logrotate_folder,
+               services.BackendSet.status_file))
+            msg = 'File %s was not found' % status_file
+            self.assert_(status_file in cat_result['otpt'],
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
         except AssertionError, err:
@@ -143,11 +166,11 @@ class RegressionConfigurationTest(unittest.TestCase):
         method = stack_value[3]
 
         try:
-            sr = service.Service('storm-backend-server')
+            sr = service.Service(services.BackendSet.service)
             self.lfn.put_cmd(sr.get_command())
             sr_result = sr.get_output()
 
-            msg = 'service status'
+            msg = '%s status' % services.BackendSet.service
             self.assert_(sr_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
@@ -162,11 +185,11 @@ class RegressionConfigurationTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            sr = service.Service('tomcat@TOMCATVERSION@')
+            sr = service.Service(services.GridhttpsSet.dependency)
             self.lfn.put_cmd(sr.get_command())
             sr_result = sr.get_output()
 
-            msg = 'service status'
+            msg = '%s status' % services.GridhttpsSet.dependency
             self.assert_(sr_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
@@ -189,11 +212,14 @@ class RegressionConfigurationTest(unittest.TestCase):
         method = stack_value[3]
 
         try:
-            read_cat = readfile.Cat('/opt/glite/yaim/etc/versions/yaim-storm')
+            version_file = ('%s/%s'
+                % (services.YaimSet.version_folder,
+                services.YaimSet.version_file))
+            read_cat = readfile.Cat(version_file)
             self.lfn.put_cmd(read_cat.get_command())
             cat_result = read_cat.get_output()
 
-            msg = 'cat status'
+            msg = 'cat %s status' % version_file
             self.assert_(cat_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
@@ -238,11 +264,14 @@ class RegressionConfigurationTest(unittest.TestCase):
                 (path, method, msg, self.id))
             var=cat_result['otpt'].split('\n')
 
-            read_catn = readfile.Cat('/etc/storm/backend-server/namespace.xml')
+            name_file = ('%s/%s'
+                % (services.BackendSet.conf_folder,
+                services.BackendSet.name_file))
+            read_catn = readfile.Cat(name_file)
             self.lfn.put_cmd(read_catn.get_command())
             catn_result = read_catn.get_output()
 
-            msg = 'cat status'
+            msg = 'cat %s status' % name_file
             self.assert_(catn_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
@@ -285,29 +314,38 @@ class RegressionConfigurationTest(unittest.TestCase):
         method = stack_value[3]
 
         try:
-            ls_ls = listinfo.Ls('/usr/share/java/storm-backend-server/storm-gridhttps-plugin.jar')
+            plugin_file = ('%s/%s'
+                % (services.BackendSet.java_folder,
+                services.BackendSet.plugin_file))
+            ls_ls = listinfo.Ls(plugin_file)
             self.lfn.put_cmd(ls_ls.get_command())
             ls_result = ls_ls.get_output()
 
-            msg = 'ls status'
+            msg = 'ls %s status' % plugin_file
             self.assert_(ls_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            ls_ls = listinfo.Ls('/usr/share/java/storm-backend-server/httpclient.jar')
+            httpclient_file = ('%s/%s'
+                % (services.BackendSet.java_folder,
+                services.BackendSet.httpclient_file))
+            ls_ls = listinfo.Ls(http_file)
             self.lfn.put_cmd(ls_ls.get_command())
             ls_result = ls_ls.get_output()
 
-            msg = 'ls status'
+            msg = 'ls %s status' % httpclient_file
             self.assert_(ls_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            ls_ls = listinfo.Ls('/usr/share/java/storm-backend-server/httpcore.jar')
+            httpcore_file = ('%s/%s'
+                % (services.BackendSet.java_folder,
+                services.BackendSet.httpcore_file))
+            ls_ls = listinfo.Ls(httpcore_file)
             self.lfn.put_cmd(ls_ls.get_command())
             ls_result = ls_ls.get_output()
 
-            msg = 'ls status'
+            msg = 'ls %s status' % httpcore_file
             self.assert_(ls_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
@@ -325,17 +363,17 @@ class RegressionConfigurationTest(unittest.TestCase):
         method = stack_value[3]
 
         try:
-            sr = service.Service('storm-backend-server')
+            sr = service.Service(services.BackendSet.service)
             self.lfn.put_cmd(sr.get_command())
             sr_result = sr.get_output()
 
-            msg = 'service status'
+            msg = 'service %s status' % services.BackendSet.service
             self.assert_(sr_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            msg = 'storm-backend-server was not found'
-            self.assert_('storm-backend-server' in sr_result['otpt'],
+            msg = '%s was not found' % services.BackendSet.service
+            self.assert_(services.BackendSet.service in sr_result['otpt'],
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
         except AssertionError, err:
@@ -489,6 +527,25 @@ class RegressionConfigurationTest(unittest.TestCase):
                 self.assert_(int(u1)-int(u2) == int(f1)-int(f2),
                     '%s, %s - FAILED, %s, Test ID %s' %
                     (path, method, msg, self.id))
+
+            modify_deffile = yaim.ModifyDeffile(self.tsets['yaim']['def_path'],
+                replace_storage_area, storage_area)
+            md_result = modify_deffile.get_output()
+
+            msg = 'modify yaim status'
+            self.assert_(md_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            run_yaim = yaim.Yaim(self.tsets['yaim']['def_path'],
+                back_end=self.tsets['node']['backend'])
+            self.lfn.put_cmd(run_yaim.get_command())
+            yaim_result = run_yaim.get_output()
+
+            msg = 'run yaim status'
+            self.assert_(yaim_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
@@ -503,20 +560,26 @@ class RegressionConfigurationTest(unittest.TestCase):
         method = stack_value[3]
 
         try:
-            ls_ls = listinfo.Ls('/usr/share/java/storm-backend-server/mysql-connector-java-5.1.13-bin.jar')
+            bad_connector_file = ('%s/%s'
+                % (services.BackendSet.java_folder,
+                services.BackendSet.bad_file))
+            ls_ls = listinfo.Ls(bad_connector_file)
             self.lfn.put_cmd(ls_ls.get_command())
             ls_result = ls_ls.get_output()
 
-            msg = 'ls status'
+            msg = 'ls %s status' % bad_connector_file
             self.assert_(ls_result['status'] == 'FAILURE',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            ls_ls = listinfo.Ls('/usr/share/java/storm-backend-server/mysql-connector-java@MYSQLCONNECTORVERSION@.jar')
+            connector_file = ('%s/%s'
+                % (services.BackendSet.java_folder,
+                services.BackendSet.connector_file))
+            ls_ls = listinfo.Ls(connector_file)
             self.lfn.put_cmd(ls_ls.get_command())
             ls_result = ls_ls.get_output()
 
-            msg = 'ls status'
+            msg = 'ls %s status' % connector_file
             self.assert_(ls_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
@@ -534,11 +597,14 @@ class RegressionConfigurationTest(unittest.TestCase):
         method = stack_value[3]
 
         try:
-            ls_ls = listinfo.Ls('/usr/share/java/storm-backend-server/mysql-connector-java@MYSQLCONNECTORVERSION@.jar')
+            connector_file = ('%s/%s'
+                % (services.BackendSet.java_folder,
+                services.BackendSet.connector_file))
+            ls_ls = listinfo.Ls(connector_file)
             self.lfn.put_cmd(ls_ls.get_command())
             ls_result = ls_ls.get_output()
 
-            msg = 'ls status'
+            msg = 'ls %s status' % connector_file
             self.assert_(ls_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
@@ -556,17 +622,20 @@ class RegressionConfigurationTest(unittest.TestCase):
         method = stack_value[3]
 
         try:
-            rpm_out = rpm.Rpm('storm-backend-server')
+            rpm_out = rpm.Rpm(services.BackendSet.package)
             self.lfn.put_cmd(rpm_out.get_command(option='-ql'))
             rpm_result = rpm_out.get_output(option='-ql')
 
-            msg = 'rpm status'
+            msg = 'rpm %s status' % services.BackendSet.package
             self.assert_(rpm_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
         
-            msg = 'path-authz.db was not found'
-            self.assert_('/etc/storm/backend-server/path-authz.db' in rpm_result['otpt'],
+            path_file = ('%s/%s'
+                % (services.BackendSet.conf_folder,
+                services.BackendSet.path_file))
+            msg = '%s was not found' % path_file
+            self.assert_(path_file in rpm_result['otpt'],
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
         except AssertionError, err:
@@ -583,18 +652,21 @@ class RegressionConfigurationTest(unittest.TestCase):
         method = stack_value[3]
 
         try:
-            fi = '/usr/lib64/storm-backend-server/libgpfsapi_interface.so'
-            lib_dep = library_dependencies.Ldd(fi)
+            lib_file = ('%s/%s'
+                % (services.BackendSet.lib_folder,
+                services.BackendSet.lib_file))
+            #fi = '/usr/lib64/storm-backend-server/libgpfsapi_interface.so'
+            lib_dep = library_dependencies.Ldd(lib_file)
             self.lfn.put_cmd(lib_dep.get_command())
             lib_dep_result = lib_dep.get_output()
 
-            msg = 'ldd status'
+            msg = 'ldd %s status' % lib_file
             self.assert_(lib_dep_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            msg = 'libgpfs.so was not found'
-            self.assert_('libgpfs.so' in lib_dep_result['otpt'],
+            msg = '%s was not found' % services.BackendSet.libgpfs_so
+            self.assert_(services.BackendSet.libgpfs_so in lib_dep_result['otpt'],
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
         except AssertionError, err:
@@ -644,25 +716,28 @@ class RegressionConfigurationTest(unittest.TestCase):
                          tmp = value.strip().split(' ')[1]
                         
                          if '"' == tmp[len(tmp)-1] or "'" == tmp[len(tmp)-1]:
-                             get_variable_value.append(tmp[:len(tmp)-1])
+                             get_pool_list.append(tmp[:len(tmp)-1])
                          else:
-                             get_variable_value.append(tmp)
+                             get_pool_list.append(tmp)
                 elif 'STORM_GRIDFTP_POOL_STRATEGY' in line:
                     if 'weight' == line.split('STORM_GRIDFTP_POOL_STRATEGY=')[1]:
                         get_pool_strategy = 'weight'
                 if get_pool_list != [] and get_pool_strategy != '':
                     break
 
-            rf_result = readfile.Rf(fn='/etc/storm/backend-server/namespace.xml').get_output()
+            name_file = ('%s/%s'
+                % (services.BackendSet.conf_folder,
+                services.BackendSet.name_file))
+            rf_result = readfile.Rf(fn=name_file).get_output()
 
-            msg = 'rf status'
+            msg = 'rf %s status' % name_file
             self.assert_(rf_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
             get_namespace_lines = []
             for x in rf_result['otpt'].split('\n'):
-                if get_pool_strategy in x:
+                if get_pool_strategy+'>' in x:
                     get_namespace_lines.append(x.split('weight>')[1].split('<')[0])
 
             for weight in get_pool_list:
@@ -687,17 +762,17 @@ class RegressionConfigurationTest(unittest.TestCase):
         method = stack_value[3]
 
         try:
-            rpm_out = rpm.Rpm('emi-storm-backend-mp')
+            rpm_out = rpm.Rpm(services.BackendSet.meta_package)
             self.lfn.put_cmd(rpm_out.get_command(option='-qR'))
             rpm_result = rpm_out.get_output(option='-qR')
 
-            msg = 'rpm status'
+            msg = 'rpm %s status' % services.BackendSet.meta_package
             self.assert_(rpm_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            msg = 'lcas-lcmaps-gt4-interface was not found'
-            self.assert_('lcas-lcmaps-gt4-interface' in rpm_result['otpt'],
+            msg = '%s was not found' % services.BackendSet.lcas_dep
+            self.assert_(services.BackendSet.lcas_dep in rpm_result['otpt'],
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
         except AssertionError, err:
@@ -727,9 +802,12 @@ class RegressionConfigurationTest(unittest.TestCase):
                     get_frontend_port = line.split('STORM_GRIDFTP_POOL_STRATEGY=')[1]
                     break
 
-            rf_result = readfile.Rf(fn='/etc/storm/frontend-server/storm-frontend-server.conf').get_output()
+            conf_file = ('%s/%s'
+                % (services.FrontendSet.conf_folder,
+                services.FrontendSet.conf_file))
+            rf_result = readfile.Rf(fn=conf_file).get_output()
 
-            msg = 'rf status'
+            msg = 'rf %s status' % conf_file
             self.assert_(rf_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))

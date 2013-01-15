@@ -89,8 +89,8 @@ AC_CONFIG_FILES([
    tstorm/tests/Makefile
    tstorm/tests/atomic/Makefile
    tstorm/tests/deployment/Makefile
+   tstorm/tests/deployment/services.py
    tstorm/tests/deployment/regression/Makefile
-   tstorm/tests/deployment/regression/service_configuration.py
    tstorm/tests/functional/Makefile
    tstorm/tests/functional/regression/Makefile
    tstorm/tests/load/Makefile

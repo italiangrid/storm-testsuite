@@ -1119,7 +1119,7 @@
     "STORM_PEPC_RESOURCEID ADDED",
     "The variable STORM_PEPC_RESOURCEID has been added",
     "ct.ts_yaim_storm_pepc_resourceid_variable(tfn, uid, lfn)",
-    ["backend"]
+    ["frontend"]
     ],
   "ts_http":[
     "32429c",

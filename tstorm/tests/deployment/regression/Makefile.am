@@ -29,10 +29,9 @@ EXTRA_DIST = \
     __init__.py \
     regression_infotests.py \
     regression_conftests.py \
-    service_configuration.py.in
+    service_configuration.py
 
 CLEANFILES= \
-    service_configuration.py \
     info_ldapquery.pyc \
     regression_infotests.pyc \
     __init__.pyc \
