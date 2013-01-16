@@ -1,4 +1,5 @@
 import os 
+import time
 import unittest
 import inspect
 
@@ -54,7 +55,7 @@ class RegressionConfigurationTest(unittest.TestCase):
             logrotate_file = ('%s/%s'
                 % (services.BackendSet.logrotate_folder,
                 services.BackendSet.logrotate_file))
-            read_cat = readfile.Cat(logroate_file)
+            read_cat = readfile.Cat(logrotate_file)
             self.lfn.put_cmd(read_cat.get_command())
             cat_result = read_cat.get_output()
 
@@ -340,7 +341,7 @@ class RegressionConfigurationTest(unittest.TestCase):
             httpclient_file = ('%s/%s'
                 % (services.BackendSet.java_folder,
                 services.BackendSet.httpclient_file))
-            ls_ls = listinfo.Ls(http_file)
+            ls_ls = listinfo.Ls(httpclient_file)
             self.lfn.put_cmd(ls_ls.get_command())
             ls_result = ls_ls.get_output()
 
@@ -557,6 +558,8 @@ class RegressionConfigurationTest(unittest.TestCase):
             self.assert_(yaim_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
+
+            time.sleep(35)
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
