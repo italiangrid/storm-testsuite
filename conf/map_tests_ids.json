@@ -1121,6 +1121,28 @@
     "ct.ts_yaim_storm_pepc_resourceid_variable(tfn, uid, lfn)",
     ["frontend"]
     ],
+  "ts_yaim_dn_regex_variable_added":[
+    "bc9839",
+    "DT",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/414","[1.11.0-1,*)"]],
+    false,
+    "STORM_<SA>_DN_<REGEX> and STORM_DN_<REGEX> ADDED",
+    "The STORM_<SA>_DN_<REGEX> and STORM_DN_<REGEX> variables have been added",
+    "ct.ts_yaim_dn_regex_variable_added(tfn, uid, lfn)",
+    ["backend"]
+    ],
+  "ts_yaim_anonymous_access_added":[
+    "ff6f2e",
+    "DT",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/391","[1.11.0-1,*)"]],
+    false,
+    "STORM_<SA>_ANONYMOUS_HTTP_READ and STORM_ANONYMOUS_HTTP_READ ADDED",
+    "The STORM_<SA>_ANONYMOUS_HTTP_READ and STORM_ANONYMOUS_HTTP_READ variables have been added",
+    "ct.ts_yaim_anonymous_access_added(tfn, uid, lfn)",
+    ["backend"]
+    ],
   "ts_http":[
     "32429c",
     "ST",

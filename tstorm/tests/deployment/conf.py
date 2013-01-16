@@ -115,3 +115,107 @@ class ConfTest(unittest.TestCase):
             self.lfn.put_result('PASSED')
 
         self.lfn.flush_file()
+
+    def test_yaim_dn_regex_variable_added(self):
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
+            r_yaim_result = readfile.Rf(fn=self.tsets['yaim']['def_path']).get_output()
+
+            msg = 'rf status'
+            self.assert_(r_yaim_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            get_dn_regex = [] 
+            for line in r_yaim_result['otpt'].split('\n'):
+                if '_DN_' in line and '_REGEX' in line:
+                    couple = line.split('_DN_')[1].split('_REGEX')
+                    get_dn_regex.append((couple[0], couple[1].split('"')[1]))
+                    break
+
+            name_file = ('%s/%s'
+                % (services.BackendSet.conf_folder,
+                services.BackendSet.name_file))
+            rf_result = readfile.Rf(fn=name_file).get_output()
+
+            msg = 'rf %s status' % name_file
+            self.assert_(rf_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            get_namespace_lines = []
+            for line in rf_result['otpt'].split('\n'):
+                for dn in get_dn_regex:
+                    value = '/'dn[0]+'='+dn[1]
+                    print value
+                    if value in line:
+                        get_namespace_lines.append(value)
+
+            msg = 'dn regex does not set correctly'
+            self.assert_(len(get_namespace_lines) != 0,
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id)))
+
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
+        self.lfn.flush_file()
+
+    def test_yaim_anonymous_access_added(self):
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
+            r_yaim_result = readfile.Rf(fn=self.tsets['yaim']['def_path']).get_output()
+
+            msg = 'rf status'
+            self.assert_(r_yaim_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            get_anonymous_access = ''
+            for line in r_yaim_result['otpt'].split('\n'):
+                if '_ANONYMOUS_HTTP_READ' in line:
+                    get_anonymous_access = line.split('=')[1]
+                    break
+
+            msg = 'anonymous is not set true'
+            self.assert_(get_anonymous_access.lower() == 'true',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            name_file = ('%s/%s'
+                % (services.BackendSet.conf_folder,
+                services.BackendSet.name_file))
+            rf_result = readfile.Rf(fn=name_file).get_output()
+
+            msg = 'rf %s status' % name_file
+            self.assert_(rf_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            allow_anonymous = False
+            for line in rf_result['otpt'].split('\n'):
+                if '<anonymous-http-read>true</anonymous-http-read>' in line:
+                    allow_anonymous = True
+                    break
+
+            msg = 'anonymous does not allow'
+            self.assert_(allow_anonymous,
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id)))
+
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
+        self.lfn.flush_file()
