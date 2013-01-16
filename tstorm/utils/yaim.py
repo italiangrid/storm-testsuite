@@ -16,7 +16,7 @@ class Yaim:
         self.otpt = {
                    'status':''}
 
-    def get_command(self):
+    def get_command(self, option='-c'):
         node = ' '
         if self.be == 'yes':
             node += '-n se_storm_backend '
@@ -26,17 +26,18 @@ class Yaim:
             node += '-n se_storm_gridftp '
         if self.ghttps == 'yes':
             node += '-n se_storm_gridhttps '
-        a = self.cmd['name'] + ' -c -d 6 -s ' + self.yaim_def + node + ' &> /dev/null'
+        a = ('%s %s -d 6 -s %s %s &> /dev/null'
+            % (self.cmd['name'], option, self.yaim_def, node))
         return a
 
-    def run_command(self):
+    def run_command(self, option='-c'):
         a=()
         if utils.cmd_exist(self.cmd['name']):
-            a=commands.getstatusoutput(self.get_command())
+            a=commands.getstatusoutput(self.get_command(option=option))
         return a
 
-    def get_output(self):
-        a=self.run_command()
+    def get_output(self, option='-c'):
+        a=self.run_command(option=option)
         if a[0] == 0:
             self.otpt['status'] = 'PASS'
         else:

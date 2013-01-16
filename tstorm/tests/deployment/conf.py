@@ -35,7 +35,7 @@ class ConfTest(unittest.TestCase):
             get_resource_id = ''
             for line in r_yaim_result['otpt'].split('\n'):
                 if 'STORM_PEPC_RESOURCEID' in line:
-                    get_resource_id = line.split('STORM_STORM_PEPC_RESOURCEID')[1]
+                    get_resource_id = line.split('STORM_PEPC_RESOURCEID')[1]
                     break
 
             conf_file = ('%s/%s'
@@ -56,6 +56,8 @@ class ConfTest(unittest.TestCase):
 
             if get_resource_id != '' and get_argus_resource_id != '':
                 self.assert_(get_resource_id == get_argus_resource_id)
+            elif get_argus_resource_id != '':
+                self.assert_(get_resource_id == 'storm')
 
         except AssertionError, err:
             print err

@@ -31,8 +31,8 @@ class RegressionConfigurationTest(unittest.TestCase):
 
         try:
             sr = service.Service(services.BackendSet.service)
-            self.lfn.put_cmd(sr.get_command())
-            sr_result = sr.get_output()
+            self.lfn.put_cmd(sr.get_command(option='-v'))
+            sr_result = sr.get_output(option='-v')
 
             msg = '%s status' % services.BackendSet.service
             self.assert_(sr_result['status'] == 'PASS',
@@ -822,37 +822,15 @@ class RegressionConfigurationTest(unittest.TestCase):
         method = stack_value[3]
 
         try:
-            r_yaim_result = readfile.Rf(fn=self.tsets['yaim']['def_path']).get_output()
+            run_yaim = yaim.Yaim(self.tsets['yaim']['def_path'],
+                front_end=self.tsets['node']['frontend'])
+            self.lfn.put_cmd(run_yaim.get_command(option='-v'))
+            yaim_result = run_yaim.get_output(option='-v')
 
-            msg = 'rf status'
-            self.assert_(r_yaim_result['status'] == 'PASS',
+            msg = 'run yaim status'
+            self.assert_(yaim_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
-
-            get_frontend_port = ''
-            for line in r_yaim_result['otpt'].split('\n'):
-                if 'STORM_FRONTEND_PORT' in line:
-                    get_frontend_port = line.split('STORM_GRIDFTP_POOL_STRATEGY=')[1]
-                    break
-
-            conf_file = ('%s/%s'
-                % (services.FrontendSet.conf_folder,
-                services.FrontendSet.conf_file))
-            rf_result = readfile.Rf(fn=conf_file).get_output()
-
-            msg = 'rf %s status' % conf_file
-            self.assert_(rf_result['status'] == 'PASS',
-                '%s, %s - FAILED, %s, Test ID %s' %
-                (path, method, msg, self.id))
-
-            get_fe_port = ''
-            for x in rf_result['otpt'].split('\n'):
-                if 'fe.port' in x:
-                    get_fe_port = x.split('fe.port=')[1]
-                    break
-
-            if get_frontend_port == '':
-                self.assert_(get_fe_port == '8444')
 
         except AssertionError, err:
             print err
