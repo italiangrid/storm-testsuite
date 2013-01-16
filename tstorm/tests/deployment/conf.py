@@ -149,15 +149,14 @@ class ConfTest(unittest.TestCase):
             get_namespace_lines = []
             for line in rf_result['otpt'].split('\n'):
                 for dn in get_dn_regex:
-                    value = '/'dn[0]+'='+dn[1]
-                    print value
+                    value = '/'+dn[0]+'='+dn[1]
                     if value in line:
                         get_namespace_lines.append(value)
 
             msg = 'dn regex does not set correctly'
             self.assert_(len(get_namespace_lines) != 0,
                 '%s, %s - FAILED, %s, Test ID %s' %
-                (path, method, msg, self.id)))
+                (path, method, msg, self.id))
 
         except AssertionError, err:
             print err
@@ -210,7 +209,7 @@ class ConfTest(unittest.TestCase):
             msg = 'anonymous does not allow'
             self.assert_(allow_anonymous,
                 '%s, %s - FAILED, %s, Test ID %s' %
-                (path, method, msg, self.id)))
+                (path, method, msg, self.id))
 
         except AssertionError, err:
             print err
