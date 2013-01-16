@@ -31,8 +31,8 @@ class RegressionConfigurationTest(unittest.TestCase):
 
         try:
             sr = service.Service(services.BackendSet.service)
-            self.lfn.put_cmd(sr.get_command(option='-v'))
-            sr_result = sr.get_output(option='-v')
+            self.lfn.put_cmd(sr.get_command())
+            sr_result = sr.get_output()
 
             msg = '%s status' % services.BackendSet.service
             self.assert_(sr_result['status'] == 'PASS',
