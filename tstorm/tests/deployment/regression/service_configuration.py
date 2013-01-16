@@ -725,42 +725,61 @@ class RegressionConfigurationTest(unittest.TestCase):
             get_pool_list = []
             get_pool_strategy = ''
             for line in r_yaim_result['otpt'].split('\n'):
-                if 'STORM_GRIDFTP_POOL_LIST' in line:
-                    for value in line.split('STORM_GRIDFTP_POOL_LIST')[1].split(','):
-                         tmp = value.strip().split(' ')[1]
-                        
-                         if '"' == tmp[len(tmp)-1] or "'" == tmp[len(tmp)-1]:
-                             get_pool_list.append(tmp[:len(tmp)-1])
-                         else:
-                             get_pool_list.append(tmp)
+                if 'STORM_FAKE_SETTING_GRIDFTP_POOL_STRATEGY' in line:
+                    if 'weight' == line.split('STORM_FAKE_SETTING_GRIDFTP_POOL_STRATEGY=')[1]:
+                        get_pool_strategy = 'weight'
                 elif 'STORM_GRIDFTP_POOL_STRATEGY' in line:
                     if 'weight' == line.split('STORM_GRIDFTP_POOL_STRATEGY=')[1]:
                         get_pool_strategy = 'weight'
-                if get_pool_list != [] and get_pool_strategy != '':
+                if get_pool_strategy != '':
                     break
 
-            name_file = ('%s/%s'
-                % (services.BackendSet.conf_folder,
-                services.BackendSet.name_file))
-            rf_result = readfile.Rf(fn=name_file).get_output()
+            if get_pool_strategy != '':
+                for line in r_yaim_result['otpt'].split('\n'):
+                    if 'STORM_FAKE_SETTING_GRIDFTP_POOL_LIST' in line:
+                        for value in line.split('STORM_FAKE_SETTING_GRIDFTP_POOL_LIST')[1].split(','):
+                             tmp = value.strip().split(' ')[1]
+                             if '"' == tmp[len(tmp)-1] or "'" == tmp[len(tmp)-1]:
+                                 get_pool_list.append(tmp[:len(tmp)-1])
+                             else:
+                                 get_pool_list.append(tmp)
+                    if len(get_pool_list) != 0:
+                        break
 
-            msg = 'rf %s status' % name_file
-            self.assert_(rf_result['status'] == 'PASS',
-                '%s, %s - FAILED, %s, Test ID %s' %
-                (path, method, msg, self.id))
+                if len(get_pool_list) == 0:
+                    for line in r_yaim_result['otpt'].split('\n'):
+                        if 'STORM_GRIDFTP_POOL_LIST' in line:
+                            for value in line.split('STORM_GRIDFTP_POOL_LIST')[1].split(','):
+                                tmp = value.strip().split(' ')[1]
+                                if '"' == tmp[len(tmp)-1] or "'" == tmp[len(tmp)-1]:
+                                    get_pool_list.append(tmp[:len(tmp)-1])
+                                else:
+                                    get_pool_list.append(tmp)
+                        if len(get_pool_list) != 0:
+                            break
 
-            get_namespace_lines = []
-            for x in rf_result['otpt'].split('\n'):
-                if get_pool_strategy+'>' in x:
-                    get_namespace_lines.append(x.split('weight>')[1].split('<')[0])
+                name_file = ('%s/%s'
+                    % (services.BackendSet.conf_folder,
+                    services.BackendSet.name_file))
+                rf_result = readfile.Rf(fn=name_file).get_output()
 
-            for weight in get_pool_list:
-                 found_weight = False
-                 for line in get_namespace_lines:
-                      if weight == line:
-                          found_weight=True
-                          break
-                 self.assert_(found_weight)
+                msg = 'rf %s status' % name_file
+                self.assert_(rf_result['status'] == 'PASS',
+                    '%s, %s - FAILED, %s, Test ID %s' %
+                    (path, method, msg, self.id))
+
+                get_namespace_lines = []
+                for x in rf_result['otpt'].split('\n'):
+                    if get_pool_strategy+'>' in x:
+                        get_namespace_lines.append(x.split('weight>')[1].split('<')[0])
+
+                for weight in get_pool_list:
+                    found_weight = False
+                    for line in get_namespace_lines:
+                        if weight == line:
+                            found_weight=True
+                            break
+                    self.assert_(found_weight)
 
         except AssertionError, err:
             print err
