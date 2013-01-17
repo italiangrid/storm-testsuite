@@ -550,10 +550,10 @@ class curl:
     def get_command(self, use_ssl=True, in_write=True):
         curl_opt=''
         if use_ssl:
-            curl_opt=' --cert ' + self.p_path + ' --capath /etc/grid-security/certificates '
+            curl_opt=' --cert ' + self.p_path + ' --key ' + self.p_path + ' --capath /etc/grid-security/certificates '
       
         if in_write:
-            a= self.cmd['name'] + ' -v ' + curl_opt + ' -T ' + self.ifn + ' ' + self.turl
+            a= self.cmd['name'] + ' -v' + curl_opt + ' -T ' + self.ifn + ' ' + self.turl
         else:
             a= self.cmd['name'] + ' -v ' + curl_opt + self.turl + ' -o ' + self.bifn
     

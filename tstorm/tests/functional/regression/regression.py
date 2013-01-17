@@ -856,8 +856,8 @@ class RegressionTest(unittest.TestCase):
                 (path, method, msg, self.id))
 
             cp_curl = cp.curl(self.ifn, self.bifn, self.ptp_result['TURL'])
-            self.lfn.put_cmd(cp_curl.get_command(True, True))
-            self.curl_result = cp_curl.get_output(True, True)
+            self.lfn.put_cmd(cp_curl.get_command(use_ssl=True, in_write=True))
+            self.curl_result = cp_curl.get_output(use_ssl=True, in_write=True)
 
             msg = 'curl status'
             self.assert_(self.curl_result['status'] == 'PASS',
@@ -934,8 +934,8 @@ class RegressionTest(unittest.TestCase):
                 (path, method, msg, self.id))
 
             cp_curl = cp.curl(self.ifn, self.bifn, self.ptp_result['TURL'])
-            self.lfn.put_cmd(cp_curl.get_command(True, True))
-            self.curl_result = cp_curl.get_output(True, True)
+            self.lfn.put_cmd(cp_curl.get_command(use_ssl=True, in_write=True))
+            self.curl_result = cp_curl.get_output(use_ssl=True, in_write=True)
 
             msg = 'curl status'
             self.assert_(self.curl_result['status'] == 'PASS',

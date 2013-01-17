@@ -25,6 +25,8 @@ tstormfunctionaltests_PYTHON = \
     functionalitiestests.py \
     https.py \
     __init__.py \
+    webdav.py \
+    webdavtests.py \
     tape.py \
     tapetests.py
 
@@ -34,6 +36,8 @@ EXTRA_DIST = \
     functionalitiestests.py \
     https.py \
     __init__.py \
+    webdav.py \
+    webdavtests.py \
     tape.py \
     tapetests.py
 
@@ -43,6 +47,8 @@ CLEANFILES= \
     functionalitiestests.pyc \
     https.pyc \
     __init__.pyc \
+    webdav.pyc \
+    webdavtests.pyc \
     tape.pyc \
     tapetests.pyc \
     functionalities.pyo \
@@ -50,5 +56,7 @@ CLEANFILES= \
     functionalitiestests.pyo \
     https.pyo \
     __init__.pyo \
+    webdav.pyo \
+    webdavtests.pyo \
     tape.pyo \
     tapetests.pyo

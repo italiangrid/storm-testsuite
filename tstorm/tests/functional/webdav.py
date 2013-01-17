@@ -1,0 +1,479 @@
+__author__ = 'Elisabetta Ronchieri'
+
+import datetime
+import time
+import os 
+import unittest
+import inspect
+
+from tstorm.utils import config
+from tstorm.commands import curl
+
+class WebdavTest(unittest.TestCase):
+    def __init__(self, testname, tfn, ifn, dfn, bifn, uid, lfn):
+        super(WebdavTest, self).__init__(testname)
+        self.tsets = config.TestSettings(tfn).get_test_sets()
+        self.ifn = ifn
+        self.dfn = dfn
+        self.bifn = bifn
+        self.id = uid.get_id()
+        self.lfn = lfn
+
+    def test_webdav_get_directory_over_http_as_anonymous(self):
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
+            request_uri = ('http://%s:%s/%s'
+                % (self.tsets['general']['gridhttp_server_hostname'],
+                self.tsets['general']['http_port'],
+                self.tsets['http']['read_anonymous']))
+
+            get_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            self.lfn.put_cmd(get_curl.get_command(operation='GET'))
+            curl_result = get_curl.get_output(operation='GET')
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
+        self.lfn.flush_file()
+
+    def test_webdav_put_file_over_http_as_anonymous(self):
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
+            request_uri = ('http://%s:%s/%s'
+                % (self.tsets['general']['gridhttp_server_hostname'],
+                self.tsets['general']['http_port'],
+                self.tsets['http']['write_anonymous']))
+
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            self.lfn.put_cmd(put_curl.get_command(operation='PUT'))
+            curl_result = put_curl.get_output(operation='PUT')
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
+        self.lfn.flush_file()
+
+    def test_webdav_put_overwritten_file_over_http_as_anonymous(self):
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
+            request_uri = ('http://%s:%s/%s'
+                % (self.tsets['general']['gridhttp_server_hostname'],
+                self.tsets['general']['http_port'],
+                self.tsets['http']['write_anonymous']))
+
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            self.lfn.put_cmd(put_curl.get_command(operation='PUT'))
+            curl_result = put_curl.get_output(operation='PUT')
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            #put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            self.lfn.put_cmd(put_curl.get_command(operation='PUT', overwrite=True))
+            curl_result = put_curl.get_output(operation='PUT', overwrite=True)
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
+        self.lfn.flush_file()
+
+    def test_webdav_put_body_in_file_over_http_as_anonymous(self):
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
+            request_uri = ('http://%s:%s/%s'
+                % (self.tsets['general']['gridhttp_server_hostname'],
+                self.tsets['general']['http_port'],
+                self.tsets['http']['write_anonymous']))
+
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            self.lfn.put_cmd(put_curl.get_command(operation='PUT', body=True, body_text='text file'))
+            curl_result = put_curl.get_output(operation='PUT', body=True, body_text='text file')
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
+        self.lfn.flush_file()
+
+    def test_webdav_put_body_in_overwritten_file_over_http_as_anonymous(self):
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
+            request_uri = ('http://%s:%s/%s'
+                % (self.tsets['general']['gridhttp_server_hostname'],
+                self.tsets['general']['http_port'],
+                self.tsets['http']['write_anonymous']))
+
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            self.lfn.put_cmd(put_curl.get_command(operation='PUT'))
+            curl_result = put_curl.get_output(operation='PUT')
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            #put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            self.lfn.put_cmd(put_curl.get_command(operation='PUT', body=True, body_text='text file', overwrite=True))
+            curl_result = put_curl.get_output(operation='PUT', body=True, body_text='text file', overwrite=True)
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
+        self.lfn.flush_file()
+
+    def test_webdav_get_directory_over_https_with_voms(self):
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
+            request_uri = ('https://%s:%s/%s'
+                % (self.tsets['general']['gridhttp_server_hostname'],
+                self.tsets['general']['https_port'],
+                self.tsets['https']['voms']))
+
+            get_curl = curl.Curl(request_uri, self.ifn, self.dfn)
+            self.lfn.put_cmd(get_curl.get_command(use_proxy=True, operation='GET'))
+            curl_result = get_curl.get_output(use_proxy=True, operation='GET')
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
+        self.lfn.flush_file()
+
+    def test_webdav_put_file_over_https_with_voms(self):
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
+            request_uri = ('https://%s:%s/%s'
+                % (self.tsets['general']['gridhttp_server_hostname'],
+                self.tsets['general']['https_port'],
+                self.tsets['https']['voms']))
+
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            self.lfn.put_cmd(put_curl.get_command(use_proxy=True, operation='PUT'))
+            curl_result = put_curl.get_output(use_proxy=True, operation='PUT')
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
+        self.lfn.flush_file()
+
+    def test_webdav_put_overwritten_file_over_https_with_voms(self):
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
+            request_uri = ('https://%s:%s/%s'
+                % (self.tsets['general']['gridhttp_server_hostname'],
+                self.tsets['general']['https_port'],
+                self.tsets['https']['voms']))
+
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            self.lfn.put_cmd(put_curl.get_command(use_proxy=True, operation='PUT'))
+            curl_result = put_curl.get_output(use_proxy=True, operation='PUT')
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            #put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            self.lfn.put_cmd(put_curl.get_command(use_proxy=True, operation='PUT', overwrite=True))
+            curl_result = put_curl.get_output(use_proxy=True, operation='PUT', overwrite=True)
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
+        self.lfn.flush_file()
+
+    def test_webdav_put_body_in_file_over_https_with_voms(self):
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
+            request_uri = ('https://%s:%s/%s'
+                % (self.tsets['general']['gridhttp_server_hostname'],
+                self.tsets['general']['https_port'],
+                self.tsets['https']['voms']))
+
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            self.lfn.put_cmd(put_curl.get_command(use_proxy=True, operation='PUT', body=True, body_text='text file'))
+            curl_result = put_curl.get_output(use_proxy=True, operation='PUT', body=True, body_text='text file')
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
+        self.lfn.flush_file()
+
+    def test_webdav_put_body_in_overwritten_file_over_https_with_voms(self):
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
+            request_uri = ('https://%s:%s/%s'
+                % (self.tsets['general']['gridhttp_server_hostname'],
+                self.tsets['general']['https_port'],
+                self.tsets['https']['voms']))
+
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            self.lfn.put_cmd(put_curl.get_command(use_proxy=True, operation='PUT'))
+            curl_result = put_curl.get_output(use_proxy=True, operation='PUT')
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            #put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            self.lfn.put_cmd(put_curl.get_command(use_proxy=True, operation='PUT', body=True, body_text='text file', overwrite=True))
+            curl_result = put_curl.get_output(use_proxy=True, operation='PUT', body=True, body_text='text file', overwrite=True)
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
+        self.lfn.flush_file()
+
+    def test_webdav_get_directory_over_https_with_user_cert(self):
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
+            request_uri = ('https://%s:%s/%s'
+                % (self.tsets['general']['gridhttp_server_hostname'],
+                self.tsets['general']['https_port'],
+                self.tsets['https']['site']))
+
+            get_curl = curl.Curl(request_uri, self.ifn, self.dfn)
+            self.lfn.put_cmd(get_curl.get_command(use_cert=True, operation='GET'))
+            curl_result = get_curl.get_output(use_cert=True, operation='GET')
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
+        self.lfn.flush_file()
+
+    def test_webdav_put_file_over_https_with_user_cert(self):
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
+            request_uri = ('https://%s:%s/%s'
+                % (self.tsets['general']['gridhttp_server_hostname'],
+                self.tsets['general']['https_port'],
+                self.tsets['https']['site']))
+
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            self.lfn.put_cmd(put_curl.get_command(use_cert=True, operation='PUT'))
+            curl_result = put_curl.get_output(use_cert=True, operation='PUT')
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
+        self.lfn.flush_file()
+
+    def test_webdav_put_overwritten_file_over_https_with_user_cert(self):
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
+            request_uri = ('https://%s:%s/%s'
+                % (self.tsets['general']['gridhttp_server_hostname'],
+                self.tsets['general']['https_port'],
+                self.tsets['https']['site']))
+
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            self.lfn.put_cmd(put_curl.get_command(use_cert=True, operation='PUT'))
+            curl_result = put_curl.get_output(use_cert=True, operation='PUT')
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            #put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            self.lfn.put_cmd(put_curl.get_command(use_cert=True, operation='PUT', overwrite=True))
+            curl_result = put_curl.get_output(use_cert=True, operation='PUT', overwrite=True)
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
+        self.lfn.flush_file()
+
+    def test_webdav_put_body_in_file_over_https_with_user_cert(self):
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
+            request_uri = ('https://%s:%s/%s'
+                % (self.tsets['general']['gridhttp_server_hostname'],
+                self.tsets['general']['https_port'],
+                self.tsets['https']['site']))
+
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            self.lfn.put_cmd(put_curl.get_command(use_cert=True, operation='PUT', body=True, body_text='text file'))
+            curl_result = put_curl.get_output(use_cert=True, operation='PUT', body=True, body_text='text file')
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
+        self.lfn.flush_file()
+
+    def test_webdav_put_body_in_overwritten_file_over_https_with_user_cert(self):
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
+            request_uri = ('https://%s:%s/%s'
+                % (self.tsets['general']['gridhttp_server_hostname'],
+                self.tsets['general']['https_port'],
+                self.tsets['https']['site']))
+
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            self.lfn.put_cmd(put_curl.get_command(use_cert=True, operation='PUT'))
+            curl_result = put_curl.get_output(use_cert=True, operation='PUT')
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            #put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            self.lfn.put_cmd(put_curl.get_command(use_cert=True, operation='PUT', body=True, body_text='text file', overwrite=True))
+            curl_result = put_curl.get_output(use_cert=True, operation='PUT', body=True, body_text='text file', overwrite=True)
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
+        self.lfn.flush_file()

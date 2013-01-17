@@ -99,6 +99,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitearch}/tstorm/commands/cp.py
 %{python_sitearch}/tstorm/commands/cp.pyc
 %{python_sitearch}/tstorm/commands/cp.pyo
+%{python_sitearch}/tstorm/commands/curl.py
+%{python_sitearch}/tstorm/commands/curl.pyc
+%{python_sitearch}/tstorm/commands/curl.pyo
 %{python_sitearch}/tstorm/commands/__init__.py
 %{python_sitearch}/tstorm/commands/__init__.pyc
 %{python_sitearch}/tstorm/commands/__init__.pyo
@@ -159,6 +162,12 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitearch}/tstorm/tests/functional/__init__.py
 %{python_sitearch}/tstorm/tests/functional/__init__.pyc
 %{python_sitearch}/tstorm/tests/functional/__init__.pyo
+%{python_sitearch}/tstorm/tests/functional/webdav.py
+%{python_sitearch}/tstorm/tests/functional/webdav.pyc
+%{python_sitearch}/tstorm/tests/functional/webdav.pyo
+%{python_sitearch}/tstorm/tests/functional/webdavtests.py
+%{python_sitearch}/tstorm/tests/functional/webdavtests.pyc
+%{python_sitearch}/tstorm/tests/functional/webdavtests.pyo
 %{python_sitearch}/tstorm/tests/functional/tape.py
 %{python_sitearch}/tstorm/tests/functional/tape.pyc
 %{python_sitearch}/tstorm/tests/functional/tape.pyo

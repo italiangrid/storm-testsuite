@@ -1230,5 +1230,170 @@
     "The StoRM components configuration folder and files have permission grant to others.",
     "rct.ts_configuration_folders_permissions(tfn, uid, lfn)",
     ["backend"]
+    ],
+  "ts_webdav_get_directory_over_http_as_anonymous":[
+    "697a17",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV GET DIRECTORY OVER HTTP AS ANONYMOUS",
+    "The WebDAV GET method to get directory over http as anonymous.",
+    "wt.ts_webdav_get_directory_over_http_as_anonymous(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_put_file_over_http_as_anonymous":[
+    "fe8c5c",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV PUT FILE OVER HTTP AS ANONYMOUS",
+    "The WebDAV PUT method to upload a file over http as anonymous.",
+    "wt.ts_webdav_put_file_over_http_as_anonymous(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_put_body_in_file_over_http_as_anonymous":[
+    "de54f3",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV PUT BODY IN FILE OVER HTTP AS ANONYMOUS",
+    "The WebDAV PUT method to upload a file with a body over http as anonymous.",
+    "wt.ts_webdav_put_body_in_file_over_http_as_anonymous(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_put_overwritten_file_over_http_as_anonymous":[
+    "0f224e",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV PUT OVERWRITTEN FILE OVER HTTP AS ANONYMOUS",
+    "The WebDAV PUT method to overwrite a file over http as anonymous.",
+    "wt.ts_webdav_put_overwritten_file_over_http_as_anonymous(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_put_body_in_overwritten_file_over_http_as_anonymous":[
+    "71a88d",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV PUT BODY IN OVERWRITTEN FILE OVER HTTP AS ANONYMOUS",
+    "The WebDAV PUT method to overwrite a file with a body over http as anonymous.",
+    "wt.ts_webdav_put_body_in_overwritten_file_over_http_as_anonymous(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_get_directory_over_https_with_voms":[
+    "8e7b21",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV GET OVER HTTP WITH VOMS",
+    "The WebDAV GET method over http with voms.",
+    "wt.ts_webdav_get_directory_over_https_with_voms(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["backend"]
+    ],
+  "ts_webdav_put_file_over_https_with_voms":[
+    "17845b",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV PUT FILE OVER HTTPS WITH VOMS",
+    "The WebDAV PUT method to upload a file over https with voms.",
+    "wt.ts_webdav_put_file_over_https_with_voms(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_put_body_in_file_over_https_with_voms":[
+    "872b99",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV PUT BODY IN FILE OVER HTTPS WITH VOMS",
+    "The WebDAV PUT method to upload a file with a body over https with voms.",
+    "wt.ts_webdav_put_body_in_file_over_https_with_voms(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_put_overwritten_file_over_https_with_voms":[
+    "8afdff",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV PUT OVERWRITTEN FILE OVER HTTPS WITH VOMS",
+    "The WebDAV PUT method to overwrite a file over https with voms.",
+    "wt.ts_webdav_put_overwritten_file_over_https_with_voms(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_put_body_in_overwritten_file_over_https_with_voms":[
+    "253155",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV PUT BODY IN OVERWRITTEN FILE OVER HTTPS WITH VOMS",
+    "The WebDAV PUT method to overwrite a file with a body over https with voms.",
+    "wt.ts_webdav_put_body_in_overwritten_file_over_https_with_voms(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_get_directory_over_https_with_user_cert":[
+    "fc3678",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV GET OVER HTTP WITH USER CERT",
+    "The WebDAV GET method over http with user cert.",
+    "wt.ts_webdav_get_directory_over_https_with_user_cert(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["backend"]
+    ],
+  "ts_webdav_put_file_over_https_with_user_cert":[
+    "1784bb",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV PUT FILE OVER HTTPS WITH USER CERT",
+    "The WebDAV PUT method to upload a file over https with user cert.",
+    "wt.ts_webdav_put_file_over_https_with_user_cert(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_put_body_in_file_over_https_with_user_cert":[
+    "872b98",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV PUT BODY IN FILE OVER HTTPS WITH USER CERT",
+    "The WebDAV PUT method to upload a file with a body over https with user cert.",
+    "wt.ts_webdav_put_body_in_file_over_https_with_user_cert(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_put_overwritten_file_over_https_with_user_cert":[
+    "8afddf",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV PUT OVERWRITTEN FILE OVER HTTPS WITH USER CERT",
+    "The WebDAV PUT method to overwrite a file over https with user cert.",
+    "wt.ts_webdav_put_overwritten_file_over_https_with_user_cert(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_put_body_in_overwritten_file_over_https_with_user_cert":[
+    "253185",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV PUT BODY IN OVERWRITTEN FILE OVER HTTPS WITH USER CERT",
+    "The WebDAV PUT method to overwrite a file with a body over https with user cert.",
+    "wt.ts_webdav_put_body_in_overwritten_file_over_https_with_user_cert(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
     ]
 }

@@ -50,8 +50,8 @@ class HttpsTest(unittest.TestCase):
                 (path, method, msg, self.id))
 
             cp_curl = cp.curl(self.ifn, self.bifn, self.ptp_result['TURL'])
-            self.lfn.put_cmd(cp_curl.get_command())
-            self.curl_result = cp_curl.get_output(False, True)
+            self.lfn.put_cmd(cp_curl.get_command(use_ssl=False, in_write=True))
+            self.curl_result = cp_curl.get_output(use_ssl=False, in_write=True)
 
             msg = 'curl status'
             self.assert_(self.curl_result['status'] == 'PASS',
@@ -100,8 +100,8 @@ class HttpsTest(unittest.TestCase):
             turl += self.tsets['http']['no_voms'] +  self.dfn + ts
 
             cp_curl = cp.curl(self.ifn, self.bifn, turl)
-            self.lfn.put_cmd(cp_curl.get_command())
-            self.curl_result = cp_curl.get_output(False, True)
+            self.lfn.put_cmd(cp_curl.get_command(use_ssl=False, in_write=True))
+            self.curl_result = cp_curl.get_output(use_ssl=False, in_write=True)
 
             msg = 'curl status'
             self.assert_(self.curl_result['status'] == 'FAILURE',
@@ -127,8 +127,8 @@ class HttpsTest(unittest.TestCase):
             turl += self.tsets['http']['no_voms'] +  self.dfn
 
             cp_curl = cp.curl(self.ifn, self.bifn, turl)
-            self.lfn.put_cmd(cp_curl.get_command())
-            self.curl_result = cp_curl.get_output(False, True)
+            self.lfn.put_cmd(cp_curl.get_command(use_ssl=False, in_write=True))
+            self.curl_result = cp_curl.get_output(use_ssl=False, in_write=True)
 
             msg = 'curl status'
             self.assert_(self.curl_result['status'] == 'PASS',
@@ -154,8 +154,8 @@ class HttpsTest(unittest.TestCase):
             turl += self.tsets['http']['no_voms'] +  self.dfn
   
             cp_curl = cp.curl(self.ifn, self.bifn, turl)
-            self.lfn.put_cmd(cp_curl.get_command())
-            self.curl_result = cp_curl.get_output(False, False)
+            self.lfn.put_cmd(cp_curl.get_command(use_ssl=False, in_write=False))
+            self.curl_result = cp_curl.get_output(use_ssl=False, in_write=False)
 
             msg = 'curl status'
             self.assert_(self.curl_result['status'] == 'PASS',
@@ -183,8 +183,8 @@ class HttpsTest(unittest.TestCase):
             turl += self.tsets['http']['no_voms'] +  self.dfn + ts
 
             cp_curl = cp.curl(self.ifn, self.bifn, turl)
-            self.lfn.put_cmd(cp_curl.get_command())
-            self.curl_result = cp_curl.get_output(False, False)
+            self.lfn.put_cmd(cp_curl.get_command(use_ssl=False, in_write=False))
+            self.curl_result = cp_curl.get_output(use_ssl=False, in_write=False)
 
             msg = 'curl status'
             self.assert_(self.curl_result['status'] == 'FAILURE',
@@ -215,8 +215,8 @@ class HttpsTest(unittest.TestCase):
                 (path, method, msg, self.id))
 
             cp_curl = cp.curl(self.ifn, self.bifn, self.ptg_result['transferURL'])
-            self.lfn.put_cmd(cp_curl.get_command())
-            self.curl_result = cp_curl.get_output(False, False)
+            self.lfn.put_cmd(cp_curl.get_command(use_ssl=False, in_write=False))
+            self.curl_result = cp_curl.get_output(use_ssl=False, in_write=False)
 
             msg = 'curl status'
             self.assert_(self.curl_result['status'] == 'PASS',
@@ -278,8 +278,8 @@ class HttpsTest(unittest.TestCase):
                 (path, method, msg, self.id))
 
             cp_curl = cp.curl(self.ifn, self.bifn, self.ptp_result['TURL'])
-            self.lfn.put_cmd(cp_curl.get_command())
-            self.curl_result = cp_curl.get_output(True, True)
+            self.lfn.put_cmd(cp_curl.get_command(use_ssl=True, in_write=True))
+            self.curl_result = cp_curl.get_output(use_ssl=True, in_write=True)
 
             msg = 'curl status'
             self.assert_(self.curl_result['status'] == 'PASS',
@@ -328,8 +328,8 @@ class HttpsTest(unittest.TestCase):
             turl += self.tsets['https']['no_voms'] + self.dfn + ts
 
             cp_curl = cp.curl(self.ifn, self.bifn, turl)
-            self.lfn.put_cmd(cp_curl.get_command())
-            self.curl_result = cp_curl.get_output(True, True)
+            self.lfn.put_cmd(cp_curl.get_command(use_ssl=True, in_write=True))
+            self.curl_result = cp_curl.get_output(use_ssl=True, in_write=True)
 
             msg = 'curl status'
             self.assert_(self.curl_result['status'] == 'FAILURE',
@@ -355,8 +355,8 @@ class HttpsTest(unittest.TestCase):
             turl += self.tsets['https']['no_voms'] + self.dfn
 
             cp_curl = cp.curl(self.ifn, self.bifn, turl)
-            self.lfn.put_cmd(cp_curl.get_command())
-            self.curl_result = cp_curl.get_output(True, True)
+            self.lfn.put_cmd(cp_curl.get_command(use_ssl=True, in_write=True))
+            self.curl_result = cp_curl.get_output(use_ssl=True, in_write=True)
 
             msg = 'curl status'
             self.assert_(self.curl_result['status'] == 'PASS',
@@ -382,8 +382,8 @@ class HttpsTest(unittest.TestCase):
             turl += self.tsets['https']['no_voms']  + self.dfn
 
             cp_curl = cp.curl(self.ifn, self.bifn, turl)
-            self.lfn.put_cmd(cp_curl.get_command())
-            self.curl_result = cp_curl.get_output(True, False)
+            self.lfn.put_cmd(cp_curl.get_command(use_ssl=True, in_write=False))
+            self.curl_result = cp_curl.get_output(use_ssl=True, in_write=False)
 
             msg = 'curl status'
             self.assert_(self.curl_result['status'] == 'PASS',
@@ -409,8 +409,8 @@ class HttpsTest(unittest.TestCase):
             turl += self.tsets['https']['no_auth']  + self.dfn
 
             cp_curl = cp.curl(self.ifn, self.bifn, turl)
-            self.lfn.put_cmd(cp_curl.get_command())
-            self.curl_result = cp_curl.get_output(True, False)
+            self.lfn.put_cmd(cp_curl.get_command(use_ssl=True, in_write=False))
+            self.curl_result = cp_curl.get_output(use_ssl=True, in_write=False)
 
             msg = 'curl status'
             self.assert_(self.curl_result['status'] == 'FAILURE',
@@ -438,8 +438,8 @@ class HttpsTest(unittest.TestCase):
             turl += self.tsets['https']['no_voms']  + self.dfn + ts
 
             cp_curl = cp.curl(self.ifn, self.bifn, turl)
-            self.lfn.put_cmd(cp_curl.get_command())
-            self.curl_result = cp_curl.get_output(True, False)
+            self.lfn.put_cmd(cp_curl.get_command(use_ssl=True, in_write=False))
+            self.curl_result = cp_curl.get_output(use_ssl=True, in_write=False)
 
             msg = 'curl status'
             self.assert_(self.curl_result['status'] == 'FAILURE',
@@ -470,8 +470,8 @@ class HttpsTest(unittest.TestCase):
                 (path, method, msg, self.id))
 
             cp_curl = cp.curl(self.ifn, self.bifn, self.ptg_result['transferURL'])
-            self.lfn.put_cmd(cp_curl.get_command())
-            self.curl_result = cp_curl.get_output(True, False)
+            self.lfn.put_cmd(cp_curl.get_command(use_ssl=True, in_write=False))
+            self.curl_result = cp_curl.get_output(use_ssl=True, in_write=False)
 
             msg = 'curl status'
             self.assert_(self.curl_result['status'] == 'PASS',
@@ -533,8 +533,8 @@ class HttpsTest(unittest.TestCase):
                 (path, method, msg, self.id))
 
             cp_curl = cp.curl(self.ifn, self.bifn, self.ptp_result['TURL'])
-            self.lfn.put_cmd(cp_curl.get_command())
-            self.curl_result = cp_curl.get_output(True, True)
+            self.lfn.put_cmd(cp_curl.get_command(use_ssl=True, in_write=True))
+            self.curl_result = cp_curl.get_output(use_ssl=True, in_write=True)
 
             msg = 'curl status'
             self.assert_(self.curl_result['status'] == 'PASS',
@@ -583,8 +583,8 @@ class HttpsTest(unittest.TestCase):
             turl += self.tsets['https']['voms'] + self.dfn + ts
 
             cp_curl = cp.curl(self.ifn, self.bifn, turl)
-            self.lfn.put_cmd(cp_curl.get_command())
-            self.curl_result = cp_curl.get_output(True, True)
+            self.lfn.put_cmd(cp_curl.get_command(use_ssl=True, in_write=True))
+            self.curl_result = cp_curl.get_output(use_ssl=True, in_write=True)
 
             msg = 'curl status'
             self.assert_(self.curl_result['status'] == 'FAILURE',
@@ -610,8 +610,8 @@ class HttpsTest(unittest.TestCase):
             turl += self.tsets['https']['voms'] + self.dfn
 
             cp_curl = cp.curl(self.ifn, self.bifn, turl)
-            self.lfn.put_cmd(cp_curl.get_command())
-            self.curl_result = cp_curl.get_output(True, True)
+            self.lfn.put_cmd(cp_curl.get_command(use_ssl=True, in_write=True))
+            self.curl_result = cp_curl.get_output(use_ssl=True, in_write=True)
 
             msg = 'curl status'
             self.assert_(self.curl_result['status'] == 'PASS',
@@ -637,8 +637,8 @@ class HttpsTest(unittest.TestCase):
             turl += self.tsets['https']['voms'] + self.dfn
 
             cp_curl = cp.curl(self.ifn, self.bifn, turl)
-            self.lfn.put_cmd(cp_curl.get_command())
-            self.curl_result = cp_curl.get_output(True, False)
+            self.lfn.put_cmd(cp_curl.get_command(use_ssl=True, in_write=False))
+            self.curl_result = cp_curl.get_output(use_ssl=True, in_write=False)
 
             msg = 'curl status'
             self.assert_(self.curl_result['status'] == 'PASS',
@@ -664,8 +664,8 @@ class HttpsTest(unittest.TestCase):
             turl += self.tsets['https']['no_auth'] + self.dfn
   
             cp_curl = cp.curl(self.ifn, self.bifn, turl)
-            self.lfn.put_cmd(cp_curl.get_command())
-            self.curl_result = cp_curl.get_output(True, False)
+            self.lfn.put_cmd(cp_curl.get_command(use_ssl=True, in_write=False))
+            self.curl_result = cp_curl.get_output(use_ssl=True, in_write=False)
 
             msg = 'curl status'
             self.assert_(self.curl_result['status'] == 'FAILURE',
@@ -693,8 +693,8 @@ class HttpsTest(unittest.TestCase):
             turl += self.tsets['https']['voms'] + self.dfn + ts
 
             cp_curl = cp.curl(self.ifn, self.bifn, turl)
-            self.lfn.put_cmd(cp_curl.get_command())
-            self.curl_result = cp_curl.get_output(True, False)
+            self.lfn.put_cmd(cp_curl.get_command(use_ssl=True, in_write=False))
+            self.curl_result = cp_curl.get_output(use_ssl=True, in_write=False)
 
             msg = 'curl status'
             self.assert_(self.curl_result['status'] == 'FAILURE',
@@ -725,8 +725,8 @@ class HttpsTest(unittest.TestCase):
                 (path, method, msg, self.id))
 
             cp_curl = cp.curl(self.ifn, self.bifn, self.ptg_result['transferURL'])
-            self.lfn.put_cmd(cp_curl.get_command())
-            self.curl_result = cp_curl.get_output(True, False)
+            self.lfn.put_cmd(cp_curl.get_command(use_ssl=True, in_write=False))
+            self.curl_result = cp_curl.get_output(use_ssl=True, in_write=False)
 
             msg = 'curl status'
             self.assert_(self.curl_result['status'] == 'PASS',

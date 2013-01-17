@@ -68,7 +68,7 @@ class Tests:
         self.__build_header_format(info)
         for key, value in self.tests.items():
             services = list(set(node) & set(value.get_node()))
-            if len(services) != 0:
+            if len(services) == 0:
                 continue
             if run == 'sanity':
                 if value.get_test_type() != 'DT':
