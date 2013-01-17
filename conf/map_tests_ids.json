@@ -1330,6 +1330,72 @@
     "wt.ts_webdav_delete_full_directory_over_http_as_anonymous(tfn,ifn,dfn,back_ifn,uid,lfn)",
     ["gridhttps"]
     ],
+  "ts_webdav_propfind_directory_over_http_as_anonymous":[
+    "e1ee77",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV PROPFIND DIRECTORY OVER HTTP AS ANONYMOUS",
+    "The WebDAV propfind method to get properties of a directory over http as anonymous.",
+    "wt.ts_webdav_propfind_directory_over_http_as_anonymous(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_options_directory_over_http_as_anonymous":[
+    "e1e9e9",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV OPTIONS OVER HTTP AS ANONYMOUS",
+    "The WebDAV options method to get options of a directory over http as anonymous.",
+    "wt.ts_webdav_options_directory_over_http_as_anonymous(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_copy_file_over_http_as_anonymous":[
+    "e4e9e9",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV COPY FILE OVER HTTP AS ANONYMOUS",
+    "The WebDAV copy method to copy a file over http as anonymous.",
+    "wt.ts_webdav_copy_file_over_http_as_anonymous(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_copy_full_directory_over_http_as_anonymous":[
+    "e5e9e9",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV COPY FULL DIRECTORY OVER HTTP AS ANONYMOUS",
+    "The WebDAV copy method to copy a full directory over http as anonymous.",
+    "wt.ts_webdav_copy_full_directory_over_http_as_anonymous(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_move_file_over_http_as_anonymous":[
+    "a4e9e9",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV MOVE FILE OVER HTTP AS ANONYMOUS",
+    "The WebDAV move method to copy a file over http as anonymous.",
+    "wt.ts_webdav_move_file_over_http_as_anonymous(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_move_full_directory_over_http_as_anonymous":[
+    "a5e9e9",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV MOVE FULL DIRECTORY OVER HTTP AS ANONYMOUS",
+    "The WebDAV move method to copy a full directory over http as anonymous.",
+    "wt.ts_webdav_move_full_directory_over_http_as_anonymous(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
   "ts_webdav_get_directory_over_https_with_voms":[
     "8e7b21",
     "ST",
@@ -1429,6 +1495,72 @@
     "wt.ts_webdav_delete_full_directory_over_https_with_voms(tfn,ifn,dfn,back_ifn,uid,lfn)",
     ["gridhttps"]
     ],
+  "ts_webdav_propfind_directory_over_https_with_voms":[
+    "e2ee77",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV PROPFIND DIRECTORY OVER HTTPS WITH VOMS",
+    "The WebDAV propfind method to get properties of a directory over https with voms.",
+    "wt.ts_webdav_propfind_directory_over_https_with_voms(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_options_directory_over_https_with_voms":[
+    "e2e9e9",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV OPTIONS OVER HTTPS WITH VOMS",
+    "The WebDAV options method to get options of a directory over https with voms.",
+    "wt.ts_webdav_options_directory_over_https_with_voms(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_copy_file_over_https_with_voms":[
+    "e7e9e9",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV COPY FILE OVER HTTPS WITH VOMS",
+    "The WebDAV copy method to copy a file over https with voms.",
+    "wt.ts_webdav_copy_file_over_https_with_voms(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_copy_full_directory_over_https_with_voms":[
+    "e6e9e9",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV COPY FULL DIRECTORY OVER HTTPS WITH VOMS",
+    "The WebDAV copy method to copy a full directory over https with voms.",
+    "wt.ts_webdav_copy_full_directory_over_https_with_voms(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_move_file_over_https_with_voms":[
+    "a7e9e9",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV MOVE FILE OVER HTTPS WITH VOMS",
+    "The WebDAV move method to copy a file over https with voms.",
+    "wt.ts_webdav_move_file_over_https_with_voms(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_move_full_directory_over_https_with_voms":[
+    "a6e9e9",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV MOVE FULL DIRECTORY OVER HTTPS WITH VOMS",
+    "The WebDAV move method to copy a full directory over https with voms.",
+    "wt.ts_webdav_move_full_directory_over_https_with_voms(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
   "ts_webdav_get_directory_over_https_with_user_cert":[
     "fc3678",
     "ST",
@@ -1526,6 +1658,72 @@
     "WEBDAV DELETE FULL DIRECTORY OVER HTTPS WITH USER CERT",
     "The WebDAV delete method to delete a full directory over https with user cert.",
     "wt.ts_webdav_delete_full_directory_over_https_with_user_cert(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_propfind_directory_over_https_with_user_cert":[
+    "e3ee77",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV PROPFIND DIRECTORY OVER HTTPS WITH USER CERT",
+    "The WebDAV propfind method to get properties of a directory over https with user cert.",
+    "wt.ts_webdav_propfind_directory_over_https_with_user_cert(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_options_directory_over_https_with_user_cert":[
+    "e3e9e9",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV OPTIONS OVER HTTPS WITH USER CERT",
+    "The WebDAV options method to get options of a directory over https with user cert.",
+    "wt.ts_webdav_options_directory_over_https_with_user_cert(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_copy_file_over_https_with_user_cert":[
+    "e8e9e9",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV COPY FILE OVER HTTPS WITH USER CERT",
+    "The WebDAV copy method to copy a file over https with user cert.",
+    "wt.ts_webdav_copy_file_over_https_with_user_cert(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_copy_full_directory_over_https_with_user_cert":[
+    "e9e9e9",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV COPY FULL DIRECTORY OVER HTTPS WITH USER CERT",
+    "The WebDAV copy method to copy a full directory over https with user cert.",
+    "wt.ts_webdav_copy_full_directory_over_https_with_user_cert(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_move_file_over_https_with_user_cert":[
+    "a8e9e9",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV MOVE FILE OVER HTTPS WITH USER CERT",
+    "The WebDAV move method to copy a file over https with user cert.",
+    "wt.ts_webdav_move_file_over_https_with_user_cert(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_move_full_directory_over_https_with_user_cert":[
+    "a9e9e9",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV MOVE FULL DIRECTORY OVER HTTPS WITH USER CERT",
+    "The WebDAV move method to copy a full directory over https with user cert.",
+    "wt.ts_webdav_move_full_directory_over_https_with_user_cert(tfn,ifn,dfn,back_ifn,uid,lfn)",
     ["gridhttps"]
     ]
 }
