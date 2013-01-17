@@ -43,9 +43,9 @@ class Curl:
             if overwrite:
                 cmd += ' --header "Overwrite: T"'
         elif operation == 'MKCOL':
-            cmd += ' -X MKCOL %s%s' % (self.ifn, self.request_uri, self.dfn)
+            cmd += ' -X MKCOL %s%s' % (self.request_uri, self.dfn)
         elif operation == 'DELETE':
-            cmd += ' -X DELETE %s%s' % (self.ifn, self.request_uri, self.dfn)
+            cmd += ' -X DELETE %s%s' % (self.request_uri, self.dfn)
         return cmd
 
     def run_command(self, use_cert=False, use_proxy=False, operation='GET', body=False, body_text='', overwrite=False):

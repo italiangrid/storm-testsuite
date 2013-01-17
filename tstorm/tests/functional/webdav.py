@@ -6,6 +6,7 @@ import os
 import unittest
 import inspect
 
+from tstorm.utils import utils
 from tstorm.utils import config
 from tstorm.commands import curl
 
@@ -183,8 +184,8 @@ class WebdavTest(unittest.TestCase):
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['http_port'],
                 self.tsets['http']['write_anonymous']))
-
-            mkcol_curl = curl.Curl(request_uri,self.ifn,'tstorm-test-dir')
+            id = utils.get_uuid()
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
             self.lfn.put_cmd(mkcol_curl.get_command(operation='MKCOL'))
             curl_result = mkcol_curl.get_output(operation='MKCOL')
 
@@ -218,8 +219,8 @@ class WebdavTest(unittest.TestCase):
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['http_port'],
                 self.tsets['http']['write_anonymous']))
-
-            mkcol_curl = curl.Curl(request_uri,self.ifn,'tstorm-test-dir')
+            id = utils.get_uuid()
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
             self.lfn.put_cmd(mkcol_curl.get_command(operation='MKCOL'))
             curl_result = mkcol_curl.get_output(operation='MKCOL')
 
@@ -228,7 +229,7 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            put_curl = curl.Curl(request_uri,self.ifn,'tstorm-test-dir'+self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn)
             self.lfn.put_cmd(put_curl.get_command(operation='PUT'))
             curl_result = put_curl.get_output(operation='PUT')
 
@@ -237,7 +238,7 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            delete_curl = curl.Curl(request_uri,self.ifn,'tstorm-test-dir'+self.dfn)
+            delete_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn)
             self.lfn.put_cmd(delete_curl.get_command(operation='DELETE'))
             curl_result = delete_curl.get_output(operation='DELETE')
 
@@ -266,8 +267,8 @@ class WebdavTest(unittest.TestCase):
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['http_port'],
                 self.tsets['http']['write_anonymous']))
-
-            mkcol_curl = curl.Curl(request_uri,self.ifn,'tstorm-test-dir')
+            id = utils.get_uuid()
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
             self.lfn.put_cmd(mkcol_curl.get_command(operation='MKCOL'))
             curl_result = mkcol_curl.get_output(operation='MKCOL')
 
@@ -301,8 +302,8 @@ class WebdavTest(unittest.TestCase):
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['http_port'],
                 self.tsets['http']['write_anonymous']))
-
-            mkcol_curl = curl.Curl(request_uri,self.ifn,'tstorm-test-dir')
+            id = utils.get_uuid()
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
             self.lfn.put_cmd(mkcol_curl.get_command(operation='MKCOL'))
             curl_result = mkcol_curl.get_output(operation='MKCOL')
 
@@ -311,7 +312,7 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            put_curl = curl.Curl(request_uri,self.ifn,'tstorm-test-dir'+self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn)
             self.lfn.put_cmd(put_curl.get_command(operation='PUT'))
             curl_result = put_curl.get_output(operation='PUT')
 
@@ -498,8 +499,8 @@ class WebdavTest(unittest.TestCase):
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
                 self.tsets['https']['voms']))
-
-            mkcol_curl = curl.Curl(request_uri,self.ifn,'tstorm-test-dir')
+            id = utils.get_uuid()
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
             self.lfn.put_cmd(mkcol_curl.get_command(use_proxy=True,operation='MKCOL'))
             curl_result = mkcol_curl.get_output(use_proxy=True,operation='MKCOL')
 
@@ -533,8 +534,8 @@ class WebdavTest(unittest.TestCase):
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
                 self.tsets['https']['voms']))
-
-            mkcol_curl = curl.Curl(request_uri,self.ifn,'tstorm-test-dir')
+            id = utils.get_uuid()
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
             self.lfn.put_cmd(mkcol_curl.get_command(use_proxy=True, operation='MKCOL'))
             curl_result = mkcol_curl.get_output(use_proxy=True, operation='MKCOL')
 
@@ -543,7 +544,7 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            put_curl = curl.Curl(request_uri,self.ifn,'tstorm-test-dir'+self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn)
             self.lfn.put_cmd(put_curl.get_command(use_proxy=True, operation='PUT'))
             curl_result = put_curl.get_output(use_proxy=True, operation='PUT')
 
@@ -552,7 +553,7 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            delete_curl = curl.Curl(request_uri,self.ifn,'tstorm-test-dir'+self.dfn)
+            delete_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn)
             self.lfn.put_cmd(delete_curl.get_command(use_proxy=True, operation='DELETE'))
             curl_result = delete_curl.get_output(use_proxy=True, operation='DELETE')
 
@@ -581,8 +582,8 @@ class WebdavTest(unittest.TestCase):
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
                 self.tsets['https']['voms']))
-
-            mkcol_curl = curl.Curl(request_uri,self.ifn,'tstorm-test-dir')
+            id = utils.get_uuid()
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
             self.lfn.put_cmd(mkcol_curl.get_command(use_proxy=True,operation='MKCOL'))
             curl_result = mkcol_curl.get_output(use_proxy=True,operation='MKCOL')
 
@@ -616,8 +617,8 @@ class WebdavTest(unittest.TestCase):
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
                 self.tsets['https']['voms']))
-
-            mkcol_curl = curl.Curl(request_uri,self.ifn,'tstorm-test-dir')
+            id = utils.get_uuid()
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
             self.lfn.put_cmd(mkcol_curl.get_command(use_proxy=True,operation='MKCOL'))
             curl_result = mkcol_curl.get_output(use_proxy=True,operation='MKCOL')
 
@@ -626,7 +627,7 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            put_curl = curl.Curl(request_uri,self.ifn,'tstorm-test-dir'+self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn)
             self.lfn.put_cmd(put_curl.get_command(use_proxy=True,operation='PUT'))
             curl_result = put_curl.get_output(use_proxy=True,operation='PUT')
 
@@ -813,8 +814,8 @@ class WebdavTest(unittest.TestCase):
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
                 self.tsets['https']['site']))
-
-            mkcol_curl = curl.Curl(request_uri,self.ifn,'tstorm-test-dir')
+            id = utils.get_uuid()
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
             self.lfn.put_cmd(mkcol_curl.get_command(use_cert=True,operation='MKCOL'))
             curl_result = mkcol_curl.get_output(use_cert=True,operation='MKCOL')
 
@@ -848,8 +849,8 @@ class WebdavTest(unittest.TestCase):
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
                 self.tsets['https']['site']))
-
-            mkcol_curl = curl.Curl(request_uri,self.ifn,'tstorm-test-dir')
+            id = utils.get_uuid()
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
             self.lfn.put_cmd(mkcol_curl.get_command(use_cert=True, operation='MKCOL'))
             curl_result = mkcol_curl.get_output(use_cert=True, operation='MKCOL')
 
@@ -858,7 +859,7 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            put_curl = curl.Curl(request_uri,self.ifn,'tstorm-test-dir'+self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn)
             self.lfn.put_cmd(put_curl.get_command(use_cert=True, operation='PUT'))
             curl_result = put_curl.get_output(use_cert=True, operation='PUT')
 
@@ -867,7 +868,7 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            delete_curl = curl.Curl(request_uri,self.ifn,'tstorm-test-dir'+self.dfn)
+            delete_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn)
             self.lfn.put_cmd(delete_curl.get_command(use_cert=True, operation='DELETE'))
             curl_result = delete_curl.get_output(use_cert=True, operation='DELETE')
 
@@ -896,8 +897,8 @@ class WebdavTest(unittest.TestCase):
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
                 self.tsets['https']['site']))
-                
-            mkcol_curl = curl.Curl(request_uri,self.ifn,'tstorm-test-dir')
+            id = utils.get_uuid()
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
             self.lfn.put_cmd(mkcol_curl.get_command(use_cert=True,operation='MKCOL'))
             curl_result = mkcol_curl.get_output(use_cert=True,operation='MKCOL')
             
@@ -931,8 +932,9 @@ class WebdavTest(unittest.TestCase):
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
                 self.tsets['https']['site']))
+            id = utils.get_uuid()
 
-            mkcol_curl = curl.Curl(request_uri,self.ifn,'tstorm-test-dir')
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
             self.lfn.put_cmd(mkcol_curl.get_command(use_cert=True,operation='MKCOL'))
             curl_result = mkcol_curl.get_output(use_cert=True,operation='MKCOL')
 
@@ -941,7 +943,7 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            put_curl = curl.Curl(request_uri,self.ifn,'tstorm-test-dir'+self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
             self.lfn.put_cmd(put_curl.get_command(use_cert=True,operation='PUT'))
             curl_result = put_curl.get_output(use_cert=True,operation='PUT')
 

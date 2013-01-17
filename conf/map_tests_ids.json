@@ -1294,7 +1294,7 @@
     false,
     "WEBDAV MKCOL DIRECTORY OVER HTTP AS ANONYMOUS",
     "The WebDAV mkcol method to create a directory over http as anonymous.",
-    "wt.ts_webdav_mkcol_director_over_http_as_anonymous(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    "wt.ts_webdav_mkcol_directory_over_http_as_anonymous(tfn,ifn,dfn,back_ifn,uid,lfn)",
     ["gridhttps"]
     ],
   "ts_webdav_delete_file_over_http_as_anonymous":[
@@ -1320,7 +1320,7 @@
     ["gridhttps"]
     ],
   "ts_webdav_delete_full_directory_over_http_as_anonymous":[
-    "e1ee69",
+    "e1ee79",
     "ST",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
@@ -1393,7 +1393,7 @@
     false,
     "WEBDAV MKCOL DIRECTORY OVER HTTPS WITH VOMS",
     "The WebDAV mkcol method to create a directory over https with voms.",
-    "wt.ts_webdav_mkcol_director_over_https_with_voms(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    "wt.ts_webdav_mkcol_directory_over_https_with_voms(tfn,ifn,dfn,back_ifn,uid,lfn)",
     ["gridhttps"]
     ],
   "ts_webdav_delete_file_over_https_with_voms":[
@@ -1492,7 +1492,7 @@
     false,
     "WEBDAV MKCOL DIRECTORY OVER HTTPS WITH USER CERT",
     "The WebDAV mkcol method to create a directory over https with user cert.",
-    "wt.ts_webdav_mkcol_director_over_https_with_user_cert(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    "wt.ts_webdav_mkcol_directory_over_https_with_user_cert(tfn,ifn,dfn,back_ifn,uid,lfn)",
     ["gridhttps"]
     ],
   "ts_webdav_delete_file_over_https_with_user_cert":[
