@@ -85,6 +85,20 @@ def ts_webdav_copy_full_directory_over_http_as_anonymous(conf, ifn, dfn, bifn, u
     s.addTest(utilities.UtilitiesTest('test_rm_lf',conf, ifn, bifn, uid, lfn))
     return s
 
+def ts_webdav_copy_overwritten_file_over_http_as_anonymous(conf, ifn, dfn, bifn, uid, lfn):
+    s = unittest.TestSuite()
+    s.addTest(utilities.UtilitiesTest('test_cr_lf',conf, ifn, bifn, uid, lfn))
+    s.addTest(webdav.WebdavTest('test_webdav_copy_overwritten_file_over_http_as_anonymous',conf, ifn, dfn, bifn, uid, lfn))
+    s.addTest(utilities.UtilitiesTest('test_rm_lf',conf, ifn, bifn, uid, lfn))
+    return s
+
+def ts_webdav_copy_full_directory_over_http_as_anonymous(conf, ifn, dfn, bifn, uid, lfn):
+    s = unittest.TestSuite()
+    s.addTest(utilities.UtilitiesTest('test_cr_lf',conf, ifn, bifn, uid, lfn))
+    s.addTest(webdav.WebdavTest('test_webdav_copy_full_directory_over_http_as_anonymous',conf, ifn, dfn, bifn, uid, lfn))
+    s.addTest(utilities.UtilitiesTest('test_rm_lf',conf, ifn, bifn, uid, lfn))
+    return s
+
 def ts_webdav_move_file_over_http_as_anonymous(conf, ifn, dfn, bifn, uid, lfn):
     s = unittest.TestSuite()
     s.addTest(utilities.UtilitiesTest('test_cr_lf',conf, ifn, bifn, uid, lfn))
@@ -96,6 +110,20 @@ def ts_webdav_move_full_directory_over_http_as_anonymous(conf, ifn, dfn, bifn, u
     s = unittest.TestSuite()
     s.addTest(utilities.UtilitiesTest('test_cr_lf',conf, ifn, bifn, uid, lfn))
     s.addTest(webdav.WebdavTest('test_webdav_move_full_directory_over_http_as_anonymous',conf, ifn, dfn, bifn, uid, lfn))
+    s.addTest(utilities.UtilitiesTest('test_rm_lf',conf, ifn, bifn, uid, lfn))
+    return s
+
+def ts_webdav_move_overwritten_file_over_http_as_anonymous(conf, ifn, dfn, bifn, uid, lfn):
+    s = unittest.TestSuite()
+    s.addTest(utilities.UtilitiesTest('test_cr_lf',conf, ifn, bifn, uid, lfn))
+    s.addTest(webdav.WebdavTest('test_webdav_move_overwritten_file_over_http_as_anonymous',conf, ifn, dfn, bifn, uid, lfn))
+    s.addTest(utilities.UtilitiesTest('test_rm_lf',conf, ifn, bifn, uid, lfn))
+    return s
+
+def ts_webdav_move_overwritten_full_directory_over_http_as_anonymous(conf, ifn, dfn, bifn, uid, lfn):
+    s = unittest.TestSuite()
+    s.addTest(utilities.UtilitiesTest('test_cr_lf',conf, ifn, bifn, uid, lfn))
+    s.addTest(webdav.WebdavTest('test_webdav_move_overwritten_full_directory_over_http_as_anonymous',conf, ifn, dfn, bifn, uid, lfn))
     s.addTest(utilities.UtilitiesTest('test_rm_lf',conf, ifn, bifn, uid, lfn))
     return s
 
@@ -180,10 +208,38 @@ def ts_webdav_copy_full_directory_over_https_with_voms(conf, ifn, dfn, bifn, uid
     s.addTest(utilities.UtilitiesTest('test_rm_lf',conf, ifn, bifn, uid, lfn))
     return s
 
+def ts_webdav_copy_overwritten_file_over_https_with_voms(conf, ifn, dfn, bifn, uid, lfn):
+    s = unittest.TestSuite()
+    s.addTest(utilities.UtilitiesTest('test_cr_lf',conf, ifn, bifn, uid, lfn))
+    s.addTest(webdav.WebdavTest('test_webdav_copy_overwritten_file_over_https_with_voms',conf, ifn, dfn, bifn, uid, lfn))
+    s.addTest(utilities.UtilitiesTest('test_rm_lf',conf, ifn, bifn, uid, lfn))
+    return s
+
+def ts_webdav_copy_overwritten_full_directory_over_https_with_voms(conf, ifn, dfn, bifn, uid, lfn):
+    s = unittest.TestSuite()
+    s.addTest(utilities.UtilitiesTest('test_cr_lf',conf, ifn, bifn, uid, lfn))
+    s.addTest(webdav.WebdavTest('test_webdav_copy_overwritten_full_directory_over_https_with_voms',conf, ifn, dfn, bifn, uid, lfn))
+    s.addTest(utilities.UtilitiesTest('test_rm_lf',conf, ifn, bifn, uid, lfn))
+    return s
+
 def ts_webdav_move_file_over_https_with_voms(conf, ifn, dfn, bifn, uid, lfn):
     s = unittest.TestSuite()
     s.addTest(utilities.UtilitiesTest('test_cr_lf',conf, ifn, bifn, uid, lfn))
     s.addTest(webdav.WebdavTest('test_webdav_move_file_over_https_with_voms',conf, ifn, dfn, bifn, uid, lfn))
+    s.addTest(utilities.UtilitiesTest('test_rm_lf',conf, ifn, bifn, uid, lfn))
+    return s
+
+def ts_webdav_move_full_directory_over_https_with_voms(conf, ifn, dfn, bifn, uid, lfn):
+    s = unittest.TestSuite()
+    s.addTest(utilities.UtilitiesTest('test_cr_lf',conf, ifn, bifn, uid, lfn))
+    s.addTest(webdav.WebdavTest('test_webdav_move_full_directory_over_https_with_voms',conf, ifn, dfn, bifn, uid, lfn))
+    s.addTest(utilities.UtilitiesTest('test_rm_lf',conf, ifn, bifn, uid, lfn))
+    return s
+
+def ts_webdav_move_overwritten_file_over_https_with_voms(conf, ifn, dfn, bifn, uid, lfn):
+    s = unittest.TestSuite()
+    s.addTest(utilities.UtilitiesTest('test_cr_lf',conf, ifn, bifn, uid, lfn))
+    s.addTest(webdav.WebdavTest('test_webdav_move_overwritten_file_over_https_with_voms',conf, ifn, dfn, bifn, uid, lfn))
     s.addTest(utilities.UtilitiesTest('test_rm_lf',conf, ifn, bifn, uid, lfn))
     return s
 
@@ -275,6 +331,20 @@ def ts_webdav_copy_full_directory_over_https_with_user_cert(conf, ifn, dfn, bifn
     s.addTest(utilities.UtilitiesTest('test_rm_lf',conf, ifn, bifn, uid, lfn))
     return s
 
+def ts_webdav_copy_overwritten_file_over_https_with_user_cert(conf, ifn, dfn, bifn, uid, lfn):
+    s = unittest.TestSuite()
+    s.addTest(utilities.UtilitiesTest('test_cr_lf',conf, ifn, bifn, uid, lfn))
+    s.addTest(webdav.WebdavTest('test_webdav_copy_overwritten_file_over_https_with_user_cert',conf, ifn, dfn, bifn, uid, lfn))
+    s.addTest(utilities.UtilitiesTest('test_rm_lf',conf, ifn, bifn, uid, lfn))
+    return s
+
+def ts_webdav_copy_overwritten_full_directory_over_https_with_user_cert(conf, ifn, dfn, bifn, uid, lfn):
+    s = unittest.TestSuite()
+    s.addTest(utilities.UtilitiesTest('test_cr_lf',conf, ifn, bifn, uid, lfn))
+    s.addTest(webdav.WebdavTest('test_webdav_copy_overwritten_full_directory_over_https_with_user_cert',conf, ifn, dfn, bifn, uid, lfn))
+    s.addTest(utilities.UtilitiesTest('test_rm_lf',conf, ifn, bifn, uid, lfn))
+    return s
+
 def ts_webdav_move_file_over_https_with_user_cert(conf, ifn, dfn, bifn, uid, lfn):
     s = unittest.TestSuite()
     s.addTest(utilities.UtilitiesTest('test_cr_lf',conf, ifn, bifn, uid, lfn))
@@ -286,5 +356,19 @@ def ts_webdav_move_full_directory_over_https_with_user_cert(conf, ifn, dfn, bifn
     s = unittest.TestSuite()
     s.addTest(utilities.UtilitiesTest('test_cr_lf',conf, ifn, bifn, uid, lfn))
     s.addTest(webdav.WebdavTest('test_webdav_move_full_directory_over_https_with_user_cert',conf, ifn, dfn, bifn, uid, lfn))
+    s.addTest(utilities.UtilitiesTest('test_rm_lf',conf, ifn, bifn, uid, lfn))
+    return s
+
+def ts_webdav_move_overwritten_file_over_https_with_user_cert(conf, ifn, dfn, bifn, uid, lfn):
+    s = unittest.TestSuite()
+    s.addTest(utilities.UtilitiesTest('test_cr_lf',conf, ifn, bifn, uid, lfn))
+    s.addTest(webdav.WebdavTest('test_webdav_move_overwritten_file_over_https_with_user_cert',conf, ifn, dfn, bifn, uid, lfn))
+    s.addTest(utilities.UtilitiesTest('test_rm_lf',conf, ifn, bifn, uid, lfn))
+    return s
+
+def ts_webdav_move_overwritten_full_directory_over_https_with_user_cert(conf, ifn, dfn, bifn, uid, lfn):
+    s = unittest.TestSuite()
+    s.addTest(utilities.UtilitiesTest('test_cr_lf',conf, ifn, bifn, uid, lfn))
+    s.addTest(webdav.WebdavTest('test_webdav_move_overwritten_full_directory_over_https_with_user_cert',conf, ifn, dfn, bifn, uid, lfn))
     s.addTest(utilities.UtilitiesTest('test_rm_lf',conf, ifn, bifn, uid, lfn))
     return s

@@ -1374,6 +1374,28 @@
     "wt.ts_webdav_copy_full_directory_over_http_as_anonymous(tfn,ifn,dfn,back_ifn,uid,lfn)",
     ["gridhttps"]
     ],
+  "ts_webdav_copy_overwritten_file_over_http_as_anonymous":[
+    "c40262",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV COPY OVERWRITTEN FILE OVER HTTP AS ANONYMOUS",
+    "The WebDAV COPY method to overwrite a file over http as anonymous.",
+    "wt.ts_webdav_copy_overwritten_file_over_http_as_anonymous(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_copy_overwritten_full_directory_over_http_as_anonymous":[
+    "104d44",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV COPY OVERWRITTEN FULL DIRECTORY OVER HTTP AS ANONYMOUS",
+    "The WebDAV copy method to overwrite a full directory over http as anonymous.",
+    "wt.ts_webdav_copy_overwritten_full_directory_over_http_as_anonymous(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
   "ts_webdav_move_file_over_http_as_anonymous":[
     "a4e9e9",
     "ST",
@@ -1394,6 +1416,28 @@
     "WEBDAV MOVE FULL DIRECTORY OVER HTTP AS ANONYMOUS",
     "The WebDAV move method to copy a full directory over http as anonymous.",
     "wt.ts_webdav_move_full_directory_over_http_as_anonymous(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_move_overwritten_file_over_http_as_anonymous":[
+    "74a3bc",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV MOVE OVERWRITTEN FILE OVER HTTP AS ANONYMOUS",
+    "The WebDAV MOVE method to overwrite a file over http as anonymous.",
+    "wt.ts_webdav_move_overwritten_file_over_http_as_anonymous(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_move_overwritten_full_directory_over_http_as_anonymous":[
+    "dc2432",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV MOVE OVERWRITTEN FULL DIRECTORY OVER HTTP AS ANONYMOUS",
+    "The WebDAV move method to overwrite a full directory over http as anonymous.",
+    "wt.ts_webdav_move_overwritten_full_directory_over_http_as_anonymous(tfn,ifn,dfn,back_ifn,uid,lfn)",
     ["gridhttps"]
     ],
   "ts_webdav_get_directory_over_https_with_voms":[
@@ -1539,6 +1583,28 @@
     "wt.ts_webdav_copy_full_directory_over_https_with_voms(tfn,ifn,dfn,back_ifn,uid,lfn)",
     ["gridhttps"]
     ],
+  "ts_webdav_copy_overwritten_file_over_https_with_voms":[
+    "78e1a9",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV COPY OVERWRITTEN FILE OVER HTTPS WITH VOMS",
+    "The WebDAV COPY method to overwrite a file over https with voms.",
+    "wt.ts_webdav_copy_overwritten_file_over_https_with_voms(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_copy_overwritten_full_directory_over_https_with_voms":[
+    "af212c",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV COPY OVERWRITTEN FULL DIRECTORY OVER HTTPS WITH VOMS",
+    "The WebDAV copy method to overwrite a full directory over https with voms.",
+    "wt.ts_webdav_copy_overwritten_full_directory_over_https_with_voms(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
   "ts_webdav_move_file_over_https_with_voms":[
     "a7e9e9",
     "ST",
@@ -1559,6 +1625,28 @@
     "WEBDAV MOVE FULL DIRECTORY OVER HTTPS WITH VOMS",
     "The WebDAV move method to copy a full directory over https with voms.",
     "wt.ts_webdav_move_full_directory_over_https_with_voms(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_move_overwritten_file_over_https_with_voms":[
+    "94da33",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV MOVE OVERWRITTEN FILE OVER HTTPS WITH VOMS",
+    "The WebDAV MOVE method to overwrite a file over https with voms.",
+    "wt.ts_webdav_move_overwritten_file_over_https_with_voms(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_move_overwritten_full_directory_over_https_with_voms":[
+    "1e9689",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV MOVE OVERWRITTEN FULL DIRECTORY OVER HTTPS WITH VOMS",
+    "The WebDAV move method to overwrite a full directory over https with voms.",
+    "wt.ts_webdav_move_overwritten_full_directory_over_https_with_voms(tfn,ifn,dfn,back_ifn,uid,lfn)",
     ["gridhttps"]
     ],
   "ts_webdav_get_directory_over_https_with_user_cert":[
@@ -1704,6 +1792,28 @@
     "wt.ts_webdav_copy_full_directory_over_https_with_user_cert(tfn,ifn,dfn,back_ifn,uid,lfn)",
     ["gridhttps"]
     ],
+  "ts_webdav_copy_overwritten_file_over_https_with_user_cert":[
+    "8649dc",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV COPY OVERWRITTEN FILE OVER HTTPS WITH USER CERT",
+    "The WebDAV COPY method to overwrite a file over https with user cert.",
+    "wt.ts_webdav_copy_overwritten_file_over_https_with_user_cert(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_copy_overwritten_full_directory_over_https_with_user_cert":[
+    "5ab38c",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV COPY OVERWRITTEN FULL DIRECTORY OVER HTTPS WITH USER CERT",
+    "The WebDAV copy method to overwrite a full directory over https with user cert.",
+    "wt.ts_webdav_copy_overwritten_full_directory_over_https_with_user_cert(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ]
   "ts_webdav_move_file_over_https_with_user_cert":[
     "a8e9e9",
     "ST",
@@ -1724,6 +1834,28 @@
     "WEBDAV MOVE FULL DIRECTORY OVER HTTPS WITH USER CERT",
     "The WebDAV move method to copy a full directory over https with user cert.",
     "wt.ts_webdav_move_full_directory_over_https_with_user_cert(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_move_overwritten_file_over_https_with_user_cert":[
+    "a0f99b",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV MOVE OVERWRITTEN FILE OVER HTTPS WITH USER CERT",
+    "The WebDAV MOVE method to overwrite a file over https with user cert.",
+    "wt.ts_webdav_move_overwritten_file_over_https_with_user_cert(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_move_overwritten_full_directory_over_https_with_user_cert":[
+    "7a6ab5",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV MOVE OVERWRITTEN FULL DIRECTORY OVER HTTPS WITH USER CERT",
+    "The WebDAV move method to overwrite a full directory over https with user cert.",
+    "wt.ts_webdav_move_overwritten_full_directory_over_https_with_user_cert(tfn,ifn,dfn,back_ifn,uid,lfn)",
     ["gridhttps"]
     ]
 }
