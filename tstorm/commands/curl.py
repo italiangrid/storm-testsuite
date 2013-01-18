@@ -55,12 +55,12 @@ class Curl:
                 % (self.request_uri, content, data))
         elif operation == 'COPY':
             cmd += (' -X COPY %s%s --header "Destination: %s%s"' 
-                % (self.request_uri, self.dfn, self.request_uri, new_file)
+                % (self.request_uri, self.dfn, self.request_uri, new_file))
             if overwrite:
                 cmd += ' --header "Overwrite: T"'
         elif operation == 'MOVE':
             cmd += (' -X MOVE %s%s --header "Destination: %s%s"'
-                % (self.request_uri, self.dfn, self.request_uri, new_file)
+                % (self.request_uri, self.dfn, self.request_uri, new_file))
             if overwrite:
                 cmd += ' --header "Overwrite: T"'
         return cmd

@@ -1040,7 +1040,7 @@ class WebdavTest(unittest.TestCase):
 
         self.lfn.flush_file()
 
-   def test_webdav_move_full_directory_over_https_with_voms(self):
+    def test_webdav_move_full_directory_over_https_with_voms(self):
         stack_value = inspect.stack()[0]
         path = stack_value[1]
         method = stack_value[3]
@@ -1379,7 +1379,7 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
+            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn)
             self.lfn.put_cmd(put_curl.get_command(use_cert=True,operation='PUT'))
             curl_result = put_curl.get_output(use_cert=True,operation='PUT')
 
@@ -1579,7 +1579,7 @@ class WebdavTest(unittest.TestCase):
         path = stack_value[1]
         method = stack_value[3]
 
-                try:
+        try:
             request_uri = ('https://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
