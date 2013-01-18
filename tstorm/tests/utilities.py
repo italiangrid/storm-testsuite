@@ -28,7 +28,7 @@ class UtilitiesTest(unittest.TestCase):
             for x in self.tsets:
                 msg = 'Section %s is wrong in the conf file' % x
                 self.assert_(x in ('general','ping','https','http','tape',
-                    'bdii','yaim','log','node'),
+                    'bdii','user','yaim','log','node'),
                     '%s, %s - FAILED, %s, Test ID %s' %
                     (path, method, msg, self.id))
 

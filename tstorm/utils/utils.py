@@ -24,8 +24,21 @@ def run_voms_proxy_info():
         a=commands.getstatusoutput('voms-proxy-info --all')
     return a
 
+def run_grid_proxy_info(grid_proxy):
+    a=()
+    if cmd_exist('grid-proxy-info'):
+        a=commands.getstatusoutput('grid-proxy-info -f %s' % grid_proxy)
+    return a
+
 def get_proxy_path():
     a=run_voms_proxy_info()
+    if len(a) > 0 and a[0] == 0:
+        return 'PASS', a[1].split('path')[1].split(':')[1].split('\n')[0]
+
+    return 'FAILURE', ''
+
+def get_grid_proxy_path(grid_proxy):
+    a=run_grid_proxy_info(grid_proxy)
     if len(a) > 0 and a[0] == 0:
         return 'PASS', a[1].split('path')[1].split(':')[1].split('\n')[0]
 

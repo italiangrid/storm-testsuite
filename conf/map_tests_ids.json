@@ -586,7 +586,7 @@
     "bf9138",
     "ST",
     true,
-    [["https://storm.cnaf.infn.it:8443/redmine/issues/241","[1.10.1-1,*)"]],
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/241","[1.10.1-1,1.11.0-1)"]],
     false,
     "STORM GSIFTP BUG: FAILURE IN CASE OF ZERO LENGTH FILE",
     "Gsiftp fails when transferring a file of zero length",
@@ -1856,6 +1856,50 @@
     "WEBDAV MOVE OVERWRITTEN FULL DIRECTORY OVER HTTPS WITH USER CERT",
     "The WebDAV move method to overwrite a full directory over https with user cert.",
     "wt.ts_webdav_move_overwritten_full_directory_over_https_with_user_cert(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_copy_sa_on_different_sa_over_http_as_anonymous":[
+    "a4a9e9",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV COPY DIFFERENT STORAGE AREA OVER HTTP AS ANONYMOUS",
+    "The WebDAV copy method to copy a storage area to a different storage area over http as anonymous.",
+    "wt.ts_webdav_copy_sa_on_different_sa_over_http_as_anonymous(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_copy_sa_on_different_sa_over_https_with_user_cert":[
+    "a4a9a9",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV COPY DIFFERENT STORAGE AREA OVER HTTPS WITH USER CERT",
+    "The WebDAV copy method to copy a storage area to a different storage area over https with user cert.",
+    "wt.ts_webdav_copy_sa_on_different_sa_over_https_with_user_cert(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_move_sa_on_different_sa_over_http_as_anonymous":[
+    "43ae6f",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV MOVE DIFFERENT STORAGE AREA OVER HTTP AS ANONYMOUS",
+    "The WebDAV move method to copy a storage area to a different storage area over http as anonymous.",
+    "wt.ts_webdav_move_sa_on_different_sa_over_http_as_anonymous(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["gridhttps"]
+    ],
+  "ts_webdav_move_sa_on_different_sa_over_https_with_user_cert":[
+    "22e768",
+    "ST",
+    false,
+    [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
+    false,
+    "WEBDAV MOVE DIFFERENT STORAGE AREA OVER HTTPS WITH USER CERT",
+    "The WebDAV move method to move a storage area to a different storage area over https with user cert.",
+    "wt.ts_webdav_move_sa_on_different_sa_over_https_with_user_cert(tfn,ifn,dfn,back_ifn,uid,lfn)",
     ["gridhttps"]
     ]
 }

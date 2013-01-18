@@ -29,7 +29,7 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('http://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['http_port'],
-                self.tsets['http']['read_anonymous']))
+                self.tsets['http']['read_anonymous'].split(',')[0].strip()))
 
             get_curl = curl.Curl(request_uri,self.ifn,self.dfn)
             self.lfn.put_cmd(get_curl.get_command(operation='GET'))
@@ -56,7 +56,7 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('http://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['http_port'],
-                self.tsets['http']['write_anonymous']))
+                self.tsets['http']['write_anonymous'].split(',')[0].strip()))
 
             put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
             self.lfn.put_cmd(put_curl.get_command(operation='PUT'))
@@ -83,7 +83,7 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('http://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['http_port'],
-                self.tsets['http']['write_anonymous']))
+                self.tsets['http']['write_anonymous'].split(',')[0].strip()))
 
             put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
             self.lfn.put_cmd(put_curl.get_command(operation='PUT'))
@@ -94,9 +94,10 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            #put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
-            self.lfn.put_cmd(put_curl.get_command(operation='PUT', overwrite=True))
-            curl_result = put_curl.get_output(operation='PUT', overwrite=True)
+            self.lfn.put_cmd(put_curl.get_command(operation='PUT',
+                overwrite=True))
+            curl_result = put_curl.get_output(operation='PUT',
+                overwrite=True)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -119,11 +120,13 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('http://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['http_port'],
-                self.tsets['http']['write_anonymous']))
+                self.tsets['http']['write_anonymous'].split(',')[0].strip()))
 
             put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
-            self.lfn.put_cmd(put_curl.get_command(operation='PUT', body=True, body_text='text file'))
-            curl_result = put_curl.get_output(operation='PUT', body=True, body_text='text file')
+            self.lfn.put_cmd(put_curl.get_command(operation='PUT',
+                body=True, body_text='text file'))
+            curl_result = put_curl.get_output(operation='PUT',
+                body=True, body_text='text file')
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -146,7 +149,7 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('http://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['http_port'],
-                self.tsets['http']['write_anonymous']))
+                self.tsets['http']['write_anonymous'].split(',')[0].strip()))
 
             put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
             self.lfn.put_cmd(put_curl.get_command(operation='PUT'))
@@ -157,9 +160,10 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            #put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
-            self.lfn.put_cmd(put_curl.get_command(operation='PUT', body=True, body_text='text file', overwrite=True))
-            curl_result = put_curl.get_output(operation='PUT', body=True, body_text='text file', overwrite=True)
+            self.lfn.put_cmd(put_curl.get_command(operation='PUT',
+                body=True, body_text='text file', overwrite=True))
+            curl_result = put_curl.get_output(operation='PUT',
+                body=True, body_text='text file', overwrite=True)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -183,7 +187,8 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('http://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['http_port'],
-                self.tsets['http']['write_anonymous']))
+                self.tsets['http']['write_anonymous'].split(',')[0].strip()))
+
             id = utils.get_uuid()
             mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
             self.lfn.put_cmd(mkcol_curl.get_command(operation='MKCOL'))
@@ -218,7 +223,8 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('http://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['http_port'],
-                self.tsets['http']['write_anonymous']))
+                self.tsets['http']['write_anonymous'].split(',')[0].strip()))
+
             id = utils.get_uuid()
             mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
             self.lfn.put_cmd(mkcol_curl.get_command(operation='MKCOL'))
@@ -266,7 +272,8 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('http://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['http_port'],
-                self.tsets['http']['write_anonymous']))
+                self.tsets['http']['write_anonymous'].split(',')[0].strip()))
+
             id = utils.get_uuid()
             mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
             self.lfn.put_cmd(mkcol_curl.get_command(operation='MKCOL'))
@@ -301,7 +308,8 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('http://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['http_port'],
-                self.tsets['http']['write_anonymous']))
+                self.tsets['http']['write_anonymous'].split(',')[0].strip()))
+
             id = utils.get_uuid()
             mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
             self.lfn.put_cmd(mkcol_curl.get_command(operation='MKCOL'))
@@ -345,7 +353,7 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('http://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['http_port'],
-                self.tsets['http']['write_anonymous']))
+                self.tsets['http']['write_anonymous'].split(',')[0].strip()))
 
             put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
             self.lfn.put_cmd(put_curl.get_command(operation='PROPFIND'))
@@ -372,7 +380,7 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('http://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['http_port'],
-                self.tsets['http']['write_anonymous']))
+                self.tsets['http']['write_anonymous'].split(',')[0].strip()))
 
             put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
             self.lfn.put_cmd(put_curl.get_command(operation='OPTIONS'))
@@ -399,7 +407,7 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('http://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['http_port'],
-                self.tsets['http']['write_anonymous']))
+                self.tsets['http']['write_anonymous'].split(',')[0].strip()))
 
             put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
             self.lfn.put_cmd(put_curl.get_command(operation='PUT'))
@@ -410,8 +418,10 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            self.lfn.put_cmd(put_curl.get_command(operation='COPY', new_file=self.dfn+'x'))
-            curl_result = put_curl.get_output(operation='COPY', new_file=self.dfn+'x')
+            self.lfn.put_cmd(put_curl.get_command(operation='COPY',
+                new_file=request_uri+self.dfn+'x'))
+            curl_result = put_curl.get_output(operation='COPY',
+                new_file=request_uri+self.dfn+'x')
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -434,7 +444,7 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('http://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['http_port'],
-                self.tsets['http']['write_anonymous']))
+                self.tsets['http']['write_anonymous'].split(',')[0].strip()))
 
             id = utils.get_uuid()
             mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
@@ -456,8 +466,10 @@ class WebdavTest(unittest.TestCase):
                 (path, method, msg, self.id))
 
             new_id = utils.get_uuid()
-            self.lfn.put_cmd(mkcol_curl.get_command(operation='COPY', new_file='/test-'+new_id))
-            curl_result = mkcol_curl.get_output(operation='COPY', new_file='/test-'+new_id)
+            self.lfn.put_cmd(mkcol_curl.get_command(operation='COPY',
+                new_file=request_uri+'/test-'+new_id))
+            curl_result = mkcol_curl.get_output(operation='COPY',
+                new_file=request_uri+'/test-'+new_id)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -481,7 +493,7 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('http://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['http_port'],
-                self.tsets['http']['write_anonymous']))
+                self.tsets['http']['write_anonymous'].split(',')[0].strip()))
 
             first_put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
             self.lfn.put_cmd(first_put_curl.get_command(operation='PUT'))
@@ -496,8 +508,10 @@ class WebdavTest(unittest.TestCase):
             self.lfn.put_cmd(second_put_curl.get_command(operation='PUT'))
             curl_result = second_put_curl.get_output(operation='PUT')
 
-            self.lfn.put_cmd(first_put_curl.get_command(operation='COPY', new_file=self.dfn+'x', overwrite=True))
-            curl_result = first_put_curl.get_output(operation='COPY', new_file=self.dfn+'x', overwrite=True)
+            self.lfn.put_cmd(first_put_curl.get_command(operation='COPY',
+                new_file=request_uri+self.dfn+'x', overwrite=True))
+            curl_result = first_put_curl.get_output(operation='COPY',
+                new_file=request_uri+self.dfn+'x', overwrite=True)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -536,7 +550,7 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('http://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['http_port'],
-                self.tsets['http']['write_anonymous']))
+                self.tsets['http']['write_anonymous'].split(',')[0].strip()))
 
             id = utils.get_uuid()
             mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
@@ -557,8 +571,10 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            self.lfn.put_cmd(mkcol_curl.get_command(operation='COPY', new_file='/test-'+id, overwrite=True))
-            curl_result = mkcol_curl.get_output(operation='COPY', new_file='/test-'+id, overwrite=True)
+            self.lfn.put_cmd(mkcol_curl.get_command(operation='COPY',
+                new_file=request_uri+'/test-'+id, overwrite=True))
+            curl_result = mkcol_curl.get_output(operation='COPY',
+                new_file=request_uri+'/test-'+id, overwrite=True)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -582,7 +598,7 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('http://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['http_port'],
-                self.tsets['http']['write_anonymous']))
+                self.tsets['http']['write_anonymous'].split(',')[0].strip()))
 
             put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
             self.lfn.put_cmd(put_curl.get_command(operation='PUT'))
@@ -593,8 +609,10 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            self.lfn.put_cmd(put_curl.get_command(operation='MOVE', new_file=self.dfn+'x'))
-            curl_result = put_curl.get_output(operation='MOVE', new_file=self.dfn+'x')
+            self.lfn.put_cmd(put_curl.get_command(operation='MOVE',
+                new_file=request_uri+self.dfn+'x'))
+            curl_result = put_curl.get_output(operation='MOVE',
+                new_file=request_uri+self.dfn+'x')
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -617,7 +635,7 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('http://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['http_port'],
-                self.tsets['http']['write_anonymous']))
+                self.tsets['http']['write_anonymous'].split(',')[0].strip()))
 
             id = utils.get_uuid()
             mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
@@ -639,8 +657,10 @@ class WebdavTest(unittest.TestCase):
                 (path, method, msg, self.id))
 
             new_id = utils.get_uuid()
-            self.lfn.put_cmd(mkcol_curl.get_command(operation='MOVE', new_file='/test-'+new_id))
-            curl_result = mkcol_curl.get_output(operation='MOVE', new_file='/test-'+new_id)
+            self.lfn.put_cmd(mkcol_curl.get_command(operation='MOVE',
+                new_file=request_uri+'/test-'+new_id))
+            curl_result = mkcol_curl.get_output(operation='MOVE',
+                new_file=request_uri+'/test-'+new_id)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -664,7 +684,7 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('http://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['http_port'],
-                self.tsets['http']['write_anonymous']))
+                self.tsets['http']['write_anonymous'].split(',')[0].strip()))
 
             put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
             self.lfn.put_cmd(put_curl.get_command(operation='PUT'))
@@ -675,8 +695,10 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            self.lfn.put_cmd(put_curl.get_command(operation='MOVE', new_file=self.dfn, overwrite=True))
-            curl_result = put_curl.get_output(operation='MOVE', new_file=self.dfn, overwrite=True)
+            self.lfn.put_cmd(put_curl.get_command(operation='MOVE',
+                new_file=request_uri+self.dfn, overwrite=True))
+            curl_result = put_curl.get_output(operation='MOVE',
+                new_file=request_uri+self.dfn, overwrite=True)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -699,7 +721,7 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('http://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['http_port'],
-                self.tsets['http']['write_anonymous']))
+                self.tsets['http']['write_anonymous'].split(',')[0].strip()))
 
             id = utils.get_uuid()
             mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
@@ -720,8 +742,10 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            self.lfn.put_cmd(mkcol_curl.get_command(operation='MOVE', new_file='/test-'+id, overwrite=True))
-            curl_result = mkcol_curl.get_output(operation='MOVE', new_file='/test-'+id, overwrite=True)
+            self.lfn.put_cmd(mkcol_curl.get_command(operation='MOVE',
+                new_file=request_uri+'/test-'+id, overwrite=True))
+            curl_result = mkcol_curl.get_output(operation='MOVE',
+                new_file=request_uri+'/test-'+id, overwrite=True)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -747,7 +771,8 @@ class WebdavTest(unittest.TestCase):
                 self.tsets['general']['https_port'],
                 self.tsets['https']['voms']))
 
-            get_curl = curl.Curl(request_uri, self.ifn, self.dfn)
+            get_curl = curl.Curl(request_uri, self.ifn, self.dfn,
+                user_cert=self.tsets['user']['cert'])
             self.lfn.put_cmd(get_curl.get_command(use_proxy=True, operation='GET'))
             curl_result = get_curl.get_output(use_proxy=True, operation='GET')
 
@@ -774,7 +799,8 @@ class WebdavTest(unittest.TestCase):
                 self.tsets['general']['https_port'],
                 self.tsets['https']['voms']))
 
-            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn,
+                user_cert=self.tsets['user']['cert'])
             self.lfn.put_cmd(put_curl.get_command(use_proxy=True, operation='PUT'))
             curl_result = put_curl.get_output(use_proxy=True, operation='PUT')
 
@@ -801,7 +827,8 @@ class WebdavTest(unittest.TestCase):
                 self.tsets['general']['https_port'],
                 self.tsets['https']['voms']))
 
-            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn,
+                user_cert=self.tsets['user']['cert'])
             self.lfn.put_cmd(put_curl.get_command(use_proxy=True, operation='PUT'))
             curl_result = put_curl.get_output(use_proxy=True, operation='PUT')
 
@@ -811,8 +838,10 @@ class WebdavTest(unittest.TestCase):
                 (path, method, msg, self.id))
 
             #put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
-            self.lfn.put_cmd(put_curl.get_command(use_proxy=True, operation='PUT', overwrite=True))
-            curl_result = put_curl.get_output(use_proxy=True, operation='PUT', overwrite=True)
+            self.lfn.put_cmd(put_curl.get_command(use_proxy=True,
+                operation='PUT', overwrite=True))
+            curl_result = put_curl.get_output(use_proxy=True,
+                operation='PUT', overwrite=True)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -837,9 +866,12 @@ class WebdavTest(unittest.TestCase):
                 self.tsets['general']['https_port'],
                 self.tsets['https']['voms']))
 
-            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
-            self.lfn.put_cmd(put_curl.get_command(use_proxy=True, operation='PUT', body=True, body_text='text file'))
-            curl_result = put_curl.get_output(use_proxy=True, operation='PUT', body=True, body_text='text file')
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn,
+               user_cert=self.tsets['user']['cert'])
+            self.lfn.put_cmd(put_curl.get_command(use_proxy=True,
+                operation='PUT', body=True, body_text='text file'))
+            curl_result = put_curl.get_output(use_proxy=True,
+                operation='PUT', body=True, body_text='text file')
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -864,18 +896,24 @@ class WebdavTest(unittest.TestCase):
                 self.tsets['general']['https_port'],
                 self.tsets['https']['voms']))
 
-            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
-            self.lfn.put_cmd(put_curl.get_command(use_proxy=True, operation='PUT'))
-            curl_result = put_curl.get_output(use_proxy=True, operation='PUT')
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn,
+                user_cert=self.tsets['user']['cert'])
+            self.lfn.put_cmd(put_curl.get_command(use_proxy=True,
+                operation='PUT'))
+            curl_result = put_curl.get_output(use_proxy=True,
+                operation='PUT')
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            #put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
-            self.lfn.put_cmd(put_curl.get_command(use_proxy=True, operation='PUT', body=True, body_text='text file', overwrite=True))
-            curl_result = put_curl.get_output(use_proxy=True, operation='PUT', body=True, body_text='text file', overwrite=True)
+            self.lfn.put_cmd(put_curl.get_command(use_proxy=True,
+                operation='PUT', body=True, body_text='text file',
+                overwrite=True))
+            curl_result = put_curl.get_output(use_proxy=True,
+                operation='PUT', body=True, body_text='text file',
+                overwrite=True)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -899,8 +937,10 @@ class WebdavTest(unittest.TestCase):
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
                 self.tsets['https']['voms']))
+
             id = utils.get_uuid()
-            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id,
+                user_cert=self.tsets['user']['cert'])
             self.lfn.put_cmd(mkcol_curl.get_command(use_proxy=True,operation='MKCOL'))
             curl_result = mkcol_curl.get_output(use_proxy=True,operation='MKCOL')
 
@@ -934,8 +974,10 @@ class WebdavTest(unittest.TestCase):
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
                 self.tsets['https']['voms']))
+
             id = utils.get_uuid()
-            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id,
+                user_cert=self.tsets['user']['cert'])
             self.lfn.put_cmd(mkcol_curl.get_command(use_proxy=True, operation='MKCOL'))
             curl_result = mkcol_curl.get_output(use_proxy=True, operation='MKCOL')
 
@@ -944,7 +986,8 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn,
+                user_cert=self.tsets['user']['cert'])
             self.lfn.put_cmd(put_curl.get_command(use_proxy=True, operation='PUT'))
             curl_result = put_curl.get_output(use_proxy=True, operation='PUT')
 
@@ -953,7 +996,8 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            delete_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn)
+            delete_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn,
+                user_cert=self.tsets['user']['cert'])
             self.lfn.put_cmd(delete_curl.get_command(use_proxy=True, operation='DELETE'))
             curl_result = delete_curl.get_output(use_proxy=True, operation='DELETE')
 
@@ -982,8 +1026,10 @@ class WebdavTest(unittest.TestCase):
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
                 self.tsets['https']['voms']))
+
             id = utils.get_uuid()
-            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id,
+                user_cert=self.tsets['user']['cert'])
             self.lfn.put_cmd(mkcol_curl.get_command(use_proxy=True,operation='MKCOL'))
             curl_result = mkcol_curl.get_output(use_proxy=True,operation='MKCOL')
 
@@ -1017,8 +1063,10 @@ class WebdavTest(unittest.TestCase):
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
                 self.tsets['https']['voms']))
+
             id = utils.get_uuid()
-            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id,
+                user_cert=self.tsets['user']['cert'])
             self.lfn.put_cmd(mkcol_curl.get_command(use_proxy=True,operation='MKCOL'))
             curl_result = mkcol_curl.get_output(use_proxy=True,operation='MKCOL')
 
@@ -1027,7 +1075,8 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn,
+                user_cert=self.tsets['user']['cert'])
             self.lfn.put_cmd(put_curl.get_command(use_proxy=True,operation='PUT'))
             curl_result = put_curl.get_output(use_proxy=True,operation='PUT')
 
@@ -1062,7 +1111,8 @@ class WebdavTest(unittest.TestCase):
                 self.tsets['general']['https_port'],
                 self.tsets['https']['voms']))
 
-            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn,
+                user_cert=self.tsets['user']['cert'])
             self.lfn.put_cmd(put_curl.get_command(use_proxy=True,operation='PROPFIND'))
             curl_result = put_curl.get_output(use_proxy=True, operation='PROPFIND')
 
@@ -1089,7 +1139,8 @@ class WebdavTest(unittest.TestCase):
                 self.tsets['general']['https_port'],
                 self.tsets['https']['voms']))
 
-            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn,
+                user_cert=self.tsets['user']['cert'])
             self.lfn.put_cmd(put_curl.get_command(use_proxy=True,operation='OPTIONS'))
             curl_result = put_curl.get_output(use_proxy=True,operation='OPTIONS')
 
@@ -1116,7 +1167,8 @@ class WebdavTest(unittest.TestCase):
                 self.tsets['general']['https_port'],
                 self.tsets['https']['voms']))
 
-            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn,
+                user_cert=self.tsets['user']['cert'])
             self.lfn.put_cmd(put_curl.get_command(use_proxy=True,operation='PUT'))
             curl_result = put_curl.get_output(use_proxy=True,operation='PUT')
 
@@ -1125,8 +1177,10 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            self.lfn.put_cmd(put_curl.get_command(use_proxy=True,operation='COPY', new_file=self.dfn+'x'))
-            curl_result = put_curl.get_output(use_proxy=True,operation='COPY', new_file=self.dfn+'x')
+            self.lfn.put_cmd(put_curl.get_command(use_proxy=True,operation='COPY',
+                new_file=request_uri+self.dfn+'x'))
+            curl_result = put_curl.get_output(use_proxy=True,operation='COPY',
+                new_file=request_uri+self.dfn+'x')
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -1152,7 +1206,8 @@ class WebdavTest(unittest.TestCase):
                 self.tsets['https']['voms']))
 
             id = utils.get_uuid()
-            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id,
+                user_cert=self.tsets['user']['cert'])
             self.lfn.put_cmd(mkcol_curl.get_command(use_proxy=True,operation='MKCOL'))
             curl_result = mkcol_curl.get_output(use_proxy=True,operation='MKCOL')
 
@@ -1161,7 +1216,8 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn,
+                user_cert=self.tsets['user']['cert'])
             self.lfn.put_cmd(put_curl.get_command(use_proxy=True,operation='PUT'))
             curl_result = put_curl.get_output(use_proxy=True,operation='PUT')
 
@@ -1171,8 +1227,10 @@ class WebdavTest(unittest.TestCase):
                 (path, method, msg, self.id))
 
             new_id = utils.get_uuid()
-            self.lfn.put_cmd(mkcol_curl.get_command(use_proxy=True,operation='COPY', new_file='/test-'+new_id))
-            curl_result = mkcol_curl.get_output(use_proxy=True,operation='COPY', new_file='/test-'+new_id)
+            self.lfn.put_cmd(mkcol_curl.get_command(use_proxy=True,operation='COPY',
+                new_file=request_uri+'/test-'+new_id))
+            curl_result = mkcol_curl.get_output(use_proxy=True,operation='COPY',
+                new_file=request_uri+'/test-'+new_id)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -1198,7 +1256,8 @@ class WebdavTest(unittest.TestCase):
                 self.tsets['general']['https_port'],
                 self.tsets['https']['voms']))
 
-            first_put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            first_put_curl = curl.Curl(request_uri,self.ifn,self.dfn,
+                user_cert=self.tsets['user']['cert'])
             self.lfn.put_cmd(first_put_curl.get_command(use_proxy=True,operation='PUT'))
             curl_result = first_put_curl.get_output(use_proxy=True,operation='PUT')
 
@@ -1207,12 +1266,15 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            second_put_curl = curl.Curl(request_uri,self.ifn,self.dfn+'x')
+            second_put_curl = curl.Curl(request_uri,self.ifn,self.dfn+'x',
+                user_cert=self.tsets['user']['cert'])
             self.lfn.put_cmd(second_put_curl.get_command(use_proxy=True,operation='PUT'))
             curl_result = second_put_curl.get_output(use_proxy=True,operation='PUT')
 
-            self.lfn.put_cmd(first_put_curl.get_command(use_proxy=True,operation='COPY', new_file=self.dfn+'x', overwrite=True))
-            curl_result = first_put_curl.get_output(use_proxy=True,operation='COPY', new_file=self.dfn+'x', overwrite=True)
+            self.lfn.put_cmd(first_put_curl.get_command(use_proxy=True,operation='COPY',
+                new_file=request_uri+self.dfn+'x', overwrite=True))
+            curl_result = first_put_curl.get_output(use_proxy=True,operation='COPY',
+                new_file=request_uri+self.dfn+'x', overwrite=True)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -1254,7 +1316,8 @@ class WebdavTest(unittest.TestCase):
                 self.tsets['https']['voms']))
 
             id = utils.get_uuid()
-            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id,
+                user_cert=self.tsets['user']['cert'])
             self.lfn.put_cmd(mkcol_curl.get_command(use_proxy=True,operation='MKCOL'))
             curl_result = mkcol_curl.get_output(use_proxy=True,operation='MKCOL')
 
@@ -1263,7 +1326,8 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn,
+                user_cert=self.tsets['user']['cert'])
             self.lfn.put_cmd(put_curl.get_command(use_proxy=True,operation='PUT'))
             curl_result = put_curl.get_output(use_proxy=True,operation='PUT')
 
@@ -1272,8 +1336,10 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            self.lfn.put_cmd(mkcol_curl.get_command(use_proxy=True,operation='COPY', new_file='/test-'+id, overwrite=True))
-            curl_result = mkcol_curl.get_output(use_proxy=True,operation='COPY', new_file='/test-'+id, overwrite=True)
+            self.lfn.put_cmd(mkcol_curl.get_command(use_proxy=True,operation='COPY',
+                new_file=request_uri+'/test-'+id, overwrite=True))
+            curl_result = mkcol_curl.get_output(use_proxy=True,operation='COPY',
+                new_file=request_uri+'/test-'+id, overwrite=True)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -1299,7 +1365,8 @@ class WebdavTest(unittest.TestCase):
                 self.tsets['general']['https_port'],
                 self.tsets['https']['voms']))
 
-            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn,
+                user_cert=self.tsets['user']['cert'])
             self.lfn.put_cmd(put_curl.get_command(use_proxy=True,operation='PUT'))
             curl_result = put_curl.get_output(use_proxy=True,operation='PUT')
 
@@ -1308,8 +1375,10 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            self.lfn.put_cmd(put_curl.get_command(use_proxy=True,operation='MOVE', new_file=self.dfn+'x'))
-            curl_result = put_curl.get_output(use_proxy=True,operation='MOVE', new_file=self.dfn+'x')
+            self.lfn.put_cmd(put_curl.get_command(use_proxy=True,operation='MOVE',
+                new_file=request_uri+self.dfn+'x'))
+            curl_result = put_curl.get_output(use_proxy=True,operation='MOVE',
+                new_file=request_uri+self.dfn+'x')
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -1335,7 +1404,8 @@ class WebdavTest(unittest.TestCase):
                 self.tsets['https']['voms']))
 
             id = utils.get_uuid()
-            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id,
+                user_cert=self.tsets['user']['cert'])
             self.lfn.put_cmd(mkcol_curl.get_command(use_proxy=True,operation='MKCOL'))
             curl_result = mkcol_curl.get_output(use_proxy=True,operation='MKCOL')
 
@@ -1344,7 +1414,8 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn,
+                user_cert=self.tsets['user']['cert'])
             self.lfn.put_cmd(put_curl.get_command(use_proxy=True,operation='PUT'))
             curl_result = put_curl.get_output(use_proxy=True,operation='PUT')
 
@@ -1354,8 +1425,10 @@ class WebdavTest(unittest.TestCase):
                 (path, method, msg, self.id))
 
             new_id = utils.get_uuid()
-            self.lfn.put_cmd(mkcol_curl.get_command(use_proxy=True,operation='MOVE', new_file='/test-'+new_id))
-            curl_result = mkcol_curl.get_output(use_proxy=True,operation='MOVE', new_file='/test-'+new_id)
+            self.lfn.put_cmd(mkcol_curl.get_command(use_proxy=True,operation='MOVE',
+                new_file=request_uri+'/test-'+new_id))
+            curl_result = mkcol_curl.get_output(use_proxy=True,operation='MOVE',
+                new_file=request_uri+'/test-'+new_id)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -1381,7 +1454,8 @@ class WebdavTest(unittest.TestCase):
                 self.tsets['general']['https_port'],
                 self.tsets['https']['voms']))
 
-            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn,
+                user_cert=self.tsets['user']['cert'])
             self.lfn.put_cmd(put_curl.get_command(use_proxy=True,operation='PUT'))
             curl_result = put_curl.get_output(use_proxy=True,operation='PUT')
 
@@ -1390,8 +1464,10 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            self.lfn.put_cmd(put_curl.get_command(use_proxy=True,operation='MOVE', new_file=self.dfn, overwrite=True))
-            curl_result = put_curl.get_output(use_proxy=True,operation='MOVE', new_file=self.dfn, overwrite=True)
+            self.lfn.put_cmd(put_curl.get_command(use_proxy=True,operation='MOVE',
+                new_file=request_uri+self.dfn, overwrite=True))
+            curl_result = put_curl.get_output(use_proxy=True,operation='MOVE',
+                new_file=request_uri+self.dfn, overwrite=True)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -1417,7 +1493,8 @@ class WebdavTest(unittest.TestCase):
                 self.tsets['https']['voms']))
 
             id = utils.get_uuid()
-            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id,
+                user_cert=self.tsets['user']['cert'])
             self.lfn.put_cmd(mkcol_curl.get_command(use_proxy=True,operation='MKCOL'))
             curl_result = mkcol_curl.get_output(use_proxy=True,operation='MKCOL')
 
@@ -1426,7 +1503,8 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn,
+                user_cert=self.tsets['user']['cert'])
             self.lfn.put_cmd(put_curl.get_command(use_proxy=True,operation='PUT'))
             curl_result = put_curl.get_output(use_proxy=True,operation='PUT')
 
@@ -1435,8 +1513,10 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            self.lfn.put_cmd(mkcol_curl.get_command(use_proxy=True,operation='MOVE', new_file='/test-'+id, overwrite=True))
-            curl_result = mkcol_curl.get_output(use_proxy=True,operation='MOVE', new_file='/test-'+id, overwrite=True)
+            self.lfn.put_cmd(mkcol_curl.get_command(use_proxy=True,operation='MOVE',
+                new_file=request_uri+'/test-'+id, overwrite=True))
+            curl_result = mkcol_curl.get_output(use_proxy=True,operation='MOVE',
+                new_file=request_uri+'/test-'+id, overwrite=True)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -1460,9 +1540,11 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('https://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
-                self.tsets['https']['site']))
+                self.tsets['https']['site'].split(',')[0].strip()))
 
-            get_curl = curl.Curl(request_uri, self.ifn, self.dfn)
+            get_curl = curl.Curl(request_uri, self.ifn, self.dfn,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
             self.lfn.put_cmd(get_curl.get_command(use_cert=True, operation='GET'))
             curl_result = get_curl.get_output(use_cert=True, operation='GET')
 
@@ -1487,9 +1569,11 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('https://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
-                self.tsets['https']['site']))
+                self.tsets['https']['site'].split(',')[0].strip()))
 
-            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
             self.lfn.put_cmd(put_curl.get_command(use_cert=True, operation='PUT'))
             curl_result = put_curl.get_output(use_cert=True, operation='PUT')
 
@@ -1514,9 +1598,11 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('https://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
-                self.tsets['https']['site']))
+                self.tsets['https']['site'].split(',')[0].strip()))
 
-            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
             self.lfn.put_cmd(put_curl.get_command(use_cert=True, operation='PUT'))
             curl_result = put_curl.get_output(use_cert=True, operation='PUT')
 
@@ -1525,9 +1611,10 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            #put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
-            self.lfn.put_cmd(put_curl.get_command(use_cert=True, operation='PUT', overwrite=True))
-            curl_result = put_curl.get_output(use_cert=True, operation='PUT', overwrite=True)
+            self.lfn.put_cmd(put_curl.get_command(use_cert=True,
+                operation='PUT', overwrite=True))
+            curl_result = put_curl.get_output(use_cert=True,
+                operation='PUT', overwrite=True)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -1550,11 +1637,15 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('https://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
-                self.tsets['https']['site']))
+                self.tsets['https']['site'].split(',')[0].strip()))
 
-            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
-            self.lfn.put_cmd(put_curl.get_command(use_cert=True, operation='PUT', body=True, body_text='text file'))
-            curl_result = put_curl.get_output(use_cert=True, operation='PUT', body=True, body_text='text file')
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
+            self.lfn.put_cmd(put_curl.get_command(use_cert=True,
+                operation='PUT', body=True, body_text='text file'))
+            curl_result = put_curl.get_output(use_cert=True,
+                operation='PUT', body=True, body_text='text file')
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -1577,9 +1668,11 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('https://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
-                self.tsets['https']['site']))
+                self.tsets['https']['site'].split(',')[0].strip()))
 
-            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
             self.lfn.put_cmd(put_curl.get_command(use_cert=True, operation='PUT'))
             curl_result = put_curl.get_output(use_cert=True, operation='PUT')
 
@@ -1589,8 +1682,12 @@ class WebdavTest(unittest.TestCase):
                 (path, method, msg, self.id))
 
             #put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
-            self.lfn.put_cmd(put_curl.get_command(use_cert=True, operation='PUT', body=True, body_text='text file', overwrite=True))
-            curl_result = put_curl.get_output(use_cert=True, operation='PUT', body=True, body_text='text file', overwrite=True)
+            self.lfn.put_cmd(put_curl.get_command(use_cert=True,
+                operation='PUT', body=True, body_text='text file',
+                overwrite=True))
+            curl_result = put_curl.get_output(use_cert=True,
+                operation='PUT', body=True, body_text='text file',
+                overwrite=True)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -1613,9 +1710,12 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('https://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
-                self.tsets['https']['site']))
+                self.tsets['https']['site'].split(',')[0].strip()))
+
             id = utils.get_uuid()
-            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
             self.lfn.put_cmd(mkcol_curl.get_command(use_cert=True,operation='MKCOL'))
             curl_result = mkcol_curl.get_output(use_cert=True,operation='MKCOL')
 
@@ -1648,9 +1748,12 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('https://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
-                self.tsets['https']['site']))
+                self.tsets['https']['site'].split(',')[0].strip()))
+
             id = utils.get_uuid()
-            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
             self.lfn.put_cmd(mkcol_curl.get_command(use_cert=True, operation='MKCOL'))
             curl_result = mkcol_curl.get_output(use_cert=True, operation='MKCOL')
 
@@ -1659,7 +1762,9 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
             self.lfn.put_cmd(put_curl.get_command(use_cert=True, operation='PUT'))
             curl_result = put_curl.get_output(use_cert=True, operation='PUT')
 
@@ -1668,7 +1773,9 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            delete_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn)
+            delete_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
             self.lfn.put_cmd(delete_curl.get_command(use_cert=True, operation='DELETE'))
             curl_result = delete_curl.get_output(use_cert=True, operation='DELETE')
 
@@ -1696,9 +1803,12 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('https://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
-                self.tsets['https']['site']))
+                self.tsets['https']['site'].split(',')[0].strip()))
+
             id = utils.get_uuid()
-            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
             self.lfn.put_cmd(mkcol_curl.get_command(use_cert=True,operation='MKCOL'))
             curl_result = mkcol_curl.get_output(use_cert=True,operation='MKCOL')
             
@@ -1731,10 +1841,12 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('https://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
-                self.tsets['https']['site']))
-            id = utils.get_uuid()
+                self.tsets['https']['site'].split(',')[0].strip()))
 
-            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
+            id = utils.get_uuid()
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
             self.lfn.put_cmd(mkcol_curl.get_command(use_cert=True,operation='MKCOL'))
             curl_result = mkcol_curl.get_output(use_cert=True,operation='MKCOL')
 
@@ -1743,7 +1855,9 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
             self.lfn.put_cmd(put_curl.get_command(use_cert=True,operation='PUT'))
             curl_result = put_curl.get_output(use_cert=True,operation='PUT')
 
@@ -1776,9 +1890,11 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('https://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
-                self.tsets['https']['site']))
+                self.tsets['https']['site'].split(',')[0].strip()))
 
-            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
             self.lfn.put_cmd(put_curl.get_command(use_cert=True,operation='PROPFIND'))
             curl_result = put_curl.get_output(use_cert=True, operation='PROPFIND')
 
@@ -1803,9 +1919,11 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('https://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
-                self.tsets['https']['site']))
+                self.tsets['https']['site'].split(',')[0].strip()))
 
-            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
             self.lfn.put_cmd(put_curl.get_command(use_cert=True,operation='OPTIONS'))
             curl_result = put_curl.get_output(use_cert=True,operation='OPTIONS')
 
@@ -1830,9 +1948,11 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('https://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
-                self.tsets['https']['site']))
+                self.tsets['https']['site'].split(',')[0].strip()))
 
-            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
             self.lfn.put_cmd(put_curl.get_command(use_cert=True,operation='PUT'))
             curl_result = put_curl.get_output(use_cert=True,operation='PUT')
 
@@ -1841,8 +1961,10 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            self.lfn.put_cmd(put_curl.get_command(use_cert=True,operation='COPY', new_file=self.dfn+'x'))
-            curl_result = put_curl.get_output(use_cert=True,operation='COPY', new_file=self.dfn+'x')
+            self.lfn.put_cmd(put_curl.get_command(use_cert=True,operation='COPY',
+                new_file=request_uri+self.dfn+'x'))
+            curl_result = put_curl.get_output(use_cert=True,operation='COPY',
+                new_file=request_uri+self.dfn+'x')
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -1865,10 +1987,12 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('https://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
-                self.tsets['https']['site']))
+                self.tsets['https']['site'].split(',')[0].strip()))
 
             id = utils.get_uuid()
-            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
             self.lfn.put_cmd(mkcol_curl.get_command(use_cert=True,operation='MKCOL'))
             curl_result = mkcol_curl.get_output(use_cert=True,operation='MKCOL')
 
@@ -1877,7 +2001,9 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
             self.lfn.put_cmd(put_curl.get_command(use_cert=True,operation='PUT'))
             curl_result = put_curl.get_output(use_cert=True,operation='PUT')
 
@@ -1887,8 +2013,10 @@ class WebdavTest(unittest.TestCase):
                 (path, method, msg, self.id))
 
             new_id = utils.get_uuid()
-            self.lfn.put_cmd(mkcol_curl.get_command(use_cert=True,operation='COPY', new_file='/test-'+new_id))
-            curl_result = mkcol_curl.get_output(use_cert=True,operation='COPY', new_file='/test-'+new_id)
+            self.lfn.put_cmd(mkcol_curl.get_command(use_cert=True,operation='COPY',
+                new_file=request_uri+'/test-'+new_id))
+            curl_result = mkcol_curl.get_output(use_cert=True,operation='COPY',
+                new_file=request_uri+'/test-'+new_id)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -1912,9 +2040,11 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('https://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
-                self.tsets['https']['site']))
+                self.tsets['https']['site'].split(',')[0].strip()))
 
-            first_put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            first_put_curl = curl.Curl(request_uri,self.ifn,self.dfn,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
             self.lfn.put_cmd(first_put_curl.get_command(use_cert=True,operation='PUT'))
             curl_result = first_put_curl.get_output(use_cert=True,operation='PUT')
 
@@ -1923,12 +2053,16 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            second_put_curl = curl.Curl(request_uri,self.ifn,self.dfn+'x')
+            second_put_curl = curl.Curl(request_uri,self.ifn,self.dfn+'x',
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
             self.lfn.put_cmd(second_put_curl.get_command(use_cert=True,operation='PUT'))
             curl_result = second_put_curl.get_output(use_cert=True,operation='PUT')
 
-            self.lfn.put_cmd(first_put_curl.get_command(use_cert=True,operation='COPY', new_file=self.dfn+'x', overwrite=True))
-            curl_result = first_put_curl.get_output(use_cert=True,operation='COPY', new_file=self.dfn+'x', overwrite=True)
+            self.lfn.put_cmd(first_put_curl.get_command(use_cert=True,operation='COPY',
+                new_file=request_uri+self.dfn+'x', overwrite=True))
+            curl_result = first_put_curl.get_output(use_cert=True,operation='COPY',
+                new_file=request_uri+self.dfn+'x', overwrite=True)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -1967,10 +2101,12 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('https://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
-                self.tsets['https']['site']))
+                self.tsets['https']['site'].split(',')[0].strip()))
 
             id = utils.get_uuid()
-            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
             self.lfn.put_cmd(mkcol_curl.get_command(use_cert=True,operation='MKCOL'))
             curl_result = mkcol_curl.get_output(use_cert=True,operation='MKCOL')
 
@@ -1979,7 +2115,9 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
             self.lfn.put_cmd(put_curl.get_command(use_cert=True,operation='PUT'))
             curl_result = put_curl.get_output(use_cert=True,operation='PUT')
 
@@ -1988,8 +2126,10 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            self.lfn.put_cmd(mkcol_curl.get_command(use_cert=True,operation='COPY', new_file='/test-'+id, overwrite=True))
-            curl_result = mkcol_curl.get_output(use_cert=True,operation='COPY', new_file='/test-'+id, overwrite=True)
+            self.lfn.put_cmd(mkcol_curl.get_command(use_cert=True,operation='COPY',
+                new_file=request_uri+'/test-'+id, overwrite=True))
+            curl_result = mkcol_curl.get_output(use_cert=True,operation='COPY',
+                new_file=request_uri+'/test-'+id, overwrite=True)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -2013,9 +2153,11 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('https://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
-                self.tsets['https']['site']))
+                self.tsets['https']['site'].split(',')[0].strip()))
 
-            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
             self.lfn.put_cmd(put_curl.get_command(use_cert=True,operation='PUT'))
             curl_result = put_curl.get_output(use_cert=True,operation='PUT')
 
@@ -2024,8 +2166,10 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            self.lfn.put_cmd(put_curl.get_command(use_cert=True,operation='MOVE', new_file=self.dfn+'x'))
-            curl_result = put_curl.get_output(use_cert=True,operation='MOVE', new_file=self.dfn+'x')
+            self.lfn.put_cmd(put_curl.get_command(use_cert=True,operation='MOVE',
+                new_file=request_uri+self.dfn+'x'))
+            curl_result = put_curl.get_output(use_cert=True,operation='MOVE',
+                new_file=request_uri+self.dfn+'x')
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -2048,10 +2192,12 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('https://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
-                self.tsets['https']['site']))
+                self.tsets['https']['site'].split(',')[0].strip()))
 
             id = utils.get_uuid()
-            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
             self.lfn.put_cmd(mkcol_curl.get_command(use_cert=True,operation='MKCOL'))
             curl_result = mkcol_curl.get_output(use_cert=True,operation='MKCOL')
 
@@ -2060,7 +2206,9 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
             self.lfn.put_cmd(put_curl.get_command(use_cert=True,operation='PUT'))
             curl_result = put_curl.get_output(use_cert=True,operation='PUT')
 
@@ -2070,8 +2218,10 @@ class WebdavTest(unittest.TestCase):
                 (path, method, msg, self.id))
 
             new_id = utils.get_uuid()
-            self.lfn.put_cmd(mkcol_curl.get_command(use_cert=True,operation='MOVE', new_file='/test-'+new_id))
-            curl_result = mkcol_curl.get_output(use_cert=True,operation='MOVE', new_file='/test-'+new_id)
+            self.lfn.put_cmd(mkcol_curl.get_command(use_cert=True,operation='MOVE',
+                new_file=request_uri+'/test-'+new_id))
+            curl_result = mkcol_curl.get_output(use_cert=True,operation='MOVE',
+                new_file=request_uri+'/test-'+new_id)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -2095,9 +2245,11 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('https://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
-                self.tsets['https']['site']))
+                self.tsets['https']['site'].split(',')[0].strip()))
 
-            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,self.dfn,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
             self.lfn.put_cmd(put_curl.get_command(use_cert=True,operation='PUT'))
             curl_result = put_curl.get_output(use_cert=True,operation='PUT')
 
@@ -2106,8 +2258,10 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            self.lfn.put_cmd(put_curl.get_command(use_cert=True,operation='MOVE', new_file=self.dfn, overwrite=True))
-            curl_result = put_curl.get_output(use_cert=True,operation='MOVE', new_file=self.dfn, overwrite=True)
+            self.lfn.put_cmd(put_curl.get_command(use_cert=True,operation='MOVE',
+                new_file=request_uri+self.dfn, overwrite=True))
+            curl_result = put_curl.get_output(use_cert=True,operation='MOVE',
+                new_file=request_uri+self.dfn, overwrite=True)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -2130,10 +2284,12 @@ class WebdavTest(unittest.TestCase):
             request_uri = ('https://%s:%s/%s'
                 % (self.tsets['general']['gridhttp_server_hostname'],
                 self.tsets['general']['https_port'],
-                self.tsets['https']['site']))
+                self.tsets['https']['site'].split(',')[0].strip()))
 
             id = utils.get_uuid()
-            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
             self.lfn.put_cmd(mkcol_curl.get_command(use_cert=True,operation='MKCOL'))
             curl_result = mkcol_curl.get_output(use_cert=True,operation='MKCOL')
 
@@ -2142,7 +2298,9 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn)
+            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
             self.lfn.put_cmd(put_curl.get_command(use_cert=True,operation='PUT'))
             curl_result = put_curl.get_output(use_cert=True,operation='PUT')
 
@@ -2151,8 +2309,242 @@ class WebdavTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            self.lfn.put_cmd(mkcol_curl.get_command(use_cert=True,operation='MOVE', new_file='/test-'+id, overwrite=True))
-            curl_result = mkcol_curl.get_output(use_cert=True,operation='MOVE', new_file='/test-'+id, overwrite=True)
+            self.lfn.put_cmd(mkcol_curl.get_command(use_cert=True,operation='MOVE',
+                new_file=request_uri+'/test-'+id, overwrite=True))
+            curl_result = mkcol_curl.get_output(use_cert=True,operation='MOVE',
+                new_file=request_uri+'/test-'+id, overwrite=True)
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
+        self.lfn.flush_file()
+
+    def test_webdav_copy_sa_on_different_sa_over_http_as_anonymous(self):
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
+            request_uri = ('http://%s:%s/%s'
+                % (self.tsets['general']['gridhttp_server_hostname'],
+                self.tsets['general']['http_port'],
+                self.tsets['http']['write_anonymous'].split(',')[0].strip()))
+
+            id = utils.get_uuid()
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
+            self.lfn.put_cmd(mkcol_curl.get_command(operation='MKCOL'))
+            curl_result = mkcol_curl.get_output(operation='MKCOL')
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn)
+            self.lfn.put_cmd(put_curl.get_command(operation='PUT'))
+            curl_result = put_curl.get_output(operation='PUT')
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            new_id = utils.get_uuid()
+
+            new_request_uri = ('http://%s:%s/%s'
+                % (self.tsets['general']['gridhttp_server_hostname'],
+                self.tsets['general']['http_port'],
+                self.tsets['http']['write_anonymous'].split(',')[1].strip()))
+
+            self.lfn.put_cmd(mkcol_curl.get_command(operation='COPY',
+                new_file=new_request_uri+'/test-'+new_id))
+            curl_result = mkcol_curl.get_output(operation='COPY',
+                new_file=new_request_uri+'/test-'+new_id)
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
+        self.lfn.flush_file()
+
+    #def test_webdav_copy_sa_on_different_sa_over_https_with_voms(self):
+
+    def test_webdav_copy_sa_on_different_sa_over_https_with_user_cert(self):
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
+            request_uri = ('https://%s:%s/%s'
+                % (self.tsets['general']['gridhttp_server_hostname'],
+                self.tsets['general']['https_port'],
+                self.tsets['https']['site'].split(',')[0].strip()))
+
+            id = utils.get_uuid()
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
+            self.lfn.put_cmd(mkcol_curl.get_command(use_cert=True,operation='MKCOL'))
+            curl_result = mkcol_curl.get_output(use_cert=True,operation='MKCOL')
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
+            self.lfn.put_cmd(put_curl.get_command(use_cert=True,operation='PUT'))
+            curl_result = put_curl.get_output(use_cert=True,operation='PUT')
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            new_id = utils.get_uuid()
+
+            new_request_uri = ('https://%s:%s/%s'
+                % (self.tsets['general']['gridhttp_server_hostname'],
+                self.tsets['general']['https_port'],
+                self.tsets['https']['site'].split(',')[1].strip()))
+  
+            self.lfn.put_cmd(mkcol_curl.get_command(use_cert=True,operation='COPY',
+                new_file=new_request_uri+'/test-'+new_id))
+            curl_result = mkcol_curl.get_output(use_cert=True,operation='COPY',
+                new_file=new_request_uri+'/test-'+new_id)
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
+        self.lfn.flush_file()
+
+    def test_webdav_move_sa_on_different_sa_over_http_as_anonymous(self):
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
+            request_uri = ('http://%s:%s/%s'
+                % (self.tsets['general']['gridhttp_server_hostname'],
+                self.tsets['general']['http_port'],
+                self.tsets['http']['write_anonymous'].split(',')[0].strip()))
+
+            id = utils.get_uuid()
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id)
+            self.lfn.put_cmd(mkcol_curl.get_command(operation='MKCOL'))
+            curl_result = mkcol_curl.get_output(operation='MKCOL')
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn)
+            self.lfn.put_cmd(put_curl.get_command(operation='PUT'))
+            curl_result = put_curl.get_output(operation='PUT')
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            new_id = utils.get_uuid()
+
+            new_request_uri = ('http://%s:%s/%s'
+                % (self.tsets['general']['gridhttp_server_hostname'],
+                self.tsets['general']['http_port'],
+                self.tsets['http']['write_anonymous'].split(',')[1].strip()))
+
+            self.lfn.put_cmd(mkcol_curl.get_command(operation='MOVE',
+                new_file=new_request_uri+'/test-'+new_id))
+            curl_result = mkcol_curl.get_output(operation='MOVE',
+                new_file=new_request_uri+'/test-'+new_id)
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+        except AssertionError, err:
+            print err
+            self.lfn.put_result('FAILED')
+        else:
+            self.lfn.put_result('PASSED')
+
+        self.lfn.flush_file()
+
+    #def test_webdav_move_sa_on_different_sa_over_https_with_voms(self):
+
+    def test_webdav_move_sa_on_different_sa_over_https_with_user_cert(self):
+        stack_value = inspect.stack()[0]
+        path = stack_value[1]
+        method = stack_value[3]
+
+        try:
+            request_uri = ('https://%s:%s/%s'
+                % (self.tsets['general']['gridhttp_server_hostname'],
+                self.tsets['general']['https_port'],
+                self.tsets['https']['site'].split(',')[0].strip()))
+
+            id = utils.get_uuid()
+            mkcol_curl = curl.Curl(request_uri,self.ifn,'/test-'+id,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
+            self.lfn.put_cmd(mkcol_curl.get_command(use_cert=True,operation='MKCOL'))
+            curl_result = mkcol_curl.get_output(use_cert=True,operation='MKCOL')
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            put_curl = curl.Curl(request_uri,self.ifn,'/test-'+id+self.dfn,
+                user_cert=self.tsets['user']['cert'],
+                user_key=self.tsets['user']['key'])
+            self.lfn.put_cmd(put_curl.get_command(use_cert=True,operation='PUT'))
+            curl_result = put_curl.get_output(use_cert=True,operation='PUT')
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            new_id = utils.get_uuid()
+
+            new_request_uri = ('https://%s:%s/%s'
+                % (self.tsets['general']['gridhttp_server_hostname'],
+                self.tsets['general']['https_port'],
+                self.tsets['https']['site'].split(',')[0].strip()))
+
+            self.lfn.put_cmd(mkcol_curl.get_command(use_cert=True,operation='MOVE',
+                new_file=new_request_uri+'/test-'+new_id))
+            curl_result = mkcol_curl.get_output(use_cert=True,operation='MOVE',
+                new_file=new_request_uri+'/test-'+new_id)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
