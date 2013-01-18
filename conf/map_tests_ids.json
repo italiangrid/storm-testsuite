@@ -1813,7 +1813,7 @@
     "The WebDAV copy method to overwrite a full directory over https with user cert.",
     "wt.ts_webdav_copy_overwritten_full_directory_over_https_with_user_cert(tfn,ifn,dfn,back_ifn,uid,lfn)",
     ["gridhttps"]
-    ]
+    ],
   "ts_webdav_move_file_over_https_with_user_cert":[
     "a8e9e9",
     "ST",
