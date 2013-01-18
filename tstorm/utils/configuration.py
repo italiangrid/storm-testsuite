@@ -30,8 +30,8 @@ class LoadConfiguration:
                 'voms':'',
                 'read_anonymous':'',
                 'write_anonymous':''},
-            'user':{'user_cert':'',
-                'user_key':'',
+            'user':{'cert':'',
+                'key':'',
                 'grid_proxy_file':''}
             'tape':{'accesspoint':''},
             'bdii':{'endpoint':'',
