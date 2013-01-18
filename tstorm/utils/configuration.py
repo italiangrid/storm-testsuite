@@ -32,7 +32,7 @@ class LoadConfiguration:
                 'write_anonymous':''},
             'user':{'cert':'',
                 'key':'',
-                'grid_proxy_file':''}
+                'grid_proxy_file':''},
             'tape':{'accesspoint':''},
             'bdii':{'endpoint':'',
                 'basedn':'',
