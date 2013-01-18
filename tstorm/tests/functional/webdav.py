@@ -483,17 +483,37 @@ class WebdavTest(unittest.TestCase):
                 self.tsets['general']['http_port'],
                 self.tsets['http']['write_anonymous']))
 
-            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
-            self.lfn.put_cmd(put_curl.get_command(operation='PUT'))
-            curl_result = put_curl.get_output(operation='PUT')
+            first_put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            self.lfn.put_cmd(first_put_curl.get_command(operation='PUT'))
+            curl_result = first_put_curl.get_output(operation='PUT')
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            self.lfn.put_cmd(put_curl.get_command(operation='COPY', new_file=self.dfn, overwrite=True))
-            curl_result = put_curl.get_output(operation='COPY', new_file=self.dfn, overwrite=True)
+            second_put_curl = curl.Curl(request_uri,self.ifn,self.dfn+'x')
+            self.lfn.put_cmd(second_put_curl.get_command(operation='PUT'))
+            curl_result = second_put_curl.get_output(operation='PUT')
+
+            self.lfn.put_cmd(first_put_curl.get_command(operation='COPY', new_file=self.dfn+'x', overwrite=True))
+            curl_result = first_put_curl.get_output(operation='COPY', new_file=self.dfn+'x', overwrite=True)
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            self.lfn.put_cmd(first_put_curl.get_command(operation='DELETE'))
+            curl_result = first_put_curl.get_output(operation='DELETE')
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            self.lfn.put_cmd(second_put_curl.get_command(operation='DELETE'))
+            curl_result = second_put_curl.get_output(operation='DELETE')
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -1178,17 +1198,37 @@ class WebdavTest(unittest.TestCase):
                 self.tsets['general']['https_port'],
                 self.tsets['https']['voms']))
 
-            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
-            self.lfn.put_cmd(put_curl.get_command(use_proxy=True,operation='PUT'))
-            curl_result = put_curl.get_output(use_proxy=True,operation='PUT')
+            first_put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            self.lfn.put_cmd(first_put_curl.get_command(use_proxy=True,operation='PUT'))
+            curl_result = first_put_curl.get_output(use_proxy=True,operation='PUT')
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            self.lfn.put_cmd(put_curl.get_command(use_proxy=True,operation='COPY', new_file=self.dfn, overwrite=True))
-            curl_result = put_curl.get_output(use_proxy=True,operation='COPY', new_file=self.dfn, overwrite=True)
+            second_put_curl = curl.Curl(request_uri,self.ifn,self.dfn+'x')
+            self.lfn.put_cmd(second_put_curl.get_command(use_proxy=True,operation='PUT'))
+            curl_result = second_put_curl.get_output(use_proxy=True,operation='PUT')
+
+            self.lfn.put_cmd(first_put_curl.get_command(use_proxy=True,operation='COPY', new_file=self.dfn+'x', overwrite=True))
+            curl_result = first_put_curl.get_output(use_proxy=True,operation='COPY', new_file=self.dfn+'x', overwrite=True)
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            self.lfn.put_cmd(first_put_curl.get_command(use_proxy=True,operation='DELETE'))
+            curl_result = first_put_curl.get_output(use_proxy=True,operation='DELETE')
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            self.lfn.put_cmd(second_put_curl.get_command(use_proxy=True,operation='DELETE'))
+            curl_result = second_put_curl.get_output(use_proxy=True,operation='DELETE')
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -1874,17 +1914,37 @@ class WebdavTest(unittest.TestCase):
                 self.tsets['general']['https_port'],
                 self.tsets['https']['site']))
 
-            put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
-            self.lfn.put_cmd(put_curl.get_command(use_cert=True,operation='PUT'))
-            curl_result = put_curl.get_output(use_cert=True,operation='PUT')
+            first_put_curl = curl.Curl(request_uri,self.ifn,self.dfn)
+            self.lfn.put_cmd(first_put_curl.get_command(use_cert=True,operation='PUT'))
+            curl_result = first_put_curl.get_output(use_cert=True,operation='PUT')
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            self.lfn.put_cmd(put_curl.get_command(use_cert=True,operation='COPY', new_file=self.dfn, overwrite=True))
-            curl_result = put_curl.get_output(use_cert=True,operation='COPY', new_file=self.dfn, overwrite=True)
+            second_put_curl = curl.Curl(request_uri,self.ifn,self.dfn+'x')
+            self.lfn.put_cmd(second_put_curl.get_command(use_cert=True,operation='PUT'))
+            curl_result = second_put_curl.get_output(use_cert=True,operation='PUT')
+
+            self.lfn.put_cmd(first_put_curl.get_command(use_cert=True,operation='COPY', new_file=self.dfn+'x', overwrite=True))
+            curl_result = first_put_curl.get_output(use_cert=True,operation='COPY', new_file=self.dfn+'x', overwrite=True)
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            self.lfn.put_cmd(first_put_curl.get_command(use_cert=True,operation='DELETE'))
+            curl_result = first_put_curl.get_output(use_cert=True,operation='DELETE')
+
+            msg = 'curl status'
+            self.assert_(curl_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            self.lfn.put_cmd(second_put_curl.get_command(use_cert=True,operation='DELETE'))
+            curl_result = second_put_curl.get_output(use_cert=True,operation='DELETE')
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
