@@ -83,8 +83,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/tstorm-tests
 %{_bindir}/tstorm-stress-tests
 
-%attr(777,%{default_user},%{default_user}) %dir %{_localstatedir}/log/tstorm
-%attr(777,%{default_user},%{default_user}) %dir %{_localstatedir}/log/tstorm/stress
+%attr(755,%{default_user},%{default_user}) %dir %{_localstatedir}/log/tstorm
+%attr(755,%{default_user},%{default_user}) %dir %{_localstatedir}/log/tstorm/stress
 
 %dir %{_sysconfdir}/tstorm/
 %attr(644,%{default_user},%{default_user}) %config(noreplace) %{_sysconfdir}/tstorm/tstorm.ini
@@ -219,7 +219,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/tstorm
 %dir %{_sysconfdir}/tstorm/common
 
-%attr(777,%{default_user},%{default_user}) %dir %{_localstatedir}/log/tstorm
+%attr(755,%{default_user},%{default_user}) %dir %{_localstatedir}/log/tstorm
 
 %attr(644,%{default_user},%{default_user}) %{_sysconfdir}/tstorm/common/map_tests_ids.json
 %doc  %{_docdir}/tstorm-%{version}/*
