@@ -25,7 +25,7 @@ AC_CONFIG_MACRO_DIR([m4])
 
 # Release number
 osdist=`cat /etc/redhat-release | awk 'BEGIN {FS="release "} {print $2}'| awk 'BEGIN {FS="."} {print $1}'| awk 'BEGIN {FS="("} {print $1}'`
-AC_SUBST([TSTORM_OS], [sl$osdist])
+AC_SUBST([TSTORM_OS], [el$osdist])
 AC_SUBST([TSTORM_AGE_NUMBER], [8])
 
 # Notices.
