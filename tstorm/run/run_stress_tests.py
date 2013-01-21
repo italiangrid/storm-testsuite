@@ -31,6 +31,7 @@ from tstorm.tests.atomic import atomicstests as at
 from tstorm.tests.functional import functionalitiestests as ft
 from tstorm.tests.functional import functionalitiestests_novoms as ftnv
 from tstorm.tests.functional import tapetests as tt
+from tstorm.tests.functional import webdavtests as wt
 from tstorm.tests.functional.regression import regressiontests as rt
 from tstorm.tests.functional.regression import regressiontests_novoms as rtnv
 from tstorm.tests.functional.regression import regression_ldaptests as rlt
@@ -157,16 +158,22 @@ class RunStressTests(run_tests.RunTests):
             self.parameters['tests_status'].fromkeys(\
                 self.parameters['tests_methods'], (False, 0, 0))
         for key, value in self.parameters['tests_status'].items():
+            #if '_wo' in key or \
+            #    '_glueone' in key or \
+            #    '_gluetwo' in key or \
+            #    'ts_https' in key or \
+            #    'ts_http' in key or \
+            #    'ts_https_voms' in key or \
+            #    '_https_' in key or \
+            #    '_http_' in key or \
+            #    '_https' in key or \
+            #    '_http' in key:
             if '_wo' in key or \
                 '_glueone' in key or \
                 '_gluetwo' in key or \
                 'ts_https' in key or \
                 'ts_http' in key or \
-                'ts_https_voms' in key or \
-                '_https_' in key or \
-                '_http_' in key or \
-                '_https' in key or \
-                '_http' in key:
+                'ts_https_voms' in key:
                 self.parameters['tests_status'][key] = (True, 0, 0)
 
     def __refresh_stress_tests_info(self, stress_log_file):
@@ -174,16 +181,22 @@ class RunStressTests(run_tests.RunTests):
 
         for key, value in self.parameters['tests_status'].items():
             if self.parameters['tests_methods'][key].get_aggregator() != "":
+                #if '_wo' not in key and \
+                #    '_glueone' not in key and \
+                #    '_gluetwo' not in key and \
+                #    'ts_https' not in key and \
+                #    'ts_http' not in key and \
+                #    'ts_https_voms' not in key and \
+                #    '_https_' not in key and \
+                #    '_http_' not in key and \
+                #    '_https' not in key and \
+                #    '_http' not in key:
                 if '_wo' not in key and \
                     '_glueone' not in key and \
                     '_gluetwo' not in key and \
                     'ts_https' not in key and \
                     'ts_http' not in key and \
-                    'ts_https_voms' not in key and \
-                    '_https_' not in key and \
-                    '_http_' not in key and \
-                    '_https' not in key and \
-                    '_http' not in key:
+                    'ts_https_voms' not in key: 
                     msg = ('%s%s%s    %s\n'
                         % (key, utils.add_empty_space(len(key),max_length), value[1], value[1]+value[2]))
                     stress_log_file.put(msg)
@@ -200,16 +213,22 @@ class RunStressTests(run_tests.RunTests):
             if self.parameters['tests_methods'][key].get_aggregator() != "":
                 tm_val = self.parameters['tests_methods'][key]
 
+                #if '_wo' not in tm_val.get_aggregator() and \
+                #    '_glueone' not in tm_val.get_aggregator() and \
+                #    '_gluetwo' not in tm_val.get_aggregator() and \
+                #    'ts_https' not in tm_val.get_aggregator() and \
+                #    'ts_http' not in tm_val.get_aggregator() and \
+                #    'ts_https_voms' not in tm_val.get_aggregator() and \
+                #    '_https_' not in tm_val.get_aggregator() and \
+                #    '_http_' not in tm_val.get_aggregator() and \
+                #    '_https' not in tm_val.get_aggregator() and \
+                #    '_http' not in tm_val.get_aggregator():
                 if '_wo' not in tm_val.get_aggregator() and \
                     '_glueone' not in tm_val.get_aggregator() and \
                     '_gluetwo' not in tm_val.get_aggregator() and \
                     'ts_https' not in tm_val.get_aggregator() and \
                     'ts_http' not in tm_val.get_aggregator() and \
-                    'ts_https_voms' not in tm_val.get_aggregator() and \
-                    '_https_' not in tm_val.get_aggregator() and \
-                    '_http_' not in tm_val.get_aggregator() and \
-                    '_https' not in tm_val.get_aggregator() and \
-                    '_http' not in tm_val.get_aggregator():
+                    'ts_https_voms' not in tm_val.get_aggregator():
                     self.run_test(self.parameters['custom_conf_file'][1],
                         tm_val, log_file, stress_log_file,\
                         self.parameters['custom_destination_file'][0], \
@@ -245,16 +264,22 @@ class RunStressTests(run_tests.RunTests):
             if self.parameters['tests_methods'][key].get_aggregator() != "":
                 tm_val = self.parameters['tests_methods'][key]
 
+                #if '_wo' not in tm_val.get_aggregator() and \
+                #    '_glueone' not in tm_val.get_aggregator() and \
+                #    '_gluetwo' not in tm_val.get_aggregator() and \
+                #    'ts_https' not in tm_val.get_aggregator() and \
+                #    'ts_http' not in tm_val.get_aggregator() and \
+                #    'ts_https_voms' not in tm_val.get_aggregator() and \
+                #    '_https_' not in tm_val.get_aggregator() and \
+                #    '_http_' not in tm_val.get_aggregator() and \
+                #    '_https' not in tm_val.get_aggregator() and \
+                #    '_http' not in tm_val.get_aggregator():
                 if '_wo' not in tm_val.get_aggregator() and \
                     '_glueone' not in tm_val.get_aggregator() and \
                     '_gluetwo' not in tm_val.get_aggregator() and \
                     'ts_https' not in tm_val.get_aggregator() and \
                     'ts_http' not in tm_val.get_aggregator() and \
-                    'ts_https_voms' not in tm_val.get_aggregator() and \
-                    '_https_' not in tm_val.get_aggregator() and \
-                    '_http_' not in tm_val.get_aggregator() and \
-                    '_https' not in tm_val.get_aggregator() and \
-                    '_http' not in tm_val.get_aggregator():
+                    'ts_https_voms' not in tm_val.get_aggregator():
                     self.run_test(self.parameters['custom_conf_file'][1],
                         tm_val, log_file, stress_log_file,\
                         self.parameters['custom_destination_file'][0], \

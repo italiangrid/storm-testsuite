@@ -1233,7 +1233,7 @@
     ],
   "ts_webdav_get_directory_over_http_as_anonymous":[
     "697a17",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1244,7 +1244,7 @@
     ],
   "ts_webdav_put_file_over_http_as_anonymous":[
     "fe8c5c",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1255,7 +1255,7 @@
     ],
   "ts_webdav_put_body_in_file_over_http_as_anonymous":[
     "de54f3",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1266,7 +1266,7 @@
     ],
   "ts_webdav_put_overwritten_file_over_http_as_anonymous":[
     "0f224e",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1277,7 +1277,7 @@
     ],
   "ts_webdav_put_body_in_overwritten_file_over_http_as_anonymous":[
     "71a88d",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1288,7 +1288,7 @@
     ],
   "ts_webdav_mkcol_directory_over_http_as_anonymous":[
     "4b4875",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1299,7 +1299,7 @@
     ],
   "ts_webdav_delete_file_over_http_as_anonymous":[
     "d212aa",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1310,7 +1310,7 @@
     ],
   "ts_webdav_delete_directory_over_http_as_anonymous":[
     "e1ee69",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1321,7 +1321,7 @@
     ],
   "ts_webdav_delete_full_directory_over_http_as_anonymous":[
     "e1ee79",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1332,7 +1332,7 @@
     ],
   "ts_webdav_propfind_directory_over_http_as_anonymous":[
     "e1ee77",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1343,7 +1343,7 @@
     ],
   "ts_webdav_options_directory_over_http_as_anonymous":[
     "e1e9e9",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1354,7 +1354,7 @@
     ],
   "ts_webdav_copy_file_over_http_as_anonymous":[
     "e4e9e9",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1365,7 +1365,7 @@
     ],
   "ts_webdav_copy_full_directory_over_http_as_anonymous":[
     "e5e9e9",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1376,7 +1376,7 @@
     ],
   "ts_webdav_copy_overwritten_file_over_http_as_anonymous":[
     "c40262",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1387,7 +1387,7 @@
     ],
   "ts_webdav_copy_overwritten_full_directory_over_http_as_anonymous":[
     "104d44",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1398,7 +1398,7 @@
     ],
   "ts_webdav_move_file_over_http_as_anonymous":[
     "a4e9e9",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1409,7 +1409,7 @@
     ],
   "ts_webdav_move_full_directory_over_http_as_anonymous":[
     "a5e9e9",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1420,7 +1420,7 @@
     ],
   "ts_webdav_move_overwritten_file_over_http_as_anonymous":[
     "74a3bc",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1431,7 +1431,7 @@
     ],
   "ts_webdav_move_overwritten_full_directory_over_http_as_anonymous":[
     "dc2432",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1442,7 +1442,7 @@
     ],
   "ts_webdav_get_directory_over_https_with_voms":[
     "8e7b21",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1453,7 +1453,7 @@
     ],
   "ts_webdav_get_directory_over_https_with_grid":[
     "887b21",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1464,7 +1464,7 @@
     ],
   "ts_webdav_put_file_over_https_with_voms":[
     "17845b",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1475,7 +1475,7 @@
     ],
   "ts_webdav_put_file_over_https_with_grid":[
     "11145b",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1486,7 +1486,7 @@
     ],
   "ts_webdav_put_body_in_file_over_https_with_voms":[
     "872b99",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1497,7 +1497,7 @@
     ],
   "ts_webdav_put_body_in_file_over_https_with_grid":[
     "877b99",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1508,7 +1508,7 @@
     ],
   "ts_webdav_put_overwritten_file_over_https_with_voms":[
     "8afdff",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1519,7 +1519,7 @@
     ],
   "ts_webdav_put_overwritten_file_over_https_with_grid":[
     "8affff",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1530,7 +1530,7 @@
     ],
   "ts_webdav_put_body_in_overwritten_file_over_https_with_voms":[
     "253155",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1541,7 +1541,7 @@
     ],
   "ts_webdav_put_body_in_overwritten_file_over_https_with_grid":[
     "255155",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1552,7 +1552,7 @@
     ],
   "ts_webdav_mkcol_directory_over_https_with_voms":[
     "f4603a",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1563,7 +1563,7 @@
     ],
   "ts_webdav_mkcol_directory_over_https_with_grid":[
     "44603a",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1574,7 +1574,7 @@
     ],
   "ts_webdav_delete_file_over_https_with_voms":[
     "ae1936",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1585,7 +1585,7 @@
     ],
   "ts_webdav_delete_file_over_https_with_grid":[
     "ae1933",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1596,7 +1596,7 @@
     ],
   "ts_webdav_delete_directory_over_https_with_voms":[
     "d133fd",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1607,7 +1607,7 @@
     ],
   "ts_webdav_delete_directory_over_https_with_grid":[
     "d1333d",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1618,7 +1618,7 @@
     ],
   "ts_webdav_delete_full_directory_over_https_with_voms":[
     "024982",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1629,7 +1629,7 @@
     ],
   "ts_webdav_delete_full_directory_over_https_with_grid":[
     "022282",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1640,7 +1640,7 @@
     ],
   "ts_webdav_propfind_directory_over_https_with_voms":[
     "e2ee77",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1651,7 +1651,7 @@
     ],
   "ts_webdav_propfind_directory_over_https_with_grid":[
     "e2e777",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1662,7 +1662,7 @@
     ],
   "ts_webdav_options_directory_over_https_with_voms":[
     "e2e9e9",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1673,7 +1673,7 @@
     ],
   "ts_webdav_options_directory_over_https_with_grid":[
     "e28989",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1684,7 +1684,7 @@
     ],
   "ts_webdav_copy_file_over_https_with_voms":[
     "e7e9e9",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1695,7 +1695,7 @@
     ],
   "ts_webdav_copy_file_over_https_with_grid":[
     "e78989",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1706,7 +1706,7 @@
     ],
   "ts_webdav_copy_full_directory_over_https_with_voms":[
     "e6e9e9",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1717,7 +1717,7 @@
     ],
   "ts_webdav_copy_full_directory_over_https_with_grid":[
     "e68989",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1728,7 +1728,7 @@
     ],
   "ts_webdav_copy_overwritten_file_over_https_with_voms":[
     "78e1a9",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1739,7 +1739,7 @@
     ],
   "ts_webdav_copy_overwritten_file_over_https_with_grid":[
     "78eaa9",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1750,7 +1750,7 @@
     ],
   "ts_webdav_copy_overwritten_full_directory_over_https_with_voms":[
     "af212c",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1761,7 +1761,7 @@
     ],
   "ts_webdav_copy_overwritten_full_directory_over_https_with_grid":[
     "af21cc",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1772,7 +1772,7 @@
     ],
   "ts_webdav_move_file_over_https_with_voms":[
     "a7e9e9",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1783,7 +1783,7 @@
     ],
   "ts_webdav_move_file_over_https_with_grid":[
     "a7a9e9",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1794,7 +1794,7 @@
     ],
   "ts_webdav_move_full_directory_over_https_with_voms":[
     "a6e9e9",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1805,7 +1805,7 @@
     ],
   "ts_webdav_move_full_directory_over_https_with_grid":[
     "a669e9",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1816,7 +1816,7 @@
     ],
   "ts_webdav_move_overwritten_file_over_https_with_voms":[
     "94da33",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1827,7 +1827,7 @@
     ],
   "ts_webdav_move_overwritten_file_over_https_with_grid":[
     "99da33",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1838,7 +1838,7 @@
     ],
   "ts_webdav_move_overwritten_full_directory_over_https_with_voms":[
     "1e9689",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1849,7 +1849,7 @@
     ],
   "ts_webdav_move_overwritten_full_directory_over_https_with_grid":[
     "119689",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1860,7 +1860,7 @@
     ],
   "ts_webdav_get_directory_over_https_with_user_cert":[
     "fc3678",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1871,7 +1871,7 @@
     ],
   "ts_webdav_put_file_over_https_with_user_cert":[
     "1784bb",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1882,7 +1882,7 @@
     ],
   "ts_webdav_put_body_in_file_over_https_with_user_cert":[
     "872b98",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1893,7 +1893,7 @@
     ],
   "ts_webdav_put_overwritten_file_over_https_with_user_cert":[
     "8afddf",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1904,7 +1904,7 @@
     ],
   "ts_webdav_put_body_in_overwritten_file_over_https_with_user_cert":[
     "253185",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1915,7 +1915,7 @@
     ],
   "ts_webdav_mkcol_directory_over_https_with_user_cert":[
     "abe7e3",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1926,7 +1926,7 @@
     ],
   "ts_webdav_delete_file_over_https_with_user_cert":[
     "22a29d",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1937,7 +1937,7 @@
     ],
   "ts_webdav_delete_directory_over_https_with_user_cert":[
     "769258",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1948,7 +1948,7 @@
     ],
   "ts_webdav_delete_full_directory_over_https_with_user_cert":[
     "f34c4a",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1959,7 +1959,7 @@
     ],
   "ts_webdav_propfind_directory_over_https_with_user_cert":[
     "e3ee77",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1970,7 +1970,7 @@
     ],
   "ts_webdav_options_directory_over_https_with_user_cert":[
     "e3e9e9",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1981,7 +1981,7 @@
     ],
   "ts_webdav_copy_file_over_https_with_user_cert":[
     "e8e9e9",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -1992,7 +1992,7 @@
     ],
   "ts_webdav_copy_full_directory_over_https_with_user_cert":[
     "e9e9e9",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -2003,7 +2003,7 @@
     ],
   "ts_webdav_copy_overwritten_file_over_https_with_user_cert":[
     "8649dc",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -2014,7 +2014,7 @@
     ],
   "ts_webdav_copy_overwritten_full_directory_over_https_with_user_cert":[
     "5ab38c",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -2025,7 +2025,7 @@
     ],
   "ts_webdav_move_file_over_https_with_user_cert":[
     "a8e9e9",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -2036,7 +2036,7 @@
     ],
   "ts_webdav_move_full_directory_over_https_with_user_cert":[
     "a9e9e9",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -2047,7 +2047,7 @@
     ],
   "ts_webdav_move_overwritten_file_over_https_with_user_cert":[
     "a0f99b",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -2058,7 +2058,7 @@
     ],
   "ts_webdav_move_overwritten_full_directory_over_https_with_user_cert":[
     "7a6ab5",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -2069,7 +2069,7 @@
     ],
   "ts_webdav_copy_sa_on_different_sa_over_http_as_anonymous":[
     "a4a9e9",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -2080,7 +2080,7 @@
     ],
   "ts_webdav_copy_sa_on_different_sa_over_https_with_user_cert":[
     "a4a9a9",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -2091,7 +2091,7 @@
     ],
   "ts_webdav_move_sa_on_different_sa_over_http_as_anonymous":[
     "43ae6f",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
@@ -2102,7 +2102,7 @@
     ],
   "ts_webdav_move_sa_on_different_sa_over_https_with_user_cert":[
     "22e768",
-    "ST",
+    "LT",
     false,
     [["https://storm.cnaf.infn.it:8443/redmine/issues/325","[1.11.0-1,*)"]],
     false,
