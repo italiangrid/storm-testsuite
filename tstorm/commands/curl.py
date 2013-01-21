@@ -73,7 +73,7 @@ class Curl:
             if overwrite:
                 cmd += ' --header "Overwrite: T"'
         elif operation == 'MOVE':
-            cmd += (' -X MOVE %s%s --header "Destination: %s%s"'
+            cmd += (' -X MOVE %s%s --header "Destination: %s"'
                 % (self.request_uri, self.dfn, new_file))
             if overwrite:
                 cmd += ' --header "Overwrite: T"'
