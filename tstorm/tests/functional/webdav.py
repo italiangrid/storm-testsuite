@@ -577,9 +577,9 @@ class WebdavTest(unittest.TestCase):
                 (path, method, msg, self.id))
 
             self.lfn.put_cmd(mkcol_curl.get_command(operation='COPY',
-                new_file=request_uri+'/test-'+id, overwrite=True))
+                new_file=request_uri+'/test-'+id+'x', overwrite=True))
             curl_result = mkcol_curl.get_output(operation='COPY',
-                new_file=request_uri+'/test-'+id, overwrite=True)
+                new_file=request_uri+'/test-'+id+'x', overwrite=True)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -701,9 +701,9 @@ class WebdavTest(unittest.TestCase):
                 (path, method, msg, self.id))
 
             self.lfn.put_cmd(put_curl.get_command(operation='MOVE',
-                new_file=request_uri+self.dfn, overwrite=True))
+                new_file=request_uri+self.dfn+'x', overwrite=True))
             curl_result = put_curl.get_output(operation='MOVE',
-                new_file=request_uri+self.dfn, overwrite=True)
+                new_file=request_uri+self.dfn+'x', overwrite=True)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -748,9 +748,9 @@ class WebdavTest(unittest.TestCase):
                 (path, method, msg, self.id))
 
             self.lfn.put_cmd(mkcol_curl.get_command(operation='MOVE',
-                new_file=request_uri+'/test-'+id, overwrite=True))
+                new_file=request_uri+'/test-'+id+'x', overwrite=True))
             curl_result = mkcol_curl.get_output(operation='MOVE',
-                new_file=request_uri+'/test-'+id, overwrite=True)
+                new_file=request_uri+'/test-'+id+'x', overwrite=True)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
