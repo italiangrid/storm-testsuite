@@ -2014,10 +2014,10 @@ class WebdavTest(unittest.TestCase):
 
             self.lfn.put_cmd(mkcol_curl.get_command(use_proxy=True,
                 operation='COPY',
-                new_file=request_uri+'/test-'+id, overwrite=True))
+                new_file=request_uri+'/test-'+id+'x', overwrite=True))
             curl_result = mkcol_curl.get_output(use_proxy=True,
                 operation='COPY',
-                new_file=request_uri+'/test-'+id, overwrite=True)
+                new_file=request_uri+'/test-'+id+'x', overwrite=True)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
@@ -2414,10 +2414,10 @@ class WebdavTest(unittest.TestCase):
 
             self.lfn.put_cmd(mkcol_curl.get_command(use_proxy=True,
                 operation='MOVE',
-                new_file=request_uri+'/test-'+id, overwrite=True))
+                new_file=request_uri+'/test-'+id+'x', overwrite=True))
             curl_result = mkcol_curl.get_output(use_proxy=True,
                 operation='MOVE',
-                new_file=request_uri+'/test-'+id, overwrite=True)
+                new_file=request_uri+'/test-'+id+'x', overwrite=True)
 
             msg = 'curl status'
             self.assert_(curl_result['status'] == 'PASS',
