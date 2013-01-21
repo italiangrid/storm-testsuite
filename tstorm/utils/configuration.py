@@ -65,9 +65,12 @@ class LoadConfiguration:
                 return False
             else:
                for option in self.parser.options(section):
+                   #print 'section %s, option name %s, option value %s' % (section, option, self.parser.get(section, option))
                    if option not in self.sections[section].keys():
                        return False
-   
+                   elif len(self.parser.get(section, option)) < 1:
+                       return False   
+
         return True
 
     def get_test_settings(self):
