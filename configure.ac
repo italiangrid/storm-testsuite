@@ -26,7 +26,7 @@ AC_CONFIG_MACRO_DIR([m4])
 # Release number
 osdist=`cat /etc/redhat-release | awk 'BEGIN {FS="release "} {print $2}'| awk 'BEGIN {FS="."} {print $1}'| awk 'BEGIN {FS="("} {print $1}'`
 AC_SUBST([TSTORM_OS], [el$osdist])
-AC_SUBST([TSTORM_AGE_NUMBER], [8])
+AC_SUBST([TSTORM_AGE_NUMBER], [9])
 
 # Notices.
 AC_COPYRIGHT([See LICENCE file for details])
@@ -59,7 +59,7 @@ else
   AC_MSG_RESULT([no. $host_cpu])
 fi
 
-if test "xsl$osdist" = "xsl6"; then
+if test "xel$osdist" = "xel6"; then
   tomcat_version='6'
 else
   tomcat_version='5'
@@ -67,7 +67,7 @@ fi
 
 AC_SUBST([TOMCATVERSION], [$tomcat_version])
 
-if test "xsl$osdist" = "xsl6"; then
+if test "xel$osdist" = "xel6"; then
   mysql_connector_version='-5.1.12'
 else
   mysql_connector_version=''
