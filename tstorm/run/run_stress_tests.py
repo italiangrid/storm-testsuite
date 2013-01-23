@@ -45,7 +45,7 @@ class RunStressTests(run_tests.RunTests):
         super(RunStressTests, self).__init__()
         self.parameters['report'] = False
         self.parameters['stress_report'] = True
-        self.parameters['number_tests'] = 30
+        self.parameters['number_tests'] = 200
         self.parameters['number_hours'] = 0
         self.parameters['refresh_report'] = 10
         self.parameters['tests_status'] = {}
@@ -317,8 +317,11 @@ class RunStressTests(run_tests.RunTests):
     def do_run_tests(self):
         # Prepare log file
         log_file = report_file.ReportFile(report = self.parameters['report'])
+        log_file.print_where_report_file_is()
+
         stress_log_file = stress_file.StressReportFile(\
             report = self.parameters['stress_report'])
+        stress_log_file.print_where_report_file_is()
 
         # Prepare tests dictionaries
         self.__set_tests_methods()
@@ -369,3 +372,6 @@ class RunStressTests(run_tests.RunTests):
             log_file.close_file()
         if self.parameters['stress_report']:
             stress_log_file.close_file()
+
+        log_file.print_where_report_file_is()
+        stress_log_file.print_where_report_file_is()

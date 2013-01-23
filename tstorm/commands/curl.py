@@ -64,7 +64,7 @@ class Curl:
             cmd += ' -X OPTIONS %s' % (self.request_uri)
         elif operation == 'PROPFIND':
             content = '"Content-Type: text/xml"'
-            data = '''"<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?><propfind xmlns=\\"DAV:\\"><allprop/></propfind>"'''
+	    data = '''"<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?><propfind xmlns=\\"DAV:\\"><allprop/></propfind>"'''
             cmd += (' -X PROPFIND %s --header %s'
                 % (self.request_uri, content) +
                 ' --data-ascii ' + data)

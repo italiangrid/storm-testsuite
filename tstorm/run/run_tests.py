@@ -213,6 +213,7 @@ class RunTests(object):
     def do_run_tests(self):
 
         log_file = report_file.ReportFile(report = self.parameters['report'])
+        log_file.print_where_report_file_is()
 
         tests_methods = self.tests_instance.get_methods(tests = self.parameters['valid_tests'], node=self.parameters['node'])
 
@@ -223,3 +224,5 @@ class RunTests(object):
                 self.parameters['custom_destination_file'][1])
 
         log_file.close_file()
+
+        log_file.print_where_report_file_is()

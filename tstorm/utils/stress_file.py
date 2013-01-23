@@ -27,6 +27,10 @@ class StressReportFile:
         if self.report:
             self.log_file = open(os.path.join(self.fpath, self.fname), 'a+')
 
+    def print_where_report_file_is(self):
+        if self.report:
+            print 'The STRESS Tests\' report file is: %s\n\n' % os.path.join(self.fpath, self.fname)
+
     def get_filename(self):
         return self.fname
 

@@ -16,8 +16,8 @@ def usage_tests(parameters,run=''):
         "  -l, --list                        print the list of all the" +
         " specified tests\n " +
         " -s, --filter-list='SEQUENCE'      specify a sequence of " +
-        "filtering options separated by ';' " +
-        "                                    Available options are:"
+        "filtering options separated by ';' \n" +
+        "                                    Available options are:\n"
         "                                    t|test=list of test types separated by ',':\n" +
         "                                        Available test types are:\n" +
         "                                        AT Atomic Test\n"+
@@ -43,7 +43,7 @@ def usage_tests(parameters,run=''):
         "                                        i|id          is the test identifier\n"+
         "                                        idenpotent    specifies if the test is idenpotent or not\n" +
         "                                        r|regression  specifies if the test is a regression one or not")
-    usage_example_filter_list(cmd=cmd,run=run)
+    usage_example_filter_list(cmd='tstorm-tests',run=run)
     print ("  -i, --ids='SEQUENCE'              specify a sequence of tests identifiers\n" +
         "                                    separated by ','. Only the specified tests will\n" +
         "                                    be executed.\n"
@@ -82,7 +82,7 @@ def usage_sanity_tests(parameters,run=''):
         "                                        i|id          is the test identifier\n"+
         "                                        idenpotent    specifies if the test is idenpotent or not\n" +
         "                                        r|regression  specifies if the test is a regression one or not")
-    usage_example_filter_list(cmd=cmd,run=run)
+    usage_example_filter_list(cmd='tstorm-sanity-tests',run=run)
     print ("  -i, --ids='SEQUENCE'              specify a sequence of tests identifiers\n" +
         "                                    separated by ','. Only the specified tests will\n" +
         "                                    be executed.\n"
@@ -98,7 +98,7 @@ def usage_stress_tests(parameters):
         ' the stress report\n'+
         '                                    log file. The DEFAULT value ' +
         'is %s.\n' % change_val(parameters['stress_report']) +
-        '  -n, --number-tests=NUMBERTESTS  specify the number of' +
+        '  -n, --number-tests=NUMBERTESTS    specify the number of' +
         ' tests in which stress\n'+
         '                                    tests are executed. The DEFAULT' +
         ' value is %s.\n' % str(parameters['number_tests']) +
@@ -124,12 +124,12 @@ def usage_all_tests(cmd):
         % cmd +
         'Run tests\n\n' +
         'OPTION\n'
-        '  -c, --conf=CONFFILE               specify the configuration file\n'
-        '  -r, --storm-release=<major-release.minor-release.revision-age>\n'+
-        '                                    specify the StoRM target release\n\n'
         '  -h, --help                        display this help and exit\n' +
         '  -v, --version                     output version information and' +
-        ' exit')
+        ' exit\n'+
+        '  -r, --storm-release=<major-release.minor-release.revision-age>\n'+
+        '                                    specify the StoRM target release\n'+
+        '  -c, --conf=CONFFILE               specify the configuration file')
 
 def change_val(value):
     if value:
@@ -156,6 +156,4 @@ def get_usage(parameters, run=''):
         if run == 'sanity':
             usage_sanity_tests(parameters,run=run)    
         else:
-            usage_tests(parameters,run=run)
-
-    usage_all_tests()
+            usage_tests(parameters, run=run)
