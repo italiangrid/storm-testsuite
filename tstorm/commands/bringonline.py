@@ -98,7 +98,8 @@ class StoRMBol:
         self.otpt = {
             'status':'',
             'statusCode':[],
-            'explanation':[]}
+            'explanation':[],
+            'requestToken':''}
 
     def get_command(self, wrong_request=False, wrong_option=False):
         a = self.cmd['name'] + ' bol '
@@ -137,9 +138,11 @@ class StoRMBol:
                     for x in self.otpt:
                         if x == 'status':
                             self.otpt['status'] = 'PASS'
-                        else:
+                        elif x == 'requestToken':
+                            self.otpt[x] = a[1].split(x)[1].split('="')[1].split('"')[0]
+                        else: 
                             y = a[1].split('\n')
-                            for z in y:
+                            for z in y: 
                                 if x in z:
                                     self.otpt[x].append(z.split(x)[1].split('="')[1].split('"')[0])
             else:

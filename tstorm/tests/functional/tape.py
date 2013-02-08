@@ -52,54 +52,63 @@ class TapeTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
+            self.lfn.put_cmd(lcg_ls.get_command())
             ls_result = lcg_ls.get_output()
             msg = 'lcg ls status'
             self.assert_(ls_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
             while ls_result['fileLocality'] != 'ONLINE':
+                self.lfn.put_cmd(lcg_ls.get_command())
                 ls_result = lcg_ls.get_output()
                 self.assert_(ls_result['status'] == 'PASS',
                     '%s, %s - FAILED, %s, Test ID %s' %
                     (path, method, msg, self.id))
 
             print ls_result
+            self.lfn.flush_file()
 
+            self.lfn.put_cmd(lcg_ls.get_command())
             ls_result = lcg_ls.get_output()
             msg = 'lcg ls status'
             self.assert_(ls_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
             while ls_result['fileLocality'] != 'ONLINE_AND_NEARLINE':
+                self.lfn.put_cmd(lcg_ls.get_command())
                 ls_result = lcg_ls.get_output()
                 self.assert_(ls_result['status'] == 'PASS',
                     '%s, %s - FAILED, %s, Test ID %s' %
                     (path, method, msg, self.id))
 
             print ls_result
+            self.lfn.flush_file()
 
-            lcg_bol = bol.LcgBol(self.tsets['general']['endpoint'],
+            lcg_bol = bringonline.LcgBol(self.tsets['general']['endpoint'],
                 self.tsets['tape']['accesspoint'], self.dfn)
             self.lfn.put_cmd(lcg_bol.get_command())
-            ls_result = lcg_ls.get_output()
+            bol_result = lcg_bol.get_output()
 
             msg = 'lcg bol status'
             self.assert_(bol_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
+            self.lfn.put_cmd(lcg_ls.get_command())
             ls_result = lcg_ls.get_output()
             msg = 'lcg ls status'
             self.assert_(ls_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
             while ls_result['fileLocality'] != 'ONLINE_AND_NEARLINE':
+                self.lfn.put_cmd(lcg_ls.get_command())
                 ls_result = lcg_ls.get_output()
                 self.assert_(ls_result['status'] == 'PASS',
                     '%s, %s - FAILED, %s, Test ID %s' %
                     (path, method, msg, self.id))
 
             print ls_result
+            self.lfn.flush_file()
 
             storm_rf = cp.StoRMRf(self.tsets['general']['endpoint'],
                 self.tsets['tape']['accesspoint'], self.dfn,
@@ -112,12 +121,14 @@ class TapeTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
+            #self.lfn.put_cmd(lcg_ls.get_command())
             #ls_result = lcg_ls.get_output()
             #msg = 'lcg ls status'
             #self.assert_(ls_result['status'] == 'PASS',
             #    '%s, %s - FAILED, %s, Test ID %s' %
             #    (path, method, msg, self.id))
             #while ls_result['fileLocality'] != 'NEARLINE':
+            #    self.lfn.put_cmd(lcg_ls.get_command())
             #    ls_result = lcg_ls.get_output()
             #    self.assert_(ls_result['status'] == 'PASS',
             #        '%s, %s - FAILED, %s, Test ID %s' %
@@ -125,15 +136,15 @@ class TapeTest(unittest.TestCase):
 
             #print ls_result
 
-            srm_rm = rm.SrmRm(self.tsets['general']['endpoint'],
-                self.tsets['general']['accesspoint'], self.dfn)
-            self.lfn.put_cmd(srm_rm.get_command())
-            rm_result = srm_rm.get_output()
+            #srm_rm = rm.SrmRm(self.tsets['general']['endpoint'],
+            #    self.tsets['general']['accesspoint'], self.dfn)
+            #self.lfn.put_cmd(srm_rm.get_command())
+            #rm_result = srm_rm.get_output()
 
-            msg = 'dcache rm status'
-            self.assert_(rm_result['status'] == 'PASS',
-                '%s, %s - FAILED, %s, Test ID %s' %
-                (path, method, msg, self.id))
+            #msg = 'dcache rm status'
+            #self.assert_(rm_result['status'] == 'PASS',
+            #    '%s, %s - FAILED, %s, Test ID %s' %
+            #    (path, method, msg, self.id))
 
         except AssertionError, err:
             print err
@@ -170,72 +181,84 @@ class TapeTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
+            self.lfn.put_cmd(lcg_ls.get_command())
             ls_result = lcg_ls.get_output()
             msg = 'lcg ls status'
             self.assert_(ls_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
             while ls_result['fileLocality'] != 'ONLINE':
+                self.lfn.put_cmd(lcg_ls.get_command())
                 ls_result = lcg_ls.get_output()
                 self.assert_(ls_result['status'] == 'PASS',
                     '%s, %s - FAILED, %s, Test ID %s' %
                     (path, method, msg, self.id))
 
             print ls_result
+            self.lfn.flush_file()
 
+            self.lfn.put_cmd(lcg_ls.get_command())
             ls_result = lcg_ls.get_output()
             msg = 'lcg ls status'
             self.assert_(ls_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
             while ls_result['fileLocality'] != 'ONLINE_AND_NEARLINE':
+                self.lfn.put_cmd(lcg_ls.get_command())
                 ls_result = lcg_ls.get_output()
                 self.assert_(ls_result['status'] == 'PASS',
                     '%s, %s - FAILED, %s, Test ID %s' %
                     (path, method, msg, self.id))
 
             print ls_result
+            self.lfn.flush_file()
 
-            lcg_bol = bol.StoRMBol(self.tsets['general']['endpoint'],
+            lcg1_bol = bringonline.StoRMBol(self.tsets['general']['endpoint'],
                 self.tsets['tape']['accesspoint'], self.dfn)
-            self.lfn.put_cmd(lcg_bol.get_command())
-            ls_result = lcg_ls.get_output()
+            self.lfn.put_cmd(lcg1_bol.get_command())
+            bol1_result = lcg1_bol.get_output()
 
-            msg = 'lcg bol status'
-            self.assert_(bol_result['status'] == 'PASS',
+            msg = 'lcg bol1 status'
+            self.assert_(bol1_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
+            lcg2_bol = bringonline.StoRMBol(self.tsets['general']['endpoint'],
+                self.tsets['tape']['accesspoint'], self.dfn)
+            self.lfn.put_cmd(lcg2_bol.get_command())
+            bol2_result = lcg2_bol.get_output()
+
+            msg = 'lcg bol2 status'
+            self.assert_(bol2_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            self.lfn.put_cmd(lcg_ls.get_command())
             ls_result = lcg_ls.get_output()
             msg = 'lcg ls status'
             self.assert_(ls_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
             while ls_result['fileLocality'] != 'ONLINE_AND_NEARLINE':
+                self.lfn.put_cmd(lcg_ls.get_command())
                 ls_result = lcg_ls.get_output()
                 self.assert_(ls_result['status'] == 'PASS',
                     '%s, %s - FAILED, %s, Test ID %s' %
                     (path, method, msg, self.id))
 
             print ls_result
+            self.lfn.flush_file()
 
-            storm_rf = cp.StoRMRf(self.tsets['general']['endpoint'],
-                self.tsets['tape']['accesspoint'], self.dfn,
-                bol_result['requestToken'])
-            self.lfn.put_cmd(storm_rf.get_command())
-            rf_result = storm_rf.get_output()
+            print bol1_result, bol2_result
 
-            msg = 'storm rf status'
-            self.assert_(rf_result['status'] == 'PASS',
-                '%s, %s - FAILED, %s, Test ID %s' %
-                (path, method, msg, self.id))
-
+            #self.lfn.put_cmd(lcg_ls.get_command())
             #ls_result = lcg_ls.get_output()
             #msg = 'lcg ls status'
             #self.assert_(ls_result['status'] == 'PASS',
             #    '%s, %s - FAILED, %s, Test ID %s' %
             #    (path, method, msg, self.id)))
             #while ls_result['fileLocality'] != 'NEARLINE':
+            #    self.lfn.put_cmd(lcg_ls.get_command())
             #    ls_result = lcg_ls.get_output()
             #    self.assert_(ls_result['status'] == 'PASS',
             #        '%s, %s - FAILED, %s, Test ID %s' %
@@ -243,15 +266,37 @@ class TapeTest(unittest.TestCase):
 
             #print ls_result
 
-            srm_rm = rm.SrmRm(self.tsets['general']['endpoint'],
-                self.tsets['general']['accesspoint'], self.dfn)
-            self.lfn.put_cmd(srm_rm.get_command())
-            rm_result = srm_rm.get_output()
+            storm_rf1 = cp.StoRMRf(self.tsets['general']['endpoint'],
+                self.tsets['tape']['accesspoint'], self.dfn,
+                bol1_result['requestToken'])
+            self.lfn.put_cmd(storm_rf1.get_command())
+            rf1_result = storm_rf1.get_output()
 
-            msg = 'dcache rm status'
-            self.assert_(rm_result['status'] == 'PASS',
+            msg = 'storm rf1 status'
+            self.assert_(rf1_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
+
+            storm_rf2 = cp.StoRMRf(self.tsets['general']['endpoint'],
+                self.tsets['tape']['accesspoint'], self.dfn,
+                bol2_result['requestToken'])
+            self.lfn.put_cmd(storm_rf2.get_command())
+            rf2_result = storm_rf2.get_output()
+
+            msg = 'storm rf2 status'
+            self.assert_(rf2_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+
+            #srm_rm = rm.SrmRm(self.tsets['general']['endpoint'],
+            #    self.tsets['general']['accesspoint'], self.dfn)
+            #self.lfn.put_cmd(srm_rm.get_command())
+            #rm_result = srm_rm.get_output()
+
+            #msg = 'dcache rm status'
+            #self.assert_(rm_result['status'] == 'PASS',
+            #    '%s, %s - FAILED, %s, Test ID %s' %
+            #    (path, method, msg, self.id))
 
         except AssertionError, err:
             print err
@@ -288,54 +333,63 @@ class TapeTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
+            self.lfn.put_cmd(lcg_ls.get_command())
             ls_result = lcg_ls.get_output()
             msg = 'lcg ls status'
             self.assert_(ls_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
             while ls_result['fileLocality'] != 'ONLINE':
-                ls_result = lcg_ls.get_output()
-                self.assert_(ls_result['status'] == 'PASS',
-                    '%s, %s - FAILED, %s, Test ID %s' %
-                    (path, method, msg, self.id))
-
-            print ls_result 
-
-            ls_result = lcg_ls.get_output()
-            msg = 'lcg ls status'
-            self.assert_(ls_result['status'] == 'PASS',
-                '%s, %s - FAILED, %s, Test ID %s' %
-                (path, method, msg, self.id))
-            while ls_result['fileLocality'] != 'ONLINE_AND_NEARLINE':
+                self.lfn.put_cmd(lcg_ls.get_command())
                 ls_result = lcg_ls.get_output()
                 self.assert_(ls_result['status'] == 'PASS',
                     '%s, %s - FAILED, %s, Test ID %s' %
                     (path, method, msg, self.id))
 
             print ls_result
+            self.lfn.flush_file()
 
-            lcg_bol = bol.StoRMBol(self.tsets['general']['endpoint'],
+            self.lfn.put_cmd(lcg_ls.get_command())
+            ls_result = lcg_ls.get_output()
+            msg = 'lcg ls status'
+            self.assert_(ls_result['status'] == 'PASS',
+                '%s, %s - FAILED, %s, Test ID %s' %
+                (path, method, msg, self.id))
+            while ls_result['fileLocality'] != 'ONLINE_AND_NEARLINE':
+                self.lfn.put_cmd(lcg_ls.get_command())
+                ls_result = lcg_ls.get_output()
+                self.assert_(ls_result['status'] == 'PASS',
+                    '%s, %s - FAILED, %s, Test ID %s' %
+                    (path, method, msg, self.id))
+
+            print ls_result
+            self.lfn.flush_file()
+
+            lcg_bol = bringonline.StoRMBol(self.tsets['general']['endpoint'],
                 self.tsets['tape']['accesspoint'], self.dfn)
             self.lfn.put_cmd(lcg_bol.get_command())
-            ls_result = lcg_ls.get_output()
+            bol_result = lcg_bol.get_output()
 
             msg = 'lcg bol status'
             self.assert_(bol_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
+            self.lfn.put_cmd(lcg_ls.get_command())
             ls_result = lcg_ls.get_output()
             msg = 'lcg ls status'
             self.assert_(ls_result['status'] == 'PASS',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
             while ls_result['fileLocality'] != 'ONLINE_AND_NEARLINE':
+                self.lfn.put_cmd(lcg_ls.get_command())
                 ls_result = lcg_ls.get_output()
                 self.assert_(ls_result['status'] == 'PASS',
                     '%s, %s - FAILED, %s, Test ID %s' %
                     (path, method, msg, self.id))
 
             print ls_result
+            self.lfn.flush_file()
 
             storm_gst = space.StoRMGst(self.tsets['general']['endpoint'],
                 self.tsets['tape']['accesspoint'],
@@ -370,12 +424,14 @@ class TapeTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
+            #self.lfn.put_cmd(lcg_ls.get_command())
             #ls_result = lcg_ls.get_output()
             #msg = 'lcg ls status'
             #self.assert_(ls_result['status'] == 'PASS',
             #    '%s, %s - FAILED, %s, Test ID %s' %
             #    (path, method, msg, self.id))
             #while ls_result['fileLocality'] != 'NEARLINE':
+            #    self.lfn.put_cmd(lcg_ls.get_command())
             #    ls_result = lcg_ls.get_output()
             #    self.assert_(ls_result['status'] == 'PASS',
             #        '%s, %s - FAILED, %s, Test ID %s' %
@@ -393,6 +449,7 @@ class TapeTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
+            self.lfn.put_cmd(lcg_ls.get_command())
             ls_result = lcg_ls.get_output()
             msg = 'lcg ls status'
             self.assert_(ls_result['status'] == 'FAILURE',
