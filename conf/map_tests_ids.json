@@ -2110,5 +2110,27 @@
     "The WebDAV move method to move a storage area to a different storage area over https with user cert.",
     "wt.ts_webdav_move_sa_on_different_sa_over_https_with_user_cert(tfn,ifn,dfn,back_ifn,uid,lfn)",
     ["gridhttps"]
+    ],
+  "ts_access_tape_lcg":[
+    "22e778",
+    "TT",
+    false,
+    [["","[1.11.0-1,*)"]],
+    false,
+    "TAPE",
+    "Write a file in a SA configured to access tape and then read it with lcg.",
+    "tt.ts_access_tape_lcg(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["frontend", "backend", "gridftp", "gridhttps"]
+    ],
+  "ts_access_tape_storm":[
+    "227778",
+    "TT",
+    false,
+    [["","[1.11.0-1,*)"]],
+    false,
+    "TAPE",
+    "Write a file in a SA configured to access tape and then read it with storm.",
+    "tt.ts_access_tape_storm(tfn,ifn,dfn,back_ifn,uid,lfn)",
+    ["frontend", "backend", "gridftp", "gridhttps"]
     ]
 }

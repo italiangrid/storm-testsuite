@@ -65,7 +65,6 @@ class StoRMPtp:
 
     def get_command(self, polling=True, target_space_token=False, \
         wrong_request=False, wrong_option=False):
-        #a = self.cmd['name'] + ' ptp -e ' + self.cmd['rqst_protocol'] + '://' + self.endpoint + ':8444/' + ' -s ' + self.cmd['protocol'] + '://' + self.endpoint + ':8444/srm/managerv2?SFN=/' + self.accesspoint + self.dst_filename + ' -T -P ' + self.prt + ' -p'
         a = self.cmd['name'] + ' ptp '
         if wrong_option:
             a += '-f '
@@ -251,7 +250,6 @@ class StoRMPtg:
             'requestToken':''}
 
     def get_command(self, wrong_request=False, wrong_option=False):
-        #a = self.cmd['name'] + ' ptg -e ' + self.cmd['rqst_protocol'] + '://' + self.endpoint + ':8444/' + ' -s ' + self.cmd['protocol'] + '://' + self.endpoint + ':8444/srm/managerv2?SFN=/' + self.accesspoint + self.dst_filename + ' -T -P ' + self.prt + ' -p'
         a = self.cmd['name'] + ' ptg '
         if wrong_option:
             a += '-f '
@@ -321,7 +319,6 @@ class StoRMSptg:
             'requestToken':''}
 
     def get_command(self, wrong_request=False, wrong_option=False):
-        #a = self.cmd['name'] + ' sptg -e ' + self.cmd['rqst_protocol'] + '://' + self.endpoint + ':8444/' + ' -s ' + self.cmd['protocol'] + '://' + self.endpoint + ':8444/srm/managerv2?SFN=/' + self.accesspoint + self.dst_filename + ' -t ' + self.token
         a = self.cmd['name'] + ' sptg '
         if wrong_option:
             a += '-f '
@@ -389,7 +386,6 @@ class StoRMPd:
             'explanation':[]}
 
     def get_command(self, wrong_request=False, wrong_option=False):
-        #a = self.cmd['name'] + ' pd -e ' + self.cmd['rqst_protocol'] + '://' + self.endpoint + ':8444/' + ' -s ' + self.cmd['protocol'] + '://' + self.endpoint + ':8444/srm/managerv2?SFN=/' + self.accesspoint + self.dst_filename + ' -t ' + self.turl
         a = self.cmd['name'] + ' pd '
         if wrong_option:
             a += '-f '
@@ -455,7 +451,6 @@ class StoRMRf:
             'explanation':[]}
 
     def get_command(self, wrong_request=False, wrong_option=False):
-        #a = self.cmd['name'] + ' rf -e ' + self.cmd['rqst_protocol'] + '://' + self.endpoint + ':8444/' + ' -s ' + self.cmd['protocol'] + '://' + self.endpoint + ':8444/srm/managerv2?SFN=/' + self.accesspoint + self.dst_filename + ' -t ' + self.turl 
         a = self.cmd['name'] + ' rf '
         if wrong_option:
             a += '-f '

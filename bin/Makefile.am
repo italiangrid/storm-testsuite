@@ -18,11 +18,9 @@
 
 bin_SCRIPTS = tstorm-sanity-tests \
     tstorm-tests \
-    tstorm-stress-tests \
-    tstorm-tests-ids 
+    tstorm-stress-tests 
 
 EXTRA_DIST = \
     tstorm-sanity-tests \
     tstorm-stress-tests \
-    tstorm-tests \
-    tstorm-tests-ids 
+    tstorm-tests 

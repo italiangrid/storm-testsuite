@@ -17,7 +17,9 @@ class LcgBol:
             'requestToken':''}
 
     def get_command(self):
-        a= self.cmd['name'] + ' -b --verbose -T srmv2 '+ self.cmd['protocol'] + '://' + self.endpoint + ':8444/srm/managerv2?SFN=/' + self.accesspoint + self.dfn
+        a = ('%s -b --verbose -T srmv2 %s://%s:8444/srm/managerv2?SFN=/%s%s'
+            % (self.cmd['name'], self.cmd['protocol'], self.endpoint,
+            self.accesspoint, self.dfn))
         return a
 
     def run_command(self):
@@ -54,7 +56,9 @@ class SrmBol:
             'requestToken':''}
 
     def get_command(self):
-        a= self.cmd['name'] + ' -2 -debug '+ self.cmd['protocol'] + '://' + self.endpoint + ':8444/srm/managerv2?SFN=/' + self.accesspoint + self.dfn
+        a = ('%s -2 -debug %s://%s:8444/srm/managerv2?SFN=/%s%s'
+            % (self.cmd['name'], self.cmd['protocol'], self.endpoint,
+            self.accesspoint, self.dfn))
         return a
 
     def run_command(self):
@@ -97,7 +101,6 @@ class StoRMBol:
             'explanation':[]}
 
     def get_command(self, wrong_request=False, wrong_option=False):
-        #a = self.cmd['name'] + ' bol -e ' + self.cmd['rqst_protocol'] + '://' + self.endpoint + ':8444/' + ' -s ' + self.cmd['protocol'] + '://' + self.endpoint + ':8444/srm/managerv2?SFN=/' + self.accesspoint + self.dfn + ' -p'
         a = self.cmd['name'] + ' bol '
         if wrong_option:
             a += '-f '
@@ -166,7 +169,6 @@ class StoRMSbol:
             'explanation':[]}
 
     def get_command(self, wrong_request=False, wrong_option=False):
-        #a = self.cmd['name'] + ' sbol -e ' + self.cmd['rqst_protocol'] + '://' + self.endpoint + ':8444/' + ' -s ' + self.cmd['protocol'] + '://' + self.endpoint + ':8444/srm/managerv2?SFN=/' + self.accesspoint + self.dst_filename + ' -t ' + self.turl
         a = self.cmd['name'] + ' sbol '
         if wrong_option:
             a += '-f '

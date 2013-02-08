@@ -72,7 +72,6 @@ class StoRMLs:
             '2': 'ONLINE_AND_NEARLINE'}
 
     def get_command(self, wrong_request=False, wrong_option=False):
-        #a = self.cmd['name'] + ' ls -e ' + self.cmd['rqst_protocol'] + '://' + self.endpoint + ':8444/' + ' -s ' + self.cmd['protocol'] + '://' + self.endpoint + ':8444/srm/managerv2?SFN=/' + self.accesspoint + self.dst_filename
         a = self.cmd['name'] + ' ls '
         if wrong_option:
             a += '-f '

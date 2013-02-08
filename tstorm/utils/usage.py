@@ -6,7 +6,7 @@ def usage_example_filter_list(cmd='',run=''):
     elif run == 'stress':
         print "                                    %s --filter-list 't=LT;regression=true;f=n,d,rfc,id'" % cmd
     else:
-        print "                                    %s --filter-list 't=AT,UT,ST,LT;regression=true;f=n,d,rfc,id'" % cmd
+        print "                                    %s --filter-list 't=AT,UT,ST,TT,LT;regression=true;f=n,d,rfc,id'" % cmd
 
 def usage_tests(parameters,run=''):
     print ("  --noreport                        disable the generation of" +
@@ -23,6 +23,7 @@ def usage_tests(parameters,run=''):
         "                                        AT Atomic Test\n"+
         "                                        UT Utility Test\n"+
         "                                        ST System Test\n"+
+        "                                        TT Tape Test\n"+
         "                                        LT Load Test\n"+
         "                                    r|regression=false|true that expresses\n"+
         "                                        if the test belongs to the regression\n" +

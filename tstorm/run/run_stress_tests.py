@@ -339,7 +339,7 @@ class RunStressTests(run_tests.RunTests):
             count, state=self.for_hours(\
                 start_time, start_time, log_file, stress_log_file)
 
-
+            
             if not state:
                 new_time=time.time()
                 elapsed_hour = int(new_time - start_time)/3600
@@ -347,6 +347,7 @@ class RunStressTests(run_tests.RunTests):
                     current_time=time.ctime(new_time))
                 self.__refresh_stress_tests_info(stress_log_file)
 
+            elapsed_hour = int(time.time()-start_time)/3600
             stress_log_file.put_footer(hours=str(elapsed_hour), \
                 cycle=str(count))
             

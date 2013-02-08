@@ -215,7 +215,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files common
 %defattr(-,root,root,-)
-%{_bindir}/tstorm-tests-ids
 %dir %{_sysconfdir}/tstorm
 %dir %{_sysconfdir}/tstorm/common
 

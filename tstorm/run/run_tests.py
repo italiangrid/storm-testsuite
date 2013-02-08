@@ -155,7 +155,8 @@ class RunTests(object):
            '_https_' in uid.get_aggregator() or \
            '_http_' in uid.get_aggregator() or \
            '_https' in uid.get_aggregator() or \
-           '_http' in uid.get_aggregator():
+           '_http' in uid.get_aggregator() or \
+           '_tape' in uid.get_aggregator():
             sd=False
         ifn,dfn,back_ifn= settings.set_inpt_fn(n_df,n_dfn,path=lfn.get_path(),subdir=sd)
         if uid.get_aggregator() != "" and '_wo' not in uid.get_aggregator():
