@@ -65,7 +65,6 @@ class TapeTest(unittest.TestCase):
                     '%s, %s - FAILED, %s, Test ID %s' %
                     (path, method, msg, self.id))
 
-            print ls_result
             self.lfn.flush_file()
 
             self.lfn.put_cmd(lcg_ls.get_command())
@@ -81,7 +80,6 @@ class TapeTest(unittest.TestCase):
                     '%s, %s - FAILED, %s, Test ID %s' %
                     (path, method, msg, self.id))
 
-            print ls_result
             self.lfn.flush_file()
 
             lcg_bol = bringonline.LcgBol(self.tsets['general']['endpoint'],
@@ -107,7 +105,6 @@ class TapeTest(unittest.TestCase):
                     '%s, %s - FAILED, %s, Test ID %s' %
                     (path, method, msg, self.id))
 
-            print ls_result
             self.lfn.flush_file()
 
             storm_rf = cp.StoRMRf(self.tsets['general']['endpoint'],
@@ -134,7 +131,6 @@ class TapeTest(unittest.TestCase):
             #        '%s, %s - FAILED, %s, Test ID %s' %
             #        (path, method, msg, self.id))
 
-            #print ls_result
 
             #srm_rm = rm.SrmRm(self.tsets['general']['endpoint'],
             #    self.tsets['general']['accesspoint'], self.dfn)
@@ -149,6 +145,8 @@ class TapeTest(unittest.TestCase):
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
+        except KeyError, err:
+            self.lfn.put_result('TAPE NOT SUPPORTED')
         else:
             self.lfn.put_result('PASSED')
 
@@ -194,7 +192,6 @@ class TapeTest(unittest.TestCase):
                     '%s, %s - FAILED, %s, Test ID %s' %
                     (path, method, msg, self.id))
 
-            print ls_result
             self.lfn.flush_file()
 
             self.lfn.put_cmd(lcg_ls.get_command())
@@ -210,7 +207,6 @@ class TapeTest(unittest.TestCase):
                     '%s, %s - FAILED, %s, Test ID %s' %
                     (path, method, msg, self.id))
 
-            print ls_result
             self.lfn.flush_file()
 
             lcg1_bol = bringonline.StoRMBol(self.tsets['general']['endpoint'],
@@ -246,10 +242,7 @@ class TapeTest(unittest.TestCase):
                     '%s, %s - FAILED, %s, Test ID %s' %
                     (path, method, msg, self.id))
 
-            print ls_result
             self.lfn.flush_file()
-
-            print bol1_result, bol2_result
 
             #self.lfn.put_cmd(lcg_ls.get_command())
             #ls_result = lcg_ls.get_output()
@@ -301,6 +294,8 @@ class TapeTest(unittest.TestCase):
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
+        except KeyError, err:
+            self.lfn.put_result('TAPE NOT SUPPORTED')
         else:
             self.lfn.put_result('PASSED')
 
@@ -346,7 +341,6 @@ class TapeTest(unittest.TestCase):
                     '%s, %s - FAILED, %s, Test ID %s' %
                     (path, method, msg, self.id))
 
-            print ls_result
             self.lfn.flush_file()
 
             self.lfn.put_cmd(lcg_ls.get_command())
@@ -362,7 +356,6 @@ class TapeTest(unittest.TestCase):
                     '%s, %s - FAILED, %s, Test ID %s' %
                     (path, method, msg, self.id))
 
-            print ls_result
             self.lfn.flush_file()
 
             lcg_bol = bringonline.StoRMBol(self.tsets['general']['endpoint'],
@@ -388,7 +381,6 @@ class TapeTest(unittest.TestCase):
                     '%s, %s - FAILED, %s, Test ID %s' %
                     (path, method, msg, self.id))
 
-            print ls_result
             self.lfn.flush_file()
 
             storm_gst = space.StoRMGst(self.tsets['general']['endpoint'],
@@ -437,7 +429,6 @@ class TapeTest(unittest.TestCase):
             #        '%s, %s - FAILED, %s, Test ID %s' %
             #        (path, method, msg, self.id))
 
-            #print ls_result
 
             srm_rm = rm.SrmRm(self.tsets['general']['endpoint'],
                 self.tsets['general']['accesspoint'], self.dfn)
@@ -455,7 +446,6 @@ class TapeTest(unittest.TestCase):
             self.assert_(ls_result['status'] == 'FAILURE',
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
-            print ls_result
 
             st_result = storm_gst.get_output()
             msg = 'storm gst status'
@@ -469,12 +459,13 @@ class TapeTest(unittest.TestCase):
                 '%s, %s - FAILED, %s, Test ID %s' %
                 (path, method, msg, self.id))
 
-            print ls_result['size'], st_result['unusedSize'], sm_result['unusedSize']
             self.assert_(int(ls_result['size']) == int(sm_result['unusedSize']) - int(st_result['unusedSize']))
 
         except AssertionError, err:
             print err
             self.lfn.put_result('FAILED')
+        except KeyError, err:
+            self.lfn.put_result('TAPE NOT SUPPORTED')
         else:
             self.lfn.put_result('PASSED')
 
