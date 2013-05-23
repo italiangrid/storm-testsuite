@@ -8,8 +8,8 @@ Resource   lib/credentials.txt
 Put a file using WebDAV calling the PUT method
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${fileName}  Create local file
-  ${surl}  Build surl  ${root}  ${fileName}
+  ${surl}  Build surl  ${vo}  ${fileName}
   ${options}  Set variable  -X PUT ${fileName} --cacert ${usercert} --cert ${userproxy} --capath ${trustdir}
-  Execute Curl with options  https://${davSecureEndpoint}/${root}/${fileName}  ${options}
+  Execute Curl with options  https://${davSecureEndpoint}/${vo}/${fileName}  ${options}
   Perform rm using clientSRM  ${surl}
   [Teardown]  Clear all credentials
