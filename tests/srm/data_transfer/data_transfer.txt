@@ -4,6 +4,7 @@ Resource   lib/clientSRM.txt
 Resource   lib/globus_util.txt
 Resource   lib/lcg_util.txt
 Resource   lib/dcache.txt
+Resource   lib/credentials.txt
 
 *** Test Cases ***
 
@@ -167,4 +168,29 @@ Check file copy in/out using lcg-utils, use dcache-client to create/remove dir a
   Remove directory using dCache client  ${vo}  ${dirName}
   ${output}  Try to remove directory using dCache client  ${vo}  ${dirName}  
   Should Contain  ${output}  SRM_INVALID_PATH
+  [Teardown]  Clear all credentials
+
+Check a file is correctly transferred out, the calculate checksum is correct and delete with dcache client
+  [Tags]  lcg-utils  dcache-client
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Create local file
+  ${surl}  Build surl  ${vo}  ${filename}
+  ${output}  List files in directory using lcg_utils  ${root}  ${filename}
+  Should Contain  ${output}  SRM_INVALID_PATH
+  Copy-out file using lcg-utils  ${filename}  ${surl}
+  ${output}  List files in directory using lcg_utils  ${root}  ${filename}
+  Should Contain  ${output}  ADLER32
+  Remove file using dCache client  ${vo}  ${filename}
+  [Teardown]  Clear all credentials
+
+Check the correct backend behaviour when a user specifies a DB PWD in the def file
+  [Tags]  lcg-utils  dcache-client
+  [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/227
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Create local file
+  ${surl}  Build surl  ${vo}  ${filename}
+  ${output}  List files in directory using lcg_utils  ${root}  ${filename}
+  Should Contain  ${output}  SRM_INVALID_PATH
+  Copy-out file using lcg-utils  ${filename}  ${surl}
+  Remove file using dCache client  ${vo}  ${filename}
   [Teardown]  Clear all credentials
