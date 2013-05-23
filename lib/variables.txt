@@ -33,10 +33,10 @@ ${userkey}  $HOME/.globus/userkey.pem
 ${userproxy}  $X509_USER_PROXY
 ${trustdir}  /etc/grid-security/certificates
 
-${anonymousRWStorageArea}  free
-${anonymousBisRWStorageArea}  free-bis
+${anonymousRWStorageArea}  noauth
+${anonymousBisRWStorageArea}  noauth-bis
 ${vomsproxyRWStorageArea}  testers.eu-emi.eu
-${vomsproxyBisRWStorageArea}  dteam
+${vomsproxyBisRWStorageArea}  testers.eu-emi.eu
 ${gridproxyRWStorageArea}  igi
 ${gridproxyBisRWStorageArea}  igi-bis
 ${personalcertRWStorageArea}  igi
