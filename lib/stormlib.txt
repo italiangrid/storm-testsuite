@@ -44,9 +44,17 @@ Execute Curl with options   [Arguments]  ${url}  ${options}=${EMPTY}
   [Return]   ${output} 
 
 Build surl  [Arguments]  ${storageArea}  ${relativePath}
-  ${output}  Run  echo "srm://${srmEndpoint}/srm/managerv2?SFN=/${storageArea}/${relativePath}"
+  ${output}  Set variable  srm://${srmEndpoint}/srm/managerv2?SFN=/${storageArea}/${relativePath}
   [Return]  ${output}
 
 Build simple surl  [Arguments]  ${storageArea}  ${relativePath}
-  ${output}  Run  echo "srm://${srmEndpoint}/${storageArea}/${relativePath}"
+  ${output}  Set variable  srm://${srmEndpoint}/${storageArea}/${relativePath}
+  [Return]  ${output}
+
+Build file transfer TURL  [Arguments]  ${storageArea}  ${relativePath}
+  ${output}  Set variable  http://${filetransferEndpoint}/fileTransfer/${storageArea}/${relativePath}
+  [Return]  ${output}
+
+Build file transfer secure TURL  [Arguments]  ${storageArea}  ${relativePath}
+  ${output}  Set variable  https://${filetransferSecureEndpoint}/fileTransfer/${storageArea}/${relativePath}
   [Return]  ${output}
