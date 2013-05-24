@@ -21,9 +21,9 @@ WebDAV DELETE file with voms proxy credentials
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Get a unique name
   Put without really putting using clientSRM  ${vomsproxyRWStorageArea}  ${filename}
-  ${options}  Set variable  --verbose -X DELETE --cert ${userproxy} --capath ${trustdir}
+  ${options}  Set variable  --verbose -X DELETE
   ${url}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${filename}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
   [Teardown]  Clear all credentials
 
@@ -32,9 +32,9 @@ WebDAV DELETE file with plain proxy credentials
   [Setup]  Init certificate and plain proxy  test0
   ${filename}  Get a unique name
   Put without really putting using clientSRM  ${gridproxyRWStorageArea}  ${filename}
-  ${options}  Set variable  --verbose -X DELETE --cert ${userproxy} --capath ${trustdir}
+  ${options}  Set variable  --verbose -X DELETE
   ${url}  Set variable  https://${davSecureEndpoint}/${gridproxyRWStorageArea}/${filename}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
   [Teardown]  Clear all credentials
 
@@ -43,9 +43,9 @@ WebDAV DELETE file with personal certificate
   [Setup]  Init certificate with unencrypted key  test0
   ${filename}  Get a unique name
   Put without really putting using clientSRM  ${personalcertRWStorageArea}  ${filename}
-  ${options}  Set variable  --verbose -X DELETE --cert ${usercert} --key ${userkey} --capath ${trustdir}
+  ${options}  Set variable  --verbose -X DELETE
   ${url}  Set variable  https://${davSecureEndpoint}/${personalcertRWStorageArea}/${filename}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${output}  Execute Curl with certificate and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
   [Teardown]  Clear all credentials
 
@@ -69,9 +69,9 @@ WebDAV DELETE empty directory with voms proxy credentials
   ${surl}  Build surl  ${vomsproxyRWStorageArea}  ${dirName}
   ${output}  Perform mkdir using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
-  ${options}  Set variable  --verbose -X DELETE --cert ${userproxy} --capath ${trustdir}
+  ${options}  Set variable  --verbose -X DELETE
   ${url}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${dirName}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
   [Teardown]  Clear all credentials
 
@@ -82,9 +82,9 @@ WebDAV DELETE empty directory with plain proxy credentials
   ${surl}  Build surl  ${gridproxyRWStorageArea}  ${dirName}
   ${output}  Perform mkdir using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
-  ${options}  Set variable  --verbose -X DELETE --cert ${userproxy} --capath ${trustdir}
+  ${options}  Set variable  --verbose -X DELETE
   ${url}  Set variable  https://${davSecureEndpoint}/${gridproxyRWStorageArea}/${dirName}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
   [Teardown]  Clear all credentials
 
@@ -95,9 +95,9 @@ WebDAV DELETE empty directory with personal certificate
   ${surl}  Build surl  ${personalcertRWStorageArea}  ${dirName}
   ${output}  Perform mkdir using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
-  ${options}  Set variable  --verbose -X DELETE --cert ${usercert} --key ${userkey} --capath ${trustdir}
+  ${options}  Set variable  --verbose -X DELETE
   ${url}  Set variable  https://${davSecureEndpoint}/${personalcertRWStorageArea}/${dirName}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${output}  Execute Curl with certificate and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
   [Teardown]  Clear all credentials
 
@@ -125,9 +125,9 @@ WebDAV DELETE full directory with voms proxy credentials
   Should Contain  ${output}  SRM_SUCCESS
   ${filename}  Get a unique name
   Put without really putting using clientSRM  ${vomsproxyRWStorageArea}  ${dirName}/${filename}
-  ${options}  Set variable  --verbose -X DELETE --cert ${userproxy} --capath ${trustdir}
+  ${options}  Set variable  --verbose -X DELETE
   ${url}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${dirName}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
   [Teardown]  Clear all credentials
 
@@ -140,9 +140,9 @@ WebDAV DELETE full directory with plain proxy credentials
   Should Contain  ${output}  SRM_SUCCESS
   ${filename}  Get a unique name
   Put without really putting using clientSRM  ${gridproxyRWStorageArea}  ${dirName}/${filename}
-  ${options}  Set variable  --verbose -X DELETE --cert ${userproxy} --capath ${trustdir}
+  ${options}  Set variable  --verbose -X DELETE
   ${url}  Set variable  https://${davSecureEndpoint}/${gridproxyRWStorageArea}/${dirName}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
   [Teardown]  Clear all credentials
 
@@ -155,8 +155,8 @@ WebDAV DELETE full directory with personal certificate
   Should Contain  ${output}  SRM_SUCCESS
   ${filename}  Get a unique name
   Put without really putting using clientSRM  ${personalcertRWStorageArea}  ${dirName}/${filename}
-  ${options}  Set variable  --verbose -X DELETE --cert ${usercert} --key ${userkey} --capath ${trustdir}
+  ${options}  Set variable  --verbose -X DELETE
   ${url}  Set variable  https://${davSecureEndpoint}/${personalcertRWStorageArea}/${dirName}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${output}  Execute Curl with certificate and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
   [Teardown]  Clear all credentials

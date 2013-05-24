@@ -33,8 +33,8 @@ WebDAV COPY file with voms proxy credentials
   Copy-out file using lcg-utils  ${srcFileName}  ${srcSurl}
   ${url}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${srcFileName}
   ${destUrl}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${destFileName}
-  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}' --cert ${userproxy} --capath ${trustdir}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}'
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  201 Created
   Perform rm using clientSRM  ${srcSurl}
   Perform rm using clientSRM  ${destSurl}
@@ -50,8 +50,8 @@ WebDAV COPY file with plain proxy credentials
   Copy-out file using lcg-utils  ${srcFileName}  ${srcSurl}
   ${url}  Set variable  https://${davSecureEndpoint}/${gridproxyRWStorageArea}/${srcFileName}
   ${destUrl}  Set variable  https://${davSecureEndpoint}/${gridproxyRWStorageArea}/${destFileName}
-  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}' --cert ${userproxy} --capath ${trustdir}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}'
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  201 Created
   Perform rm using clientSRM  ${srcSurl}
   Perform rm using clientSRM  ${destSurl}
@@ -67,8 +67,8 @@ WebDAV COPY file with personal certificate
   Copy-out file using lcg-utils  ${srcFileName}  ${srcSurl}
   ${url}  Set variable  https://${davSecureEndpoint}/${personalcertRWStorageArea}/${srcFileName}
   ${destUrl}  Set variable  https://${davSecureEndpoint}/${personalcertRWStorageArea}/${destFileName}
-  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}' --cert ${usercert} --key ${userkey} --capath ${trustdir}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}'
+  ${output}  Execute Curl with certificate and options  ${url}  ${options}
   Should Contain  ${output}  201 Created
   Perform rm using clientSRM  ${srcSurl}
   Perform rm using clientSRM  ${destSurl}
@@ -107,8 +107,8 @@ WebDAV COPY full directory with voms proxy credentials
   ${destDirName}  Get a unique name
   ${url}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${srcDirName}
   ${destUrl}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${destDirName}
-  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}' --cert ${userproxy} --capath ${trustdir}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}'
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  201 Created
   Remove not empty directory using clientSRM  ${vomsproxyRWStorageArea}  ${srcDirName}
   Remove not empty directory using clientSRM  ${vomsproxyRWStorageArea}  ${destDirName}
@@ -127,8 +127,8 @@ WebDAV COPY full directory with plain proxy credentials
   ${destDirName}  Get a unique name
   ${url}  Set variable  https://${davSecureEndpoint}/${gridproxyRWStorageArea}/${srcDirName}
   ${destUrl}  Set variable  https://${davSecureEndpoint}/${gridproxyRWStorageArea}/${destDirName}
-  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}' --cert ${userproxy} --capath ${trustdir}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}'
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  201 Created
   Remove not empty directory using clientSRM  ${gridproxyRWStorageArea}  ${srcDirName}
   Remove not empty directory using clientSRM  ${gridproxyRWStorageArea}  ${destDirName}
@@ -147,8 +147,8 @@ WebDAV COPY full directory with personal certificate
   ${destDirName}  Get a unique name
   ${url}  Set variable  https://${davSecureEndpoint}/${personalcertRWStorageArea}/${srcDirName}
   ${destUrl}  Set variable  https://${davSecureEndpoint}/${personalcertRWStorageArea}/${destDirName}
-  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}' --cert ${usercert} --key ${userkey} --capath ${trustdir}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}'
+  ${output}  Execute Curl with certificate and options  ${url}  ${options}
   Should Contain  ${output}  201 Created
   Remove not empty directory using clientSRM  ${personalcertRWStorageArea}  ${srcDirName}
   Remove not empty directory using clientSRM  ${personalcertRWStorageArea}  ${destDirName}
@@ -184,11 +184,11 @@ WebDAV COPY overwrite file with voms proxy credentials
   Copy-out file using lcg-utils  ${srcFileName}  ${srcSurl}
   ${url}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${srcFileName}
   ${destUrl}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${destFileName}
-  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}' --cert ${userproxy} --capath ${trustdir}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}'
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  201 Created
-  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}' --header 'Overwrite: T' --cert ${userproxy} --capath ${trustdir}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}' --header 'Overwrite: T'
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
   Perform rm using clientSRM  ${srcSurl}
   Perform rm using clientSRM  ${destSurl}
@@ -204,11 +204,11 @@ WebDAV COPY overwrite file with plain proxy credentials
   Copy-out file using lcg-utils  ${srcFileName}  ${srcSurl}
   ${url}  Set variable  https://${davSecureEndpoint}/${gridproxyRWStorageArea}/${srcFileName}
   ${destUrl}  Set variable  https://${davSecureEndpoint}/${gridproxyRWStorageArea}/${destFileName}
-  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}' --cert ${userproxy} --capath ${trustdir}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}'
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  201 Created
-  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}' --header 'Overwrite: T' --cert ${userproxy} --capath ${trustdir}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}' --header 'Overwrite: T'
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
   Perform rm using clientSRM  ${srcSurl}
   Perform rm using clientSRM  ${destSurl}
@@ -224,11 +224,11 @@ WebDAV COPY overwrite file with personal certificate
   Copy-out file using lcg-utils  ${srcFileName}  ${srcSurl}
   ${url}  Set variable  https://${davSecureEndpoint}/${personalcertRWStorageArea}/${srcFileName}
   ${destUrl}  Set variable  https://${davSecureEndpoint}/${personalcertRWStorageArea}/${destFileName}
-  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}' --cert ${usercert} --key ${userkey} --capath ${trustdir}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}'
+  ${output}  Execute Curl with certificate and options  ${url}  ${options}
   Should Contain  ${output}  201 Created
-  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}' --header 'Overwrite: T' --cert ${usercert} --key ${userkey} --capath ${trustdir}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}' --header 'Overwrite: T'
+  ${output}  Execute Curl with certificate and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
   Perform rm using clientSRM  ${srcSurl}
   Perform rm using clientSRM  ${destSurl}
@@ -270,11 +270,11 @@ WebDAV COPY overwrite full directory with voms proxy credentials
   ${destDirName}  Get a unique name
   ${url}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${srcDirName}
   ${destUrl}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${destDirName}
-  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}' --cert ${userproxy} --capath ${trustdir}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}'
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  201 Created
-  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}' --header 'Overwrite: T' --cert ${userproxy} --capath ${trustdir}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}' --header 'Overwrite: T'
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
   Remove not empty directory using clientSRM  ${vomsproxyRWStorageArea}  ${srcDirName}
   Remove not empty directory using clientSRM  ${vomsproxyRWStorageArea}  ${destDirName}
@@ -293,11 +293,11 @@ WebDAV COPY overwrite full directory with plain proxy credentials
   ${destDirName}  Get a unique name
   ${url}  Set variable  https://${davSecureEndpoint}/${gridproxyRWStorageArea}/${srcDirName}
   ${destUrl}  Set variable  https://${davSecureEndpoint}/${gridproxyRWStorageArea}/${destDirName}
-  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}' --cert ${userproxy} --capath ${trustdir}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}'
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  201 Created
-  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}' --header 'Overwrite: T' --cert ${userproxy} --capath ${trustdir}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}' --header 'Overwrite: T'
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
   Remove not empty directory using clientSRM  ${gridproxyRWStorageArea}  ${srcDirName}
   Remove not empty directory using clientSRM  ${gridproxyRWStorageArea}  ${destDirName}
@@ -316,11 +316,11 @@ WEBDAV COPY overwrite full directory over HTTPS with a personal certificate
   ${destDirName}  Get a unique name
   ${url}  Set variable  https://${davSecureEndpoint}/${personalcertRWStorageArea}/${srcDirName}
   ${destUrl}  Set variable  https://${davSecureEndpoint}/${personalcertRWStorageArea}/${destDirName}
-  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}' --cert ${usercert} --key ${userkey} --capath ${trustdir}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}'
+  ${output}  Execute Curl with certificate and options  ${url}  ${options}
   Should Contain  ${output}  201 Created
-  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}' --header 'Overwrite: T' --cert ${usercert} --key ${userkey} --capath ${trustdir}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}' --header 'Overwrite: T'
+  ${output}  Execute Curl with certificate and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
   Remove not empty directory using clientSRM  ${personalcertRWStorageArea}  ${srcDirName}
   Remove not empty directory using clientSRM  ${personalcertRWStorageArea}  ${destDirName}
@@ -353,8 +353,8 @@ WEBDAV COPY to a different storage area over HTTPS with personal certificate
   Copy-out file using lcg-utils  ${srcFileName}  ${srcSurl}
   ${url}  Set variable  https://${davSecureEndpoint}/${personalcertRWStorageArea}/${srcFileName}
   ${destUrl}  Set variable  https://${davSecureEndpoint}/${personalcertBisRWStorageArea}/${destFileName}
-  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}' --cert ${usercert} --key ${userkey} --capath ${trustdir}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}'
+  ${output}  Execute Curl with certificate and options  ${url}  ${options}
   Should Contain  ${output}  201 Created
   Perform rm using clientSRM  ${srcSurl}
   Perform rm using clientSRM  ${destSurl}

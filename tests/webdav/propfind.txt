@@ -37,9 +37,9 @@ WebDAV PROPFIND on directory with voms proxy credentials
   ${surl2}  Build surl  ${vomsproxyRWStorageArea}  ${dirname}/${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl2}
   ${body}  Set variable  <?xml version='1.0' encoding='utf-8'?><propfind xmlns='DAV:'><allprop/></propfind>
-  ${options}  Set variable  --verbose -X PROPFIND --header 'Content-Type: text/xml' --cert ${userproxy} --capath ${trustdir}
+  ${options}  Set variable  --verbose -X PROPFIND --header 'Content-Type: text/xml'
   ${url}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${dirname}
-  ${output}  Execute Curl with options  ${url}  ${options} --data-ascii "${body}"
+  ${output}  Execute Curl with proxy and options  ${url}  ${options} --data-ascii "${body}"
   Log  ${output}
   Should Contain  ${output}  ${dirname}
   Should Contain  ${output}  ${dirname}/${filename}
@@ -57,9 +57,9 @@ WebDAV PROPFIND on directory with plain proxy credentials
   ${surl2}  Build surl  ${gridproxyRWStorageArea}  ${dirname}/${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl2}
   ${body}  Set variable  <?xml version='1.0' encoding='utf-8'?><propfind xmlns='DAV:'><allprop/></propfind>
-  ${options}  Set variable  --verbose -X PROPFIND --header 'Content-Type: text/xml' --cert ${userproxy} --capath ${trustdir}
+  ${options}  Set variable  --verbose -X PROPFIND --header 'Content-Type: text/xml'
   ${url}  Set variable  https://${davSecureEndpoint}/${gridproxyRWStorageArea}/${dirname}
-  ${output}  Execute Curl with options  ${url}  ${options} --data-ascii "${body}"
+  ${output}  Execute Curl with proxy and options  ${url}  ${options} --data-ascii "${body}"
   Log  ${output}
   Should Contain  ${output}  ${dirname}
   Should Contain  ${output}  ${dirname}/${filename}
@@ -77,9 +77,9 @@ WebDAV PROPFIND on directory with personal certificate
   ${surl2}  Build surl  ${personalcertRWStorageArea}  ${dirname}/${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl2}
   ${body}  Set variable  <?xml version='1.0' encoding='utf-8'?><propfind xmlns='DAV:'><allprop/></propfind>
-  ${options}  Set variable  --verbose -X PROPFIND --header 'Content-Type: text/xml' --cert ${usercert} --key ${userkey} --capath ${trustdir}
+  ${options}  Set variable  --verbose -X PROPFIND --header 'Content-Type: text/xml'
   ${url}  Set variable  https://${davSecureEndpoint}/${personalcertRWStorageArea}/${dirname}
-  ${output}  Execute Curl with options  ${url}  ${options} --data-ascii "${body}"
+  ${output}  Execute Curl with certificate and options  ${url}  ${options} --data-ascii "${body}"
   Log  ${output}
   Should Contain  ${output}  ${dirname}
   Should Contain  ${output}  ${dirname}/${filename}

@@ -9,7 +9,7 @@ Put a file using WebDAV calling the PUT method
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${fileName}  Create local file
   ${surl}  Build surl  ${vo}  ${fileName}
-  ${options}  Set variable  -X PUT ${fileName} --cacert ${usercert} --cert ${userproxy} --capath ${trustdir}
-  Execute Curl with options  https://${davSecureEndpoint}/${vo}/${fileName}  ${options}
+  ${options}  Set variable  -X PUT ${fileName}
+  Execute Curl with proxy and options  https://${davSecureEndpoint}/${vo}/${fileName}  ${options}
   Perform rm using clientSRM  ${surl}
   [Teardown]  Clear all credentials

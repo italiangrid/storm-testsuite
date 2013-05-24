@@ -20,9 +20,9 @@ WebDAV MKCOL with voms proxy
   [Tags]  webdav  mkcol
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${dirname}  Get a unique name
-  ${options}  Set variable  --verbose -X MKCOL --cert ${userproxy} --capath ${trustdir}
+  ${options}  Set variable  --verbose -X MKCOL
   ${url}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${dirName}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  201 Created
   Remove empty directory using clientSRM  ${vomsproxyRWStorageArea}  ${dirname}
   [Teardown]  Clear all credentials
@@ -31,9 +31,9 @@ WebDAV MKCOL with plain proxy
   [Tags]  webdav  mkcol
   [Setup]  Init certificate and plain proxy  test0
   ${dirname}  Get a unique name
-  ${options}  Set variable  --verbose -X MKCOL --cert ${userproxy} --capath ${trustdir}
+  ${options}  Set variable  --verbose -X MKCOL
   ${url}  Set variable  https://${davSecureEndpoint}/${gridproxyRWStorageArea}/${dirName}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  201 Created
   Remove empty directory using clientSRM  ${gridproxyRWStorageArea}  ${dirname}
   [Teardown]  Clear all credentials
@@ -42,9 +42,9 @@ WebDAV MKCOL with personal certificate
   [Tags]  webdav  mkcol
   [Setup]  Init certificate with unencrypted key  test0
   ${dirname}  Get a unique name
-  ${options}  Set variable  --verbose -X MKCOL --cert ${usercert} --key ${userkey} --capath ${trustdir}
+  ${options}  Set variable  --verbose -X MKCOL
   ${url}  Set variable  https://${davSecureEndpoint}/${personalcertRWStorageArea}/${dirName}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${output}  Execute Curl with certificate and options  ${url}  ${options}
   Should Contain  ${output}  201 Created
   Remove empty directory using clientSRM  ${personalcertRWStorageArea}  ${dirname}
   [Teardown]  Clear all credentials

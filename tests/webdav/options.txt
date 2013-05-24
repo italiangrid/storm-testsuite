@@ -16,9 +16,9 @@ WebDAV OPTIONS on directory as anonymous
 WebDAV OPTIONS on directory with voms proxy credentials
   [Tags]  webdav  options
   [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${options}  Set variable  --verbose -X OPTIONS --cert ${userproxy} --capath ${trustdir}
+  ${options}  Set variable  --verbose -X OPTIONS
   ${url}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  200 OK
   Should Contain  ${output}  DAV: 1
   [Teardown]  Clear all credentials
@@ -26,9 +26,9 @@ WebDAV OPTIONS on directory with voms proxy credentials
 WebDAV OPTIONS on directory with plain proxy credentials
   [Tags]  webdav  options
   [Setup]  Init certificate and plain proxy  test0
-  ${options}  Set variable  --verbose -X OPTIONS --cert ${userproxy} --capath ${trustdir}
+  ${options}  Set variable  --verbose -X OPTIONS
   ${url}  Set variable  https://${davSecureEndpoint}/${gridproxyRWStorageArea}/
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  200 OK
   Should Contain  ${output}  DAV: 1
   [Teardown]  Clear all credentials
@@ -36,9 +36,9 @@ WebDAV OPTIONS on directory with plain proxy credentials
 WebDAV OPTIONS on directory with personal certificate
   [Tags]  webdav  options
   [Setup]  Init certificate with unencrypted key  test0
-  ${options}  Set variable  --verbose -X OPTIONS --cert ${usercert} --key ${userkey} --capath ${trustdir}
+  ${options}  Set variable  --verbose -X OPTIONS
   ${url}  Set variable  https://${davSecureEndpoint}/${personalcertRWStorageArea}/
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${output}  Execute Curl with certificate and options  ${url}  ${options}
   Should Contain  ${output}  200 OK
   Should Contain  ${output}  DAV: 1
   [Teardown]  Clear all credentials

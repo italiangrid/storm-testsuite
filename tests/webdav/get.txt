@@ -16,7 +16,7 @@ WebDAV GET directory as anonymous
   ${filename}  Create local file
   ${surl2}  Build surl  ${anonymousRWStorageArea}  ${dirname}/${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl2}
-  ${options}  Set variable  --verbose -X GET --cert ${userproxy} --capath ${trustdir}
+  ${options}  Set variable  --verbose -X GET
   ${url}  Set variable  http://${davEndpoint}/${anonymousRWStorageArea}/${dirname}
   ${output}  Execute Curl with options  ${url}  ${options}
   Should Contain  ${output}  200 OK
@@ -35,9 +35,9 @@ WebDAV GET directory with voms proxy credentials
   ${filename}  Create local file
   ${surl2}  Build surl  ${vomsproxyRWStorageArea}  ${dirname}/${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl2}
-  ${options}  Set variable  --verbose -X GET --cert ${userproxy} --capath ${trustdir}
+  ${options}  Set variable  --verbose -X GET
   ${url}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${dirname}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  200 OK
   Should Contain  ${output}  ${dirname}
   Should Contain  ${output}  ${filename}
@@ -54,9 +54,9 @@ WebDAV GET directory with plain proxy credentials
   ${filename}  Create local file
   ${surl2}  Build surl  ${gridproxyRWStorageArea}  ${dirname}/${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl2}
-  ${options}  Set variable  --verbose -X GET --cert ${userproxy} --capath ${trustdir}
+  ${options}  Set variable  --verbose -X GET
   ${url}  Set variable  https://${davSecureEndpoint}/${gridproxyRWStorageArea}/${dirname}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  200 OK
   Should Contain  ${output}  ${dirname}
   Should Contain  ${output}  ${filename}
@@ -73,9 +73,9 @@ WebDAV GET directory with personal certificate
   ${filename}  Create local file
   ${surl2}  Build surl  ${personalcertRWStorageArea}  ${dirname}/${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl2}
-  ${options}  Set variable  --verbose -X GET --cert ${usercert} --key ${userkey} --capath ${trustdir}
+  ${options}  Set variable  --verbose -X GET
   ${url}  Set variable  https://${davSecureEndpoint}/${personalcertRWStorageArea}/${dirname}
-  ${output}  Execute Curl with options  ${url}  ${options}
+  ${output}  Execute Curl with certificate and options  ${url}  ${options}
   Should Contain  ${output}  200 OK
   Should Contain  ${output}  ${dirname}
   Should Contain  ${output}  ${filename}
