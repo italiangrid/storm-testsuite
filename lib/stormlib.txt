@@ -29,9 +29,19 @@ Create local file with checksum that starts with zero
   Execute and Check Success  echo "a" > /tmp/${name}
   [Return]  ${name}
 
-Execute Curl with options  [Arguments]  ${url}  ${options}=${EMPTY}
-  ${output}  Execute and Check Success  curl ${options} ${url}
+Execute Curl with proxy and options  [Arguments]  ${url}  ${options}=${EMPTY}
+  [Documentation] This keyword should be used when invoking CURL with a proxy certificate
+  ${ouput}  Execute and Check Success  curl --cert ${userproxy} --cacert ${usercert} --capath ${trustdir} ${options} ${url}
   [Return]  ${output}
+
+Execute Curl with certificate and options  [Arguments]  ${url}  ${options}=${EMPTY}
+  [Documentation] This keyword should be used when invoking CURL with an EEC
+  ${output}  Execute and Check Success  curl --cert ${usercert} --key ${userkey} ${options} ${url}
+  [Return]  ${output}
+
+Execute Curl with options   [Arguments]  ${url}  ${options}=${EMPTY}
+  ${output}  Execute and Check Success  curl ${options} ${url}
+  [Return]   ${output} 
 
 Build surl  [Arguments]  ${storageArea}  ${relativePath}
   ${output}  Run  echo "srm://${srmEndpoint}/srm/managerv2?SFN=/${storageArea}/${relativePath}"
