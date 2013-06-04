@@ -14,6 +14,7 @@ WebDAV MKCOL anonymous
   ${output}  Execute Curl with options  ${url}  ${options}
   Should Contain  ${output}  201 Created
   Remove empty directory using clientSRM  ${anonymousRWStorageArea}  ${dirname}
+  Remove local directory  ${dirname}
   [Teardown]  Clear all credentials
 
 WebDAV MKCOL with voms proxy
@@ -25,6 +26,7 @@ WebDAV MKCOL with voms proxy
   ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  201 Created
   Remove empty directory using clientSRM  ${vomsproxyRWStorageArea}  ${dirname}
+  Remove local directory  ${dirname}
   [Teardown]  Clear all credentials
 
 WebDAV MKCOL with plain proxy
@@ -36,6 +38,7 @@ WebDAV MKCOL with plain proxy
   ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  201 Created
   Remove empty directory using clientSRM  ${gridproxyRWStorageArea}  ${dirname}
+  Remove local directory  ${dirname}
   [Teardown]  Clear all credentials
 
 WebDAV MKCOL with personal certificate
@@ -47,6 +50,7 @@ WebDAV MKCOL with personal certificate
   ${output}  Execute Curl with certificate and options  ${url}  ${options}
   Should Contain  ${output}  201 Created
   Remove empty directory using clientSRM  ${personalcertRWStorageArea}  ${dirname}
+  Remove local directory  ${dirname}
   [Teardown]  Clear all credentials
 
 WebDAV MKCOL anonymous with unexistent intermediate parent
@@ -60,6 +64,7 @@ WebDAV MKCOL anonymous with unexistent intermediate parent
   ${url}  Set variable  http://${davEndpoint}/${anonymousRWStorageArea}/${dirName}/${dirName}
   ${output}  Execute Curl with options  ${url}  ${options}
   Should Contain  ${output}  409 Conflict
+  Remove local directory  ${dirname}
   [Teardown]  Clear all credentials
 
 WebDAV MKCOL anonymous on existent directory
@@ -73,4 +78,5 @@ WebDAV MKCOL anonymous on existent directory
   ${output}  Execute Curl with options  ${url}  ${options}
   Should Contain  ${output}  405 Method Not Allowed
   Remove empty directory using clientSRM  ${anonymousRWStorageArea}  ${dirname}
+  Remove local directory  ${dirname}
   [Teardown]  Clear all credentials

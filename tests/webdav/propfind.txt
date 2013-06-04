@@ -24,6 +24,8 @@ WebDAV PROPFIND on directory as anonymous
   Should Contain  ${output}  ${dirname}
   Should Contain  ${output}  ${dirname}/${filename}
   Remove not empty directory using clientSRM  ${anonymousRWStorageArea}  ${dirname}
+  Remove local directory  ${dirname}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 WebDAV PROPFIND on directory with voms proxy credentials
@@ -44,6 +46,8 @@ WebDAV PROPFIND on directory with voms proxy credentials
   Should Contain  ${output}  ${dirname}
   Should Contain  ${output}  ${dirname}/${filename}
   Remove not empty directory using clientSRM  ${vomsproxyRWStorageArea}  ${dirname}
+  Remove local directory  ${dirname}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 WebDAV PROPFIND on directory with plain proxy credentials
@@ -64,6 +68,8 @@ WebDAV PROPFIND on directory with plain proxy credentials
   Should Contain  ${output}  ${dirname}
   Should Contain  ${output}  ${dirname}/${filename}
   Remove not empty directory using clientSRM  ${gridproxyRWStorageArea}  ${dirname}
+  Remove local directory  ${dirname}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 WebDAV PROPFIND on directory with personal certificate
@@ -84,4 +90,6 @@ WebDAV PROPFIND on directory with personal certificate
   Should Contain  ${output}  ${dirname}
   Should Contain  ${output}  ${dirname}/${filename}
   Remove not empty directory using clientSRM  ${personalcertRWStorageArea}  ${dirname}
+  Remove local directory  ${dirname}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials

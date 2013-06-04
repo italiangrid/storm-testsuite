@@ -12,4 +12,5 @@ Put a file using WebDAV calling the PUT method
   ${options}  Set variable  -X PUT ${fileName}
   Execute Curl with proxy and options  https://${davSecureEndpoint}/${vo}/${fileName}  ${options}
   Perform rm using clientSRM  ${surl}
+  Remove local file  ${fileName}
   [Teardown]  Clear all credentials
