@@ -14,6 +14,7 @@ WebDAV DELETE file as anonymous
   ${url}  Set variable  http://${davEndpoint}/${anonymousRWStorageArea}/${filename}
   ${output}  Execute Curl with options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 WebDAV DELETE file with voms proxy credentials
@@ -25,6 +26,7 @@ WebDAV DELETE file with voms proxy credentials
   ${url}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${filename}
   ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 WebDAV DELETE file with plain proxy credentials
@@ -36,6 +38,7 @@ WebDAV DELETE file with plain proxy credentials
   ${url}  Set variable  https://${davSecureEndpoint}/${gridproxyRWStorageArea}/${filename}
   ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 WebDAV DELETE file with personal certificate
@@ -47,6 +50,7 @@ WebDAV DELETE file with personal certificate
   ${url}  Set variable  https://${davSecureEndpoint}/${personalcertRWStorageArea}/${filename}
   ${output}  Execute Curl with certificate and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 WebDAV DELETE empty directory as anonymous
@@ -60,6 +64,7 @@ WebDAV DELETE empty directory as anonymous
   ${url}  Set variable  http://${davEndpoint}/${anonymousRWStorageArea}/${dirName}
   ${output}  Execute Curl with options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
+  Remove local directory  ${dirname}
   [Teardown]  Clear all credentials
 
 WebDAV DELETE empty directory with voms proxy credentials
@@ -73,6 +78,7 @@ WebDAV DELETE empty directory with voms proxy credentials
   ${url}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${dirName}
   ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
+  Remove local directory  ${dirname}
   [Teardown]  Clear all credentials
 
 WebDAV DELETE empty directory with plain proxy credentials
@@ -86,6 +92,7 @@ WebDAV DELETE empty directory with plain proxy credentials
   ${url}  Set variable  https://${davSecureEndpoint}/${gridproxyRWStorageArea}/${dirName}
   ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
+  Remove local directory  ${dirname}
   [Teardown]  Clear all credentials
 
 WebDAV DELETE empty directory with personal certificate
@@ -99,6 +106,7 @@ WebDAV DELETE empty directory with personal certificate
   ${url}  Set variable  https://${davSecureEndpoint}/${personalcertRWStorageArea}/${dirName}
   ${output}  Execute Curl with certificate and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
+  Remove local directory  ${dirname}
   [Teardown]  Clear all credentials
 
 WebDAV DELETE full directory as anonymous
@@ -114,6 +122,8 @@ WebDAV DELETE full directory as anonymous
   ${url}  Set variable  http://${davEndpoint}/${anonymousRWStorageArea}/${dirName}
   ${output}  Execute Curl with options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
+  Remove local directory  ${dirname}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 WebDAV DELETE full directory with voms proxy credentials
@@ -144,6 +154,8 @@ WebDAV DELETE full directory with plain proxy credentials
   ${url}  Set variable  https://${davSecureEndpoint}/${gridproxyRWStorageArea}/${dirName}
   ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
+  Remove local directory  ${dirname}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 WebDAV DELETE full directory with personal certificate
@@ -159,4 +171,6 @@ WebDAV DELETE full directory with personal certificate
   ${url}  Set variable  https://${davSecureEndpoint}/${personalcertRWStorageArea}/${dirName}
   ${output}  Execute Curl with certificate and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
+  Remove local directory  ${dirname}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
