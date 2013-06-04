@@ -22,6 +22,7 @@ WebDAV COPY file as anonymous
   Perform rm using clientSRM  ${srcSurl}
   Perform rm using clientSRM  ${destSurl}
   Remove local file  ${srcFileName}
+  Remove local file  ${destFileName}
   [Teardown]  Clear all credentials
 
 WebDAV COPY file with voms proxy credentials
@@ -40,6 +41,7 @@ WebDAV COPY file with voms proxy credentials
   Perform rm using clientSRM  ${srcSurl}
   Perform rm using clientSRM  ${destSurl}
   Remove local file  ${srcFileName}
+  Remove local file  ${destFileName}
   [Teardown]  Clear all credentials
 
 WebDAV COPY file with plain proxy credentials
@@ -58,6 +60,7 @@ WebDAV COPY file with plain proxy credentials
   Perform rm using clientSRM  ${srcSurl}
   Perform rm using clientSRM  ${destSurl}
   Remove local file  ${srcFileName}
+  Remove local file  ${destFileName}
   [Teardown]  Clear all credentials
 
 WebDAV COPY file with personal certificate
@@ -76,6 +79,7 @@ WebDAV COPY file with personal certificate
   Perform rm using clientSRM  ${srcSurl}
   Perform rm using clientSRM  ${destSurl}
   Remove local file  ${srcFileName}
+  Remove local file  ${destFileName}
   [Teardown]  Clear all credentials
 
 WebDAV COPY full directory as anonymous
@@ -97,6 +101,8 @@ WebDAV COPY full directory as anonymous
   Remove not empty directory using clientSRM  ${anonymousRWStorageArea}  ${srcDirName}
   Remove not empty directory using clientSRM  ${anonymousRWStorageArea}  ${destDirName}
   Remove local file  ${fileName}
+  Remove local directory  ${srcDirName}
+  Remove local directory  ${destDirName}
   [Teardown]  Clear all credentials
 
 WebDAV COPY full directory with voms proxy credentials
@@ -118,6 +124,8 @@ WebDAV COPY full directory with voms proxy credentials
   Remove not empty directory using clientSRM  ${vomsproxyRWStorageArea}  ${srcDirName}
   Remove not empty directory using clientSRM  ${vomsproxyRWStorageArea}  ${destDirName}
   Remove local file  ${fileName}
+  Remove local directory  ${srcDirName}
+  Remove local directory  ${destDirName}
   [Teardown]  Clear all credentials
 
 WebDAV COPY full directory with plain proxy credentials
@@ -139,6 +147,8 @@ WebDAV COPY full directory with plain proxy credentials
   Remove not empty directory using clientSRM  ${gridproxyRWStorageArea}  ${srcDirName}
   Remove not empty directory using clientSRM  ${gridproxyRWStorageArea}  ${destDirName}
   Remove local file  ${fileName}
+  Remove local directory  ${srcDirName}
+  Remove local directory  ${destDirName}
   [Teardown]  Clear all credentials
 
 WebDAV COPY full directory with personal certificate
@@ -160,6 +170,8 @@ WebDAV COPY full directory with personal certificate
   Remove not empty directory using clientSRM  ${personalcertRWStorageArea}  ${srcDirName}
   Remove not empty directory using clientSRM  ${personalcertRWStorageArea}  ${destDirName}
   Remove local file  ${fileName}
+  Remove local directory  ${srcDirName}
+  Remove local directory  ${destDirName}
   [Teardown]  Clear all credentials
 
 WebDAV COPY overwrite file as anonymous
@@ -181,6 +193,7 @@ WebDAV COPY overwrite file as anonymous
   Perform rm using clientSRM  ${srcSurl}
   Perform rm using clientSRM  ${destSurl}
   Remove local file  ${srcFileName}
+  Remove local file  ${destFileName}
   [Teardown]  Clear all credentials
 
 WebDAV COPY overwrite file with voms proxy credentials
@@ -202,6 +215,7 @@ WebDAV COPY overwrite file with voms proxy credentials
   Perform rm using clientSRM  ${srcSurl}
   Perform rm using clientSRM  ${destSurl}
   Remove local file  ${srcFileName}
+  Remove local file  ${destFileName}
   [Teardown]  Clear all credentials
 
 WebDAV COPY overwrite file with plain proxy credentials
@@ -223,6 +237,7 @@ WebDAV COPY overwrite file with plain proxy credentials
   Perform rm using clientSRM  ${srcSurl}
   Perform rm using clientSRM  ${destSurl}
   Remove local file  ${srcFileName}
+  Remove local file  ${destFileName}
   [Teardown]  Clear all credentials
 
 WebDAV COPY overwrite file with personal certificate
@@ -244,6 +259,7 @@ WebDAV COPY overwrite file with personal certificate
   Perform rm using clientSRM  ${srcSurl}
   Perform rm using clientSRM  ${destSurl}
   Remove local file  ${srcFileName}
+  Remove local file  ${destFileName}
   [Teardown]  Clear all credentials
 
 WebDAV COPY overwrite full directory as anonymous
@@ -268,6 +284,8 @@ WebDAV COPY overwrite full directory as anonymous
   Remove not empty directory using clientSRM  ${anonymousRWStorageArea}  ${srcDirName}
   Remove not empty directory using clientSRM  ${anonymousRWStorageArea}  ${destDirName}
   Remove local file  ${fileName}
+  Remove local directory  ${srcDirName}
+  Remove local directory  ${destDirName}
   [Teardown]  Clear all credentials
 
 WebDAV COPY overwrite full directory with voms proxy credentials
@@ -292,6 +310,8 @@ WebDAV COPY overwrite full directory with voms proxy credentials
   Remove not empty directory using clientSRM  ${vomsproxyRWStorageArea}  ${srcDirName}
   Remove not empty directory using clientSRM  ${vomsproxyRWStorageArea}  ${destDirName}
   Remove local file  ${fileName}
+  Remove local directory  ${srcDirName}
+  Remove local directory  ${destDirName}
   [Teardown]  Clear all credentials
 
 WebDAV COPY overwrite full directory with plain proxy credentials
@@ -316,6 +336,8 @@ WebDAV COPY overwrite full directory with plain proxy credentials
   Remove not empty directory using clientSRM  ${gridproxyRWStorageArea}  ${srcDirName}
   Remove not empty directory using clientSRM  ${gridproxyRWStorageArea}  ${destDirName}
   Remove local file  ${fileName}
+  Remove local directory  ${srcDirName}
+  Remove local directory  ${destDirName}
   [Teardown]  Clear all credentials
 
 WEBDAV COPY overwrite full directory over HTTPS with a personal certificate
@@ -340,6 +362,8 @@ WEBDAV COPY overwrite full directory over HTTPS with a personal certificate
   Remove not empty directory using clientSRM  ${personalcertRWStorageArea}  ${srcDirName}
   Remove not empty directory using clientSRM  ${personalcertRWStorageArea}  ${destDirName}
   Remove local file  ${fileName}
+  Remove local directory  ${srcDirName}
+  Remove local directory  ${destDirName}
   [Teardown]  Clear all credentials
 
 WEBDAV COPY to a different storage area over HTTP
@@ -358,6 +382,7 @@ WEBDAV COPY to a different storage area over HTTP
   Perform rm using clientSRM  ${srcSurl}
   Perform rm using clientSRM  ${destSurl}
   Remove local file  ${srcFileName}
+  Remove local file  ${destFileName}
   [Teardown]  Clear all credentials
 
 WEBDAV COPY to a different storage area over HTTPS with personal certificate
@@ -376,6 +401,7 @@ WEBDAV COPY to a different storage area over HTTPS with personal certificate
   Perform rm using clientSRM  ${srcSurl}
   Perform rm using clientSRM  ${destSurl}
   Remove local file  ${srcFileName}
+  Remove local file  ${destFileName}
   [Teardown]  Clear all credentials
 
 WebDAV COPY with source URL equals to destination URL as anonymous
@@ -411,6 +437,7 @@ WebDAV COPY file with overwrite false on existent destination as anonymous
   Perform rm using clientSRM  ${srcSurl}
   Perform rm using clientSRM  ${destSurl}
   Remove local file  ${srcFileName}
+  Remove local file  ${destFileName}
   [Teardown]  Clear all credentials
 
 WebDAV COPY file to a destination with unexistent intermediate parent as anonymous
@@ -419,17 +446,19 @@ WebDAV COPY file to a destination with unexistent intermediate parent as anonymo
   ${srcFileName}  Create local file
   ${srcSurl}  Build surl  ${anonymousRWStorageArea}  ${srcFileName}
   ${destFileName}  Get a unique name
-  ${destDirname}  Get a unique name
-  ${destDirSurl}  Build surl  ${anonymousRWStorageArea}  ${destDirname}
+  ${destDirName}  Get a unique name
+  ${destDirSurl}  Build surl  ${anonymousRWStorageArea}  ${destDirName}
   ${output}  Perform ls using clientSRM  ${destDirSurl}  -c 1
   Should Contain  ${output}  SRM_INVALID_PATH
-  ${destSurl}  Build surl  ${anonymousRWStorageArea}  ${destDirname}/${destFileName}
+  ${destSurl}  Build surl  ${anonymousRWStorageArea}  ${destDirName}/${destFileName}
   Copy-out file using lcg-utils  ${srcFileName}  ${srcSurl}
   ${url}  Set variable  http://${davEndpoint}/${anonymousRWStorageArea}/${srcFileName}
-  ${destUrl}  Set variable  http://${davEndpoint}/${anonymousRWStorageArea}/${destDirname}/${destFileName}
+  ${destUrl}  Set variable  http://${davEndpoint}/${anonymousRWStorageArea}/${destDirName}/${destFileName}
   ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}'
   ${output}  Execute Curl with options  ${url}  ${options}
   Should Contain  ${output}  409 Conflict
   Perform rm using clientSRM  ${srcSurl}
   Remove local file  ${srcFileName}
+  Remove local file  ${destFileName}
+  Remove local directory  ${destDirName}
   [Teardown]  Clear all credentials
