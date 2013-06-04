@@ -21,6 +21,7 @@ File-Transfer upload file as anonymous
   Should contain  ${output}  SRM_SUCCESS
   ${output}  Perform rm using clientSRM  ${surl}
   Should contain  ${output}  SRM_SUCCESS
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 File-Transfer upload file with voms proxy
@@ -55,6 +56,7 @@ File-Transfer upload file with plain proxy
   Should contain  ${output}  SRM_SUCCESS
   ${output}  Perform rm using clientSRM  ${surl}
   Should contain  ${output}  SRM_SUCCESS
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 File-Transfer upload file with personal certificate
@@ -72,6 +74,7 @@ File-Transfer upload file with personal certificate
   Should contain  ${output}  SRM_SUCCESS
   ${output}  Perform rm using clientSRM  ${surl}
   Should contain  ${output}  SRM_SUCCESS
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 File-Transfer get file as anonymous
@@ -90,6 +93,7 @@ File-Transfer get file as anonymous
   Should contain  ${output}  SRM_SUCCESS
   ${output}  Perform rm using clientSRM  ${surl}
   Should contain  ${output}  SRM_SUCCESS
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 File-Transfer get file with voms proxy
@@ -108,6 +112,7 @@ File-Transfer get file with voms proxy
   Should contain  ${output}  SRM_SUCCESS
   ${output}  Perform rm using clientSRM  ${surl}
   Should contain  ${output}  SRM_SUCCESS
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 File-Transfer get file with plain proxy
@@ -126,6 +131,7 @@ File-Transfer get file with plain proxy
   Should contain  ${output}  SRM_SUCCESS
   ${output}  Perform rm using clientSRM  ${surl}
   Should contain  ${output}  SRM_SUCCESS
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 File-Transfer get file with personal certificate
@@ -144,6 +150,7 @@ File-Transfer get file with personal certificate
   Should contain  ${output}  SRM_SUCCESS
   ${output}  Perform rm using clientSRM  ${surl}
   Should contain  ${output}  SRM_SUCCESS
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 File-Transfer upload file as anonymous without ptp
@@ -154,6 +161,7 @@ File-Transfer upload file as anonymous without ptp
   ${turl}  Build file transfer TURL  ${anonymousRWStorageArea}  ${filename}
   ${output}  Execute Curl with options  ${turl}  ${options}
   Should Contain  ${output}  412 File not exist! You must do a prepare-to-put on surl
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 File-Transfer get file as anonymous without ptg
@@ -168,4 +176,5 @@ File-Transfer get file as anonymous without ptg
   Should Contain  ${output}  412 You must do a prepare-to-get on surl
   ${output}  Perform rm using clientSRM  ${surl}
   Should contain  ${output}  SRM_SUCCESS
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
