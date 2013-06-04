@@ -24,6 +24,12 @@ Create local file
   Execute and Check Success  dd if=/dev/urandom of=/tmp/${name} bs=1M count=1
   [Return]  ${name}
 
+Remove local file  [Arguments]  ${filename}
+  Execute and Check Success  rm -f /tmp/${filename}
+
+Remove local directory  [Arguments]  ${dirname}
+  Execute and Check Success  rm -rf /tmp/${dirname}
+
 Create local file with checksum that starts with zero
   ${name}  Get a unique name
   Execute and Check Success  echo "a" > /tmp/${name}
