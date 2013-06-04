@@ -10,47 +10,50 @@ Resource   lib/credentials.txt
 Check double PtG on a file
   [Tags]  regression  ptg
   [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${test_file}  Get a unique name
-  Put without really putting using clientSRM  ${root}  ${test_file}
-  ${surl}  Build surl  ${root}  ${test_file}
+  ${filename}  Get a unique name
+  Put without really putting using clientSRM  ${root}  ${filename}
+  ${surl}  Build surl  ${root}  ${filename}
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_FILE_PINNED
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_FILE_PINNED
   Perform rm using clientSRM  ${surl}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 Check right failure code when invoking PtP/PtP on the same file
   [Tags]   regression  ptp
   [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${test_file}  Get a unique name
-  ${surl}  Build surl  ${root}  ${test_file}
+  ${filename}  Get a unique name
+  ${surl}  Build surl  ${root}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Log  ${output}
   Should Contain  ${output}  SRM_FILE_BUSY
   Perform rm using clientSRM  ${surl}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 Check right failure code when invoking PtP/pd/PtP on the same file
   [Tags]   regression  ptp  pd
   [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${test_file}  Get a unique name
-  Put without really putting using clientSRM  ${root}  ${test_file}
-  ${surl}  Build surl  ${root}  ${test_file}
+  ${filename}  Get a unique name
+  Put without really putting using clientSRM  ${root}  ${filename}
+  ${surl}  Build surl  ${root}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_DUPLICATION_ERROR
   Perform rm using clientSRM  ${surl}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 Check if StoRM publishes correctly values for used and free space on the BDII
   [Tags]  regression
   [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${test_file}  Create local file
-  ${surl}  Build surl  ${root}  ${test_file}
+  ${filename}  Create local file
+  ${surl}  Build surl  ${root}  ${filename}
   Check file does not exists using lcg-utils  ${surl}
-  Copy-out file using lcg-utils  ${test_file}  ${surl}
+  Copy-out file using lcg-utils  ${filename}  ${surl}
   ${size_before}  Get unused size using clientSRM  ${storageAreaToken}
   Log  ${size_before}
   Check file exists using lcg-utils  ${surl}
@@ -59,20 +62,23 @@ Check if StoRM publishes correctly values for used and free space on the BDII
   ${size_after}  Get unused size using clientSRM  ${storageAreaToken}
   Log  ${size_after}
   ${diff_size}  Run  echo `expr ${size_after} - ${size_before}`
-  ${file_size}  Run  ls -l /tmp/${test_file} | awk {'print $5'}
+  ${file_size}  Run  ls -l /tmp/${filename} | awk {'print $5'}
   Should be equal  ${file_size}  ${diff_size}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 Copy out a file using lcg-utils
   [Tags]  lcg-utils
   [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${test_file}  Create local file
-  ${surl}  Build surl  ${root}  ${test_file}
+  ${filename}  Create local file
+  ${surl}  Build surl  ${root}  ${filename}
   Check file does not exists using lcg-utils  ${surl}
-  Copy-out file using lcg-utils  ${test_file}  ${surl}
-  Copy-in file using lcg-utils  ${surl}  ${test_file}_copied
-  Execute and check success  diff /tmp/${test_file} /tmp/${test_file}_copied
+  Copy-out file using lcg-utils  ${filename}  ${surl}
+  Copy-in file using lcg-utils  ${surl}  ${filename}_copied
+  Execute and check success  diff /tmp/${filename} /tmp/${filename}_copied
   Perform rm using clientSRM  ${surl}
+  Remove local file  ${filename}
+  Remove local file  ${filename}_copied
   [Teardown]  Clear all credentials
 
 Prepare to put using clientSRM
@@ -85,6 +91,7 @@ Prepare to put using clientSRM
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
   Should Contain  ${output}  srmPrepareToPut successfully handled!
   Perform rm using clientSRM  ${surl}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 Prepare to put on an existent file using clientSRM
@@ -97,6 +104,7 @@ Prepare to put on an existent file using clientSRM
   Should Contain  ${output}  SRM_DUPLICATION_ERROR
   Should Contain  ${output}  Cannot srmPut file because it already exists!
   Perform rm using clientSRM  ${surl}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 Prepare to put using a non existent space token
@@ -109,6 +117,7 @@ Prepare to put using a non existent space token
   ${output}  Perform sptp using clientSRM  ${surl}  ${token}
   Should Contain  ${output}  SRM_INVALID_REQUEST
   Should Contain  ${output}  The provided Space Token does not exists
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 Status of prepare to put using a non existent token

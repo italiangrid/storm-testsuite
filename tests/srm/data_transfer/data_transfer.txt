@@ -11,88 +11,95 @@ Resource   lib/credentials.txt
 Prepare to get on an existent file using clientSRM
   [Tags]  storm-client  ptg
   [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${test_file}  Get a unique name
-  Put without really putting using clientSRM  ${vo}  ${test_file}
-  ${surl}  Build surl  ${vo}  ${test_file}
+  ${filename}  Get a unique name
+  Put without really putting using clientSRM  ${vo}  ${filename}
+  ${surl}  Build surl  ${vo}  ${filename}
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}
   Should Contain  ${output}  SRM_REQUEST_QUEUED
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -t ${token} -p
   Should Contain  ${output}  SRM_FILE_PINNED
   Perform rm using clientSRM  ${surl}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 Prepare to get on an unexistent file using clientSRM
   [Tags]  storm-client  ptg
   [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${test_file}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${test_file}
+  ${filename}  Get a unique name
+  ${surl}  Build surl  ${vo}  ${filename}
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_INVALID_PATH
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 Release file on an existent file using clientSRM
   [Tags]  storm-client  rf
   [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${test_file}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${test_file}
-  Put without really putting using clientSRM  ${vo}  ${test_file}
+  ${filename}  Get a unique name
+  ${surl}  Build surl  ${vo}  ${filename}
+  Put without really putting using clientSRM  ${vo}  ${filename}
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_SUCCESS
   ${output}  Perform rf using clientSRM  ${surl}  ${token}
   Should Contain  ${output}  SRM_SUCCESS
   Perform rm using clientSRM  ${surl}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 Put done an existent file using clientSRM
   [Tags]  storm-client  pd
   [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${test_file}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${test_file}
+  ${filename}  Get a unique name
+  ${surl}  Build surl  ${vo}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
   ${output}  Perform pd using clientSRM  ${surl}  ${token}  -p
   Should Contain  ${output}  SRM_SUCCESS
   Perform rm using clientSRM  ${surl}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 Test that the SRM service is able to transfer a file on the SRM endpoint
   [Tags]  storm-client  globus-utils
   [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${test_file}  Create local file
-  ${surl}  Build surl  ${vo}  ${test_file}
+  ${filename}  Create local file
+  ${surl}  Build surl  ${vo}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
-  Copy-out file using globus-utils  ${test_file}  ${vo}  ${test_file}
+  Copy-out file using globus-utils  ${test_file}  ${vo}  ${filename}
   ${output}  Perform pd using clientSRM  ${surl}  ${token}  -p
   Should Contain  ${output}  SRM_SUCCESS
   ${output}  Perform ls using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
   Perform rm using clientSRM  ${surl}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 Check failure when performing a ptp on a file already put
   [Tags]  storm-client  ptp
   [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${test_file}  Create local file
-  ${surl}  Build surl  ${vo}  ${test_file}
+  ${filename}  Create local file
+  ${surl}  Build surl  ${vo}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
-  Copy-out file using globus-utils  ${test_file}  ${vo}  ${test_file}
+  Copy-out file using globus-utils  ${test_file}  ${vo}  ${filename}
   ${output}  Perform pd using clientSRM  ${surl}  ${token}  -p
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p -t ${token}
   Should Contain  ${output}  SRM_FAILURE
   Perform rm using clientSRM  ${surl}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 Test that the SRM service is able to transfer a file from the SRM endpoint
   [Tags]  storm-client  ptg
   [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${test_file}  Create local file
-  ${surl}  Build surl  ${vo}  ${test_file}
-  Copy-out file using lcg-utils  ${test_file}  ${surl}
+  ${filename}  Create local file
+  ${surl}  Build surl  ${vo}  ${filename}
+  Copy-out file using lcg-utils  ${filename}  ${surl}
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p -T -P gsiftp
   ${result}  ${turl}=  Should Match Regexp  ${output}  transferURL=(\".+\")
   Copy-in file using gsiftp protocol  ${turl}  ${test_file}
   Perform rm using clientSRM  ${surl}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 Check lcg-cp computed checksum in case it starts with zero
@@ -114,6 +121,8 @@ Check lcg-cp computed checksum in case it starts with zero
   Should be equal  ${b_checksum}  ${a_checksum}
   Perform rm using clientSRM  ${srcSurl}
   Perform rm using clientSRM  ${destSurl}
+  Remove local file  ${srcFile}
+  Remove local file  ${destFile}
   [Teardown]  Clear all credentials
 
 Test lcg-cp out
@@ -123,6 +132,7 @@ Test lcg-cp out
   ${surl}  Build surl  ${vo}  ${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   Perform rm using clientSRM  ${surl}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 Check if a ptp on an unexistant file with a wrong protocol return the right error message
@@ -133,6 +143,7 @@ Check if a ptp on an unexistant file with a wrong protocol return the right erro
   ${surl}  Build surl  ${vo}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p -T -P unknown_protocol
   Should Contain  ${output}  SRM_NOT_SUPPORTED
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 Check a file is correctly transferred out, re-transferred in and deleted with dcache client
@@ -143,6 +154,7 @@ Check a file is correctly transferred out, re-transferred in and deleted with dc
   Copy-out file using lcg-utils  ${filename}  ${surl}
   Copy-in file using lcg-utils  ${surl}  ${filename}
   Remove file using dCache client  ${vo}  ${filename}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 Check file copy in/out using lcg-utils, use dcache-client to create/remove dir and file
@@ -168,6 +180,8 @@ Check file copy in/out using lcg-utils, use dcache-client to create/remove dir a
   Remove directory using dCache client  ${vo}  ${dirName}
   ${output}  Try to remove directory using dCache client  ${vo}  ${dirName}  
   Should Contain  ${output}  SRM_INVALID_PATH
+  Remove local file  ${filename}
+  Remove local directory  ${dirName}
   [Teardown]  Clear all credentials
 
 Check a file is correctly transferred out, the calculate checksum is correct and delete with dcache client
@@ -181,6 +195,7 @@ Check a file is correctly transferred out, the calculate checksum is correct and
   ${output}  List files in directory using lcg_utils  ${root}  ${filename}
   Should Contain  ${output}  ADLER32
   Remove file using dCache client  ${vo}  ${filename}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 Check the correct backend behaviour when a user specifies a DB PWD in the def file
@@ -193,4 +208,5 @@ Check the correct backend behaviour when a user specifies a DB PWD in the def fi
   Should Contain  ${output}  SRM_INVALID_PATH
   Copy-out file using lcg-utils  ${filename}  ${surl}
   Remove file using dCache client  ${vo}  ${filename}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials

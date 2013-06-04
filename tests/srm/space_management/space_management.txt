@@ -20,6 +20,7 @@ Space token used space is update
   ${diff_size}  Run  echo `expr ${size_before} - ${size_after}`
   ${file_size}  Run  ls -l /tmp/${filename} | awk {'print $5'}
   Should be equal  ${file_size}  ${diff_size}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 Check a srmGetSpaceMetadata call succedes when a valid Space Token not associated to a Storage Area is given

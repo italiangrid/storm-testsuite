@@ -39,6 +39,7 @@ File-Transfer upload file with voms proxy
   Should contain  ${output}  SRM_SUCCESS
   ${output}  Perform rm using clientSRM  ${surl}
   Should contain  ${output}  SRM_SUCCESS
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 File-Transfer upload file with plain proxy

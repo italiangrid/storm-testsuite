@@ -20,6 +20,7 @@ Create and remove a directory using clientSRM
   ${dirName}  Get a unique name
   Create directory using clientSRM  ${root}  ${dirName}
   Remove empty directory using clientSRM  ${root}  ${dirName}
+  Remove local directory  ${dirName}
   [Teardown]  Clear all credentials
 
 Create and remove a directory using the dCache client
@@ -29,6 +30,7 @@ Create and remove a directory using the dCache client
   Create directory using dCache client  ${root}  ${dirName}
   ${output}  Remove empty directory using clientSRM  ${root}  ${dirName}
   Should Contain  ${output}  SRM_SUCCESS
+  Remove local directory  ${dirName}
   [Teardown]  Clear all credentials
 
 Create a directory that already exists using clientSRM
@@ -41,6 +43,7 @@ Create a directory that already exists using clientSRM
   Should Contain  ${output}  SRM_DUPLICATION_ERROR
   Should Contain  ${output}  Directory specified exists!
   Remove empty directory using clientSRM  ${root}  ${dirName}
+  Remove local directory  ${dirName}
   [Teardown]  Clear all credentials
 
 Create a directory that already exists using the dCache client
@@ -53,6 +56,7 @@ Create a directory that already exists using the dCache client
   Should Contain  ${output}  SRM_DUPLICATION_ERROR
   Should Contain  ${output}  Directory specified exists!
   Remove empty directory using clientSRM  ${root}  ${dirName}
+  Remove local directory  ${dirName}
   [Teardown]  Clear all credentials
 
 Remove a non existent directory using clientSRM
@@ -62,6 +66,7 @@ Remove a non existent directory using clientSRM
   ${output}  Remove empty directory using clientSRM  ${root}  ${dirName}
   Should Contain  ${output}  SRM_INVALID_PATH
   Should Contain  ${output}  Directory does not exists
+  Remove local directory  ${dirName}
   [Teardown]  Clear all credentials
 
 Remove a non existent directory using the dCache client
@@ -71,6 +76,7 @@ Remove a non existent directory using the dCache client
   ${output}  Try to remove directory using dCache client  ${root}  ${dirName}
   Should Contain  ${output}  SRM_INVALID_PATH
   Should Contain  ${output}  Directory does not exists
+  Remove local directory  ${dirName}
   [Teardown]  Clear all credentials
 
 Remove a non existent file using clientSRM
@@ -80,6 +86,7 @@ Remove a non existent file using clientSRM
   ${output}  Remove file using clientSRM  ${root}  ${fileName}
   Should Contain  ${output}  SRM_INVALID_PATH
   Should Contain  ${output}  File does not exist
+  Remove local file  ${fileName}
   [Teardown]  Clear all credentials
 
 Remove a non existent file using the dCache client
@@ -89,6 +96,7 @@ Remove a non existent file using the dCache client
   ${output}  Try to remove file using dCache client  ${root}  ${fileName}
   Should Contain  ${output}  SRM_INVALID_PATH
   Should Contain  ${output}  File does not exist
+  Remove local file  ${fileName}
   [Teardown]  Clear all credentials
 
 List files in an existing directory
@@ -105,6 +113,8 @@ List files in an existing directory
   ${output}  List files in directory using clientSRM  ${root}  ${dirName}
   Should Contain  ${output}  ${fileName}
   Remove not empty directory using clientSRM  ${root}  ${dirName}
+  Remove local file  ${fileName}
+  Remove local directory  ${dirName}
   [Teardown]  Clear all credentials
 
 Check if a clientSRM ls on an existent surl works
@@ -116,6 +126,7 @@ Check if a clientSRM ls on an existent surl works
   ${output}  Perform ls using clientSRM  ${surl}  -c 1
   Should Contain  ${output}  SRM_SUCCESS
   Perform rm using clientSRM  ${surl}
+  Remove local file  ${fileName}
   [Teardown]  Clear all credentials
 
 Check if a clientSRM ls on a non-existent file fails
@@ -125,6 +136,7 @@ Check if a clientSRM ls on a non-existent file fails
   ${surl}  Build surl  ${root}  ${filename}
   ${output}  Perform ls using clientSRM  ${surl}  -c 1
   Should Contain  ${output}  SRM_FAILURE
+  Remove local file  ${fileName}
   [Teardown]  Clear all credentials
 
 Check if a lcg-ls on an existent surl works
@@ -135,6 +147,7 @@ Check if a lcg-ls on an existent surl works
   ${surl}  Build surl  ${root}  ${filename}
   Check file exists using lcg-utils  ${surl}
   Remove file using clientSRM  ${root}  ${filename}
+  Remove local file  ${fileName}
   [Teardown]  Clear all credentials
 
 Check if a lcg-ls on a non-existent surl fails
@@ -143,6 +156,7 @@ Check if a lcg-ls on a non-existent surl fails
   ${filename}  Get a unique name
   ${surl}  Build surl  ${root}  ${filename}
   Check file does not exists using lcg-utils  ${surl}
+  Remove local file  ${fileName}
   [Teardown]  Clear all credentials
 
 Remove an existent file using dCache client
@@ -154,6 +168,7 @@ Remove an existent file using dCache client
   Copy-out file using lcg-utils  ${filename}  ${surl}
   Check file exists using lcg-utils  ${surl}
   Remove file using dCache client  ${root}  ${filename}
+  Remove local file  ${fileName}
   [Teardown]  Clear all credentials
 
 Check a clientSRM ls on a non-existent dir fails
@@ -162,6 +177,7 @@ Check a clientSRM ls on a non-existent dir fails
   ${dirName}  Get a unique name
   ${output}  List files in directory using clientSRM  ${root}  ${dirName}
   Should Contain  ${output}  SRM_FAILURE
+  Remove local directory  ${dirName}
   [Teardown]  Clear all credentials
 
 Check if a clientSRM rm on an existent file works
@@ -181,4 +197,6 @@ Check if a clientSRM rm on an existent file works
   ${output}  Perform rm using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
   Remove not empty directory using clientSRM  ${root}  ${dirName}
+  Remove local file  ${fileName}
+  Remove local directory  ${dirName}
   [Teardown]  Clear all credentials
