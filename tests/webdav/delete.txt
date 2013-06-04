@@ -139,6 +139,8 @@ WebDAV DELETE full directory with voms proxy credentials
   ${url}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${dirName}
   ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
+  Remove local directory  ${dirname}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 WebDAV DELETE full directory with plain proxy credentials

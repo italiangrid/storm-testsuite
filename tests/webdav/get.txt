@@ -23,6 +23,8 @@ WebDAV GET directory as anonymous
   Should Contain  ${output}  ${dirname}
   Should Contain  ${output}  ${filename}
   Remove not empty directory using clientSRM  ${anonymousRWStorageArea}  ${dirname}
+  Remove local directory  ${dirname}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 WebDAV GET directory with voms proxy credentials
@@ -42,6 +44,8 @@ WebDAV GET directory with voms proxy credentials
   Should Contain  ${output}  ${dirname}
   Should Contain  ${output}  ${filename}
   Remove not empty directory using clientSRM  ${vomsproxyRWStorageArea}  ${dirname}
+  Remove local directory  ${dirname}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 WebDAV GET directory with plain proxy credentials
@@ -61,6 +65,8 @@ WebDAV GET directory with plain proxy credentials
   Should Contain  ${output}  ${dirname}
   Should Contain  ${output}  ${filename}
   Remove not empty directory using clientSRM  ${gridproxyRWStorageArea}  ${dirname}
+  Remove local directory  ${dirname}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 WebDAV GET directory with personal certificate
@@ -80,6 +86,8 @@ WebDAV GET directory with personal certificate
   Should Contain  ${output}  ${dirname}
   Should Contain  ${output}  ${filename}
   Remove not empty directory using clientSRM  ${personalcertRWStorageArea}  ${dirname}
+  Remove local directory  ${dirname}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 WebDAV GET unexistent resource as anonymous
@@ -93,4 +101,5 @@ WebDAV GET unexistent resource as anonymous
   ${url}  Set variable  http://${davEndpoint}/${anonymousRWStorageArea}/${dirname}
   ${output}  Execute Curl with options  ${url}  ${options}
   Should Contain  ${output}  404 Not Found
+  Remove local directory  ${dirname}
   [Teardown]  Clear all credentials
