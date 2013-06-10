@@ -209,4 +209,16 @@ Check the correct backend behaviour when a user specifies a DB PWD in the def fi
   Copy-out file using lcg-utils  ${filename}  ${surl}
   Remove file using dCache client  ${vo}  ${filename}
   Remove local file  ${filename}
+
+
+Transfer empty file
+  [Tags]  regression  ptp  to-be-fixed
+  [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/241. If a client tries to transfer an empty file to a valid gsiftp TURL the transfer fails.
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Create local empty file
+  ${surl}  Build surl  ${root}  ${filename}
+  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
+  Should Contain  ${output}  SRM_SPACE_AVAILABLE
+  ${output}  Try to copy-out file using globus-utils  ${filename}  ${vo}  ${filename}
+  Should not contain  ${output}  globus_xio: An end of file occurred
   [Teardown]  Clear all credentials

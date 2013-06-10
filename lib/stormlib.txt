@@ -24,6 +24,11 @@ Create local file
   Execute and Check Success  dd if=/dev/urandom of=/tmp/${name} bs=1M count=1
   [Return]  ${name}
 
+Create local empty file
+  ${name}  Get a unique name
+  Execute and Check Success  touch /tmp/${name}
+  [Return]  ${name}
+
 Remove local file  [Arguments]  ${filename}
   Execute and Check Success  rm -f /tmp/${filename}
 

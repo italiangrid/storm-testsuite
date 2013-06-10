@@ -8,6 +8,10 @@ Resource   variables.txt
 Copy-out file using globus-utils  [Arguments]  ${localPath}  ${storageArea}  ${remotePath}
   Execute and Check Success  globus-url-copy file:///tmp/${localPath} gsiftp://${globusEndpoint}/${storageAreaRoot}/${storageArea}/${remotePath}
 
+Try to copy-out file using globus-utils  [Arguments]  ${localPath}  ${storageArea}  ${remotePath}
+  ${output}  Execute and Check Failure  globus-url-copy file:///tmp/${localPath} gsiftp://${globusEndpoint}/${storageAreaRoot}/${storageArea}/${remotePath}
+   [Return]  ${output}
+
 Copy-in file using globus-utils  [Arguments]  ${storageArea}  ${remotePath}  ${localPath}
   Execute and Check Success  globus-url-copy  gsiftp://${globusEndpoint}/${storageAreaRoot}/${storageArea}/${remotePath} file:///tmp/${localPath}
 
