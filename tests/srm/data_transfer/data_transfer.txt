@@ -210,7 +210,6 @@ Check the correct backend behaviour when a user specifies a DB PWD in the def fi
   Remove file using dCache client  ${vo}  ${filename}
   Remove local file  ${filename}
 
-
 Transfer empty file
   [Tags]  regression  ptp  to-be-fixed
   [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/241. If a client tries to transfer an empty file to a valid gsiftp TURL the transfer fails.
@@ -221,4 +220,19 @@ Transfer empty file
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
   ${output}  Try to copy-out file using globus-utils  ${filename}  ${vo}  ${filename}
   Should not contain  ${output}  globus_xio: An end of file occurred
+  [Teardown]  Clear all credentials
+
+Check srmPtP with sa token as space token
+  [Tags]  regression  ptp
+  [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/354 A call of the srmPrepareToPut command providing the space token parameter of a storage area fails.
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${sp_token}  Get space token using clientSRM
+  ${fileName}  Get a unique name
+  ${surl}  Build surl  ${vo}  ${filename}
+  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p -t ${sp_token}
+  Should Contain  ${output}  SRM_SPACE_AVAILABLE
+  ${output}  Perform pd using clientSRM  ${surl}  ${token}  -p
+  Should Contain  ${output}  SRM_SUCCESS
+  Remove file using clientSRM  ${vo}  ${filename}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
