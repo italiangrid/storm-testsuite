@@ -79,3 +79,11 @@ Check that GLUE2StorageServiceCapacityTotalSize for the online capacity type is 
   \  ${first}  ${others}  Split String  ${lines}  :${SPACE}
   \  ${val}  Get From List  ${others}  1
   \  Should Not Be Equal  '${val}'  '0'
+
+Check that GLUE2EndpointServingState does not contain emi.storm.backend
+  [Tags]  information-system
+  [Documentation]  Regression test for https://issues.infn.it/jira/browse/STOR-103
+  ${lurl}  Build lurl
+  ${filterGlue2EndpointCapability}  Define filter that checks GLUE2EndpointServingState is not set to  emi.production.backend
+  ${output}  Get values using ldapsearch  ${lurl}  ${baseDNGlue2}  ${filterGlue2EndpointServingState}
+  Should Contain  ${output}  result: 0 Success
