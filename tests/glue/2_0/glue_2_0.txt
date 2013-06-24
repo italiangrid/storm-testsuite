@@ -84,6 +84,7 @@ Check that GLUE2EndpointServingState does not contain emi.storm.backend
   [Tags]  information-system
   [Documentation]  Regression test for https://issues.infn.it/jira/browse/STOR-103
   ${lurl}  Build lurl
-  ${filterGlue2EndpointServingState}  Define filter that checks GLUE2EndpointServingState is not set to  emi.production.backend
+  ${filterGlue2EndpointServingState}  Define filter that checks GLUE2EndpointServingState is not set to  emi.storm.backend
   ${output}  Get values using ldapsearch  ${lurl}  ${baseDNGlue2}  ${filterGlue2EndpointServingState}
   Should Contain  ${output}  result: 0 Success
+  Should Not Contain  ${output}  numEntries
