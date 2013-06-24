@@ -34,8 +34,7 @@ Define filter that checks GLUE2EndpointCapability is not set to  [Arguments]  ${
   ${expr}  Define expression with objectclass  GLUE2Endpoint
   [Return]  '(&(${expr})(GLUE2EndpointCapability=${value}))'
 
-Define filter that checks GLUE2EndpointServingState is not set to  [Arguments]
-${value}
+Define filter that checks GLUE2EndpointServingState is not set to  [Arguments]  ${value}
   ${expr}  Define expression with objectclass  GLUE2Endpoint
   [Return]  '(&(${expr})(GLUE2EndpointServingState=${value}))'
 
