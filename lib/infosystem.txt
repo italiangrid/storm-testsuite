@@ -38,6 +38,10 @@ Define filter that checks GLUE2EndpointServingState is not set to  [Arguments]  
   ${expr}  Define expression with objectclass  GLUE2Endpoint
   [Return]  '(&(${expr})(GLUE2EndpointServingState=${value}))'
 
+Define filter that checks GLUE2EndpointQualityLevel is not set to  [Arguments]  ${value}
+  ${expr}  Define expression with objectclass  GLUE2Endpoint
+  [Return]  '(&(${expr})(GLUE2EndpointQualityLevel=${value}))'
+
 Define GLUE2StorageShare filter
   ${expr}  Define expression with objectclass  GLUE2StorageShare
   [Return]  '(${expr})'

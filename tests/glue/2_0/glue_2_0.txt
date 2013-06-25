@@ -93,3 +93,12 @@ Check that GLUE2EndpointServingState does not contain emi.storm.backend
   ${output}  Get values using ldapsearch  ${lurl}  ${baseDNGlue2}  ${filterGlue2EndpointServingState}
   Should Contain  ${output}  result: 0 Success
   Should Not Contain  ${output}  numEntries
+
+Check that GLUE2EndpointQualityLevel does not contain Testing
+  [Tags]  information-system
+  [Documentation]  Regression test for https://issues.infn.it/jira/browse/STOR-103
+  ${lurl}  Build lurl
+  ${filterGlue2EndpointQualityLevel}  Define filter that checks GLUE2EndpointQualityLevel is not set to  Testing
+  ${output}  Get values using ldapsearch  ${lurl}  ${baseDNGlue2}  ${filterGlue2EndpointQualityLevel}
+  Should Contain  ${output}  result: 0 Success
+  Should Not Contain  ${output}  numEntries
