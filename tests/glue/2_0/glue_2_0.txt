@@ -19,6 +19,7 @@ Check that GLUE2EndpointCapability does not contain information.*
   ${filterGlue2EndpointCapability}  Define filter that checks GLUE2EndpointCapability is not set to  information.*
   ${output}  Get values using ldapsearch  ${lurl}  ${baseDNGlue2}  ${filterGlue2EndpointCapability}
   Should Contain  ${output}  result: 0 Success
+  Should Not Contain  ${output}  numEntries
 
 Check that GLUE2EndpointInterfaceName does not contain emi.storm
   [Tags]  information-system
@@ -27,6 +28,7 @@ Check that GLUE2EndpointInterfaceName does not contain emi.storm
   ${filterGlue2EndpointInterfaceName}  Define filter that checks GLUE2EndpointInterfaceName is not set to  emi.storm
   ${output}  Get values using ldapsearch  ${lurl}  ${baseDNGlue2}  ${filterGlue2EndpointInterfaceName}
   Should Contain  ${output}  result: 0 Success
+  Should Not Contain  ${output}  numEntries
 
 Check that GLUE2StorageShareAccessMode is not returned
   [Tags]  information-system
