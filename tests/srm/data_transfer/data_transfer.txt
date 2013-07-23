@@ -8,57 +8,6 @@ Resource   lib/credentials.txt
 
 *** Test Cases ***
 
-Prepare to get on an existent file using clientSRM
-  [Tags]  storm-client  ptg
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Get a unique name
-  Put without really putting using clientSRM  ${vo}  ${filename}
-  ${surl}  Build surl  ${vo}  ${filename}
-  ${output}  ${token}  Perform ptg using clientSRM  ${surl}
-  Should Contain  ${output}  SRM_REQUEST_QUEUED
-  ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -t ${token} -p
-  Should Contain  ${output}  SRM_FILE_PINNED
-  Perform rm using clientSRM  ${surl}
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
-Prepare to get on an unexistent file using clientSRM
-  [Tags]  storm-client  ptg
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${filename}
-  ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
-  Should Contain  ${output}  SRM_INVALID_PATH
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
-Release file on an existent file using clientSRM
-  [Tags]  storm-client  rf
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${filename}
-  Put without really putting using clientSRM  ${vo}  ${filename}
-  ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
-  Should Contain  ${output}  SRM_SUCCESS
-  ${output}  Perform rf using clientSRM  ${surl}  ${token}
-  Should Contain  ${output}  SRM_SUCCESS
-  Perform rm using clientSRM  ${surl}
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
-Put done an existent file using clientSRM
-  [Tags]  storm-client  pd
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${filename}
-  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
-  Should Contain  ${output}  SRM_SPACE_AVAILABLE
-  ${output}  Perform pd using clientSRM  ${surl}  ${token}  -p
-  Should Contain  ${output}  SRM_SUCCESS
-  Perform rm using clientSRM  ${surl}
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
 Test that the SRM service is able to transfer a file on the SRM endpoint
   [Tags]  storm-client  globus-utils
   [Setup]  Init certificate and voms proxy  test0  ${vo}
@@ -71,20 +20,6 @@ Test that the SRM service is able to transfer a file on the SRM endpoint
   Should Contain  ${output}  SRM_SUCCESS
   ${output}  Perform ls using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
-  Perform rm using clientSRM  ${surl}
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
-Check failure when performing a ptp on a file already put
-  [Tags]  storm-client  ptp
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Create local file
-  ${surl}  Build surl  ${vo}  ${filename}
-  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
-  Copy-out file using globus-utils  ${filename}  ${vo}  ${filename}
-  ${output}  Perform pd using clientSRM  ${surl}  ${token}  -p
-  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p -t ${token}
-  Should Contain  ${output}  SRM_FAILURE
   Perform rm using clientSRM  ${surl}
   Remove local file  ${filename}
   [Teardown]  Clear all credentials
@@ -132,17 +67,6 @@ Test lcg-cp out
   ${surl}  Build surl  ${vo}  ${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   Perform rm using clientSRM  ${surl}
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
-Check if a ptp on an unexistant file with a wrong protocol return the right error message
-  [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/127
-  [Tags]  storm-client  regression
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${filename}
-  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p -T -P unknown_protocol
-  Should Contain  ${output}  SRM_NOT_SUPPORTED
   Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
@@ -220,19 +144,4 @@ Transfer empty file
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
   ${output}  Try to copy-out file using globus-utils  ${filename}  ${vo}  ${filename}
   Should not contain  ${output}  globus_xio: An end of file occurred
-  [Teardown]  Clear all credentials
-
-Check srmPtP with sa token as space token
-  [Tags]  regression  ptp
-  [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/354 A call of the srmPrepareToPut command providing the space token parameter of a storage area fails.
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${sp_token}  Get space token using clientSRM
-  ${fileName}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${filename}
-  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p -t ${sp_token}
-  Should Contain  ${output}  SRM_SPACE_AVAILABLE
-  ${output}  Perform pd using clientSRM  ${surl}  ${token}  -p
-  Should Contain  ${output}  SRM_SUCCESS
-  Remove file using clientSRM  ${vo}  ${filename}
-  Remove local file  ${filename}
   [Teardown]  Clear all credentials

@@ -1,0 +1,55 @@
+*** Settings ***
+Resource   lib/stormlib.txt
+Resource   lib/clientSRM.txt
+Resource   lib/credentials.txt
+
+*** Test Cases ***
+
+Release file on an existent file using clientSRM
+  [Tags]  storm-client  rf
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Get a unique name
+  ${surl}  Build surl  ${vo}  ${filename}
+  Put without really putting using clientSRM  ${vo}  ${filename}
+  ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
+  Should Contain  ${output}  SRM_FILE_PINNED
+  ${output}  Perform rf using clientSRM  ${surl}  ${token}
+  Should Contain  ${output}  SRM_RELEASED
+  Perform rm using clientSRM  ${surl}
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials
+
+Release multiple files without specifying the request token with surl in query form
+  [Tags]  storm-client  rf
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Get a unique name
+  ${surl}  Build surl  ${vo}  ${filename}
+  Put without really putting using clientSRM  ${vo}  ${filename}
+  ${output}  ${token1}  Perform ptg using clientSRM  ${surl}  -p
+  Should Contain  ${output}  SRM_FILE_PINNED
+  ${output}  ${token2}  Perform ptg using clientSRM  ${surl}  -p
+  Should Contain  ${output}  SRM_FILE_PINNED
+  ${output}  Perform rf using clientSRM without token  ${surl}
+  Should Contain  ${output}  SRM_RELEASED
+  log  ${output}
+  Perform rm using clientSRM  ${surl}
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials
+
+Release multiple files without specifying the request token with surl in simple form
+  [Tags]  storm-client  rf
+  [Documentation]  Regression test for https://issues.infn.it/jira/browse/STOR-305 srmReleaseFiles doesn't release multiple files at once.
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Get a unique name
+  ${surl}  Build simple surl  ${vo}  ${filename}
+  Put without really putting using clientSRM  ${vo}  ${filename}
+  ${output}  ${token1}  Perform ptg using clientSRM  ${surl}  -p
+  Should Contain  ${output}  SRM_FILE_PINNED
+  ${output}  ${token2}  Perform ptg using clientSRM  ${surl}  -p
+  Should Contain  ${output}  SRM_FILE_PINNED
+  ${output}  Perform rf using clientSRM without token  ${surl}
+  Should Contain  ${output}  SRM_RELEASED
+  log  ${output}
+  Perform rm using clientSRM  ${surl}
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials

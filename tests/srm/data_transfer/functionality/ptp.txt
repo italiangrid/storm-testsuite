@@ -1,0 +1,63 @@
+*** Settings ***
+Resource   lib/stormlib.txt
+Resource   lib/clientSRM.txt
+Resource   lib/globus_util.txt
+Resource   lib/credentials.txt
+
+*** Test Cases ***
+
+Check failure when performing a ptp on a file already put
+  [Tags]  storm-client  ptp
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Create local file
+  ${surl}  Build surl  ${vo}  ${filename}
+  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
+  Copy-out file using globus-utils  ${filename}  ${vo}  ${filename}
+  ${output}  Perform pd using clientSRM  ${surl}  ${token}  -p
+  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p -t ${token}
+  Should Contain  ${output}  SRM_FAILURE
+  Perform rm using clientSRM  ${surl}
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials
+
+Check if a ptp on an unexistant file with a wrong protocol return the right error message
+  [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/127
+  [Tags]  storm-client  regression
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Get a unique name
+  ${surl}  Build surl  ${vo}  ${filename}
+  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p -T -P unknown_protocol
+  Should Contain  ${output}  SRM_NOT_SUPPORTED
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials
+
+Check srmPtP with sa token as space token
+  [Tags]  regression  ptp
+  [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/354 A call of the srmPrepareToPut command providing the space token parameter of a storage area fails.
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${sp_token}  Get space token using clientSRM
+  ${fileName}  Get a unique name
+  ${surl}  Build surl  ${vo}  ${filename}
+  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p -t ${sp_token}
+  Should Contain  ${output}  SRM_SPACE_AVAILABLE
+  ${output}  Perform pd using clientSRM  ${surl}  ${token}  -p
+  Should Contain  ${output}  SRM_SUCCESS
+  Remove file using clientSRM  ${vo}  ${filename}
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials
+
+Check ptp with expectedFileSize not empty
+  [Tags]  regression  ptp
+  [Documentation]  Regression test for 
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${fileName}  Get a unique name
+  ${surl}  Build surl  ${vo}  ${filename}
+  ${surl_with_size}  Catenate  SEPARATOR=,  ${surl}  12345
+  ${output}  ${token}  Perform ptp using clientSRM  ${surl_with_size}  -p
+  Should Contain  ${output}  SRM_SPACE_AVAILABLE
+  Should Contain  ${output}  fileSize=12345
+  ${output}  Perform pd using clientSRM  ${surl}  ${token}  -p
+  Should Contain  ${output}  SRM_SUCCESS
+  Remove file using clientSRM  ${vo}  ${filename}
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials

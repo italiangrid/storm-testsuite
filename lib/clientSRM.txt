@@ -60,6 +60,10 @@ Perform rf using clientSRM  [Arguments]  ${surl}  ${token}  ${options}=${EMPTY}
   ${output}  Execute clientSRM Command on Surl with token  rf  ${surl}  ${token}  ${options}
   [Return]  ${output}
 
+Perform rf using clientSRM without token  [Arguments]  ${surl}  ${options}=${EMPTY}
+  ${output}  Execute clientSRM Command on Surl  rf  ${surl}  ${options}
+  [Return]  ${output}
+
 Perform ls using clientSRM  [Arguments]  ${surl}  ${options}=${EMPTY}
   ${output}  Execute clientSRM Command on Surl  ls  ${surl}  ${options}
   [Return]  ${output}
