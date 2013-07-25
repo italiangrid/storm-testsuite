@@ -14,7 +14,7 @@ Release file on an existent file using clientSRM
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_FILE_PINNED
   ${output}  Perform rf using clientSRM  ${surl}  ${token}
-  Should Contain  ${output}  SRM_RELEASED
+  Should Contain  ${output}  SRM_SUCCESS
   Perform rm using clientSRM  ${surl}
   Remove local file  ${filename}
   [Teardown]  Clear all credentials
@@ -30,7 +30,8 @@ Release multiple files without specifying the request token with surl in query f
   ${output}  ${token2}  Perform ptg using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_FILE_PINNED
   ${output}  Perform rf using clientSRM without token  ${surl}
-  Should Contain  ${output}  SRM_RELEASED
+  Should Contain  ${output}  SRM_SUCCESS
+  Should Not Contain  ${output}  failed
   log  ${output}
   Perform rm using clientSRM  ${surl}
   Remove local file  ${filename}
@@ -48,8 +49,8 @@ Release multiple files without specifying the request token with surl in simple 
   ${output}  ${token2}  Perform ptg using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_FILE_PINNED
   ${output}  Perform rf using clientSRM without token  ${surl}
-  Should Contain  ${output}  SRM_RELEASED
-  log  ${output}
+  Should Contain  ${output}  SRM_SUCCESS
+  Should Not Contain  ${output}  failed
   Perform rm using clientSRM  ${surl}
   Remove local file  ${filename}
   [Teardown]  Clear all credentials
