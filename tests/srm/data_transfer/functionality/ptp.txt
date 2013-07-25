@@ -61,19 +61,3 @@ Check ptp with expectedFileSize not empty
   Remove file using clientSRM  ${vo}  ${filename}
   Remove local file  ${filename}
   [Teardown]  Clear all credentials
-
-Check if a sptp with surl in query form after a ptp made with simple surl works
-  [Tags]  storm-client  ptp  sptp
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Get a unique name
-  ${surl}  Build simple surl  ${vo}  ${filename}
-  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
-  Should Contain  ${output}  SRM_SPACE_AVAILABLE
-  ${qsurl}  Build surl  ${vo}  ${filename}
-  ${output}  Perform sptp using clientSRM  ${qsurl}  ${token}
-  Should Contain  ${output}  SRM_SPACE_AVAILABLE
-  ${output}  Perform pd using clientSRM  ${surl}  ${token}  -p
-  Should Contain  ${output}  SRM_SUCCESS
-  Remove file using clientSRM  ${vo}  ${filename}
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
