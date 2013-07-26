@@ -1,0 +1,23 @@
+*** Settings ***
+Resource   lib/stormlib.txt
+Resource   lib/clientSRM.txt
+Resource   lib/credentials.txt
+
+*** Test Cases ***
+
+Abort of a prepare to get done on an existent file
+  [Tags]  storm-client  abort
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Get a unique name
+  Put without really putting using clientSRM  ${vo}  ${filename}
+  ${surl}  Build surl  ${vo}  ${filename}
+  ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
+  Should Contain  ${output}  SRM_FILE_PINNED
+  ${output}  Perform abort request using clientSRM  ${token}
+  Should Contain  ${output}  SRM_SUCCESS
+  ${output}  Perform sptg using clientSRM  ${surl}  ${token}
+  Should Not Contain  ${output}  SRM_FILE_PINNED
+  Should Contain  ${output}  SRM_ABORTED
+  Perform rm using clientSRM  ${surl}
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials

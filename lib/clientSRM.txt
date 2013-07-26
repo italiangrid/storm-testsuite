@@ -64,6 +64,14 @@ Perform rf using clientSRM without token  [Arguments]  ${surl}  ${options}=${EMP
   ${output}  Execute clientSRM Command on Surl  rf  ${surl}  ${options}
   [Return]  ${output}
 
+Perform abort request using clientSRM  [Arguments]  ${token}  ${options}=${EMPTY}
+  ${output}  Execute clientSRM Command  AbortRequest  -t ${token} ${options}
+  [Return]  ${output}
+
+Perform abort file using clientSRM  [Arguments]  ${surl}  ${token}  ${options}=${EMPTY}
+  ${output}  Execute clientSRM Command on Surl with token  AbortFiles  ${surl}  ${token}  ${options}
+  [Return]  ${output}
+
 Perform ls using clientSRM  [Arguments]  ${surl}  ${options}=${EMPTY}
   ${output}  Execute clientSRM Command on Surl  ls  ${surl}  ${options}
   [Return]  ${output}
