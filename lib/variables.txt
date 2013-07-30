@@ -22,7 +22,6 @@ ${filetransferSecureEndpoint}  ${gridHTTPsHost}:${gridHTTPsSecurePort}
 ${storageAreaRoot}  /storage
 
 ${vo}   testers.eu-emi.eu
-${root}  ${vo}
 ${storageAreaToken}  TESTERSEUEMIEU_TOKEN
 
 ${certsDir}   /usr/share/igi-test-ca

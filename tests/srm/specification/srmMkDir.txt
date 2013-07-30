@@ -1,0 +1,52 @@
+*** Settings ***
+Resource   lib/stormlib.txt
+Resource   lib/clientSRM.txt
+Resource   lib/credentials.txt
+
+*** Test Cases ***
+
+Create new empty directory
+  [Tags]  storm-client  mkdir
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${dirname}  Get a unique name
+  ${surl}  Build surl  ${vo}  ${dirname}
+  ${output}  Perform mkdir using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
+  Remove empty directory using clientSRM  ${vo}  ${dirname}
+  Remove local directory  ${dirname}
+  [Teardown]  Clear all credentials
+
+Create directory with invalid path
+  [Tags]  storm-client  mkdir
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${dirname}  Get a unique name
+  ${surl}  Build surl  fakeVO  ${dirname}
+  ${output}  Perform mkdir using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_INVALID_PATH
+  Remove local directory  ${dirname}
+  [Teardown]  Clear all credentials
+
+Create directory that already exists
+  [Tags]  storm-client  mkdir
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${dirname}  Get a unique name
+  ${surl}  Build surl  ${vo}  ${dirname}
+  ${output}  Perform mkdir using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
+  ${output}  Perform mkdir using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_DUPLICATION_ERROR
+  Remove empty directory using clientSRM  ${vo}  ${dirname}
+  Remove local directory  ${dirname}
+  [Teardown]  Clear all credentials
+
+Create directory with an unauthorized path
+  [Tags]  storm-client  mkdir  to-be-fixed
+  [Setup]  Init certificate and plain proxy  test0
+  ${dirname}  Get a unique name
+  ${surl}  Build surl  ${vo}  ${dirname}
+  ${output}  Perform mkdir using clientSRM  ${surl}
+  log  ${output}
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
+  Remove local directory  ${dirname}
+  [Teardown]  Clear all credentials
+

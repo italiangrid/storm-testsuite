@@ -5,7 +5,7 @@ Resource   lib/credentials.txt
 
 *** Test Cases ***
 
-Prepare to get on an existent file using clientSRM
+Prepare to get an existent file
   [Tags]  storm-client  ptg
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Get a unique name
@@ -23,7 +23,7 @@ Prepare to get on an existent file using clientSRM
   Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
-Prepare to get on an unexistent file using clientSRM
+Prepare to get an unexistent file
   [Tags]  storm-client  ptg
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Get a unique name

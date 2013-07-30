@@ -11,8 +11,8 @@ Check double PtG on a file
   [Tags]  regression  ptg
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Get a unique name
-  Put without really putting using clientSRM  ${root}  ${filename}
-  ${surl}  Build surl  ${root}  ${filename}
+  Put without really putting using clientSRM  ${vo}  ${filename}
+  ${surl}  Build surl  ${vo}  ${filename}
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_FILE_PINNED
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
@@ -25,7 +25,7 @@ Check right failure code when invoking PtP/PtP on the same file
   [Tags]   regression  ptp
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${root}  ${filename}
+  ${surl}  Build surl  ${vo}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
@@ -39,8 +39,8 @@ Check right failure code when invoking PtP/pd/PtP on the same file
   [Tags]   regression  ptp  pd
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Get a unique name
-  Put without really putting using clientSRM  ${root}  ${filename}
-  ${surl}  Build surl  ${root}  ${filename}
+  Put without really putting using clientSRM  ${vo}  ${filename}
+  ${surl}  Build surl  ${vo}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_DUPLICATION_ERROR
   Perform rm using clientSRM  ${surl}
@@ -51,7 +51,7 @@ Check if StoRM publishes correctly values for used and free space on the BDII
   [Tags]  regression
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Create local file
-  ${surl}  Build surl  ${root}  ${filename}
+  ${surl}  Build surl  ${vo}  ${filename}
   Check file does not exists using lcg-utils  ${surl}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   ${size_before}  Get unused size using clientSRM  ${storageAreaToken}
@@ -71,7 +71,7 @@ Copy out a file using lcg-utils
   [Tags]  lcg-utils
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Create local file
-  ${surl}  Build surl  ${root}  ${filename}
+  ${surl}  Build surl  ${vo}  ${filename}
   Check file does not exists using lcg-utils  ${surl}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   Copy-in file using lcg-utils  ${surl}  ${filename}_copied
@@ -85,7 +85,7 @@ Prepare to put using clientSRM
   [Tags]  regression  ptp
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${root}  ${filename}
+  ${surl}  Build surl  ${vo}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   ${output}  Perform sptp using clientSRM  ${surl}  ${token}
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
@@ -98,8 +98,8 @@ Prepare to put on an existent file using clientSRM
   [Tags]  regression  ptp
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${root}  ${filename}
-  Put without really putting using clientSRM  ${root}  ${filename}
+  ${surl}  Build surl  ${vo}  ${filename}
+  Put without really putting using clientSRM  ${vo}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_DUPLICATION_ERROR
   Should Contain  ${output}  Cannot srmPut file because it already exists!
@@ -112,7 +112,7 @@ Prepare to put using a non existent space token
   [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/282. StoRM used to return the wrong error (SRM_SPACE_LIFETIME_EXPIRED instead of SRM_INVALID_REQUEST) for a sptp when a ptp was given a non existent space token.
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${root}  ${filename}
+  ${surl}  Build surl  ${vo}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p -t whatever
   ${output}  Perform sptp using clientSRM  ${surl}  ${token}
   Should Contain  ${output}  SRM_INVALID_REQUEST

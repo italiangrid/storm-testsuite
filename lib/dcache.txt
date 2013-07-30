@@ -33,7 +33,7 @@ Try to remove directory using dCache client  [Arguments]  ${storageArea}  ${dirN
   [Return]  ${output}
 
 Remove file using dCache client  [Arguments]  ${storageArea}  ${path}
-  ${output}  Execute dCache srm command  rm  srm://${srmEndpoint}/${root}/${path}
+  ${output}  Execute dCache srm command  rm  srm://${srmEndpoint}/${vo}/${path}
   Should Not Contain  ${output}  SRM_FAILURE
 
 Try to remove file using dCache client  [Arguments]  ${storageArea}  ${path}

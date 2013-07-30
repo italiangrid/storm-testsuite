@@ -10,7 +10,7 @@ Resource   lib/credentials.txt
 List files in storage area root
   [Tags]  storm-client  ls
   [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${surl}  Build surl  ${root}  ${EMPTY}
+  ${surl}  Build surl  ${vo}  ${EMPTY}
   Perform ls using clientSRM  ${surl}  -c 1
   [Teardown]  Clear all credentials
 
@@ -18,8 +18,8 @@ Create and remove a directory using clientSRM
   [Tags]  storm-client  rmdir
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${dirName}  Get a unique name
-  Create directory using clientSRM  ${root}  ${dirName}
-  Remove empty directory using clientSRM  ${root}  ${dirName}
+  Create directory using clientSRM  ${vo}  ${dirName}
+  Remove empty directory using clientSRM  ${vo}  ${dirName}
   Remove local directory  ${dirName}
   [Teardown]  Clear all credentials
 
@@ -27,8 +27,8 @@ Create and remove a directory using the dCache client
   [Tags]  dcache-client  rmdir
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${dirName}  Get a unique name
-  Create directory using dCache client  ${root}  ${dirName}
-  ${output}  Remove empty directory using clientSRM  ${root}  ${dirName}
+  Create directory using dCache client  ${vo}  ${dirName}
+  ${output}  Remove empty directory using clientSRM  ${vo}  ${dirName}
   Should Contain  ${output}  SRM_SUCCESS
   Remove local directory  ${dirName}
   [Teardown]  Clear all credentials
@@ -37,12 +37,12 @@ Create a directory that already exists using clientSRM
   [Tags]  storm-client  mkdir
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${dirName}  Get a unique name
-  ${output}  Create directory using clientSRM  ${root}  ${dirName}
+  ${output}  Create directory using clientSRM  ${vo}  ${dirName}
   Should Contain  ${output}  SRM_SUCCESS
-  ${output}  Create directory using clientSRM  ${root}  ${dirName}
+  ${output}  Create directory using clientSRM  ${vo}  ${dirName}
   Should Contain  ${output}  SRM_DUPLICATION_ERROR
   Should Contain  ${output}  Directory specified exists!
-  Remove empty directory using clientSRM  ${root}  ${dirName}
+  Remove empty directory using clientSRM  ${vo}  ${dirName}
   Remove local directory  ${dirName}
   [Teardown]  Clear all credentials
 
@@ -50,12 +50,12 @@ Create a directory that already exists using the dCache client
   [Tags]  dcache-client  mkdir
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${dirName}  Get a unique name
-  ${output}  Create directory using clientSRM  ${root}  ${dirName}
+  ${output}  Create directory using clientSRM  ${vo}  ${dirName}
   Should Contain  ${output}  SRM_SUCCESS
-  ${output}  Try to create directory using dCache client  ${root}  ${dirName}
+  ${output}  Try to create directory using dCache client  ${vo}  ${dirName}
   Should Contain  ${output}  SRM_DUPLICATION_ERROR
   Should Contain  ${output}  Directory specified exists!
-  Remove empty directory using clientSRM  ${root}  ${dirName}
+  Remove empty directory using clientSRM  ${vo}  ${dirName}
   Remove local directory  ${dirName}
   [Teardown]  Clear all credentials
 
@@ -63,7 +63,7 @@ Remove a non existent directory using clientSRM
   [Tags]  storm-client  rmdir
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${dirName}  Get a unique name
-  ${output}  Remove empty directory using clientSRM  ${root}  ${dirName}
+  ${output}  Remove empty directory using clientSRM  ${vo}  ${dirName}
   Should Contain  ${output}  SRM_INVALID_PATH
   Should Contain  ${output}  Directory does not exists
   Remove local directory  ${dirName}
@@ -73,7 +73,7 @@ Remove a non existent directory using the dCache client
   [Tags]  dcache-client  rmdir
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${dirName}  Get a unique name
-  ${output}  Try to remove directory using dCache client  ${root}  ${dirName}
+  ${output}  Try to remove directory using dCache client  ${vo}  ${dirName}
   Should Contain  ${output}  SRM_INVALID_PATH
   Should Contain  ${output}  Directory does not exists
   Remove local directory  ${dirName}
@@ -83,7 +83,7 @@ Remove a non existent file using clientSRM
   [Tags]  storm-client  rm
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${fileName}  Get a unique name
-  ${output}  Remove file using clientSRM  ${root}  ${fileName}
+  ${output}  Remove file using clientSRM  ${vo}  ${fileName}
   Should Contain  ${output}  SRM_INVALID_PATH
   Should Contain  ${output}  File does not exist
   Remove local file  ${fileName}
@@ -93,7 +93,7 @@ Remove a non existent file using the dCache client
   [Tags]  dcache-client  rm
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${fileName}  Get a unique name
-  ${output}  Try to remove file using dCache client  ${root}  ${fileName}
+  ${output}  Try to remove file using dCache client  ${vo}  ${fileName}
   Should Contain  ${output}  SRM_INVALID_PATH
   Should Contain  ${output}  File does not exist
   Remove local file  ${fileName}
@@ -103,16 +103,16 @@ List files in an existing directory
   [Tags]  storm-client  lcg-utils  ls
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${dirName}  Get a unique name
-  ${surl}  Build surl  ${root}  ${dirName}
-  ${output}  Create directory using clientSRM  ${root}  ${dirName}
+  ${surl}  Build surl  ${vo}  ${dirName}
+  ${output}  Create directory using clientSRM  ${vo}  ${dirName}
   Should Contain  ${output}  SRM_SUCCESS
   ${fileName}  Get a unique name
-  Put without really putting using clientSRM  ${root}  ${dirName}/${fileName}
-  ${output}  List files in directory using lcg_utils  ${root}  ${dirName}
+  Put without really putting using clientSRM  ${vo}  ${dirName}/${fileName}
+  ${output}  List files in directory using lcg_utils  ${vo}  ${dirName}
   Should Contain  ${output}  ${fileName}
-  ${output}  List files in directory using clientSRM  ${root}  ${dirName}
+  ${output}  List files in directory using clientSRM  ${vo}  ${dirName}
   Should Contain  ${output}  ${fileName}
-  Remove not empty directory using clientSRM  ${root}  ${dirName}
+  Remove not empty directory using clientSRM  ${vo}  ${dirName}
   Remove local file  ${fileName}
   Remove local directory  ${dirName}
   [Teardown]  Clear all credentials
@@ -121,8 +121,8 @@ Check if a clientSRM ls on an existent surl works
   [Tags]  storm-client  ls
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Get a unique name
-  Put without really putting using clientSRM  ${root}  ${filename}
-  ${surl}  Build surl  ${root}  ${filename}
+  Put without really putting using clientSRM  ${vo}  ${filename}
+  ${surl}  Build surl  ${vo}  ${filename}
   ${output}  Perform ls using clientSRM  ${surl}  -c 1
   Should Contain  ${output}  SRM_SUCCESS
   Perform rm using clientSRM  ${surl}
@@ -133,7 +133,7 @@ Check if a clientSRM ls on a non-existent file fails
   [Tags]  storm-client  ls
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${root}  ${filename}
+  ${surl}  Build surl  ${vo}  ${filename}
   ${output}  Perform ls using clientSRM  ${surl}  -c 1
   Should Contain  ${output}  SRM_FAILURE
   Remove local file  ${fileName}
@@ -143,10 +143,10 @@ Check if a lcg-ls on an existent surl works
   [Tags]  lcg-utils  ls
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Get a unique name
-  Put without really putting using clientSRM  ${root}  ${filename}
-  ${surl}  Build surl  ${root}  ${filename}
+  Put without really putting using clientSRM  ${vo}  ${filename}
+  ${surl}  Build surl  ${vo}  ${filename}
   Check file exists using lcg-utils  ${surl}
-  Remove file using clientSRM  ${root}  ${filename}
+  Remove file using clientSRM  ${vo}  ${filename}
   Remove local file  ${fileName}
   [Teardown]  Clear all credentials
 
@@ -154,7 +154,7 @@ Check if a lcg-ls on a non-existent surl fails
   [Tags]  lcg-utils  ls
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${root}  ${filename}
+  ${surl}  Build surl  ${vo}  ${filename}
   Check file does not exists using lcg-utils  ${surl}
   Remove local file  ${fileName}
   [Teardown]  Clear all credentials
@@ -163,11 +163,11 @@ Remove an existent file using dCache client
   [Tags]  dcache-client  rm
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Create local file
-  ${surl}  Build surl  ${root}  ${filename}
+  ${surl}  Build surl  ${vo}  ${filename}
   Check file does not exists using lcg-utils  ${surl}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   Check file exists using lcg-utils  ${surl}
-  Remove file using dCache client  ${root}  ${filename}
+  Remove file using dCache client  ${vo}  ${filename}
   Remove local file  ${fileName}
   [Teardown]  Clear all credentials
 
@@ -175,7 +175,7 @@ Check a clientSRM ls on a non-existent dir fails
   [Tags]  storm-client  ls
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${dirName}  Get a unique name
-  ${output}  List files in directory using clientSRM  ${root}  ${dirName}
+  ${output}  List files in directory using clientSRM  ${vo}  ${dirName}
   Should Contain  ${output}  SRM_FAILURE
   Remove local directory  ${dirName}
   [Teardown]  Clear all credentials
@@ -185,18 +185,18 @@ Check if a clientSRM rm on an existent file works
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Get a unique name
   ${dirName}  Get a unique name
-  ${output}  List files in directory using clientSRM  ${root}  ${dirName}
+  ${output}  List files in directory using clientSRM  ${vo}  ${dirName}
   Should Contain  ${output}  SRM_FAILURE
-  ${output}  Create directory using clientSRM  ${root}  ${dirName}
+  ${output}  Create directory using clientSRM  ${vo}  ${dirName}
   Should Contain  ${output}  SRM_SUCCESS
-  ${surl}  Build surl  ${root}  ${dirName}/${filename}
+  ${surl}  Build surl  ${vo}  ${dirName}/${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
-  ${output}  List files in directory using clientSRM  ${root}  ${dirName}
+  ${output}  List files in directory using clientSRM  ${vo}  ${dirName}
   Should Contain  ${output}  SRM_SUCCESS
   ${output}  Perform rm using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
-  Remove not empty directory using clientSRM  ${root}  ${dirName}
+  Remove not empty directory using clientSRM  ${vo}  ${dirName}
   Remove local file  ${fileName}
   Remove local directory  ${dirName}
   [Teardown]  Clear all credentials

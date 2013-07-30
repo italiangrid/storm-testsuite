@@ -1,0 +1,139 @@
+*** Settings ***
+Resource   lib/stormlib.txt
+Resource   lib/clientSRM.txt
+Resource   lib/credentials.txt
+Resource   lib/lcg_util.txt
+
+*** Test Cases ***
+
+List existent directory
+  [Tags]  storm-client  ls
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${dirname}  Get a unique name
+  ${surl}  Build surl  ${vo}  ${dirname}
+  ${output}  Perform mkdir using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
+  ${output}  Perform ls using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
+  Should Contain  ${output}  path="/${vo}/${dirname}"
+  Should Contain  ${output}  size=0
+  Remove empty directory using clientSRM  ${vo}  ${dirname}
+  Remove local directory  ${dirname}
+  [Teardown]  Clear all credentials
+
+List unexistent directory
+  [Tags]  storm-client  ls
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${dirname}  Get a unique name
+  ${surl}  Build surl  ${vo}  ${dirname}
+  ${output}  Perform ls using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_INVALID_PATH
+  Should Contain  ${output}  path="/${vo}/${dirname}"
+  Should Not Contain  ${output}  size=0
+  Remove local directory  ${dirname}
+  [Teardown]  Clear all credentials
+
+List existent file
+  [Tags]  storm-client  ls
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Create local file
+  ${surl}  Build surl  ${vo}  ${filename}
+  Copy-out file using lcg-utils  ${filename}  ${surl}
+  ${output}  Perform ls using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
+  Should Contain  ${output}  path="/${vo}/${filename}"
+  log  ${output}
+  Should Contain  ${output}  size=1048576
+  Should Not Contain  ${output}  size=0
+  Perform rm using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials
+
+List unexistent file
+  [Tags]  storm-client  ls
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Get a unique name
+  ${surl}  Build surl  ${vo}  ${filename}
+  ${output}  Perform ls using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_INVALID_PATH
+  Should Contain  ${output}  path="/${vo}/${filename}"
+  Should Not Contain  ${output}  size=0
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials
+
+Full detailed list of existent directory
+  [Tags]  storm-client  ls
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${dirname}  Get a unique name
+  ${surl}  Build surl  ${vo}  ${dirname}
+  ${output}  Perform mkdir using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
+  ${output}  Perform ls using clientSRM  ${surl}  -l 1 -n 1
+  Should Contain  ${output}  SRM_SUCCESS
+  Should Contain  ${output}  path="/${vo}/${dirname}"
+  Should Contain  ${output}  size=0
+  Should Contain  ${output}  ownerPermission
+  Should Contain  ${output}  groupPermission
+  Should Contain  ${output}  type=Directory
+  Should Contain  ${output}  lastModificationTime
+  Remove empty directory using clientSRM  ${vo}  ${dirname}
+  Remove local directory  ${dirname}
+  [Teardown]  Clear all credentials
+
+Full detailed list of existent file
+  [Tags]  storm-client  ls
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Create local file
+  ${surl}  Build surl  ${vo}  ${filename}
+  Copy-out file using lcg-utils  ${filename}  ${surl}
+  ${output}  Perform ls using clientSRM  ${surl}  -l 1 -n 0
+  Should Contain  ${output}  SRM_SUCCESS
+  Should Contain  ${output}  path="/${vo}/${filename}"
+  Should Contain  ${output}  size
+  Should Not Contain  ${output}  size=0
+  Should Contain  ${output}  ownerPermission
+  Should Contain  ${output}  groupPermission
+  Should Contain  ${output}  type=File
+  Should Contain  ${output}  lastModificationTime
+  Should Contain  ${output}  lifetimeAssigned
+  Should Contain  ${output}  lifetimeLeft
+  Should Contain  ${output}  fileLocality
+  Perform rm using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
+  Remove local directory  ${filename}
+  [Teardown]  Clear all credentials
+
+Full detailed and recursive list of existent files and directories
+  [Tags]  storm-client  ls
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Create local file
+  ${dirname}  Get a unique name
+  ${dirsurl}  Build surl  ${vo}  ${dirname}
+  ${filesurl}  Build surl  ${vo}  ${dirname}/${filename}
+  ${subdirsurl}  Build surl  ${vo}  ${dirname}/${dirname}
+  ${subdirfilesurl}  Build surl  ${vo}  ${dirname}/${dirname}/${filename}
+  ${output}  Perform mkdir using clientSRM  ${dirsurl}
+  Should Contain  ${output}  SRM_SUCCESS
+  ${output}  Perform mkdir using clientSRM  ${subdirsurl}
+  Should Contain  ${output}  SRM_SUCCESS
+  Copy-out file using lcg-utils  ${filename}  ${filesurl}
+  Copy-out file using lcg-utils  ${filename}  ${subdirfilesurl}
+  ${output}  Perform ls using clientSRM  ${dirsurl}  -r -l 1
+  Should Contain  ${output}  SRM_SUCCESS
+  Should Contain  ${output}  path="/${vo}/${dirname}"
+  Should Contain  ${output}  path="/${vo}/${dirname}/${filename}"
+  Should Contain  ${output}  path="/${vo}/${dirname}/${dirname}"
+  Should Contain  ${output}  path="/${vo}/${dirname}/${dirname}/${filename}"
+  Should Contain  ${output}  size
+  Should Contain  ${output}  ownerPermission
+  Should Contain  ${output}  groupPermission
+  Should Contain  ${output}  type=File
+  Should Contain  ${output}  lastModificationTime
+  Should Contain  ${output}  lifetimeAssigned
+  Should Contain  ${output}  lifetimeLeft
+  Should Contain  ${output}  fileLocality
+  Remove not empty directory using clientSRM  ${vo}  ${dirname}
+  Remove local directory  ${dirname}
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials

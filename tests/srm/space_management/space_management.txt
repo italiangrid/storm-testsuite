@@ -13,7 +13,7 @@ Space token used space is update
   ${size_before}  Get unused size using clientSRM  ${storageAreaToken}
   Log  ${size_before}
   ${filename}  Create local file
-  ${surl}  Build surl  ${root}  ${filename}
+  ${surl}  Build surl  ${vo}  ${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   ${size_after}  Get unused size using clientSRM  ${storageAreaToken}
   Log  ${size_after}
