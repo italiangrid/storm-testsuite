@@ -85,8 +85,25 @@ Move file over itself
   Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
-Move busy file
-  [Tags]  storm-client  mv  to-be-fixed
+Move file with active ptg
+  [Tags]  storm-client  mv
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Create local file
+  ${srcsurl}  Build surl  ${vo}  ${filename}
+  ${destsurl}  Build surl  ${vo}  ${filename}.moved
+  Copy-out file using lcg-utils  ${filename}  ${srcsurl}
+  ${output}  ${token}  Perform ptg using clientSRM  ${srcsurl}  -p
+  Should Contain  ${output}  SRM_FILE_PINNED
+  ${output}  Perform mv using clientSRM  ${srcsurl}  ${destsurl}
+  Should Contain  ${output}  SRM_FILE_BUSY
+  ${output}  Perform rf using clientSRM  ${srcsurl}  ${token}
+  Should Contain  ${output}  SRM_SUCCESS
+  Remove file using clientSRM  ${vo}  ${filename}
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials
+
+Move file with active ptp
+  [Tags]  storm-client  mv
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Get a unique name
   ${srcsurl}  Build surl  ${vo}  ${filename}
@@ -96,22 +113,6 @@ Move busy file
   ${output}  Perform mv using clientSRM  ${srcsurl}  ${destsurl}
   Should Contain  ${output}  SRM_FILE_BUSY
   ${output}  Perform pd using clientSRM  ${srcsurl}  ${token}
-  Should Contain  ${output}  SRM_SUCCESS
-  Remove file using clientSRM  ${vo}  ${filename}
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
-Move on a busy file
-  [Tags]  storm-client  mv
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Get a unique name
-  ${srcsurl}  Build surl  ${vo}  ${filename}
-  ${destsurl}  Build surl  ${vo}  ${filename}.moved
-  ${output}  ${token}  Perform ptp using clientSRM  ${destsurl}  -p
-  Should Contain  ${output}  SRM_SPACE_AVAILABLE
-  ${output}  Perform mv using clientSRM  ${srcsurl}  ${destsurl}
-  Should Contain  ${output}  SRM_INVALID_PATH
-  ${output}  Perform pd using clientSRM  ${destsurl}  ${token}
   Should Contain  ${output}  SRM_SUCCESS
   Remove file using clientSRM  ${vo}  ${filename}
   Remove local file  ${filename}

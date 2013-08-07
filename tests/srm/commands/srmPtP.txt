@@ -92,17 +92,17 @@ Prepare to put with expectedFileSize not empty
   [Teardown]  Clear all credentials
 
 Prepare to put multiple surls
-  [Tags]  storm-client  ptp  to-be-fixed
+  [Tags]  storm-client  ptp
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${testdir}  Get a unique name
   ${dirsurl}  Build surl  ${vo}  ${testdir}
   ${output}  Perform mkdir using clientSRM  ${dirsurl}
   Should Contain  ${output}  SRM_SUCCESS
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${filename}_1
+  ${surl}  Build surl  ${vo}  ${testdir}/${filename}_1
   ${surllist} =  Set Variable  ${surl}
   :FOR  ${index}  IN RANGE  2  10
-  \		${surl}  Build surl  ${vo}  ${filename}_${index}
+  \		${surl}  Build surl  ${vo}  ${testdir}/${filename}_${index}
   \		${surllist}  Catenate  ${surllist}  ${surl}
   Log  ${surllist}
   ${output}  ${token}  Perform ptp using clientSRM  ${surllist}  -p

@@ -42,7 +42,7 @@ Removing unauthorized file
   [Teardown]  Clear all credentials
 
 Partial success on removing multiple files
-  [Tags]  storm-client  rm  to-be-fixed
+  [Tags]  storm-client  rm
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Get a unique name
   ${filename2}  Get a unique name
