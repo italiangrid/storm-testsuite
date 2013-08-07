@@ -82,3 +82,8 @@ Checkout the code using the following command:
 Execute the Robot Framework command-line passing at least the storm backend hostname (a standalone deployment scenario):
         
 	pybot --variable backEndHost:<your-BE-hostname> tests/
+
+If you want to exclude the tests which probably faile cause they check code that needs to be fixed, run:
+
+	pybot --variable backEndHost:<your-BE-hostname> --exclude "to-be-fixed" tests/
+	
