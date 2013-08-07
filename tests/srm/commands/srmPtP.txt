@@ -90,3 +90,35 @@ Prepare to put with expectedFileSize not empty
   Remove file using clientSRM  ${vo}  ${filename}
   Remove local file  ${filename}
   [Teardown]  Clear all credentials
+
+Prepare to put multiple surls
+  [Tags]  storm-client  ptp  to-be-fixed
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${testdir}  Get a unique name
+  ${dirsurl}  Build surl  ${vo}  ${testdir}
+  ${output}  Perform mkdir using clientSRM  ${dirsurl}
+  Should Contain  ${output}  SRM_SUCCESS
+  ${filename}  Get a unique name
+  ${surl}  Build surl  ${vo}  ${filename}_1
+  ${surllist} =  Set Variable  ${surl}
+  :FOR  ${index}  IN RANGE  2  10
+  \		${surl}  Build surl  ${vo}  ${filename}_${index}
+  \		${surllist}  Catenate  ${surllist}  ${surl}
+  Log  ${surllist}
+  ${output}  ${token}  Perform ptp using clientSRM  ${surllist}  -p
+  Log  ${output}
+  Should Contain  ${output}  SRM_SUCCESS
+  Should Not Contain  ${output}  SRM_FAILURE
+  ${output}  Perform sptp using clientSRM  ${surllist}  ${token}
+  Log  ${output}
+  Should Contain  ${output}  SRM_SUCCESS
+  Should Contain  ${output}  SRM_SPACE_AVAILABLE
+  Should Not Contain  ${output}  SRM_FAILURE
+  ${output}  Perform pd using clientSRM  ${surllist}  ${token}
+  Log  ${output}
+  Should Contain  ${output}  SRM_SUCCESS
+  Should Not Contain  ${output}  SRM_FAILURE
+  Perform rmdir using clientSRM  ${dirsurl}
+  Remove local file  ${filename}
+  Remove local directory  ${testdir}
+  [Teardown]  Clear all credentials
