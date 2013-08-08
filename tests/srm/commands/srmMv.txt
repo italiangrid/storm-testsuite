@@ -6,37 +6,20 @@ Resource   lib/lcg_util.txt
 
 *** Test Cases ***
 
-Move existent file
+Move file
   [Tags]  storm-client  mv
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Create local file
   ${srcsurl}  Build surl  ${vo}  ${filename}
-  ${destsurl}  Build surl  ${vo}  ${filename}.moved
   Copy-out file using lcg-utils  ${filename}  ${srcsurl}
+  ${destsurl}  Build surl  ${vo}  ${filename}.moved
   ${output}  Perform mv using clientSRM  ${srcsurl}  ${destsurl}
   Should Contain  ${output}  SRM_SUCCESS
   Remove file using clientSRM  ${vo}  ${filename}.moved
   Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
-Move existent not empty directory
-  [Tags]  storm-client  mv
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${dirname}  Get a unique name
-  ${filename}  Create local file
-  ${dirsurl}  Build surl  ${vo}  ${dirname}
-  ${filesurl}  Build surl  ${vo}  ${dirname}/${filename}
-  ${destdirsurl}  Build surl  ${vo}  ${dirname}.moved
-  ${output}  Perform mkdir using clientSRM  ${dirsurl}
-  Should Contain  ${output}  SRM_SUCCESS
-  Copy-out file using lcg-utils  ${filename}  ${filesurl}
-  ${output}  Perform mv using clientSRM  ${dirsurl}  ${destdirsurl}
-  Should Contain  ${output}  SRM_SUCCESS
-  Remove not empty directory using clientSRM  ${vo}  ${dirname}.moved
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
-Move file to an existent file
+Move file to a destination surl that already exists
   [Tags]  storm-client  mv
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Create local file
@@ -51,24 +34,108 @@ Move file to an existent file
   Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
-Move directory to an existent directory
+Move file into directory
+  [Tags]  storm-client  mv
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Create local file
+  ${srcfilesurl}  Build surl  ${vo}  ${filename}
+  Copy-out file using lcg-utils  ${filename}  ${srcfilesurl}
+  ${dstdirname}  Get a unique name
+  ${destdirsurl}  Build surl  ${vo}  ${dstdirname}
+  ${output}  Perform mkdir using clientSRM  ${destdirsurl}
+  Should Contain  ${output}  SRM_SUCCESS
+  ${output}  Perform mv using clientSRM  ${srcfilesurl}  ${destdirsurl}
+  Should Contain  ${output}  SRM_SUCCESS
+  ${destfilesurl}  Build surl  ${vo}  ${dstdirname}/${filename}
+  ${output}  Perform ls using clientSRM  ${destfilesurl}
+  Should Contain  ${output}  SRM_SUCCESS
+  Remove not empty directory using clientSRM  ${vo}  ${dstdirname}
+  Remove local directory  ${dstdirname}
+  Remove file using clientSRM  ${vo}  ${filename}.moved
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials
+
+Move not empty directory on unexistent surl
   [Tags]  storm-client  mv
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${dirname}  Get a unique name
-  ${filename}  Create local file
   ${dirsurl}  Build surl  ${vo}  ${dirname}
-  ${filesurl}  Build surl  ${vo}  ${dirname}/${filename}
-  ${destdirsurl}  Build surl  ${vo}  ${dirname}.moved
-  ${destfilesurl}  Build surl  ${vo}  ${dirname}.moved/${filename}
   ${output}  Perform mkdir using clientSRM  ${dirsurl}
   Should Contain  ${output}  SRM_SUCCESS
+  ${filename}  Create local file
+  ${filesurl}  Build surl  ${vo}  ${dirname}/${filename}
+  Copy-out file using lcg-utils  ${filename}  ${filesurl}
+  ${destdirsurl}  Build surl  ${vo}  ${dirname}.moved
+  ${output}  Perform mv using clientSRM  ${dirsurl}  ${destdirsurl}
+  Should Contain  ${output}  SRM_SUCCESS
+  Remove not empty directory using clientSRM  ${vo}  ${dirname}.moved
+  Remove local file  ${filename}
+  Remove local directory  ${dirname}
+  [Teardown]  Clear all credentials
+
+Move not empty directory on a existent empty directory
+  [Tags]  storm-client  mv
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${dirname}  Get a unique name
+  ${dirsurl}  Build surl  ${vo}  ${dirname}
+  ${output}  Perform mkdir using clientSRM  ${dirsurl}
+  Should Contain  ${output}  SRM_SUCCESS  
+  ${filename}  Create local file
+  ${filesurl}  Build surl  ${vo}  ${dirname}/${filename}
+  Copy-out file using lcg-utils  ${filename}  ${filesurl}
+  ${destdirsurl}  Build surl  ${vo}  ${dirname}.moved
   ${output}  Perform mkdir using clientSRM  ${destdirsurl}
   Should Contain  ${output}  SRM_SUCCESS
+  ${output}  Perform mv using clientSRM  ${dirsurl}  ${destdirsurl}
+  Should Contain  ${output}  SRM_SUCCESS
+  ${destfilesurl}  Build surl  ${vo}  ${dirname}.moved/${dirname}/${filename}
+  ${output}  Perform ls using clientSRM  ${destfilesurl}
+  Should Contain  ${output}  SRM_SUCCESS
+  Remove not empty directory using clientSRM  ${vo}  ${dirname}
+  Remove not empty directory using clientSRM  ${vo}  ${dirname}.moved
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials
+
+Move not empty directory on a existent surl
+  [Tags]  storm-client  mv
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${dirname}  Get a unique name
+  ${dirsurl}  Build surl  ${vo}  ${dirname}
+  ${output}  Perform mkdir using clientSRM  ${dirsurl}
+  Should Contain  ${output}  SRM_SUCCESS  
+  ${filename}  Create local file
+  ${filesurl}  Build surl  ${vo}  ${dirname}/${filename}
   Copy-out file using lcg-utils  ${filename}  ${filesurl}
-  Copy-out file using lcg-utils  ${filename}  ${destfilesurl}
+  ${destsurl}  Build surl  ${vo}  ${filename}.copied
+  Copy-out file using lcg-utils  ${filename}  ${destsurl}
+  ${output}  Perform mv using clientSRM  ${dirsurl}  ${destsurl}
+  Should Contain  ${output}  SRM_DUPLICATION_ERROR
+  Remove not empty directory using clientSRM  ${vo}  ${dirname}
+  Remove file using clientSRM  ${vo}  ${filename}.copied
+  Remove local file  ${filename}
+  Remove local directory  ${dirname}
+  [Teardown]  Clear all credentials
+
+Move not empty directory on a existent not empty directory that contains an existent directory with same source name
+  [Tags]  storm-client  mv
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${dirname}  Get a unique name
+  ${dirsurl}  Build surl  ${vo}  ${dirname}
+  ${output}  Perform mkdir using clientSRM  ${dirsurl}
+  Should Contain  ${output}  SRM_SUCCESS  
+  ${filename}  Create local file
+  ${filesurl}  Build surl  ${vo}  ${dirname}/${filename}
+  Copy-out file using lcg-utils  ${filename}  ${filesurl}
+  ${destdirsurl}  Build surl  ${vo}  ${dirname}.moved
+  ${output}  Perform mkdir using clientSRM  ${destdirsurl}
+  Should Contain  ${output}  SRM_SUCCESS
+  ${destsubdirsurl}  Build surl  ${vo}  ${dirname}.moved/${dirname}
+  ${output}  Perform mkdir using clientSRM  ${destsubdirsurl}
+  Should Contain  ${output}  SRM_SUCCESS
   ${output}  Perform mv using clientSRM  ${dirsurl}  ${destdirsurl}
   Should Contain  ${output}  SRM_DUPLICATION_ERROR
   Remove not empty directory using clientSRM  ${vo}  ${dirname}
+  Remove not empty directory using clientSRM  ${vo}  ${dirname}.moved
   Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
