@@ -52,7 +52,7 @@ Move file to an existent file
   [Teardown]  Clear all credentials
 
 Move directory to an existent directory
-  [Tags]  storm-client  mv  to-be-fixed
+  [Tags]  storm-client  mv
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${dirname}  Get a unique name
   ${filename}  Create local file
