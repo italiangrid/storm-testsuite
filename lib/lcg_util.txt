@@ -17,12 +17,13 @@ Check file does not exists using lcg-utils  [Arguments]  ${surl}
   ${output}  Run  lcg-ls -l -b -D srmv2 ${surl}
   Should Contain  ${output}  No such file or directory
 
-Copy-out file using lcg-utils  [Arguments]  ${localPath}  ${surl}
-  Execute and Check Success  lcg-cp -b --verbose -D srmv2 file:///tmp/${localPath} ${surl}
+Copy-out file using lcg-utils  [Arguments]  ${localPath}  ${surl}  ${options}=${EMPTY}
+  ${output}  Execute and Check Success  lcg-cp -b -D srmv2 file:///tmp/${localPath} ${surl} -v ${options}
+  [Return]  ${output}
 
 Copy-in file using lcg-utils  [Arguments]  ${surl}  ${localPath}
-  Execute and Check Success  lcg-cp -b --verbose -D srmv2 ${surl} file:///tmp/${localPath}
+  Execute and Check Success  lcg-cp -b -D srmv2 ${surl} file:///tmp/${localPath} -v
 
-Copy file using lcg-utils  [Arguments]  ${srcSurl}  ${destSurl}
-  ${output}  Execute and Check Success  lcg-cp -b --verbose -D srmv2 ${srcSurl} ${destSurl}
+Copy file using lcg-utils  [Arguments]  ${srcSurl}  ${destSurl}  ${options}=${EMPTY}
+  ${output}  Execute and Check Success  lcg-cp -b -D srmv2 ${srcSurl} ${destSurl} -v ${options}
   [Return]  ${output}
