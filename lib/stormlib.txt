@@ -24,6 +24,11 @@ Create local file
   Execute and Check Success  dd if=/dev/urandom of=/tmp/${name} bs=1M count=1
   [Return]  ${name}
 
+Create local file with fake size  [Arguments]  ${megabytes}
+  ${name}  Get a unique name
+  Execute and Check Success  dd if=/dev/null of=/tmp/${name} bs=1M count=1 seek=${megabytes}
+  [Return]  ${name}
+
 Create local empty file
   ${name}  Get a unique name
   Execute and Check Success  touch /tmp/${name}
