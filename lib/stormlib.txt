@@ -74,3 +74,6 @@ Build file transfer TURL  [Arguments]  ${storageArea}  ${relativePath}
 Build file transfer secure TURL  [Arguments]  ${storageArea}  ${relativePath}
   ${output}  Set variable  https://${filetransferSecureEndpoint}/fileTransfer/${storageArea}/${relativePath}
   [Return]  ${output}
+
+Create local symlink  [Arguments]  ${linkTo}  ${linkDirectory}
+  Execute and Check Success  ln -s ${linkTo} -t ${linkDirectory}

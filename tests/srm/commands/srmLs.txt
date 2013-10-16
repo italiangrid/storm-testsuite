@@ -137,3 +137,65 @@ Full detailed and recursive list of existent files and directories
   Remove local directory  ${dirname}
   Remove local file  ${filename}
   [Teardown]  Clear all credentials
+
+Ls on a surl that points to another storage area
+  [Tags]  storm-client  ls
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${surl}  Build surl  ${anonymousRWStorageArea}  ../${vo}
+  ${output}  Perform ls using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_INVALID_PATH
+  ${surl}  Build simple surl  ${anonymousRWStorageArea}  ../${vo}
+  ${output}  Perform ls using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_INVALID_PATH
+  [Teardown]  Clear all credentials
+
+Ls on a surl with a valid dots segment
+  [Tags]  storm-client  ls
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${dirname}  Get a unique name
+  ${surl}  Build surl  ${vo}  ${dirname}
+  ${output}  Perform mkdir using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
+  ${dirname2}  Get a unique name
+  ${surl2}  Build surl  ${vo}  ${dirname2}
+  ${output}  Perform mkdir using clientSRM  ${surl2}
+  Should Contain  ${output}  SRM_SUCCESS
+  ${surl3}  Build surl  ${vo}  ${dirname}/../${dirname2}
+  ${output}  Perform ls using clientSRM  ${surl3}
+  Should Contain  ${output}  SRM_SUCCESS
+  Remove empty directory using clientSRM  ${vo}  ${dirname}
+  Remove local directory  ${dirname}
+  Remove empty directory using clientSRM  ${vo}  ${dirname2}
+  Remove local directory  ${dirname2}
+  [Teardown]  Clear all credentials
+
+Ls on a surl with a valid dots segment with simple surls
+  [Tags]  storm-client  ls
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${dirname}  Get a unique name
+  ${surl}  Build simple surl  ${vo}  ${dirname}
+  ${output}  Perform mkdir using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
+  ${dirname2}  Get a unique name
+  ${surl2}  Build simple surl  ${vo}  ${dirname2}
+  ${output}  Perform mkdir using clientSRM  ${surl2}
+  Should Contain  ${output}  SRM_SUCCESS
+  ${surl3}  Build simple surl  ${vo}  ${dirname}/../${dirname2}
+  ${output}  Perform ls using clientSRM  ${surl3}
+  Should Contain  ${output}  SRM_SUCCESS
+  Remove empty directory using clientSRM  ${vo}  ${dirname}
+  Remove local directory  ${dirname}
+  Remove empty directory using clientSRM  ${vo}  ${dirname2}
+  Remove local directory  ${dirname2}
+  [Teardown]  Clear all credentials
+
+Ls on a surl that points to a reserved area
+  [Tags]  storm-client  ls
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${surl}  Build surl  ${anonymousRWStorageArea}  ../../etc/grid-security
+  ${output}  Perform ls using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_INVALID_PATH
+  ${surl}  Build simple surl  ${anonymousRWStorageArea}  ../../etc/grid-security
+  ${output}  Perform ls using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_INVALID_PATH
+  [Teardown]  Clear all credentials

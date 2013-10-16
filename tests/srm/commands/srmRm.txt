@@ -2,6 +2,7 @@
 Resource   lib/stormlib.txt
 Resource   lib/clientSRM.txt
 Resource   lib/credentials.txt
+Resource   lib/lcg_util.txt
 
 *** Test Cases ***
 
@@ -71,5 +72,21 @@ Remove a pinned file must set aborted the ptg request
   ${output}  Perform sptg using clientSRM  ${surl}  ${token}
   Should Not Contain  ${output}  SRM_FILE_PINNED
   Should Contain  ${output}  SRM_ABORTED
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials
+
+Unauthorized remove on another VO's file
+  [Tags]  storm-client  ls
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Create local file
+  ${surl}  Build surl  ${vo}  ${filename}
+  Copy-out file using lcg-utils  ${filename}  ${surl}
+  Init certificate and plain proxy  test0
+  ${surl}  Build surl  ${gridproxyRWStorageArea}  ../${vo}/${filename}
+  ${output}  Perform rm using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_INVALID_PATH
+  Log  ${output}
+  Init certificate and voms proxy  test0  ${vo}
+  Remove file using clientSRM  ${vo}  ${filename}
   Remove local file  ${filename}
   [Teardown]  Clear all credentials

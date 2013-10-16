@@ -50,3 +50,15 @@ Create directory with an unauthorized path
   Remove local directory  ${dirname}
   [Teardown]  Clear all credentials
 
+Check directory creation on a different VO
+  [Tags]  storm-client  ls
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${dirname}  Get a unique name
+  ${surl}  Build surl  ${anonymousRWStorageArea}  ../${vo}/${dirname}
+  ${output}  Perform mkdir using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_INVALID_PATH
+  ${surl}  Build simple surl  ${anonymousRWStorageArea}  ../${vo}/${dirname}
+  ${output}  Perform mkdir using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_INVALID_PATH
+  Remove local directory  ${dirname}
+  [Teardown]  Clear all credentials

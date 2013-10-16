@@ -145,3 +145,37 @@ Transfer empty file
   ${output}  Try to copy-out file using globus-utils  ${filename}  ${vo}  ${filename}
   Should not contain  ${output}  globus_xio: An end of file occurred
   [Teardown]  Clear all credentials
+
+Copy out a file using lcg-utils
+  [Tags]  lcg-utils
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Create local file
+  ${surl}  Build surl  ${vo}  ${filename}
+  Check file does not exists using lcg-utils  ${surl}
+  Copy-out file using lcg-utils  ${filename}  ${surl}
+  Copy-in file using lcg-utils  ${surl}  ${filename}_copied
+  Execute and check success  diff /tmp/${filename} /tmp/${filename}_copied
+  Perform rm using clientSRM  ${surl}
+  Remove local file  ${filename}
+  Remove local file  ${filename}_copied
+  [Teardown]  Clear all credentials
+
+Check checksum of copied file
+  [Tags]  lcg-util
+  [Documentation]  StoRM BE must be configured with GRIDFTP_WITH_DSI="yes" to pass this test
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Create local file
+  ${srcsurl}  Build surl  ${vo}  ${filename}
+  ${output}  ${token}  Perform ptp using clientSRM  ${srcsurl}  -p
+  Copy-out file using globus-utils  ${filename}  ${vo}  ${filename}
+  ${output}  Perform pd using clientSRM  ${srcsurl}  ${token}  -p
+  ${destsurl}  Build surl  ${vo}  ${filename}_copied
+  ${output}  Copy file using lcg-utils  ${srcsurl}  ${destsurl}  --checksum
+  Log  ${output}
+  Should Contain  ${output}  Source and destination checksums are matching
+  ${output}  Perform rm using clientSRM  ${srcsurl}
+  Should Contain  ${output}  SRM_SUCCESS
+  ${output}  Perform rm using clientSRM  ${destsurl}
+  Should Contain  ${output}  SRM_SUCCESS
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials
