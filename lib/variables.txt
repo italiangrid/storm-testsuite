@@ -45,3 +45,7 @@ ${ldapEndpoint}  ${backEndHost}:2170
 
 ${baseDNGlue}  mds-vo-name=resource,o=grid
 ${baseDNGlue2}  GLUE2GroupID=resource,o=glue
+
+${symlinkSURL}  srm://${srmEndpoint}/${gridproxyRWStorageArea}/${vomsproxyRWStorageArea}
+${symlinkSURL2}  srm://${srmEndpoint}/${gridproxyRWStorageArea}/grid-security
+${symlinkSURL3}  srm://${srmEndpoint}/${gridproxyRWStorageArea}/storm
