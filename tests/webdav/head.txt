@@ -1,0 +1,102 @@
+*** Settings ***
+Resource   lib/stormlib.txt
+Resource   lib/clientSRM.txt
+Resource   lib/credentials.txt
+Resource   lib/lcg_util.txt
+
+*** Test Cases ***
+
+WebDAV HEAD anonymous on root directory
+  [Tags]  webdav  head
+  ${options}  Set variable  --verbose --head
+  ${url}  Set variable  http://${davEndpoint}/${anonymousRWStorageArea}/
+  ${output}  Execute Curl with options  ${url}  ${options}
+  Should Contain  ${output}  200 OK
+
+WebDAV HEAD anonymous on existent file
+  [Tags]  webdav  head
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Create local file
+  ${surl}  Build surl  ${anonymousRWStorageArea}  ${filename}
+  Copy-out file using lcg-utils  ${filename}  ${surl}
+  ${options}  Set variable  --verbose --head
+  ${url}  Set variable  http://${davEndpoint}/${anonymousRWStorageArea}/${filename}
+  ${output}  Execute Curl with options  ${url}  ${options}
+  Should Contain  ${output}  200 OK
+  Remove file using clientSRM  ${anonymousRWStorageArea}  ${filename}
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials
+
+WebDAV HEAD anonymous on unexistent file
+  [Tags]  webdav  head
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Get a unique name
+  ${options}  Set variable  --verbose --head
+  ${url}  Set variable  http://${davEndpoint}/${anonymousRWStorageArea}/${filename}
+  ${output}  Execute Curl with options  ${url}  ${options}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials
+
+WebDAV HEAD anonymous on existent directory
+  [Tags]  webdav  head
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${dirname}  Get a unique name
+  ${surl}  Build surl  ${anonymousRWStorageArea}  ${dirname}
+  ${output}  Perform mkdir using clientSRM  ${surl}
+  ${options}  Set variable  --verbose --head
+  ${url}  Set variable  http://${davEndpoint}/${anonymousRWStorageArea}/${dirname}
+  ${output}  Execute Curl with options  ${url}  ${options}
+  Should Contain  ${output}  200 OK
+  Remove empty directory using clientSRM  ${anonymousRWStorageArea}  ${dirname}
+  Remove local directory  ${dirname}
+  [Teardown]  Clear all credentials
+
+WebDAV HEAD with VOMS proxy on root directory
+  [Tags]  webdav  head
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${options}  Set variable  --verbose --head
+  ${url}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
+  Should Contain  ${output}  200 OK
+  [Teardown]  Clear all credentials
+
+WebDAV HEAD with VOMS proxy on existent file
+  [Tags]  webdav  head
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Create local file
+  ${surl}  Build surl  ${vomsproxyRWStorageArea}  ${filename}
+  Copy-out file using lcg-utils  ${filename}  ${surl}
+  ${options}  Set variable  --verbose --head
+  ${url}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${filename}
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
+  Should Contain  ${output}  200 OK
+  Remove file using clientSRM  ${vomsproxyRWStorageArea}  ${filename}
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials
+
+WebDAV HEAD with VOMS proxy on unexistent file
+  [Tags]  webdav  head
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Create local file
+  ${options}  Set variable  --verbose --head
+  ${url}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${filename}
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
+  Should Contain  ${output}  404 Not Found
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials
+
+WebDAV HEAD with VOMS proxy on existent directory
+  [Tags]  webdav  head
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${dirname}  Get a unique name
+  ${surl}  Build surl  ${vomsproxyRWStorageArea}  ${dirname}
+  ${output}  Perform mkdir using clientSRM  ${surl}
+  ${options}  Set variable  --verbose --head
+  ${url}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${dirname}
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
+  Should Contain  ${output}  200 OK
+  Remove empty directory using clientSRM  ${vomsproxyRWStorageArea}  ${dirname}
+  Remove local directory  ${dirname}
+  [Teardown]  Clear all credentials
