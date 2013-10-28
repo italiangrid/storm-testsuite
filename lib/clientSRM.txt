@@ -95,6 +95,14 @@ Get space metadata using clientSRM  [Arguments]  ${token}
   ${output}  Execute clientSRM Command  gsm  -e httpg://${srmEndpoint}/ -s ${token}
   [Return]  ${output}
 
+Get request summary using clientSRM  [Arguments]  ${token}
+  ${output}  Execute clientSRM Command  grs  -e httpg://${srmEndpoint}/ -t ${token}
+  [Return]  ${output}
+
+Get request tokens using clientSRM  [Arguments]  ${token}
+  ${output}  Execute clientSRM Command  grt  -e httpg://${srmEndpoint}/ -d ${token}
+  [Return]  ${output}
+
 Reserve space using clientSRM
   ${output}  Execute clientSRM Command  rs  -e httpg://${srmEndpoint}/ -a 10 -b 5 -r 0,0
   ${result}  ${token}=  Should Match Regexp  ${output}  (\".+-.+-.+-.+-.+\")
@@ -137,10 +145,14 @@ List files in directory using clientSRM  [Arguments]  ${storageArea}  ${path}
   ${output}  Perform ls using clientSRM  ${surl}
   [Return]  ${output}
 
-Get space token using clientSRM
-  ${output}  Execute clientSRM Command  gst -v ES -e httpg://${srmEndpoint} -d ${storageAreaToken}
+Get space token using clientSRM  [Arguments]  ${token}=${storageAreaToken}
+  ${output}  Execute clientSRM Command  gst -v ES -e httpg://${srmEndpoint} -d ${token}
   ${result}  ${token}=  Should Match Regexp  ${output}  (\".+-.+-.+-.+-.+\")
   [Return]  ${token}
+
+Get space token output using clientSRM  [Arguments]  ${token}=${storageAreaToken}
+  ${output}  Execute clientSRM Command  gst -v ES -e httpg://${srmEndpoint} -d ${token}
+  [Return]  ${output}
 
 Init certificate and voms proxy  [Arguments]  ${certificate}  ${vo}
   Use certificate  ${certificate}
