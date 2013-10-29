@@ -23,6 +23,14 @@ Check a get request summary fails when a wrong token format is provided
   Should Contain  ${output}  SRM_INVALID_REQUEST
   [Teardown]  Clear all credentials
 
+Check a reserve space request fails when a wrong token format is provided
+  [Tags]  regression  rsp
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${output}  Reserve space using clientSRM with token  "ciccio' or SLEEP(1)-- "
+  Log  ${output}
+  Should Contain  ${output}  SRM_INVALID_REQUEST
+  [Teardown]  Clear all credentials
+
 Check a release space request fails when a wrong token format is provided
   [Tags]  regression  rs
   [Setup]  Init certificate and voms proxy  test0  ${vo}
@@ -203,10 +211,10 @@ Check a mv request fails when a malformed surl is supplied
   Should Not Contain  ${output}  SRM_SUCCESS
   [Teardown]  Clear all credentials
 
-Check a malformed token format does not work when pushed to the FE
-  [Tags]  storm-client  regression
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${output}  Get request summary using clientSRM  "ciccio' OR 1=1) AND SLEEP(1) "
-  Should Not Contain  ${output}  Connection closed
-  Log  ${output}
-  [Teardown]  Clear all credentials
+#Check a malformed token format does not work when pushed to the FE
+#  [Tags]  storm-client  regression
+#  [Setup]  Init certificate and voms proxy  test0  ${vo}
+#  ${output}  Get request summary using clientSRM  "ciccio' OR 1=1) AND SLEEP(1) "
+#  Should Not Contain  ${output}  Connection closed
+#  Log  ${output}
+#  [Teardown]  Clear all credentials

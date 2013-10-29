@@ -108,6 +108,10 @@ Reserve space using clientSRM
   ${result}  ${token}=  Should Match Regexp  ${output}  (\".+-.+-.+-.+-.+\")
   [Return]  ${token}
 
+Reserve space using clientSRM with token  [Arguments]  ${token}
+  ${output}  Execute clientSRM Command  rs  -e httpg://${srmEndpoint}/ -a 10 -b 5 -r 0,0 -d ${token}
+  [Return]  ${output}
+
 Release space using clientSRM  [Arguments]  ${token}
   ${output}  Execute clientSRM Command  rsp  -e httpg://${srmEndpoint}/ -t ${token} -f 1
   [Return]  ${output}
