@@ -16,6 +16,8 @@ ${globusEndpoint}  ${frontEndHost}:2811
 ${davEndpoint}  ${gridHTTPsHost}:${gridHTTPsPort}
 ${davSecureEndpoint}  ${gridHTTPsHost}:${gridHTTPsSecurePort}
 
+${davContextPath}  /webdav
+
 ${filetransferEndpoint}  ${gridHTTPsHost}:${gridHTTPsPort}
 ${filetransferSecureEndpoint}  ${gridHTTPsHost}:${gridHTTPsSecurePort}
 

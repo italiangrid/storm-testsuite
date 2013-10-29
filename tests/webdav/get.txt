@@ -7,7 +7,7 @@ Resource   lib/credentials.txt
 *** Test Cases ***
 
 WebDAV GET directory as anonymous
-  [Tags]  webdav  get
+  [Tags]  webdav  get  anonymous
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${dirname}  Get a unique name
   ${surl}  Build surl  ${anonymousRWStorageArea}  ${dirname}
@@ -17,7 +17,7 @@ WebDAV GET directory as anonymous
   ${surl2}  Build surl  ${anonymousRWStorageArea}  ${dirname}/${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl2}
   ${options}  Set variable  --verbose -X GET
-  ${url}  Set variable  http://${davEndpoint}/${anonymousRWStorageArea}/${dirname}
+  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${dirname}
   ${output}  Execute Curl with options  ${url}  ${options}
   Should Contain  ${output}  200 OK
   Should Contain  ${output}  ${dirname}
@@ -28,7 +28,7 @@ WebDAV GET directory as anonymous
   [Teardown]  Clear all credentials
 
 WebDAV GET directory with voms proxy credentials
-  [Tags]  webdav  get
+  [Tags]  webdav  get  vomsproxy
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${dirname}  Get a unique name
   ${surl}  Build surl  ${vomsproxyRWStorageArea}  ${dirname}
@@ -38,7 +38,7 @@ WebDAV GET directory with voms proxy credentials
   ${surl2}  Build surl  ${vomsproxyRWStorageArea}  ${dirname}/${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl2}
   ${options}  Set variable  --verbose -X GET
-  ${url}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${dirname}
+  ${url}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${dirname}
   ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  200 OK
   Should Contain  ${output}  ${dirname}
@@ -49,7 +49,7 @@ WebDAV GET directory with voms proxy credentials
   [Teardown]  Clear all credentials
 
 WebDAV GET directory with plain proxy credentials
-  [Tags]  webdav  get
+  [Tags]  webdav  get  plainproxy
   [Setup]  Init certificate and plain proxy  test0
   ${dirname}  Get a unique name
   ${surl}  Build surl  ${gridproxyRWStorageArea}  ${dirname}
@@ -59,7 +59,7 @@ WebDAV GET directory with plain proxy credentials
   ${surl2}  Build surl  ${gridproxyRWStorageArea}  ${dirname}/${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl2}
   ${options}  Set variable  --verbose -X GET
-  ${url}  Set variable  https://${davSecureEndpoint}/${gridproxyRWStorageArea}/${dirname}
+  ${url}  Build webdav secure URL  ${gridproxyRWStorageArea}  ${dirname}
   ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  200 OK
   Should Contain  ${output}  ${dirname}
@@ -70,7 +70,7 @@ WebDAV GET directory with plain proxy credentials
   [Teardown]  Clear all credentials
 
 WebDAV GET directory with personal certificate
-  [Tags]  webdav  get
+  [Tags]  webdav  get  perscert
   [Setup]  Init certificate with unencrypted key  test0
   ${dirname}  Get a unique name
   ${surl}  Build surl  ${personalcertRWStorageArea}  ${dirname}
@@ -80,7 +80,7 @@ WebDAV GET directory with personal certificate
   ${surl2}  Build surl  ${personalcertRWStorageArea}  ${dirname}/${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl2}
   ${options}  Set variable  --verbose -X GET
-  ${url}  Set variable  https://${davSecureEndpoint}/${personalcertRWStorageArea}/${dirname}
+  ${url}  Build webdav secure URL  ${personalcertRWStorageArea}  ${dirname}
   ${output}  Execute Curl with certificate and options  ${url}  ${options}
   Should Contain  ${output}  200 OK
   Should Contain  ${output}  ${dirname}
@@ -91,27 +91,27 @@ WebDAV GET directory with personal certificate
   [Teardown]  Clear all credentials
 
 WebDAV GET unexistent resource as anonymous
-  [Tags]  webdav  get
+  [Tags]  webdav  get  anonymous
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${dirname}  Get a unique name
   ${surl}  Build surl  ${anonymousRWStorageArea}  ${dirname}
   ${output}  Perform ls using clientSRM  ${surl}  -c 1
   Should Contain  ${output}  SRM_INVALID_PATH
   ${options}  Set variable  --verbose -X GET
-  ${url}  Set variable  http://${davEndpoint}/${anonymousRWStorageArea}/${dirname}
+  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${dirname}
   ${output}  Execute Curl with options  ${url}  ${options}
   Should Contain  ${output}  404 Not Found
   Remove local directory  ${dirname}
   [Teardown]  Clear all credentials
 
 WebDAV GET file as anonymous
-  [Tags]  webdav  get
+  [Tags]  webdav  get  anonymous
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Create local file
   ${surl}  Build surl  ${anonymousRWStorageArea}  ${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   ${options}  Set variable  -X GET -v -o /tmp/${filename}_2
-  ${url}  Set variable  http://${davEndpoint}/${anonymousRWStorageArea}/${filename}
+  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${filename}
   ${output}  Execute Curl with options  ${url}  ${options}
   Should Contain  ${output}  200 OK
   Execute and Check Success  diff /tmp/${filename} /tmp/${filename}_2
@@ -121,13 +121,13 @@ WebDAV GET file as anonymous
   [Teardown]  Clear all credentials
 
 WebDAV GET file with plain proxy
-  [Tags]  webdav  get
+  [Tags]  webdav  get  plainproxy
   [Setup]  Init certificate and plain proxy  test0
   ${filename}  Create local file
   ${surl}  Build surl  ${gridproxyRWStorageArea}  ${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   ${options}  Set variable  -X GET -v -o /tmp/${filename}_2
-  ${url}  Set variable  https://${davSecureEndpoint}/${gridproxyRWStorageArea}/${filename}
+  ${url}  Build webdav secure URL  ${gridproxyRWStorageArea}  ${filename}
   ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  200 OK
   Execute and Check Success  diff /tmp/${filename} /tmp/${filename}_2
@@ -137,13 +137,13 @@ WebDAV GET file with plain proxy
   [Teardown]  Clear all credentials
 
 WebDAV GET file with VOMS proxy
-  [Tags]  webdav  get
+  [Tags]  webdav  get  vomsproxy
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Create local file
   ${surl}  Build surl  ${vomsproxyRWStorageArea}  ${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   ${options}  Set variable  -X GET -v -o /tmp/${filename}_2
-  ${url}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${filename}
+  ${url}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${filename}
   ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  200 OK
   Execute and Check Success  diff /tmp/${filename} /tmp/${filename}_2
@@ -153,13 +153,13 @@ WebDAV GET file with VOMS proxy
   [Teardown]  Clear all credentials
 
 WebDAV GET file with personal certificate
-  [Tags]  webdav  get
+  [Tags]  webdav  get  perscert
   [Setup]  Init certificate with unencrypted key  test0
   ${filename}  Create local file
   ${surl}  Build surl  ${personalcertRWStorageArea}  ${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   ${options}  Set variable  -X GET -v -o /tmp/${filename}_2
-  ${url}  Set variable  https://${davSecureEndpoint}/${personalcertRWStorageArea}/${filename}
+  ${url}  Build webdav secure URL  ${personalcertRWStorageArea}  ${filename}
   ${output}  Execute Curl with certificate and options  ${url}  ${options}
   Should Contain  ${output}  200 OK
   Execute and Check Success  diff /tmp/${filename} /tmp/${filename}_2

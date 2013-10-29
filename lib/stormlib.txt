@@ -47,16 +47,16 @@ Create local file with checksum that starts with zero
 
 Execute Curl with proxy and options  [Arguments]  ${url}  ${options}=${EMPTY}
   [Documentation]  This keyword should be used when invoking CURL with a proxy certificate
-  ${output}  Execute and Check Success  curl --cert ${userproxy} --cacert ${usercert} --capath ${trustdir} ${options} ${url}
+  ${output}  Execute and Check Success  curl --cert ${userproxy} --cacert ${usercert} --capath ${trustdir} ${options} ${url} -L
   [Return]  ${output}
 
 Execute Curl with certificate and options  [Arguments]  ${url}  ${options}=${EMPTY}
   [Documentation]  This keyword should be used when invoking CURL with an EEC
-  ${output}  Execute and Check Success  curl --cert ${usercert} --key ${userkey} --capath ${trustdir} ${options} ${url}
+  ${output}  Execute and Check Success  curl --cert ${usercert} --key ${userkey} --capath ${trustdir} ${options} ${url} -L
   [Return]  ${output}
 
 Execute Curl with options   [Arguments]  ${url}  ${options}=${EMPTY}
-  ${output}  Execute and Check Success  curl ${options} ${url}
+  ${output}  Execute and Check Success  curl ${options} ${url} -L
   [Return]   ${output} 
 
 Build surl  [Arguments]  ${storageArea}  ${relativePath}
@@ -77,3 +77,11 @@ Build file transfer secure TURL  [Arguments]  ${storageArea}  ${relativePath}
 
 Create local symlink  [Arguments]  ${linkTo}  ${linkDirectory}
   Execute and Check Success  ln -s ${linkTo} -t ${linkDirectory}
+
+Build webdav secure URL  [Arguments]  ${storageArea}  ${relativePath}=${EMPTY}
+  ${output}  Set variable  https://${davSecureEndpoint}${davContextPath}/${storageArea}/${relativePath}
+  [Return]  ${output}
+
+Build webdav unsecure URL  [Arguments]  ${storageArea}  ${relativePath}=${EMPTY}
+  ${output}  Set variable  http://${davEndpoint}${davContextPath}/${storageArea}/${relativePath}
+  [Return]  ${output}

@@ -176,3 +176,25 @@ WebDAV DELETE full directory with personal certificate
   Remove local directory  ${dirname}
   Remove local file  ${filename}
   [Teardown]  Clear all credentials
+
+WebDAV DELETE unexistent file as anonymous
+  [Tags]  webdav  delete  anonymous  to-be-fixed
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Get a unique name
+  ${options}  Set variable  -v -X DELETE
+  ${url}  Set variable  http://${davEndpoint}/${anonymousRWStorageArea}/${filename}
+  ${output}  Execute Curl with options  ${url}  ${options}
+  Should Contain  ${output}  404 Not Found
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials
+
+WebDAV DELETE unexistent file with voms proxy credentials
+  [Tags]  webdav  delete  vomsproxy  to-be-fixed
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Get a unique name
+  ${options}  Set variable  -v -X DELETE
+  ${url}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${filename}
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
+  Should Contain  ${output}  404 Not Found
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials

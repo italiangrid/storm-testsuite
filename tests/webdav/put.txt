@@ -7,11 +7,11 @@ Resource   lib/lcg_util.txt
 *** Test Cases ***
 
 WebDAV PUT file as anonymous
-  [Tags]  webdav  put
+  [Tags]  webdav  put  anonymous
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Create local file
   ${options}  Set variable  --verbose -T /tmp/${filename}
-  ${url}  Set variable  http://${davEndpoint}/${anonymousRWStorageArea}/${filename}
+  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${filename}
   ${output}  Execute Curl with options  ${url}  ${options}
   Should Contain  ${output}  201 Created
   Remove file using clientSRM  ${anonymousRWStorageArea}  ${filename}
@@ -19,11 +19,11 @@ WebDAV PUT file as anonymous
   [Teardown]  Clear all credentials
 
 WebDAV PUT file with voms proxy credentials
-  [Tags]  webdav  put
+  [Tags]  webdav  put  vomsproxy
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Create local file
   ${options}  Set variable  --verbose -T /tmp/${filename}
-  ${url}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${filename}
+  ${url}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${filename}
   ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  201 Created
   Remove file using clientSRM  ${vomsproxyRWStorageArea}  ${filename}
@@ -31,11 +31,11 @@ WebDAV PUT file with voms proxy credentials
   [Teardown]  Clear all credentials
 
 WebDAV PUT file with plain proxy credentials
-  [Tags]  webdav  put
+  [Tags]  webdav  put  plainproxy
   [Setup]  Init certificate and plain proxy  test0
   ${filename}  Create local file
   ${options}  Set variable  --verbose -T /tmp/${filename}
-  ${url}  Set variable  https://${davSecureEndpoint}/${gridproxyRWStorageArea}/${filename}
+  ${url}  Build webdav secure URL  ${gridproxyRWStorageArea}  ${filename}
   ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  201 Created
   Remove file using clientSRM  ${gridproxyRWStorageArea}  ${filename}
@@ -43,11 +43,11 @@ WebDAV PUT file with plain proxy credentials
   [Teardown]  Clear all credentials
 
 WebDAV PUT file with personal certificate
-  [Tags]  webdav  put
+  [Tags]  webdav  put  perscert
   [Setup]  Init certificate with unencrypted key  test0
   ${filename}  Create local file
   ${options}  Set variable  --verbose -T /tmp/${filename}
-  ${url}  Set variable  https://${davSecureEndpoint}/${personalcertRWStorageArea}/${filename}
+  ${url}  Build webdav secure URL  ${personalcertRWStorageArea}  ${filename}
   ${output}  Execute Curl with certificate and options  ${url}  ${options}
   Should Contain  ${output}  201 Created
   Remove file using clientSRM  ${personalcertRWStorageArea}  ${filename}
@@ -55,11 +55,11 @@ WebDAV PUT file with personal certificate
   [Teardown]  Clear all credentials
 
 WebDAV PUT file through HTTP body as anonymous
-  [Tags]  webdav  put
+  [Tags]  webdav  put  anonymous
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Create local file
   ${options}  Set variable  --verbose -X PUT --data-ascii 'this is a test file content'
-  ${url}  Set variable  http://${davEndpoint}/${anonymousRWStorageArea}/${filename}
+  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${filename}
   ${output}  Execute Curl with options  ${url}  ${options}
   Should Contain  ${output}  201 Created
   Remove file using clientSRM  ${anonymousRWStorageArea}  ${filename}
@@ -67,11 +67,11 @@ WebDAV PUT file through HTTP body as anonymous
   [Teardown]  Clear all credentials
 
 WebDAV PUT file through HTTP body with voms proxy credentials
-  [Tags]  webdav  put
+  [Tags]  webdav  put  vomsproxy
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Create local file
   ${options}  Set variable  --verbose -X PUT --data-ascii 'this is a test file content'
-  ${url}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${filename}
+  ${url}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${filename}
   ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  201 Created
   Remove file using clientSRM  ${vomsproxyRWStorageArea}  ${filename}
@@ -79,11 +79,11 @@ WebDAV PUT file through HTTP body with voms proxy credentials
   [Teardown]  Clear all credentials
 
 WebDAV PUT file through HTTP body with plain proxy credentials
-  [Tags]  webdav  put
+  [Tags]  webdav  put  plainproxy
   [Setup]  Init certificate and plain proxy  test0
   ${filename}  Create local file
   ${options}  Set variable  --verbose -X PUT --data-ascii 'this is a test file content'
-  ${url}  Set variable  https://${davSecureEndpoint}/${gridproxyRWStorageArea}/${filename}
+  ${url}  Build webdav secure URL  ${gridproxyRWStorageArea}  ${filename}
   ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  201 Created
   Remove file using clientSRM  ${gridproxyRWStorageArea}  ${filename}
@@ -91,11 +91,11 @@ WebDAV PUT file through HTTP body with plain proxy credentials
   [Teardown]  Clear all credentials
 
 WebDAV PUT file through HTTP body with personal certificate
-  [Tags]  webdav  put
+  [Tags]  webdav  put  perscert
   [Setup]  Init certificate with unencrypted key  test0
   ${filename}  Create local file
   ${options}  Set variable  --verbose -X PUT --data-ascii 'this is a test file content'
-  ${url}  Set variable  https://${davSecureEndpoint}/${personalcertRWStorageArea}/${filename}
+  ${url}  Build webdav secure URL  ${personalcertRWStorageArea}  ${filename}
   ${output}  Execute Curl with certificate and options  ${url}  ${options}
   Should Contain  ${output}  201 Created
   Remove file using clientSRM  ${personalcertRWStorageArea}  ${filename}
@@ -103,13 +103,13 @@ WebDAV PUT file through HTTP body with personal certificate
   [Teardown]  Clear all credentials
 
 WebDAV PUT overwrite file as anonymous
-  [Tags]  webdav  put
+  [Tags]  webdav  put  anonymous
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Create local file
   ${surl}  Build surl  ${anonymousRWStorageArea}  ${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   ${options}  Set variable  --verbose -T /tmp/${filename} --header 'Overwrite: T'
-  ${url}  Set variable  http://${davEndpoint}/${anonymousRWStorageArea}/${filename}
+  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${filename}
   ${output}  Execute Curl with options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
   Remove file using clientSRM  ${anonymousRWStorageArea}  ${filename}
@@ -117,13 +117,13 @@ WebDAV PUT overwrite file as anonymous
   [Teardown]  Clear all credentials
 
 WebDAV PUT overwrite file with voms proxy credentials
-  [Tags]  webdav  put
+  [Tags]  webdav  put  vomsproxy
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Create local file
   ${surl}  Build surl  ${vomsproxyRWStorageArea}  ${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   ${options}  Set variable  --verbose -T /tmp/${filename} --header 'Overwrite: T'
-  ${url}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${filename}
+  ${url}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${filename}
   ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
   Remove file using clientSRM  ${vomsproxyRWStorageArea}  ${filename}
@@ -131,13 +131,13 @@ WebDAV PUT overwrite file with voms proxy credentials
   [Teardown]  Clear all credentials
 
 WebDAV PUT overwrite file with plain proxy credentials
-  [Tags]  webdav  put
+  [Tags]  webdav  put  plainproxy
   [Setup]  Init certificate and plain proxy  test0
   ${filename}  Create local file
   ${surl}  Build surl  ${gridproxyRWStorageArea}  ${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   ${options}  Set variable  --verbose -T /tmp/${filename} --header 'Overwrite: T'
-  ${url}  Set variable  https://${davSecureEndpoint}/${gridproxyRWStorageArea}/${filename}
+  ${url}  Build webdav secure URL  ${gridproxyRWStorageArea}  ${filename}
   ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
   Remove file using clientSRM  ${gridproxyRWStorageArea}  ${filename}
@@ -145,13 +145,13 @@ WebDAV PUT overwrite file with plain proxy credentials
   [Teardown]  Clear all credentials
 
 WebDAV PUT overwrite file with personal certificate
-  [Tags]  webdav  put
+  [Tags]  webdav  put  perscert
   [Setup]  Init certificate with unencrypted key  test0
   ${filename}  Create local file
   ${surl}  Build surl  ${personalcertRWStorageArea}  ${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   ${options}  Set variable  --verbose -T /tmp/${filename} --header 'Overwrite: T'
-  ${url}  Set variable  https://${davSecureEndpoint}/${personalcertRWStorageArea}/${filename}
+  ${url}  Build webdav secure URL  ${personalcertRWStorageArea}  ${filename}
   ${output}  Execute Curl with certificate and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
   Remove file using clientSRM  ${personalcertRWStorageArea}  ${filename}
@@ -159,13 +159,13 @@ WebDAV PUT overwrite file with personal certificate
   [Teardown]  Clear all credentials
 
 WebDAV PUT overwrite file through HTTP body as anonymous
-  [Tags]  webdav  put
+  [Tags]  webdav  put  anonymous
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Create local file
   ${surl}  Build surl  ${anonymousRWStorageArea}  ${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   ${options}  Set variable  --verbose -X PUT --data-ascii 'this is a test file content' --header 'Overwrite: T'
-  ${url}  Set variable  http://${davEndpoint}/${anonymousRWStorageArea}/${filename}
+  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${filename}
   ${output}  Execute Curl with options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
   Remove file using clientSRM  ${anonymousRWStorageArea}  ${filename}
@@ -173,13 +173,13 @@ WebDAV PUT overwrite file through HTTP body as anonymous
   [Teardown]  Clear all credentials
 
 WebDAV PUT overwrite file through HTTP body with voms proxy credentials
-  [Tags]  webdav  put
+  [Tags]  webdav  put  vomsproxy
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Create local file
   ${surl}  Build surl  ${vomsproxyRWStorageArea}  ${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   ${options}  Set variable  --verbose -X PUT --data-ascii 'this is a test file content' --header 'Overwrite: T'
-  ${url}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${filename}
+  ${url}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${filename}
   ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
   Remove file using clientSRM  ${vomsproxyRWStorageArea}  ${filename}
@@ -187,13 +187,13 @@ WebDAV PUT overwrite file through HTTP body with voms proxy credentials
   [Teardown]  Clear all credentials
 
 WebDAV PUT overwrite file through HTTP body with plain proxy credentials
-  [Tags]  webdav  put
+  [Tags]  webdav  put  plainproxy
   [Setup]  Init certificate and plain proxy  test0
   ${filename}  Create local file
   ${surl}  Build surl  ${gridproxyRWStorageArea}  ${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   ${options}  Set variable  --verbose -X PUT --data-ascii 'this is a test file content' --header 'Overwrite: T'
-  ${url}  Set variable  https://${davSecureEndpoint}/${gridproxyRWStorageArea}/${filename}
+  ${url}  Build webdav secure URL  ${gridproxyRWStorageArea}  ${filename}
   ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
   Remove file using clientSRM  ${gridproxyRWStorageArea}  ${filename}
@@ -201,13 +201,13 @@ WebDAV PUT overwrite file through HTTP body with plain proxy credentials
   [Teardown]  Clear all credentials
 
 WebDAV PUT overwrite file through HTTP body with personal certificate
-  [Tags]  webdav  put
+  [Tags]  webdav  put  perscert
   [Setup]  Init certificate with unencrypted key  test0
   ${filename}  Create local file
   ${surl}  Build surl  ${personalcertRWStorageArea}  ${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   ${options}  Set variable  --verbose -X PUT --data-ascii 'this is a test file content' --header 'Overwrite: T'
-  ${url}  Set variable  https://${davSecureEndpoint}/${personalcertRWStorageArea}/${filename}
+  ${url}  Build webdav secure URL  ${personalcertRWStorageArea}  ${filename}
   ${output}  Execute Curl with certificate and options  ${url}  ${options}
   Should Contain  ${output}  204 No Content
   Remove file using clientSRM  ${personalcertRWStorageArea}  ${filename}
@@ -215,7 +215,7 @@ WebDAV PUT overwrite file through HTTP body with personal certificate
   [Teardown]  Clear all credentials
 
 WebDAV PUT file as anonymous with no intermediate parent
-  [Tags]  webdav  put
+  [Tags]  webdav  put  anonymous
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${dirname}  Get a unique name
   ${surl}  Build surl  ${anonymousRWStorageArea}  ${dirname}
@@ -223,7 +223,7 @@ WebDAV PUT file as anonymous with no intermediate parent
   Should Contain  ${output}  SRM_INVALID_PATH
   ${filename}  Create local file
   ${options}  Set variable  --verbose -T /tmp/${filename}
-  ${url}  Set variable  http://${davEndpoint}/${anonymousRWStorageArea}/${dirname}/${filename}
+  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${dirname}/${filename}
   ${output}  Execute Curl with options  ${url}  ${options}
   Should Contain  ${output}  409 Conflict
   Remove local file  ${filename}
