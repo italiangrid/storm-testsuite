@@ -23,6 +23,14 @@ Check a get request summary fails when a wrong token format is provided
   Should Contain  ${output}  SRM_INVALID_REQUEST
   [Teardown]  Clear all credentials
 
+Check a reserve space request fails when a wrong token format is provided
+  [Tags]  regression  rsp
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${output}  Reserve space using clientSRM with token  "ciccio' or SLEEP(1)-- "
+  Log  ${output}
+  Should Contain  ${output}  SRM_INVALID_REQUEST
+  [Teardown]  Clear all credentials
+
 Check a release space request fails when a wrong token format is provided
   [Tags]  regression  rs
   [Setup]  Init certificate and voms proxy  test0  ${vo}
