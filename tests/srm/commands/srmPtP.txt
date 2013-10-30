@@ -26,8 +26,10 @@ Prepare to put on a file already put without overwrite
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Copy-out file using globus-utils  ${filename}  ${vo}  ${filename}
   ${output}  Perform pd using clientSRM  ${surl}  ${token}  -p
-  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p -t ${token}
+  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_FAILURE
+  Should Contain  ${output}  SRM_DUPLICATION_ERROR
+  Should Contain  ${output}  Cannot srmPut file because it already exists!
   Perform rm using clientSRM  ${surl}
   Remove local file  ${filename}
   [Teardown]  Clear all credentials
@@ -57,6 +59,19 @@ Prepare to put of an unexistant file with a wrong protocol
   ${surl}  Build surl  ${vo}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p -T -P unknown_protocol
   Should Contain  ${output}  SRM_NOT_SUPPORTED
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials
+
+Prepare to put using a non existent space token
+  [Tags]  regression  ptp
+  [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/282. StoRM used to return the wrong error (SRM_SPACE_LIFETIME_EXPIRED instead of SRM_INVALID_REQUEST) for a sptp when a ptp was given a non existent space token.
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Get a unique name
+  ${surl}  Build surl  ${vo}  ${filename}
+  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p -t whatever
+  ${output}  Perform sptp using clientSRM  ${surl}  ${token}
+  Should Contain  ${output}  SRM_INVALID_REQUEST
+  Should Contain  ${output}  The provided Space Token does not exists
   Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
@@ -122,4 +137,30 @@ Prepare to put multiple surls
   Should Contain  ${output}  SRM_SUCCESS
   Remove local file  ${filename}
   Remove local directory  ${testdir}
+  [Teardown]  Clear all credentials
+
+Check right failure code when invoking PtP/PtP on the same file
+  [Tags]   regression  ptp
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Get a unique name
+  ${surl}  Build surl  ${vo}  ${filename}
+  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
+  Should Contain  ${output}  SRM_SPACE_AVAILABLE
+  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
+  Log  ${output}
+  Should Contain  ${output}  SRM_FILE_BUSY
+  Perform rm using clientSRM  ${surl}
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials
+
+Check right failure code when invoking PtP/pd/PtP on the same file
+  [Tags]   regression  ptp  pd
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Get a unique name
+  Put without really putting using clientSRM  ${vo}  ${filename}
+  ${surl}  Build surl  ${vo}  ${filename}
+  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
+  Should Contain  ${output}  SRM_DUPLICATION_ERROR
+  Perform rm using clientSRM  ${surl}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials

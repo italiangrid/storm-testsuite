@@ -6,11 +6,11 @@ Resource   lib/credentials.txt
 *** Test Cases ***
 
 WebDAV MKCOL anonymous
-  [Tags]  webdav  mkcol
+  [Tags]  webdav  mkcol  anonymous
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${dirname}  Get a unique name
   ${options}  Set variable  --verbose -X MKCOL
-  ${url}  Set variable  http://${davEndpoint}/${anonymousRWStorageArea}/${dirName}
+  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${dirName}
   ${output}  Execute Curl with options  ${url}  ${options}
   Should Contain  ${output}  201 Created
   Remove empty directory using clientSRM  ${anonymousRWStorageArea}  ${dirname}
@@ -18,11 +18,11 @@ WebDAV MKCOL anonymous
   [Teardown]  Clear all credentials
 
 WebDAV MKCOL with voms proxy
-  [Tags]  webdav  mkcol
+  [Tags]  webdav  mkcol  vomsproxy
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${dirname}  Get a unique name
   ${options}  Set variable  --verbose -X MKCOL
-  ${url}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${dirName}
+  ${url}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${dirName}
   ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  201 Created
   Remove empty directory using clientSRM  ${vomsproxyRWStorageArea}  ${dirname}
@@ -30,11 +30,11 @@ WebDAV MKCOL with voms proxy
   [Teardown]  Clear all credentials
 
 WebDAV MKCOL with plain proxy
-  [Tags]  webdav  mkcol
+  [Tags]  webdav  mkcol  plainproxy
   [Setup]  Init certificate and plain proxy  test0
   ${dirname}  Get a unique name
   ${options}  Set variable  --verbose -X MKCOL
-  ${url}  Set variable  https://${davSecureEndpoint}/${gridproxyRWStorageArea}/${dirName}
+  ${url}  Build webdav secure URL  ${gridproxyRWStorageArea}  ${dirName}
   ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  201 Created
   Remove empty directory using clientSRM  ${gridproxyRWStorageArea}  ${dirname}
@@ -42,11 +42,11 @@ WebDAV MKCOL with plain proxy
   [Teardown]  Clear all credentials
 
 WebDAV MKCOL with personal certificate
-  [Tags]  webdav  mkcol
+  [Tags]  webdav  mkcol  perscert
   [Setup]  Init certificate with unencrypted key  test0
   ${dirname}  Get a unique name
   ${options}  Set variable  --verbose -X MKCOL
-  ${url}  Set variable  https://${davSecureEndpoint}/${personalcertRWStorageArea}/${dirName}
+  ${url}  Build webdav secure url  ${personalcertRWStorageArea}  ${dirName}
   ${output}  Execute Curl with certificate and options  ${url}  ${options}
   Should Contain  ${output}  201 Created
   Remove empty directory using clientSRM  ${personalcertRWStorageArea}  ${dirname}
@@ -54,25 +54,25 @@ WebDAV MKCOL with personal certificate
   [Teardown]  Clear all credentials
 
 WebDAV MKCOL anonymous with unexistent intermediate parent
-  [Tags]  webdav  mkcol
+  [Tags]  webdav  mkcol  anonymous
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${dirname}  Get a unique name
   ${surl}  Build surl  ${anonymousRWStorageArea}  ${dirname}
   ${output}  Perform ls using clientSRM  ${surl}  -c 1
   Should Contain  ${output}  SRM_INVALID_PATH
   ${options}  Set variable  --verbose -X MKCOL
-  ${url}  Set variable  http://${davEndpoint}/${anonymousRWStorageArea}/${dirName}/${dirName}
+  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${dirName}/${dirName}
   ${output}  Execute Curl with options  ${url}  ${options}
   Should Contain  ${output}  409 Conflict
   Remove local directory  ${dirname}
   [Teardown]  Clear all credentials
 
 WebDAV MKCOL anonymous on existent directory
-  [Tags]  webdav  mkcol
+  [Tags]  webdav  mkcol  anonymous
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${dirname}  Get a unique name
   ${options}  Set variable  --verbose -X MKCOL
-  ${url}  Set variable  http://${davEndpoint}/${anonymousRWStorageArea}/${dirName}
+  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${dirName}
   ${output}  Execute Curl with options  ${url}  ${options}
   Should Contain  ${output}  201 Created
   ${output}  Execute Curl with options  ${url}  ${options}

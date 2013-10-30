@@ -16,6 +16,8 @@ ${globusEndpoint}  ${frontEndHost}:2811
 ${davEndpoint}  ${gridHTTPsHost}:${gridHTTPsPort}
 ${davSecureEndpoint}  ${gridHTTPsHost}:${gridHTTPsSecurePort}
 
+${davContextPath}  /webdav
+
 ${filetransferEndpoint}  ${gridHTTPsHost}:${gridHTTPsPort}
 ${filetransferSecureEndpoint}  ${gridHTTPsHost}:${gridHTTPsSecurePort}
 
@@ -45,3 +47,7 @@ ${ldapEndpoint}  ${backEndHost}:2170
 
 ${baseDNGlue}  mds-vo-name=resource,o=grid
 ${baseDNGlue2}  GLUE2GroupID=resource,o=glue
+
+${symlinkSURL}  srm://${srmEndpoint}/${gridproxyRWStorageArea}/${vomsproxyRWStorageArea}
+${symlinkSURL2}  srm://${srmEndpoint}/${gridproxyRWStorageArea}/grid-security
+${symlinkSURL3}  srm://${srmEndpoint}/${gridproxyRWStorageArea}/storm

@@ -7,46 +7,6 @@ Resource   lib/credentials.txt
 
 *** Test Cases ***
 
-Check double PtG on a file
-  [Tags]  regression  ptg
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Get a unique name
-  Put without really putting using clientSRM  ${vo}  ${filename}
-  ${surl}  Build surl  ${vo}  ${filename}
-  ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
-  Should Contain  ${output}  SRM_FILE_PINNED
-  ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
-  Should Contain  ${output}  SRM_FILE_PINNED
-  Perform rm using clientSRM  ${surl}
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
-Check right failure code when invoking PtP/PtP on the same file
-  [Tags]   regression  ptp
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${filename}
-  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
-  Should Contain  ${output}  SRM_SPACE_AVAILABLE
-  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
-  Log  ${output}
-  Should Contain  ${output}  SRM_FILE_BUSY
-  Perform rm using clientSRM  ${surl}
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
-Check right failure code when invoking PtP/pd/PtP on the same file
-  [Tags]   regression  ptp  pd
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Get a unique name
-  Put without really putting using clientSRM  ${vo}  ${filename}
-  ${surl}  Build surl  ${vo}  ${filename}
-  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
-  Should Contain  ${output}  SRM_DUPLICATION_ERROR
-  Perform rm using clientSRM  ${surl}
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
 Check if StoRM publishes correctly values for used and free space on the BDII
   [Tags]  regression
   [Setup]  Init certificate and voms proxy  test0  ${vo}
@@ -65,73 +25,6 @@ Check if StoRM publishes correctly values for used and free space on the BDII
   ${file_size}  Run  ls -l /tmp/${filename} | awk {'print $5'}
   Should be equal  ${file_size}  ${diff_size}
   Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
-Copy out a file using lcg-utils
-  [Tags]  lcg-utils
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Create local file
-  ${surl}  Build surl  ${vo}  ${filename}
-  Check file does not exists using lcg-utils  ${surl}
-  Copy-out file using lcg-utils  ${filename}  ${surl}
-  Copy-in file using lcg-utils  ${surl}  ${filename}_copied
-  Execute and check success  diff /tmp/${filename} /tmp/${filename}_copied
-  Perform rm using clientSRM  ${surl}
-  Remove local file  ${filename}
-  Remove local file  ${filename}_copied
-  [Teardown]  Clear all credentials
-
-Prepare to put using clientSRM
-  [Tags]  regression  ptp
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${filename}
-  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
-  ${output}  Perform sptp using clientSRM  ${surl}  ${token}
-  Should Contain  ${output}  SRM_SPACE_AVAILABLE
-  Should Contain  ${output}  srmPrepareToPut successfully handled!
-  Perform rm using clientSRM  ${surl}
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
-Prepare to put on an existent file using clientSRM
-  [Tags]  regression  ptp
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${filename}
-  Put without really putting using clientSRM  ${vo}  ${filename}
-  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
-  Should Contain  ${output}  SRM_DUPLICATION_ERROR
-  Should Contain  ${output}  Cannot srmPut file because it already exists!
-  Perform rm using clientSRM  ${surl}
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
-Prepare to put using a non existent space token
-  [Tags]  regression  ptp
-  [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/282. StoRM used to return the wrong error (SRM_SPACE_LIFETIME_EXPIRED instead of SRM_INVALID_REQUEST) for a sptp when a ptp was given a non existent space token.
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${filename}
-  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p -t whatever
-  ${output}  Perform sptp using clientSRM  ${surl}  ${token}
-  Should Contain  ${output}  SRM_INVALID_REQUEST
-  Should Contain  ${output}  The provided Space Token does not exists
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
-Status of prepare to put using a non existent token
-  [Tags]  regression  sptp
-  [Documentation]  Regression test for https://issues.infn.it/browse/STOR-217. StoRM crashed when a status for an async request was requested but the service is not able to get the into out of the database (for example, the token does not exists). This test calls a status for a prepare to put.
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${output}  Execute clientSRM Command  sptp -t abcde
-  [Teardown]  Clear all credentials
-
-Status of prepare to get using a non existent token
-  [Tags]  regression  sptg
-  [Documentation]  Regression test for https://issues.infn.it/browse/STOR-217. StoRM crashed when a status for an async request was requested but the service is not able to get the into out of the database (for example, the token does not exists). This test calls a status for a prepare to get.
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${output}  Execute clientSRM Command  sptg -t abcde
   [Teardown]  Clear all credentials
 
 Status of bring online using a non existent token

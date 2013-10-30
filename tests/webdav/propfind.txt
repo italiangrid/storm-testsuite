@@ -7,7 +7,7 @@ Resource   lib/credentials.txt
 *** Test Cases ***
 
 WebDAV PROPFIND on directory as anonymous
-  [Tags]  webdav  propfind
+  [Tags]  webdav  propfind  anonymous
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${dirname}  Get a unique name
   ${surl}  Build surl  ${anonymousRWStorageArea}  ${dirname}
@@ -18,7 +18,7 @@ WebDAV PROPFIND on directory as anonymous
   Copy-out file using lcg-utils  ${filename}  ${surl2}
   ${body}  Set variable  <?xml version='1.0' encoding='utf-8'?><propfind xmlns='DAV:'><allprop/></propfind>
   ${options}  Set variable  --verbose -X PROPFIND --header 'Content-Type: text/xml'
-  ${url}  Set variable  http://${davEndpoint}/${anonymousRWStorageArea}/${dirname}
+  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${dirname}
   ${output}  Execute Curl with options  ${url}  ${options} --data-ascii "${body}"
   Log  ${output}
   Should Contain  ${output}  ${dirname}
@@ -29,7 +29,7 @@ WebDAV PROPFIND on directory as anonymous
   [Teardown]  Clear all credentials
 
 WebDAV PROPFIND on directory with voms proxy credentials
-  [Tags]  webdav  propfind
+  [Tags]  webdav  propfind  vomsproxy
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${dirname}  Get a unique name
   ${surl}  Build surl  ${vomsproxyRWStorageArea}  ${dirname}
@@ -40,7 +40,7 @@ WebDAV PROPFIND on directory with voms proxy credentials
   Copy-out file using lcg-utils  ${filename}  ${surl2}
   ${body}  Set variable  <?xml version='1.0' encoding='utf-8'?><propfind xmlns='DAV:'><allprop/></propfind>
   ${options}  Set variable  --verbose -X PROPFIND --header 'Content-Type: text/xml'
-  ${url}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/${dirname}
+  ${url}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${dirname}
   ${output}  Execute Curl with proxy and options  ${url}  ${options} --data-ascii "${body}"
   Log  ${output}
   Should Contain  ${output}  ${dirname}
@@ -51,7 +51,7 @@ WebDAV PROPFIND on directory with voms proxy credentials
   [Teardown]  Clear all credentials
 
 WebDAV PROPFIND on directory with plain proxy credentials
-  [Tags]  webdav  propfind
+  [Tags]  webdav  propfind  plainproxy
   [Setup]  Init certificate and plain proxy  test0
   ${dirname}  Get a unique name
   ${surl}  Build surl  ${gridproxyRWStorageArea}  ${dirname}
@@ -62,7 +62,7 @@ WebDAV PROPFIND on directory with plain proxy credentials
   Copy-out file using lcg-utils  ${filename}  ${surl2}
   ${body}  Set variable  <?xml version='1.0' encoding='utf-8'?><propfind xmlns='DAV:'><allprop/></propfind>
   ${options}  Set variable  --verbose -X PROPFIND --header 'Content-Type: text/xml'
-  ${url}  Set variable  https://${davSecureEndpoint}/${gridproxyRWStorageArea}/${dirname}
+  ${url}  Build webdav secure URL  ${gridproxyRWStorageArea}  ${dirname}
   ${output}  Execute Curl with proxy and options  ${url}  ${options} --data-ascii "${body}"
   Log  ${output}
   Should Contain  ${output}  ${dirname}
@@ -73,7 +73,7 @@ WebDAV PROPFIND on directory with plain proxy credentials
   [Teardown]  Clear all credentials
 
 WebDAV PROPFIND on directory with personal certificate
-  [Tags]  webdav  propfind
+  [Tags]  webdav  propfind  perscert
   [Setup]  Init certificate with unencrypted key  test0
   ${dirname}  Get a unique name
   ${surl}  Build surl  ${personalcertRWStorageArea}  ${dirname}
@@ -84,12 +84,88 @@ WebDAV PROPFIND on directory with personal certificate
   Copy-out file using lcg-utils  ${filename}  ${surl2}
   ${body}  Set variable  <?xml version='1.0' encoding='utf-8'?><propfind xmlns='DAV:'><allprop/></propfind>
   ${options}  Set variable  --verbose -X PROPFIND --header 'Content-Type: text/xml'
-  ${url}  Set variable  https://${davSecureEndpoint}/${personalcertRWStorageArea}/${dirname}
+  ${url}  Build webdav secure URL  ${personalcertRWStorageArea}  ${dirname}
   ${output}  Execute Curl with certificate and options  ${url}  ${options} --data-ascii "${body}"
   Log  ${output}
   Should Contain  ${output}  ${dirname}
   Should Contain  ${output}  ${dirname}/${filename}
   Remove not empty directory using clientSRM  ${personalcertRWStorageArea}  ${dirname}
   Remove local directory  ${dirname}
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials
+
+WebDAV PROPFIND on file as anonymous
+  [Tags]  webdav  propfind  anonymous
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Create local file
+  ${surl}  Build surl  ${anonymousRWStorageArea}  ${filename}
+  Copy-out file using lcg-utils  ${filename}  ${surl}
+  ${body}  Set variable  <?xml version='1.0' encoding='utf-8'?><propfind xmlns='DAV:'><allprop/></propfind>
+  ${options}  Set variable  --verbose -X PROPFIND --header 'Content-Type: text/xml'
+  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${filename}
+  ${output}  Execute Curl with options  ${url}  ${options} --data-ascii "${body}"
+  Log  ${output}
+  Should Contain  ${output}  ${filename}
+  Should Contain  ${output}  checksumType
+  Should Contain  ${output}  checksumValue
+  Should Contain  ${output}  status
+  Perform rm using clientSRM  ${surl}
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials
+
+WebDAV PROPFIND on file with voms proxy credentials
+  [Tags]  webdav  propfind  vomsproxy
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Create local file
+  ${surl}  Build surl  ${vomsproxyRWStorageArea}  ${filename}
+  Copy-out file using lcg-utils  ${filename}  ${surl}
+  ${body}  Set variable  <?xml version='1.0' encoding='utf-8'?><propfind xmlns='DAV:'><allprop/></propfind>
+  ${options}  Set variable  --verbose -X PROPFIND --header 'Content-Type: text/xml'
+  ${url}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${filename}
+  ${output}  Execute Curl with proxy and options  ${url}  ${options} --data-ascii "${body}"
+  Log  ${output}
+  Should Contain  ${output}  ${filename}
+  Should Contain  ${output}  checksumType
+  Should Contain  ${output}  checksumValue
+  Should Contain  ${output}  status
+  Perform rm using clientSRM  ${surl}
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials
+
+WebDAV PROPFIND on file with plain proxy credentials
+  [Tags]  webdav  propfind  plainproxy
+  [Setup]  Init certificate and plain proxy  test0
+  ${filename}  Create local file
+  ${surl}  Build surl  ${gridproxyRWStorageArea}  ${filename}
+  Copy-out file using lcg-utils  ${filename}  ${surl}
+  ${body}  Set variable  <?xml version='1.0' encoding='utf-8'?><propfind xmlns='DAV:'><allprop/></propfind>
+  ${options}  Set variable  --verbose -X PROPFIND --header 'Content-Type: text/xml'
+  ${url}  Build webdav secure URL  ${gridproxyRWStorageArea}  ${filename}
+  ${output}  Execute Curl with proxy and options  ${url}  ${options} --data-ascii "${body}"
+  Log  ${output}
+  Should Contain  ${output}  ${filename}
+  Should Contain  ${output}  checksumType
+  Should Contain  ${output}  checksumValue
+  Should Contain  ${output}  status
+  Perform rm using clientSRM  ${surl}
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials
+
+WebDAV PROPFIND on file with personal certificate
+  [Tags]  webdav  propfind  perscert
+  [Setup]  Init certificate with unencrypted key  test0
+  ${filename}  Create local file
+  ${surl}  Build surl  ${personalcertRWStorageArea}  ${filename}
+  Copy-out file using lcg-utils  ${filename}  ${surl}
+  ${body}  Set variable  <?xml version='1.0' encoding='utf-8'?><propfind xmlns='DAV:'><allprop/></propfind>
+  ${options}  Set variable  --verbose -X PROPFIND --header 'Content-Type: text/xml'
+  ${url}  Build webdav secure URL  ${personalcertRWStorageArea}  ${filename}
+  ${output}  Execute Curl with certificate and options  ${url}  ${options} --data-ascii "${body}"
+  Log  ${output}
+  Should Contain  ${output}  ${filename}
+  Should Contain  ${output}  checksumType
+  Should Contain  ${output}  checksumValue
+  Should Contain  ${output}  status
+  Perform rm using clientSRM  ${surl}
   Remove local file  ${filename}
   [Teardown]  Clear all credentials

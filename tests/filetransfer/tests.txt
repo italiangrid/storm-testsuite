@@ -17,7 +17,7 @@ File-Transfer upload file as anonymous
   ${turl}  Build file transfer TURL  ${anonymousRWStorageArea}  ${filename}
   ${output}  Execute Curl with options  ${turl}  ${options}
   Should Contain  ${output}  204 No Content
-  ${output}  Perform pd using clientSRM  ${surl}  ${token}  -p
+  ${output}  Perform pd using clientSRM  ${surl}  ${token}
   Should contain  ${output}  SRM_SUCCESS
   ${output}  Perform rm using clientSRM  ${surl}
   Should contain  ${output}  SRM_SUCCESS
@@ -35,7 +35,7 @@ File-Transfer upload file with voms proxy
   ${turl}  Build file transfer secure TURL  ${vomsproxyRWStorageArea}  ${filename}
   ${output}  Execute Curl with proxy and options  ${turl}  ${options}
   Should Contain  ${output}  204 No Content
-  ${output}  Perform pd using clientSRM  ${surl}  ${token}  -p
+  ${output}  Perform pd using clientSRM  ${surl}  ${token}
   Should contain  ${output}  SRM_SUCCESS
   ${output}  Perform rm using clientSRM  ${surl}
   Should contain  ${output}  SRM_SUCCESS
@@ -53,7 +53,7 @@ File-Transfer upload file with plain proxy
   ${turl}  Build file transfer secure TURL  ${gridproxyRWStorageArea}  ${filename}
   ${output}  Execute Curl with proxy and options  ${turl}  ${options}
   Should Contain  ${output}  204 No Content
-  ${output}  Perform pd using clientSRM  ${surl}  ${token}  -p
+  ${output}  Perform pd using clientSRM  ${surl}  ${token}
   Should contain  ${output}  SRM_SUCCESS
   ${output}  Perform rm using clientSRM  ${surl}
   Should contain  ${output}  SRM_SUCCESS
@@ -71,7 +71,7 @@ File-Transfer upload file with personal certificate
   ${turl}  Build file transfer secure TURL  ${personalcertRWStorageArea}  ${filename}
   ${output}  Execute Curl with certificate and options  ${turl}  ${options}
   Should Contain  ${output}  204 No Content
-  ${output}  Perform pd using clientSRM  ${surl}  ${token}  -p
+  ${output}  Perform pd using clientSRM  ${surl}  ${token}
   Should contain  ${output}  SRM_SUCCESS
   ${output}  Perform rm using clientSRM  ${surl}
   Should contain  ${output}  SRM_SUCCESS
@@ -90,7 +90,7 @@ File-Transfer get file as anonymous
   ${turl}  Build file transfer TURL  ${anonymousRWStorageArea}  ${filename}
   ${output}  Execute Curl with options  ${turl}  ${options}
   Should Contain  ${output}  200 OK
-  ${output}  Perform rf using clientSRM  ${surl}  ${token}  -p
+  ${output}  Perform rf using clientSRM  ${surl}  ${token}
   Should contain  ${output}  SRM_SUCCESS
   ${output}  Perform rm using clientSRM  ${surl}
   Should contain  ${output}  SRM_SUCCESS
@@ -109,7 +109,7 @@ File-Transfer get file with voms proxy
   ${turl}  Build file transfer secure TURL  ${vomsproxyRWStorageArea}  ${filename}
   ${output}  Execute Curl with proxy and options  ${turl}  ${options}
   Should Contain  ${output}  200 OK
-  ${output}  Perform rf using clientSRM  ${surl}  ${token}  -p
+  ${output}  Perform rf using clientSRM  ${surl}  ${token}
   Should contain  ${output}  SRM_SUCCESS
   ${output}  Perform rm using clientSRM  ${surl}
   Should contain  ${output}  SRM_SUCCESS
@@ -128,7 +128,7 @@ File-Transfer get file with plain proxy
   ${turl}  Build file transfer secure TURL  ${gridproxyRWStorageArea}  ${filename}
   ${output}  Execute Curl with proxy and options  ${turl}  ${options}
   Should Contain  ${output}  200 OK
-  ${output}  Perform rf using clientSRM  ${surl}  ${token}  -p
+  ${output}  Perform rf using clientSRM  ${surl}  ${token}
   Should contain  ${output}  SRM_SUCCESS
   ${output}  Perform rm using clientSRM  ${surl}
   Should contain  ${output}  SRM_SUCCESS
@@ -147,7 +147,7 @@ File-Transfer get file with personal certificate
   ${turl}  Build file transfer secure TURL  ${personalcertRWStorageArea}  ${filename}
   ${output}  Execute Curl with certificate and options  ${turl}  ${options}
   Should Contain  ${output}  200 OK
-  ${output}  Perform rf using clientSRM  ${surl}  ${token}  -p
+  ${output}  Perform rf using clientSRM  ${surl}  ${token}
   Should contain  ${output}  SRM_SUCCESS
   ${output}  Perform rm using clientSRM  ${surl}
   Should contain  ${output}  SRM_SUCCESS

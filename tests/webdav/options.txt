@@ -6,38 +6,38 @@ Resource   lib/credentials.txt
 *** Test Cases ***
 
 WebDAV OPTIONS on directory as anonymous
-  [Tags]  webdav  options
+  [Tags]  webdav  options  anonymous
   ${options}  Set variable  --verbose -X OPTIONS
-  ${url}  Set variable  http://${davEndpoint}/${anonymousRWStorageArea}/
+  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}
   ${output}  Execute Curl with options  ${url}  ${options}
   Should Contain  ${output}  200 OK
   Should Contain  ${output}  DAV: 1
 
 WebDAV OPTIONS on directory with voms proxy credentials
-  [Tags]  webdav  options
+  [Tags]  webdav  options  vomsproxy
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${options}  Set variable  --verbose -X OPTIONS
-  ${url}  Set variable  https://${davSecureEndpoint}/${vomsproxyRWStorageArea}/
+  ${url}  Build webdav secure URL  ${vomsproxyRWStorageArea}
   ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  200 OK
   Should Contain  ${output}  DAV: 1
   [Teardown]  Clear all credentials
 
 WebDAV OPTIONS on directory with plain proxy credentials
-  [Tags]  webdav  options
+  [Tags]  webdav  options  plainproxy
   [Setup]  Init certificate and plain proxy  test0
   ${options}  Set variable  --verbose -X OPTIONS
-  ${url}  Set variable  https://${davSecureEndpoint}/${gridproxyRWStorageArea}/
+  ${url}  Build webdav secure URL  ${gridproxyRWStorageArea}
   ${output}  Execute Curl with proxy and options  ${url}  ${options}
   Should Contain  ${output}  200 OK
   Should Contain  ${output}  DAV: 1
   [Teardown]  Clear all credentials
 
 WebDAV OPTIONS on directory with personal certificate
-  [Tags]  webdav  options
+  [Tags]  webdav  options  perscert
   [Setup]  Init certificate with unencrypted key  test0
   ${options}  Set variable  --verbose -X OPTIONS
-  ${url}  Set variable  https://${davSecureEndpoint}/${personalcertRWStorageArea}/
+  ${url}  Build webdav secure URL  ${personalcertRWStorageArea}
   ${output}  Execute Curl with certificate and options  ${url}  ${options}
   Should Contain  ${output}  200 OK
   Should Contain  ${output}  DAV: 1

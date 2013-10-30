@@ -10,7 +10,8 @@ Put a file using WebDAV calling the PUT method
   ${fileName}  Create local file
   ${surl}  Build surl  ${vo}  ${fileName}
   ${options}  Set variable  -X PUT ${fileName}
-  Execute Curl with proxy and options  https://${davSecureEndpoint}/${vo}/${fileName}  ${options}
+  ${url}  Build webdav secure URL  ${vo}  ${fileName}
+  Execute Curl with proxy and options  ${url}  ${options}
   Perform rm using clientSRM  ${surl}
   Remove local file  ${fileName}
   [Teardown]  Clear all credentials
