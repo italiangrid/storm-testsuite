@@ -1,0 +1,85 @@
+*** Settings ***
+Resource   lib/stormlib.txt
+Resource   lib/clientSRM.txt
+Resource   lib/lcg_util.txt
+Resource   lib/credentials.txt
+
+*** Keywords ***
+
+Create local 10Mb file
+  ${name}  Get a unique name
+  Execute and Check Success  dd if=/dev/urandom of=/tmp/${name} bs=300M count=1
+  [Return]  ${name}
+
+upload file  [Arguments]  ${vo}  ${filename}  ${remotePath}
+  Init certificate and voms proxy  test0  ${vo}
+  ${surl}  Build surl  ${vo}  ${remotePath}
+  Copy-out file using lcg-utils  ${fileName}  ${surl}
+  Clear all credentials
+
+check exists  [Arguments]  ${vo}  ${path}
+  Init certificate and voms proxy  test0  ${vo}
+  ${headOptions}  Set variable  -v --head
+  ${url}  Build webdav secure URL  ${vo}  ${path}
+  ${output}  Execute Curl with proxy and options  ${url}  ${headOptions}
+  Log  ${output}
+  ${status}  ${value} =  Run Keyword And Ignore Error  Should Contain  ${output}  200 OK
+  Clear all credentials
+  [Return]  ${status}
+
+create directory  [Arguments]  ${vo}  ${path}
+  Init certificate and voms proxy  test0  ${vo}
+  ${mkcolOptions}  Set variable  -v -X MKCOL
+  ${url}  Build webdav secure URL  ${vo}  ${path}
+  ${output}  Execute Curl with proxy and options  ${url}  ${mkcolOptions}
+  Log  ${output}
+  ${status}  ${value} =  Run Keyword And Ignore Error  Should Contain  ${output}  201 Created
+  Clear all credentials
+  [Return]  ${status}
+
+rename file  [Arguments]  ${vo}  ${src}  ${dest}
+  Init certificate and voms proxy  test0  ${vo}
+  ${destUrl}  Build webdav secure URL  ${vo}  ${dest}
+  ${moveOptions}  Set variable  -v -X MOVE --header 'Destination: ${destUrl}'
+  ${url}  Build webdav secure URL  ${vo}  ${src}
+  ${output}  Execute Curl with proxy and options  ${url}  ${moveOptions}
+  Log  ${output}
+  ${status}  ${value} =  Run Keyword And Ignore Error  Should Contain  ${output}  201 Created
+  Clear all credentials
+  [Return]  ${status}
+
+clear local file  [Arguments]  ${filename}
+  Remove local file  ${fileName}
+
+clear remote directory with recursion  [Arguments]  ${vo}  ${remoteDir}
+  Init certificate and voms proxy  test0  ${vo}
+  ${surl}  Build surl  ${vo}  ${remoteDir}
+  ${output}  Perform rmdir using clientSRM  ${surl}  -r
+  Should Contain  ${output}  SRM_SUCCESS
+  Clear all credentials
+
+*** Test Cases ***
+
+File renaming
+  ${filename}  Create local 10Mb file
+  ${destL1dir}  Get a unique name
+  ${destL2dir}  Get a unique name
+  ${destL2dir}  Set variable  ${destL1dir}/${destL2dir}
+  ${destFileName}  Set variable  ${destL2dir}/${filename}
+  upload file  ${vo}  ${filename}  ${filename}
+  ${status}  check exists  ${vo}  ${filename}
+  Run Keyword Unless  '${status}'=='PASS'  Fail  Source file exists!
+  ${status}  check exists  ${vo}  ${destL2dir}
+  Run Keyword If  '${status}'=='PASS'  Fail  Destination L2 directory must not exist!
+  ${status}  check exists  ${vo}  ${destL1dir}
+  Run Keyword If  '${status}'=='PASS'  Fail  Destination L2 directory must not exist!
+  ${status}  create directory  ${vo}  ${destL1dir}
+  Run Keyword Unless  '${status}'=='PASS'  Fail  Error during L1 directory creation!
+  ${status}  create directory  ${vo}  ${destL2dir}
+  Run Keyword Unless  '${status}'=='PASS'  Fail  Error during L2 directory creation!
+  ${status}  rename file  ${vo}  ${filename}  ${destFilename}
+  Run Keyword Unless  '${status}'=='PASS'  Fail  Error during renaming!
+  clear remote directory with recursion  ${vo}  ${destL1dir}
+  clear local file  ${fileName}
+  clear local file  ${destL1dir}
+  clear local file  ${destL2dir}
