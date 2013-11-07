@@ -13,6 +13,7 @@ ${gridFTPHost}  ${frontEndHost}
 
 ${srmEndpoint}  ${frontEndHost}:${frontEndPort}
 ${globusEndpoint}  ${frontEndHost}:2811
+${recallEndpoint}  ${frontEndHost}:9998
 ${davEndpoint}  ${gridHTTPsHost}:${gridHTTPsPort}
 ${davSecureEndpoint}  ${gridHTTPsHost}:${gridHTTPsSecurePort}
 
@@ -24,6 +25,7 @@ ${filetransferSecureEndpoint}  ${gridHTTPsHost}:${gridHTTPsSecurePort}
 ${storageAreaRoot}  /storage
 
 ${vo}   testers.eu-emi.eu
+
 ${storageAreaToken}  TESTERSEUEMIEU_TOKEN
 
 ${certsDir}   /usr/share/igi-test-ca
@@ -42,6 +44,7 @@ ${gridproxyRWStorageArea}  igi
 ${gridproxyBisRWStorageArea}  igi-bis
 ${personalcertRWStorageArea}  igi
 ${personalcertBisRWStorageArea}  igi-bis
+${tapeStorageArea}  ${vomsproxyRWStorageArea}
 
 ${ldapEndpoint}  ${backEndHost}:2170
 
