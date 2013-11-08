@@ -243,13 +243,15 @@ Check a malformed token format does not work when pushed to the FE
 
 Check failure when trying to get a completed task to recall using an malformed filename
   [Tags]  regression  recall
-  ${output}  Check for a completed recall task  "fakeToken%20or%201=1-- "  fakeFile%20or%201=1--
+  ${filename}  Get a unique name
+  ${output}  Check for a completed recall task  "fakeToken%20or%201=1-- "  ${filename}%20or%201=1--
   Log  ${output}
   Should Not Contain  ${output}  200 OK
 
 Check failure when trying to get a completed task to recall using an non-existent filename
   [Tags]  regression  recall
-  ${output}  Check for a completed recall task  "fakeToken%20or%201=1-- "  fakeFile
+  ${filename}  Get a unique name
+  ${output}  Check for a completed recall task  "fakeToken%20or%201=1-- "  ${filename}
   Log  ${output} 
   Should Not Contain  ${output}  200 OK
 
