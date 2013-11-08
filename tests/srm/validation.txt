@@ -13,6 +13,7 @@ Check a get space metadata request fails when a wrong token format is provided
   ${output}  Get space metadata using clientSRM  "ciccio' OR SLEEP(1)-- "
   Log  ${output}
   Should Contain  ${output}  SRM_INVALID_REQUEST
+  Should Contain  ${output}  invalid token
   [Teardown]  Clear all credentials
 
 Check a get request summary fails when a wrong token format is provided
@@ -21,6 +22,7 @@ Check a get request summary fails when a wrong token format is provided
   ${output}  Get request summary using clientSRM  "ciccio' OR 1=1) AND SLEEP(1)-- "
   Log  ${output}
   Should Contain  ${output}  SRM_INVALID_REQUEST
+  Should Contain  ${output}  invalid token
   [Teardown]  Clear all credentials
 
 Check a reserve space request fails when a wrong token format is provided
@@ -29,6 +31,7 @@ Check a reserve space request fails when a wrong token format is provided
   ${output}  Reserve space using clientSRM with token  "ciccio' or SLEEP(1)-- "
   Log  ${output}
   Should Contain  ${output}  SRM_INVALID_REQUEST
+  Should Contain  ${output}  invalid token
   [Teardown]  Clear all credentials
 
 Check a release space request fails when a wrong token format is provided
@@ -37,6 +40,7 @@ Check a release space request fails when a wrong token format is provided
   ${output}  Release space using clientSRM  "ciccio' or SLEEP(1)-- "
   Log  ${output}
   Should Contain  ${output}  SRM_INVALID_REQUEST
+  Should Contain  ${output}  invalid token
   [Teardown]  Clear all credentials
 
 Check a get space tokens request fails when a wrong token format is provided
@@ -45,14 +49,16 @@ Check a get space tokens request fails when a wrong token format is provided
   ${output}  Get space token output using clientSRM  "ciccio' OR SLEEP(1)-- "
   Log  ${output}
   Should Contain  ${output}  SRM_INVALID_REQUEST
+  Should Contain  ${output}  invalid token
   [Teardown]  Clear all credentials
 
-Check a get request tokens fails when a wrong token format is provided
+Check a get request tokens fails with an invalid user request description
   [Tags]  regression  grt
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${output}  Get request tokens using clientSRM  "ciccio' OR SLEEP(1)-- "
   Log  ${output}
   Should Contain  ${output}  SRM_INVALID_REQUEST
+  Should Contain  ${output}  invalid user request description
   [Teardown]  Clear all credentials
 
 Check a ptp fails when a malformed surl is supplied
@@ -60,9 +66,10 @@ Check a ptp fails when a malformed surl is supplied
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Get a unique name
   ${surl}  Build surl  ${vo}  "${filename} ciccio') OR SLEEP(1)-- "
-  ${output}  ${token}  Perform ptp using clientSRM  ${surl} -p
+  ${output}  Execute clientSRM Command on Surl  ptp  ${surl}  ${EMPTY}
   Log  ${output}
-  Should Not Contain  ${output}  SRM_SUCCESS
+  Should Contain  ${output}  SRM_INVALID_REQUEST
+  Should Contain  ${output}  invalid surl
   [Teardown]  Clear all credentials
 
 Check a sptp fails when a malformed token is supplied
@@ -73,7 +80,8 @@ Check a sptp fails when a malformed token is supplied
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}
   ${output}  Perform sptp using clientSRM  ${surl}  "ciccio' OR SLEEP(1)-- "
   Log  ${output}  
-  Should Not Contain  ${output}  SRM_SUCCESS
+  Should Contain  ${output}  SRM_INVALID_REQUEST
+  Should Contain  ${output}  invalid token
   [Teardown]  Clear all credentials
 
 Check a ptg fails when a malformed surl is supplied
@@ -84,9 +92,10 @@ Check a ptg fails when a malformed surl is supplied
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   ${output}  Perform pd using clientSRM  ${surl}  ${token}
   ${surl}  Build surl  ${vo}  "${filename} ciccio') OR SLEEP(1)-- "
-  ${output}  ${token}  Perform ptg using clientSRM  ${surl} -p
+  ${output}  Execute clientSRM Command on Surl  ptg  ${surl}  ${EMPTY}
   Log  ${output}
-  Should Not Contain  ${output}  SRM_SUCCESS
+  Should Contain  ${output}  SRM_INVALID_REQUEST
+  Should Contain  ${output}  invalid surl
   [Teardown]  Clear all credentials
 
 Check a sptg fails when a malformed token is supplied
@@ -99,7 +108,8 @@ Check a sptg fails when a malformed token is supplied
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}
   ${output}  Perform sptg using clientSRM  ${surl}  "ciccio' OR SLEEP(1)-- "
   Log  ${output}
-  Should Not Contain  ${output}  SRM_SUCCESS
+  Should Contain  ${output}  SRM_INVALID_REQUEST
+  Should Contain  ${output}  invalid token
   [Teardown]  Clear all credentials
 
 Check a pd fails when a malformed token is supplied
@@ -110,7 +120,8 @@ Check a pd fails when a malformed token is supplied
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
   ${output}  Perform pd using clientSRM  ${surl}  "ciccio' OR SLEEP(1)-- "
-  Should Not Contain  ${output}  SRM_SUCCESS
+  Should Contain  ${output}  SRM_INVALID_REQUEST
+  Should Contain  ${output}  invalid token
   [Teardown]  Clear all credentials
 
 Check a pd fails when a malformed surl is supplied
@@ -122,7 +133,8 @@ Check a pd fails when a malformed surl is supplied
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
   ${surl}  Build surl  ${vo}  "${filename} ciccio') OR SLEEP(1)-- "
   ${output}  Perform pd using clientSRM  ${surl}  ${token}
-  Should Not Contain  ${output}  SRM_SUCCESS
+  Should Contain  ${output}  SRM_INVALID_REQUEST
+  Should Contain  ${output}  invalid surl
   [Teardown]  Clear all credentials
 
 Check an abort request fails when a malformed token is supplied
@@ -132,7 +144,8 @@ Check an abort request fails when a malformed token is supplied
   ${surl}  Build surl  ${vo}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl} -p
   ${output}  Perform abort request using clientSRM  "${token}' or SLEEP(1)-- "
-  Should Not Contain  ${output}  SRM_SUCCESS
+  Should Contain  ${output}  SRM_INVALID_REQUEST
+  Should Contain  ${output}  invalid token
   [Teardown]  Clear all credentials
 
 Check an abort file fails when a malformed token is supplied
@@ -142,7 +155,8 @@ Check an abort file fails when a malformed token is supplied
   ${surl}  Build surl  ${vo}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl} -p
   ${output}  Perform abort file using clientSRM  ${surl}  "${token}' or SLEEP(1)-- "
-  Should Contain  ${output}  SRM_SUCCESS
+  Should Contain  ${output}  SRM_INVALID_REQUEST
+  Should Contain  ${output}  invalid token
   [Teardown]  Clear all credentials
 
 Check an ls request fails when a malformed surl is supplied
@@ -151,7 +165,8 @@ Check an ls request fails when a malformed surl is supplied
   ${filename}  Get a unique name
   ${surl}  Build surl  ${vo}  "${filename} ciccio') OR SLEEP(1)-- "
   ${output}  Perform ls using clientSRM  ${surl}
-  Should Not Contain  ${output}  SRM_SUCCESS
+  Should Contain  ${output}  SRM_INVALID_REQUEST
+  Should Contain  ${output}  invalid surl
   [Teardown]  Clear all credentials
 
 Check a mkdir request fails when a malformed surl is supplied
@@ -160,7 +175,8 @@ Check a mkdir request fails when a malformed surl is supplied
   ${filename}  Get a unique name
   ${surl}  Build surl  ${vo}  "${filename} ciccio') OR SLEEP(1)-- "
   ${output}  Perform mkdir using clientSRM  ${surl}
-  Should Not Contain  ${output}  SRM_SUCCESS
+  Should Contain  ${output}  SRM_INVALID_REQUEST
+  Should Contain  ${output}  invalid surl
   [Teardown]  Clear all credentials
 
 Check a rmdir request fails when a malformed surl is supplied
@@ -171,7 +187,8 @@ Check a rmdir request fails when a malformed surl is supplied
   ${output}  Perform mkdir using clientSRM  ${surl}
   ${surl}  Build surl  ${vo}  "${filename} ciccio') OR SLEEP(1)-- "
   ${output}  Perform rmdir using clientSRM  ${surl}
-  Should Not Contain  ${output}  SRM_SUCCESS
+  Should Contain  ${output}  SRM_INVALID_REQUEST
+  Should Contain  ${output}  invalid surl
   [Teardown]  Clear all credentials
 
 Check a rf request fails when a malformed token is supplied
@@ -183,7 +200,8 @@ Check a rf request fails when a malformed token is supplied
   ${output}  Perform pd using clientSRM  ${surl}  ${token}  -p
   ${output}  ${token}  Perform ptg using clientSRM  ${surl} -p
   ${output}  Perform rf using clientSRM  ${surl}  "${token}' and sleep(1)-- "
-  Should Not Contain  ${output}  SRM_SUCCESS
+  Should Contain  ${output}  SRM_INVALID_REQUEST
+  Should Contain  ${output}  invalid token
   [Teardown]  Clear all credentials 
 
 Check a rm request fails when a malformed surl is supplied
@@ -196,7 +214,8 @@ Check a rm request fails when a malformed surl is supplied
   ${surl}  Build surl  ${vo}  "${filename} ciccio' or sleep(1)-- "  
   ${output}  Perform rm using clientSRM  ${surl}
   Log  ${output}
-  Should Not Contain  ${output}  SRM_SUCCESS
+  Should Contain  ${output}  SRM_INVALID_REQUEST
+  Should Contain  ${output}  invalid surl
   [Teardown]  Clear all credentials
 
 Check a mv request fails when a malformed surl is supplied  
@@ -208,13 +227,15 @@ Check a mv request fails when a malformed surl is supplied
   ${output}  Perform pd using clientSRM  ${srcsurl}  ${token}  -p
   ${destsurl}  Build surl  ${vo}  "${filename}' or sleep(1)-- "
   ${output}  Perform mv using clientSRM  ${srcsurl}  ${destsurl}  -p
-  Should Not Contain  ${output}  SRM_SUCCESS
+  Should Contain  ${output}  SRM_INVALID_REQUEST
+  Should Contain  ${output}  invalid surl
   [Teardown]  Clear all credentials
 
 Check a malformed token format does not work when pushed to the FE
   [Tags]  storm-client  regression
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${output}  Get request summary using clientSRM  "ciccio' OR 1=1) AND SLEEP(1) "
-  Should Not Contain  ${output}  Connection closed
   Log  ${output}
+  Should Contain  ${output}  SRM_INVALID_REQUEST
+  Should Contain  ${output}  invalid token
   [Teardown]  Clear all credentials
