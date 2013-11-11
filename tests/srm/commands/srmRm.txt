@@ -53,7 +53,7 @@ Partial success on removing multiple files
   ${surl2}  Build surl  ${vo}  ${filename2}
   ${output}  Perform rm using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
-  ${output}  Perform rm using clientSRM  ${surl}, ${surl2}
+  ${output}  Perform rm using clientSRM  ${surl} ${surl2}
   Should Contain  ${output}  SRM_PARTIAL_SUCCESS
   Remove local file  ${filename}
   Remove local file  ${filename2}
