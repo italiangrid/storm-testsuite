@@ -13,7 +13,7 @@ ${gridFTPHost}  ${frontEndHost}
 
 ${srmEndpoint}  ${frontEndHost}:${frontEndPort}
 ${globusEndpoint}  ${frontEndHost}:2811
-${recallEndpoint}  ${frontEndHost}:9998
+${recallEndpoint}  ${backEndHost}:9998
 ${davEndpoint}  ${gridHTTPsHost}:${gridHTTPsPort}
 ${davSecureEndpoint}  ${gridHTTPsHost}:${gridHTTPsSecurePort}
 
