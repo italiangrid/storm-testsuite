@@ -6,11 +6,6 @@ Resource   lib/credentials.txt
 
 *** Keywords ***
 
-Create local 10Mb file
-  ${name}  Get a unique name
-  Execute and Check Success  dd if=/dev/urandom of=/tmp/${name} bs=300M count=1
-  [Return]  ${name}
-
 upload file  [Arguments]  ${vo}  ${filename}  ${remotePath}
   Init certificate and voms proxy  test0  ${vo}
   ${surl}  Build surl  ${vo}  ${remotePath}
@@ -49,7 +44,7 @@ rename file  [Arguments]  ${vo}  ${src}  ${dest}
   [Return]  ${status}
 
 clear local file  [Arguments]  ${filename}
-  Remove local file  ${fileName}
+  Remove local file  ${filename}
 
 clear remote directory with recursion  [Arguments]  ${vo}  ${remoteDir}
   Init certificate and voms proxy  test0  ${vo}
@@ -61,7 +56,7 @@ clear remote directory with recursion  [Arguments]  ${vo}  ${remoteDir}
 *** Test Cases ***
 
 File renaming
-  ${filename}  Create local 10Mb file
+  ${filename}  Create local file
   ${destL1dir}  Get a unique name
   ${destL2dir}  Get a unique name
   ${destL2dir}  Set variable  ${destL1dir}/${destL2dir}
@@ -80,6 +75,5 @@ File renaming
   ${status}  rename file  ${vo}  ${filename}  ${destFilename}
   Run Keyword Unless  '${status}'=='PASS'  Fail  Error during renaming!
   clear remote directory with recursion  ${vo}  ${destL1dir}
-  clear local file  ${fileName}
+  clear local file  ${filename}
   clear local file  ${destL1dir}
-  clear local file  ${destL2dir}
