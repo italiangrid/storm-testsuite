@@ -206,8 +206,9 @@ Check approached VFS with nested accesspoints
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Create local file
   ${surl}  Build surl  ${nestedChildStorageArea}  ${filename}
+  ${surlParent}  Build surl  ${nestedChildStorageArea}  ${EMPTY}
   Copy-out file using lcg-utils  ${filename}  ${surl}
-  ${output}  Perform ls using clientSRM  ${surl}
+  ${output}  Perform ls using clientSRM  ${surlParent}
   Should Contain  ${output}  SRM_SUCCESS
   Should Contain  ${output}  ${filename}
   ${output}  Perform rm using clientSRM  ${surl}
