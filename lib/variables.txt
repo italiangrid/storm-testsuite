@@ -46,7 +46,7 @@ ${personalcertRWStorageArea}  igi
 ${personalcertBisRWStorageArea}  igi
 ${tapeStorageArea}  ${vomsproxyRWStorageArea}
 ${nestedParentStorageArea}  testers.eu-emi.eu
-${nestedChildStorageArea}  testers.eu-emi.eu/user
+${nestedChildStorageArea}  testers.eu-emi.eu/nested
 
 ${ldapEndpoint}  ${backEndHost}:2170
 

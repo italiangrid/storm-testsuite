@@ -204,14 +204,8 @@ Check if a clientSRM rm on an existent file works
 Check approached VFS with nested accesspoints
   [Tags]  ls
   [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Create local file
-  ${surl}  Build surl  ${nestedChildStorageArea}  ${filename}
-  ${surlParent}  Set variable  srm://${srmEndpoint}/srm/managerv2?SFN=/${nestedChildStorageArea}
-  Copy-out file using lcg-utils  ${filename}  ${surl}
-  ${output}  Perform ls using clientSRM  ${surlParent}
+  ${surl}  Set variable  srm://${srmEndpoint}/srm/managerv2?SFN=/${nestedChildStorageArea}
+  ${output}  Perform ls using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
-  Should Contain  ${output}  ${filename}
-  ${output}  Perform rm using clientSRM  ${surl}
-  Should Contain  ${output}  SRM_SUCCESS
-  Remove local file  ${fileName}
+  Should Contain  ${output}  ${nestedChildStorageArea}
   [Teardown]  Clear all credentials
