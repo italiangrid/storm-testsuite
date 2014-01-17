@@ -186,7 +186,7 @@ Move file with active ptp
   [Teardown]  Clear all credentials
 
 Move file on an unauthorized destination
-  [Tags]  storm-client  mv  to-be-fixed
+  [Tags]  storm-client  mv
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Create local file
   ${srcsurl}  Build surl  ${vo}  ${filename}

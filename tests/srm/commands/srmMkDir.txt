@@ -40,7 +40,7 @@ Create directory that already exists
   [Teardown]  Clear all credentials
 
 Create directory with an unauthorized path
-  [Tags]  storm-client  mkdir  to-be-fixed
+  [Tags]  storm-client  mkdir
   [Setup]  Init certificate and plain proxy  test0
   ${dirname}  Get a unique name
   ${surl}  Build surl  ${vo}  ${dirname}

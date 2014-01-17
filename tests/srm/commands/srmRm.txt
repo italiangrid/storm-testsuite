@@ -28,7 +28,7 @@ Remove unexistent file
   [Teardown]  Clear all credentials
 
 Removing unauthorized file
-  [Tags]  storm-client  rm  to-be-fixed
+  [Tags]  storm-client  rm
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Get a unique name
   ${surl}  Build surl  ${vo}  ${filename}
