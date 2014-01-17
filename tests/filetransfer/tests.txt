@@ -161,7 +161,7 @@ File-Transfer upload file as anonymous without ptp
   ${options}  Set variable  --verbose -X PUT
   ${turl}  Build file transfer TURL  ${anonymousRWStorageArea}  ${filename}
   ${output}  Execute Curl with options  ${turl}  ${options}
-  Should Contain  ${output}  412 File not exist! You must do a prepare-to-put on surl
+  Should Contain  ${output}  401 Unauthorized
   Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
@@ -174,7 +174,7 @@ File-Transfer get file as anonymous without ptg
   ${options}  Set variable  --verbose -X GET
   ${turl}  Build file transfer TURL  ${anonymousRWStorageArea}  ${filename}
   ${output}  Execute Curl with options  ${turl}  ${options}
-  Should Contain  ${output}  412 You must do a prepare-to-get on surl
+  Should Contain  ${output}  200 OK
   ${output}  Perform rm using clientSRM  ${surl}
   Should contain  ${output}  SRM_SUCCESS
   Remove local file  ${filename}
