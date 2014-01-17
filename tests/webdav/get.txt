@@ -167,3 +167,22 @@ WebDAV GET file with personal certificate
   Remove local file  ${filename}
   Remove local file  ${filename}_2
   [Teardown]  Clear all credentials
+
+WebDAV GET SURL in SRM_SPACE_AVAILABLE status
+  [Tags]  webdav  put  vomsproxy
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Get a unique name
+  ${surl}  Build surl  ${vomsproxyRWStorageArea}  ${filename}
+  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
+  Should Contain  ${output}  SRM_SPACE_AVAILABLE
+  ${options}  Set variable  -X GET -v -o /tmp/${filename}_2
+  ${url}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${filename}
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
+  Should Contain  ${output}  409
+  Should Contain  ${output}  SRM_FILE_BUSY
+  ${output}  Perform pd using clientSRM  ${surl}  ${token}
+  Should Contain  ${output}  SRM_SUCCESS
+  Remove file using clientSRM  ${vomsproxyRWStorageArea}  ${filename}
+  Remove local file  ${filename}
+  Remove local file  ${filename}_2
+  [Teardown]  Clear all credentials

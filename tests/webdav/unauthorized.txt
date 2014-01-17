@@ -1,0 +1,323 @@
+*** Settings ***
+Resource   lib/stormlib.txt
+Resource   lib/clientSRM.txt
+Resource   lib/lcg_util.txt
+Resource   lib/credentials.txt
+
+*** Variables ***
+
+${TESTDIR}  webdav-unauthorized
+# temp directory
+
+*** Keywords ***
+
+Init local working directory
+  Remove local directory  ${TESTDIR}
+  Create local directory  ${TESTDIR}
+
+Init remote working directory  [Arguments]  ${vo}
+  Init certificate and voms proxy  test0  ${vo}
+  ${surl}  Build surl  ${vo}  ${TESTDIR}
+  ${output}  Perform mkdir using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
+  Clear all credentials
+
+Create local test file  [Arguments]  ${name}
+  Execute and Check Success  dd if=/dev/urandom of=/tmp/${TESTDIR}/${name} bs=1M count=1
+
+Clear local working directory
+  Remove local directory  ${TESTDIR}
+
+Clear remote working directory  [Arguments]  ${vo}
+  Init certificate and voms proxy  test0  ${vo}
+  ${surl}  Build surl  ${vo}  ${TESTDIR}
+  ${output}  Perform rmdir using clientSRM  ${surl}  -r
+  Should Contain  ${output}  SRM_SUCCESS
+  Clear all credentials
+
+Setup test  [Arguments]  ${targetVO}
+  Init local working directory
+  Create local test file  source.txt
+  Init remote working directory  ${targetVO}
+
+Teardown test  [Arguments]  ${targetVO}
+  Clear local working directory
+  Clear remote working directory  ${targetVO}
+
+Upload file  [Arguments]  ${vo}
+  ${filename}  Create local file into local directory  ${TESTDIR}
+  Init certificate and voms proxy  test0  ${vo}
+  ${surl}  Build surl  ${vo}  ${TESTDIR}/${filename}
+  ${output}  Copy-out file using lcg-utils  ${TESTDIR}/${filename}  ${surl}
+  Log  ${output}
+  [Return]  ${filename}
+
+WebDAV proxy request  [Arguments]  ${method}  ${vo}  ${filepath}
+  ${options}  Set variable  -X ${method} -iv
+  ${url}  Build webdav secure URL  ${vo}  ${filepath}
+  ${output}  Execute Curl with proxy and options  ${url}  ${options}
+  [Return]  ${output}
+
+WebDAV certificate request  [Arguments]  ${method}  ${vo}  ${filepath}
+  ${options}  Set variable  -X ${method} -iv
+  ${url}  Build webdav secure URL  ${vo}  ${filepath}
+  ${output}  Execute Curl with certificate and options  ${url}  ${options}
+  [Return]  ${output}
+
+WebDAV anonymous request  [Arguments]  ${method}  ${vo}  ${filepath}
+  ${options}  Set variable  -X ${method} -iv
+  ${url}  Build webdav unsecure URL  ${vo}  ${filepath}
+  ${output}  Execute Curl with options  ${url}  ${options}
+  [Return]  ${output}
+
+*** Test Cases ***
+
+WebDAV unauthorized GET requests
+  [Tags]  webdav  get
+  [Setup]  Setup test  ${vomsproxyRWStorageArea}
+  ${filename}  Upload file  ${vomsproxyRWStorageArea}
+  ${output}  WebDAV proxy request  GET  ${vomsproxyRWStorageArea}  ${TESTDIR}/${filename}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+  Clear all credentials
+  ${output}  WebDAV anonymous request  GET  ${vomsproxyRWStorageArea}  ${TESTDIR}/${filename}
+  Log  ${output}
+  Should Not Contain  ${output}  200 OK
+  Should Contain  ${output}  403
+  Init certificate and plain proxy  test0
+  ${output}  WebDAV proxy request  GET  ${vomsproxyRWStorageArea}  ${TESTDIR}/${filename}
+  Log  ${output}
+  Should Not Contain  ${output}  200 OK
+  Should Contain  ${output}  403
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
+  Clear all credentials
+  Init certificate with unencrypted key  test0
+  ${output}  WebDAV certificate request  GET  ${vomsproxyRWStorageArea}  ${TESTDIR}/${filename}
+  Log  ${output}
+  Should Not Contain  ${output}  200 OK
+  Should Contain  ${output}  403
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
+  Clear all credentials
+  [Teardown]  Teardown test  ${vomsproxyRWStorageArea}
+
+WebDAV unauthorized HEAD requests
+  [Tags]  webdav  head  to-be-fixed
+  [Setup]  Setup test  ${vomsproxyRWStorageArea}
+  ${filename}  Upload file  ${vomsproxyRWStorageArea}
+  ${output}  WebDAV proxy request  HEAD --head  ${vomsproxyRWStorageArea}  ${TESTDIR}/${filename}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+  Clear all credentials
+  ${output}  WebDAV anonymous request  HEAD --head  ${vomsproxyRWStorageArea}  ${TESTDIR}/${filename}
+  Log  ${output}
+  Should Not Contain  ${output}  200 OK
+  Should Contain  ${output}  403
+  Init certificate and plain proxy  test0
+  ${output}  WebDAV proxy request  HEAD --head  ${vomsproxyRWStorageArea}  ${TESTDIR}/${filename}
+  Log  ${output}
+  Should Not Contain  ${output}  200 OK
+  Should Contain  ${output}  403
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
+  Clear all credentials
+  Init certificate with unencrypted key  test0
+  ${output}  WebDAV certificate request  HEAD --head  ${vomsproxyRWStorageArea}  ${TESTDIR}/${filename}
+  Log  ${output}
+  Should Not Contain  ${output}  200 OK
+  Should Contain  ${output}  403
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
+  Clear all credentials
+  [Teardown]  Teardown test  ${vomsproxyRWStorageArea}
+
+WebDAV unauthorized MKCOL requests
+  [Tags]  webdav  mkcol
+  [Setup]  Setup test  ${vomsproxyRWStorageArea}
+  Clear all credentials
+  ${dirname}  Get a unique name
+  ${output}  WebDAV anonymous request  MKCOL  ${vomsproxyRWStorageArea}  ${TESTDIR}/${dirname}
+  Log  ${output}
+  Should Not Contain  ${output}  201 Created
+  Should Contain  ${output}  403
+  Init certificate and plain proxy  test0
+  ${output}  WebDAV proxy request  MKCOL  ${vomsproxyRWStorageArea}  ${TESTDIR}/${dirname}
+  Log  ${output}
+  Should Not Contain  ${output}  201 Created
+  Should Contain  ${output}  403
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
+  Clear all credentials
+  Init certificate with unencrypted key  test0
+  ${output}  WebDAV certificate request  MKCOL  ${vomsproxyRWStorageArea}  ${TESTDIR}/${dirname}
+  Log  ${output}
+  Should Not Contain  ${output}  201 Created
+  Should Contain  ${output}  403
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
+  Clear all credentials
+  [Teardown]  Teardown test  ${vomsproxyRWStorageArea}
+
+WebDAV unauthorized DELETE requests
+  [Tags]  webdav  delete
+  [Setup]  Setup test  ${vomsproxyRWStorageArea}
+  ${filename}  Upload file  ${vomsproxyRWStorageArea}
+  ${output}  WebDAV proxy request  GET  ${vomsproxyRWStorageArea}  ${TESTDIR}/${filename}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+  Clear all credentials
+  ${output}  WebDAV anonymous request  DELETE  ${vomsproxyRWStorageArea}  ${TESTDIR}/${filename}
+  Log  ${output}
+  Should Not Contain  ${output}  204 No Content
+  Should Contain  ${output}  403
+  Init certificate and plain proxy  test0
+  ${output}  WebDAV proxy request  DELETE  ${vomsproxyRWStorageArea}  ${TESTDIR}/${filename}
+  Log  ${output}
+  Should Not Contain  ${output}  204 No Content
+  Should Contain  ${output}  403
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
+  Clear all credentials
+  Init certificate with unencrypted key  test0
+  ${output}  WebDAV certificate request  DELETE  ${vomsproxyRWStorageArea}  ${TESTDIR}/${filename}
+  Log  ${output}
+  Should Not Contain  ${output}  204 No Content
+  Should Contain  ${output}  403
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
+  Clear all credentials
+  [Teardown]  Teardown test  ${vomsproxyRWStorageArea}
+
+WebDAV unauthorized OPTIONS requests
+  [Tags]  webdav  options
+  [Setup]  Setup test  ${vomsproxyRWStorageArea}
+  Clear all credentials
+  ${output}  WebDAV anonymous request  OPTIONS  ${vomsproxyRWStorageArea}  ${TESTDIR}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+  Init certificate and plain proxy  test0
+  ${output}  WebDAV proxy request  OPTIONS  ${vomsproxyRWStorageArea}  ${TESTDIR}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+  Clear all credentials
+  Init certificate with unencrypted key  test0
+  ${output}  WebDAV certificate request  OPTIONS  ${vomsproxyRWStorageArea}  ${TESTDIR}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+  Clear all credentials
+  [Teardown]  Teardown test  ${vomsproxyRWStorageArea}
+
+WebDAV unauthorized PROPFIND requests
+  [Tags]  webdav  propfind
+  [Setup]  Setup test  ${vomsproxyRWStorageArea}
+  ${filename}  Upload file  ${vomsproxyRWStorageArea}
+  ${output}  WebDAV proxy request  GET  ${vomsproxyRWStorageArea}  ${TESTDIR}/${filename}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+  Clear all credentials
+  ${output}  WebDAV anonymous request  PROPFIND  ${vomsproxyRWStorageArea}  ${TESTDIR}/${filename}
+  Log  ${output}
+  Should Not Contain  ${output}  207 Multi-Status
+  Should Contain  ${output}  403
+  Init certificate and plain proxy  test0
+  ${output}  WebDAV proxy request  PROPFIND  ${vomsproxyRWStorageArea}  ${TESTDIR}/${filename}
+  Log  ${output}
+  Should Not Contain  ${output}  207 Multi-Status
+  Should Contain  ${output}  403
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
+  Clear all credentials
+  Init certificate with unencrypted key  test0
+  ${output}  WebDAV certificate request  PROPFIND  ${vomsproxyRWStorageArea}  ${TESTDIR}/${filename}
+  Log  ${output}
+  Should Not Contain  ${output}  207 Multi-Status
+  Should Contain  ${output}  403
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
+  Clear all credentials
+  [Teardown]  Teardown test  ${vomsproxyRWStorageArea}
+
+WebDAV unauthorized PUT requests
+  [Tags]  webdav  put
+  [Setup]  Setup test  ${vomsproxyRWStorageArea}
+  Clear all credentials
+  ${localfilepath}  Set variable  /tmp/${TESTDIR}/source.txt
+  ${remotefilepath}  Set variable  ${TESTDIR}/dest.txt
+  ${output}  WebDAV anonymous request  PUT -T ${localfilepath}  ${vomsproxyRWStorageArea}  ${remotefilepath}
+  Log  ${output}
+  Should Not Contain  ${output}  201 Created
+  Should Contain  ${output}  403
+  Init certificate and plain proxy  test0
+  ${output}  WebDAV proxy request  PUT -T ${localfilepath}  ${vomsproxyRWStorageArea}  ${remotefilepath}
+  Log  ${output}
+  Should Not Contain  ${output}  201 Created
+  Should Contain  ${output}  403
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
+  Clear all credentials
+  Init certificate with unencrypted key  test0
+  ${output}  WebDAV certificate request  PUT -T ${localfilepath}  ${vomsproxyRWStorageArea}  ${remotefilepath}
+  Log  ${output}
+  Should Not Contain  ${output}  201 Created
+  Should Contain  ${output}  403
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
+  Clear all credentials
+  [Teardown]  Teardown test  ${vomsproxyRWStorageArea}
+
+WebDAV unauthorized MOVE requests
+  [Tags]  webdav  move
+  [Setup]  Setup test  ${vomsproxyRWStorageArea}
+  ${srcfilename}  Upload file  ${vomsproxyRWStorageArea}
+  ${output}  WebDAV proxy request  GET  ${vomsproxyRWStorageArea}  ${TESTDIR}/${srcfilename}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+  ${destfilename}  Get a unique name
+  ${output}  WebDAV proxy request  GET  ${vomsproxyRWStorageArea}  ${TESTDIR}/${destfilename}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found
+  Clear all credentials
+  ${destSecureUrl}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${TESTDIR}/${destfilename}
+  ${destUnsecureUrl}  Build webdav unsecure URL  ${vomsproxyRWStorageArea}  ${TESTDIR}/${destfilename}
+  ${output}  WebDAV anonymous request  MOVE --header 'Destination: ${destUnsecureUrl}'  ${vomsproxyRWStorageArea}  ${TESTDIR}/${srcfilename}
+  Log  ${output}
+  Should Not Contain  ${output}  204 No Content
+  Should Contain  ${output}  403
+  Init certificate and plain proxy  test0
+  ${output}  WebDAV proxy request  MOVE --header 'Destination: ${destSecureUrl}'  ${vomsproxyRWStorageArea}  ${TESTDIR}/${srcfilename}
+  Log  ${output}
+  Should Not Contain  ${output}  204 No Content
+  Should Contain  ${output}  403
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
+  Clear all credentials
+  Init certificate with unencrypted key  test0
+  ${output}  WebDAV certificate request  MOVE --header 'Destination: ${destSecureUrl}'  ${vomsproxyRWStorageArea}  ${TESTDIR}/${srcfilename}
+  Log  ${output}
+  Should Not Contain  ${output}  204 No Content
+  Should Contain  ${output}  403
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
+  Clear all credentials
+  [Teardown]  Teardown test  ${vomsproxyRWStorageArea}
+
+WebDAV unauthorized COPY requests
+  [Tags]  webdav  copy
+  [Setup]  Setup test  ${vomsproxyRWStorageArea}
+  ${srcfilename}  Upload file  ${vomsproxyRWStorageArea}
+  ${output}  WebDAV proxy request  GET  ${vomsproxyRWStorageArea}  ${TESTDIR}/${srcfilename}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+  ${destfilename}  Get a unique name
+  ${output}  WebDAV proxy request  GET  ${vomsproxyRWStorageArea}  ${TESTDIR}/${destfilename}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found
+  Clear all credentials
+  ${destSecureUrl}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${TESTDIR}/${destfilename}
+  ${destUnsecureUrl}  Build webdav unsecure URL  ${vomsproxyRWStorageArea}  ${TESTDIR}/${destfilename}
+  ${output}  WebDAV anonymous request  COPY --header 'Destination: ${destUnsecureUrl}'  ${vomsproxyRWStorageArea}  ${TESTDIR}/${srcfilename}
+  Log  ${output}
+  Should Not Contain  ${output}  201 Created
+  Should Contain  ${output}  403
+  Init certificate and plain proxy  test0
+  ${output}  WebDAV proxy request  COPY --header 'Destination: ${destSecureUrl}'  ${vomsproxyRWStorageArea}  ${TESTDIR}/${srcfilename}
+  Log  ${output}
+  Should Not Contain  ${output}  201 Created
+  Should Contain  ${output}  403
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
+  Clear all credentials
+  Init certificate with unencrypted key  test0
+  ${output}  WebDAV certificate request  COPY --header 'Destination: ${destSecureUrl}'  ${vomsproxyRWStorageArea}  ${TESTDIR}/${srcfilename}
+  Log  ${output}
+  Should Not Contain  ${output}  201 Created
+  Should Contain  ${output}  403
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
+  Clear all credentials
+  [Teardown]  Teardown test  ${vomsproxyRWStorageArea}
