@@ -72,7 +72,7 @@ Remove invalid path
   [Teardown]  Clear all credentials
 
 Removing unauthorized directory
-  [Tags]  storm-client  rmdir  to-be-fixed
+  [Tags]  storm-client  rmdir
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${dirname}  Get a unique name
   ${surl}  Build surl  ${vo}  ${dirname}
