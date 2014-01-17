@@ -25,6 +25,7 @@ ${filetransferSecureEndpoint}  ${gridHTTPsHost}:${gridHTTPsSecurePort}
 ${storageAreaRoot}  /storage
 
 ${vo}   testers.eu-emi.eu
+${vo2}   dteam
 
 ${storageAreaToken}  TESTERSEUEMIEU_TOKEN
 
