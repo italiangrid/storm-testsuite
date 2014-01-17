@@ -57,7 +57,7 @@ Check directory creation on a different VO
   ${qsurl}  Build surl  ${vo2}  ../${vo}/${dirname}
   ${output}  Perform mkdir using clientSRM  ${qsurl}
   Should Contain  ${output}  SRM_SUCCESS
-  ${output}  Perdorm rmdir using clientSRM  ${qsurl}
+  ${output}  Perform rmdir using clientSRM  ${qsurl}
   Should Contain  ${output}  SRM_SUCCESS
   ${qsurl}  Build surl  ${vo}  ../${vo2}/${dirname}
   ${output}  Perform mkdir using clientSRM  ${qsurl}

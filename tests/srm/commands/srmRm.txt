@@ -78,15 +78,10 @@ Remove a pinned file must set aborted the ptg request
 Unauthorized remove on another VO's file
   [Tags]  storm-client  ls
   [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Create local file
-  ${surl}  Build surl  ${vo}  ${filename}
-  Copy-out file using lcg-utils  ${filename}  ${surl}
-  Init certificate and plain proxy  test0
-  ${surl}  Build surl  ${gridproxyRWStorageArea}  ../${vo}/${filename}
+  ${filename}  Get a unique name
+  ${surl}  Build surl  ${vo}  ../${vo2}/${filename}
   ${output}  Perform rm using clientSRM  ${surl}
-  Should Contain  ${output}  SRM_INVALID_PATH
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
   Log  ${output}
-  Init certificate and voms proxy  test0  ${vo}
-  Remove file using clientSRM  ${vo}  ${filename}
   Remove local file  ${filename}
   [Teardown]  Clear all credentials
