@@ -34,6 +34,15 @@ Create local empty file
   Execute and Check Success  touch /tmp/${name}
   [Return]  ${name}
 
+Create local file into local directory  [Arguments]  ${dirname}
+  ${name}  Get a unique name
+  Execute and Check Success  dd if=/dev/urandom of=/tmp/${dirname}/${name} bs=1M count=1
+  Remove local file  ${name}
+  [Return]  ${name}
+
+Create local directory  [Arguments]  ${dirname}
+  Execute and Check Success  mkdir /tmp/${dirname}
+
 Remove local file  [Arguments]  ${filename}
   Execute and Check Success  rm -f /tmp/${filename}
 

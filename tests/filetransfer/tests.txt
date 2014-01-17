@@ -171,11 +171,18 @@ File-Transfer get file as anonymous without ptg
   ${filename}  Create local file
   ${surl}  Build surl  ${anonymousRWStorageArea}  ${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
+  ${surl2}  Build surl  ${vo}  ${filename}
+  Copy-out file using lcg-utils  ${filename}  ${surl2}
   ${options}  Set variable  --verbose -X GET
   ${turl}  Build file transfer TURL  ${anonymousRWStorageArea}  ${filename}
   ${output}  Execute Curl with options  ${turl}  ${options}
   Should Contain  ${output}  200 OK
+  ${turl2}  Build file transfer TURL  ${anonymousRWStorageArea}  ../${vo}/${filename}
+  ${output}  Execute Curl with options  ${turl2}  ${options}
+  Should Not Contain  ${output}  200 OK
   ${output}  Perform rm using clientSRM  ${surl}
+  Should contain  ${output}  SRM_SUCCESS
+  ${output}  Perform rm using clientSRM  ${surl2}
   Should contain  ${output}  SRM_SUCCESS
   Remove local file  ${filename}
   [Teardown]  Clear all credentials
