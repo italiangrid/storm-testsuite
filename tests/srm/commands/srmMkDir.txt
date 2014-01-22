@@ -22,7 +22,7 @@ Create directory with invalid path
   ${dirname}  Get a unique name
   ${surl}  Build surl  fakeVO  ${dirname}
   ${output}  Perform mkdir using clientSRM  ${surl}
-  Should Contain  ${output}  SRM_INVALID_PATH
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
   Remove local directory  ${dirname}
   [Teardown]  Clear all credentials
 
@@ -56,12 +56,6 @@ Check directory creation on a different VO
   ${dirname}  Get a unique name
   ${qsurl}  Build surl  ${vo2}  ../${vo}/${dirname}
   ${output}  Perform mkdir using clientSRM  ${qsurl}
-  Should Contain  ${output}  SRM_SUCCESS
-  ${output}  Perform rmdir using clientSRM  ${qsurl}
-  Should Contain  ${output}  SRM_SUCCESS
-  ${qsurl}  Build surl  ${vo}  ../${vo2}/${dirname}
-  ${output}  Perform mkdir using clientSRM  ${qsurl}
-  Should Not Contain  ${output}  SRM_SUCCESS
   Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
   Remove local directory  ${dirname}
   [Teardown]  Clear all credentials

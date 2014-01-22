@@ -212,7 +212,7 @@ Check unauthorized file move on a different VO
   Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
   ${destsurl}  Build surl  ${vo2}  ../${vo}/${filename}_2
   ${output}  Perform mv using clientSRM  ${srcsurl}  ${destsurl}
-  Should Contain  ${output}  SRM_SUCCESS
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
   Remove file using clientSRM  ${vo}  ${filename}_2
   Remove local file  ${filename}
   [Teardown]  Clear all credentials
