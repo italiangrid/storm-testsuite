@@ -22,7 +22,7 @@ Create directory with invalid path
   ${dirname}  Get a unique name
   ${surl}  Build surl  fakeVO  ${dirname}
   ${output}  Perform mkdir using clientSRM  ${surl}
-  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
+  Should Contain  ${output}  SRM_INVALID_PATH
   Remove local directory  ${dirname}
   [Teardown]  Clear all credentials
 

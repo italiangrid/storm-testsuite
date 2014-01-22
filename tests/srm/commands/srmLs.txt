@@ -144,9 +144,8 @@ Ls on a surl that points to another storage area
   ${qsurl}  Build surl  ${vo2}  ../${vo}
   ${ssurl}  Build simple surl  ${vo2}  ../${vo}
   ${output}  Perform ls using clientSRM  ${qsurl}
-  Should Contain  ${output}  SRM_SUCCESS
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
   ${output}  Perform ls using clientSRM  ${ssurl}
-  Should Contain  ${output}  SRM_FAILURE
   Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
   [Teardown]  Clear all credentials
 
