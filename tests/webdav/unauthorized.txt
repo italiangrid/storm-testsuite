@@ -182,7 +182,7 @@ WebDAV unauthorized DELETE requests
   [Teardown]  Teardown test  ${vomsproxyRWStorageArea}
 
 WebDAV unauthorized OPTIONS requests
-  [Tags]  webdav  options
+  [Tags]  webdav  options  to-be-fixed
   [Setup]  Setup test  ${vomsproxyRWStorageArea}
   Clear all credentials
   ${output}  WebDAV anonymous request  OPTIONS  ${vomsproxyRWStorageArea}  ${TESTDIR}
@@ -201,7 +201,7 @@ WebDAV unauthorized OPTIONS requests
   [Teardown]  Teardown test  ${vomsproxyRWStorageArea}
 
 WebDAV unauthorized PROPFIND requests
-  [Tags]  webdav  propfind
+  [Tags]  webdav  propfind  to-be-fixed
   [Setup]  Setup test  ${vomsproxyRWStorageArea}
   ${filename}  Upload file  ${vomsproxyRWStorageArea}
   ${output}  WebDAV proxy request  GET  ${vomsproxyRWStorageArea}  ${TESTDIR}/${filename}
