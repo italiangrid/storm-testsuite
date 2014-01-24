@@ -210,19 +210,19 @@ WebDAV unauthorized PROPFIND requests
   Clear all credentials
   ${output}  WebDAV anonymous request  PROPFIND  ${vomsproxyRWStorageArea}  ${TESTDIR}/${filename}
   Log  ${output}
-  Should Not Contain  ${output}  207 Multi-Status
+  Should Not Contain  ${output}  207 Multi-status
   Should Contain  ${output}  403
   Init certificate and plain proxy  test0
   ${output}  WebDAV proxy request  PROPFIND  ${vomsproxyRWStorageArea}  ${TESTDIR}/${filename}
   Log  ${output}
-  Should Not Contain  ${output}  207 Multi-Status
+  Should Not Contain  ${output}  207 Multi-status
   Should Contain  ${output}  403
   Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
   Clear all credentials
   Init certificate with unencrypted key  test0
   ${output}  WebDAV certificate request  PROPFIND  ${vomsproxyRWStorageArea}  ${TESTDIR}/${filename}
   Log  ${output}
-  Should Not Contain  ${output}  207 Multi-Status
+  Should Not Contain  ${output}  207 Multi-status
   Should Contain  ${output}  403
   Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
   Clear all credentials
