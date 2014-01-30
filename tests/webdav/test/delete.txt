@@ -1,0 +1,118 @@
+*** Settings ***
+
+Resource   lib/webdav.txt
+Resource   lib/clientSRM.txt
+Resource   lib/credentials.txt
+
+*** Test Cases ***
+
+######### ANONYMOUS ##########
+
+WebDAV DELETE file as anonymous
+  [Tags]  webdav  delete  anonymous
+  ${filename}  Upload file as anonymous
+  ${url}  Build webdav unsecure URL  ${ANONYMOUS_SA}  ${TESTDIR}/${filename}
+  ${output}  WebDAV anonymous DELETE  ${url}
+  Log  ${output}
+  Should Contain  ${output}  204 No Content
+  ${output}  WebDAV anonymous GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found
+
+WebDAV DELETE unexistent resource as anonymous
+  [Tags]  webdav  delete  anonymous  to-be-fixed
+  ${filename}  Get a unique name
+  ${url}  Build webdav unsecure URL  ${ANONYMOUS_SA}  ${TESTDIR}/${filename}
+  ${output}  WebDAV anonymous DELETE  ${url}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found
+
+WebDAV DELETE directory as anonymous
+  [Tags]  webdav  delete  anonymous
+  ${dirname}  Get a unique name
+  ${urldir}  Build webdav unsecure URL  ${ANONYMOUS_SA}  ${TESTDIR}/${dirname}
+  ${output}  WebDAV anonymous MKCOL  ${urldir}
+  Log  ${output}
+  Should Contain  ${output}  201 Created
+  ${filename}  Upload file as anonymous  prova  ${TESTDIR}/${dirname}
+  ${urlfile}  Build webdav unsecure URL  ${ANONYMOUS_SA}  ${TESTDIR}/${dirname}/${filename}
+  ${output}  WebDAV anonymous DELETE  ${urldir}
+  Log  ${output}
+  Should Contain  ${output}  204 No Content
+  ${output}  WebDAV anonymous GET  ${urldir}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found
+
+####### VOMS PROXY #########
+
+WebDAV DELETE file with VOMS proxy
+  [Tags]  webdav  delete  vomsproxy
+  ${filename}  Upload file with voms proxy
+  ${url}  Build webdav secure URL  ${VOMSPROXY_SA}  ${TESTDIR}/${filename}
+  ${output}  WebDAV voms proxy DELETE  ${url}
+  Log  ${output}
+  Should Contain  ${output}  204 No Content
+  ${output}  WebDAV voms proxy GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found
+
+WebDAV DELETE unexistent resource with VOMS proxy
+  [Tags]  webdav  delete  vomsproxy  to-be-fixed
+  ${filename}  Get a unique name
+  ${url}  Build webdav secure URL  ${VOMSPROXY_SA}  ${TESTDIR}/${filename}
+  ${output}  WebDAV voms proxy DELETE  ${url}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found
+
+WebDAV DELETE directory with VOMS proxy
+  [Tags]  webdav  delete  vomsproxy
+  ${dirname}  Get a unique name
+  ${urldir}  Build webdav secure URL  ${VOMSPROXY_SA}  ${TESTDIR}/${dirname}
+  ${output}  WebDAV voms proxy MKCOL  ${urldir}
+  Log  ${output}
+  Should Contain  ${output}  201 Created
+  ${filename}  Upload file with voms proxy  prova  ${TESTDIR}/${dirname}
+  ${urlfile}  Build webdav secure URL  ${VOMSPROXY_SA}  ${TESTDIR}/${dirname}/${filename}
+  ${output}  WebDAV voms proxy DELETE  ${urldir}
+  Log  ${output}
+  Should Contain  ${output}  204 No Content
+  ${output}  WebDAV voms proxy GET  ${urldir}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found
+
+######### PLAIN PROXY ##########
+
+WebDAV DELETE file with plain proxy
+  [Tags]  webdav  delete  plainproxy
+  ${filename}  Upload file with plain proxy
+  ${url}  Build webdav secure URL  ${PLAINPROXY_SA}  ${TESTDIR}/${filename}
+  ${output}  WebDAV plain proxy DELETE  ${url}
+  Log  ${output}
+  Should Contain  ${output}  204 No Content
+  ${output}  WebDAV plain proxy GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found
+
+WebDAV DELETE unexistent resource with plain proxy
+  [Tags]  webdav  delete  plainproxy  to-be-fixed
+  ${filename}  Get a unique name
+  ${url}  Build webdav secure URL  ${PLAINPROXY_SA}  ${TESTDIR}/${filename}
+  ${output}  WebDAV plain proxy DELETE  ${url}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found
+
+WebDAV DELETE directory with plain proxy
+  [Tags]  webdav  delete  plainproxy
+  ${dirname}  Get a unique name
+  ${urldir}  Build webdav secure URL  ${PLAINPROXY_SA}  ${TESTDIR}/${dirname}
+  ${output}  WebDAV plain proxy MKCOL  ${urldir}
+  Log  ${output}
+  Should Contain  ${output}  201 Created
+  ${filename}  Upload file with plain proxy  prova  ${TESTDIR}/${dirname}
+  ${urlfile}  Build webdav secure URL  ${PLAINPROXY_SA}  ${TESTDIR}/${dirname}/${filename}
+  ${output}  WebDAV plain proxy DELETE  ${urldir}
+  Log  ${output}
+  Should Contain  ${output}  204 No Content
+  ${output}  WebDAV plain proxy GET  ${urldir}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found

@@ -1,0 +1,240 @@
+** Settings ***
+
+Library   OperatingSystem
+Resource   curl.txt
+Resource   variables.txt
+
+*** Variables ***
+
+${TESTDIR}  webdav-tests
+${GRID_PROXY}  /tmp/${TESTDIR}/gridproxy
+${VOMS_PROXY}  /tmp/${TESTDIR}/vomsproxy
+${TESTERS_CERT}  /tmp/${TESTDIR}/test0.cert.pem
+
+${TESTERS_CERT_SRC}  /usr/share/igi-test-ca/test0.cert.pem
+
+${ANONYMOUS_SA}  noauth
+${PLAINPROXY_SA}  igi
+${VOMSPROXY_SA}  testers.eu-emi.eu
+${NESTED_SA}  testers.eu-emi.eu/nested
+${ALIASED_SA}  testers.eu-emi.eu/test
+
+*** Keywords ***
+
+WebDAV anonymous GET  [Arguments]  ${url}
+  ${output}  Curl  GET  ${url}  -iv
+  [Return]  ${output}
+
+WebDAV plain proxy GET  [Arguments]  ${url}
+  ${options}  Get proxy curl options  ${GRID_PROXY}  ${TESTERS_CERT}
+  ${output}  Curl  GET  ${url}  ${options} -iv
+  [Return]  ${output}
+
+WebDAV voms proxy GET  [Arguments]  ${url}
+  ${options}  Get proxy curl options  ${VOMS_PROXY}  ${TESTERS_CERT}
+  ${output}  Curl  GET  ${url}  ${options} -iv
+  [Return]  ${output}
+
+WebDAV anonymous PUT file  [Arguments]  ${url}  ${localfile}
+  ${output}  Curl  PUT  ${url}  -T ${localfile} -iv
+  [Return]  ${output}
+
+WebDAV plain proxy PUT file  [Arguments]  ${url}  ${localfile}
+  ${options}  Get proxy curl options  ${GRID_PROXY}  ${TESTERS_CERT}
+  ${output}  Curl  PUT  ${url}  -T ${localfile} ${options} -iv
+  [Return]  ${output}
+
+WebDAV voms proxy PUT file  [Arguments]  ${url}  ${localfile}
+  ${options}  Get proxy curl options  ${VOMS_PROXY}  ${TESTERS_CERT}
+  ${output}  Curl  PUT  ${url}  -T ${localfile} ${options} -iv
+  [Return]  ${output}
+
+WebDAV anonymous PUT data  [Arguments]  ${url}  ${data}
+  ${body}  Set body  ${data}
+  ${output}  Curl  PUT  ${url}  ${body} -iv
+  [Return]  ${output}
+
+WebDAV plain proxy PUT data  [Arguments]  ${url}  ${data}
+  ${body}  Set body  ${data}
+  ${options}  Get proxy curl options  ${GRID_PROXY}  ${TESTERS_CERT}
+  ${output}  Curl  PUT  ${url}  ${body} ${options} -iv
+  [Return]  ${output}
+
+WebDAV voms proxy PUT data  [Arguments]  ${url}  ${data}
+  ${body}  Set body  ${data}
+  ${options}  Get proxy curl options  ${VOMS_PROXY}  ${TESTERS_CERT}
+  ${output}  Curl  PUT  ${url}  ${body} ${options} -iv
+  [Return]  ${output}
+
+WebDAV anonymous MKCOL  [Arguments]  ${url}
+  ${output}  Curl  MKCOL  ${url}  -iv
+  [Return]  ${output}
+
+WebDAV plain proxy MKCOL  [Arguments]  ${url}
+  ${options}  Get proxy curl options  ${GRID_PROXY}  ${TESTERS_CERT}
+  ${output}  Curl  MKCOL  ${url}  ${options} -iv
+  [Return]  ${output}
+
+WebDAV voms proxy MKCOL  [Arguments]  ${url}
+  ${options}  Get proxy curl options  ${VOMS_PROXY}  ${TESTERS_CERT}
+  ${output}  Curl  MKCOL  ${url}  ${options} -iv
+  [Return]  ${output}
+
+WebDAV anonymous HEAD  [Arguments]  ${url}
+  ${output}  Curl  HEAD  ${url}  --head -iv
+  [Return]  ${output}
+
+WebDAV plain proxy HEAD  [Arguments]  ${url}
+  ${options}  Get proxy curl options  ${GRID_PROXY}  ${TESTERS_CERT}
+  ${output}  Curl  HEAD  ${url}  ${options} --head -iv
+  [Return]  ${output}
+
+WebDAV voms proxy HEAD  [Arguments]  ${url}
+  ${options}  Get proxy curl options  ${VOMS_PROXY}  ${TESTERS_CERT}
+  ${output}  Curl  HEAD  ${url}  ${options} --head -iv
+  [Return]  ${output}
+
+WebDAV anonymous DELETE  [Arguments]  ${url}
+  ${output}  Curl  DELETE  ${url}  -iv
+  [Return]  ${output}
+
+WebDAV plain proxy DELETE  [Arguments]  ${url}
+  ${options}  Get proxy curl options  ${GRID_PROXY}  ${TESTERS_CERT}
+  ${output}  Curl  DELETE  ${url}  ${options} -iv
+  [Return]  ${output}
+
+WebDAV voms proxy DELETE  [Arguments]  ${url}
+  ${options}  Get proxy curl options  ${VOMS_PROXY}  ${TESTERS_CERT}
+  ${output}  Curl  DELETE  ${url}  ${options} -iv
+  [Return]  ${output}
+
+WebDAV anonymous OPTIONS  [Arguments]  ${url}
+  ${output}  Curl  OPTIONS  ${url}  -iv
+  [Return]  ${output}
+
+WebDAV plain proxy OPTIONS  [Arguments]  ${url}
+  ${options}  Get proxy curl options  ${GRID_PROXY}  ${TESTERS_CERT}
+  ${output}  Curl  OPTIONS  ${url}  ${options} -iv
+  [Return]  ${output}
+
+WebDAV voms proxy OPTIONS  [Arguments]  ${url}
+  ${options}  Get proxy curl options  ${VOMS_PROXY}  ${TESTERS_CERT}
+  ${output}  Curl  OPTIONS  ${url}  ${options} -iv
+  [Return]  ${output}
+
+WebDAV anonymous COPY  [Arguments]  ${url}  ${desturl}  ${overwrite}=T
+  ${overwriteheader}  Get header  Overwrite  ${overwrite}
+  ${destinationheader}  Get header  Destination  ${desturl}
+  ${output}  Curl  COPY  ${url}  ${destinationheader} ${overwriteheader} -iv
+  [Return]  ${output}
+
+WebDAV plain proxy COPY  [Arguments]  ${url}  ${desturl}  ${overwrite}=T
+  ${overwriteheader}  Get header  Overwrite  ${overwrite}
+  ${destinationheader}  Get header  Destination  ${desturl}
+  ${options}  Get proxy curl options  ${GRID_PROXY}  ${TESTERS_CERT}
+  ${output}  Curl  COPY  ${url}  ${destinationheader} ${overwriteheader} ${options} -iv
+  [Return]  ${output}
+
+WebDAV voms proxy COPY  [Arguments]  ${url}  ${desturl}  ${overwrite}=T
+  ${overwriteheader}  Get header  Overwrite  ${overwrite}
+  ${destinationheader}  Get header  Destination  ${desturl}
+  ${options}  Get proxy curl options  ${VOMS_PROXY}  ${TESTERS_CERT}
+  ${output}  Curl  COPY  ${url}  ${destinationheader} ${overwriteheader} ${options} -iv
+  [Return]  ${output}
+
+WebDAV anonymous MOVE  [Arguments]  ${url}  ${desturl}  ${overwrite}=T
+  ${overwriteheader}  Get header  Overwrite  ${overwrite}
+  ${destinationheader}  Get header  Destination  ${desturl}
+  ${output}  Curl  COPY  ${url}  ${destinationheader} ${overwriteheader} -iv
+  [Return]  ${output}
+
+WebDAV plain proxy MOVE  [Arguments]  ${url}  ${desturl}  ${overwrite}=T
+  ${overwriteheader}  Get header  Overwrite  ${overwrite}
+  ${destinationheader}  Get header  Destination  ${desturl}
+  ${options}  Get proxy curl options  ${GRID_PROXY}  ${TESTERS_CERT}
+  ${output}  Curl  COPY  ${url}  ${destinationheader} ${overwriteheader} ${options} -iv
+  [Return]  ${output}
+
+WebDAV voms proxy MOVE  [Arguments]  ${url}  ${desturl}  ${overwrite}=T
+  ${overwriteheader}  Get header  Overwrite  ${overwrite}
+  ${destinationheader}  Get header  Destination  ${desturl}
+  ${options}  Get proxy curl options  ${VOMS_PROXY}  ${TESTERS_CERT}
+  ${output}  Curl  COPY  ${url}  ${destinationheader} ${overwriteheader} ${options} -iv
+  [Return]  ${output}
+
+Get PROPFIND ALLPROP body
+  ${output}  Set variable  <?xml version='1.0' encoding='utf-8'?><propfind xmlns='DAV:'><allprop/></propfind>
+  [Return]  ${output}
+
+WebDAV anonymous PROPFIND  [Arguments]  ${url}  ${bodyvalue}
+  ${body}  Set body  ${bodyvalue}
+  ${output}  Curl  PROPFIND  ${url}  ${body} -iv
+  [Return]  ${output}
+
+WebDAV plain proxy PROPFIND  [Arguments]  ${url}  ${bodyvalue}
+  ${body}  Set body  ${bodyvalue}
+  ${options}  Get proxy curl options  ${GRID_PROXY}  ${TESTERS_CERT}
+  ${output}  Curl  PROPFIND  ${url}  ${body} ${options} -iv
+  [Return]  ${output}
+
+WebDAV voms proxy PROPFIND  [Arguments]  ${url}  ${bodyvalue}
+  ${body}  Set body  ${bodyvalue}
+  ${options}  Get proxy curl options  ${VOMS_PROXY}  ${TESTERS_CERT}
+  ${output}  Curl  PROPFIND  ${url}  ${body} ${options} -iv
+  [Return]  ${output}
+
+Build webdav secure root URL
+  ${output}  Set variable  https://${davSecureEndpoint}${davContextPath}/
+  [Return]  ${output}
+
+Build webdav unsecure root URL
+  ${output}  Set variable  http://${davEndpoint}${davContextPath}/
+  [Return]  ${output}
+
+Build webdav secure URL  [Arguments]  ${storageArea}  ${relativePath}=${EMPTY}
+  ${output}  Set variable  https://${davSecureEndpoint}${davContextPath}/${storageArea}/${relativePath}
+  [Return]  ${output}
+
+Build webdav unsecure URL  [Arguments]  ${storageArea}  ${relativePath}=${EMPTY}
+  ${output}  Set variable  http://${davEndpoint}${davContextPath}/${storageArea}/${relativePath}
+  [Return]  ${output}
+
+Upload file as anonymous  [Arguments]  ${filecontent}=file di testo di prova  ${remotedirectory}=${TESTDIR}
+  ${filename}  Create local file into local directory  ${TESTDIR}
+  ${url}  Build webdav unsecure URL  ${ANONYMOUS_SA}  ${remotedirectory}/${filename}
+  ${output}  WebDAV anonymous PUT data  ${url}  ${filecontent}
+  Log  ${output}
+  Should Contain  ${output}  201 Created
+  [Return]  ${filename}
+
+Upload file with plain proxy  [Arguments]  ${filecontent}=file di testo di prova  ${remotedirectory}=${TESTDIR}
+  ${filename}  Create local file into local directory  ${TESTDIR}
+  ${url}  Build webdav secure URL  ${PLAINPROXY_SA}  ${remotedirectory}/${filename}
+  ${output}  WebDAV plain proxy PUT data  ${url}  ${filecontent}
+  Log  ${output}
+  Should Contain  ${output}  201 Created
+  [Return]  ${filename}
+
+Upload file with voms proxy  [Arguments]  ${filecontent}=file di testo di prova  ${remotedirectory}=${TESTDIR}
+  ${filename}  Create local file into local directory  ${TESTDIR}
+  ${url}  Build webdav secure URL  ${VOMSPROXY_SA}  ${remotedirectory}/${filename}
+  ${output}  WebDAV voms proxy PUT data  ${url}  ${filecontent}
+  Log  ${output}
+  Should Contain  ${output}  201 Created
+  [Return]  ${filename}
+
+Upload file into nested SA  [Arguments]  ${filecontent}=file di testo di prova  ${remotedirectory}=${TESTDIR}
+  ${filename}  Create local file into local directory  ${TESTDIR}
+  ${url}  Build webdav secure URL  ${NESTED_SA}  ${remotedirectory}/${filename}
+  ${output}  WebDAV voms proxy PUT data  ${url}  ${filecontent}
+  Log  ${output}
+  Should Contain  ${output}  201 Created
+  [Return]  ${filename}
+
+Upload file into aliased SA  [Arguments]  ${filecontent}=file di testo di prova  ${remotedirectory}=${TESTDIR}
+  ${filename}  Create local file into local directory  ${TESTDIR}
+  ${url}  Build webdav secure URL  ${ALIASED_SA}  ${remotedirectory}/${filename}
+  ${output}  WebDAV voms proxy PUT data  ${url}  ${filecontent}
+  Log  ${output}
+  Should Contain  ${output}  201 Created
+  [Return]  ${filename}

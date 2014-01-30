@@ -1,0 +1,286 @@
+*** Settings ***
+
+Resource   lib/webdav.txt
+Resource   lib/clientSRM.txt
+Resource   lib/credentials.txt
+
+*** Test Cases ***
+
+######### ANONYMOUS ##########
+
+WebDAV GET root directory as anonymous
+  [Tags]  webdav  get  anonymous
+  ${url}  Build webdav unsecure root URL
+  ${output}  WebDAV anonymous GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+  Should Contain  ${output}  ${ANONYMOUS_SA}
+
+WebDAV GET existent file as anonymous
+  [Tags]  webdav  get  anonymous
+  ${filename}  Upload file as anonymous  test123456789
+  ${url}  Build webdav unsecure URL  ${ANONYMOUS_SA}  ${TESTDIR}/${filename}
+  ${output}  WebDAV anonymous GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+  Should Contain  ${output}  test123456789
+
+WebDAV GET unexistent file as anonymous
+  [Tags]  webdav  get  anonymous
+  ${filename}  Get a unique name
+  ${url}  Build webdav unsecure URL  ${ANONYMOUS_SA}  ${TESTDIR}/${filename}
+  ${output}  WebDAV anonymous GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found
+
+WebDAV GET existent directory as anonymous
+  [Tags]  webdav  get  anonymous
+  ${url}  Build webdav unsecure URL  ${ANONYMOUS_SA}  ${TESTDIR}
+  ${output}  WebDAV anonymous GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+
+WebDAV GET unexistent directory as anonymous
+  [Tags]  webdav  get  anonymous
+  ${url}  Build webdav unsecure URL  ${ANONYMOUS_SA}  ${TESTDIR}/fakedirectory
+  ${output}  WebDAV anonymous GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found
+
+WebDAV GET resource with missing parent as anonymous
+  [Tags]  webdav  get  anonymous
+  ${url}  Build webdav unsecure URL  ${ANONYMOUS_SA}  ${TESTDIR}/fakedirectory/fakefile.txt
+  ${output}  WebDAV anonymous GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found
+
+WebDAV GET busy file as anonymous
+  [Tags]  webdav  get  anonymous
+  ${filename}  Get a unique name
+  ${surl}  Build surl  ${ANONYMOUS_SA}  ${TESTDIR}/${filename}
+  Init certificate and voms proxy  test0  ${vo}
+  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
+  Should Contain  ${output}  SRM_SPACE_AVAILABLE
+  ${url}  Build webdav unsecure URL  ${ANONYMOUS_SA}  ${TESTDIR}/${filename}
+  ${output}  WebDAV anonymous GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  409
+  Should Contain  ${output}  SRM_FILE_BUSY
+  ${output}  Perform abort file using clientSRM  ${surl}  ${token}
+  Should Contain  ${output}  SRM_SUCCESS
+  Clear all credentials
+
+WebDAV GET existent file as anonymous on unreadable storage area
+  [Tags]  webdav  get  anonymous
+  ${filename}  Upload file with voms proxy
+  ${url}  Build webdav unsecure URL  ${VOMSPROXY_SA}  ${TESTDIR}/${filename}
+  ${output}  WebDAV anonymous GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  403
+
+####### VOMS PROXY #########
+
+WebDAV GET root directory with VOMS proxy
+  [Tags]  webdav  get  vomsproxy
+  ${url}  Build webdav secure root URL
+  ${output}  WebDAV voms proxy GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+  Should Contain  ${output}  ${VOMSPROXY_SA}
+
+WebDAV GET existent file with VOMS proxy
+  [Tags]  webdav  get  vomsproxy
+  ${filename}  Upload file with voms proxy  test123456789
+  ${url}  Build webdav secure URL  ${VOMSPROXY_SA}  ${TESTDIR}/${filename}
+  ${output}  WebDAV voms proxy GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+  Should Contain  ${output}  test123456789
+
+WebDAV GET unexistent file with VOMS proxy
+  [Tags]  webdav  get  vomsproxy
+  ${filename}  Get a unique name
+  ${url}  Build webdav secure URL  ${VOMSPROXY_SA}  ${TESTDIR}/${filename}
+  ${output}  WebDAV voms proxy GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found
+
+WebDAV GET existent directory with VOMS proxy
+  [Tags]  webdav  get  vomsproxy
+  ${url}  Build webdav secure URL  ${VOMSPROXY_SA}  ${TESTDIR}
+  ${output}  WebDAV voms proxy GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+
+WebDAV GET unexistent directory with VOMS proxy
+  [Tags]  webdav  get  vomsproxy
+  ${url}  Build webdav secure URL  ${VOMSPROXY_SA}  ${TESTDIR}/fakedirectory
+  ${output}  WebDAV voms proxy GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found
+
+WebDAV GET resource with missing parent with VOMS proxy
+  [Tags]  webdav  get  vomsproxy
+  ${url}  Build webdav secure URL  ${VOMSPROXY_SA}  ${TESTDIR}/fakedirectory/fakefile.txt
+  ${output}  WebDAV voms proxy GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found
+
+WebDAV GET busy file with VOMS proxy
+  [Tags]  webdav  get  vomsproxy
+  ${filename}  Get a unique name
+  ${surl}  Build surl  ${VOMSPROXY_SA}  ${TESTDIR}/${filename}
+  Init certificate and voms proxy  test0  ${vo}
+  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
+  Should Contain  ${output}  SRM_SPACE_AVAILABLE
+  ${url}  Build webdav secure URL  ${VOMSPROXY_SA}  ${TESTDIR}/${filename}
+  ${output}  WebDAV voms proxy GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  409
+  Should Contain  ${output}  SRM_FILE_BUSY
+  ${output}  Perform abort file using clientSRM  ${surl}  ${token}
+  Should Contain  ${output}  SRM_SUCCESS
+  Clear all credentials
+
+WebDAV GET existent file with VOMS proxy on an anonymous readable storage area
+  [Tags]  webdav  get  vomsproxy
+  ${filename}  Upload file as anonymous
+  ${url}  Build webdav secure URL  ${ANONYMOUS_SA}  ${TESTDIR}/${filename}
+  ${output}  WebDAV voms proxy GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+
+######### PLAIN PROXY ##########
+
+WebDAV GET root directory with plain proxy
+  [Tags]  webdav  get  plainproxy
+  ${url}  Build webdav secure root URL
+  ${output}  WebDAV plain proxy GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+  Should Contain  ${output}  ${PLAINPROXY_SA}
+
+WebDAV GET existent file with plain proxy
+  [Tags]  webdav  get  plainproxy
+  ${filename}  Upload file with plain proxy  test123456789
+  ${url}  Build webdav secure URL  ${PLAINPROXY_SA}  ${TESTDIR}/${filename}
+  ${output}  WebDAV plain proxy GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+  Should Contain  ${output}  test123456789
+
+WebDAV GET unexistent file with plain proxy
+  [Tags]  webdav  get  plainproxy
+  ${filename}  Get a unique name
+  ${url}  Build webdav secure URL  ${PLAINPROXY_SA}  ${TESTDIR}/${filename}
+  ${output}  WebDAV plain proxy GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found
+
+WebDAV GET existent directory with plain proxy
+  [Tags]  webdav  get  plainproxy
+  ${url}  Build webdav secure URL  ${PLAINPROXY_SA}  ${TESTDIR}
+  ${output}  WebDAV plain proxy GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+
+WebDAV GET unexistent directory with plain proxy
+  [Tags]  webdav  get  plainproxy
+  ${url}  Build webdav secure URL  ${PLAINPROXY_SA}  ${TESTDIR}/fakedirectory
+  ${output}  WebDAV plain proxy GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found
+
+WebDAV GET resource with missing parent with plain proxy
+  [Tags]  webdav  get  plainproxy
+  ${url}  Build webdav secure URL  ${PLAINPROXY_SA}  ${TESTDIR}/fakedirectory/fakefile.txt
+  ${output}  WebDAV plain proxy GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found
+
+WebDAV GET busy file with plain proxy
+  [Tags]  webdav  get  plainproxy
+  ${filename}  Get a unique name
+  ${surl}  Build surl  ${PLAINPROXY_SA}  ${TESTDIR}/${filename}
+  Init certificate and plain proxy  test0
+  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
+  Should Contain  ${output}  SRM_SPACE_AVAILABLE
+  ${url}  Build webdav secure URL  ${PLAINPROXY_SA}  ${TESTDIR}/${filename}
+  ${output}  WebDAV plain proxy GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  409
+  Should Contain  ${output}  SRM_FILE_BUSY
+  ${output}  Perform abort file using clientSRM  ${surl}  ${token}
+  Should Contain  ${output}  SRM_SUCCESS
+  Clear all credentials
+
+WebDAV GET existent file with plain proxy on an anonymous readable storage area
+  [Tags]  webdav  get  plainproxy
+  ${filename}  Upload file as anonymous
+  ${url}  Build webdav secure URL  ${ANONYMOUS_SA}  ${TESTDIR}/${filename}
+  ${output}  WebDAV plain proxy GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+
+####### NESTED SA #########
+
+WebDAV GET existent file with VOMS proxy on a nested SA
+  [Tags]  webdav  get  vomsproxy  nested
+  ${filename}  Upload file into nested SA  test123456789
+  ${url}  Build webdav secure URL  ${NESTED_SA}  ${TESTDIR}/${filename}
+  ${output}  WebDAV voms proxy GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+  Should Contain  ${output}  test123456789
+
+WebDAV GET unexistent file with VOMS proxy on a nested SA
+  [Tags]  webdav  get  vomsproxy  nested
+  ${filename}  Get a unique name
+  ${url}  Build webdav secure URL  ${NESTED_SA}  ${TESTDIR}/${filename}
+  ${output}  WebDAV voms proxy GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found
+
+WebDAV GET existent directory with VOMS proxy on a nested SA
+  [Tags]  webdav  get  vomsproxy  nested
+  ${url}  Build webdav secure URL  ${NESTED_SA}  ${TESTDIR}
+  ${output}  WebDAV voms proxy GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+
+WebDAV GET unexistent directory with VOMS proxy on a nested SA
+  [Tags]  webdav  get  vomsproxy  nested
+  ${url}  Build webdav secure URL  ${NESTED_SA}  ${TESTDIR}/fakedirectory
+  ${output}  WebDAV voms proxy GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found
+
+WebDAV GET resource with missing parent with VOMS proxy on a nested SA
+  [Tags]  webdav  get  vomsproxy  nested
+  ${url}  Build webdav secure URL  ${NESTED_SA}  ${TESTDIR}/fakedirectory/fakefile.txt
+  ${output}  WebDAV voms proxy GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found
+
+####### ALIASED SA #########
+
+WebDAV GET directory with VOMS proxy on an aliased SA
+  [Tags]  webdav  get  vomsproxy  aliased
+  ${filename}  Upload file into nested SA
+  ${filename2}  Upload file into aliased SA
+  ${url}  Build webdav secure URL  ${ALIASED_SA}  ${TESTDIR}
+  ${output}  WebDAV voms proxy GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+  Should Contain  ${output}  ${ALIASED_SA}/${TESTDIR}/${filename}
+  Should Contain  ${output}  ${ALIASED_SA}/${TESTDIR}/${filename2}
+  Should Contain  ${output}  href="/webdav/${ALIASED_SA}/${TESTDIR}/${filename}"
+  Should Contain  ${output}  href="/webdav/${ALIASED_SA}/${TESTDIR}/${filename2}"
+  ${url}  Build webdav secure URL  ${NESTED_SA}  ${TESTDIR}
+  ${output}  WebDAV voms proxy GET  ${url}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+  Should Contain  ${output}  ${NESTED_SA}/${TESTDIR}/${filename}
+  Should Contain  ${output}  ${NESTED_SA}/${TESTDIR}/${filename2}
+  Should Contain  ${output}  href="/webdav/${NESTED_SA}/${TESTDIR}/${filename}"
+  Should Contain  ${output}  href="/webdav/${NESTED_SA}/${TESTDIR}/${filename2}"

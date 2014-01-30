@@ -157,17 +157,3 @@ Get space token using clientSRM  [Arguments]  ${token}=${storageAreaToken}
 Get space token output using clientSRM  [Arguments]  ${token}=${storageAreaToken}
   ${output}  Execute clientSRM Command  gst -v ES -e httpg://${srmEndpoint} -d ${token}
   [Return]  ${output}
-
-Init certificate and voms proxy  [Arguments]  ${certificate}  ${vo}
-  Use certificate  ${certificate}
-  Create proxy  --voms ${vo}
-
-Init certificate and plain proxy  [Arguments]  ${certificate}
-  Use certificate  ${certificate}
-  Create plain proxy
-
-Init certificate with unencrypted key  [Arguments]  ${certificate}
-  Use certificate with unencrypted key  ${certificate}
-
-Clear all credentials
-  Stop using certificate
