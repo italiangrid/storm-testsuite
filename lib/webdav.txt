@@ -16,6 +16,7 @@ ${TESTERS_CERT_SRC}  /usr/share/igi-test-ca/test0.cert.pem
 ${ANONYMOUS_SA}  noauth
 ${PLAINPROXY_SA}  igi
 ${VOMSPROXY_SA}  testers.eu-emi.eu
+${VOMSPROXY_SA2}  dteam
 ${NESTED_SA}  testers.eu-emi.eu/nested
 ${ALIASED_SA}  testers.eu-emi.eu/test
 
@@ -35,35 +36,41 @@ WebDAV voms proxy GET  [Arguments]  ${url}
   ${output}  Curl  GET  ${url}  ${options} -iv
   [Return]  ${output}
 
-WebDAV anonymous PUT file  [Arguments]  ${url}  ${localfile}
-  ${output}  Curl  PUT  ${url}  -T ${localfile} -iv
+WebDAV anonymous PUT file  [Arguments]  ${url}  ${localfile}  ${overwrite}=T
+  ${overwriteheader}  Get header  Overwrite  ${overwrite}
+  ${output}  Curl  PUT  ${url}  -T ${localfile} -iv ${overwriteheader}
   [Return]  ${output}
 
-WebDAV plain proxy PUT file  [Arguments]  ${url}  ${localfile}
+WebDAV plain proxy PUT file  [Arguments]  ${url}  ${localfile}  ${overwrite}=T
+  ${overwriteheader}  Get header  Overwrite  ${overwrite}
   ${options}  Get proxy curl options  ${GRID_PROXY}  ${TESTERS_CERT}
-  ${output}  Curl  PUT  ${url}  -T ${localfile} ${options} -iv
+  ${output}  Curl  PUT  ${url}  -T ${localfile} ${options} -iv ${overwriteheader}
   [Return]  ${output}
 
-WebDAV voms proxy PUT file  [Arguments]  ${url}  ${localfile}
+WebDAV voms proxy PUT file  [Arguments]  ${url}  ${localfile}  ${overwrite}=T
+  ${overwriteheader}  Get header  Overwrite  ${overwrite}
   ${options}  Get proxy curl options  ${VOMS_PROXY}  ${TESTERS_CERT}
-  ${output}  Curl  PUT  ${url}  -T ${localfile} ${options} -iv
+  ${output}  Curl  PUT  ${url}  -T ${localfile} ${options} -iv ${overwriteheader}
   [Return]  ${output}
 
-WebDAV anonymous PUT data  [Arguments]  ${url}  ${data}
+WebDAV anonymous PUT data  [Arguments]  ${url}  ${data}="File di prova"  ${overwrite}=T
+  ${overwriteheader}  Get header  Overwrite  ${overwrite}
   ${body}  Set body  ${data}
-  ${output}  Curl  PUT  ${url}  ${body} -iv
+  ${output}  Curl  PUT  ${url}  ${body} -iv ${overwriteheader}
   [Return]  ${output}
 
-WebDAV plain proxy PUT data  [Arguments]  ${url}  ${data}
+WebDAV plain proxy PUT data  [Arguments]  ${url}  ${data}="File di prova"  ${overwrite}=T
+  ${overwriteheader}  Get header  Overwrite  ${overwrite}
   ${body}  Set body  ${data}
   ${options}  Get proxy curl options  ${GRID_PROXY}  ${TESTERS_CERT}
-  ${output}  Curl  PUT  ${url}  ${body} ${options} -iv
+  ${output}  Curl  PUT  ${url}  ${body} ${options} -iv ${overwriteheader}
   [Return]  ${output}
 
-WebDAV voms proxy PUT data  [Arguments]  ${url}  ${data}
+WebDAV voms proxy PUT data  [Arguments]  ${url}  ${data}="File di prova"  ${overwrite}=T
+  ${overwriteheader}  Get header  Overwrite  ${overwrite}
   ${body}  Set body  ${data}
   ${options}  Get proxy curl options  ${VOMS_PROXY}  ${TESTERS_CERT}
-  ${output}  Curl  PUT  ${url}  ${body} ${options} -iv
+  ${output}  Curl  PUT  ${url}  ${body} ${options} -iv ${overwriteheader}
   [Return]  ${output}
 
 WebDAV anonymous MKCOL  [Arguments]  ${url}
