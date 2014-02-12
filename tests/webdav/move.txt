@@ -1,448 +1,191 @@
 *** Settings ***
-Resource   lib/stormlib.txt
+
+Resource   lib/webdav.txt
 Resource   lib/clientSRM.txt
-Resource   lib/lcg_util.txt
 Resource   lib/credentials.txt
+
+*** Keywords ***
+
+WebDAV MOVE file  [Arguments]  ${srcEndpoint}  ${srcStorageArea}  ${destEndpoint}  ${destStorageArea}  ${credentials}=${EMPTY}
+  ${srcFilename}  Upload file  ${srcEndpoint}  ${srcStorageArea}  ${credentials}
+  ${destFilename}  Get a unique name
+  ${output}  WebDAV MOVE  ${srcEndpoint}  ${srcStorageArea}  ${TESTDIR}/${srcFilename}  ${destEndpoint}  ${destStorageArea}  ${TESTDIR}/${destFilename}  T  ${credentials}
+  Should Contain  ${output}  201 Created
+  ${output}  WebDAV HEAD  ${srcEndpoint}  ${srcStorageArea}  ${TESTDIR}/${srcFilename}  ${credentials}
+  Should Contain  ${output}  404 Not Found
+  ${output}  WebDAV HEAD  ${destEndpoint}  ${destStorageArea}  ${TESTDIR}/${destFilename}  ${credentials}
+  Should Contain  ${output}  200 OK
+
+WebDAV MOVE non empty directory  [Arguments]  ${srcEndpoint}  ${srcStorageArea}  ${destEndpoint}  ${destStorageArea}  ${credentials}=${EMPTY}
+  ${dirname}  Get a unique name
+  ${output}  WebDAV MKCOL  ${srcEndpoint}  ${srcStorageArea}  ${TESTDIR}/${dirname}  ${credentials}
+  Should Contain  ${output}  201 Created
+  ${subFile1}  Upload file  ${srcEndpoint}  ${srcStorageArea}  ${credentials}  ${TESTDIR}/${dirname}
+  ${subFile2}  Upload file  ${srcEndpoint}  ${srcStorageArea}  ${credentials}  ${TESTDIR}/${dirname}
+  ${destDirname}  Get a unique name
+  ${output}  WebDAV MOVE  ${srcEndpoint}  ${srcStorageArea}  ${TESTDIR}/${dirname}  ${destEndpoint}  ${destStorageArea}  ${TESTDIR}/${destDirname}  T  ${credentials}
+  Should Contain  ${output}  201 Created
+  ${output}  WebDAV HEAD  ${srcEndpoint}  ${srcStorageArea}  ${TESTDIR}/${dirname}  ${credentials}
+  Should Contain  ${output}  404 Not Found
+  ${output}  WebDAV HEAD  ${destEndpoint}  ${destStorageArea}  ${TESTDIR}/${destDirname}  ${credentials}
+  Should Contain  ${output}  200 OK
+  ${output}  WebDAV HEAD  ${destEndpoint}  ${destStorageArea}  ${TESTDIR}/${destDirname}/${subFile1}  ${credentials}
+  Should Contain  ${output}  200 OK
+  ${output}  WebDAV HEAD  ${destEndpoint}  ${destStorageArea}  ${TESTDIR}/${destDirname}/${subFile2}  ${credentials}
+  Should Contain  ${output}  200 OK
+
+WebDAV MOVE file on existent target with overwrite T  [Arguments]  ${srcEndpoint}  ${srcStorageArea}  ${destEndpoint}  ${destStorageArea}  ${credentials}=${EMPTY}
+  ${srcFilename}  Upload file  ${srcEndpoint}  ${srcStorageArea}  ${credentials}
+  ${destFilename}  Upload file  ${destEndpoint}  ${destStorageArea}  ${credentials}
+  ${output}  WebDAV MOVE  ${srcEndpoint}  ${srcStorageArea}  ${TESTDIR}/${srcFilename}  ${destEndpoint}  ${destStorageArea}  ${TESTDIR}/${destFilename}  T  ${credentials}
+  Should Contain  ${output}  204 No Content
+  ${output}  WebDAV HEAD  ${srcEndpoint}  ${srcStorageArea}  ${TESTDIR}/${srcFilename}  ${credentials}
+  Should Contain  ${output}  404 Not Found
+  ${output}  WebDAV HEAD  ${destEndpoint}  ${destStorageArea}  ${TESTDIR}/${destFilename}  ${credentials}
+  Should Contain  ${output}  200 OK
+
+WebDAV MOVE file on existent target with overwrite F  [Arguments]  ${srcEndpoint}  ${srcStorageArea}  ${destEndpoint}  ${destStorageArea}  ${credentials}=${EMPTY}
+  ${srcFilename}  Upload file  ${srcEndpoint}  ${srcStorageArea}  ${credentials}
+  ${destFilename}  Upload file  ${destEndpoint}  ${destStorageArea}  ${credentials}
+  ${output}  WebDAV MOVE  ${srcEndpoint}  ${srcStorageArea}  ${TESTDIR}/${srcFilename}  ${destEndpoint}  ${destStorageArea}  ${TESTDIR}/${destFilename}  F  ${credentials}
+  Should Contain  ${output}  412 Precondition Failed
+
+WebDAV MOVE unexistent file  [Arguments]  ${srcEndpoint}  ${srcStorageArea}  ${destEndpoint}  ${destStorageArea}  ${credentials}=${EMPTY}
+  ${srcFilename}  Get a unique name
+  ${destFilename}  Get a unique name
+  ${output}  WebDAV MOVE  ${srcEndpoint}  ${srcStorageArea}  ${TESTDIR}/${srcFilename}  ${destEndpoint}  ${destStorageArea}  ${TESTDIR}/${destFilename}  T  ${credentials}
+  Should Contain  ${output}  404 Not Found
+
+WebDAV MOVE with destination equals to source  [Arguments]  ${srcEndpoint}  ${srcStorageArea}  ${credentials}=${EMPTY}
+  ${srcFilename}  Upload file  ${srcEndpoint}  ${srcStorageArea}  ${credentials}
+  ${output}  WebDAV MOVE  ${srcEndpoint}  ${srcStorageArea}  ${TESTDIR}/${srcFilename}  ${srcEndpoint}  ${srcStorageArea}  ${TESTDIR}/${srcFilename}  T  ${credentials}
+  Should Contain  ${output}  412
+
+WebDAV MOVE unauthorized  [Arguments]  ${srcEndpoint}  ${srcStorageArea}  ${destEndpoint}  ${destStorageArea}  ${credentials}=${EMPTY}
+  ${srcFilename}  Upload file  ${srcEndpoint}  ${srcStorageArea}  ${credentials}
+  ${destFilename}  Get a unique name
+  ${output}  WebDAV MOVE  ${srcEndpoint}  ${srcStorageArea}  ${TESTDIR}/${srcFilename}  ${destEndpoint}  ${destStorageArea}  ${TESTDIR}/${destFilename}  T  ${credentials}
+  Should Contain  ${output}  403
 
 *** Test Cases ***
 
+######### ANONYMOUS ##########
+
 WebDAV MOVE file as anonymous
   [Tags]  webdav  move  anonymous
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${srcFileName}  Create local file
-  ${srcSurl}  Build surl  ${anonymousRWStorageArea}  ${srcFileName}
-  ${destFileName}  Get a unique name
-  ${destSurl}  Build surl  ${anonymousRWStorageArea}  ${destFileName}
-  Copy-out file using lcg-utils  ${srcFileName}  ${srcSurl}
-  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${srcFileName}
-  ${destUrl}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${destFileName}
-  ${options}  Set variable  --verbose -X MOVE --header 'Destination: ${destUrl}'
-  ${output}  Execute Curl with options  ${url}  ${options}
-  Should Contain  ${output}  201 Created
-  Perform rm using clientSRM  ${destSurl}
-  Remove local file  ${srcFileName}
-  Remove local file  ${destFileName}
-  [Teardown]  Clear all credentials
+  WebDAV MOVE file  ${davEndpoint}  ${ANONYMOUS_SA}  ${davEndpoint}  ${ANONYMOUS_SA}
 
-WebDAV MOVE file with voms proxy credentials
+WebDAV MOVE non empty directory as anonymous
+  [Tags]  webdav  move  anonymous
+  WebDAV MOVE non empty directory  ${davEndpoint}  ${ANONYMOUS_SA}  ${davEndpoint}  ${ANONYMOUS_SA}
+
+WebDAV MOVE file on existent target with overwrite T as anonymous
+  [Tags]  webdav  move  anonymous
+  WebDAV MOVE file on existent target with overwrite T  ${davEndpoint}  ${ANONYMOUS_SA}  ${davEndpoint}  ${ANONYMOUS_SA}
+
+WebDAV MOVE file on existent target with overwrite F as anonymous
+  [Tags]  webdav  move  anonymous
+  WebDAV MOVE file on existent target with overwrite F  ${davEndpoint}  ${ANONYMOUS_SA}  ${davEndpoint}  ${ANONYMOUS_SA}
+
+WebDAV MOVE unexistent file as anonymous
+  [Tags]  webdav  move  anonymous  to-be-fixed
+  WebDAV MOVE unexistent file  ${davEndpoint}  ${ANONYMOUS_SA}  ${davEndpoint}  ${ANONYMOUS_SA}
+
+WebDAV MOVE with destination equals to source as anonymous
+  [Tags]  webdav  move  anonymous
+  WebDAV MOVE with destination equals to source  ${davEndpoint}  ${ANONYMOUS_SA}
+
+######### VOMS PROXY ##########
+
+WebDAV MOVE file with VOMS proxy
   [Tags]  webdav  move  vomsproxy
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${srcFileName}  Create local file
-  ${srcSurl}  Build surl  ${vomsproxyRWStorageArea}  ${srcFileName}
-  ${destFileName}  Get a unique name
-  ${destSurl}  Build surl  ${vomsproxyRWStorageArea}  ${destFileName}
-  Copy-out file using lcg-utils  ${srcFileName}  ${srcSurl}
-  ${url}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${srcFileName}
-  ${destUrl}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${destFileName}
-  ${options}  Set variable  --verbose -X MOVE --header 'Destination: ${destUrl}'
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  201 Created
-  Perform rm using clientSRM  ${destSurl}
-  Remove local file  ${srcFileName}
-  Remove local file  ${destFileName}
-  [Teardown]  Clear all credentials
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV MOVE file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
 
-WebDAV MOVE file with plain proxy credentials
-  [Tags]  webdav  move  plainproxy
-  [Setup]  Init certificate and plain proxy  test0
-  ${srcFileName}  Create local file
-  ${srcSurl}  Build surl  ${gridproxyRWStorageArea}  ${srcFileName}
-  ${destFileName}  Get a unique name
-  ${destSurl}  Build surl  ${gridproxyRWStorageArea}  ${destFileName}
-  Copy-out file using lcg-utils  ${srcFileName}  ${srcSurl}
-  ${url}  Build webdav secure URL  ${gridproxyRWStorageArea}  ${srcFileName}
-  ${destUrl}  Build webdav secure URL  ${gridproxyRWStorageArea}  ${destFileName}
-  ${options}  Set variable  --verbose -X MOVE --header 'Destination: ${destUrl}'
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  201 Created
-  Perform rm using clientSRM  ${destSurl}
-  Remove local file  ${srcFileName}
-  Remove local file  ${destFileName}
-  [Teardown]  Clear all credentials
-
-WebDAV MOVE file with personal certificate
-  [Tags]  webdav  move  perscert
-  [Setup]  Init certificate with unencrypted key  test0
-  ${srcFileName}  Create local file
-  ${srcSurl}  Build surl  ${personalcertRWStorageArea}  ${srcFileName}
-  ${destFileName}  Get a unique name
-  ${destSurl}  Build surl  ${personalcertRWStorageArea}  ${destFileName}
-  Copy-out file using lcg-utils  ${srcFileName}  ${srcSurl}
-  ${url}  Build webdav secure URL  ${personalcertRWStorageArea}  ${srcFileName}
-  ${destUrl}  Build webdav secure URL  ${personalcertRWStorageArea}  ${destFileName}
-  ${options}  Set variable  --verbose -X MOVE --header 'Destination: ${destUrl}'
-  ${output}  Execute Curl with certificate and options  ${url}  ${options}
-  Should Contain  ${output}  201 Created
-  Perform rm using clientSRM  ${destSurl}
-  Remove local file  ${srcFileName}
-  Remove local file  ${destFileName}
-  [Teardown]  Clear all credentials
-
-WebDAV MOVE full directory as anonymous
-  [Tags]  webdav  move  anonymous
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${srcDirName}  Get a unique name
-  ${srcDirSurl}  Build surl  ${anonymousRWStorageArea}  ${srcDirName}
-  ${output}  Perform mkdir using clientSRM  ${srcDirSurl}
-  Should Contain  ${output}  SRM_SUCCESS
-  ${fileName}  Create local file
-  ${fileSurl}  Build surl  ${anonymousRWStorageArea}  ${srcDirName}/${fileName}
-  Copy-out file using lcg-utils  ${fileName}  ${fileSurl}
-  ${destDirName}  Get a unique name
-  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${srcDirName}
-  ${destUrl}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${destDirName}
-  ${options}  Set variable  --verbose -X MOVE --header 'Destination: ${destUrl}'
-  ${output}  Execute Curl with options  ${url}  ${options}
-  Should Contain  ${output}  201 Created
-  Remove not empty directory using clientSRM  ${anonymousRWStorageArea}  ${destDirName}
-  Remove local directory  ${srcDirName}
-  Remove local directory  ${destDirName}
-  Remove local file  ${fileName}
-  [Teardown]  Clear all credentials
-
-WebDAV MOVE full directory with voms proxy credentials
+WebDAV MOVE non empty directory with VOMS proxy
   [Tags]  webdav  move  vomsproxy
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${srcDirName}  Get a unique name
-  ${srcDirSurl}  Build surl  ${vomsproxyRWStorageArea}  ${srcDirName}
-  ${output}  Perform mkdir using clientSRM  ${srcDirSurl}
-  Should Contain  ${output}  SRM_SUCCESS
-  ${fileName}  Create local file
-  ${fileSurl}  Build surl  ${vomsproxyRWStorageArea}  ${srcDirName}/${fileName}
-  Copy-out file using lcg-utils  ${fileName}  ${fileSurl}
-  ${destDirName}  Get a unique name
-  ${url}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${srcDirName}
-  ${destUrl}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${destDirName}
-  ${options}  Set variable  --verbose -X MOVE --header 'Destination: ${destUrl}'
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  201 Created
-  Remove not empty directory using clientSRM  ${vomsproxyRWStorageArea}  ${destDirName}
-  Remove local directory  ${srcDirName}
-  Remove local directory  ${destDirName}
-  Remove local file  ${fileName}
-  [Teardown]  Clear all credentials
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV MOVE non empty directory  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
 
-WebDAV MOVE full directory with plain proxy credentials
-  [Tags]  webdav  move  plainproxy
-  [Setup]  Init certificate and plain proxy  test0
-  ${srcDirName}  Get a unique name
-  ${srcDirSurl}  Build surl  ${gridproxyRWStorageArea}  ${srcDirName}
-  ${output}  Perform mkdir using clientSRM  ${srcDirSurl}
-  Should Contain  ${output}  SRM_SUCCESS
-  ${fileName}  Create local file
-  ${fileSurl}  Build surl  ${gridproxyRWStorageArea}  ${srcDirName}/${fileName}
-  Copy-out file using lcg-utils  ${fileName}  ${fileSurl}
-  ${destDirName}  Get a unique name
-  ${url}  Build webdav secure URL  ${gridproxyRWStorageArea}  ${srcDirName}
-  ${destUrl}  Build webdav secure URL  ${gridproxyRWStorageArea}  ${destDirName}
-  ${options}  Set variable  --verbose -X MOVE --header 'Destination: ${destUrl}'
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  201 Created
-  Remove not empty directory using clientSRM  ${gridproxyRWStorageArea}  ${destDirName}
-  Remove local directory  ${srcDirName}
-  Remove local directory  ${destDirName}
-  Remove local file  ${fileName}
-  [Teardown]  Clear all credentials
-
-WebDAV MOVE full directory over HTTPS with personal certificate
-  [Tags]  webdav  move  perscert
-  [Setup]  Init certificate with unencrypted key  test0
-  ${srcDirName}  Get a unique name
-  ${srcDirSurl}  Build surl  ${personalcertRWStorageArea}  ${srcDirName}
-  ${output}  Perform mkdir using clientSRM  ${srcDirSurl}
-  Should Contain  ${output}  SRM_SUCCESS
-  ${fileName}  Create local file
-  ${fileSurl}  Build surl  ${personalcertRWStorageArea}  ${srcDirName}/${fileName}
-  Copy-out file using lcg-utils  ${fileName}  ${fileSurl}
-  ${destDirName}  Get a unique name
-  ${url}  Build webdav secure URL  ${personalcertRWStorageArea}  ${srcDirName}
-  ${destUrl}  Build webdav secure URL  ${personalcertRWStorageArea}  ${destDirName}
-  ${options}  Set variable  --verbose -X MOVE --header 'Destination: ${destUrl}'
-  ${output}  Execute Curl with certificate and options  ${url}  ${options}
-  Should Contain  ${output}  201 Created
-  Remove not empty directory using clientSRM  ${gridproxyRWStorageArea}  ${destDirName}
-  Remove local directory  ${srcDirName}
-  Remove local directory  ${destDirName}
-  Remove local file  ${fileName}
-  [Teardown]  Clear all credentials
-
-WebDAV MOVE overwrite file as anonymous
-  [Tags]  webdav  move  anonymous
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${srcFileName}  Create local file
-  ${srcSurl}  Build surl  ${anonymousRWStorageArea}  ${srcFileName}
-  ${destFileName}  Get a unique name
-  ${destSurl}  Build surl  ${anonymousRWStorageArea}  ${destFileName}
-  Copy-out file using lcg-utils  ${srcFileName}  ${srcSurl}
-  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${srcFileName}
-  ${destUrl}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${destFileName}
-  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}'
-  ${output}  Execute Curl with options  ${url}  ${options}
-  Should Contain  ${output}  201 Created
-  ${options}  Set variable  --verbose -X MOVE --header 'Destination: ${destUrl}' --header 'Overwrite: T'
-  ${output}  Execute Curl with options  ${url}  ${options}
-  Should Contain  ${output}  204 No Content
-  Perform rm using clientSRM  ${destSurl}
-  Remove local file  ${srcFileName}
-  Remove local file  ${destFileName}
-  [Teardown]  Clear all credentials
-
-WebDAV MOVE overwrite file with voms proxy credentials
+WebDAV MOVE file on existent target with overwrite T with VOMS proxy
   [Tags]  webdav  move  vomsproxy
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${srcFileName}  Create local file
-  ${srcSurl}  Build surl  ${vomsproxyRWStorageArea}  ${srcFileName}
-  ${destFileName}  Get a unique name
-  ${destSurl}  Build surl  ${vomsproxyRWStorageArea}  ${destFileName}
-  Copy-out file using lcg-utils  ${srcFileName}  ${srcSurl}
-  ${url}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${srcFileName}
-  ${destUrl}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${destFileName}
-  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}'
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  201 Created
-  ${options}  Set variable  --verbose -X MOVE --header 'Destination: ${destUrl}' --header 'Overwrite: T'
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  204 No Content
-  Perform rm using clientSRM  ${destSurl}
-  Remove local file  ${srcFileName}
-  Remove local file  ${destFileName}
-  [Teardown]  Clear all credentials
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV MOVE file on existent target with overwrite T  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
 
-WebDAV MOVE overwrite file with plain proxy credentials
-  [Tags]  webdav  move  plainproxy
-  [Setup]  Init certificate and plain proxy  test0
-  ${srcFileName}  Create local file
-  ${srcSurl}  Build surl  ${gridproxyRWStorageArea}  ${srcFileName}
-  ${destFileName}  Get a unique name
-  ${destSurl}  Build surl  ${gridproxyRWStorageArea}  ${destFileName}
-  Copy-out file using lcg-utils  ${srcFileName}  ${srcSurl}
-  ${url}  Build webdav secure URL  ${gridproxyRWStorageArea}  ${srcFileName}
-  ${destUrl}  Build webdav secure URL  ${gridproxyRWStorageArea}  ${destFileName}
-  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}'
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  201 Created
-  ${options}  Set variable  --verbose -X MOVE --header 'Destination: ${destUrl}' --header 'Overwrite: T'
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  204 No Content
-  Perform rm using clientSRM  ${destSurl}
-  Remove local file  ${srcFileName}
-  Remove local file  ${destFileName}
-  [Teardown]  Clear all credentials
-
-WebDAV MOVE overwrite file with personal certificate
-  [Tags]  webdav  move  perscert
-  [Setup]  Init certificate with unencrypted key  test0
-  ${srcFileName}  Create local file
-  ${srcSurl}  Build surl  ${personalcertRWStorageArea}  ${srcFileName}
-  ${destFileName}  Get a unique name
-  ${destSurl}  Build surl  ${personalcertRWStorageArea}  ${destFileName}
-  Copy-out file using lcg-utils  ${srcFileName}  ${srcSurl}
-  ${url}  Build webdav secure URL  ${personalcertRWStorageArea}  ${srcFileName}
-  ${destUrl}  Build webdav secure URL  ${personalcertRWStorageArea}  ${destFileName}
-  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}'
-  ${output}  Execute Curl with certificate and options  ${url}  ${options}
-  Should Contain  ${output}  201 Created
-  ${options}  Set variable  --verbose -X MOVE --header 'Destination: ${destUrl}' --header 'Overwrite: T'
-  ${output}  Execute Curl with certificate and options  ${url}  ${options}
-  Should Contain  ${output}  204 No Content
-  Perform rm using clientSRM  ${destSurl}
-  Remove local file  ${srcFileName}
-  Remove local file  ${destFileName}
-  [Teardown]  Clear all credentials
-
-WebDAV MOVE overwrite full directory as anonymous
-  [Tags]  webdav  move  anonymous
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${srcDirName}  Get a unique name
-  ${srcDirSurl}  Build surl  ${anonymousRWStorageArea}  ${srcDirName}
-  ${output}  Perform mkdir using clientSRM  ${srcDirSurl}
-  Should Contain  ${output}  SRM_SUCCESS
-  ${fileName}  Create local file
-  ${fileSurl}  Build surl  ${anonymousRWStorageArea}  ${srcDirName}/${fileName}
-  Copy-out file using lcg-utils  ${fileName}  ${fileSurl}
-  ${destDirName}  Get a unique name
-  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${srcDirName}
-  ${destUrl}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${destDirName}
-  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}'
-  ${output}  Execute Curl with options  ${url}  ${options}
-  Should Contain  ${output}  201 Created
-  ${options}  Set variable  --verbose -X MOVE --header 'Destination: ${destUrl}' --header 'Overwrite: T'
-  ${output}  Execute Curl with options  ${url}  ${options}
-  Should Contain  ${output}  204 No Content
-  Remove not empty directory using clientSRM  ${anonymousRWStorageArea}  ${destDirName}
-  Remove local directory  ${srcDirName}
-  Remove local directory  ${destDirName}
-  Remove local file  ${fileName}
-  [Teardown]  Clear all credentials
-
-WebDAV MOVE overwrite full directory with voms proxy credentials
+WebDAV MOVE file on existent target with overwrite F with VOMS proxy
   [Tags]  webdav  move  vomsproxy
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${srcDirName}  Get a unique name
-  ${srcDirSurl}  Build surl  ${vomsproxyRWStorageArea}  ${srcDirName}
-  ${output}  Perform mkdir using clientSRM  ${srcDirSurl}
-  Should Contain  ${output}  SRM_SUCCESS
-  ${fileName}  Create local file
-  ${fileSurl}  Build surl  ${vomsproxyRWStorageArea}  ${srcDirName}/${fileName}
-  Copy-out file using lcg-utils  ${fileName}  ${fileSurl}
-  ${destDirName}  Get a unique name
-  ${url}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${srcDirName}
-  ${destUrl}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${destDirName}
-  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}'
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  201 Created
-  ${options}  Set variable  --verbose -X MOVE --header 'Destination: ${destUrl}' --header 'Overwrite: T'
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  204 No Content
-  Remove not empty directory using clientSRM  ${vomsproxyRWStorageArea}  ${destDirName}
-  Remove local directory  ${srcDirName}
-  Remove local directory  ${destDirName}
-  Remove local file  ${fileName}
-  [Teardown]  Clear all credentials
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV MOVE file on existent target with overwrite F  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
 
-WebDAV MOVE overwrite full directory with plain proxy credentials
+WebDAV MOVE unexistent file with VOMS proxy
+  [Tags]  webdav  move  vomsproxy  to-be-fixed
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV MOVE unexistent file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+
+WebDAV MOVE with destination equals to source with VOMS proxy
+  [Tags]  webdav  move  vomsproxy
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV MOVE with destination equals to source  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+
+######### PLAIN PROXY ##########
+
+WebDAV MOVE file with plain proxy
   [Tags]  webdav  move  plainproxy
-  [Setup]  Init certificate and plain proxy  test0
-  ${srcDirName}  Get a unique name
-  ${srcDirSurl}  Build surl  ${gridproxyRWStorageArea}  ${srcDirName}
-  ${output}  Perform mkdir using clientSRM  ${srcDirSurl}
-  Should Contain  ${output}  SRM_SUCCESS
-  ${fileName}  Create local file
-  ${fileSurl}  Build surl  ${gridproxyRWStorageArea}  ${srcDirName}/${fileName}
-  Copy-out file using lcg-utils  ${fileName}  ${fileSurl}
-  ${destDirName}  Get a unique name
-  ${url}  Build webdav secure URL  ${gridproxyRWStorageArea}  ${srcDirName}
-  ${destUrl}  Build webdav secure URL  ${gridproxyRWStorageArea}  ${destDirName}
-  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}'
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  201 Created
-  ${options}  Set variable  --verbose -X MOVE --header 'Destination: ${destUrl}' --header 'Overwrite: T'
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  204 No Content
-  Remove not empty directory using clientSRM  ${gridproxyRWStorageArea}  ${destDirName}
-  Remove local directory  ${srcDirName}
-  Remove local directory  ${destDirName}
-  Remove local file  ${fileName}
-  [Teardown]  Clear all credentials
+  ${plainproxy}  Get WebDAV plain proxy credentials
+  WebDAV MOVE file  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
 
-WebDAV MOVE overwrite full directory with personal certificate
-  [Tags]  webdav  move  perscert
-  [Setup]  Init certificate with unencrypted key  test0
-  ${srcDirName}  Get a unique name
-  ${srcDirSurl}  Build surl  ${personalcertRWStorageArea}  ${srcDirName}
-  ${output}  Perform mkdir using clientSRM  ${srcDirSurl}
-  Should Contain  ${output}  SRM_SUCCESS
-  ${fileName}  Create local file
-  ${fileSurl}  Build surl  ${personalcertRWStorageArea}  ${srcDirName}/${fileName}
-  Copy-out file using lcg-utils  ${fileName}  ${fileSurl}
-  ${destDirName}  Get a unique name
-  ${url}  Build webdav secure URL  ${personalcertRWStorageArea}  ${srcDirName}
-  ${destUrl}  Build webdav secure URL  ${personalcertRWStorageArea}  ${destDirName}
-  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}'
-  ${output}  Execute Curl with certificate and options  ${url}  ${options}
-  Should Contain  ${output}  201 Created
-  ${options}  Set variable  --verbose -X MOVE --header 'Destination: ${destUrl}' --header 'Overwrite: T'
-  ${output}  Execute Curl with certificate and options  ${url}  ${options}
-  Should Contain  ${output}  204 No Content
-  Remove not empty directory using clientSRM  ${personalcertRWStorageArea}  ${destDirName}
-  Remove local directory  ${srcDirName}
-  Remove local directory  ${destDirName}
-  Remove local file  ${fileName}
-  [Teardown]  Clear all credentials
+WebDAV MOVE non empty directory with plain proxy
+  [Tags]  webdav  move  plainproxy
+  ${plainproxy}  Get WebDAV plain proxy credentials
+  WebDAV MOVE non empty directory  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
 
-WEBDAV MOVE to a different storage area as anonymous
-  [Tags]  webdav  move  anonymous
-  [Setup]  Init certificate with unencrypted key  test0
-  ${srcFileName}  Create local file
-  ${srcSurl}  Build surl  ${anonymousBisRWStorageArea}  ${srcFileName}
-  ${destFileName}  Get a unique name
-  ${destSurl}  Build surl  ${anonymousRWStorageArea}  ${destFileName}
-  Copy-out file using lcg-utils  ${srcFileName}  ${srcSurl}
-  ${url}  Build webdav unsecure URL  ${anonymousBisRWStorageArea}  ${srcFileName}
-  ${destUrl}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${destFileName}
-  ${options}  Set variable  --verbose -X MOVE --header 'Destination: ${destUrl}'
-  ${output}  Execute Curl with options  ${url}  ${options}
-  Should Contain  ${output}  201 Created
-  Perform rm using clientSRM  ${destSurl}
-  Remove local file  ${srcFileName}
-  Remove local file  ${destFileName}
-  [Teardown]  Clear all credentials
+WebDAV MOVE file on existent target with overwrite T with plain proxy
+  [Tags]  webdav  move  plainproxy
+  ${plainproxy}  Get WebDAV plain proxy credentials
+  WebDAV MOVE file on existent target with overwrite T  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
 
-WebDAV MOVE to a different storage area with personal certificate
-  [Tags]  webdav  move  perscert
-  [Setup]  Init certificate with unencrypted key  test0
-  ${srcFileName}  Create local file
-  ${srcSurl}  Build surl  ${personalcertRWStorageArea}  ${srcFileName}
-  ${destFileName}  Get a unique name
-  ${destSurl}  Build surl  ${personalcertBisRWStorageArea}  ${destFileName}
-  Copy-out file using lcg-utils  ${srcFileName}  ${srcSurl}
-  ${url}  Build webdav secure URL  ${personalcertRWStorageArea}  ${srcFileName}
-  ${destUrl}  Build webdav secure URL  ${personalcertBisRWStorageArea}  ${destFileName}
-  ${options}  Set variable  --verbose -X MOVE --header 'Destination: ${destUrl}'
-  ${output}  Execute Curl with certificate and options  ${url}  ${options}
-  Should Contain  ${output}  201 Created
-  Perform rm using clientSRM  ${destSurl}
-  Remove local file  ${srcFileName}
-  Remove local file  ${destFileName}
-  [Teardown]  Clear all credentials
+WebDAV MOVE file on existent target with overwrite F with plain proxy
+  [Tags]  webdav  move  plainproxy
+  ${plainproxy}  Get WebDAV plain proxy credentials
+  WebDAV MOVE file on existent target with overwrite F  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
 
-WebDAV MOVE file with source URL equals to destination URL as anonymous
-  [Tags]  webdav  move  anonymous
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${srcFileName}  Create local file
-  ${srcSurl}  Build surl  ${anonymousRWStorageArea}  ${srcFileName}
-  ${destFileName}  Get a unique name
-  ${destSurl}  Build surl  ${anonymousRWStorageArea}  ${destFileName}
-  Copy-out file using lcg-utils  ${srcFileName}  ${srcSurl}
-  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${srcFileName}
-  ${options}  Set variable  --verbose -X MOVE --header 'Destination: ${url}'
-  ${output}  Execute Curl with options  ${url}  ${options}
-  Should Contain  ${output}  403 The source and destination URIs are the same!
-  Perform rm using clientSRM  ${srcSurl}
-  Remove local file  ${srcFileName}
-  Remove local file  ${destFileName}
-  [Teardown]  Clear all credentials
+WebDAV MOVE unexistent file with plain proxy
+  [Tags]  webdav  move  plainproxy  to-be-fixed
+  ${plainproxy}  Get WebDAV plain proxy credentials
+  WebDAV MOVE unexistent file  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
 
-WebDAV MOVE file with overwrite false on existent destination as anonymous
-  [Tags]  webdav  move  anonymous
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${srcFileName}  Create local file
-  ${srcSurl}  Build surl  ${anonymousRWStorageArea}  ${srcFileName}
-  ${destFileName}  Get a unique name
-  ${destSurl}  Build surl  ${anonymousRWStorageArea}  ${destFileName}
-  Copy-out file using lcg-utils  ${srcFileName}  ${srcSurl}
-  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${srcFileName}
-  ${destUrl}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${destFileName}
-  ${options}  Set variable  --verbose -X COPY --header 'Destination: ${destUrl}'
-  ${output}  Execute Curl with options  ${url}  ${options}
-  Should Contain  ${output}  201 Created
-  ${options}  Set variable  --verbose -X MOVE --header 'Destination: ${destUrl}' --header 'Overwrite: F'
-  ${output}  Execute Curl with options  ${url}  ${options}
-  Should Contain  ${output}  412 Precondition Failed
-  Perform rm using clientSRM  ${srcSurl}
-  Remove local file  ${srcFileName}
-  Remove local file  ${destFileName}
-  [Teardown]  Clear all credentials
+WebDAV MOVE with destination equals to source with plain proxy
+  [Tags]  webdav  move  plainproxy
+  ${plainproxy}  Get WebDAV plain proxy credentials
+  WebDAV MOVE with destination equals to source  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
 
-WebDAV MOVE file to a destination with unexistent intermediate parent as anonymous
-  [Tags]  webdav  move  anonymous
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${srcFileName}  Create local file
-  ${srcSurl}  Build surl  ${anonymousRWStorageArea}  ${srcFileName}
-  ${destFileName}  Get a unique name
-  ${destDirname}  Get a unique name
-  ${destDirSurl}  Build surl  ${anonymousRWStorageArea}  ${destDirname}
-  ${output}  Perform ls using clientSRM  ${destDirSurl}  -c 1
-  Should Contain  ${output}  SRM_INVALID_PATH
-  ${destSurl}  Build surl  ${anonymousRWStorageArea}  ${destDirname}/${destFileName}
-  Copy-out file using lcg-utils  ${srcFileName}  ${srcSurl}
-  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${srcFileName}
-  ${destUrl}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${destDirname}/${destFileName}
-  ${options}  Set variable  --verbose -X MOVE --header 'Destination: ${destUrl}'
-  ${output}  Execute Curl with options  ${url}  ${options}
-  Should Contain  ${output}  409 Conflict
-  Perform rm using clientSRM  ${srcSurl}
-  Remove local file  ${srcFileName}
-  Remove local file  ${destFileName}
-  Remove local directory  ${destDirName}
-  [Teardown]  Clear all credentials
+######### MIXED ##########
+
+WebDAV MOVE from anonymous to voms proxy storage area
+  [Tags]  webdav  move  anonymous  vomsproxy
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV MOVE file  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+
+WebDAV MOVE from VOMS proxy to anonymous storage area
+  [Tags]  webdav  move  anonymous  vomsproxy
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV MOVE file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${vomsproxy}
+
+WebDAV MOVE from plain proxy to anonymous storage area
+  [Tags]  webdav  move  anonymous  plainproxy
+  ${plainproxy}  Get WebDAV plain proxy credentials
+  WebDAV MOVE file  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${plainproxy}
+
+WebDAV MOVE from plain proxy to VOMS proxy storage area
+  [Tags]  webdav  move  vomsproxy  plainproxy
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV MOVE file  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+
+WebDAV MOVE unauthorized from plain proxy to VOMS proxy storage area
+  [Tags]  webdav  move  vomsproxy  plainproxy
+  ${plainproxy}  Get WebDAV plain proxy credentials
+  WebDAV MOVE unauthorized  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${plainproxy}
+
+WebDAV MOVE unauthorized from anonymous to voms proxy storage area
+  [Tags]  webdav  move  anonymous  vomsproxy
+  WebDAV MOVE unauthorized  ${davEndpoint}  ${ANONYMOUS_SA}  ${davSecureEndpoint}  ${VOMSPROXY_SA}

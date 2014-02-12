@@ -92,26 +92,6 @@ Abort after prepare to put
   Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
-Abort after ptp and file transfer
-  [Tags]  storm-client  abort
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${filename}
-  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
-  Should contain  ${output}  SRM_SPACE_AVAILABLE
-  ${options}  Set variable  --verbose -X PUT
-  ${turl}  Build file transfer secure TURL  ${vo}  ${filename}
-  ${output}  Execute Curl with proxy and options  ${turl}  ${options}
-  Should Contain  ${output}  204 No Content
-  ${output}  Perform abort request using clientSRM  ${token}
-  Should Contain  ${output}  SRM_SUCCESS
-  ${output}  Perform ls using clientSRM  ${surl}
-  Should Contain  ${output}  SRM_FAILURE
-  ${output}  Perform rm using clientSRM  ${surl}
-  Should Contain  ${output}  SRM_FAILURE
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
 Abort after put done
   [Tags]  storm-client  abort
   [Setup]  Init certificate and voms proxy  test0  ${vo}

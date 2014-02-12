@@ -1,5 +1,7 @@
 *** Variables ***
 
+##### ENDPOINTS #####
+
 ${backEndHost}  omii005-vm03.cnaf.infn.it
 
 ${frontEndHost}  ${backEndHost}
@@ -14,20 +16,20 @@ ${gridFTPHost}  ${frontEndHost}
 ${srmEndpoint}  ${frontEndHost}:${frontEndPort}
 ${globusEndpoint}  ${frontEndHost}:2811
 ${recallEndpoint}  ${backEndHost}:9998
-${davEndpoint}  ${gridHTTPsHost}:${gridHTTPsPort}
-${davSecureEndpoint}  ${gridHTTPsHost}:${gridHTTPsSecurePort}
 
 ${davContextPath}  /webdav
 
-${filetransferEndpoint}  ${gridHTTPsHost}:${gridHTTPsPort}
-${filetransferSecureEndpoint}  ${gridHTTPsHost}:${gridHTTPsSecurePort}
+${davEndpoint}  http://${gridHTTPsHost}:${gridHTTPsPort}${davContextPath}
+${davSecureEndpoint}  https://${gridHTTPsHost}:${gridHTTPsSecurePort}${davContextPath}
 
-${storageAreaRoot}  /storage
+${ftContextPath}  /fileTransfer
 
-${vo}   testers.eu-emi.eu
-${vo2}   dteam
+${filetransferEndpoint}  http://${gridHTTPsHost}:${gridHTTPsPort}${ftContextPath}
+${filetransferSecureEndpoint}  https://${gridHTTPsHost}:${gridHTTPsSecurePort}${ftContextPath}
 
-${storageAreaToken}  TESTERSEUEMIEU_TOKEN
+${ldapEndpoint}  ${backEndHost}:2170
+
+##### CREDENTIALS #####
 
 ${certsDir}   /usr/share/igi-test-ca
 ${privateKeyPassword}   pass
@@ -37,23 +39,40 @@ ${userkey}  $HOME/.globus/userkey.pem
 ${userproxy}  $X509_USER_PROXY
 ${trustdir}  /etc/grid-security/certificates
 
-${anonymousRWStorageArea}  noauth
-${anonymousBisRWStorageArea}  noauth
-${vomsproxyRWStorageArea}  testers.eu-emi.eu
-${vomsproxyBisRWStorageArea}  testers.eu-emi.eu
-${gridproxyRWStorageArea}  igi
-${gridproxyBisRWStorageArea}  igi
-${personalcertRWStorageArea}  igi
-${personalcertBisRWStorageArea}  igi
-${tapeStorageArea}  ${vomsproxyRWStorageArea}
-${nestedParentStorageArea}  testers.eu-emi.eu
-${nestedChildStorageArea}  testers.eu-emi.eu/nested
-
-${ldapEndpoint}  ${backEndHost}:2170
+##### GLUE #####
 
 ${baseDNGlue}  mds-vo-name=resource,o=grid
 ${baseDNGlue2}  GLUE2GroupID=resource,o=glue
 
-${symlinkSURL}  srm://${srmEndpoint}/${gridproxyRWStorageArea}/${vomsproxyRWStorageArea}
-${symlinkSURL2}  srm://${srmEndpoint}/${gridproxyRWStorageArea}/grid-security
-${symlinkSURL3}  srm://${srmEndpoint}/${gridproxyRWStorageArea}/storm
+##### STORAGE AREAS #####
+
+${storageAreaRoot}  /storage
+
+${ANONYMOUS_SA}  noauth
+${PLAINPROXY_SA}  igi
+${VOMSPROXY_SA}  testers.eu-emi.eu
+${VOMSPROXY_SA2}  dteam
+${NESTED_SA}  testers.eu-emi.eu/nested
+${ALIASED_SA}  testers.eu-emi.eu/test
+${ALIASED_SA_REF}  ${NESTED_SA}
+
+${vo}   testers.eu-emi.eu
+${vo2}   dteam
+${tapeStorageArea}  testers.eu-emi.eu
+
+${storageAreaToken}  TESTERSEUEMIEU_TOKEN
+
+##### LINKS
+
+${ANONYMOUS_TO_VOMS}  testers
+${VOMS_TO_ANONYMOUS}  noauth_sa
+${VOMS_TO_VOMS}  dteam
+
+##### GRIDHTTPS #####
+
+${TESTDIR}  webdav-tests
+
+${GRID_PROXY}  /tmp/${TESTDIR}/gridproxy
+${VOMS_PROXY}  /tmp/${TESTDIR}/vomsproxy
+${TESTERS_CERT}  /tmp/${TESTDIR}/test0.cert.pem
+${TESTERS_CERT_SRC}  /usr/share/igi-test-ca/test0.cert.pem

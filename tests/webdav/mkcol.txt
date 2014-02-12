@@ -1,82 +1,134 @@
 *** Settings ***
-Resource   lib/stormlib.txt
+
+Resource   lib/webdav.txt
 Resource   lib/clientSRM.txt
 Resource   lib/credentials.txt
 
+*** Keywords ***
+
+WebDAV MKCOL on unexistent resource  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=${EMPTY}
+  ${dirname}  Get a unique name
+  ${output}  WebDAV MKCOL  ${endpoint}  ${storageArea}  ${TESTDIR}/${dirname}  ${credentials}
+  Log  ${output}
+  Should Contain  ${output}  201 Created
+  [Return]  ${output}
+
+WebDAV MKCOL with missing anchestor  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=${EMPTY}
+  ${dirname}  Get a unique name
+  ${dirnameParent}  Get a unique name
+  ${output}  WebDAV MKCOL  ${endpoint}  ${storageArea}  ${TESTDIR}/${dirnameParent}/${dirname}  ${credentials}
+  Log  ${output}
+  Should Contain  ${output}  409 Conflict
+  [Return]  ${output}
+
+WebDAV MKCOL on existent resource  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=${EMPTY}
+  ${dirname}  Get a unique name
+  ${output}  WebDAV MKCOL  ${endpoint}  ${storageArea}  ${TESTDIR}/${dirname}  ${credentials}
+  Log  ${output}
+  Should Contain  ${output}  201 Created
+  ${output}  WebDAV MKCOL  ${endpoint}  ${storageArea}  ${TESTDIR}/${dirname}  ${credentials}
+  Log  ${output}
+  Should Contain  ${output}  405 Method Not Allowed
+  [Return]  ${output}
+
+WebDAV MKCOL unauthorized  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=${EMPTY}
+  ${dirname}  Get a unique name
+  ${output}  WebDAV MKCOL  ${endpoint}  ${storageArea}  ${TESTDIR}/${dirname}  ${credentials}
+  Log  ${output}
+  Should Contain  ${output}  403
+  [Return]  ${output}
+
+
 *** Test Cases ***
 
-WebDAV MKCOL anonymous
-  [Tags]  webdav  mkcol  anonymous
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${dirname}  Get a unique name
-  ${options}  Set variable  --verbose -X MKCOL
-  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${dirName}
-  ${output}  Execute Curl with options  ${url}  ${options}
-  Should Contain  ${output}  201 Created
-  Remove empty directory using clientSRM  ${anonymousRWStorageArea}  ${dirname}
-  Remove local directory  ${dirname}
-  [Teardown]  Clear all credentials
+######### ANONYMOUS ##########
 
-WebDAV MKCOL with voms proxy
+WebDAV MKCOL as anonymous
+  [Tags]  webdav  mkcol  anonymous
+  WebDAV MKCOL on unexistent resource  ${davEndpoint}  ${ANONYMOUS_SA}
+
+WebDAV MKCOL with missing anchestor as anonymous
+  [Tags]  webdav  mkcol  anonymous
+  WebDAV MKCOL with missing anchestor  ${davEndpoint}  ${ANONYMOUS_SA}
+
+WebDAV MKCOL on existent resource as anonymous
+  [Tags]  webdav  mkcol  anonymous
+  WebDAV MKCOL on existent resource  ${davEndpoint}  ${ANONYMOUS_SA}
+
+####### VOMS PROXY #########
+
+WebDAV MKCOL with VOMS proxy
   [Tags]  webdav  mkcol  vomsproxy
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${dirname}  Get a unique name
-  ${options}  Set variable  --verbose -X MKCOL
-  ${url}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${dirName}
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  201 Created
-  Remove empty directory using clientSRM  ${vomsproxyRWStorageArea}  ${dirname}
-  Remove local directory  ${dirname}
-  [Teardown]  Clear all credentials
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV MKCOL on unexistent resource  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+
+WebDAV MKCOL with missing anchestor with VOMS proxy
+  [Tags]  webdav  mkcol  vomsproxy
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV MKCOL with missing anchestor  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+
+WebDAV MKCOL on existent resource with VOMS proxy
+  [Tags]  webdav  mkcol  vomsproxy
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV MKCOL on existent resource  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+
+WebDAV MKCOL with VOMS proxy on an anonymous writeable storage area
+  [Tags]  webdav  mkcol  vomsproxy
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV MKCOL on unexistent resource  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${vomsproxy}
+
+######### PLAIN PROXY ##########
 
 WebDAV MKCOL with plain proxy
   [Tags]  webdav  mkcol  plainproxy
-  [Setup]  Init certificate and plain proxy  test0
-  ${dirname}  Get a unique name
-  ${options}  Set variable  --verbose -X MKCOL
-  ${url}  Build webdav secure URL  ${gridproxyRWStorageArea}  ${dirName}
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  201 Created
-  Remove empty directory using clientSRM  ${gridproxyRWStorageArea}  ${dirname}
-  Remove local directory  ${dirname}
-  [Teardown]  Clear all credentials
+  ${plainproxy}  Get WebDAV plain proxy credentials
+  WebDAV MKCOL on unexistent resource  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
 
-WebDAV MKCOL with personal certificate
-  [Tags]  webdav  mkcol  perscert
-  [Setup]  Init certificate with unencrypted key  test0
-  ${dirname}  Get a unique name
-  ${options}  Set variable  --verbose -X MKCOL
-  ${url}  Build webdav secure url  ${personalcertRWStorageArea}  ${dirName}
-  ${output}  Execute Curl with certificate and options  ${url}  ${options}
-  Should Contain  ${output}  201 Created
-  Remove empty directory using clientSRM  ${personalcertRWStorageArea}  ${dirname}
-  Remove local directory  ${dirname}
-  [Teardown]  Clear all credentials
+WebDAV MKCOL with missing anchestor with plain proxy
+  [Tags]  webdav  mkcol  plainproxy
+  ${plainproxy}  Get WebDAV plain proxy credentials
+  WebDAV MKCOL with missing anchestor  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
 
-WebDAV MKCOL anonymous with unexistent intermediate parent
-  [Tags]  webdav  mkcol  anonymous
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${dirname}  Get a unique name
-  ${surl}  Build surl  ${anonymousRWStorageArea}  ${dirname}
-  ${output}  Perform ls using clientSRM  ${surl}  -c 1
-  Should Contain  ${output}  SRM_INVALID_PATH
-  ${options}  Set variable  --verbose -X MKCOL
-  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${dirName}/${dirName}
-  ${output}  Execute Curl with options  ${url}  ${options}
-  Should Contain  ${output}  409 Conflict
-  Remove local directory  ${dirname}
-  [Teardown]  Clear all credentials
+WebDAV MKCOL on existent resource with plain proxy
+  [Tags]  webdav  mkcol  plainproxy
+  ${plainproxy}  Get WebDAV plain proxy credentials
+  WebDAV MKCOL on existent resource  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
 
-WebDAV MKCOL anonymous on existent directory
-  [Tags]  webdav  mkcol  anonymous
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${dirname}  Get a unique name
-  ${options}  Set variable  --verbose -X MKCOL
-  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${dirName}
-  ${output}  Execute Curl with options  ${url}  ${options}
-  Should Contain  ${output}  201 Created
-  ${output}  Execute Curl with options  ${url}  ${options}
-  Should Contain  ${output}  405 Method Not Allowed
-  Remove empty directory using clientSRM  ${anonymousRWStorageArea}  ${dirname}
-  Remove local directory  ${dirname}
-  [Teardown]  Clear all credentials
+WebDAV MKCOL with plain proxy on an anonymous writeable storage area
+  [Tags]  webdav  mkcol  plainproxy
+  ${plainproxy}  Get WebDAV plain proxy credentials
+  WebDAV MKCOL on unexistent resource  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${plainproxy}
+
+####### NESTED #########
+
+WebDAV MKCOL nested storage area with VOMS proxy
+  [Tags]  webdav  mkcol  vomsproxy  nested
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV MKCOL on unexistent resource  ${davSecureEndpoint}  ${NESTED_SA}  ${vomsproxy}
+
+WebDAV MKCOL nested storage area with missing anchestor with VOMS proxy
+  [Tags]  webdav  mkcol  vomsproxy  nested
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV MKCOL with missing anchestor  ${davSecureEndpoint}  ${NESTED_SA}  ${vomsproxy}
+
+WebDAV MKCOL nested storage area on existent resource with VOMS proxy
+  [Tags]  webdav  mkcol  vomsproxy  nested
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV MKCOL on existent resource  ${davSecureEndpoint}  ${NESTED_SA}  ${vomsproxy}
+
+####### ALIASED #########
+
+WebDAV MKCOL aliased storage area with VOMS proxy
+  [Tags]  webdav  mkcol  vomsproxy  aliased
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV MKCOL on unexistent resource  ${davSecureEndpoint}  ${ALIASED_SA}  ${vomsproxy}
+
+WebDAV MKCOL aliased storage area with missing anchestor with VOMS proxy
+  [Tags]  webdav  mkcol  vomsproxy  aliased
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV MKCOL with missing anchestor  ${davSecureEndpoint}  ${ALIASED_SA}  ${vomsproxy}
+
+WebDAV MKCOL aliased storage area on existent resource with VOMS proxy
+  [Tags]  webdav  mkcol  vomsproxy  aliased
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV MKCOL on existent resource  ${davSecureEndpoint}  ${ALIASED_SA}  ${vomsproxy}

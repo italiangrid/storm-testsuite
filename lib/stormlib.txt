@@ -61,32 +61,3 @@ Build surl  [Arguments]  ${storageArea}  ${relativePath}
 Build simple surl  [Arguments]  ${storageArea}  ${relativePath}
   ${output}  Set variable  srm://${srmEndpoint}/${storageArea}/${relativePath}
   [Return]  ${output}
-
-
-
-
-Execute Curl with proxy and options  [Arguments]  ${url}  ${options}=${EMPTY}
-  [Documentation]  This keyword should be used when invoking CURL with a proxy certificate
-  ${output}  Execute and Check Success  curl --cert ${userproxy} --cacert ${usercert} --capath ${trustdir} ${options} ${url} -L
-  [Return]  ${output}
-
-Execute Curl with certificate and options  [Arguments]  ${url}  ${options}=${EMPTY}
-  [Documentation]  This keyword should be used when invoking CURL with an EEC
-  ${output}  Execute and Check Success  curl --cert ${usercert} --key ${userkey} --capath ${trustdir} ${options} ${url} -L
-  [Return]  ${output}
-
-Execute Curl with options   [Arguments]  ${url}  ${options}=${EMPTY}
-  ${output}  Execute and Check Success  curl ${options} ${url} -L
-  [Return]   ${output}
-
-
-
-Build file transfer TURL  [Arguments]  ${storageArea}  ${relativePath}
-  ${output}  Set variable  http://${filetransferEndpoint}/fileTransfer/${storageArea}/${relativePath}
-  [Return]  ${output}
-
-Build file transfer secure TURL  [Arguments]  ${storageArea}  ${relativePath}
-  ${output}  Set variable  https://${filetransferSecureEndpoint}/fileTransfer/${storageArea}/${relativePath}
-  [Return]  ${output}
-
-
