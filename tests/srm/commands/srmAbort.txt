@@ -69,7 +69,7 @@ Abort multiple files
   [Teardown]  Clear all credentials
 
 Abort request with unexistent token
-  [Tags]  storm-client  abort  to-be-fixed
+  [Tags]  storm-client  abort
   [Documentation]  Regression test for https://issues.infn.it/jira/browse/STOR-234. Storm BE does not manage correctly abort requests of expired tokens.
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${output}  Perform abort request using clientSRM  fake_token

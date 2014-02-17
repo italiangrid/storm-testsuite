@@ -1,0 +1,26 @@
+** Settings ***
+
+Library   OperatingSystem
+Resource   variables.txt
+
+*** Keywords ***
+
+Get proxy curl options  [Arguments]  ${proxy}  ${x509cert}
+  ${options}  Set variable  --cert ${proxy} --cacert ${x509cert} --capath ${trustdir}
+  [Return]  ${options}
+
+Get personal certificate curl options  [Arguments]  ${x509cert}  ${x509key}
+  ${options}  Set variable  --cert ${x509cert} --key ${x509key} --capath ${trustdir}
+  [Return]  ${options}
+
+Get header  [Arguments]  ${name}  ${value}
+  ${output}  Set variable  --header "${name}: ${value}"
+  [Return]  ${output}
+
+Set body  [Arguments]  ${value}
+  ${output}  Set variable  --data-ascii "${value}"
+  [Return]  ${output}
+
+Curl  [Arguments]  ${method}  ${url}  ${options}=${EMPTY}
+  ${output}  Execute and Check Success  curl ${options} ${url} -X ${method}
+  [Return]  ${output}

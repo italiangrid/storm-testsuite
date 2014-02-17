@@ -1,187 +1,241 @@
 *** Settings ***
-Resource   lib/stormlib.txt
+
+Resource   lib/webdav.txt
 Resource   lib/clientSRM.txt
-Resource   lib/lcg_util.txt
 Resource   lib/credentials.txt
+
+*** Keywords ***
+
+WebDAV GET root directory  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=${EMPTY}
+  ${output}  WebDAV GET root  ${endpoint}  ${credentials}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+  [Return]  ${output}
+
+WebDAV GET existent file  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=${EMPTY}
+  ${filename}  Upload file  ${endpoint}  ${storageArea}  ${credentials}  ${TESTDIR}  test123456789
+  ${output}  WebDAV GET  ${endpoint}  ${storageArea}  ${TESTDIR}/${filename}  ${credentials}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+  Should Contain  ${output}  test123456789
+
+WebDAV GET unexistent resource  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=${EMPTY}
+  ${filename}  Get a unique name
+  ${output}  WebDAV GET  ${endpoint}  ${storageArea}  ${TESTDIR}/${filename}  ${credentials}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found
+
+WebDAV GET existent directory  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=${EMPTY}
+  ${output}  WebDAV GET  ${endpoint}  ${storageArea}  ${TESTDIR}  ${credentials}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+  Should Contain  ${output}  ${TESTDIR}
+
+WebDAV GET resource with missing parent  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=${EMPTY}
+  ${dirname}  Get a unique name
+  ${filename}  Get a unique name
+  ${output}  WebDAV GET  ${endpoint}  ${storageArea}  ${TESTDIR}/${dirname}/${filename}  ${credentials}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found
+
+WebDAV GET busy file  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=${EMPTY}
+  ${filename}  Get a unique name
+  ${surl}  Build surl  ${storageArea}  ${TESTDIR}/${filename}
+  Init certificate and voms proxy  test0  ${vo}
+  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
+  Should Contain  ${output}  SRM_SPACE_AVAILABLE
+  ${output}  WebDAV GET  ${endpoint}  ${storageArea}  ${TESTDIR}/${filename}  ${credentials}
+  Log  ${output}
+  Should Contain  ${output}  409
+  Should Contain  ${output}  SRM_FILE_BUSY
+  ${output}  Perform abort file using clientSRM  ${surl}  ${token}
+  Should Contain  ${output}  SRM_SUCCESS
+  Clear all credentials
 
 *** Test Cases ***
 
-WebDAV GET directory as anonymous
+######### ANONYMOUS ##########
+
+WebDAV GET root directory as anonymous
   [Tags]  webdav  get  anonymous
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${dirname}  Get a unique name
-  ${surl}  Build surl  ${anonymousRWStorageArea}  ${dirname}
-  ${output}  Perform mkdir using clientSRM  ${surl}
-  Should Contain  ${output}  SRM_SUCCESS
-  ${filename}  Create local file
-  ${surl2}  Build surl  ${anonymousRWStorageArea}  ${dirname}/${filename}
-  Copy-out file using lcg-utils  ${filename}  ${surl2}
-  ${options}  Set variable  --verbose -X GET
-  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${dirname}
-  ${output}  Execute Curl with options  ${url}  ${options}
-  Should Contain  ${output}  200 OK
-  Should Contain  ${output}  ${dirname}
-  Should Contain  ${output}  ${filename}
-  Remove not empty directory using clientSRM  ${anonymousRWStorageArea}  ${dirname}
-  Remove local directory  ${dirname}
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
+  ${output}  WebDAV GET root directory  ${davEndpoint}  ${ANONYMOUS_SA}
+  Should Contain  ${output}  ${ANONYMOUS_SA}
 
-WebDAV GET directory with voms proxy credentials
-  [Tags]  webdav  get  vomsproxy
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${dirname}  Get a unique name
-  ${surl}  Build surl  ${vomsproxyRWStorageArea}  ${dirname}
-  ${output}  Perform mkdir using clientSRM  ${surl}
-  Should Contain  ${output}  SRM_SUCCESS
-  ${filename}  Create local file
-  ${surl2}  Build surl  ${vomsproxyRWStorageArea}  ${dirname}/${filename}
-  Copy-out file using lcg-utils  ${filename}  ${surl2}
-  ${options}  Set variable  --verbose -X GET
-  ${url}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${dirname}
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  200 OK
-  Should Contain  ${output}  ${dirname}
-  Should Contain  ${output}  ${filename}
-  Remove not empty directory using clientSRM  ${vomsproxyRWStorageArea}  ${dirname}
-  Remove local directory  ${dirname}
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
-WebDAV GET directory with plain proxy credentials
-  [Tags]  webdav  get  plainproxy
-  [Setup]  Init certificate and plain proxy  test0
-  ${dirname}  Get a unique name
-  ${surl}  Build surl  ${gridproxyRWStorageArea}  ${dirname}
-  ${output}  Perform mkdir using clientSRM  ${surl}
-  Should Contain  ${output}  SRM_SUCCESS
-  ${filename}  Create local file
-  ${surl2}  Build surl  ${gridproxyRWStorageArea}  ${dirname}/${filename}
-  Copy-out file using lcg-utils  ${filename}  ${surl2}
-  ${options}  Set variable  --verbose -X GET
-  ${url}  Build webdav secure URL  ${gridproxyRWStorageArea}  ${dirname}
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  200 OK
-  Should Contain  ${output}  ${dirname}
-  Should Contain  ${output}  ${filename}
-  Remove not empty directory using clientSRM  ${gridproxyRWStorageArea}  ${dirname}
-  Remove local directory  ${dirname}
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
-WebDAV GET directory with personal certificate
-  [Tags]  webdav  get  perscert
-  [Setup]  Init certificate with unencrypted key  test0
-  ${dirname}  Get a unique name
-  ${surl}  Build surl  ${personalcertRWStorageArea}  ${dirname}
-  ${output}  Perform mkdir using clientSRM  ${surl}
-  Should Contain  ${output}  SRM_SUCCESS
-  ${filename}  Create local file
-  ${surl2}  Build surl  ${personalcertRWStorageArea}  ${dirname}/${filename}
-  Copy-out file using lcg-utils  ${filename}  ${surl2}
-  ${options}  Set variable  --verbose -X GET
-  ${url}  Build webdav secure URL  ${personalcertRWStorageArea}  ${dirname}
-  ${output}  Execute Curl with certificate and options  ${url}  ${options}
-  Should Contain  ${output}  200 OK
-  Should Contain  ${output}  ${dirname}
-  Should Contain  ${output}  ${filename}
-  Remove not empty directory using clientSRM  ${personalcertRWStorageArea}  ${dirname}
-  Remove local directory  ${dirname}
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
+WebDAV GET existent file as anonymous
+  [Tags]  webdav  get  anonymous
+  WebDAV GET existent file  ${davEndpoint}  ${ANONYMOUS_SA}
 
 WebDAV GET unexistent resource as anonymous
   [Tags]  webdav  get  anonymous
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${dirname}  Get a unique name
-  ${surl}  Build surl  ${anonymousRWStorageArea}  ${dirname}
-  ${output}  Perform ls using clientSRM  ${surl}  -c 1
-  Should Contain  ${output}  SRM_INVALID_PATH
-  ${options}  Set variable  --verbose -X GET
-  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${dirname}
-  ${output}  Execute Curl with options  ${url}  ${options}
-  Should Contain  ${output}  404 Not Found
-  Remove local directory  ${dirname}
-  [Teardown]  Clear all credentials
+  WebDAV GET unexistent resource  ${davEndpoint}  ${ANONYMOUS_SA}
 
-WebDAV GET file as anonymous
+WebDAV GET existent directory as anonymous
   [Tags]  webdav  get  anonymous
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Create local file
-  ${surl}  Build surl  ${anonymousRWStorageArea}  ${filename}
-  Copy-out file using lcg-utils  ${filename}  ${surl}
-  ${options}  Set variable  -X GET -v -o /tmp/${filename}_2
-  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${filename}
-  ${output}  Execute Curl with options  ${url}  ${options}
-  Should Contain  ${output}  200 OK
-  Execute and Check Success  diff /tmp/${filename} /tmp/${filename}_2
-  Remove file using clientSRM  ${anonymousRWStorageArea}  ${filename}
-  Remove local file  ${filename}
-  Remove local file  ${filename}_2
-  [Teardown]  Clear all credentials
+  WebDAV GET existent directory  ${davEndpoint}  ${ANONYMOUS_SA}
 
-WebDAV GET file with plain proxy
-  [Tags]  webdav  get  plainproxy
-  [Setup]  Init certificate and plain proxy  test0
-  ${filename}  Create local file
-  ${surl}  Build surl  ${gridproxyRWStorageArea}  ${filename}
-  Copy-out file using lcg-utils  ${filename}  ${surl}
-  ${options}  Set variable  -X GET -v -o /tmp/${filename}_2
-  ${url}  Build webdav secure URL  ${gridproxyRWStorageArea}  ${filename}
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  200 OK
-  Execute and Check Success  diff /tmp/${filename} /tmp/${filename}_2
-  Remove file using clientSRM  ${gridproxyRWStorageArea}  ${filename}
-  Remove local file  ${filename}
-  Remove local file  ${filename}_2
-  [Teardown]  Clear all credentials
+WebDAV GET resource with missing parent as anonymous
+  [Tags]  webdav  get  anonymous
+  WebDAV GET resource with missing parent  ${davEndpoint}  ${ANONYMOUS_SA}
 
-WebDAV GET file with VOMS proxy
+WebDAV GET busy file as anonymous
+  [Tags]  webdav  get  anonymous
+  WebDAV GET busy file  ${davEndpoint}  ${ANONYMOUS_SA}
+
+####### VOMS PROXY #########
+
+WebDAV GET root directory with VOMS proxy
   [Tags]  webdav  get  vomsproxy
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Create local file
-  ${surl}  Build surl  ${vomsproxyRWStorageArea}  ${filename}
-  Copy-out file using lcg-utils  ${filename}  ${surl}
-  ${options}  Set variable  -X GET -v -o /tmp/${filename}_2
-  ${url}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${filename}
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  200 OK
-  Execute and Check Success  diff /tmp/${filename} /tmp/${filename}_2
-  Remove file using clientSRM  ${vomsproxyRWStorageArea}  ${filename}
-  Remove local file  ${filename}
-  Remove local file  ${filename}_2
-  [Teardown]  Clear all credentials
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${output}  WebDAV GET root directory  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  Should Contain  ${output}  ${VOMSPROXY_SA}
 
-WebDAV GET file with personal certificate
-  [Tags]  webdav  get  perscert
-  [Setup]  Init certificate with unencrypted key  test0
-  ${filename}  Create local file
-  ${surl}  Build surl  ${personalcertRWStorageArea}  ${filename}
-  Copy-out file using lcg-utils  ${filename}  ${surl}
-  ${options}  Set variable  -X GET -v -o /tmp/${filename}_2
-  ${url}  Build webdav secure URL  ${personalcertRWStorageArea}  ${filename}
-  ${output}  Execute Curl with certificate and options  ${url}  ${options}
-  Should Contain  ${output}  200 OK
-  Execute and Check Success  diff /tmp/${filename} /tmp/${filename}_2
-  Remove file using clientSRM  ${personalcertRWStorageArea}  ${filename}
-  Remove local file  ${filename}
-  Remove local file  ${filename}_2
-  [Teardown]  Clear all credentials
+WebDAV GET existent file with VOMS proxy
+  [Tags]  webdav  get  vomsproxy
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV GET existent file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
 
-WebDAV GET SURL in SRM_SPACE_AVAILABLE status
-  [Tags]  webdav  put  vomsproxy
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Get a unique name
-  ${surl}  Build surl  ${vomsproxyRWStorageArea}  ${filename}
-  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
-  Should Contain  ${output}  SRM_SPACE_AVAILABLE
-  ${options}  Set variable  -X GET -v -o /tmp/${filename}_2
-  ${url}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${filename}
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  503 SRM_FILE_BUSY: Requested file is busy (in an incompatible state with PTG)
-  ${output}  Perform pd using clientSRM  ${surl}  ${token}
-  Should Contain  ${output}  SRM_SUCCESS
-  Remove file using clientSRM  ${vomsproxyRWStorageArea}  ${filename}
-  Remove local file  ${filename}
-  Remove local file  ${filename}_2
-  [Teardown]  Clear all credentials
+WebDAV GET unexistent resource with VOMS proxy
+  [Tags]  webdav  get  vomsproxy
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV GET unexistent resource  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+
+WebDAV GET existent directory with VOMS proxy
+  [Tags]  webdav  get  vomsproxy
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV GET existent directory  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+
+WebDAV GET resource with missing parent with VOMS proxy
+  [Tags]  webdav  get  vomsproxy
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV GET resource with missing parent  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+
+WebDAV GET busy file with VOMS proxy
+  [Tags]  webdav  get  vomsproxy
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV GET busy file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+
+WebDAV GET existent file with VOMS proxy on an anonymous readable storage area
+  [Tags]  webdav  get  vomsproxy
+  ${filename}  Upload file  ${davEndpoint}  ${ANONYMOUS_SA}  ${EMPTY}  ${TESTDIR}  test123456789
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${output}  WebDAV GET  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${TESTDIR}/${filename}  ${vomsproxy}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+  Should Contain  ${output}  test123456789
+
+######### PLAIN PROXY ##########
+
+WebDAV GET root directory with plain proxy
+  [Tags]  webdav  get  plainproxy
+  ${plainproxy}  Get WebDAV plain proxy credentials
+  ${output}  WebDAV GET root directory  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  Should Contain  ${output}  ${PLAINPROXY_SA}
+
+WebDAV GET existent file with plain proxy
+  [Tags]  webdav  get  plainproxy
+  ${plainproxy}  Get WebDAV plain proxy credentials
+  WebDAV GET existent file  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+
+WebDAV GET unexistent resource with plain proxy
+  [Tags]  webdav  get  plainproxy
+  ${plainproxy}  Get WebDAV plain proxy credentials
+  WebDAV GET unexistent resource  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+
+WebDAV GET existent directory with plain proxy
+  [Tags]  webdav  get  plainproxy
+  ${plainproxy}  Get WebDAV plain proxy credentials
+  WebDAV GET existent directory  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+
+WebDAV GET resource with missing parent with plain proxy
+  [Tags]  webdav  get  plainproxy
+  ${plainproxy}  Get WebDAV plain proxy credentials
+  WebDAV GET resource with missing parent  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+
+WebDAV GET busy file with plain proxy
+  [Tags]  webdav  get  plainproxy
+  ${plainproxy}  Get WebDAV plain proxy credentials
+  WebDAV GET busy file  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+
+WebDAV GET existent file with plain proxy on an anonymous readable storage area
+  [Tags]  webdav  get  plainproxy
+  ${filename}  Upload file  ${davEndpoint}  ${ANONYMOUS_SA}  ${EMPTY}  ${TESTDIR}  test123456789
+  ${plainproxy}  Get WebDAV plain proxy credentials
+  ${output}  WebDAV GET  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${TESTDIR}/${filename}  ${plainproxy}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+  Should Contain  ${output}  test123456789
+
+####### NESTED SA #########
+
+WebDAV GET nested storage area root directory with VOMS proxy
+  [Tags]  webdav  get  vomsproxy  nested
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${output}  WebDAV GET root directory  ${davSecureEndpoint}  ${NESTED_SA}  ${vomsproxy}
+  Should Contain  ${output}  ${NESTED_SA}
+
+WebDAV GET nested storage area existent file with VOMS proxy
+  [Tags]  webdav  get  vomsproxy  nested
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV GET existent file  ${davSecureEndpoint}  ${NESTED_SA}  ${vomsproxy}
+
+WebDAV GET nested storage area unexistent resource with VOMS proxy
+  [Tags]  webdav  get  vomsproxy  nested
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV GET unexistent resource  ${davSecureEndpoint}  ${NESTED_SA}  ${vomsproxy}
+
+WebDAV GET nested storage area existent directory with VOMS proxy
+  [Tags]  webdav  get  vomsproxy  nested
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV GET existent directory  ${davSecureEndpoint}  ${NESTED_SA}  ${vomsproxy}
+
+WebDAV GET nested storage area resource with missing parent with VOMS proxy
+  [Tags]  webdav  get  vomsproxy  nested
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV GET resource with missing parent  ${davSecureEndpoint}  ${NESTED_SA}  ${vomsproxy}
+
+####### ALIASED SA #########
+
+WebDAV GET aliased storage area root directory with VOMS proxy
+  [Tags]  webdav  get  vomsproxy  aliased
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${output}  WebDAV GET root directory  ${davSecureEndpoint}  ${ALIASED_SA}  ${vomsproxy}
+  Should Contain  ${output}  ${ALIASED_SA}
+
+WebDAV GET aliased storage area existent file with VOMS proxy
+  [Tags]  webdav  get  vomsproxy  aliased
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV GET existent file  ${davSecureEndpoint}  ${ALIASED_SA}  ${vomsproxy}
+
+WebDAV GET aliased storage area unexistent resource with VOMS proxy
+  [Tags]  webdav  get  vomsproxy  aliased
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV GET unexistent resource  ${davSecureEndpoint}  ${ALIASED_SA}  ${vomsproxy}
+
+WebDAV GET aliased storage area existent directory with VOMS proxy
+  [Tags]  webdav  get  vomsproxy  aliased
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV GET existent directory  ${davSecureEndpoint}  ${ALIASED_SA}  ${vomsproxy}
+
+WebDAV GET aliased storage area resource with missing parent with VOMS proxy
+  [Tags]  webdav  get  vomsproxy  aliased
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV GET resource with missing parent  ${davSecureEndpoint}  ${ALIASED_SA}  ${vomsproxy}
+
+WebDAV GET directory and check content
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${filename}  Upload file  ${davSecureEndpoint}  ${ALIASED_SA_REF}  ${vomsproxy}
+  ${filename2}  Upload file  ${davSecureEndpoint}  ${ALIASED_SA}  ${vomsproxy}
+  ${output}  WebDAV GET  ${davSecureEndpoint}  ${ALIASED_SA}  ${TESTDIR}  ${vomsproxy}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+  Should Contain  ${output}  ${ALIASED_SA}/${TESTDIR}/${filename}
+  Should Contain  ${output}  ${ALIASED_SA}/${TESTDIR}/${filename2}
+  Should Contain  ${output}  href="${davContextPath}/${ALIASED_SA}/${TESTDIR}/${filename}"
+  Should Contain  ${output}  href="${davContextPath}/${ALIASED_SA}/${TESTDIR}/${filename2}"
+  ${output}  WebDAV GET  ${davSecureEndpoint}  ${ALIASED_SA_REF}  ${TESTDIR}  ${vomsproxy}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+  Should Contain  ${output}  ${ALIASED_SA_REF}/${TESTDIR}/${filename}
+  Should Contain  ${output}  ${ALIASED_SA_REF}/${TESTDIR}/${filename2}
+  Should Contain  ${output}  href="${davContextPath}/${ALIASED_SA_REF}/${TESTDIR}/${filename}"
+  Should Contain  ${output}  href="${davContextPath}/${ALIASED_SA_REF}/${TESTDIR}/${filename2}"

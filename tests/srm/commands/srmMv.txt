@@ -186,7 +186,7 @@ Move file with active ptp
   [Teardown]  Clear all credentials
 
 Move file on an unauthorized destination
-  [Tags]  storm-client  mv  to-be-fixed
+  [Tags]  storm-client  mv
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Create local file
   ${srcsurl}  Build surl  ${vo}  ${filename}
@@ -206,16 +206,13 @@ Check unauthorized file move on a different VO
   ${filename}  Create local file
   ${srcsurl}  Build surl  ${vo}  ${filename}
   Copy-out file using lcg-utils  ${filename}  ${srcsurl}
-  Init certificate and plain proxy  test0
-  ${srcsurl}  Build surl  ${gridproxyRWStorageArea}  ../${vo}/${filename}
-  ${destsurl}  Build surl  ${gridproxyRWStorageArea}  ${filename}
+  ${srcsurl}  Build surl  ${vo}  ${filename}
+  ${destsurl}  Build surl  ${vo}  ../${vo2}/${filename}
   ${output}  Perform mv using clientSRM  ${srcsurl}  ${destsurl}
-  Should Contain  ${output}  SRM_INVALID_PATH
-  ${srcsurl}  Build simple surl  ${gridproxyRWStorageArea}  ../${vo}/${filename}
-  ${destsurl}  Build simple surl  ${gridproxyRWStorageArea}  ${filename}
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
+  ${destsurl}  Build surl  ${vo2}  ../${vo}/${filename}_2
   ${output}  Perform mv using clientSRM  ${srcsurl}  ${destsurl}
-  Should Contain  ${output}  SRM_INVALID_PATH
-  Init certificate and voms proxy  test0  ${vo}
-  Remove file using clientSRM  ${vo}  ${filename}
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
+  Remove file using clientSRM  ${vo}  ${filename}_2
   Remove local file  ${filename}
   [Teardown]  Clear all credentials

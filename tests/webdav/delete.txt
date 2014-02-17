@@ -1,200 +1,85 @@
 *** Settings ***
-Resource   lib/stormlib.txt
+
+Resource   lib/webdav.txt
 Resource   lib/clientSRM.txt
 Resource   lib/credentials.txt
 
+*** Keywords ***
+
+WebDAV DELETE file  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=${EMPTY}
+  ${filename}  Upload file  ${endpoint}  ${storageArea}  ${credentials}
+  ${output}  WebDAV DELETE  ${endpoint}  ${storageArea}  ${TESTDIR}/${filename}  ${credentials}
+  Log  ${output}
+  Should Contain  ${output}  204 No Content
+  ${output}  WebDAV HEAD  ${endpoint}  ${storageArea}  ${TESTDIR}/${filename}  ${credentials}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found
+
+WebDAV DELETE directory  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=${EMPTY}
+  ${dirname}  Get a unique name
+  ${output}  WebDAV MKCOL  ${endpoint}  ${storageArea}  ${TESTDIR}/${dirname}  ${credentials}
+  Log  ${output}
+  Should Contain  ${output}  201 Created
+  ${filename}  Upload file  ${endpoint}  ${storageArea}  ${credentials}  ${TESTDIR}/${dirname}
+  ${output}  WebDAV DELETE  ${endpoint}  ${storageArea}  ${TESTDIR}/${dirname}  ${credentials}
+  Log  ${output}
+  Should Contain  ${output}  204 No Content
+  ${output}  WebDAV HEAD  ${endpoint}  ${storageArea}  ${TESTDIR}/${dirname}  ${credentials}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found
+
+WebDAV DELETE unexistent resource  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=${EMPTY}
+  ${filename}  Get a unique name
+  ${output}  WebDAV DELETE  ${endpoint}  ${storageArea}  ${TESTDIR}/${filename}  ${credentials}
+  Log  ${output}
+  Should Contain  ${output}  404 Not Found
+
 *** Test Cases ***
 
+######### ANONYMOUS ##########
+
 WebDAV DELETE file as anonymous
-  [Tags]  webdav  rm
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Get a unique name
-  Put without really putting using clientSRM  ${anonymousRWStorageArea}  ${filename}
-  ${options}  Set variable  --verbose -X DELETE
-  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${filename}
-  ${output}  Execute Curl with options  ${url}  ${options}
-  Should Contain  ${output}  204 No Content
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
+  [Tags]  webdav  delete  anonymous
+  WebDAV DELETE file  ${davEndpoint}  ${ANONYMOUS_SA}
 
-WebDAV DELETE file with voms proxy credentials
-  [Tags]  webdav  rm
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Get a unique name
-  Put without really putting using clientSRM  ${vomsproxyRWStorageArea}  ${filename}
-  ${options}  Set variable  --verbose -X DELETE
-  ${url}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${filename}
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  204 No Content
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
+WebDAV DELETE directory as anonymous
+  [Tags]  webdav  delete  anonymous
+  WebDAV DELETE directory  ${davEndpoint}  ${ANONYMOUS_SA}
 
-WebDAV DELETE file with plain proxy credentials
-  [Tags]  webdav  rm
-  [Setup]  Init certificate and plain proxy  test0
-  ${filename}  Get a unique name
-  Put without really putting using clientSRM  ${gridproxyRWStorageArea}  ${filename}
-  ${options}  Set variable  --verbose -X DELETE
-  ${url}  Build webdav secure URL  ${gridproxyRWStorageArea}  ${filename}
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  204 No Content
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
-WebDAV DELETE file with personal certificate
-  [Tags]  webdav  rm
-  [Setup]  Init certificate with unencrypted key  test0
-  ${filename}  Get a unique name
-  Put without really putting using clientSRM  ${personalcertRWStorageArea}  ${filename}
-  ${options}  Set variable  --verbose -X DELETE
-  ${url}  Build webdav secure URL  ${personalcertRWStorageArea}  ${filename}
-  ${output}  Execute Curl with certificate and options  ${url}  ${options}
-  Should Contain  ${output}  204 No Content
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
-WebDAV DELETE empty directory as anonymous
-  [Tags]  webdav  rmdir
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${dirname}  Get a unique name
-  ${surl}  Build surl  ${anonymousRWStorageArea}  ${dirName}
-  ${output}  Perform mkdir using clientSRM  ${surl}
-  Should Contain  ${output}  SRM_SUCCESS
-  ${options}  Set variable  --verbose -X DELETE
-  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${dirName}
-  ${output}  Execute Curl with options  ${url}  ${options}
-  Should Contain  ${output}  204 No Content
-  Remove local directory  ${dirname}
-  [Teardown]  Clear all credentials
-
-WebDAV DELETE empty directory with voms proxy credentials
-  [Tags]  webdav  rmdir
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${dirname}  Get a unique name
-  ${surl}  Build surl  ${vomsproxyRWStorageArea}  ${dirName}
-  ${output}  Perform mkdir using clientSRM  ${surl}
-  Should Contain  ${output}  SRM_SUCCESS
-  ${options}  Set variable  --verbose -X DELETE
-  ${url}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${dirName}
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  204 No Content
-  Remove local directory  ${dirname}
-  [Teardown]  Clear all credentials
-
-WebDAV DELETE empty directory with plain proxy credentials
-  [Tags]  webdav  rmdir
-  [Setup]  Init certificate and plain proxy  test0
-  ${dirname}  Get a unique name
-  ${surl}  Build surl  ${gridproxyRWStorageArea}  ${dirName}
-  ${output}  Perform mkdir using clientSRM  ${surl}
-  Should Contain  ${output}  SRM_SUCCESS
-  ${options}  Set variable  --verbose -X DELETE
-  ${url}  Build webdav secure URL  ${gridproxyRWStorageArea}  ${dirName}
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  204 No Content
-  Remove local directory  ${dirname}
-  [Teardown]  Clear all credentials
-
-WebDAV DELETE empty directory with personal certificate
-  [Tags]  webdav  rmdir
-  [Setup]  Init certificate with unencrypted key  test0
-  ${dirname}  Get a unique name
-  ${surl}  Build surl  ${personalcertRWStorageArea}  ${dirName}
-  ${output}  Perform mkdir using clientSRM  ${surl}
-  Should Contain  ${output}  SRM_SUCCESS
-  ${options}  Set variable  --verbose -X DELETE
-  ${url}  Build webdav secure URL  ${personalcertRWStorageArea}  ${dirName}
-  ${output}  Execute Curl with certificate and options  ${url}  ${options}
-  Should Contain  ${output}  204 No Content
-  Remove local directory  ${dirname}
-  [Teardown]  Clear all credentials
-
-WebDAV DELETE full directory as anonymous
-  [Tags]  webdav  rmdir
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${dirname}  Get a unique name
-  ${surl}  Build surl  ${anonymousRWStorageArea}  ${dirName}
-  ${output}  Perform mkdir using clientSRM  ${surl}
-  Should Contain  ${output}  SRM_SUCCESS
-  ${filename}  Get a unique name
-  Put without really putting using clientSRM  ${anonymousRWStorageArea}  ${dirName}/${filename}
-  ${options}  Set variable  --verbose -X DELETE
-  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${dirName}
-  ${output}  Execute Curl with options  ${url}  ${options}
-  Should Contain  ${output}  204 No Content
-  Remove local directory  ${dirname}
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
-WebDAV DELETE full directory with voms proxy credentials
-  [Tags]  webdav  rmdir
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${dirname}  Get a unique name
-  ${surl}  Build surl  ${vomsproxyRWStorageArea}  ${dirName}
-  ${output}  Perform mkdir using clientSRM  ${surl}
-  Should Contain  ${output}  SRM_SUCCESS
-  ${filename}  Get a unique name
-  Put without really putting using clientSRM  ${vomsproxyRWStorageArea}  ${dirName}/${filename}
-  ${options}  Set variable  --verbose -X DELETE
-  ${url}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${dirName}
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  204 No Content
-  Remove local directory  ${dirname}
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
-WebDAV DELETE full directory with plain proxy credentials
-  [Tags]  webdav  rmdir
-  [Setup]  Init certificate and plain proxy  test0
-  ${dirname}  Get a unique name
-  ${surl}  Build surl  ${gridproxyRWStorageArea}  ${dirName}
-  ${output}  Perform mkdir using clientSRM  ${surl}
-  Should Contain  ${output}  SRM_SUCCESS
-  ${filename}  Get a unique name
-  Put without really putting using clientSRM  ${gridproxyRWStorageArea}  ${dirName}/${filename}
-  ${options}  Set variable  --verbose -X DELETE
-  ${url}  Build webdav secure URL  ${gridproxyRWStorageArea}  ${dirName}
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  204 No Content
-  Remove local directory  ${dirname}
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
-WebDAV DELETE full directory with personal certificate
-  [Tags]  webdav  rmdir
-  [Setup]  Init certificate with unencrypted key  test0
-  ${dirname}  Get a unique name
-  ${surl}  Build surl  ${personalcertRWStorageArea}  ${dirName}
-  ${output}  Perform mkdir using clientSRM  ${surl}
-  Should Contain  ${output}  SRM_SUCCESS
-  ${filename}  Get a unique name
-  Put without really putting using clientSRM  ${personalcertRWStorageArea}  ${dirName}/${filename}
-  ${options}  Set variable  --verbose -X DELETE
-  ${url}  Build webdav secure URL  ${personalcertRWStorageArea}  ${dirName}
-  ${output}  Execute Curl with certificate and options  ${url}  ${options}
-  Should Contain  ${output}  204 No Content
-  Remove local directory  ${dirname}
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
-WebDAV DELETE unexistent file as anonymous
+WebDAV DELETE unexistent resource as anonymous
   [Tags]  webdav  delete  anonymous  to-be-fixed
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Get a unique name
-  ${options}  Set variable  -v -X DELETE
-  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${filename}
-  ${output}  Execute Curl with options  ${url}  ${options}
-  Should Contain  ${output}  404 Not Found
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
+  WebDAV DELETE unexistent resource  ${davEndpoint}  ${ANONYMOUS_SA}
 
-WebDAV DELETE unexistent file with voms proxy credentials
+####### VOMS PROXY #########
+
+WebDAV DELETE file with VOMS proxy
+  [Tags]  webdav  delete  vomsproxy
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV DELETE file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+
+WebDAV DELETE directory with VOMS proxy
+  [Tags]  webdav  delete  vomsproxy
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV DELETE directory  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+
+WebDAV DELETE unexistent resource with VOMS proxy
   [Tags]  webdav  delete  vomsproxy  to-be-fixed
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Get a unique name
-  ${options}  Set variable  -v -X DELETE
-  ${url}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${filename}
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  404 Not Found
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV DELETE unexistent resource  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+
+######### PLAIN PROXY ##########
+
+WebDAV DELETE file with plain proxy
+  [Tags]  webdav  delete  plainproxy
+  ${plainproxy}  Get WebDAV plain proxy credentials
+  WebDAV DELETE file  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+
+WebDAV DELETE directory with plain proxy
+  [Tags]  webdav  delete  plainproxy
+  ${plainproxy}  Get WebDAV plain proxy credentials
+  WebDAV DELETE directory  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+
+WebDAV DELETE unexistent resource with plain proxy
+  [Tags]  webdav  delete  plainproxy  to-be-fixed
+  ${plainproxy}  Get WebDAV plain proxy credentials
+  WebDAV DELETE unexistent resource  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}

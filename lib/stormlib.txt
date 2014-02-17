@@ -17,6 +17,7 @@ Execute and Check Failure   [Arguments]   ${cmd}
 
 Get a unique name
   ${name}  Execute and Check Success  basename `mktemp`
+  Remove local file  ${name}
   [Return]  ${name}
 
 Create local file
@@ -34,6 +35,14 @@ Create local empty file
   Execute and Check Success  touch /tmp/${name}
   [Return]  ${name}
 
+Create local file into local directory  [Arguments]  ${dirname}
+  ${name}  Get a unique name
+  Execute and Check Success  dd if=/dev/urandom of=/tmp/${dirname}/${name} bs=1M count=1
+  [Return]  ${name}
+
+Create local directory  [Arguments]  ${dirname}
+  Execute and Check Success  mkdir /tmp/${dirname}
+
 Remove local file  [Arguments]  ${filename}
   Execute and Check Success  rm -f /tmp/${filename}
 
@@ -45,40 +54,10 @@ Create local file with checksum that starts with zero
   Execute and Check Success  echo "a" > /tmp/${name}
   [Return]  ${name}
 
-Execute Curl with proxy and options  [Arguments]  ${url}  ${options}=${EMPTY}
-  [Documentation]  This keyword should be used when invoking CURL with a proxy certificate
-  ${output}  Execute and Check Success  curl --cert ${userproxy} --cacert ${usercert} --capath ${trustdir} ${options} ${url} -L
-  [Return]  ${output}
-
-Execute Curl with certificate and options  [Arguments]  ${url}  ${options}=${EMPTY}
-  [Documentation]  This keyword should be used when invoking CURL with an EEC
-  ${output}  Execute and Check Success  curl --cert ${usercert} --key ${userkey} --capath ${trustdir} ${options} ${url} -L
-  [Return]  ${output}
-
-Execute Curl with options   [Arguments]  ${url}  ${options}=${EMPTY}
-  ${output}  Execute and Check Success  curl ${options} ${url} -L
-  [Return]   ${output} 
-
 Build surl  [Arguments]  ${storageArea}  ${relativePath}
   ${output}  Set variable  srm://${srmEndpoint}/srm/managerv2?SFN=/${storageArea}/${relativePath}
   [Return]  ${output}
 
 Build simple surl  [Arguments]  ${storageArea}  ${relativePath}
   ${output}  Set variable  srm://${srmEndpoint}/${storageArea}/${relativePath}
-  [Return]  ${output}
-
-Build file transfer TURL  [Arguments]  ${storageArea}  ${relativePath}
-  ${output}  Set variable  http://${filetransferEndpoint}/fileTransfer/${storageArea}/${relativePath}
-  [Return]  ${output}
-
-Build file transfer secure TURL  [Arguments]  ${storageArea}  ${relativePath}
-  ${output}  Set variable  https://${filetransferSecureEndpoint}/fileTransfer/${storageArea}/${relativePath}
-  [Return]  ${output}
-
-Build webdav secure URL  [Arguments]  ${storageArea}  ${relativePath}=${EMPTY}
-  ${output}  Set variable  https://${davSecureEndpoint}${davContextPath}/${storageArea}/${relativePath}
-  [Return]  ${output}
-
-Build webdav unsecure URL  [Arguments]  ${storageArea}  ${relativePath}=${EMPTY}
-  ${output}  Set variable  http://${davEndpoint}${davContextPath}/${storageArea}/${relativePath}
   [Return]  ${output}

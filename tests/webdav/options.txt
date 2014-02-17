@@ -1,44 +1,49 @@
 *** Settings ***
-Resource   lib/stormlib.txt
+
+Resource   lib/webdav.txt
 Resource   lib/clientSRM.txt
 Resource   lib/credentials.txt
 
+*** Keywords ***
+
+WebDAV OPTIONS on storage area root  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=${EMPTY}
+  ${output}  WebDAV OPTIONS  ${endpoint}  ${storageArea}  ${EMPTY}  ${credentials}
+  Log  ${output}
+  Should Contain  ${output}  200 OK
+  Should Contain  ${output}  DAV: 1
+
 *** Test Cases ***
 
-WebDAV OPTIONS on directory as anonymous
+######### ANONYMOUS ##########
+
+WebDAV OPTIONS as anonymous
   [Tags]  webdav  options  anonymous
-  ${options}  Set variable  --verbose -X OPTIONS
-  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}
-  ${output}  Execute Curl with options  ${url}  ${options}
-  Should Contain  ${output}  200 OK
-  Should Contain  ${output}  DAV: 1
+  WebDAV OPTIONS on storage area root  ${davEndpoint}  ${ANONYMOUS_SA}
 
-WebDAV OPTIONS on directory with voms proxy credentials
+####### VOMS PROXY #########
+
+WebDAV OPTIONS with VOMS proxy
   [Tags]  webdav  options  vomsproxy
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${options}  Set variable  --verbose -X OPTIONS
-  ${url}  Build webdav secure URL  ${vomsproxyRWStorageArea}
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  200 OK
-  Should Contain  ${output}  DAV: 1
-  [Teardown]  Clear all credentials
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV OPTIONS on storage area root  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
 
-WebDAV OPTIONS on directory with plain proxy credentials
+######### PLAIN PROXY ##########
+
+WebDAV OPTIONS with plain proxy
   [Tags]  webdav  options  plainproxy
-  [Setup]  Init certificate and plain proxy  test0
-  ${options}  Set variable  --verbose -X OPTIONS
-  ${url}  Build webdav secure URL  ${gridproxyRWStorageArea}
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  200 OK
-  Should Contain  ${output}  DAV: 1
-  [Teardown]  Clear all credentials
+  ${plainproxy}  Get WebDAV plain proxy credentials
+  WebDAV OPTIONS on storage area root  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
 
-WebDAV OPTIONS on directory with personal certificate
-  [Tags]  webdav  options  perscert
-  [Setup]  Init certificate with unencrypted key  test0
-  ${options}  Set variable  --verbose -X OPTIONS
-  ${url}  Build webdav secure URL  ${personalcertRWStorageArea}
-  ${output}  Execute Curl with certificate and options  ${url}  ${options}
-  Should Contain  ${output}  200 OK
-  Should Contain  ${output}  DAV: 1
-  [Teardown]  Clear all credentials
+####### NESTED #########
+
+WebDAV OPTIONS on nested SA
+  [Tags]  webdav  options  nested
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV OPTIONS on storage area root  ${davSecureEndpoint}  ${NESTED_SA}  ${vomsproxy}
+
+####### ALIASED #########
+
+WebDAV OPTIONS on aliased SA
+  [Tags]  webdav  options  aliased
+  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  WebDAV OPTIONS on storage area root  ${davSecureEndpoint}  ${ALIASED_SA}  ${vomsproxy}

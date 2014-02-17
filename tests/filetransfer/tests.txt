@@ -3,6 +3,8 @@ Resource   lib/stormlib.txt
 Resource   lib/clientSRM.txt
 Resource   lib/credentials.txt
 Resource   lib/lcg_util.txt
+Resource   lib/curl.txt
+Resource   lib/filetransfer.txt
 
 *** Test Cases ***
 
@@ -10,12 +12,10 @@ File-Transfer upload file as anonymous
   [Tags]  filetransfer  put
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${anonymousRWStorageArea}  ${filename}
+  ${surl}  Build surl  ${ANONYMOUS_SA}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should contain  ${output}  SRM_SPACE_AVAILABLE
-  ${options}  Set variable  --verbose -X PUT
-  ${turl}  Build file transfer TURL  ${anonymousRWStorageArea}  ${filename}
-  ${output}  Execute Curl with options  ${turl}  ${options}
+  ${output}  FileTransfer PUT data  ${filetransferEndpoint}  ${ANONYMOUS_SA}  ${filename}  test
   Should Contain  ${output}  204 No Content
   ${output}  Perform pd using clientSRM  ${surl}  ${token}
   Should contain  ${output}  SRM_SUCCESS
@@ -28,12 +28,11 @@ File-Transfer upload file with voms proxy
   [Tags]  filetransfer  put
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${vomsproxyRWStorageArea}  ${filename}
+  ${surl}  Build surl  ${VOMSPROXY_SA}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should contain  ${output}  SRM_SPACE_AVAILABLE
-  ${options}  Set variable  --verbose -X PUT
-  ${turl}  Build file transfer secure TURL  ${vomsproxyRWStorageArea}  ${filename}
-  ${output}  Execute Curl with proxy and options  ${turl}  ${options}
+  ${vomsproxy}  Get FileTransfer VOMS proxy credentials
+  ${output}  FileTransfer PUT data  ${filetransferSecureEndpoint}  ${VOMSPROXY_SA}  ${filename}  test  ${vomsproxy}
   Should Contain  ${output}  204 No Content
   ${output}  Perform pd using clientSRM  ${surl}  ${token}
   Should contain  ${output}  SRM_SUCCESS
@@ -46,30 +45,11 @@ File-Transfer upload file with plain proxy
   [Tags]  filetransfer  put
   [Setup]  Init certificate and plain proxy  test0
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${gridproxyRWStorageArea}  ${filename}
+  ${surl}  Build surl  ${PLAINPROXY_SA}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should contain  ${output}  SRM_SPACE_AVAILABLE
-  ${options}  Set variable  --verbose -X PUT
-  ${turl}  Build file transfer secure TURL  ${gridproxyRWStorageArea}  ${filename}
-  ${output}  Execute Curl with proxy and options  ${turl}  ${options}
-  Should Contain  ${output}  204 No Content
-  ${output}  Perform pd using clientSRM  ${surl}  ${token}
-  Should contain  ${output}  SRM_SUCCESS
-  ${output}  Perform rm using clientSRM  ${surl}
-  Should contain  ${output}  SRM_SUCCESS
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
-File-Transfer upload file with personal certificate
-  [Tags]  filetransfer  put
-  [Setup]  Init certificate with unencrypted key  test0
-  ${filename}  Get a unique name
-  ${surl}  Build surl  ${personalcertRWStorageArea}  ${filename}
-  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
-  Should contain  ${output}  SRM_SPACE_AVAILABLE
-  ${options}  Set variable  --verbose -X PUT
-  ${turl}  Build file transfer secure TURL  ${personalcertRWStorageArea}  ${filename}
-  ${output}  Execute Curl with certificate and options  ${turl}  ${options}
+  ${plainproxy}  Get FileTransfer plain proxy credentials
+  ${output}  FileTransfer PUT data  ${filetransferSecureEndpoint}  ${PLAINPROXY_SA}  ${filename}  test  ${plainproxy}
   Should Contain  ${output}  204 No Content
   ${output}  Perform pd using clientSRM  ${surl}  ${token}
   Should contain  ${output}  SRM_SUCCESS
@@ -82,13 +62,11 @@ File-Transfer get file as anonymous
   [Tags]  filetransfer  get
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Create local file
-  ${surl}  Build surl  ${anonymousRWStorageArea}  ${filename}
+  ${surl}  Build surl  ${ANONYMOUS_SA}  ${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
   Should contain  ${output}  SRM_FILE_PINNED
-  ${options}  Set variable  --verbose -X GET
-  ${turl}  Build file transfer TURL  ${anonymousRWStorageArea}  ${filename}
-  ${output}  Execute Curl with options  ${turl}  ${options}
+  ${output}  FileTransfer GET  ${filetransferEndpoint}  ${ANONYMOUS_SA}  ${filename}
   Should Contain  ${output}  200 OK
   ${output}  Perform rf using clientSRM  ${surl}  ${token}
   Should contain  ${output}  SRM_SUCCESS
@@ -101,13 +79,12 @@ File-Transfer get file with voms proxy
   [Tags]  filetransfer  get
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Create local file
-  ${surl}  Build surl  ${vomsproxyRWStorageArea}  ${filename}
+  ${surl}  Build surl  ${VOMSPROXY_SA}  ${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
   Should contain  ${output}  SRM_FILE_PINNED
-  ${options}  Set variable  --verbose -X GET
-  ${turl}  Build file transfer secure TURL  ${vomsproxyRWStorageArea}  ${filename}
-  ${output}  Execute Curl with proxy and options  ${turl}  ${options}
+  ${vomsproxy}  Get FileTransfer VOMS proxy credentials
+  ${output}  FileTransfer GET  ${filetransferSecureEndpoint}  ${VOMSPROXY_SA}  ${filename}  ${vomsproxy}
   Should Contain  ${output}  200 OK
   ${output}  Perform rf using clientSRM  ${surl}  ${token}
   Should contain  ${output}  SRM_SUCCESS
@@ -120,13 +97,12 @@ File-Transfer get file with plain proxy
   [Tags]  filetransfer  get
   [Setup]  Init certificate and plain proxy  test0
   ${filename}  Create local file
-  ${surl}  Build surl  ${gridproxyRWStorageArea}  ${filename}
+  ${surl}  Build surl  ${PLAINPROXY_SA}  ${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
   Should contain  ${output}  SRM_FILE_PINNED
-  ${options}  Set variable  --verbose -X GET
-  ${turl}  Build file transfer secure TURL  ${gridproxyRWStorageArea}  ${filename}
-  ${output}  Execute Curl with proxy and options  ${turl}  ${options}
+  ${plainproxy}  Get FileTransfer plain proxy credentials
+  ${output}  FileTransfer GET  ${filetransferSecureEndpoint}  ${PLAINPROXY_SA}  ${filename}  ${plainproxy}
   Should Contain  ${output}  200 OK
   ${output}  Perform rf using clientSRM  ${surl}  ${token}
   Should contain  ${output}  SRM_SUCCESS
@@ -135,21 +111,30 @@ File-Transfer get file with plain proxy
   Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
-File-Transfer get file with personal certificate
+File-Transfer upload file as anonymous without ptp
+  [Tags]  filetransfer  put
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${filename}  Get a unique name
+  ${output}  FileTransfer PUT data  ${filetransferEndpoint}  ${ANONYMOUS_SA}  ${filename}  test
+  Should Contain  ${output}  401 Unauthorized
+  Remove local file  ${filename}
+  [Teardown]  Clear all credentials
+
+File-Transfer get file as anonymous without ptg
   [Tags]  filetransfer  get
-  [Setup]  Init certificate with unencrypted key  test0
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${filename}  Create local file
-  ${surl}  Build surl  ${personalcertRWStorageArea}  ${filename}
+  ${surl}  Build surl  ${ANONYMOUS_SA}  ${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
-  ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
-  Should contain  ${output}  SRM_FILE_PINNED
-  ${options}  Set variable  --verbose -X GET
-  ${turl}  Build file transfer secure TURL  ${personalcertRWStorageArea}  ${filename}
-  ${output}  Execute Curl with certificate and options  ${turl}  ${options}
+  ${surl2}  Build surl  ${vo}  ${filename}
+  Copy-out file using lcg-utils  ${filename}  ${surl2}
+  ${output}  FileTransfer GET  ${filetransferEndpoint}  ${ANONYMOUS_SA}  ${filename}
   Should Contain  ${output}  200 OK
-  ${output}  Perform rf using clientSRM  ${surl}  ${token}
-  Should contain  ${output}  SRM_SUCCESS
+  ${output}  FileTransfer GET  ${filetransferEndpoint}  ${ANONYMOUS_SA}  ../${vo}/${filename}
+  Should Not Contain  ${output}  200 OK
   ${output}  Perform rm using clientSRM  ${surl}
+  Should contain  ${output}  SRM_SUCCESS
+  ${output}  Perform rm using clientSRM  ${surl2}
   Should contain  ${output}  SRM_SUCCESS
   Remove local file  ${filename}
   [Teardown]  Clear all credentials

@@ -1,0 +1,116 @@
+** Settings ***
+
+Library   OperatingSystem
+Resource   curl.txt
+Resource   variables.txt
+
+*** Keywords ***
+
+##### URL BUILDING
+
+Build webdav URL  [Arguments]  ${endpoint}  ${path}
+  ${output}  Set variable  ${endpoint}/${path}
+  [Return]  ${output}
+
+##### CREDENTIALS
+
+Get WebDAV plain proxy credentials
+  ${options}  Get proxy curl options  ${GRID_PROXY}  ${TESTERS_CERT}
+  [Return]  ${options}
+
+Get WebDAV VOMS proxy credentials
+  ${options}  Get proxy curl options  ${VOMS_PROXY}  ${TESTERS_CERT}
+  [Return]  ${options}
+
+##### WEBDAV METHODS
+
+WebDAV GET root  [Arguments]  ${endpoint}  ${credentials}=${EMPTY}
+  ${url}  Build webdav URL  ${endpoint}  ${EMPTY}
+  ${output}  Curl  GET  ${url}  ${credentials} -iv
+  [Return]  ${output}
+
+WebDAV GET  [Arguments]  ${endpoint}  ${storageArea}  ${relativePath}  ${credentials}=${EMPTY}
+  ${url}  Build webdav URL  ${endpoint}  ${storageArea}/${relativePath}
+  ${output}  Curl  GET  ${url}  ${credentials} -iv
+  [Return]  ${output}
+
+WebDAV PUT file  [Arguments]  ${endpoint}  ${storageArea}  ${relativePath}  ${localFilePath}  ${overwrite}  ${credentials}=${EMPTY}
+  ${overwriteheader}  Get header  Overwrite  ${overwrite}
+  ${url}  Build webdav URL  ${endpoint}  ${storageArea}/${relativePath}
+  ${output}  Curl  PUT  ${url}  -T ${localFilePath} -iv ${overwriteheader} ${credentials}
+  [Return]  ${output}
+
+WebDAV PUT data  [Arguments]  ${endpoint}  ${storageArea}  ${relativePath}  ${data}  ${overwrite}  ${credentials}=${EMPTY}
+  ${overwriteheader}  Get header  Overwrite  ${overwrite}
+  ${body}  Set body  ${data}
+  ${url}  Build webdav URL  ${endpoint}  ${storageArea}/${relativePath}
+  ${output}  Curl  PUT  ${url}  ${body} -iv ${overwriteheader} ${credentials}
+  [Return]  ${output}
+
+WebDAV MKCOL  [Arguments]  ${endpoint}  ${storageArea}  ${relativePath}  ${credentials}=${EMPTY}
+  ${url}  Build webdav URL  ${endpoint}  ${storageArea}/${relativePath}
+  ${output}  Curl  MKCOL  ${url}  ${credentials} -iv
+  [Return]  ${output}
+
+WebDAV HEAD root  [Arguments]  ${endpoint}  ${credentials}=${EMPTY}
+  ${url}  Build webdav URL  ${endpoint}  ${EMPTY}
+  ${output}  Curl  HEAD  ${url}  ${credentials} -iv --head
+  [Return]  ${output}
+
+WebDAV HEAD  [Arguments]  ${endpoint}  ${storageArea}  ${relativePath}  ${credentials}=${EMPTY}
+  ${url}  Build webdav URL  ${endpoint}  ${storageArea}/${relativePath}
+  ${output}  Curl  HEAD  ${url}  ${credentials} -iv --head
+  [Return]  ${output}
+
+WebDAV DELETE  [Arguments]  ${endpoint}  ${storageArea}  ${relativePath}  ${credentials}=${EMPTY}
+  ${url}  Build webdav URL  ${endpoint}  ${storageArea}/${relativePath}
+  ${output}  Curl  DELETE  ${url}  ${credentials} -iv
+  [Return]  ${output}
+
+WebDAV OPTIONS  [Arguments]  ${endpoint}  ${storageArea}  ${relativePath}  ${credentials}=${EMPTY}
+  ${url}  Build webdav URL  ${endpoint}  ${storageArea}/${relativePath}
+  ${output}  Curl  OPTIONS  ${url}  ${credentials} -iv
+  [Return]  ${output}
+
+Get PROPFIND ALLPROP body
+  ${output}  Set variable  <?xml version='1.0' encoding='utf-8'?><propfind xmlns='DAV:'><allprop/></propfind>
+  [Return]  ${output}
+
+Get PROPFIND PROPNAME body
+  ${output}  Set variable  <?xml version='1.0' encoding='utf-8'?><propfind xmlns='DAV:'><propname/></propfind>
+  [Return]  ${output}
+
+Get PROPFIND PROP body  [Arguments]  ${propname}
+  ${output}  Set variable  <?xml version='1.0' encoding='utf-8'?><propfind xmlns='DAV:'><prop><${propname}/><prop/></propfind>
+  [Return]  ${output}
+
+WebDAV PROPFIND  [Arguments]  ${endpoint}  ${storageArea}  ${relativePath}  ${bodyvalue}  ${credentials}=${EMPTY}
+  ${url}  Build webdav URL  ${endpoint}  ${storageArea}/${relativePath}
+  ${body}  Set body  ${bodyvalue}
+  ${output}  Curl  PROPFIND  ${url}  ${body} ${credentials} -iv
+  [Return]  ${output}
+
+WebDAV COPY  [Arguments]  ${srcEndpoint}  ${srcStorageArea}  ${srcRelativePath}  ${destEndpoint}  ${destStorageArea}  ${destRelativePath}  ${overwrite}  ${credentials}=${EMPTY}
+  ${srcURL}  Build webdav URL  ${srcEndpoint}  ${srcStorageArea}/${srcRelativePath}
+  ${overwriteheader}  Get header  Overwrite  ${overwrite}
+  ${destURL}  Build webdav URL  ${destEndpoint}  ${destStorageArea}/${destRelativePath}
+  ${destinationheader}  Get header  Destination  ${destURL}
+  ${output}  Curl  COPY  ${srcURL}  ${destinationheader} ${overwriteheader} ${credentials} -iv
+  [Return]  ${output}
+
+WebDAV MOVE  [Arguments]  ${srcEndpoint}  ${srcStorageArea}  ${srcRelativePath}  ${destEndpoint}  ${destStorageArea}  ${destRelativePath}  ${overwrite}  ${credentials}=${EMPTY}
+  ${srcURL}  Build webdav URL  ${srcEndpoint}  ${srcStorageArea}/${srcRelativePath}
+  ${overwriteheader}  Get header  Overwrite  ${overwrite}
+  ${destURL}  Build webdav URL  ${destEndpoint}  ${destStorageArea}/${destRelativePath}
+  ${destinationheader}  Get header  Destination  ${destURL}
+  ${output}  Curl  MOVE  ${srcURL}  ${destinationheader} ${overwriteheader} ${credentials} -iv
+  [Return]  ${output}
+
+##### UPLOAD METHODS
+
+Upload file  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=${EMPTY}  ${remotedirectory}=${TESTDIR}  ${filecontent}=file di testo di prova
+  ${filename}  Get a unique name
+  ${output}  WebDAV PUT data  ${endpoint}  ${storageArea}  ${remotedirectory}/${filename}  ${filecontent}  T  ${credentials}
+  ${output}  WebDAV HEAD  ${endpoint}  ${storageArea}  ${remotedirectory}/${filename}  ${credentials}
+  Should Contain  ${output}  200 OK
+  [Return]  ${filename}

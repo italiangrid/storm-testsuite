@@ -141,12 +141,12 @@ Full detailed and recursive list of existent files and directories
 Ls on a surl that points to another storage area
   [Tags]  storm-client  ls
   [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${surl}  Build surl  ${anonymousRWStorageArea}  ../${vo}
-  ${output}  Perform ls using clientSRM  ${surl}
-  Should Contain  ${output}  SRM_INVALID_PATH
-  ${surl}  Build simple surl  ${anonymousRWStorageArea}  ../${vo}
-  ${output}  Perform ls using clientSRM  ${surl}
-  Should Contain  ${output}  SRM_INVALID_PATH
+  ${qsurl}  Build surl  ${vo2}  ../${vo}
+  ${ssurl}  Build simple surl  ${vo2}  ../${vo}
+  ${output}  Perform ls using clientSRM  ${qsurl}
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
+  ${output}  Perform ls using clientSRM  ${ssurl}
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
   [Teardown]  Clear all credentials
 
 Ls on a surl with a valid dots segment
@@ -192,20 +192,27 @@ Ls on a surl with a valid dots segment with simple surls
 Ls on a surl that points to a reserved area
   [Tags]  storm-client  ls
   [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${surl}  Build surl  ${anonymousRWStorageArea}  ../../etc/grid-security
+  ${surl}  Build surl  ${vo}  ../../etc/grid-security
   ${output}  Perform ls using clientSRM  ${surl}
-  Should Contain  ${output}  SRM_INVALID_PATH
-  ${surl}  Build simple surl  ${anonymousRWStorageArea}  ../../etc/grid-security
+  Should Not Contain  ${output}  SRM_SUCCESS
+  Should Contain  ${output}  SRM_INTERNAL_ERROR
+  ${surl}  Build simple surl  ${vo}  ../../etc/grid-security
   ${output}  Perform ls using clientSRM  ${surl}
-  Should Contain  ${output}  SRM_INVALID_PATH
+  Should Not Contain  ${output}  SRM_SUCCESS
+  Should Contain  ${output}  SRM_INTERNAL_ERROR
   [Teardown]  Clear all credentials
 
-Ls on a symlink that points to unauthorized paths
+Ls on some symlinks that point to other storage-areas
   [Tags]  storm-client  ls
-  [Setup]  Init certificate and plain proxy  test0
-  ${output}  Perform ls using clientSRM  ${symlinkSURL} ${symlinkSURL2} ${symlinkSURL3}
+  Init certificate and voms proxy  test0  ${vo}
+  ${symlinkSURL}  Build surl  ${VOMSPROXY_SA}  ${VOMS_TO_VOMS}
+  ${output}  Perform ls using clientSRM  ${symlinkSURL}
   Should Contain  ${output}  SRM_FAILURE
-  Should Contain  ${output}  SRM_INVALID_PATH
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
   Should Not Contain  ${output}  SRM_SUCCESS
+  Log  ${output}
+  ${symlinkSURL2}  Build surl  ${VOMSPROXY_SA}  ${VOMS_TO_ANONYMOUS}
+  ${output}  Perform ls using clientSRM  ${symlinkSURL2}
+  Should Contain  ${output}  SRM_SUCCESS
   Log  ${output}
   [Teardown]  Clear all credentials

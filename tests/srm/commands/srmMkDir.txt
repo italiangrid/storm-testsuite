@@ -40,7 +40,7 @@ Create directory that already exists
   [Teardown]  Clear all credentials
 
 Create directory with an unauthorized path
-  [Tags]  storm-client  mkdir  to-be-fixed
+  [Tags]  storm-client  mkdir
   [Setup]  Init certificate and plain proxy  test0
   ${dirname}  Get a unique name
   ${surl}  Build surl  ${vo}  ${dirname}
@@ -54,11 +54,8 @@ Check directory creation on a different VO
   [Tags]  storm-client  ls
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${dirname}  Get a unique name
-  ${surl}  Build surl  ${anonymousRWStorageArea}  ../${vo}/${dirname}
-  ${output}  Perform mkdir using clientSRM  ${surl}
-  Should Contain  ${output}  SRM_INVALID_PATH
-  ${surl}  Build simple surl  ${anonymousRWStorageArea}  ../${vo}/${dirname}
-  ${output}  Perform mkdir using clientSRM  ${surl}
-  Should Contain  ${output}  SRM_INVALID_PATH
+  ${qsurl}  Build surl  ${vo2}  ../${vo}/${dirname}
+  ${output}  Perform mkdir using clientSRM  ${qsurl}
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
   Remove local directory  ${dirname}
   [Teardown]  Clear all credentials
