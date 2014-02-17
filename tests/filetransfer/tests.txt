@@ -131,6 +131,10 @@ File-Transfer get file as anonymous without ptg
   ${output}  FileTransfer GET  ${filetransferEndpoint}  ${ANONYMOUS_SA}  ${filename}
   Should Contain  ${output}  200 OK
   ${output}  FileTransfer GET  ${filetransferEndpoint}  ${ANONYMOUS_SA}  ../${vo}/${filename}
+  Log  ${output}
+  Should Not Contain  ${output}  200 OK
+  ${output}  FileTransfer GET  ${filetransferEndpoint}  ${ANONYMOUS_SA}  ${ANONYMOUS_TO_VOMS}
+  Log  ${output}
   Should Not Contain  ${output}  200 OK
   ${output}  Perform rm using clientSRM  ${surl}
   Should contain  ${output}  SRM_SUCCESS

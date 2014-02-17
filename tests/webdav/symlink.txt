@@ -11,7 +11,8 @@ WebDAV GET symlink from anonymous SA to voms SA
   ${output}  WebDAV GET  ${davEndpoint}  ${ANONYMOUS_SA}  ${ANONYMOUS_TO_VOMS}
   Log  ${output}
   Should Not Contain  ${output}  200 OK
-  Should Contain  ${output}  500
+  Should Contain  ${output}  403
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
   ${vomsproxy}  Get WebDAV VOMS proxy credentials
   ${output}  WebDAV GET  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${ANONYMOUS_TO_VOMS}  ${vomsproxy}
   Log  ${output}
@@ -30,14 +31,16 @@ WebDAV GET symlink from voms SA to a different voms SA
   ${output}  WebDAV GET  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${VOMS_TO_VOMS}  ${vomsproxy}
   Log  ${output}
   Should Not Contain  ${output}  200 OK
-  Should Contain  ${output}  500
+  Should Contain  ${output}  403
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
 
 WebDAV GET dotted path from anonymous SA to voms SA
   [Tags]  webdav  symlink
   ${output}  WebDAV GET  ${davEndpoint}  ${ANONYMOUS_SA}  ../${VOMSPROXY_SA}
   Log  ${output}
   Should Not Contain  ${output}  200 OK
-  Should Contain  ${output}  500
+  Should Contain  ${output}  403
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
   ${vomsproxy}  Get WebDAV VOMS proxy credentials
   ${output}  WebDAV GET  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ../${VOMSPROXY_SA}  ${vomsproxy}
   Log  ${output}
@@ -56,4 +59,5 @@ WebDAV GET dotted path from voms SA to a different voms SA
   ${output}  WebDAV GET  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ../${VOMSPROXY_SA2}  ${vomsproxy}
   Log  ${output}
   Should Not Contain  ${output}  200 OK
-  Should Contain  ${output}  500
+  Should Contain  ${output}  403
+  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
