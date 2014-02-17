@@ -200,3 +200,12 @@ Check if a clientSRM rm on an existent file works
   Remove local file  ${fileName}
   Remove local directory  ${dirName}
   [Teardown]  Clear all credentials
+
+Check approached VFS with nested accesspoints
+  [Tags]  ls
+  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  ${surl}  Set variable  srm://${srmEndpoint}/srm/managerv2?SFN=/${nestedChildStorageArea}
+  ${output}  Perform ls using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
+  Should Contain  ${output}  ${nestedChildStorageArea}
+  [Teardown]  Clear all credentials
