@@ -53,7 +53,7 @@ ${PLAINPROXY_SA}  igi
 ${VOMSPROXY_SA}  testers.eu-emi.eu
 ${VOMSPROXY_SA2}  dteam
 ${NESTED_SA}  testers.eu-emi.eu/nested
-${ALIASED_SA}  testers.eu-emi.eu/test
+${ALIASED_SA}  alias
 ${ALIASED_SA_REF}  ${NESTED_SA}
 
 ${vo}   testers.eu-emi.eu

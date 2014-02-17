@@ -35,6 +35,7 @@ Create directory that already exists
   Should Contain  ${output}  SRM_SUCCESS
   ${output}  Perform mkdir using clientSRM  ${surl}
   Should Contain  ${output}  SRM_DUPLICATION_ERROR
+  Should Contain  ${output}  Directory specified exists!
   Remove empty directory using clientSRM  ${vo}  ${dirname}
   Remove local directory  ${dirname}
   [Teardown]  Clear all credentials

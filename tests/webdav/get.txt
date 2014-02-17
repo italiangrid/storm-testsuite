@@ -230,12 +230,12 @@ WebDAV GET directory and check content
   Should Contain  ${output}  200 OK
   Should Contain  ${output}  ${ALIASED_SA}/${TESTDIR}/${filename}
   Should Contain  ${output}  ${ALIASED_SA}/${TESTDIR}/${filename2}
-  Should Contain  ${output}  href="${davContextPath}/${ALIASED_SA}/${TESTDIR}/${filename}"
-  Should Contain  ${output}  href="${davContextPath}/${ALIASED_SA}/${TESTDIR}/${filename2}"
+  Should Contain  ${output}  ${davContextPath}/${ALIASED_SA}/${TESTDIR}/${filename}
+  Should Contain  ${output}  ${davContextPath}/${ALIASED_SA}/${TESTDIR}/${filename2}
   ${output}  WebDAV GET  ${davSecureEndpoint}  ${ALIASED_SA_REF}  ${TESTDIR}  ${vomsproxy}
   Log  ${output}
   Should Contain  ${output}  200 OK
   Should Contain  ${output}  ${ALIASED_SA_REF}/${TESTDIR}/${filename}
   Should Contain  ${output}  ${ALIASED_SA_REF}/${TESTDIR}/${filename2}
-  Should Contain  ${output}  href="${davContextPath}/${ALIASED_SA_REF}/${TESTDIR}/${filename}"
-  Should Contain  ${output}  href="${davContextPath}/${ALIASED_SA_REF}/${TESTDIR}/${filename2}"
+  Should Contain  ${output}  ${davContextPath}/${ALIASED_SA_REF}/${TESTDIR}/${filename}
+  Should Contain  ${output}  ${davContextPath}/${ALIASED_SA_REF}/${TESTDIR}/${filename2}

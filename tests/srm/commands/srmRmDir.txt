@@ -17,13 +17,14 @@ Remove existent empty directory
   Remove local directory  ${dirname}
   [Teardown]  Clear all credentials
 
-Remove unexistent directory
-  [Tags]  storm-client  mkdir
+Remove a non existent directory
+  [Tags]  storm-client  rmdir
   [Setup]  Init certificate and voms proxy  test0  ${vo}
   ${dirname}  Get a unique name
   ${surl}  Build surl  ${vo}  ${dirname}
   ${output}  Perform rmdir using clientSRM  ${surl}
   Should Contain  ${output}  SRM_INVALID_PATH
+  Should Contain  ${output}  Directory does not exists
   Remove local directory  ${dirname}
   [Teardown]  Clear all credentials
 

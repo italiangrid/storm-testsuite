@@ -24,6 +24,7 @@ Remove unexistent file
   ${surl}  Build surl  ${vo}  ${filename}
   ${output}  Perform rm using clientSRM  ${surl}
   Should Contain  ${output}  SRM_INVALID_PATH
+  Should Contain  ${output}  File does not exist
   Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
