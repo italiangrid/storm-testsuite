@@ -13,22 +13,22 @@ WebDAV GET symlink from anonymous SA to voms SA
   Should Not Contain  ${output}  200 OK
   Should Contain  ${output}  403
   Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${vomsproxy}  Get VOMS proxy options for Curl
   ${output}  WebDAV GET  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${ANONYMOUS_TO_VOMS}  ${vomsproxy}
   Log  ${output}
   Should Contain  ${output}  200 OK
 
 WebDAV GET symlink from voms SA to anonymous SA
   [Tags]  webdav  symlink
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  ${output}  WebDAV GET  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${VOMS_TO_ANONYMOUS}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  ${output}  WebDAV GET  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${VOMS_TO_ANONYMOUS}  ${vomsproxy}
   Log  ${output}
   Should Contain  ${output}  200 OK
 
 WebDAV GET symlink from voms SA to a different voms SA
   [Tags]  webdav  symlink
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  ${output}  WebDAV GET  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${VOMS_TO_VOMS}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  ${output}  WebDAV GET  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${VOMS_TO_VOMS}  ${vomsproxy}
   Log  ${output}
   Should Not Contain  ${output}  200 OK
   Should Contain  ${output}  403
@@ -36,27 +36,27 @@ WebDAV GET symlink from voms SA to a different voms SA
 
 WebDAV GET dotted path from anonymous SA to voms SA
   [Tags]  webdav  symlink
-  ${output}  WebDAV GET  ${davEndpoint}  ${ANONYMOUS_SA}  ../${VOMSPROXY_SA}
+  ${output}  WebDAV GET  ${davEndpoint}  ${ANONYMOUS_SA}  ../${VOMSAUTH_SA}
   Log  ${output}
   Should Not Contain  ${output}  200 OK
   Should Contain  ${output}  403
   Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  ${output}  WebDAV GET  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ../${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  ${output}  WebDAV GET  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ../${VOMSAUTH_SA}  ${vomsproxy}
   Log  ${output}
   Should Contain  ${output}  200 OK
 
 WebDAV GET dotted path from voms SA to anonymous SA
   [Tags]  webdav  symlink
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  ${output}  WebDAV GET  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ../${ANONYMOUS_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  ${output}  WebDAV GET  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ../${ANONYMOUS_SA}  ${vomsproxy}
   Log  ${output}
   Should Contain  ${output}  200 OK
 
 WebDAV GET dotted path from voms SA to a different voms SA
   [Tags]  webdav  symlink
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  ${output}  WebDAV GET  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ../${VOMSPROXY_SA2}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  ${output}  WebDAV GET  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ../${VOMSAUTH_SA2}  ${vomsproxy}
   Log  ${output}
   Should Not Contain  ${output}  200 OK
   Should Contain  ${output}  403

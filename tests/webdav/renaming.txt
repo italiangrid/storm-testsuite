@@ -33,10 +33,10 @@ File renaming as anonymous
 
 File renaming with VOMS proxy
   [Tags]  webdav  renaming  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  File renaming  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  File renaming  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 File renaming with plain proxy
   [Tags]  webdav  renaming  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  File renaming  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  File renaming  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}

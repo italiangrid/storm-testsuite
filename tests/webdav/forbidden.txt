@@ -10,45 +10,45 @@ Resource   lib/credentials.txt
 
 WebDAV GET existent VOMS proxy storage area file as anonymous
   [Tags]  webdav  forbidden  get
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  ${filename}  Upload file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
-  ${output}  WebDAV GET  ${davEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}/${filename}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  ${filename}  Upload file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  ${output}  WebDAV GET  ${davEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
   Log  ${output}
   Should Contain  ${output}  403
 
 WebDAV GET existent VOMS proxy storage area file with plain proxy
   [Tags]  webdav  forbidden  get
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  ${filename}  Upload file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  ${output}  WebDAV GET  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}/${filename}  ${plainproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  ${filename}  Upload file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  ${plainproxy}  Get x509 options for Curl
+  ${output}  WebDAV GET  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}  ${plainproxy}
   Log  ${output}
   Should Contain  ${output}  403
 
 WebDAV GET existent plain proxy storage area file as anonymous
   [Tags]  webdav  forbidden  get
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  ${filename}  Upload file  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
-  ${output}  WebDAV GET  ${davEndpoint}  ${PLAINPROXY_SA}  ${TESTDIR}/${filename}
+  ${plainproxy}  Get x509 options for Curl
+  ${filename}  Upload file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
+  ${output}  WebDAV GET  ${davEndpoint}  ${X509AUTH_SA}  ${TESTDIR}/${filename}
   Log  ${output}
   Should Contain  ${output}  403
 
 WebDAV GET existent VOMS proxy storage area directory as anonymous
   [Tags]  webdav  forbidden  get
-  ${output}  WebDAV GET  ${davEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}
+  ${output}  WebDAV GET  ${davEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}
   Log  ${output}
   Should Contain  ${output}  403
 
 WebDAV GET existent VOMS proxy storage area directory with plain proxy
   [Tags]  webdav  forbidden  get
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  ${output}  WebDAV GET  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  ${output}  WebDAV GET  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}  ${plainproxy}
   Log  ${output}
   Should Contain  ${output}  403
 
 WebDAV GET existent plain proxy storage area directory as anonymous
   [Tags]  webdav  forbidden  get
-  ${output}  WebDAV GET  ${davEndpoint}  ${PLAINPROXY_SA}  ${TESTDIR}
+  ${output}  WebDAV GET  ${davEndpoint}  ${X509AUTH_SA}  ${TESTDIR}
   Log  ${output}
   Should Contain  ${output}  403
 
@@ -56,47 +56,47 @@ WebDAV GET existent plain proxy storage area directory as anonymous
 
 WebDAV HEAD existent VOMS proxy storage area file as anonymous
   [Tags]  webdav  forbidden  head
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  ${filename}  Upload file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
-  ${output}  WebDAV HEAD  ${davEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}/${filename}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  ${filename}  Upload file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  ${output}  WebDAV HEAD  ${davEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
   Log  ${output}
   Should Contain  ${output}  403
 
 WebDAV HEAD existent VOMS proxy storage area file with plain proxy
   [Documentation]  It retrieves 200 OK instead of 403
   [Tags]  webdav  forbidden  head  to-be-fixed
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  ${filename}  Upload file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  ${output}  WebDAV HEAD  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}/${filename}  ${plainproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  ${filename}  Upload file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  ${plainproxy}  Get x509 options for Curl
+  ${output}  WebDAV HEAD  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}  ${plainproxy}
   Log  ${output}
   Should Contain  ${output}  403
 
 WebDAV HEAD existent plain proxy storage area file as anonymous
   [Tags]  webdav  forbidden  head
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  ${filename}  Upload file  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
-  ${output}  WebDAV HEAD  ${davEndpoint}  ${PLAINPROXY_SA}  ${TESTDIR}/${filename}
+  ${plainproxy}  Get x509 options for Curl
+  ${filename}  Upload file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
+  ${output}  WebDAV HEAD  ${davEndpoint}  ${X509AUTH_SA}  ${TESTDIR}/${filename}
   Log  ${output}
   Should Contain  ${output}  403
 
 WebDAV HEAD existent VOMS proxy storage area directory as anonymous
   [Tags]  webdav  forbidden  head
-  ${output}  WebDAV HEAD  ${davEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}
+  ${output}  WebDAV HEAD  ${davEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}
   Log  ${output}
   Should Contain  ${output}  403
 
 WebDAV HEAD existent VOMS proxy storage area directory with plain proxy
   [Documentation]  It retrieves 500 instead of 403
   [Tags]  webdav  forbidden  head  to-be-fixed
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  ${output}  WebDAV HEAD  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  ${output}  WebDAV HEAD  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}  ${plainproxy}
   Log  ${output}
   Should Contain  ${output}  403
 
 WebDAV HEAD existent plain proxy storage area directory as anonymous
   [Tags]  webdav  forbidden  head
-  ${output}  WebDAV HEAD  ${davEndpoint}  ${PLAINPROXY_SA}  ${TESTDIR}
+  ${output}  WebDAV HEAD  ${davEndpoint}  ${X509AUTH_SA}  ${TESTDIR}
   Log  ${output}
   Should Contain  ${output}  403
 
@@ -105,22 +105,22 @@ WebDAV HEAD existent plain proxy storage area directory as anonymous
 WebDAV PUT file into VOMS proxy storage area as anonymous
   [Tags]  webdav  forbidden  put
   ${filename}  Get a unique name
-  ${output}  WebDAV PUT data  ${davEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}/${filename}  test  T
+  ${output}  WebDAV PUT data  ${davEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}  test  T
   Log  ${output}
   Should Contain  ${output}  403
 
 WebDAV PUT file into plain proxy storage area as anonymous
   [Tags]  webdav  forbidden  put
   ${filename}  Get a unique name
-  ${output}  WebDAV PUT data  ${davEndpoint}  ${PLAINPROXY_SA}  ${TESTDIR}/${filename}  test  T
+  ${output}  WebDAV PUT data  ${davEndpoint}  ${X509AUTH_SA}  ${TESTDIR}/${filename}  test  T
   Log  ${output}
   Should Contain  ${output}  403
 
 WebDAV PUT file into VOMS proxy storage area with plain proxy
   [Tags]  webdav  forbidden  put
   ${filename}  Get a unique name
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  ${output}  WebDAV PUT data  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}/${filename}  test  T  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  ${output}  WebDAV PUT data  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}  test  T  ${plainproxy}
   Log  ${output}
   Should Contain  ${output}  403
 
@@ -128,60 +128,60 @@ WebDAV PUT file into VOMS proxy storage area with plain proxy
 
 WebDAV DELETE existent VOMS proxy storage area file as anonymous
   [Tags]  webdav  forbidden  delete
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  ${filename}  Upload file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
-  ${output}  WebDAV DELETE  ${davEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}/${filename}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  ${filename}  Upload file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  ${output}  WebDAV DELETE  ${davEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
   Log  ${output}
   Should Contain  ${output}  403
 
 WebDAV DELETE existent VOMS proxy storage area file with plain proxy
   [Tags]  webdav  forbidden  delete
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  ${filename}  Upload file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  ${output}  WebDAV DELETE  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}/${filename}  ${plainproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  ${filename}  Upload file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  ${plainproxy}  Get x509 options for Curl
+  ${output}  WebDAV DELETE  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}  ${plainproxy}
   Log  ${output}
   Should Contain  ${output}  403
 
 WebDAV DELETE existent plain proxy storage area file as anonymous
   [Tags]  webdav  forbidden  delete
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  ${filename}  Upload file  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
-  ${output}  WebDAV DELETE  ${davEndpoint}  ${PLAINPROXY_SA}  ${TESTDIR}/${filename}
+  ${plainproxy}  Get x509 options for Curl
+  ${filename}  Upload file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
+  ${output}  WebDAV DELETE  ${davEndpoint}  ${X509AUTH_SA}  ${TESTDIR}/${filename}
   Log  ${output}
   Should Contain  ${output}  403
 
 WebDAV DELETE existent VOMS proxy storage area directory as anonymous
   [Tags]  webdav  forbidden  delete
   ${dirname}  Get a unique name
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  ${output}  WebDAV MKCOL  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}/${dirname}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  ${output}  WebDAV MKCOL  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}  ${vomsproxy}
   Should Contain  ${output}  201 Created
-  ${filename}  Upload file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}  ${TESTDIR}/${dirname}
-  ${output}  WebDAV DELETE  ${davEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}/${dirname}
+  ${filename}  Upload file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}  ${TESTDIR}/${dirname}
+  ${output}  WebDAV DELETE  ${davEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}
   Log  ${output}
   Should Contain  ${output}  403
 
 WebDAV DELETE existent VOMS proxy storage area directory with plain proxy
   [Tags]  webdav  forbidden  delete
   ${dirname}  Get a unique name
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  ${output}  WebDAV MKCOL  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}/${dirname}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  ${output}  WebDAV MKCOL  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}  ${vomsproxy}
   Should Contain  ${output}  201 Created
-  ${filename}  Upload file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}  ${TESTDIR}/${dirname}
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  ${output}  WebDAV DELETE  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}/${dirname}  ${plainproxy}
+  ${filename}  Upload file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}  ${TESTDIR}/${dirname}
+  ${plainproxy}  Get x509 options for Curl
+  ${output}  WebDAV DELETE  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}  ${plainproxy}
   Log  ${output}
   Should Contain  ${output}  403
 
 WebDAV DELETE existent plain proxy storage area directory as anonymous
   [Tags]  webdav  forbidden  delete
   ${dirname}  Get a unique name
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  ${output}  WebDAV MKCOL  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${TESTDIR}/${dirname}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  ${output}  WebDAV MKCOL  ${davSecureEndpoint}  ${X509AUTH_SA}  ${TESTDIR}/${dirname}  ${plainproxy}
   Should Contain  ${output}  201 Created
-  ${filename}  Upload file  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}  ${TESTDIR}/${dirname}
-  ${output}  WebDAV DELETE  ${davEndpoint}  ${PLAINPROXY_SA}  ${TESTDIR}/${dirname}
+  ${filename}  Upload file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}  ${TESTDIR}/${dirname}
+  ${output}  WebDAV DELETE  ${davEndpoint}  ${X509AUTH_SA}  ${TESTDIR}/${dirname}
   Log  ${output}
   Should Contain  ${output}  403
 
@@ -190,22 +190,22 @@ WebDAV DELETE existent plain proxy storage area directory as anonymous
 WebDAV MKCOL into VOMS proxy storage area as anonymous
   [Tags]  webdav  forbidden  mkcol
   ${dirname}  Get a unique name
-  ${output}  WebDAV MKCOL  ${davEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}/${dirname}
+  ${output}  WebDAV MKCOL  ${davEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}
   Log  ${output}
   Should Contain  ${output}  403
 
 WebDAV MKCOL into plain proxy storage area as anonymous
   [Tags]  webdav  forbidden  mkcol
   ${dirname}  Get a unique name
-  ${output}  WebDAV MKCOL  ${davEndpoint}  ${PLAINPROXY_SA}  ${TESTDIR}/${dirname}
+  ${output}  WebDAV MKCOL  ${davEndpoint}  ${X509AUTH_SA}  ${TESTDIR}/${dirname}
   Log  ${output}
   Should Contain  ${output}  403
 
 WebDAV MKCOL into VOMS proxy storage area with plain proxy
   [Tags]  webdav  forbidden  mkcol
   ${dirname}  Get a unique name
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  ${output}  WebDAV MKCOL  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}/${dirname}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  ${output}  WebDAV MKCOL  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}  ${plainproxy}
   Log  ${output}
   Should Contain  ${output}  403
 
@@ -213,50 +213,50 @@ WebDAV MKCOL into VOMS proxy storage area with plain proxy
 
 WebDAV PROPFIND allprop on file into VOMS proxy storage area as anonymous
   [Tags]  webdav  forbidden  propfind
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  ${filename}  Upload file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}  ${TESTDIR}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  ${filename}  Upload file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}  ${TESTDIR}
   ${bodyvalue}  Get PROPFIND ALLPROP body
-  ${output}  WebDAV PROPFIND  ${davEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}/${filename}  ${bodyvalue}
+  ${output}  WebDAV PROPFIND  ${davEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}  ${bodyvalue}
   Log  ${output}
   Should Not Contain  ${output}  207 Multi-status
   Should Contain  ${output}  403
 
 WebDAV PROPFIND allprop on file into VOMS proxy storage area with plain proxy
   [Tags]  webdav  forbidden  propfind
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  ${filename}  Upload file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}  ${TESTDIR}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  ${filename}  Upload file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}  ${TESTDIR}
   ${bodyvalue}  Get PROPFIND ALLPROP body
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  ${output}  WebDAV PROPFIND  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}/${filename}  ${bodyvalue}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  ${output}  WebDAV PROPFIND  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}  ${bodyvalue}  ${plainproxy}
   Log  ${output}
   Should Not Contain  ${output}  207 Multi-status
   Should Contain  ${output}  403
 
 WebDAV PROPFIND allprop on non empty VOMS storage area directory as anonymous
   [Tags]  webdav  forbidden  propfind
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${vomsproxy}  Get VOMS proxy options for Curl
   ${dirname}  Get a unique name
-  ${output}  WebDAV MKCOL  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}/${dirname}  ${vomsproxy}
+  ${output}  WebDAV MKCOL  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}  ${vomsproxy}
   Should Contain  ${output}  201 Created
-  ${subFile1}  Upload file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}  ${TESTDIR}/${dirname}
-  ${subFile2}  Upload file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}  ${TESTDIR}/${dirname}
+  ${subFile1}  Upload file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}  ${TESTDIR}/${dirname}
+  ${subFile2}  Upload file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}  ${TESTDIR}/${dirname}
   ${bodyvalue}  Get PROPFIND ALLPROP body
-  ${output}  WebDAV PROPFIND  ${davEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}/${dirname}  ${bodyvalue}
+  ${output}  WebDAV PROPFIND  ${davEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}  ${bodyvalue}
   Log  ${output}
   Should Not Contain  ${output}  207 Multi-status
   Should Contain  ${output}  403
 
 WebDAV PROPFIND allprop on non empty VOMS storage area directory with plain proxy
   [Tags]  webdav  forbidden  propfind
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${vomsproxy}  Get VOMS proxy options for Curl
   ${dirname}  Get a unique name
-  ${output}  WebDAV MKCOL  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}/${dirname}  ${vomsproxy}
+  ${output}  WebDAV MKCOL  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}  ${vomsproxy}
   Should Contain  ${output}  201 Created
-  ${subFile1}  Upload file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}  ${TESTDIR}/${dirname}
-  ${subFile2}  Upload file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}  ${TESTDIR}/${dirname}
+  ${subFile1}  Upload file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}  ${TESTDIR}/${dirname}
+  ${subFile2}  Upload file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}  ${TESTDIR}/${dirname}
   ${bodyvalue}  Get PROPFIND ALLPROP body
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  ${output}  WebDAV PROPFIND  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}/${dirname}  ${bodyvalue}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  ${output}  WebDAV PROPFIND  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}  ${bodyvalue}  ${plainproxy}
   Log  ${output}
   Should Not Contain  ${output}  207 Multi-status
   Should Contain  ${output}  403
@@ -265,63 +265,63 @@ WebDAV PROPFIND allprop on non empty VOMS storage area directory with plain prox
 
 WebDAV COPY existent VOMS proxy storage area file as anonymous
   [Tags]  webdav  forbidden  copy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  ${filename}  Upload file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
-  ${output}  WebDAV COPY  ${davEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}/${filename}  ${davEndpoint}  ${ANONYMOUS_SA}  ${TESTDIR}/${filename}  T
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  ${filename}  Upload file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  ${output}  WebDAV COPY  ${davEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}  ${davEndpoint}  ${ANONYMOUS_SA}  ${TESTDIR}/${filename}  T
   Log  ${output}
   Should Contain  ${output}  403
 
 WebDAV COPY existent VOMS proxy storage area file with plain proxy
   [Tags]  webdav  forbidden  copy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  ${filename}  Upload file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  ${output}  WebDAV COPY  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}/${filename}  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${TESTDIR}/${filename}  T  ${plainproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  ${filename}  Upload file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  ${plainproxy}  Get x509 options for Curl
+  ${output}  WebDAV COPY  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}  ${davSecureEndpoint}  ${X509AUTH_SA}  ${TESTDIR}/${filename}  T  ${plainproxy}
   Log  ${output}
   Should Contain  ${output}  403
 
 WebDAV COPY existent plain proxy storage area file as anonymous
   [Tags]  webdav  forbidden  copy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  ${filename}  Upload file  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
-  ${output}  WebDAV COPY  ${davEndpoint}  ${PLAINPROXY_SA}  ${TESTDIR}/${filename}  ${davEndpoint}  ${ANONYMOUS_SA}  ${TESTDIR}/${filename}  T
+  ${plainproxy}  Get x509 options for Curl
+  ${filename}  Upload file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
+  ${output}  WebDAV COPY  ${davEndpoint}  ${X509AUTH_SA}  ${TESTDIR}/${filename}  ${davEndpoint}  ${ANONYMOUS_SA}  ${TESTDIR}/${filename}  T
   Log  ${output}
   Should Contain  ${output}  403
 
 WebDAV COPY existent VOMS proxy storage area directory as anonymous
   [Tags]  webdav  forbidden  copy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${vomsproxy}  Get VOMS proxy options for Curl
   ${dirname}  Get a unique name
-  ${output}  WebDAV MKCOL  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}/${dirname}  ${vomsproxy}
+  ${output}  WebDAV MKCOL  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}  ${vomsproxy}
   Should Contain  ${output}  201 Created
-  ${subFile1}  Upload file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}  ${TESTDIR}/${dirname}
-  ${subFile2}  Upload file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}  ${TESTDIR}/${dirname}
-  ${output}  WebDAV COPY  ${davEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}/${dirname}  ${davEndpoint}  ${ANONYMOUS_SA}  ${TESTDIR}/${dirname}  T
+  ${subFile1}  Upload file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}  ${TESTDIR}/${dirname}
+  ${subFile2}  Upload file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}  ${TESTDIR}/${dirname}
+  ${output}  WebDAV COPY  ${davEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}  ${davEndpoint}  ${ANONYMOUS_SA}  ${TESTDIR}/${dirname}  T
   Log  ${output}
   Should Contain  ${output}  403
 
 WebDAV COPY existent VOMS proxy storage area directory with plain proxy
   [Tags]  webdav  forbidden  copy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${vomsproxy}  Get VOMS proxy options for Curl
   ${dirname}  Get a unique name
-  ${output}  WebDAV MKCOL  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}/${dirname}  ${vomsproxy}
+  ${output}  WebDAV MKCOL  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}  ${vomsproxy}
   Should Contain  ${output}  201 Created
-  ${subFile1}  Upload file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}  ${TESTDIR}/${dirname}
-  ${subFile2}  Upload file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}  ${TESTDIR}/${dirname}
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  ${output}  WebDAV COPY  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}/${dirname}  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${TESTDIR}/${dirname}  T  ${plainproxy}
+  ${subFile1}  Upload file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}  ${TESTDIR}/${dirname}
+  ${subFile2}  Upload file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}  ${TESTDIR}/${dirname}
+  ${plainproxy}  Get x509 options for Curl
+  ${output}  WebDAV COPY  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}  ${davSecureEndpoint}  ${X509AUTH_SA}  ${TESTDIR}/${dirname}  T  ${plainproxy}
   Log  ${output}
   Should Contain  ${output}  403
 
 WebDAV COPY existent plain proxy storage area directory as anonymous
   [Tags]  webdav  forbidden  copy
-  ${plainproxy}  Get WebDAV plain proxy credentials
+  ${plainproxy}  Get x509 options for Curl
   ${dirname}  Get a unique name
-  ${output}  WebDAV MKCOL  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${TESTDIR}/${dirname}  ${plainproxy}
+  ${output}  WebDAV MKCOL  ${davSecureEndpoint}  ${X509AUTH_SA}  ${TESTDIR}/${dirname}  ${plainproxy}
   Should Contain  ${output}  201 Created
-  ${subFile1}  Upload file  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}  ${TESTDIR}/${dirname}
-  ${subFile2}  Upload file  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}  ${TESTDIR}/${dirname}
-  ${output}  WebDAV COPY  ${davEndpoint}  ${PLAINPROXY_SA}  ${TESTDIR}/${dirname}  ${davEndpoint}  ${ANONYMOUS_SA}  ${TESTDIR}/${dirname}  T
+  ${subFile1}  Upload file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}  ${TESTDIR}/${dirname}
+  ${subFile2}  Upload file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}  ${TESTDIR}/${dirname}
+  ${output}  WebDAV COPY  ${davEndpoint}  ${X509AUTH_SA}  ${TESTDIR}/${dirname}  ${davEndpoint}  ${ANONYMOUS_SA}  ${TESTDIR}/${dirname}  T
   Log  ${output}
   Should Contain  ${output}  403
 
@@ -329,25 +329,25 @@ WebDAV COPY existent plain proxy storage area directory as anonymous
 
 WebDAV MOVE existent VOMS proxy storage area resource as anonymous
   [Tags]  webdav  forbidden  move
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  ${filename}  Upload file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
-  ${output}  WebDAV MOVE  ${davEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}/${filename}  ${davEndpoint}  ${ANONYMOUS_SA}  ${TESTDIR}/${filename}  T
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  ${filename}  Upload file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  ${output}  WebDAV MOVE  ${davEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}  ${davEndpoint}  ${ANONYMOUS_SA}  ${TESTDIR}/${filename}  T
   Log  ${output}
   Should Contain  ${output}  403
 
 WebDAV MOVE existent VOMS proxy storage area resource with plain proxy
   [Tags]  webdav  forbidden  move
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  ${filename}  Upload file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  ${output}  WebDAV MOVE  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}/${filename}  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${TESTDIR}/${filename}  T  ${plainproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  ${filename}  Upload file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  ${plainproxy}  Get x509 options for Curl
+  ${output}  WebDAV MOVE  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}  ${davSecureEndpoint}  ${X509AUTH_SA}  ${TESTDIR}/${filename}  T  ${plainproxy}
   Log  ${output}
   Should Contain  ${output}  403
 
 WebDAV MOVE existent plain proxy storage area resource as anonymous
   [Tags]  webdav  forbidden  move
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  ${filename}  Upload file  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
-  ${output}  WebDAV MOVE  ${davEndpoint}  ${PLAINPROXY_SA}  ${TESTDIR}/${filename}  ${davEndpoint}  ${ANONYMOUS_SA}  ${TESTDIR}/${filename}  T
+  ${plainproxy}  Get x509 options for Curl
+  ${filename}  Upload file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
+  ${output}  WebDAV MOVE  ${davEndpoint}  ${X509AUTH_SA}  ${TESTDIR}/${filename}  ${davEndpoint}  ${ANONYMOUS_SA}  ${TESTDIR}/${filename}  T
   Log  ${output}
   Should Contain  ${output}  403

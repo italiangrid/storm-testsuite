@@ -7,22 +7,21 @@ Resource   lib/credentials.txt
 
 Put done an existent file
   [Tags]  storm-client  pd
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
   ${output}  Perform pd using clientSRM  ${surl}  ${token}
   Should Contain  ${output}  SRM_SUCCESS
   Perform rm using clientSRM  ${surl}
-  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 Duplicated put done
   [Tags]  storm-client  pd
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
   ${output}  Perform pd using clientSRM  ${surl}  ${token}
@@ -30,5 +29,4 @@ Duplicated put done
   ${output}  Perform pd using clientSRM  ${surl}  ${token}
   Should Contain  ${output}  SRM_DUPLICATION_ERROR
   Perform rm using clientSRM  ${surl}
-  Remove local file  ${filename}
   [Teardown]  Clear all credentials

@@ -59,76 +59,76 @@ WebDAV MKCOL on existent resource as anonymous
 
 WebDAV MKCOL with VOMS proxy
   [Tags]  webdav  mkcol  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV MKCOL on unexistent resource  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV MKCOL on unexistent resource  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 WebDAV MKCOL with missing anchestor with VOMS proxy
   [Tags]  webdav  mkcol  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV MKCOL with missing anchestor  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV MKCOL with missing anchestor  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 WebDAV MKCOL on existent resource with VOMS proxy
   [Tags]  webdav  mkcol  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV MKCOL on existent resource  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV MKCOL on existent resource  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 WebDAV MKCOL with VOMS proxy on an anonymous writeable storage area
   [Tags]  webdav  mkcol  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV MKCOL on unexistent resource  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${vomsproxy}
 
 ######### PLAIN PROXY ##########
 
 WebDAV MKCOL with plain proxy
   [Tags]  webdav  mkcol  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV MKCOL on unexistent resource  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV MKCOL on unexistent resource  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
 
 WebDAV MKCOL with missing anchestor with plain proxy
   [Tags]  webdav  mkcol  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV MKCOL with missing anchestor  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV MKCOL with missing anchestor  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
 
 WebDAV MKCOL on existent resource with plain proxy
   [Tags]  webdav  mkcol  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV MKCOL on existent resource  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV MKCOL on existent resource  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
 
 WebDAV MKCOL with plain proxy on an anonymous writeable storage area
   [Tags]  webdav  mkcol  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
+  ${plainproxy}  Get x509 options for Curl
   WebDAV MKCOL on unexistent resource  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${plainproxy}
 
 ####### NESTED #########
 
 WebDAV MKCOL nested storage area with VOMS proxy
   [Tags]  webdav  mkcol  vomsproxy  nested
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV MKCOL on unexistent resource  ${davSecureEndpoint}  ${NESTED_SA}  ${vomsproxy}
 
 WebDAV MKCOL nested storage area with missing anchestor with VOMS proxy
   [Tags]  webdav  mkcol  vomsproxy  nested
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV MKCOL with missing anchestor  ${davSecureEndpoint}  ${NESTED_SA}  ${vomsproxy}
 
 WebDAV MKCOL nested storage area on existent resource with VOMS proxy
   [Tags]  webdav  mkcol  vomsproxy  nested
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV MKCOL on existent resource  ${davSecureEndpoint}  ${NESTED_SA}  ${vomsproxy}
 
 ####### ALIASED #########
 
 WebDAV MKCOL aliased storage area with VOMS proxy
   [Tags]  webdav  mkcol  vomsproxy  aliased
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV MKCOL on unexistent resource  ${davSecureEndpoint}  ${ALIASED_SA}  ${vomsproxy}
 
 WebDAV MKCOL aliased storage area with missing anchestor with VOMS proxy
   [Tags]  webdav  mkcol  vomsproxy  aliased
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV MKCOL with missing anchestor  ${davSecureEndpoint}  ${ALIASED_SA}  ${vomsproxy}
 
 WebDAV MKCOL aliased storage area on existent resource with VOMS proxy
   [Tags]  webdav  mkcol  vomsproxy  aliased
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV MKCOL on existent resource  ${davSecureEndpoint}  ${ALIASED_SA}  ${vomsproxy}

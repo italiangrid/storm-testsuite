@@ -14,11 +14,11 @@ Build webdav URL  [Arguments]  ${endpoint}  ${path}
 
 ##### CREDENTIALS
 
-Get WebDAV plain proxy credentials
+Get x509 options for Curl
   ${options}  Get proxy curl options  ${GRID_PROXY}  ${TESTERS_CERT}
   [Return]  ${options}
 
-Get WebDAV VOMS proxy credentials
+Get VOMS proxy options for Curl
   ${options}  Get proxy curl options  ${VOMS_PROXY}  ${TESTERS_CERT}
   [Return]  ${options}
 

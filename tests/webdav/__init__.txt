@@ -15,32 +15,32 @@ Init local working directory
   Execute and Check Success  cp ${TESTERS_CERT_SRC} ${TESTERS_CERT}
   Init certificate and plain proxy  test0
   Execute and Check Success  cp ${userproxy} ${GRID_PROXY}
-  Init certificate and voms proxy  test0  ${vo}
+  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   Execute and Check Success  cp ${userproxy} ${VOMS_PROXY}
   Clear all credentials
 
 Clear remote working directories
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${plainproxy}  Get x509 options for Curl
+  ${vomsproxy}  Get VOMS proxy options for Curl
   ${output}  WebDAV DELETE  ${davEndpoint}  ${ANONYMOUS_SA}  ${TESTDIR}
   Log  ${output}
-  ${output}  WebDAV DELETE  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${TESTDIR}  ${plainproxy}
+  ${output}  WebDAV DELETE  ${davSecureEndpoint}  ${X509AUTH_SA}  ${TESTDIR}  ${plainproxy}
   Log  ${output}
-  ${output}  WebDAV DELETE  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}  ${vomsproxy}
+  ${output}  WebDAV DELETE  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}  ${vomsproxy}
   Log  ${output}
   ${output}  WebDAV DELETE  ${davSecureEndpoint}  ${NESTED_SA}  ${TESTDIR}  ${vomsproxy}
   Log  ${output}
 
 Init remote working directories
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${plainproxy}  Get x509 options for Curl
+  ${vomsproxy}  Get VOMS proxy options for Curl
   ${output}  WebDAV MKCOL  ${davEndpoint}  ${ANONYMOUS_SA}  ${TESTDIR}
   Log  ${output}
   Should Contain  ${output}  201 Created
-  ${output}  WebDAV MKCOL  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${TESTDIR}  ${plainproxy}
+  ${output}  WebDAV MKCOL  ${davSecureEndpoint}  ${X509AUTH_SA}  ${TESTDIR}  ${plainproxy}
   Log  ${output}
   Should Contain  ${output}  201 Created
-  ${output}  WebDAV MKCOL  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${TESTDIR}  ${vomsproxy}
+  ${output}  WebDAV MKCOL  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}  ${vomsproxy}
   Log  ${output}
   Should Contain  ${output}  201 Created
   ${output}  WebDAV MKCOL  ${davSecureEndpoint}  ${NESTED_SA}  ${TESTDIR}  ${vomsproxy}

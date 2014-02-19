@@ -79,22 +79,22 @@ WebDAV PROPFIND prop on file as anonymous
 
 WebDAV PROPFIND allprop on file with VOMS proxy
   [Tags]  webdav  propfind  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV PROPFIND allprop on file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV PROPFIND allprop on file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 WebDAV PROPFIND allprop on non empty directory with VOMS proxy
   [Tags]  webdav  propfind  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV PROPFIND allprop on non empty directory  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV PROPFIND allprop on non empty directory  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 ######### PLAIN PROXY ##########
 
 WebDAV PROPFIND allprop on file with plain proxy
   [Tags]  webdav  propfind  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV PROPFIND allprop on file  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV PROPFIND allprop on file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
 
 ebDAV PROPFIND allprop on non empty directory with plain proxy
   [Tags]  webdav  propfind  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV PROPFIND allprop on non empty directory  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV PROPFIND allprop on non empty directory  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}

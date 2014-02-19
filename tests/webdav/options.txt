@@ -24,26 +24,26 @@ WebDAV OPTIONS as anonymous
 
 WebDAV OPTIONS with VOMS proxy
   [Tags]  webdav  options  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV OPTIONS on storage area root  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV OPTIONS on storage area root  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 ######### PLAIN PROXY ##########
 
 WebDAV OPTIONS with plain proxy
   [Tags]  webdav  options  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV OPTIONS on storage area root  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV OPTIONS on storage area root  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
 
 ####### NESTED #########
 
 WebDAV OPTIONS on nested SA
   [Tags]  webdav  options  nested
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV OPTIONS on storage area root  ${davSecureEndpoint}  ${NESTED_SA}  ${vomsproxy}
 
 ####### ALIASED #########
 
 WebDAV OPTIONS on aliased SA
   [Tags]  webdav  options  aliased
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV OPTIONS on storage area root  ${davSecureEndpoint}  ${ALIASED_SA}  ${vomsproxy}

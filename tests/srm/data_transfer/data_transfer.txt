@@ -10,12 +10,12 @@ Resource   lib/credentials.txt
 
 Test that the SRM service is able to transfer a file on the SRM endpoint
   [Tags]  storm-client  globus-utils
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Create local file
-  ${surl}  Build surl  ${vo}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
-  Copy-out file using globus-utils  ${filename}  ${vo}  ${filename}
+  Copy-out file using globus-utils  ${filename}  ${VOMSAUTH_SA}  ${filename}
   ${output}  Perform pd using clientSRM  ${surl}  ${token}  -p
   Should Contain  ${output}  SRM_SUCCESS
   ${output}  Perform ls using clientSRM  ${surl}
@@ -26,9 +26,9 @@ Test that the SRM service is able to transfer a file on the SRM endpoint
 
 Test that the SRM service is able to transfer a file from the SRM endpoint
   [Tags]  storm-client  ptg
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Create local file
-  ${surl}  Build surl  ${vo}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p -T -P gsiftp
   ${result}  ${turl}=  Should Match Regexp  ${output}  transferURL=(\".+\")
@@ -40,11 +40,11 @@ Test that the SRM service is able to transfer a file from the SRM endpoint
 Check lcg-cp computed checksum in case it starts with zero
   [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/108. Given a file with ADLER32 checksum that starts with '0' and a SURL pointing to a non existent file in an existent folder, verify that after transfering the file on the SURL the checksum value computed for the file matches as string with the one of the local file.
   [Tags]  lcg-utils  regression  cp
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${srcFile}  Create local file with checksum that starts with zero
-  ${srcSurl}  Build surl  ${vo}  ${srcFile}
+  ${srcSurl}  Build surl  ${VOMSAUTH_SA}  ${srcFile}
   ${destFile}  Get a unique name
-  ${destSurl}  Build surl  ${vo}  ${destFile}
+  ${destSurl}  Build surl  ${VOMSAUTH_SA}  ${destFile}
   Copy-out file using lcg-utils  ${srcFile}  ${srcSurl}
   ${output}  Detailed ls using clientSRM  ${srcSurl}
   ${result}  ${b_checksum}=  Should Match Regexp  ${output}  checkSumValue=(\".+\")
@@ -62,95 +62,31 @@ Check lcg-cp computed checksum in case it starts with zero
 
 Test lcg-cp out
   [Tags]  lcg-utils  cp
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Create local file
-  ${surl}  Build surl  ${vo}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   Perform rm using clientSRM  ${surl}
   Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
-Check a file is correctly transferred out, re-transferred in and deleted with dcache client
-  [Tags]  lcg-utils  dcache-client
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Create local file
-  ${surl}  Build surl  ${vo}  ${filename}
-  Copy-out file using lcg-utils  ${filename}  ${surl}
-  Copy-in file using lcg-utils  ${surl}  ${filename}
-  Remove file using dCache client  ${vo}  ${filename}
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
-Check file copy in/out using lcg-utils, use dcache-client to create/remove dir and file
-  [Tags]  lcg-utils  dcache-client
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Create local file
-  ${output}  List files in directory using lcg_utils  ${vo}  ${filename}
-  Should Contain  ${output}  No such file or directory
-  ${dirName}  Get a unique name
-  Create directory using dCache client  ${vo}  ${dirName}
-  ${output}  Try to create directory using dCache client  ${vo}  ${dirName}
-  Should Contain  ${output}  SRM_DUPLICATION_ERROR
-  ${output}  List files in directory using lcg_utils  ${vo}  ${dirName}
-  Should Not Contain  ${output}  SRM_INVALID_PATH
-  ${surl}  Build surl  ${vo}  ${dirName}/${filename}
-  Copy-out file using lcg-utils  ${filename}  ${surl}
-  ${output}  List files in directory using lcg_utils  ${vo}  ${dirName}/${filename}
-  Should Not Contain  ${output}  SRM_INVALID_PATH
-  Copy-in file using lcg-utils  ${surl}  ${filename}
-  Remove file using dCache client  ${vo}  ${dirName}/${filename}
-  ${output}  Try to remove file using dCache client  ${vo}  ${dirName}/${filename}
-  Should Contain  ${output}  SRM_FAILURE
-  Remove directory using dCache client  ${vo}  ${dirName}
-  ${output}  Try to remove directory using dCache client  ${vo}  ${dirName}  
-  Should Contain  ${output}  SRM_INVALID_PATH
-  Remove local file  ${filename}
-  Remove local directory  ${dirName}
-  [Teardown]  Clear all credentials
-
-Check a file is correctly transferred out, the calculate checksum is correct and delete with dcache client
-  [Tags]  lcg-utils  dcache-client
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Create local file
-  ${surl}  Build surl  ${vo}  ${filename}
-  ${output}  List files in directory using lcg_utils  ${vo}  ${filename}
-  Should Contain  ${output}  SRM_INVALID_PATH
-  Copy-out file using lcg-utils  ${filename}  ${surl}
-  ${output}  List files in directory using lcg_utils  ${vo}  ${filename}
-  Should Contain  ${output}  ADLER32
-  Remove file using dCache client  ${vo}  ${filename}
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
-Check the correct backend behaviour when a user specifies a DB PWD in the def file
-  [Tags]  lcg-utils  dcache-client
-  [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/227
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Create local file
-  ${surl}  Build surl  ${vo}  ${filename}
-  ${output}  List files in directory using lcg_utils  ${vo}  ${filename}
-  Should Contain  ${output}  SRM_INVALID_PATH
-  Copy-out file using lcg-utils  ${filename}  ${surl}
-  Remove file using dCache client  ${vo}  ${filename}
-  Remove local file  ${filename}
-
 Transfer empty file
   [Tags]  regression  ptp  to-be-fixed
   [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/241. If a client tries to transfer an empty file to a valid gsiftp TURL the transfer fails.
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Create local empty file
-  ${surl}  Build surl  ${vo}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
-  ${output}  Try to copy-out file using globus-utils  ${filename}  ${vo}  ${filename}
+  ${output}  Try to copy-out file using globus-utils  ${filename}  ${VOMSAUTH_SA}  ${filename}
   Should not contain  ${output}  globus_xio: An end of file occurred
   [Teardown]  Clear all credentials
 
 Copy out a file using lcg-utils
   [Tags]  lcg-utils
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Create local file
-  ${surl}  Build surl  ${vo}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   Check file does not exists using lcg-utils  ${surl}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   Copy-in file using lcg-utils  ${surl}  ${filename}_copied
@@ -163,13 +99,13 @@ Copy out a file using lcg-utils
 Check checksum of copied file
   [Tags]  lcg-util
   [Documentation]  StoRM BE must be configured with GRIDFTP_WITH_DSI="yes" to pass this test
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Create local file
-  ${srcsurl}  Build surl  ${vo}  ${filename}
+  ${srcsurl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${srcsurl}  -p
-  Copy-out file using globus-utils  ${filename}  ${vo}  ${filename}
+  Copy-out file using globus-utils  ${filename}  ${VOMSAUTH_SA}  ${filename}
   ${output}  Perform pd using clientSRM  ${srcsurl}  ${token}  -p
-  ${destsurl}  Build surl  ${vo}  ${filename}_copied
+  ${destsurl}  Build surl  ${VOMSAUTH_SA}  ${filename}_copied
   ${output}  Copy file using lcg-utils  ${srcsurl}  ${destsurl}  --checksum
   Log  ${output}
   Should Contain  ${output}  Source and destination checksums are matching

@@ -15,7 +15,7 @@ Init local working directory
   Execute and Check Success  cp ${TESTERS_CERT_SRC} ${TESTERS_CERT}
   Init certificate and plain proxy  test0
   Execute and Check Success  cp ${userproxy} ${GRID_PROXY}
-  Init certificate and voms proxy  test0  ${vo}
+  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   Execute and Check Success  cp ${userproxy} ${VOMS_PROXY}
   Clear all credentials
 

@@ -7,10 +7,10 @@ Resource   lib/credentials.txt
 
 Status of a prepare to get with file pinned
   [Tags]  storm-client  sptg
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Get a unique name
-  Put without really putting using clientSRM  ${vo}  ${filename}
-  ${surl}  Build surl  ${vo}  ${filename}
+  Put without really putting using clientSRM  ${VOMSAUTH_SA}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}
   Should Contain  ${output}  SRM_REQUEST_QUEUED
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
@@ -28,9 +28,9 @@ Status of a prepare to get with file pinned
 
 Status of a prepare to get on a unexistent file
   [Tags]  storm-client  sptg
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
   ${output}  Perform sptg using clientSRM  ${surl}  ${token}
   Should Contain  ${output}  SRM_FAILURE
@@ -40,6 +40,6 @@ Status of a prepare to get on a unexistent file
 Status of prepare to get using a non existent token
   [Tags]  regression  sptg
   [Documentation]  Regression test for https://issues.infn.it/browse/STOR-217. StoRM crashed when a status for an async request was requested but the service is not able to get the into out of the database (for example, the token does not exists). This test calls a status for a prepare to get.
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${output}  Execute clientSRM Command  sptg -t abcde
   [Teardown]  Clear all credentials

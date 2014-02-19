@@ -8,10 +8,10 @@ Resource   lib/lcg_util.txt
 
 Remove existent file
   [Tags]  storm-client  rm
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${filename}
-  Put without really putting using clientSRM  ${vo}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
+  Put without really putting using clientSRM  ${VOMSAUTH_SA}  ${filename}
   ${output}  Perform rm using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
   Remove local file  ${filename}
@@ -19,9 +19,9 @@ Remove existent file
 
 Remove unexistent file
   [Tags]  storm-client  rm
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   ${output}  Perform rm using clientSRM  ${surl}
   Should Contain  ${output}  SRM_INVALID_PATH
   Should Contain  ${output}  File does not exist
@@ -30,14 +30,14 @@ Remove unexistent file
 
 Removing unauthorized file
   [Tags]  storm-client  rm
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${filename}
-  Put without really putting using clientSRM  ${vo}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
+  Put without really putting using clientSRM  ${VOMSAUTH_SA}  ${filename}
   Init certificate and plain proxy  test0
   ${output}  Perform rm using clientSRM  ${surl}
   Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
-  Init certificate and voms proxy  test0  ${vo}
+  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${output}  Perform rm using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
   Remove local file  ${filename}
@@ -45,13 +45,13 @@ Removing unauthorized file
 
 Partial success on removing multiple files
   [Tags]  storm-client  rm
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Get a unique name
   ${filename2}  Get a unique name
-  Put without really putting using clientSRM  ${vo}  ${filename}
-  Put without really putting using clientSRM  ${vo}  ${filename2}
-  ${surl}  Build surl  ${vo}  ${filename}
-  ${surl2}  Build surl  ${vo}  ${filename2}
+  Put without really putting using clientSRM  ${VOMSAUTH_SA}  ${filename}
+  Put without really putting using clientSRM  ${VOMSAUTH_SA}  ${filename2}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
+  ${surl2}  Build surl  ${VOMSAUTH_SA}  ${filename2}
   ${output}  Perform rm using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
   ${output}  Perform rm using clientSRM  ${surl} ${surl2}
@@ -62,10 +62,10 @@ Partial success on removing multiple files
 
 Remove a pinned file must set aborted the ptg request
   [Tags]  storm-client  rm  ptg
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Get a unique name
-  Put without really putting using clientSRM  ${vo}  ${filename}
-  ${surl}  Build surl  ${vo}  ${filename}
+  Put without really putting using clientSRM  ${VOMSAUTH_SA}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_FILE_PINNED
   ${output}  Perform rm using clientSRM  ${surl}
@@ -78,9 +78,9 @@ Remove a pinned file must set aborted the ptg request
 
 Unauthorized remove on another VO's file
   [Tags]  storm-client  ls
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  ../${vo2}/${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ../${vo2}/${filename}
   ${output}  Perform rm using clientSRM  ${surl}
   Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
   Log  ${output}

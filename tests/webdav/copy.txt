@@ -99,93 +99,93 @@ WebDAV COPY with destination equals to source as anonymous
 
 WebDAV COPY file with VOMS proxy
   [Tags]  webdav  copy  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV COPY file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV COPY file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 WebDAV COPY non empty directory with VOMS proxy
   [Tags]  webdav  copy  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV COPY non empty directory  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV COPY non empty directory  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 WebDAV COPY file on existent target with overwrite T with VOMS proxy
   [Tags]  webdav  copy  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV COPY file on existent target with overwrite T  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV COPY file on existent target with overwrite T  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 WebDAV COPY file on existent target with overwrite F with VOMS proxy
   [Tags]  webdav  copy  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV COPY file on existent target with overwrite F  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV COPY file on existent target with overwrite F  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 WebDAV COPY unexistent file with VOMS proxy
   [Tags]  webdav  copy  vomsproxy  to-be-fixed
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV COPY unexistent file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV COPY unexistent file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 WebDAV COPY with destination equals to source with VOMS proxy
   [Tags]  webdav  copy  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV COPY with destination equals to source  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV COPY with destination equals to source  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 ######### PLAIN PROXY ##########
 
 WebDAV COPY file with plain proxy
   [Tags]  webdav  copy  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV COPY file  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV COPY file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
 
 WebDAV COPY non empty directory with plain proxy
   [Tags]  webdav  copy  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV COPY non empty directory  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV COPY non empty directory  ${davSecureEndpoint}  ${X509AUTH_SA}  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
 
 WebDAV COPY file on existent target with overwrite T with plain proxy
   [Tags]  webdav  copy  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV COPY file on existent target with overwrite T  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV COPY file on existent target with overwrite T  ${davSecureEndpoint}  ${X509AUTH_SA}  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
 
 WebDAV COPY file on existent target with overwrite F with plain proxy
   [Tags]  webdav  copy  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV COPY file on existent target with overwrite F  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV COPY file on existent target with overwrite F  ${davSecureEndpoint}  ${X509AUTH_SA}  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
 
 WebDAV COPY unexistent file with plain proxy
   [Tags]  webdav  copy  plainproxy  to-be-fixed
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV COPY unexistent file  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV COPY unexistent file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
 
 WebDAV COPY with destination equals to source with plain proxy
   [Tags]  webdav  copy  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV COPY with destination equals to source  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV COPY with destination equals to source  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
 
 ######### MIXED ##########
 
 WebDAV COPY from anonymous to voms proxy storage area
   [Tags]  webdav  copy  anonymous  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV COPY file  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV COPY file  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 WebDAV COPY from VOMS proxy to anonymous storage area
   [Tags]  webdav  copy  anonymous  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV COPY file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV COPY file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${vomsproxy}
 
 WebDAV COPY from plain proxy to anonymous storage area
   [Tags]  webdav  copy  anonymous  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV COPY file  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV COPY file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${plainproxy}
 
 WebDAV COPY from plain proxy to VOMS proxy storage area
   [Tags]  webdav  copy  vomsproxy  plainproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV COPY file  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV COPY file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 WebDAV COPY unauthorized from plain proxy to VOMS proxy storage area
   [Tags]  webdav  copy  vomsproxy  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV COPY unauthorized  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV COPY unauthorized  ${davSecureEndpoint}  ${X509AUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${plainproxy}
 
 WebDAV COPY unauthorized from anonymous to voms proxy storage area
   [Tags]  webdav  copy  anonymous  vomsproxy
-  WebDAV COPY unauthorized  ${davEndpoint}  ${ANONYMOUS_SA}  ${davSecureEndpoint}  ${VOMSPROXY_SA}
+  WebDAV COPY unauthorized  ${davEndpoint}  ${ANONYMOUS_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}

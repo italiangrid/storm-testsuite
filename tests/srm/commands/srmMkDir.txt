@@ -7,56 +7,52 @@ Resource   lib/credentials.txt
 
 Create new empty directory
   [Tags]  storm-client  mkdir
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${dirname}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${dirname}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${dirname}
   ${output}  Perform mkdir using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
-  Remove empty directory using clientSRM  ${vo}  ${dirname}
-  Remove local directory  ${dirname}
+  ${output}  Perform rmdir using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
   [Teardown]  Clear all credentials
 
 Create directory with invalid path
   [Tags]  storm-client  mkdir
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${dirname}  Get a unique name
   ${surl}  Build surl  fakeVO  ${dirname}
   ${output}  Perform mkdir using clientSRM  ${surl}
   Should Contain  ${output}  SRM_INVALID_PATH
-  Remove local directory  ${dirname}
   [Teardown]  Clear all credentials
 
 Create directory that already exists
   [Tags]  storm-client  mkdir
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${dirname}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${dirname}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${dirname}
   ${output}  Perform mkdir using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
   ${output}  Perform mkdir using clientSRM  ${surl}
   Should Contain  ${output}  SRM_DUPLICATION_ERROR
   Should Contain  ${output}  Directory specified exists!
-  Remove empty directory using clientSRM  ${vo}  ${dirname}
-  Remove local directory  ${dirname}
+  ${output}  Perform rmdir using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
   [Teardown]  Clear all credentials
 
 Create directory with an unauthorized path
   [Tags]  storm-client  mkdir
   [Setup]  Init certificate and plain proxy  test0
   ${dirname}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${dirname}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${dirname}
   ${output}  Perform mkdir using clientSRM  ${surl}
-  log  ${output}
   Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
-  Remove local directory  ${dirname}
   [Teardown]  Clear all credentials
 
 Check directory creation on a different VO
   [Tags]  storm-client  ls
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${dirname}  Get a unique name
-  ${qsurl}  Build surl  ${vo2}  ../${vo}/${dirname}
+  ${qsurl}  Build surl  ${vo2}  ../${VOMSAUTH_SA}/${dirname}
   ${output}  Perform mkdir using clientSRM  ${qsurl}
   Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
-  Remove local directory  ${dirname}
   [Teardown]  Clear all credentials

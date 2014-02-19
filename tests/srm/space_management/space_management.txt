@@ -9,13 +9,13 @@ Resource   lib/credentials.txt
 Space token used space is update
   [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/109. Given a Space Token ST and a SURL that resides on ST pointing to a not existent file, verify that inspecting the unused space of the ST before and after a non-empty file has been stored on the SURL, the ST used space value is updated accordingly to the size of the new file.
   [Tags]  storm-client  lcg-utils  gst  regression
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${size_before}  Get unused size using clientSRM  ${storageAreaToken}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  ${size_before}  Get unused size using clientSRM  ${VOMSAUTH_SA_TOKEN}
   Log  ${size_before}
   ${filename}  Create local file
-  ${surl}  Build surl  ${vo}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
-  ${size_after}  Get unused size using clientSRM  ${storageAreaToken}
+  ${size_after}  Get unused size using clientSRM  ${VOMSAUTH_SA_TOKEN}
   Log  ${size_after}
   ${diff_size}  Run  echo `expr ${size_before} - ${size_after}`
   ${file_size}  Run  ls -l /tmp/${filename} | awk {'print $5'}
@@ -26,7 +26,7 @@ Space token used space is update
 Check a srmGetSpaceMetadata call succedes when a valid Space Token not associated to a Storage Area is given
   [Tags]  storm-client  gsm  regression
   [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/277 Storm failed with "SRM_INTERNAL_ERROR" and "Storage Space not initialized yet" as explaination. It must succede since it does not needs to be initialized.
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${token}  Reserve space using clientSRM
   ${output}  Get space metadata using clientSRM  ${token}
   Should Contain  ${output}  SRM_SUCCESS  
@@ -37,7 +37,7 @@ Check a srmGetSpaceMetadata call succedes when a valid Space Token not associate
 Check a GetSpaceMetadata succedes when using a proxy without voms extensions
   [Tags]  storm-client  gsm  regression
   [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/189
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${token}  Get space token using clientSRM
   ${output}  Get space metadata using clientSRM  ${token}
   Should Contain  ${output}  SRM_SUCCESS

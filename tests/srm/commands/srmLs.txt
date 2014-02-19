@@ -8,57 +8,55 @@ Resource   lib/lcg_util.txt
 
 List files in storage area root
   [Tags]  storm-client  ls
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${surl}  Build surl  ${VOMSPROXY_SA}  ${EMPTY}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${EMPTY}
   ${output}  Perform ls using clientSRM  ${surl}  -c 1
   Should Contain  ${output}  SRM_SUCCESS
   [Teardown]  Clear all credentials
 
 List existent directory
   [Tags]  storm-client  ls
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${dirname}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${dirname}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${dirname}
   ${output}  Perform mkdir using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
   ${output}  Perform ls using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
-  Should Contain  ${output}  path="/${vo}/${dirname}"
+  Should Contain  ${output}  path="/${VOMSAUTH_SA}/${dirname}"
   Should Contain  ${output}  size=0
   ${fileName}  Get a unique name
-  Put without really putting using clientSRM  ${vo}  ${dirName}/${fileName}
+  Put without really putting using clientSRM  ${VOMSAUTH_SA}  ${dirName}/${fileName}
   ${output}  Perform ls using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
-  Should Contain  ${output}  path="/${vo}/${dirname}"
-  Should Contain  ${output}  path="/${vo}/${dirname}/${filename}"
+  Should Contain  ${output}  path="/${VOMSAUTH_SA}/${dirname}"
+  Should Contain  ${output}  path="/${VOMSAUTH_SA}/${dirname}/${filename}"
   Should Contain  ${output}  size=1
   ${output}  Perform rmdir using clientSRM  ${surl}  -r
   Should Contain  ${output}  SRM_SUCCESS
-  Remove local directory  ${dirname}
   [Teardown]  Clear all credentials
 
 List unexistent directory
   [Tags]  storm-client  ls
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${dirname}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${dirname}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${dirname}
   ${output}  Perform ls using clientSRM  ${surl}
   Should Contain  ${output}  SRM_FAILURE
   Should Contain  ${output}  SRM_INVALID_PATH
-  Should Contain  ${output}  path="/${vo}/${dirname}"
+  Should Contain  ${output}  path="/${VOMSAUTH_SA}/${dirname}"
   Should Not Contain  ${output}  size=0
-  Remove local directory  ${dirname}
   [Teardown]  Clear all credentials
 
 List existent file
   [Tags]  storm-client  ls
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Create local file
-  ${surl}  Build surl  ${vo}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   ${output}  Perform ls using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
-  Should Contain  ${output}  path="/${vo}/${filename}"
+  Should Contain  ${output}  path="/${VOMSAUTH_SA}/${filename}"
   log  ${output}
   Should Contain  ${output}  size=1048576
   Should Not Contain  ${output}  size=0
@@ -69,45 +67,44 @@ List existent file
 
 List unexistent file
   [Tags]  storm-client  ls
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   ${output}  Perform ls using clientSRM  ${surl}
   Should Contain  ${output}  SRM_FAILURE
   Should Contain  ${output}  SRM_INVALID_PATH
-  Should Contain  ${output}  path="/${vo}/${filename}"
+  Should Contain  ${output}  path="/${VOMSAUTH_SA}/${filename}"
   Should Not Contain  ${output}  size=0
-  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 Full detailed list of existent directory
   [Tags]  storm-client  ls
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${dirname}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${dirname}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${dirname}
   ${output}  Perform mkdir using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
   ${output}  Perform ls using clientSRM  ${surl}  -l 1 -n 1
   Should Contain  ${output}  SRM_SUCCESS
-  Should Contain  ${output}  path="/${vo}/${dirname}"
+  Should Contain  ${output}  path="/${VOMSAUTH_SA}/${dirname}"
   Should Contain  ${output}  size=0
   Should Contain  ${output}  ownerPermission
   Should Contain  ${output}  groupPermission
   Should Contain  ${output}  type=Directory
   Should Contain  ${output}  lastModificationTime
-  Remove empty directory using clientSRM  ${vo}  ${dirname}
-  Remove local directory  ${dirname}
+  ${output}  Perform rmdir using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
   [Teardown]  Clear all credentials
 
 Full detailed list of existent file
   [Tags]  storm-client  ls
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Create local file
-  ${surl}  Build surl  ${vo}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   ${output}  Perform ls using clientSRM  ${surl}  -l 1 -n 0
   Should Contain  ${output}  SRM_SUCCESS
-  Should Contain  ${output}  path="/${vo}/${filename}"
+  Should Contain  ${output}  path="/${VOMSAUTH_SA}/${filename}"
   Should Contain  ${output}  size
   Should Not Contain  ${output}  size=0
   Should Contain  ${output}  ownerPermission
@@ -117,20 +114,20 @@ Full detailed list of existent file
   Should Contain  ${output}  lifetimeAssigned
   Should Contain  ${output}  lifetimeLeft
   Should Contain  ${output}  fileLocality
-  Perform rm using clientSRM  ${surl}
+  ${output}  Perform rm using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
-  Remove local directory  ${filename}
+  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 Full detailed and recursive list of existent files and directories
   [Tags]  storm-client  ls
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Create local file
   ${dirname}  Get a unique name
-  ${dirsurl}  Build surl  ${vo}  ${dirname}
-  ${filesurl}  Build surl  ${vo}  ${dirname}/${filename}
-  ${subdirsurl}  Build surl  ${vo}  ${dirname}/${dirname}
-  ${subdirfilesurl}  Build surl  ${vo}  ${dirname}/${dirname}/${filename}
+  ${dirsurl}  Build surl  ${VOMSAUTH_SA}  ${dirname}
+  ${filesurl}  Build surl  ${VOMSAUTH_SA}  ${dirname}/${filename}
+  ${subdirsurl}  Build surl  ${VOMSAUTH_SA}  ${dirname}/${dirname}
+  ${subdirfilesurl}  Build surl  ${VOMSAUTH_SA}  ${dirname}/${dirname}/${filename}
   ${output}  Perform mkdir using clientSRM  ${dirsurl}
   Should Contain  ${output}  SRM_SUCCESS
   ${output}  Perform mkdir using clientSRM  ${subdirsurl}
@@ -139,10 +136,10 @@ Full detailed and recursive list of existent files and directories
   Copy-out file using lcg-utils  ${filename}  ${subdirfilesurl}
   ${output}  Perform ls using clientSRM  ${dirsurl}  -r -l 1
   Should Contain  ${output}  SRM_SUCCESS
-  Should Contain  ${output}  path="/${vo}/${dirname}"
-  Should Contain  ${output}  path="/${vo}/${dirname}/${filename}"
-  Should Contain  ${output}  path="/${vo}/${dirname}/${dirname}"
-  Should Contain  ${output}  path="/${vo}/${dirname}/${dirname}/${filename}"
+  Should Contain  ${output}  path="/${VOMSAUTH_SA}/${dirname}"
+  Should Contain  ${output}  path="/${VOMSAUTH_SA}/${dirname}/${filename}"
+  Should Contain  ${output}  path="/${VOMSAUTH_SA}/${dirname}/${dirname}"
+  Should Contain  ${output}  path="/${VOMSAUTH_SA}/${dirname}/${dirname}/${filename}"
   Should Contain  ${output}  size
   Should Contain  ${output}  ownerPermission
   Should Contain  ${output}  groupPermission
@@ -151,16 +148,16 @@ Full detailed and recursive list of existent files and directories
   Should Contain  ${output}  lifetimeAssigned
   Should Contain  ${output}  lifetimeLeft
   Should Contain  ${output}  fileLocality
-  Remove not empty directory using clientSRM  ${vo}  ${dirname}
-  Remove local directory  ${dirname}
+  ${output}  Perform rmdir using clientSRM  ${dirsurl}  -r
+  Should Contain  ${output}  SRM_SUCCESS
   Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 Ls on a surl that points to another storage area
   [Tags]  storm-client  ls
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${qsurl}  Build surl  ${vo2}  ../${vo}
-  ${ssurl}  Build simple surl  ${vo2}  ../${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  ${qsurl}  Build surl  ${vo2}  ../${VOMSAUTH_SA}
+  ${ssurl}  Build simple surl  ${vo2}  ../${VOMSAUTH_SA}
   ${output}  Perform ls using clientSRM  ${qsurl}
   Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
   ${output}  Perform ls using clientSRM  ${ssurl}
@@ -169,52 +166,52 @@ Ls on a surl that points to another storage area
 
 Ls on a surl with a valid dots segment
   [Tags]  storm-client  ls
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${dirname}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${dirname}
+  ${dirname2}  Get a unique name
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${dirname}
+  ${surl2}  Build surl  ${VOMSAUTH_SA}  ${dirname2}
+  ${surl3}  Build surl  ${VOMSAUTH_SA}  ${dirname}/../${dirname2}
   ${output}  Perform mkdir using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
-  ${dirname2}  Get a unique name
-  ${surl2}  Build surl  ${vo}  ${dirname2}
   ${output}  Perform mkdir using clientSRM  ${surl2}
   Should Contain  ${output}  SRM_SUCCESS
-  ${surl3}  Build surl  ${vo}  ${dirname}/../${dirname2}
   ${output}  Perform ls using clientSRM  ${surl3}
   Should Contain  ${output}  SRM_SUCCESS
-  Remove empty directory using clientSRM  ${vo}  ${dirname}
-  Remove local directory  ${dirname}
-  Remove empty directory using clientSRM  ${vo}  ${dirname2}
-  Remove local directory  ${dirname2}
+  ${output}  Perform rmdir using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
+  ${output}  Perform rmdir using clientSRM  ${surl2}
+  Should Contain  ${output}  SRM_SUCCESS
   [Teardown]  Clear all credentials
 
 Ls on a surl with a valid dots segment with simple surls
   [Tags]  storm-client  ls
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${dirname}  Get a unique name
-  ${surl}  Build simple surl  ${vo}  ${dirname}
+  ${dirname2}  Get a unique name
+  ${surl}  Build simple surl  ${VOMSAUTH_SA}  ${dirname}
+  ${surl2}  Build simple surl  ${VOMSAUTH_SA}  ${dirname2}
+  ${surl3}  Build simple surl  ${VOMSAUTH_SA}  ${dirname}/../${dirname2}
   ${output}  Perform mkdir using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
-  ${dirname2}  Get a unique name
-  ${surl2}  Build simple surl  ${vo}  ${dirname2}
   ${output}  Perform mkdir using clientSRM  ${surl2}
   Should Contain  ${output}  SRM_SUCCESS
-  ${surl3}  Build simple surl  ${vo}  ${dirname}/../${dirname2}
   ${output}  Perform ls using clientSRM  ${surl3}
   Should Contain  ${output}  SRM_SUCCESS
-  Remove empty directory using clientSRM  ${vo}  ${dirname}
-  Remove local directory  ${dirname}
-  Remove empty directory using clientSRM  ${vo}  ${dirname2}
-  Remove local directory  ${dirname2}
+  ${output}  Perform rmdir using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
+  ${output}  Perform rmdir using clientSRM  ${surl2}
+  Should Contain  ${output}  SRM_SUCCESS
   [Teardown]  Clear all credentials
 
 Ls on a surl that points to a reserved area
   [Tags]  storm-client  ls
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${surl}  Build surl  ${vo}  ../../etc/grid-security
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ../../etc/grid-security
   ${output}  Perform ls using clientSRM  ${surl}
   Should Not Contain  ${output}  SRM_SUCCESS
   Should Contain  ${output}  SRM_INTERNAL_ERROR
-  ${surl}  Build simple surl  ${vo}  ../../etc/grid-security
+  ${surl}  Build simple surl  ${VOMSAUTH_SA}  ../../etc/grid-security
   ${output}  Perform ls using clientSRM  ${surl}
   Should Not Contain  ${output}  SRM_SUCCESS
   Should Contain  ${output}  SRM_INTERNAL_ERROR
@@ -222,14 +219,14 @@ Ls on a surl that points to a reserved area
 
 Ls on some symlinks that point to other storage-areas
   [Tags]  storm-client  ls
-  Init certificate and voms proxy  test0  ${vo}
-  ${symlinkSURL}  Build surl  ${VOMSPROXY_SA}  ${VOMS_TO_VOMS}
+  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  ${symlinkSURL}  Build surl  ${VOMSAUTH_SA}  ${VOMS_TO_VOMS}
   ${output}  Perform ls using clientSRM  ${symlinkSURL}
   Should Contain  ${output}  SRM_FAILURE
   Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
   Should Not Contain  ${output}  SRM_SUCCESS
   Log  ${output}
-  ${symlinkSURL2}  Build surl  ${VOMSPROXY_SA}  ${VOMS_TO_ANONYMOUS}
+  ${symlinkSURL2}  Build surl  ${VOMSAUTH_SA}  ${VOMS_TO_ANONYMOUS}
   ${output}  Perform ls using clientSRM  ${symlinkSURL2}
   Should Contain  ${output}  SRM_SUCCESS
   Log  ${output}

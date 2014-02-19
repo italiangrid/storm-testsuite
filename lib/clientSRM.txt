@@ -149,11 +149,11 @@ List files in directory using clientSRM  [Arguments]  ${storageArea}  ${path}
   ${output}  Perform ls using clientSRM  ${surl}
   [Return]  ${output}
 
-Get space token using clientSRM  [Arguments]  ${token}=${storageAreaToken}
+Get space token using clientSRM  [Arguments]  ${token}=${VOMSAUTH_SA_TOKEN}
   ${output}  Execute clientSRM Command  gst -v ES -e httpg://${srmEndpoint} -d ${token}
   ${result}  ${token}=  Should Match Regexp  ${output}  (\".+-.+-.+-.+-.+\")
   [Return]  ${token}
 
-Get space token output using clientSRM  [Arguments]  ${token}=${storageAreaToken}
+Get space token output using clientSRM  [Arguments]  ${token}=${VOMSAUTH_SA_TOKEN}
   ${output}  Execute clientSRM Command  gst -v ES -e httpg://${srmEndpoint} -d ${token}
   [Return]  ${output}

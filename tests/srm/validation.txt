@@ -1,7 +1,6 @@
 *** Settings ***
 Resource   lib/stormlib.txt
 Resource   lib/clientSRM.txt
-Resource   lib/dcache.txt
 Resource   lib/lcg_util.txt
 Resource   lib/credentials.txt
 Resource   lib/recall.txt
@@ -10,7 +9,7 @@ Resource   lib/recall.txt
 
 Check a get space metadata request fails when a wrong token format is provided
   [Tags]  regression  gsm
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${output}  Get space metadata using clientSRM  "ciccio' OR SLEEP(1)-- "
   Log  ${output}
   Should Contain  ${output}  SRM_INVALID_REQUEST
@@ -19,7 +18,7 @@ Check a get space metadata request fails when a wrong token format is provided
 
 Check a get request summary fails when a wrong token format is provided
   [Tags]  regression  grs
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${output}  Get request summary using clientSRM  "ciccio' OR 1=1) AND SLEEP(1)-- "
   Log  ${output}
   Should Contain  ${output}  SRM_INVALID_REQUEST
@@ -28,7 +27,7 @@ Check a get request summary fails when a wrong token format is provided
 
 Check a reserve space request fails when a wrong token format is provided
   [Tags]  regression  rsp
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${output}  Reserve space using clientSRM with token  "ciccio' or SLEEP(1)-- "
   Log  ${output}
   Should Contain  ${output}  SRM_INVALID_REQUEST
@@ -37,7 +36,7 @@ Check a reserve space request fails when a wrong token format is provided
 
 Check a release space request fails when a wrong token format is provided
   [Tags]  regression  rs
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${output}  Release space using clientSRM  "ciccio' or SLEEP(1)-- "
   Log  ${output}
   Should Contain  ${output}  SRM_INVALID_REQUEST
@@ -46,7 +45,7 @@ Check a release space request fails when a wrong token format is provided
 
 Check a get space tokens request fails when a wrong token format is provided
   [Tags]  regression  gst
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${output}  Get space token output using clientSRM  "ciccio' OR SLEEP(1)-- "
   Log  ${output}
   Should Contain  ${output}  SRM_INVALID_REQUEST
@@ -55,7 +54,7 @@ Check a get space tokens request fails when a wrong token format is provided
 
 Check a get request tokens fails with an invalid user request description
   [Tags]  regression  grt
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${output}  Get request tokens using clientSRM  "ciccio' OR SLEEP(1)-- "
   Log  ${output}
   Should Contain  ${output}  SRM_INVALID_REQUEST
@@ -64,9 +63,9 @@ Check a get request tokens fails with an invalid user request description
 
 Check a ptp fails when a malformed surl is supplied
   [Tags]  storm-client  ptp  regression
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  "${filename} ciccio') OR SLEEP(1)-- "
+  ${surl}  Build surl  ${VOMSAUTH_SA}  "${filename} ciccio') OR SLEEP(1)-- "
   ${output}  Execute clientSRM Command on Surl  ptp  ${surl}  ${EMPTY}
   Log  ${output}
   Should Contain  ${output}  SRM_INVALID_REQUEST
@@ -76,9 +75,9 @@ Check a ptp fails when a malformed surl is supplied
 
 Check a sptp fails when a malformed token is supplied
   [Tags]  storm-client  sptp  regression
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}
   ${output}  Perform sptp using clientSRM  ${surl}  "ciccio' OR SLEEP(1)-- "
   Log  ${output}  
@@ -89,12 +88,12 @@ Check a sptp fails when a malformed token is supplied
 
 Check a ptg fails when a malformed surl is supplied
   [Tags]  storm-client  ptg  regression
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   ${output}  Perform pd using clientSRM  ${surl}  ${token}
-  ${surl}  Build surl  ${vo}  "${filename} ciccio') OR SLEEP(1)-- "
+  ${surl}  Build surl  ${VOMSAUTH_SA}  "${filename} ciccio') OR SLEEP(1)-- "
   ${output}  Execute clientSRM Command on Surl  ptg  ${surl}  ${EMPTY}
   Log  ${output}
   Should Contain  ${output}  SRM_INVALID_REQUEST
@@ -104,9 +103,9 @@ Check a ptg fails when a malformed surl is supplied
 
 Check a sptg fails when a malformed token is supplied
   [Tags]  storm-client  sptg  regression
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   ${output}  Perform pd using clientSRM  ${surl}  ${token}
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}
@@ -119,9 +118,9 @@ Check a sptg fails when a malformed token is supplied
 
 Check a pd fails when a malformed token is supplied
   [Tags]  storm-client  pd
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
   ${output}  Perform pd using clientSRM  ${surl}  "ciccio' OR SLEEP(1)-- "
@@ -132,12 +131,12 @@ Check a pd fails when a malformed token is supplied
 
 Check a pd fails when a malformed surl is supplied
   [Tags]  storm-client  pd
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
-  ${surl}  Build surl  ${vo}  "${filename} ciccio') OR SLEEP(1)-- "
+  ${surl}  Build surl  ${VOMSAUTH_SA}  "${filename} ciccio') OR SLEEP(1)-- "
   ${output}  Perform pd using clientSRM  ${surl}  ${token}
   Should Contain  ${output}  SRM_INVALID_REQUEST
   Should Contain  ${output}  invalid surl
@@ -146,9 +145,9 @@ Check a pd fails when a malformed surl is supplied
 
 Check an abort request fails when a malformed token is supplied
   [Tags]  storm-client  abort  
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Get a unique name  
-  ${surl}  Build surl  ${vo}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl} -p
   ${output}  Perform abort request using clientSRM  "${token}' or SLEEP(1)-- "
   Should Contain  ${output}  SRM_INVALID_REQUEST
@@ -158,9 +157,9 @@ Check an abort request fails when a malformed token is supplied
 
 Check an abort file fails when a malformed token is supplied
   [Tags]  storm-client  abort
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl} -p
   ${output}  Perform abort file using clientSRM  ${surl}  "${token}' or SLEEP(1)-- "
   Should Contain  ${output}  SRM_INVALID_REQUEST
@@ -170,9 +169,9 @@ Check an abort file fails when a malformed token is supplied
 
 Check an ls request fails when a malformed surl is supplied
   [Tags]  storm-client  ls
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  "${filename} ciccio') OR SLEEP(1)-- "
+  ${surl}  Build surl  ${VOMSAUTH_SA}  "${filename} ciccio') OR SLEEP(1)-- "
   ${output}  Perform ls using clientSRM  ${surl}
   Should Contain  ${output}  SRM_INVALID_REQUEST
   Should Contain  ${output}  invalid surl
@@ -181,9 +180,9 @@ Check an ls request fails when a malformed surl is supplied
 
 Check a mkdir request fails when a malformed surl is supplied
   [Tags]  storm-client  mkdir
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  "${filename} ciccio') OR SLEEP(1)-- "
+  ${surl}  Build surl  ${VOMSAUTH_SA}  "${filename} ciccio') OR SLEEP(1)-- "
   ${output}  Perform mkdir using clientSRM  ${surl}
   Should Contain  ${output}  SRM_INVALID_REQUEST
   Should Contain  ${output}  invalid surl
@@ -192,11 +191,11 @@ Check a mkdir request fails when a malformed surl is supplied
 
 Check a rmdir request fails when a malformed surl is supplied
   [Tags]  storm-client  rmdir
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   ${output}  Perform mkdir using clientSRM  ${surl}
-  ${surl}  Build surl  ${vo}  "${filename} ciccio') OR SLEEP(1)-- "
+  ${surl}  Build surl  ${VOMSAUTH_SA}  "${filename} ciccio') OR SLEEP(1)-- "
   ${output}  Perform rmdir using clientSRM  ${surl}
   Should Contain  ${output}  SRM_INVALID_REQUEST
   Should Contain  ${output}  invalid surl
@@ -205,9 +204,9 @@ Check a rmdir request fails when a malformed surl is supplied
 
 Check a rf request fails when a malformed token is supplied
   [Tags]  storm-client  mkdir
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl} -p
   ${output}  Perform pd using clientSRM  ${surl}  ${token}  -p
   ${output}  ${token}  Perform ptg using clientSRM  ${surl} -p
@@ -219,12 +218,12 @@ Check a rf request fails when a malformed token is supplied
 
 Check a rm request fails when a malformed surl is supplied
   [Tags]  storm-client  rm
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl} -p
   ${output}  Perform pd using clientSRM  ${surl}  ${token}  -p
-  ${surl}  Build surl  ${vo}  "${filename} ciccio' or sleep(1)-- "  
+  ${surl}  Build surl  ${VOMSAUTH_SA}  "${filename} ciccio' or sleep(1)-- "  
   ${output}  Perform rm using clientSRM  ${surl}
   Log  ${output}
   Should Contain  ${output}  SRM_INVALID_REQUEST
@@ -234,12 +233,12 @@ Check a rm request fails when a malformed surl is supplied
 
 Check a mv request fails when a malformed surl is supplied  
   [Tags]  storm-client  mv
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Get a unique name
-  ${srcsurl}  Build surl  ${vo}  ${filename}
+  ${srcsurl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${srcsurl} -p
   ${output}  Perform pd using clientSRM  ${srcsurl}  ${token}  -p
-  ${destsurl}  Build surl  ${vo}  "${filename}' or sleep(1)-- "
+  ${destsurl}  Build surl  ${VOMSAUTH_SA}  "${filename}' or sleep(1)-- "
   ${output}  Perform mv using clientSRM  ${srcsurl}  ${destsurl}  -p
   Should Contain  ${output}  SRM_INVALID_REQUEST
   Should Contain  ${output}  invalid surl
@@ -248,7 +247,7 @@ Check a mv request fails when a malformed surl is supplied
 
 Check a malformed token format does not work when pushed to the FE
   [Tags]  storm-client  regression
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${output}  Get request summary using clientSRM  "ciccio' OR 1=1) AND SLEEP(1) "
   Log  ${output}
   Should Contain  ${output}  SRM_INVALID_REQUEST

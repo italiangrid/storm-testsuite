@@ -1,106 +1,50 @@
 *** Settings ***
 Resource   lib/stormlib.txt
-Resource   lib/dcache.txt
 Resource   lib/lcg_util.txt
 Resource   lib/clientSRM.txt
 Resource   lib/credentials.txt
 
 *** Test Cases ***
 
-Create directory using the dCache client
-  [Tags]  dcache-client  rmdir
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${dirName}  Get a unique name
-  Create directory using dCache client  ${vo}  ${dirName}
-  ${output}  Remove empty directory using clientSRM  ${vo}  ${dirName}
-  Should Contain  ${output}  SRM_SUCCESS
-  Remove local directory  ${dirName}
-  [Teardown]  Clear all credentials
-
-Create a directory that already exists using the dCache client
-  [Tags]  dcache-client  mkdir
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${dirName}  Get a unique name
-  ${output}  Create directory using clientSRM  ${vo}  ${dirName}
-  Should Contain  ${output}  SRM_SUCCESS
-  ${output}  Try to create directory using dCache client  ${vo}  ${dirName}
-  Should Contain  ${output}  SRM_DUPLICATION_ERROR
-  Should Contain  ${output}  Directory specified exists!
-  Remove empty directory using clientSRM  ${vo}  ${dirName}
-  Remove local directory  ${dirName}
-  [Teardown]  Clear all credentials
-
-Remove a non existent directory using the dCache client
-  [Tags]  dcache-client  rmdir
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${dirName}  Get a unique name
-  ${output}  Try to remove directory using dCache client  ${vo}  ${dirName}
-  Should Contain  ${output}  SRM_INVALID_PATH
-  Should Contain  ${output}  Directory does not exists
-  Remove local directory  ${dirName}
-  [Teardown]  Clear all credentials
-
-Remove a non existent file using the dCache client
-  [Tags]  dcache-client  rm
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${fileName}  Get a unique name
-  ${output}  Try to remove file using dCache client  ${vo}  ${fileName}
-  Should Contain  ${output}  SRM_INVALID_PATH
-  Should Contain  ${output}  File does not exist
-  Remove local file  ${fileName}
-  [Teardown]  Clear all credentials
-
 List files in an existing directory with lcg-utils
   [Tags]  lcg-utils  ls
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${dirName}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${dirName}
-  ${output}  Create directory using clientSRM  ${vo}  ${dirName}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${dirName}
+  ${output}  Create directory using clientSRM  ${VOMSAUTH_SA}  ${dirName}
   Should Contain  ${output}  SRM_SUCCESS
   ${fileName}  Get a unique name
-  Put without really putting using clientSRM  ${vo}  ${dirName}/${fileName}
-  ${output}  List files in directory using lcg_utils  ${vo}  ${dirName}
+  Put without really putting using clientSRM  ${VOMSAUTH_SA}  ${dirName}/${fileName}
+  ${output}  List files in directory using lcg_utils  ${VOMSAUTH_SA}  ${dirName}
   Should Contain  ${output}  ${fileName}
-  Remove not empty directory using clientSRM  ${vo}  ${dirName}
+  Remove not empty directory using clientSRM  ${VOMSAUTH_SA}  ${dirName}
   Remove local file  ${fileName}
   Remove local directory  ${dirName}
   [Teardown]  Clear all credentials
 
 Check if a lcg-ls on an existent surl works
   [Tags]  lcg-utils  ls
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Get a unique name
-  Put without really putting using clientSRM  ${vo}  ${filename}
-  ${surl}  Build surl  ${vo}  ${filename}
+  Put without really putting using clientSRM  ${VOMSAUTH_SA}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   Check file exists using lcg-utils  ${surl}
-  Remove file using clientSRM  ${vo}  ${filename}
+  Remove file using clientSRM  ${VOMSAUTH_SA}  ${filename}
   Remove local file  ${fileName}
   [Teardown]  Clear all credentials
 
 Check if a lcg-ls on a non-existent surl fails
   [Tags]  lcg-utils  ls
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${vo}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   Check file does not exists using lcg-utils  ${surl}
-  Remove local file  ${fileName}
-  [Teardown]  Clear all credentials
-
-Remove an existent file using dCache client
-  [Tags]  dcache-client  rm
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Create local file
-  ${surl}  Build surl  ${vo}  ${filename}
-  Check file does not exists using lcg-utils  ${surl}
-  Copy-out file using lcg-utils  ${filename}  ${surl}
-  Check file exists using lcg-utils  ${surl}
-  Remove file using dCache client  ${vo}  ${filename}
   Remove local file  ${fileName}
   [Teardown]  Clear all credentials
 
 Check approached VFS with nested accesspoints
   [Tags]  ls  lcg-utils
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${dirName}  Get a unique name
   ${surlDir}  Build surl  ${NESTED_SA}  ${dirName}
   ${output}  Perform mkdir using clientSRM  ${surlDir}

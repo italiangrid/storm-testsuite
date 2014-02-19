@@ -54,32 +54,32 @@ WebDAV DELETE unexistent resource as anonymous
 
 WebDAV DELETE file with VOMS proxy
   [Tags]  webdav  delete  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV DELETE file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV DELETE file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 WebDAV DELETE directory with VOMS proxy
   [Tags]  webdav  delete  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV DELETE directory  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV DELETE directory  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 WebDAV DELETE unexistent resource with VOMS proxy
   [Tags]  webdav  delete  vomsproxy  to-be-fixed
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV DELETE unexistent resource  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV DELETE unexistent resource  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 ######### PLAIN PROXY ##########
 
 WebDAV DELETE file with plain proxy
   [Tags]  webdav  delete  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV DELETE file  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV DELETE file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
 
 WebDAV DELETE directory with plain proxy
   [Tags]  webdav  delete  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV DELETE directory  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV DELETE directory  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
 
 WebDAV DELETE unexistent resource with plain proxy
   [Tags]  webdav  delete  plainproxy  to-be-fixed
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV DELETE unexistent resource  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV DELETE unexistent resource  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}

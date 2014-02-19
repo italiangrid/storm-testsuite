@@ -39,7 +39,7 @@ WebDAV HEAD resource with missing parent  [Arguments]  ${endpoint}  ${storageAre
 WebDAV HEAD busy file  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=${EMPTY}
   ${filename}  Get a unique name
   ${surl}  Build surl  ${storageArea}  ${TESTDIR}/${filename}
-  Init certificate and voms proxy  test0  ${vo}
+  Init certificate and voms proxy  test0  ${VO1}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
   ${output}  WebDAV HEAD  ${endpoint}  ${storageArea}  ${TESTDIR}/${filename}  ${credentials}
@@ -85,45 +85,45 @@ WebDAV HEAD busy file as anonymous
 
 WebDAV HEAD existent file by unauthorized user as anonymous
   [Tags]  webdav  head  anonymous
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV HEAD existent file by unauthorized user  ${davEndpoint}  ${VOMSPROXY_SA}  ${davSecureEndpoint}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV HEAD existent file by unauthorized user  ${davEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${vomsproxy}
 
 ####### VOMS PROXY #########
 
 WebDAV HEAD root directory with VOMS proxy
   [Tags]  webdav  head  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  ${output}  WebDAV HEAD root directory  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  ${output}  WebDAV HEAD root directory  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 WebDAV HEAD existent file with VOMS proxy
   [Tags]  webdav  head  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV HEAD existent file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV HEAD existent file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 WebDAV HEAD unexistent resource with VOMS proxy
   [Tags]  webdav  head  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV HEAD unexistent resource  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV HEAD unexistent resource  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 WebDAV HEAD existent directory with VOMS proxy
   [Tags]  webdav  head  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV HEAD existent directory  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV HEAD existent directory  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 WebDAV HEAD resource with missing parent with VOMS proxy
   [Tags]  webdav  head  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV HEAD resource with missing parent  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV HEAD resource with missing parent  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 WebDAV HEAD busy file with VOMS proxy
   [Tags]  webdav  head  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV HEAD busy file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV HEAD busy file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 WebDAV HEAD existent file with VOMS proxy on an anonymous readable storage area
   [Tags]  webdav  head  vomsproxy
   ${filename}  Upload file  ${davEndpoint}  ${ANONYMOUS_SA}  ${EMPTY}  ${TESTDIR}  test123456789
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${vomsproxy}  Get VOMS proxy options for Curl
   ${output}  WebDAV HEAD  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${TESTDIR}/${filename}  ${vomsproxy}
   Log  ${output}
   Should Contain  ${output}  200 OK
@@ -132,38 +132,38 @@ WebDAV HEAD existent file with VOMS proxy on an anonymous readable storage area
 
 WebDAV HEAD root directory with plain proxy
   [Tags]  webdav  head  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  ${output}  WebDAV HEAD root directory  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  ${output}  WebDAV HEAD root directory  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
 
 WebDAV HEAD existent file with plain proxy
   [Tags]  webdav  head  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV HEAD existent file  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV HEAD existent file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
 
 WebDAV HEAD unexistent resource with plain proxy
   [Tags]  webdav  head  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV HEAD unexistent resource  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV HEAD unexistent resource  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
 
 WebDAV HEAD existent directory with plain proxy
   [Tags]  webdav  head  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV HEAD existent directory  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV HEAD existent directory  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
 
 WebDAV HEAD resource with missing parent with plain proxy
   [Tags]  webdav  head  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV HEAD resource with missing parent  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV HEAD resource with missing parent  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
 
 WebDAV HEAD busy file with plain proxy
   [Tags]  webdav  head  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV HEAD busy file  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV HEAD busy file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
 
 WebDAV HEAD existent file with plain proxy on an anonymous readable storage area
   [Tags]  webdav  head  plainproxy
   ${filename}  Upload file  ${davEndpoint}  ${ANONYMOUS_SA}  ${EMPTY}  ${TESTDIR}  test123456789
-  ${plainproxy}  Get WebDAV plain proxy credentials
+  ${plainproxy}  Get x509 options for Curl
   ${output}  WebDAV HEAD  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${TESTDIR}/${filename}  ${plainproxy}
   Log  ${output}
   Should Contain  ${output}  200 OK
@@ -172,52 +172,52 @@ WebDAV HEAD existent file with plain proxy on an anonymous readable storage area
 
 WebDAV HEAD nested storage area root directory with VOMS proxy
   [Tags]  webdav  head  vomsproxy  nested
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${vomsproxy}  Get VOMS proxy options for Curl
   ${output}  WebDAV HEAD root directory  ${davSecureEndpoint}  ${NESTED_SA}  ${vomsproxy}
 
 WebDAV HEAD nested storage area existent file with VOMS proxy
   [Tags]  webdav  head  vomsproxy  nested
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV HEAD existent file  ${davSecureEndpoint}  ${NESTED_SA}  ${vomsproxy}
 
 WebDAV HEAD nested storage area unexistent resource with VOMS proxy
   [Tags]  webdav  head  vomsproxy  nested
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV HEAD unexistent resource  ${davSecureEndpoint}  ${NESTED_SA}  ${vomsproxy}
 
 WebDAV HEAD nested storage area existent directory with VOMS proxy
   [Tags]  webdav  head  vomsproxy  nested
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV HEAD existent directory  ${davSecureEndpoint}  ${NESTED_SA}  ${vomsproxy}
 
 WebDAV HEAD nested storage area resource with missing parent with VOMS proxy
   [Tags]  webdav  head  vomsproxy  nested
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV HEAD resource with missing parent  ${davSecureEndpoint}  ${NESTED_SA}  ${vomsproxy}
 
 ####### ALIASED SA #########
 
 WebDAV HEAD aliased storage area root directory with VOMS proxy
   [Tags]  webdav  head  vomsproxy  aliased
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${vomsproxy}  Get VOMS proxy options for Curl
   ${output}  WebDAV HEAD root directory  ${davSecureEndpoint}  ${ALIASED_SA}  ${vomsproxy}
 
 WebDAV HEAD aliased storage area existent file with VOMS proxy
   [Tags]  webdav  head  vomsproxy  aliased
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV HEAD existent file  ${davSecureEndpoint}  ${ALIASED_SA}  ${vomsproxy}
 
 WebDAV HEAD aliased storage area unexistent resource with VOMS proxy
   [Tags]  webdav  head  vomsproxy  aliased
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV HEAD unexistent resource  ${davSecureEndpoint}  ${ALIASED_SA}  ${vomsproxy}
 
 WebDAV HEAD aliased storage area existent directory with VOMS proxy
   [Tags]  webdav  head  vomsproxy  aliased
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV HEAD existent directory  ${davSecureEndpoint}  ${ALIASED_SA}  ${vomsproxy}
 
 WebDAV HEAD aliased storage area resource with missing parent with VOMS proxy
   [Tags]  webdav  head  vomsproxy  aliased
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
+  ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV HEAD resource with missing parent  ${davSecureEndpoint}  ${ALIASED_SA}  ${vomsproxy}

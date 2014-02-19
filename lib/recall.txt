@@ -22,5 +22,5 @@ Update a recall task status using a groupTaskId  [Arguments]  ${groupTaskId}  ${
   [Return]  ${output}
 
 Check for a completed recall task  [Arguments]  ${requestToken}  ${fileName}
-  ${output}  Curl  PUT  http://${recallEndpoint}/recalltable/task  -i -H "Content-Type:text/plain" -d $'requestToken=${requestToken}\nsurl=srm://${srmEndpoint}/srm/managerv2?SFN=/${tapeStorageArea}/${fileName}'
+  ${output}  Curl  PUT  http://${recallEndpoint}/recalltable/task  -i -H "Content-Type:text/plain" -d $'requestToken=${requestToken}\nsurl=srm://${srmEndpoint}/srm/managerv2?SFN=/${TAPE_SA}/${fileName}'
   [Return]  ${output}

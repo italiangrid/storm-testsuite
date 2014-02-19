@@ -99,93 +99,93 @@ WebDAV MOVE with destination equals to source as anonymous
 
 WebDAV MOVE file with VOMS proxy
   [Tags]  webdav  move  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV MOVE file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV MOVE file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 WebDAV MOVE non empty directory with VOMS proxy
   [Tags]  webdav  move  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV MOVE non empty directory  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV MOVE non empty directory  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 WebDAV MOVE file on existent target with overwrite T with VOMS proxy
   [Tags]  webdav  move  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV MOVE file on existent target with overwrite T  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV MOVE file on existent target with overwrite T  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 WebDAV MOVE file on existent target with overwrite F with VOMS proxy
   [Tags]  webdav  move  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV MOVE file on existent target with overwrite F  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV MOVE file on existent target with overwrite F  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 WebDAV MOVE unexistent file with VOMS proxy
   [Tags]  webdav  move  vomsproxy  to-be-fixed
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV MOVE unexistent file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV MOVE unexistent file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 WebDAV MOVE with destination equals to source with VOMS proxy
   [Tags]  webdav  move  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV MOVE with destination equals to source  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV MOVE with destination equals to source  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 ######### PLAIN PROXY ##########
 
 WebDAV MOVE file with plain proxy
   [Tags]  webdav  move  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV MOVE file  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV MOVE file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
 
 WebDAV MOVE non empty directory with plain proxy
   [Tags]  webdav  move  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV MOVE non empty directory  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV MOVE non empty directory  ${davSecureEndpoint}  ${X509AUTH_SA}  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
 
 WebDAV MOVE file on existent target with overwrite T with plain proxy
   [Tags]  webdav  move  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV MOVE file on existent target with overwrite T  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV MOVE file on existent target with overwrite T  ${davSecureEndpoint}  ${X509AUTH_SA}  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
 
 WebDAV MOVE file on existent target with overwrite F with plain proxy
   [Tags]  webdav  move  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV MOVE file on existent target with overwrite F  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV MOVE file on existent target with overwrite F  ${davSecureEndpoint}  ${X509AUTH_SA}  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
 
 WebDAV MOVE unexistent file with plain proxy
   [Tags]  webdav  move  plainproxy  to-be-fixed
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV MOVE unexistent file  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV MOVE unexistent file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
 
 WebDAV MOVE with destination equals to source with plain proxy
   [Tags]  webdav  move  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV MOVE with destination equals to source  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV MOVE with destination equals to source  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
 
 ######### MIXED ##########
 
 WebDAV MOVE from anonymous to voms proxy storage area
   [Tags]  webdav  move  anonymous  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV MOVE file  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV MOVE file  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 WebDAV MOVE from VOMS proxy to anonymous storage area
   [Tags]  webdav  move  anonymous  vomsproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV MOVE file  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV MOVE file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${vomsproxy}
 
 WebDAV MOVE from plain proxy to anonymous storage area
   [Tags]  webdav  move  anonymous  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV MOVE file  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV MOVE file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${plainproxy}
 
 WebDAV MOVE from plain proxy to VOMS proxy storage area
   [Tags]  webdav  move  vomsproxy  plainproxy
-  ${vomsproxy}  Get WebDAV VOMS proxy credentials
-  WebDAV MOVE file  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${vomsproxy}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV MOVE file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
 
 WebDAV MOVE unauthorized from plain proxy to VOMS proxy storage area
   [Tags]  webdav  move  vomsproxy  plainproxy
-  ${plainproxy}  Get WebDAV plain proxy credentials
-  WebDAV MOVE unauthorized  ${davSecureEndpoint}  ${PLAINPROXY_SA}  ${davSecureEndpoint}  ${VOMSPROXY_SA}  ${plainproxy}
+  ${plainproxy}  Get x509 options for Curl
+  WebDAV MOVE unauthorized  ${davSecureEndpoint}  ${X509AUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${plainproxy}
 
 WebDAV MOVE unauthorized from anonymous to voms proxy storage area
   [Tags]  webdav  move  anonymous  vomsproxy
-  WebDAV MOVE unauthorized  ${davEndpoint}  ${ANONYMOUS_SA}  ${davSecureEndpoint}  ${VOMSPROXY_SA}
+  WebDAV MOVE unauthorized  ${davEndpoint}  ${ANONYMOUS_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}

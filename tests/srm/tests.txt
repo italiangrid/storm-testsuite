@@ -9,17 +9,17 @@ Resource   lib/credentials.txt
 
 Check if StoRM publishes correctly values for used and free space on the BDII
   [Tags]  regression
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  Create local file
-  ${surl}  Build surl  ${vo}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
   Check file does not exists using lcg-utils  ${surl}
   Copy-out file using lcg-utils  ${filename}  ${surl}
-  ${size_before}  Get unused size using clientSRM  ${storageAreaToken}
+  ${size_before}  Get unused size using clientSRM  ${VOMSAUTH_SA_TOKEN}
   Log  ${size_before}
   Check file exists using lcg-utils  ${surl}
   Perform rm using clientSRM  ${surl}
   Check file does not exists using lcg-utils  ${surl}
-  ${size_after}  Get unused size using clientSRM  ${storageAreaToken}
+  ${size_after}  Get unused size using clientSRM  ${VOMSAUTH_SA_TOKEN}
   Log  ${size_after}
   ${diff_size}  Run  echo `expr ${size_after} - ${size_before}`
   ${file_size}  Run  ls -l /tmp/${filename} | awk {'print $5'}
@@ -30,6 +30,6 @@ Check if StoRM publishes correctly values for used and free space on the BDII
 Status of bring online using a non existent token
   [Tags]  regression  sbol
   [Documentation]  Regression test for https://issues.infn.it/browse/STOR-217. StoRM crashed when a status for an async request was requested but the service is not able to get the into out of the database (for example, the token does not exists). This test calls a status for bring online.
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${output}  Execute clientSRM Command  bol -t abcde
   [Teardown]  Clear all credentials

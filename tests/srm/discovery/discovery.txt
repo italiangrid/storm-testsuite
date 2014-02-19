@@ -9,21 +9,14 @@ Resource   lib/credentials.txt
 
 Ping using clientSRM
   [Tags]  ping  storm-client
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${output}  Execute clientSRM Command  ping
   Should contain  ${output}  SRM server successfully contacted
   [Teardown]  Clear all credentials
 
-Ping using the dCache client
-  [Tags]  ping  dcache-client
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${output}  Ping using dCache client
-  Should Contain  ${output}  StoRM
-  [Teardown]  Clear all credentials
-
 Ping returns a wrong backend age
   [Tags]  ping  storm-client
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${output}  Execute clientSRM Command  ping
   ${matched}  Should Match Regexp  ${output}  <BE:.+>
   Should Not Contain  ${matched}  age
@@ -31,7 +24,7 @@ Ping returns a wrong backend age
 
 Verify gtp operation by using the StoRM client
   [Tags]  gtp  storm-client
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${output}  Execute clientSRM Command  gtp
   Should Contain  ${output}  transferProtocol="file"
   Should Contain  ${output}  transferProtocol="gsiftp"
@@ -44,7 +37,7 @@ Verify gtp operation by using the StoRM client
 Verify asynch request with non-ascii characters
   [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/137. Given a StoRM endpoint, verify that an SRM asynchronous call providing a string parameter containing non ASCII characters does not put StoRM Frontend offline.
   [Tags]  storm-client  ping  regression
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
+  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
   ${filename}  catenate  Get a unique name  èèèè
   ${output}  Execute clientSRM Command on Surl  ls -c 1  ${filename}
   Should Not Contain  ${output}  SRM_SUCCESS

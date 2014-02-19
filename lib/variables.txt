@@ -44,23 +44,38 @@ ${trustdir}  /etc/grid-security/certificates
 ${baseDNGlue}  mds-vo-name=resource,o=grid
 ${baseDNGlue2}  GLUE2GroupID=resource,o=glue
 
+##### VOs ######
+
+${VO1}  testers.eu-emi.eu
+${VO2}  dteam
+
 ##### STORAGE AREAS #####
 
 ${storageAreaRoot}  /storage
 
 ${ANONYMOUS_SA}  noauth
-${PLAINPROXY_SA}  igi
-${VOMSPROXY_SA}  testers.eu-emi.eu
-${VOMSPROXY_SA2}  dteam
+
+${X509AUTH_SA}  igi
+
+${VOMSAUTH_SA}  testers.eu-emi.eu
+${VOMSAUTH_SA_VONAME}  ${VO1}
+${VOMSAUTH_SA_TOKEN}  TESTERSEUEMIEU_TOKEN
+
+${VOMSAUTH_SA2}  dteam
+${VOMSAUTH_SA2_VONAME}  ${VO2}
+
 ${NESTED_SA}  testers.eu-emi.eu/nested
+${NESTED_SA_VONAME}  ${VO1}
+
 ${ALIASED_SA}  alias
+${ALIASED_SA_VONAME}  ${VO1}
 ${ALIASED_SA_REF}  ${NESTED_SA}
 
-${vo}   testers.eu-emi.eu
-${vo2}   dteam
-${tapeStorageArea}  testers.eu-emi.eu
+${TAPE_SA}  ${VOMSAUTH_SA}
+${TAPE_SA_VONAME}  ${VO1}
 
-${storageAreaToken}  TESTERSEUEMIEU_TOKEN
+${GPFS_SA}  ${VOMSAUTH_SA}
+${GPFS_SA_VONAME}  ${VO1}
 
 ##### LINKS
 
@@ -70,7 +85,7 @@ ${VOMS_TO_VOMS}  dteam
 
 ##### GRIDHTTPS #####
 
-${TESTDIR}  webdav-tests
+${TESTDIR}  storm-testsuite
 
 ${GRID_PROXY}  /tmp/${TESTDIR}/gridproxy
 ${VOMS_PROXY}  /tmp/${TESTDIR}/vomsproxy
