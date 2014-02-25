@@ -82,12 +82,3 @@ ${GPFS_SA_VONAME}  ${VO1}
 ${ANONYMOUS_TO_VOMS}  testers
 ${VOMS_TO_ANONYMOUS}  noauth_sa
 ${VOMS_TO_VOMS}  dteam
-
-##### GRIDHTTPS #####
-
-${TESTDIR}  storm-testsuite
-
-${GRID_PROXY}  /tmp/${TESTDIR}/gridproxy
-${VOMS_PROXY}  /tmp/${TESTDIR}/vomsproxy
-${TESTERS_CERT}  /tmp/${TESTDIR}/test0.cert.pem
-${TESTERS_CERT_SRC}  /usr/share/igi-test-ca/test0.cert.pem

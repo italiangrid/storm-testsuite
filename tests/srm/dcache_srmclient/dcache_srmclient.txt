@@ -5,20 +5,25 @@ Resource   lib/lcg_util.txt
 Resource   lib/clientSRM.txt
 Resource   lib/credentials.txt
 
+Resource   lib/setup.txt
+
+Suite Setup       Setup suite if needed
+Suite Teardown    Teardown suite if needed
+
 *** Test Cases ***
 
 Ping using the dCache client
   [Tags]  ping  dcache-client
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${output}  Ping using dCache client
   Should Contain  ${output}  StoRM
   [Teardown]  Clear all credentials
 
 Create directory using the dCache client
   [Tags]  dcache-client  rmdir
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${dirName}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${dirName}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirName}
   Create directory using dCache client  ${surl}
   ${output}  Perform rmdir using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
@@ -26,9 +31,9 @@ Create directory using the dCache client
 
 Create a directory that already exists using the dCache client
   [Tags]  dcache-client  mkdir
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${dirName}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${dirName}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirName}
   ${output}  Perform mkdir using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
   ${output}  Try to create directory using dCache client  ${surl}
@@ -40,9 +45,9 @@ Create a directory that already exists using the dCache client
 
 Remove a non existent directory using the dCache client
   [Tags]  dcache-client  rmdir
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${dirName}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${dirName}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirName}
   ${output}  Try to remove directory using dCache client  ${surl}
   Should Contain  ${output}  SRM_INVALID_PATH
   Should Contain  ${output}  Directory does not exists
@@ -50,9 +55,9 @@ Remove a non existent directory using the dCache client
 
 Remove a non existent file using the dCache client
   [Tags]  dcache-client  rm
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${fileName}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${fileName}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${fileName}
   ${output}  Try to remove file using dCache client  ${surl}
   Should Contain  ${output}  SRM_INVALID_PATH
   Should Contain  ${output}  File does not exist
@@ -60,9 +65,9 @@ Remove a non existent file using the dCache client
 
 Remove an existent file using dCache client
   [Tags]  dcache-client  rm
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${filename}  Create local file
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
   Check file does not exists using lcg-utils  ${surl}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   Check file exists using lcg-utils  ${surl}
@@ -72,9 +77,9 @@ Remove an existent file using dCache client
 
 Check a file is correctly transferred out, re-transferred in and deleted with dcache client
   [Tags]  lcg-utils  dcache-client
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${filename}  Create local file
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   Copy-in file using lcg-utils  ${surl}  ${filename}
   Remove file using dCache client  ${surl}
@@ -83,20 +88,20 @@ Check a file is correctly transferred out, re-transferred in and deleted with dc
 
 Check file copy in/out using lcg-utils, use dcache-client to create/remove dir and file
   [Tags]  lcg-utils  dcache-client
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${filename}  Create local file
   ${dirName}  Get a unique name
-  ${surlDir}  Build surl  ${VOMSAUTH_SA}  ${dirName}
-  ${surlFile}  Build surl  ${VOMSAUTH_SA}  ${dirName}/${filename}
-  ${output}  List files in directory using lcg_utils  ${VOMSAUTH_SA}  ${filename}
+  ${surlDir}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirName}
+  ${surlFile}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirName}/${filename}
+  ${output}  List files in directory using lcg_utils  ${surlDir}
   Should Contain  ${output}  No such file or directory
   Create directory using dCache client  ${surlDir}
   ${output}  Try to create directory using dCache client  ${surlDir}
   Should Contain  ${output}  SRM_DUPLICATION_ERROR
-  ${output}  List files in directory using lcg_utils  ${VOMSAUTH_SA}  ${dirName}
+  ${output}  List files in directory using lcg_utils  ${surlDir}
   Should Not Contain  ${output}  SRM_INVALID_PATH
   Copy-out file using lcg-utils  ${filename}  ${surlFile}
-  ${output}  List files in directory using lcg_utils  ${VOMSAUTH_SA}  ${dirName}/${filename}
+  ${output}  List files in directory using lcg_utils  ${surlDir}
   Should Not Contain  ${output}  SRM_INVALID_PATH
   Copy-in file using lcg-utils  ${surlFile}  ${filename}
   Remove file using dCache client  ${surlFile}
@@ -110,13 +115,13 @@ Check file copy in/out using lcg-utils, use dcache-client to create/remove dir a
 
 Check a file is correctly transferred out, the calculate checksum is correct and delete with dcache client
   [Tags]  lcg-utils  dcache-client
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${filename}  Create local file
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
-  ${output}  List files in directory using lcg_utils  ${VOMSAUTH_SA}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  ${output}  List files in directory using lcg_utils  ${surl}
   Should Contain  ${output}  SRM_INVALID_PATH
   Copy-out file using lcg-utils  ${filename}  ${surl}
-  ${output}  List files in directory using lcg_utils  ${VOMSAUTH_SA}  ${filename}
+  ${output}  List files in directory using lcg_utils  ${surl}
   Should Contain  ${output}  ADLER32
   Remove file using dCache client  ${surl}
   Remove local file  ${filename}
@@ -125,11 +130,12 @@ Check a file is correctly transferred out, the calculate checksum is correct and
 Check the correct backend behaviour when a user specifies a DB PWD in the def file
   [Tags]  lcg-utils  dcache-client
   [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/227
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${filename}  Create local file
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
-  ${output}  List files in directory using lcg_utils  ${VOMSAUTH_SA}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  ${output}  List files in directory using lcg_utils  ${surl}
   Should Contain  ${output}  SRM_INVALID_PATH
   Copy-out file using lcg-utils  ${filename}  ${surl}
   Remove file using dCache client  ${surl}
   Remove local file  ${filename}
+  [Teardown]  Clear all credentials

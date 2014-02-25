@@ -31,7 +31,7 @@ Perform rmdir using clientSRM  [Arguments]  ${surl}  ${options}=${EMPTY}
   [Return]  ${output}
 
 Perform ping using clientSRM
-  ${output}  Execute clientSRM Command on Surl  ping  -e ${srmEndpoint}
+  ${output}  Execute clientSRM Command  ping  -e ${srmEndpoint}
   [Return]  ${output}
 
 Perform ptp using clientSRM  [Arguments]  ${surl}  ${options}=${EMPTY}
@@ -136,8 +136,7 @@ Remove file using clientSRM  [Arguments]  ${storageArea}  ${path}
   ${output}  Perform rm using clientSRM  ${surl}
   [Return]  ${output}
 
-Put without really putting using clientSRM  [Arguments]  ${storageArea}  ${path}
-  ${surl}  Build Surl  ${storageArea}  ${path}
+Put without really putting using clientSRM  [Arguments]  ${surl}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
   ${output}  Perform pd using clientSRM  ${surl}  ${token}  -p
@@ -149,11 +148,11 @@ List files in directory using clientSRM  [Arguments]  ${storageArea}  ${path}
   ${output}  Perform ls using clientSRM  ${surl}
   [Return]  ${output}
 
-Get space token using clientSRM  [Arguments]  ${token}=${VOMSAUTH_SA_TOKEN}
+Get space token using clientSRM  [Arguments]  ${token}
   ${output}  Execute clientSRM Command  gst -v ES -e httpg://${srmEndpoint} -d ${token}
   ${result}  ${token}=  Should Match Regexp  ${output}  (\".+-.+-.+-.+-.+\")
   [Return]  ${token}
 
-Get space token output using clientSRM  [Arguments]  ${token}=${VOMSAUTH_SA_TOKEN}
+Get space token output using clientSRM  [Arguments]  ${token}
   ${output}  Execute clientSRM Command  gst -v ES -e httpg://${srmEndpoint} -d ${token}
   [Return]  ${output}

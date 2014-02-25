@@ -24,3 +24,11 @@ Set body  [Arguments]  ${value}
 Curl  [Arguments]  ${method}  ${url}  ${options}=${EMPTY}
   ${output}  Execute and Check Success  curl ${options} ${url} -X ${method}
   [Return]  ${output}
+
+Get x509 options for Curl
+  ${options}  Get proxy curl options  ${userproxy}  ${usercert}
+  [Return]  ${options}
+
+Get VOMS proxy options for Curl
+  ${options}  Get proxy curl options  ${userproxy}  ${usercert}
+  [Return]  ${options}

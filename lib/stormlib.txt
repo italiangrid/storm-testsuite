@@ -22,37 +22,32 @@ Get a unique name
 
 Create local file
   ${name}  Get a unique name
-  Execute and Check Success  dd if=/dev/urandom of=/tmp/${name} bs=1M count=1
+  Execute and Check Success  dd if=/dev/urandom of=/tmp/${TESTDIR}/${name} bs=1M count=1
   [Return]  ${name}
 
 Create local file with fake size  [Arguments]  ${megabytes}
   ${name}  Get a unique name
-  Execute and Check Success  dd if=/dev/null of=/tmp/${name} bs=1M count=1 seek=${megabytes}
+  Execute and Check Success  dd if=/dev/null of=/tmp/${TESTDIR}/${name} bs=1M count=1 seek=${megabytes}
   [Return]  ${name}
 
 Create local empty file
   ${name}  Get a unique name
-  Execute and Check Success  touch /tmp/${name}
+  Execute and Check Success  touch /tmp/${TESTDIR}/${name}
   [Return]  ${name}
 
-Create local file into local directory  [Arguments]  ${dirname}
+Create local file with checksum that starts with zero
   ${name}  Get a unique name
-  Execute and Check Success  dd if=/dev/urandom of=/tmp/${dirname}/${name} bs=1M count=1
+  Execute and Check Success  echo "a" > /tmp/${TESTDIR}/${name}
   [Return]  ${name}
 
 Create local directory  [Arguments]  ${dirname}
   Execute and Check Success  mkdir /tmp/${dirname}
 
 Remove local file  [Arguments]  ${filename}
-  Execute and Check Success  rm -f /tmp/${filename}
+  Execute and Check Success  rm -f /tmp/${TESTDIR}/${filename}
 
 Remove local directory  [Arguments]  ${dirname}
   Execute and Check Success  rm -rf /tmp/${dirname}
-
-Create local file with checksum that starts with zero
-  ${name}  Get a unique name
-  Execute and Check Success  echo "a" > /tmp/${name}
-  [Return]  ${name}
 
 Build surl  [Arguments]  ${storageArea}  ${relativePath}
   ${output}  Set variable  srm://${srmEndpoint}/srm/managerv2?SFN=/${storageArea}/${relativePath}
@@ -60,4 +55,8 @@ Build surl  [Arguments]  ${storageArea}  ${relativePath}
 
 Build simple surl  [Arguments]  ${storageArea}  ${relativePath}
   ${output}  Set variable  srm://${srmEndpoint}/${storageArea}/${relativePath}
+  [Return]  ${output}
+
+Build gsiftp TURL  [Arguments]  ${storageArea}  ${relativePath}
+  ${output}  Set variable  gsiftp://${globusEndpoint}/${storageAreaRoot}/${storageArea}/${relativePath}
   [Return]  ${output}

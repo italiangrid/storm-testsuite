@@ -5,14 +5,19 @@ Resource   lib/credentials.txt
 Resource   lib/lcg_util.txt
 Resource   lib/globus_util.txt
 
+Resource   lib/setup.txt
+
+Suite Setup       Setup suite if needed
+Suite Teardown    Teardown suite if needed
+
 *** Test Cases ***
 
 Prepare to get an existent file
   [Tags]  storm-client  ptg
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${filename}  Get a unique name
-  Put without really putting using clientSRM  ${VOMSAUTH_SA}  ${filename}
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  Put without really putting using clientSRM  ${surl}
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}
   Should Contain  ${output}  SRM_REQUEST_QUEUED
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -t ${token} -p
@@ -27,19 +32,19 @@ Prepare to get an existent file
 
 Prepare to get an unexistent file
   [Tags]  storm-client  ptg
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_INVALID_PATH
   [Teardown]  Clear all credentials
 
 Check double PtG on a file
   [Tags]  regression  ptg
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${filename}  Get a unique name
-  Put without really putting using clientSRM  ${VOMSAUTH_SA}  ${filename}
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  Put without really putting using clientSRM  ${surl}
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_FILE_PINNED
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
@@ -49,20 +54,20 @@ Check double PtG on a file
 
 Prepare to get multiple existent file
   [Tags]  storm-client  ptg
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
-  ${testdir}  Get a unique name
-  ${dirsurl}  Build surl  ${VOMSAUTH_SA}  ${testdir}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  ${dirname}  Get a unique name
+  ${dirsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}
   ${output}  Perform mkdir using clientSRM  ${dirsurl}
   Should Contain  ${output}  SRM_SUCCESS
   ${filename}  Create local file
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${testdir}/${filename}_1
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}/${filename}_1
   Copy-out file using lcg-utils  ${filename}  ${surl}
   ${surllist} =  Set Variable  ${surl}
   :FOR  ${index}  IN RANGE  2  10
-  \		${surl}  Build surl  ${VOMSAUTH_SA}  ${testdir}/${filename}_${index}
+  \		${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}/${filename}_${index}
   \		Copy-out file using lcg-utils  ${filename}  ${surl}
   \		${surllist}  Catenate  ${surllist}  ${surl}
-  \		Log  ${surllist}
+  Log  ${surllist}
   ${output}  ${token}  Perform ptg using clientSRM  ${surllist}  -p
   Log  ${output}
   Should Contain  ${output}  SRM_FILE_PINNED
@@ -80,36 +85,38 @@ Prepare to get multiple existent file
 Prepare to get large file
   [Documentation]  Regression test for https://issues.infn.it/jira/browse/STOR-331
   [Tags]  storm-client  ptg  to-be-fixed
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${filename}  Create local file with fake size  2049
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
-  Copy-out file using globus-utils  ${filename}  ${VOMSAUTH_SA}  ${filename}
+  Copy-out file using globus-utils  ${filename}  ${surl}
   ${output}  Perform pd using clientSRM  ${surl}  ${token}  -p
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_FILE_PINNED
   Log  ${output}
   Should Contain  ${output}  fileSize=2148532224
   Remove local file  ${filename}
-  Perform rf using clientSRM  ${surl}  ${token}
-  Perform rm using clientSRM  ${surl}
+  ${output}  Perform rf using clientSRM  ${surl}  ${token}
+  Should Contain  ${output}  SRM_SUCCESS
+  ${output}  Perform rm using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
   [Teardown]  Clear all credentials
 
 Unauthorized prepare to get on another storage-area's file
   [Tags]  storm-client  ls
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${filename}  Create local file
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
-  Init certificate and plain proxy  test0
-  ${surl}  Build surl  ${X509AUTH_SA}  ../${VOMSAUTH_SA}/${filename}
+  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
+  ${surl}  Build surl  ${X509AUTH_SA}  ../${VOMSAUTH_SA}/${TESTDIR}/${filename}
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
   Log  ${output}
   Clear all credentials
-  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
-  Remove file using clientSRM  ${VOMSAUTH_SA}  ${filename}
+  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  ${output}  Perform rm using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
   Remove local file  ${filename}
   [Teardown]  Clear all credentials

@@ -4,120 +4,121 @@ Resource   lib/clientSRM.txt
 Resource   lib/globus_util.txt
 Resource   lib/credentials.txt
 
+Resource   lib/setup.txt
+
+Suite Setup       Setup suite if needed
+Suite Teardown    Teardown suite if needed
+
 *** Test Cases ***
 
 Prepare to put of unexistent file
   [Tags]  storm-client  ptp
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
   ${output}  Perform pd using clientSRM  ${surl}  ${token}
-  Perform rm using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
+  ${output}  Perform rm using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
   Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
-Prepare to put on a file already put without overwrite
+Prepare to put without overwrite when target file exists
   [Tags]  storm-client  ptp
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
-  ${filename}  Create local file
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
-  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
-  Copy-out file using globus-utils  ${filename}  ${VOMSAUTH_SA}  ${filename}
-  ${output}  Perform pd using clientSRM  ${surl}  ${token}  -p
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  ${filename}  Get a unique name
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  Put without really putting using clientSRM  ${surl}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_FAILURE
   Should Contain  ${output}  SRM_DUPLICATION_ERROR
   Should Contain  ${output}  Cannot srmPut file because it already exists!
-  Perform rm using clientSRM  ${surl}
-  Remove local file  ${filename}
+  ${output}  Perform rm using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
   [Teardown]  Clear all credentials
 
-Prepare to put on a file already put with overwrite
+Prepare to put with overwrite
   [Tags]  storm-client  ptp
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
-  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
-  Should Contain  ${output}  SRM_SPACE_AVAILABLE
-  ${output}  Perform pd using clientSRM  ${surl}  ${token}
-  Should Contain  ${output}  SRM_SUCCESS
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  Put without really putting using clientSRM  ${surl}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p -w 1
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
   ${output}  Perform pd using clientSRM  ${surl}  ${token}
   Should Contain  ${output}  SRM_SUCCESS
-  Perform rm using clientSRM  ${surl}
-  Remove local file  ${filename}
+  ${output}  Perform rm using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
   [Teardown]  Clear all credentials
 
-Prepare to put of an unexistant file with a wrong protocol
+Prepare to put specifying a wrong transfer protocol
   [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/127
   [Tags]  storm-client  regression
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p -T -P unknown_protocol
   Should Contain  ${output}  SRM_NOT_SUPPORTED
-  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 Prepare to put using a non existent space token
   [Tags]  regression  ptp
   [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/282. StoRM used to return the wrong error (SRM_SPACE_LIFETIME_EXPIRED instead of SRM_INVALID_REQUEST) for a sptp when a ptp was given a non existent space token.
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p -t whatever
+  Should Contain  ${output}  SRM_INVALID_REQUEST
   ${output}  Perform sptp using clientSRM  ${surl}  ${token}
   Should Contain  ${output}  SRM_INVALID_REQUEST
   Should Contain  ${output}  The provided Space Token does not exists
-  Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
 Prepare to put with sa token as space token
   [Tags]  regression  ptp
   [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/354 A call of the srmPrepareToPut command providing the space token parameter of a storage area fails.
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
-  ${sp_token}  Get space token using clientSRM
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  ${sp_token}  Get space token using clientSRM  ${VOMSAUTH_SA_TOKEN}
   ${fileName}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p -t ${sp_token}
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
   ${output}  Perform pd using clientSRM  ${surl}  ${token}  -p
   Should Contain  ${output}  SRM_SUCCESS
-  Remove file using clientSRM  ${VOMSAUTH_SA}  ${filename}
-  Remove local file  ${filename}
+  ${output}  Perform rm using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
   [Teardown]  Clear all credentials
 
 Prepare to put with expectedFileSize not empty
   [Tags]  regression  ptp
   [Documentation]  Regression test for https://issues.infn.it/jira/browse/STOR-306 StoRM returns NULL fileSize for ptp with expected size
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${fileName}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
   ${surl_with_size}  Catenate  SEPARATOR=,  ${surl}  12345
   ${output}  ${token}  Perform ptp using clientSRM  ${surl_with_size}  -p
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
   Should Contain  ${output}  fileSize=12345
   ${output}  Perform pd using clientSRM  ${surl}  ${token}  -p
   Should Contain  ${output}  SRM_SUCCESS
-  Remove file using clientSRM  ${VOMSAUTH_SA}  ${filename}
-  Remove local file  ${filename}
+  ${output}  Perform rm using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
   [Teardown]  Clear all credentials
 
 Prepare to put multiple surls
   [Tags]  storm-client  ptp
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
-  ${testdir}  Get a unique name
-  ${dirsurl}  Build surl  ${VOMSAUTH_SA}  ${testdir}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  ${dirname}  Get a unique name
+  ${dirsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}
   ${output}  Perform mkdir using clientSRM  ${dirsurl}
   Should Contain  ${output}  SRM_SUCCESS
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${testdir}/${filename}_1
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}/${filename}_1
   ${surllist} =  Set Variable  ${surl}
   :FOR  ${index}  IN RANGE  2  10
-  \		${surl}  Build surl  ${VOMSAUTH_SA}  ${testdir}/${filename}_${index}
+  \		${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}/${filename}_${index}
   \		${surllist}  Catenate  ${surllist}  ${surl}
   Log  ${surllist}
   ${output}  ${token}  Perform ptp using clientSRM  ${surllist}  -p
@@ -133,34 +134,32 @@ Prepare to put multiple surls
   Log  ${output}
   Should Contain  ${output}  SRM_SUCCESS
   Should Not Contain  ${output}  SRM_FAILURE
-  Perform rmdir using clientSRM  ${dirsurl}  -r
+  ${output}  Perform rmdir using clientSRM  ${dirsurl}  -r
   Should Contain  ${output}  SRM_SUCCESS
-  Remove local file  ${filename}
-  Remove local directory  ${testdir}
   [Teardown]  Clear all credentials
 
 Check right failure code when invoking PtP/PtP on the same file
   [Tags]   regression  ptp
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
-  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  ${output}  ${token1}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
-  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
+  ${output}  ${token2}  Perform ptp using clientSRM  ${surl}  -p
   Log  ${output}
   Should Contain  ${output}  SRM_FILE_BUSY
-  Perform rm using clientSRM  ${surl}
-  Remove local file  ${filename}
+  ${output}  Perform abort request using clientSRM  ${token1}
+  Should Contain  ${output}  SRM_SUCCESS
   [Teardown]  Clear all credentials
 
 Check right failure code when invoking PtP/pd/PtP on the same file
   [Tags]   regression  ptp  pd
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${filename}  Get a unique name
-  Put without really putting using clientSRM  ${VOMSAUTH_SA}  ${filename}
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  Put without really putting using clientSRM  ${surl}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_DUPLICATION_ERROR
-  Perform rm using clientSRM  ${surl}
-  Remove local file  ${filename}
+  ${output}  Perform rm using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
   [Teardown]  Clear all credentials

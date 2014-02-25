@@ -4,6 +4,11 @@ Resource   lib/webdav.txt
 Resource   lib/clientSRM.txt
 Resource   lib/credentials.txt
 
+Resource   lib/setup.txt
+
+Suite Setup       Setup suite if needed
+Suite Teardown    Teardown suite if needed
+
 *** Keywords ***
 
 WebDAV DELETE file  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=${EMPTY}
@@ -40,46 +45,61 @@ WebDAV DELETE unexistent resource  [Arguments]  ${endpoint}  ${storageArea}  ${c
 
 WebDAV DELETE file as anonymous
   [Tags]  webdav  delete  anonymous
+  [Setup]  Clear all credentials
   WebDAV DELETE file  ${davEndpoint}  ${ANONYMOUS_SA}
 
 WebDAV DELETE directory as anonymous
   [Tags]  webdav  delete  anonymous
+  [Setup]  Clear all credentials
   WebDAV DELETE directory  ${davEndpoint}  ${ANONYMOUS_SA}
 
 WebDAV DELETE unexistent resource as anonymous
   [Tags]  webdav  delete  anonymous  to-be-fixed
+  [Setup]  Clear all credentials
   WebDAV DELETE unexistent resource  ${davEndpoint}  ${ANONYMOUS_SA}
 
 ####### VOMS PROXY #########
 
 WebDAV DELETE file with VOMS proxy
   [Tags]  webdav  delete  vomsproxy
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV DELETE file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV DELETE directory with VOMS proxy
   [Tags]  webdav  delete  vomsproxy
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV DELETE directory  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV DELETE unexistent resource with VOMS proxy
   [Tags]  webdav  delete  vomsproxy  to-be-fixed
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV DELETE unexistent resource  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials
 
 ######### PLAIN PROXY ##########
 
 WebDAV DELETE file with plain proxy
   [Tags]  webdav  delete  plainproxy
+  [Setup]  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
   ${plainproxy}  Get x509 options for Curl
   WebDAV DELETE file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV DELETE directory with plain proxy
   [Tags]  webdav  delete  plainproxy
+  [Setup]  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
   ${plainproxy}  Get x509 options for Curl
   WebDAV DELETE directory  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV DELETE unexistent resource with plain proxy
   [Tags]  webdav  delete  plainproxy  to-be-fixed
+  [Setup]  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
   ${plainproxy}  Get x509 options for Curl
   WebDAV DELETE unexistent resource  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
+  [Teardown]  Clear all credentials

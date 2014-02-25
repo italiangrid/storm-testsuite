@@ -12,16 +12,6 @@ Build webdav URL  [Arguments]  ${endpoint}  ${path}
   ${output}  Set variable  ${endpoint}/${path}
   [Return]  ${output}
 
-##### CREDENTIALS
-
-Get x509 options for Curl
-  ${options}  Get proxy curl options  ${GRID_PROXY}  ${TESTERS_CERT}
-  [Return]  ${options}
-
-Get VOMS proxy options for Curl
-  ${options}  Get proxy curl options  ${VOMS_PROXY}  ${TESTERS_CERT}
-  [Return]  ${options}
-
 ##### WEBDAV METHODS
 
 WebDAV GET root  [Arguments]  ${endpoint}  ${credentials}=${EMPTY}

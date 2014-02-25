@@ -4,23 +4,28 @@ Resource   lib/webdav.txt
 Resource   lib/clientSRM.txt
 Resource   lib/credentials.txt
 
+Resource   lib/setup.txt
+
+Suite Setup       Setup suite if needed
+Suite Teardown    Teardown suite if needed
+
 *** Keywords ***
 
 WebDAV PUT local file  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=${EMPTY}
-  ${filename}  Create local file into local directory  ${TESTDIR}
+  ${filename}  Create local file
   ${output}  WebDAV PUT file  ${endpoint}  ${storageArea}  ${TESTDIR}/${filename}  /tmp/${TESTDIR}/${filename}  F  ${credentials}
   Log  ${output}
   Should Contain  ${output}  201 Created
 
 WebDAV PUT overwrite local file  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=${EMPTY}
-  ${filename}  Create local file into local directory  ${TESTDIR}
+  ${filename}  Create local file
   ${remoteFilename}  Upload file  ${endpoint}  ${storageArea}  ${credentials}
   ${output}  WebDAV PUT file  ${endpoint}  ${storageArea}  ${TESTDIR}/${remoteFilename}  /tmp/${TESTDIR}/${filename}  T  ${credentials}
   Log  ${output}
   Should Contain  ${output}  204 No Content
 
 WebDAV PUT local file on existent remote file without overwrite  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=${EMPTY}
-  ${filename}  Create local file into local directory  ${TESTDIR}
+  ${filename}  Create local file
   ${remoteFilename}  Upload file  ${endpoint}  ${storageArea}  ${credentials}
   ${output}  WebDAV PUT file  ${endpoint}  ${storageArea}  ${TESTDIR}/${remoteFilename}  /tmp/${TESTDIR}/${filename}  F  ${credentials}
   Log  ${output}
@@ -30,7 +35,7 @@ WebDAV PUT local file on existent remote file without overwrite  [Arguments]  ${
 WebDAV PUT local file with unexistent anchestor  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=${EMPTY}
   ${dirname}  Get a unique name
   ${remoteFilename}  Get a unique name
-  ${filename}  Create local file into local directory  ${TESTDIR}
+  ${filename}  Create local file
   ${output}  WebDAV PUT file  ${endpoint}  ${storageArea}  ${TESTDIR}/${dirname}/${remoteFilename}  /tmp/${TESTDIR}/${filename}  T  ${credentials}
   Log  ${output}
   Should Contain  ${output}  409 Conflict
@@ -67,160 +72,216 @@ WebDAV PUT file by data with unexistent anchestor  [Arguments]  ${endpoint}  ${s
 
 WebDAV PUT local file as anonymous
   [Tags]  webdav  put  anonymous
+  [Setup]  Clear all credentials
   WebDAV PUT local file  ${davEndpoint}  ${ANONYMOUS_SA}
 
 WebDAV PUT overwrite local file as anonymous
   [Tags]  webdav  put  anonymous
+  [Setup]  Clear all credentials
   WebDAV PUT overwrite local file  ${davEndpoint}  ${ANONYMOUS_SA}
 
 WebDAV PUT local file on existent remote file without overwrite as anonymous
   [Tags]  webdav  put  anonymous
+  [Setup]  Clear all credentials
   WebDAV PUT local file on existent remote file without overwrite  ${davEndpoint}  ${ANONYMOUS_SA}
 
 WebDAV PUT local file with unexistent anchestor as anonymous
   [Tags]  webdav  put  anonymous
+  [Setup]  Clear all credentials
   WebDAV PUT local file with unexistent anchestor  ${davEndpoint}  ${ANONYMOUS_SA}
 
 WebDAV PUT file by data as anonymous
   [Tags]  webdav  put  anonymous
+  [Setup]  Clear all credentials
   WebDAV PUT file by data  ${davEndpoint}  ${ANONYMOUS_SA}
 
 WebDAV PUT file by data with overwrite as anonymous
   [Tags]  webdav  put  anonymous
+  [Setup]  Clear all credentials
   WebDAV PUT file by data with overwrite  ${davEndpoint}  ${ANONYMOUS_SA}
 
 WebDAV PUT file by data on existent remote file without overwrite as anonymous
   [Tags]  webdav  put  anonymous
+  [Setup]  Clear all credentials
   WebDAV PUT file by data on existent remote file without overwrite  ${davEndpoint}  ${ANONYMOUS_SA}
 
 WebDAV PUT file by data with unexistent anchestor as anonymous
   [Tags]  webdav  put  anonymous
+  [Setup]  Clear all credentials
   WebDAV PUT file by data with unexistent anchestor  ${davEndpoint}  ${ANONYMOUS_SA}
 
 ####### VOMS PROXY #########
 
 WebDAV PUT local file with VOMS proxy
   [Tags]  webdav  put  vomsproxy
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV PUT local file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV PUT overwrite local file with VOMS proxy
   [Tags]  webdav  put  vomsproxy
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV PUT overwrite local file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV PUT local file on existent remote file without overwrite with VOMS proxy
   [Tags]  webdav  put  vomsproxy
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV PUT local file on existent remote file without overwrite  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV PUT local file with unexistent anchestor with VOMS proxy
   [Tags]  webdav  put  vomsproxy
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV PUT local file with unexistent anchestor  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV PUT file by data with VOMS proxy
   [Tags]  webdav  put  vomsproxy
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV PUT file by data  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV PUT overwrite data with VOMS proxy
   [Tags]  webdav  put  vomsproxy
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV PUT file by data with overwrite  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV PUT file by data on existent remote file without overwrite with VOMS proxy
   [Tags]  webdav  put  vomsproxy
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV PUT file by data on existent remote file without overwrite  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV PUT file by data with unexistent anchestor with VOMS proxy
   [Tags]  webdav  put  vomsproxy
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV PUT file by data with unexistent anchestor  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials
 
 ######### PLAIN PROXY ##########
 
 WebDAV PUT local file with plain proxy
   [Tags]  webdav  put  plainproxy
+  [Setup]  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
   ${plainproxy}  Get x509 options for Curl
   WebDAV PUT local file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV PUT overwrite local file with plain proxy
   [Tags]  webdav  put  plainproxy
+  [Setup]  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
   ${plainproxy}  Get x509 options for Curl
   WebDAV PUT overwrite local file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV PUT local file on existent remote file without overwrite with plain proxy
   [Tags]  webdav  put  plainproxy
+  [Setup]  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
   ${plainproxy}  Get x509 options for Curl
   WebDAV PUT local file on existent remote file without overwrite  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV PUT local file with unexistent anchestor with plain proxy
   [Tags]  webdav  put  plainproxy
+  [Setup]  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
   ${plainproxy}  Get x509 options for Curl
   WebDAV PUT local file with unexistent anchestor  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV PUT file by data with plain proxy
   [Tags]  webdav  put  plainproxy
+  [Setup]  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
   ${plainproxy}  Get x509 options for Curl
   WebDAV PUT file by data  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV PUT file by data with overwrite with plain proxy
   [Tags]  webdav  put  plainproxy
+  [Setup]  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
   ${plainproxy}  Get x509 options for Curl
   WebDAV PUT file by data with overwrite  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV PUT file by data on existent remote file without overwrite with plain proxy
   [Tags]  webdav  put  plainproxy
+  [Setup]  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
   ${plainproxy}  Get x509 options for Curl
   WebDAV PUT file by data on existent remote file without overwrite  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV PUT file by data with unexistent anchestor with plain proxy
   [Tags]  webdav  put  plainproxy
+  [Setup]  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
   ${plainproxy}  Get x509 options for Curl
   WebDAV PUT file by data with unexistent anchestor  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
+  [Teardown]  Clear all credentials
 
 ####### NESTED #########
 
 WebDAV PUT local file with VOMS proxy and nested storage area
   [Tags]  webdav  put  vomsproxy  nested
+  [Setup]  Use certificate and proxy  test0  ${NESTED_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV PUT local file  ${davSecureEndpoint}  ${NESTED_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV PUT overwrite local file with VOMS proxy and nested storage area
   [Tags]  webdav  put  vomsproxy  nested
+  [Setup]  Use certificate and proxy  test0  ${NESTED_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV PUT overwrite local file  ${davSecureEndpoint}  ${NESTED_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV PUT local file on existent remote file without overwrite with VOMS proxy and nested storage area
   [Tags]  webdav  put  vomsproxy  nested
+  [Setup]  Use certificate and proxy  test0  ${NESTED_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV PUT local file on existent remote file without overwrite  ${davSecureEndpoint}  ${NESTED_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV PUT local file with unexistent anchestor with VOMS proxy and nested storage area
   [Tags]  webdav  put  vomsproxy  nested
+  [Setup]  Use certificate and proxy  test0  ${NESTED_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV PUT local file with unexistent anchestor  ${davSecureEndpoint}  ${NESTED_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials
 
 ####### ALIASED #########
 
 WebDAV PUT local file with VOMS proxy and aliased storage area
   [Tags]  webdav  put  vomsproxy  aliased
+  [Setup]  Use certificate and proxy  test0  ${ALIASED_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV PUT local file  ${davSecureEndpoint}  ${ALIASED_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV PUT overwrite local file with VOMS proxy and aliased storage area
   [Tags]  webdav  put  vomsproxy  aliased
+  [Setup]  Use certificate and proxy  test0  ${ALIASED_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV PUT overwrite local file  ${davSecureEndpoint}  ${ALIASED_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV PUT local file on existent remote file without overwrite with VOMS proxy and aliased storage area
   [Tags]  webdav  put  vomsproxy  aliased
+  [Setup]  Use certificate and proxy  test0  ${ALIASED_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV PUT local file on existent remote file without overwrite  ${davSecureEndpoint}  ${ALIASED_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV PUT local file with unexistent anchestor with VOMS proxy and aliased storage area
   [Tags]  webdav  put  vomsproxy  aliased
+  [Setup]  Use certificate and proxy  test0  ${ALIASED_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV PUT local file with unexistent anchestor  ${davSecureEndpoint}  ${ALIASED_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials

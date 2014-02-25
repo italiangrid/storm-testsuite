@@ -1,0 +1,118 @@
+*** Settings ***
+Resource   lib/stormlib.txt
+Resource   lib/clientSRM.txt
+Resource   lib/credentials.txt
+Resource   lib/curl.txt
+Resource   lib/filetransfer.txt
+
+Resource   lib/setup.txt
+
+Suite Setup       Setup suite if needed
+Suite Teardown    Teardown suite if needed
+
+*** Keywords ***
+
+Do a prepareToPut  [Arguments]  ${user}  ${vo}  ${surl}
+  Use certificate and proxy  ${user}  ${vo}
+  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
+  Should contain  ${output}  SRM_SPACE_AVAILABLE
+  Clear all credentials
+  [Return]  ${token}
+
+Do a putDone  [Arguments]  ${user}  ${vo}  ${surl}  ${token}
+  Use certificate and proxy  ${user}  ${vo}
+  ${output}  Perform pd using clientSRM  ${surl}  ${token}
+  Should contain  ${output}  SRM_SUCCESS
+  Clear all credentials
+
+Do a prepareToGet  [Arguments]  ${user}  ${vo}  ${surl}
+  Use certificate and proxy  ${user}  ${vo}
+  ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
+  Should contain  ${output}  SRM_FILE_PINNED
+  Clear all credentials
+  [Return]  ${token}
+
+Do a releaseFile  [Arguments]  ${user}  ${vo}  ${surl}  ${token}
+  Use certificate and proxy  ${user}  ${vo}
+  ${output}  Perform rf using clientSRM  ${surl}  ${token}
+  Should contain  ${output}  SRM_SUCCESS
+  Clear all credentials
+
+File-Transfer GET  [Arguments]  ${user}  ${proxy}  ${ftEndpoint}  ${storageArea}  ${credentials}=${EMPTY}
+  ${filename}  Get a unique name
+  ${surl}  Build surl  ${storageArea}  ${TESTDIR}/${filename}
+  ${token}  Do a prepareToPut  ${user}  ${proxy}  ${surl}
+  Do a putDone  ${user}  ${proxy}  ${surl}  ${token}
+  ${token}  Do a prepareToGet  ${user}  ${proxy}  ${surl}
+  Use certificate and proxy  ${user}  ${proxy}
+  ${output}  FileTransfer GET  ${ftEndpoint}  ${storageArea}  ${TESTDIR}/${filename}  ${credentials}
+  Clear all credentials
+  Should Contain  ${output}  200 OK
+  Do a releaseFile  ${user}  ${proxy}  ${surl}  ${token}
+
+File-Transfer unauthorized GET without PtG  [Arguments]  ${user}  ${uploadProxy}  ${requestProxy}  ${ftEndpoint}  ${storageArea}  ${credentials}=${EMPTY}
+  ${filename}  Get a unique name
+  ${surl}  Build surl  ${storageArea}  ${TESTDIR}/${filename}
+  ${token}  Do a prepareToPut  ${user}  ${uploadProxy}  ${surl}
+  Do a putDone  ${user}  ${uploadProxy}  ${surl}  ${token}
+  Use certificate and proxy  ${user}  ${requestProxy}
+  ${output}  FileTransfer GET  ${ftEndpoint}  ${storageArea}  ${TESTDIR}/${filename}  ${credentials}
+  Clear all credentials
+  Should Not Contain  ${output}  200 OK
+
+File-Transfer GET without PtG  [Arguments]  ${user}  ${proxy}  ${ftEndpoint}  ${storageArea}  ${credentials}=${EMPTY}
+  ${filename}  Get a unique name
+  ${surl}  Build surl  ${storageArea}  ${TESTDIR}/${filename}
+  ${token}  Do a prepareToPut  ${user}  ${proxy}  ${surl}
+  Do a putDone  ${user}  ${proxy}  ${surl}  ${token}
+  Use certificate and proxy  ${user}  ${proxy}
+  ${output}  FileTransfer GET  ${ftEndpoint}  ${storageArea}  ${TESTDIR}/${filename}  ${credentials}
+  Clear all credentials
+  Should Contain  ${output}  200 OK
+
+*** Test Cases ***
+
+File-Transfer get file as anonymous
+  [Tags]  filetransfer  get  anonymous
+  File-Transfer GET  test0  ${X509AUTH_SA_PROXY}  ${filetransferEndpoint}  ${ANONYMOUS_SA}
+
+File-Transfer get file with voms proxy
+  [Tags]  filetransfer  get  vomsproxy
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  File-Transfer GET  test0  ${VOMSAUTH_SA_PROXY}  ${filetransferSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+
+File-Transfer get file with plain proxy
+  [Tags]  filetransfer  get  plainproxy
+  ${plainproxy}  Get x509 options for Curl
+  File-Transfer GET  test0  ${X509AUTH_SA_PROXY}  ${filetransferSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
+
+File-Transfer get file without ptg as anonymous
+  [Tags]  filetransfer  get  anonymous
+  File-Transfer GET without PtG  test0  ${X509AUTH_SA_PROXY}  ${filetransferEndpoint}  ${ANONYMOUS_SA}
+
+File-Transfer get file without ptg with voms proxy
+  [Tags]  filetransfer  get  vomsproxy
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  File-Transfer GET without PtG  test0  ${VOMSAUTH_SA_PROXY}  ${filetransferSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+
+File-Transfer unauthorized get file without ptg
+  [Tags]  filetransfer  get  vomsproxy  plainproxy
+  ${plainproxy}  Get x509 options for Curl
+  File-Transfer unauthorized GET without PtG  test0  ${VOMSAUTH_SA_PROXY}  ${X509AUTH_SA_PROXY}  ${filetransferSecureEndpoint}  ${VOMSAUTH_SA}  ${plainproxy}
+
+File-Transfer get file without ptg with plain proxy
+  [Tags]  filetransfer  get  vomsproxy
+  ${plainproxy}  Get x509 options for Curl
+  File-Transfer GET without PtG  test0  ${X509AUTH_SA_PROXY}  ${filetransferSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
+
+File-Transfer unauthorized GET as anonymous
+  ${filename}  Get a unique name
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  ${token}  Do a prepareToPut  test0  ${VOMSAUTH_SA_PROXY}  ${surl}
+  Do a putDone  test0  ${VOMSAUTH_SA_PROXY}  ${surl}  ${token}
+  ${output}  FileTransfer GET  ${filetransferEndpoint}  ${ANONYMOUS_SA}  ../${VOMSAUTH_SA}/${TESTDIR}/${filename}
+  Log  ${output}
+  Should Not Contain  ${output}  200 OK
+  ${output}  FileTransfer GET  ${filetransferEndpoint}  ${ANONYMOUS_SA}  ${ANONYMOUS_TO_VOMS}
+  Log  ${output}
+  Should Not Contain  ${output}  200 OK

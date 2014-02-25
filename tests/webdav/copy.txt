@@ -4,6 +4,11 @@ Resource   lib/webdav.txt
 Resource   lib/clientSRM.txt
 Resource   lib/credentials.txt
 
+Resource   lib/setup.txt
+
+Suite Setup       Setup suite if needed
+Suite Teardown    Teardown suite if needed
+
 *** Keywords ***
 
 WebDAV COPY file  [Arguments]  ${srcEndpoint}  ${srcStorageArea}  ${destEndpoint}  ${destStorageArea}  ${credentials}=${EMPTY}
@@ -73,119 +78,160 @@ WebDAV COPY unauthorized  [Arguments]  ${srcEndpoint}  ${srcStorageArea}  ${dest
 
 WebDAV COPY file as anonymous
   [Tags]  webdav  copy  anonymous
+  [Setup]  Clear all credentials
   WebDAV COPY file  ${davEndpoint}  ${ANONYMOUS_SA}  ${davEndpoint}  ${ANONYMOUS_SA}
 
 WebDAV COPY non empty directory as anonymous
   [Tags]  webdav  copy  anonymous
+  [Setup]  Clear all credentials
   WebDAV COPY non empty directory  ${davEndpoint}  ${ANONYMOUS_SA}  ${davEndpoint}  ${ANONYMOUS_SA}
 
 WebDAV COPY file on existent target with overwrite T as anonymous
   [Tags]  webdav  copy  anonymous
+  [Setup]  Clear all credentials
   WebDAV COPY file on existent target with overwrite T  ${davEndpoint}  ${ANONYMOUS_SA}  ${davEndpoint}  ${ANONYMOUS_SA}
 
 WebDAV COPY file on existent target with overwrite F as anonymous
   [Tags]  webdav  copy  anonymous
+  [Setup]  Clear all credentials
   WebDAV COPY file on existent target with overwrite F  ${davEndpoint}  ${ANONYMOUS_SA}  ${davEndpoint}  ${ANONYMOUS_SA}
 
 WebDAV COPY unexistent file as anonymous
   [Tags]  webdav  copy  anonymous  to-be-fixed
+  [Setup]  Clear all credentials
   WebDAV COPY unexistent file  ${davEndpoint}  ${ANONYMOUS_SA}  ${davEndpoint}  ${ANONYMOUS_SA}
 
 WebDAV COPY with destination equals to source as anonymous
   [Tags]  webdav  copy  anonymous
+  [Setup]  Clear all credentials
   WebDAV COPY with destination equals to source  ${davEndpoint}  ${ANONYMOUS_SA}
 
 ######### VOMS PROXY ##########
 
 WebDAV COPY file with VOMS proxy
   [Tags]  webdav  copy  vomsproxy
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV COPY file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV COPY non empty directory with VOMS proxy
   [Tags]  webdav  copy  vomsproxy
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV COPY non empty directory  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV COPY file on existent target with overwrite T with VOMS proxy
   [Tags]  webdav  copy  vomsproxy
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV COPY file on existent target with overwrite T  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV COPY file on existent target with overwrite F with VOMS proxy
   [Tags]  webdav  copy  vomsproxy
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV COPY file on existent target with overwrite F  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV COPY unexistent file with VOMS proxy
   [Tags]  webdav  copy  vomsproxy  to-be-fixed
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV COPY unexistent file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV COPY with destination equals to source with VOMS proxy
   [Tags]  webdav  copy  vomsproxy
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV COPY with destination equals to source  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials
 
 ######### PLAIN PROXY ##########
 
 WebDAV COPY file with plain proxy
   [Tags]  webdav  copy  plainproxy
+  [Setup]  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
   ${plainproxy}  Get x509 options for Curl
   WebDAV COPY file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV COPY non empty directory with plain proxy
   [Tags]  webdav  copy  plainproxy
+  [Setup]  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
   ${plainproxy}  Get x509 options for Curl
   WebDAV COPY non empty directory  ${davSecureEndpoint}  ${X509AUTH_SA}  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV COPY file on existent target with overwrite T with plain proxy
   [Tags]  webdav  copy  plainproxy
+  [Setup]  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
   ${plainproxy}  Get x509 options for Curl
   WebDAV COPY file on existent target with overwrite T  ${davSecureEndpoint}  ${X509AUTH_SA}  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV COPY file on existent target with overwrite F with plain proxy
   [Tags]  webdav  copy  plainproxy
+  [Setup]  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
   ${plainproxy}  Get x509 options for Curl
   WebDAV COPY file on existent target with overwrite F  ${davSecureEndpoint}  ${X509AUTH_SA}  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV COPY unexistent file with plain proxy
   [Tags]  webdav  copy  plainproxy  to-be-fixed
+  [Setup]  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
   ${plainproxy}  Get x509 options for Curl
   WebDAV COPY unexistent file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV COPY with destination equals to source with plain proxy
   [Tags]  webdav  copy  plainproxy
+  [Setup]  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
   ${plainproxy}  Get x509 options for Curl
   WebDAV COPY with destination equals to source  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
+  [Teardown]  Clear all credentials
 
 ######### MIXED ##########
 
 WebDAV COPY from anonymous to voms proxy storage area
   [Tags]  webdav  copy  anonymous  vomsproxy
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV COPY file  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV COPY from VOMS proxy to anonymous storage area
   [Tags]  webdav  copy  anonymous  vomsproxy
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV COPY file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV COPY from plain proxy to anonymous storage area
   [Tags]  webdav  copy  anonymous  plainproxy
+  [Setup]  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
   ${plainproxy}  Get x509 options for Curl
   WebDAV COPY file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${plainproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV COPY from plain proxy to VOMS proxy storage area
   [Tags]  webdav  copy  vomsproxy  plainproxy
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV COPY file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV COPY unauthorized from plain proxy to VOMS proxy storage area
   [Tags]  webdav  copy  vomsproxy  plainproxy
+  [Setup]  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
   ${plainproxy}  Get x509 options for Curl
   WebDAV COPY unauthorized  ${davSecureEndpoint}  ${X509AUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${plainproxy}
+  [Teardown]  Clear all credentials
 
 WebDAV COPY unauthorized from anonymous to voms proxy storage area
   [Tags]  webdav  copy  anonymous  vomsproxy
+  [Setup]  Clear all credentials
   WebDAV COPY unauthorized  ${davEndpoint}  ${ANONYMOUS_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}

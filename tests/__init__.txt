@@ -1,0 +1,6 @@
+*** Settings ***
+
+Resource   lib/setup.txt
+
+Suite Setup       Setup suite
+Suite Teardown    Teardown suite

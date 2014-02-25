@@ -12,16 +12,6 @@ Build FileTransfer URL  [Arguments]  ${endpoint}  ${path}
   ${output}  Set variable  ${endpoint}/${path}
   [Return]  ${output}
 
-##### CREDENTIALS
-
-Get FileTransfer plain proxy credentials
-  ${options}  Get proxy curl options  ${GRID_PROXY}  ${TESTERS_CERT}
-  [Return]  ${options}
-
-Get FileTransfer VOMS proxy credentials
-  ${options}  Get proxy curl options  ${VOMS_PROXY}  ${TESTERS_CERT}
-  [Return]  ${options}
-
 ##### METHODS
 
 FileTransfer GET  [Arguments]  ${endpoint}  ${storageArea}  ${relativePath}  ${credentials}=${EMPTY}

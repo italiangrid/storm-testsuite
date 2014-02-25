@@ -3,13 +3,18 @@ Resource   lib/stormlib.txt
 Resource   lib/clientSRM.txt
 Resource   lib/credentials.txt
 
+Resource   lib/setup.txt
+
+Suite Setup       Setup suite if needed
+Suite Teardown    Teardown suite if needed
+
 *** Test Cases ***
 
 Put done an existent file
   [Tags]  storm-client  pd
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
   ${output}  Perform pd using clientSRM  ${surl}  ${token}
@@ -19,9 +24,9 @@ Put done an existent file
 
 Duplicated put done
   [Tags]  storm-client  pd
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
   ${output}  Perform pd using clientSRM  ${surl}  ${token}

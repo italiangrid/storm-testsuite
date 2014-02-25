@@ -3,30 +3,36 @@ Resource   lib/stormlib.txt
 Resource   lib/clientSRM.txt
 Resource   lib/credentials.txt
 
+Resource   lib/setup.txt
+
+Suite Setup       Setup suite if needed
+Suite Teardown    Teardown suite if needed
+
 *** Test Cases ***
 
 Release file on an existent file using clientSRM
   [Tags]  storm-client  rf
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
-  Put without really putting using clientSRM  ${VOMSAUTH_SA}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  Put without really putting using clientSRM  ${surl}
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_FILE_PINNED
   ${output}  Perform rf using clientSRM  ${surl}  ${token}
   Should Contain  ${output}  SRM_SUCCESS
   Should Not Contain  ${output}  SRM_RELEASED
   Should Not Contain  ${output}  SRM_FAILURE
-  Perform rm using clientSRM  ${surl}
-  Remove local file  ${filename}
+  ${output}  Perform rm using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
   [Teardown]  Clear all credentials
 
-Release multiple files without specifying the request token with surl in query form
+Release file without specifying the request token with surl in query form
   [Tags]  storm-client  rf
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Documentation]  Regression test for https://issues.infn.it/jira/browse/STOR-305 srmReleaseFiles doesn't release multiple files at once.
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
-  Put without really putting using clientSRM  ${VOMSAUTH_SA}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  Put without really putting using clientSRM  ${surl}
   ${output}  ${token1}  Perform ptg using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_FILE_PINNED
   ${output}  ${token2}  Perform ptg using clientSRM  ${surl}  -p
@@ -36,17 +42,17 @@ Release multiple files without specifying the request token with surl in query f
   Should Not Contain  ${output}  SRM_RELEASED
   Should Not Contain  ${output}  SRM_FAILURE
   log  ${output}
-  Perform rm using clientSRM  ${surl}
-  Remove local file  ${filename}
+  ${output}  Perform rm using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
   [Teardown]  Clear all credentials
 
-Release multiple files without specifying the request token with surl in simple form
+Release file without specifying the request token with surl in simple form
   [Tags]  storm-client  rf
   [Documentation]  Regression test for https://issues.infn.it/jira/browse/STOR-305 srmReleaseFiles doesn't release multiple files at once.
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${filename}  Get a unique name
-  ${surl}  Build simple surl  ${VOMSAUTH_SA}  ${filename}
-  Put without really putting using clientSRM  ${VOMSAUTH_SA}  ${filename}
+  ${surl}  Build simple surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  Put without really putting using clientSRM  ${surl}
   ${output}  ${token1}  Perform ptg using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_FILE_PINNED
   ${output}  ${token2}  Perform ptg using clientSRM  ${surl}  -p
@@ -55,6 +61,6 @@ Release multiple files without specifying the request token with surl in simple 
   Should Contain  ${output}  SRM_SUCCESS
   Should Not Contain  ${output}  SRM_RELEASED
   Should Not Contain  ${output}  SRM_FAILURE
-  Perform rm using clientSRM  ${surl}
-  Remove local file  ${filename}
+  ${output}  Perform rm using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
   [Teardown]  Clear all credentials

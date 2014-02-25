@@ -3,14 +3,19 @@ Resource   lib/stormlib.txt
 Resource   lib/clientSRM.txt
 Resource   lib/credentials.txt
 
+Resource   lib/setup.txt
+
+Suite Setup       Setup suite if needed
+Suite Teardown    Teardown suite if needed
+
 *** Test Cases ***
 
 Abort of a prepare to get done on an existent file
   [Tags]  storm-client  abort
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${filename}  Get a unique name
-  Put without really putting using clientSRM  ${VOMSAUTH_SA}  ${filename}
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  Put without really putting using clientSRM  ${surl}
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_FILE_PINNED
   ${output}  Perform abort request using clientSRM  ${token}
@@ -18,15 +23,14 @@ Abort of a prepare to get done on an existent file
   ${output}  Perform sptg using clientSRM  ${surl}  ${token}
   Should Not Contain  ${output}  SRM_FILE_PINNED
   Should Contain  ${output}  SRM_ABORTED
-  Perform rm using clientSRM  ${surl}
   [Teardown]  Clear all credentials
 
 Duplicated ptg abort
   [Tags]  storm-client  abort
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${filename}  Get a unique name
-  Put without really putting using clientSRM  ${VOMSAUTH_SA}  ${filename}
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  Put without really putting using clientSRM  ${surl}
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_FILE_PINNED
   ${output}  Perform abort request using clientSRM  ${token}
@@ -36,28 +40,27 @@ Duplicated ptg abort
   ${output}  Perform sptg using clientSRM  ${surl}  ${token}
   Should Not Contain  ${output}  SRM_FILE_PINNED
   Should Contain  ${output}  SRM_ABORTED
-  Perform rm using clientSRM  ${surl}
   [Teardown]  Clear all credentials
 
 Abort multiple files
   [Tags]  storm-client  ptp
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
-  ${testdir}  Get a unique name
-  ${dirsurl}  Build surl  ${VOMSAUTH_SA}  ${testdir}
-  ${output}  Perform mkdir using clientSRM  ${dirsurl}
-  Should Contain  ${output}  SRM_SUCCESS
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  ${dirname}  Get a unique name
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${testdir}/${filename}_1
-  ${surllist} =  Set Variable  ${surl}
+  ${surlDir}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}
+  ${surlFile}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}/${filename}_1
+  ${output}  Perform mkdir using clientSRM  ${surlDir}
+  Should Contain  ${output}  SRM_SUCCESS
+  ${surlFileList} =  Set Variable  ${surlFile}
   :FOR  ${index}  IN RANGE  2  10
-  \		${surl}  Build surl  ${VOMSAUTH_SA}  ${testdir}/${filename}_${index}
-  \		${surllist}  Catenate  ${surllist}  ${surl}
-  Log  ${surllist}
-  ${output}  ${token}  Perform ptp using clientSRM  ${surllist}  -p
+  \		${current}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}/${filename}_${index}
+  \		${surlFileList}  Catenate  ${surlFileList}  ${current}
+  Log  ${surlFileList}
+  ${output}  ${token}  Perform ptp using clientSRM  ${surlFileList}  -p
   Log  ${output}
   Should Contain  ${output}  SRM_SUCCESS
   Should Not Contain  ${output}  SRM_FAILURE
-  ${output}  Perform abort file using clientSRM  ${surllist}  ${token}
+  ${output}  Perform abort file using clientSRM  ${surlFileList}  ${token}
   Log  ${output}
   Should Contain  ${output}  SRM_SUCCESS
   Should Not Contain  ${output}  SRM_ABORTED
@@ -67,16 +70,16 @@ Abort multiple files
 Abort request with unexistent token
   [Tags]  storm-client  abort
   [Documentation]  Regression test for https://issues.infn.it/jira/browse/STOR-234. Storm BE does not manage correctly abort requests of expired tokens.
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${output}  Perform abort request using clientSRM  fake_token
   Should Contain  ${output}  SRM_INVALID_REQUEST
   [Teardown]  Clear all credentials
 
 Abort after prepare to put
   [Tags]  storm-client  abort
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
   ${output}  Perform abort request using clientSRM  ${token}
@@ -89,9 +92,9 @@ Abort after prepare to put
 
 Abort after put done
   [Tags]  storm-client  abort
-  [Setup]  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${filename}
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
   ${output}  Perform pd using clientSRM  ${surl}  ${token}

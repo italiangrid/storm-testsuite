@@ -1,58 +1,6 @@
 *** Settings ***
 
-Resource   lib/stormlib.txt
-Resource   lib/credentials.txt
-Resource   lib/webdav.txt
+Resource   lib/setup.txt
 
-Suite Setup       Setup tests
-Suite Teardown    Teardown tests
-
-*** Keywords ***
-
-Init local working directory
-  Remove local directory  ${TESTDIR}
-  Create local directory  ${TESTDIR}
-  Execute and Check Success  cp ${TESTERS_CERT_SRC} ${TESTERS_CERT}
-  Init certificate and plain proxy  test0
-  Execute and Check Success  cp ${userproxy} ${GRID_PROXY}
-  Init certificate and voms proxy  test0  ${VOMSAUTH_SA_VONAME}
-  Execute and Check Success  cp ${userproxy} ${VOMS_PROXY}
-  Clear all credentials
-
-Clear remote working directories
-  ${plainproxy}  Get x509 options for Curl
-  ${vomsproxy}  Get VOMS proxy options for Curl
-  ${output}  WebDAV DELETE  ${davEndpoint}  ${ANONYMOUS_SA}  ${TESTDIR}
-  Log  ${output}
-  ${output}  WebDAV DELETE  ${davSecureEndpoint}  ${X509AUTH_SA}  ${TESTDIR}  ${plainproxy}
-  Log  ${output}
-  ${output}  WebDAV DELETE  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}  ${vomsproxy}
-  Log  ${output}
-  ${output}  WebDAV DELETE  ${davSecureEndpoint}  ${NESTED_SA}  ${TESTDIR}  ${vomsproxy}
-  Log  ${output}
-
-Init remote working directories
-  ${plainproxy}  Get x509 options for Curl
-  ${vomsproxy}  Get VOMS proxy options for Curl
-  ${output}  WebDAV MKCOL  ${davEndpoint}  ${ANONYMOUS_SA}  ${TESTDIR}
-  Log  ${output}
-  Should Contain  ${output}  201 Created
-  ${output}  WebDAV MKCOL  ${davSecureEndpoint}  ${X509AUTH_SA}  ${TESTDIR}  ${plainproxy}
-  Log  ${output}
-  Should Contain  ${output}  201 Created
-  ${output}  WebDAV MKCOL  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}  ${vomsproxy}
-  Log  ${output}
-  Should Contain  ${output}  201 Created
-  ${output}  WebDAV MKCOL  ${davSecureEndpoint}  ${NESTED_SA}  ${TESTDIR}  ${vomsproxy}
-  Log  ${output}
-  Should Contain  ${output}  201 Created
-
-Setup tests
-  Init local working directory
-  Clear remote working directories
-  Init remote working directories
-
-Teardown tests
-  Clear remote working directories
-  Remove local directory  ${TESTDIR}
-
+Suite Setup       Setup suite if needed
+Suite Teardown    Teardown suite if needed
