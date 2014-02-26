@@ -13,7 +13,7 @@ Try to copy-out file using globus-utils  [Arguments]  ${localPath}  ${turl}
    [Return]  ${output}
 
 Copy-in file using globus-utils  [Arguments]  ${turl}  ${localPath}
-  Execute and Check Success  globus-url-copy  ${turl} file:///tmp/${TESTDIR}/${localPath}
+  Execute and Check Success  globus-url-copy ${turl} file:///tmp/${TESTDIR}/${localPath}
 
 Copy-in file using gsiftp protocol  [Arguments]  ${turl}  ${localPath}
   Execute and Check Success  globus-url-copy ${turl} file:///tmp/${TESTDIR}/${localPath}

@@ -91,8 +91,8 @@ Get unused size using clientSRM  [Arguments]  ${storageAreaToken}
   ${result}  ${unusedSize}=  Should Match Regexp  ${output}  unusedSize=(.+)
   [Return]  ${unusedSize}
 
-Get space metadata using clientSRM  [Arguments]  ${token}
-  ${output}  Execute clientSRM Command  gsm  -e httpg://${srmEndpoint}/ -s ${token}
+Get space metadata using clientSRM  [Arguments]  ${storageAreaToken}
+  ${output}  Execute clientSRM Command  gsm  -e httpg://${srmEndpoint}/ -s ${storageAreaToken}
   [Return]  ${output}
 
 Get request summary using clientSRM  [Arguments]  ${token}

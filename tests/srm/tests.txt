@@ -1,7 +1,6 @@
 *** Settings ***
 Resource   lib/stormlib.txt
 Resource   lib/clientSRM.txt
-Resource   lib/dcache.txt
 Resource   lib/lcg_util.txt
 Resource   lib/credentials.txt
 
@@ -29,11 +28,4 @@ Check if StoRM publishes correctly values for used and free space on the BDII
   ${diff_size}  Run  echo `expr ${size_after} - ${size_before}`
   ${file_size}  Run  ls -l /tmp/${TESTDIR}/${filename} | awk {'print $5'}
   Should be equal  ${file_size}  ${diff_size}
-  [Teardown]  Clear all credentials
-
-Status of bring online using a non existent token
-  [Tags]  regression  sbol
-  [Documentation]  Regression test for https://issues.infn.it/browse/STOR-217. StoRM crashed when a status for an async request was requested but the service is not able to get the into out of the database (for example, the token does not exists). This test calls a status for bring online.
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
-  ${output}  Execute clientSRM Command  bol -t abcde
   [Teardown]  Clear all credentials
