@@ -36,7 +36,7 @@ Set global variables
 
 Create main local directory
   ${rc}  ${output}=  Run and Return RC And Output  mkdir /tmp/${TESTDIR}
-  Should Be Equal As Integers  ${rc}  0  ${output}  False  ${TESTDIR}
+  Should Be Equal As Integers  ${rc}  0  ${output}  False
 
 Init local working directory
   Create main local directory
