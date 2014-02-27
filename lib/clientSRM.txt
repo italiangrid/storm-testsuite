@@ -7,15 +7,15 @@ Resource   variables.txt
 *** Keywords ***
 
 Execute clientSRM Command  [Arguments]  ${cmd}  ${options}=${EMPTY}
-  ${output}  Execute and Check Success  clientSRM ${cmd} ${options} -e ${srmEndpoint}
+  ${output}  ${stderr}  Execute and Check Success  clientSRM ${cmd} ${options} -e ${srmEndpoint}
   [Return]  ${output}
 
 Execute clientSRM Command on Surl  [Arguments]  ${cmd}  ${surl}  ${options}=${EMPTY}
-  ${output}  Execute and Check Success  clientSRM ${cmd} ${options} -e ${srmEndpoint} -s ${surl}
+  ${output}  ${stderr}  Execute and Check Success  clientSRM ${cmd} ${options} -e ${srmEndpoint} -s ${surl}
   [Return]  ${output}
 
 Execute clientSRM Command on Surl with Token  [Arguments]  ${cmd}  ${surl}  ${token}  ${options}=${EMPTY}
-  ${output}  Execute and Check Success  clientSRM ${cmd} ${options} -e ${srmEndpoint} -s ${surl} -t ${token}
+  ${output}  ${stderr}  Execute and Check Success  clientSRM ${cmd} ${options} -e ${srmEndpoint} -s ${surl} -t ${token}
   [Return]  ${output}
 
 Perform mkdir using clientSRM  [Arguments]  ${surl}  ${options}=${EMPTY}

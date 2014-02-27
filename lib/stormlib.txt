@@ -6,9 +6,11 @@ Resource   variables.txt
 *** Keywords ***
 
 Execute and Check Success  [Arguments]  ${cmd}
-  ${rc}  ${output}=  Run and Return RC And Output  ${cmd}
+  ${rc}  ${output}=  Run and Return RC And Output  ${cmd} 2>/tmp/stderr.txt
   Should Be Equal As Integers  ${rc}  0  ${output}  False
-  [Return]  ${output}
+  ${rc}  ${stderr}=  Run and Return RC And Output  cat /tmp/stderr.txt
+  Log  ${stderr}
+  [Return]  ${output}  ${stderr}
 
 Execute and Check Failure   [Arguments]   ${cmd}
   ${rc}   ${output}=   Run and Return RC And Output  ${cmd}
@@ -16,8 +18,8 @@ Execute and Check Failure   [Arguments]   ${cmd}
   [Return]  ${output}
 
 Get a unique name
-  ${name}  Execute and Check Success  basename `mktemp`
-  Remove local file  ${name}
+  ${name}  ${stderr}  Execute and Check Success  basename `mktemp`
+  Execute and Check Success  rm -f /tmp/${name}
   [Return]  ${name}
 
 Create local file

@@ -5,7 +5,7 @@ Resource   variables.txt
 *** Keywords ***
 
 Execute dCache srm command  [Arguments]  ${cmd}  ${url}
-  ${output}  Execute and Check Success  srm${cmd} -2 ${url}
+  ${output}  ${stderr}  Execute and Check Success  srm${cmd} -2 ${url}
   [Return]  ${output}
 
 Execute dCache srm command and check failure  [Arguments]  ${cmd}  ${url}

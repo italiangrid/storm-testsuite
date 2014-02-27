@@ -8,11 +8,11 @@ Resource   lib/webdav.txt
 *** Keywords ***
 
 Get timestamp
-  ${output}  Execute and Check Success  date +"%k%M%S%d%m%Y"
+  ${output}  ${stderr}  Execute and Check Success  date +"%k%M%S%d%m%Y"
   [Return]  ${output}
 
 Get uid
-  ${output}  Execute and Check Success  id -u
+  ${output}  ${stderr}  Execute and Check Success  id -u
   [Return]  ${output}
 
 Set Variable If It Does Not Exist  [Arguments]  ${name}  ${value}
