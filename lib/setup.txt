@@ -34,8 +34,12 @@ Set global variables
   Log  ${VOMSAUTH_SA_PROXY}
   Log  ${DEFAULT_X509_USER_PROXY}
 
+Create main local directory
+  ${rc}  ${output}=  Run and Return RC And Output  mkdir /tmp/${TESTDIR}
+  Should Be Equal As Integers  ${rc}  0  ${output}  False  ${TESTDIR}
+
 Init local working directory
-  Create local directory  ${TESTDIR}
+  Create main local directory
   ${x509up}  Get Environment Variable  X509_USER_PROXY
   Log  ${x509up}
   Clear all credentials
