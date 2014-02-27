@@ -6,9 +6,9 @@ Resource   variables.txt
 *** Keywords ***
 
 Execute and Check Success  [Arguments]  ${cmd}
-  ${rc}  ${output}=  Run and Return RC And Output  ${cmd} 2>/tmp/stderr.txt
+  ${rc}  ${output}=  Run and Return RC And Output  ${cmd} 2>/tmp/${TESTDIR}/stderr.txt
   Should Be Equal As Integers  ${rc}  0  ${output}  False
-  ${rc}  ${stderr}=  Run and Return RC And Output  cat /tmp/stderr.txt
+  ${rc}  ${stderr}=  Run and Return RC And Output  cat /tmp/${TESTDIR}/stderr.txt
   Log  ${stderr}
   [Return]  ${output}  ${stderr}
 
