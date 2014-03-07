@@ -61,7 +61,7 @@ Check checksum of copied file
   ${turl}  Build gsiftp TURL  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
   Copy-out file using globus-utils  ${filename}  ${turl}
   ${output}  Perform pd using clientSRM  ${srcsurl}  ${token}  -p
-  ${destsurl}  Build surl  ${VOMSAUTH_SA}  ${filename}_copied
+  ${destsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}_copied
   ${output}  Copy file using lcg-utils  ${srcsurl}  ${destsurl}  --checksum
   Log  ${output}
   Should Contain  ${output}  Source and destination checksums are matching

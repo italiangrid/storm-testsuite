@@ -54,7 +54,7 @@ Check lcg-cp computed checksum in case it starts with zero
   ${srcFileName}  Create local file with checksum that starts with zero
   ${destFileName}  Get a unique name
   ${srcSurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${srcFileName}
-  ${destSurl}  Build surl  ${VOMSAUTH_SA}  $${TESTDIR}/${destFileName}
+  ${destSurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${destFileName}
   Copy-out file using lcg-utils  ${srcFileName}  ${srcSurl}
   ${output}  Detailed ls using clientSRM  ${srcSurl}
   ${result}  ${b_checksum}=  Should Match Regexp  ${output}  checkSumValue=(\".+\")
