@@ -1,0 +1,175 @@
+*** Settings ***
+
+Library         SSHLibrary
+Library         HttpLibrary.HTTP
+Library         Collections
+Resource        lib/setup.txt
+Resource        lib/stormlib.txt
+Resource        lib/lcg_util.txt
+Resource        lib/clientSRM.txt
+
+Suite Setup       Setup Suite And Connections
+Suite Teardown    Teardown Suite And Connections
+
+
+*** Variables ***
+
+${REST_ENDPOINT}       ${backEndHost}:9998
+${HOST}                131.154.96.45
+${USERNAME}            root
+${PASSWORD}            /home/vianello/.ssh/id_rsa
+
+*** Test Cases ***
+
+Check real sizes for all the VFS
+    [Tags]  info
+    ${vfs_list}=  Get VFS list
+    ${vfs_names}=  Get Dictionary Keys  ${vfs_list}
+    :FOR  ${vfs}  IN  @{vfs_names}
+    \    Log  ${vfs}
+    \    ${vfs_data}=  Get From Dictionary  ${vfs_list}  ${vfs}
+    \    ${vfs_token}=  Get From Dictionary  ${vfs_data}  token
+    \    ${vfs_root}=  Get From Dictionary  ${vfs_data}  root
+    \    Check SA real sizes vs database sizes  ${vfs_token}  ${vfs_root}
+
+Check db size update after srmPutDone
+    [Tags]  info
+    Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+    ${filename}  Create local file
+    ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+    Check file does not exists using lcg-utils  ${surl}
+    ${result}  Get SA status info  ${VOMSAUTH_SA_TOKEN}
+    ${free_space_before}  Get SA status info parameter  ${result}  free-space
+    Copy-out file using lcg-utils  ${filename}  ${surl}
+    ${result}  Get SA status info  ${VOMSAUTH_SA_TOKEN}
+    ${free_space_after}  Get SA status info parameter  ${result}  free-space
+    Should not be equal  ${free_space_before}  ${free_space_after}
+    Perform rm using clientSRM  ${surl}
+    [Teardown]  Clear all credentials
+
+Check db size update after srmRm
+    [Tags]  info
+    Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+    ${filename}  Create local file
+    ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+    Check file does not exists using lcg-utils  ${surl}
+    Copy-out file using lcg-utils  ${filename}  ${surl}
+    ${result}  Get SA status info  ${VOMSAUTH_SA_TOKEN}
+    ${free_space_before}  Get SA status info parameter  ${result}  free-space
+    Perform rm using clientSRM  ${surl}
+    ${result}  Get SA status info  ${VOMSAUTH_SA_TOKEN}
+    ${free_space_after}  Get SA status info parameter  ${result}  free-space
+    Should not be equal  ${free_space_before}  ${free_space_after}
+    [Teardown]  Clear all credentials
+
+Check db size update after srmMkdir
+    [Tags]  info
+    Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+    ${dirname}  Get a unique name
+    ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}
+    ${result}  Get SA status info  ${VOMSAUTH_SA_TOKEN}
+    ${free_space_before}  Get SA status info parameter  ${result}  free-space
+    Perform mkdir using clientSRM  ${surl}
+    ${result}  Get SA status info  ${VOMSAUTH_SA_TOKEN}
+    ${free_space_after}  Get SA status info parameter  ${result}  free-space
+    Should not be equal  ${free_space_before}  ${free_space_after}
+    Perform rmdir using clientSRM  ${surl}
+    [Teardown]  Clear all credentials
+
+Check db size update after srmRmdir of an empty directory
+    [Tags]  info
+    Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+    ${dirname}  Get a unique name
+    ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}
+    Perform mkdir using clientSRM  ${surl}
+    ${result}  Get SA status info  ${VOMSAUTH_SA_TOKEN}
+    ${free_space_before}  Get SA status info parameter  ${result}  free-space
+    Perform rmdir using clientSRM  ${surl}
+    ${result}  Get SA status info  ${VOMSAUTH_SA_TOKEN}
+    ${free_space_after}  Get SA status info parameter  ${result}  free-space
+    Should not be equal  ${free_space_before}  ${free_space_after}
+    [Teardown]  Clear all credentials
+
+Check db size update after a recursive srmRmdir
+    [Tags]  info
+    Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+    ${dirname}  Get a unique name
+    ${dsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}
+    ${result}  Get SA status info  ${VOMSAUTH_SA_TOKEN}
+    ${free_space_before}  Get SA status info parameter  ${result}  free-space
+    Log  ${free_space_before}
+    Perform mkdir using clientSRM  ${dsurl}
+    ${filename}  Create local file
+    ${fsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+    Check file does not exists using lcg-utils  ${fsurl}
+    Copy-out file using lcg-utils  ${filename}  ${fsurl}
+    ${result}  Get SA status info  ${VOMSAUTH_SA_TOKEN}
+    ${free_space_before}  Get SA status info parameter  ${result}  free-space
+    Log  ${free_space_before}
+    Perform rmdir using clientSRM  ${dsurl}  -r
+    ${result}  Get SA status info  ${VOMSAUTH_SA_TOKEN}
+    ${free_space_after}  Get SA status info parameter  ${result}  free-space
+    Should not be equal  ${free_space_before}  ${free_space_after}
+    [Teardown]  Clear all credentials
+
+*** Keywords ***
+
+Setup Suite And Connections
+    Setup suite if needed
+    Open Connection And Log In
+
+Teardown Suite And Connections
+    Teardown suite if needed
+    Close All Connections
+
+Open Connection And Log In
+    Open Connection  ${HOST}
+    Login With Public Key  ${USERNAME}  ${PASSWORD}
+
+Get From REST endpoint  [Arguments]  ${relativePath}
+    Create Http Context  ${REST_ENDPOINT}
+    GET  ${url}
+    ${status}=  Get Response Status
+    Should Start With  ${status}  200
+    ${result}=  Get Response Body
+    Log Json  ${result}
+    ${result}=   Parse Json  ${result}
+    Log  ${result}
+    [Return]  ${result}
+
+Get VFS list
+    ${url}  Set Variable  /configuration/1.3/VirtualFSList
+    ${result}  Get From REST endpoint  ${url}
+    [Return]  ${result}
+
+Get SA status info  [Arguments]  ${SA}
+    ${url}  Set Variable  /info/status/${SA}
+    ${result}  Get From REST endpoint  ${url}
+    [Return]  ${result}
+
+Get SA status info parameter  [Arguments]  ${SA_status}  ${param_name}
+    ${result}  Get From Dictionary  ${SA_status}  sa-status
+    ${result}  Get From Dictionary  ${result}  ${param_name}
+    [Return]  ${result}
+
+Get SA du total  [Arguments]  ${saRootDir}
+    ${command}  Set Variable  du -sb ${saRootDir} | awk '{ print $1 }'
+    Log  ${command}
+    ${output}=  Execute Command  whoami
+    Log  ${output}
+    ${output}=  Execute Command  hostname -f
+    Log  ${output}
+    ${output}=  Execute Command  ${command}
+    Log  ${output}
+    [Return]  ${output}
+
+Check SA real sizes vs database sizes  [Arguments]  ${SA_token}  ${SA_rootDir}
+    ${result}  Get SA status info  ${SA_token}
+    ${busy_space}  Get SA status info parameter  ${result}  busy-space
+    Log  ${busy_space}
+    ${result2}  Get SA du total  ${SA_rootDir}
+    ${result2}  Convert To Integer  ${result2}
+    Log  ${result2}
+    Should Be Equal  ${result2}  ${busy_space}
+
+
