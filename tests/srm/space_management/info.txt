@@ -1,0 +1,210 @@
+*** Settings ***
+
+Library         SSHLibrary
+Library         HttpLibrary.HTTP
+Library         Collections
+Resource        lib/setup.txt
+Resource        lib/stormlib.txt
+Resource        lib/lcg_util.txt
+Resource        lib/clientSRM.txt
+
+Suite Setup       Setup Suite And Connections
+Suite Teardown    Teardown Suite And Connections
+
+
+*** Variables ***
+
+${REST_ENDPOINT}       ${backEndHost}:9998
+${HOST}                131.154.96.45
+${USERNAME}            root
+${PASSWORD}            pass
+${DIR_SIZE}            4096
+
+*** Test Cases ***
+
+Check real sizes for all the VFS
+    [Tags]  info
+    ${vfs_list}=  Get VFS list
+    ${vfs_names}=  Get Dictionary Keys  ${vfs_list}
+    :FOR  ${vfs}  IN  @{vfs_names}
+    \    Log  ${vfs}
+    \    ${vfs_data}=  Get From Dictionary  ${vfs_list}  ${vfs}
+    \    ${vfs_token}=  Get From Dictionary  ${vfs_data}  token
+    \    ${vfs_root}=  Get From Dictionary  ${vfs_data}  root
+    \    Check SA real sizes vs database sizes  ${vfs_token}  ${vfs_root}
+
+Check db size update after srmPutDone
+    [Tags]  info
+    Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+    ${filename}  Create local file
+    ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+    Check file does not exists using lcg-utils  ${surl}
+    ${free_space_before}  Get SA status info parameter  ${VOMSAUTH_SA_TOKEN}  free-space
+    Copy-out file using lcg-utils  ${filename}  ${surl}
+    ${free_space_after}  Get SA status info parameter  ${VOMSAUTH_SA_TOKEN}  free-space
+    Should not be equal  ${free_space_before}  ${free_space_after}
+    Perform rm using clientSRM  ${surl}
+    ${free_space}  Get SA status info parameter  ${VOMSAUTH_SA_TOKEN}  free-space
+    [Teardown]  Clear all credentials
+
+Check db size update after srmRm
+    [Tags]  info
+    Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+    ${filename}  Create local file
+    ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+    Check file does not exists using lcg-utils  ${surl}
+    ${free_space}  Get SA status info parameter  ${VOMSAUTH_SA_TOKEN}  free-space
+    Copy-out file using lcg-utils  ${filename}  ${surl}
+    ${free_space_before}  Get SA status info parameter  ${VOMSAUTH_SA_TOKEN}  free-space
+    Perform rm using clientSRM  ${surl}
+    ${free_space_after}  Get SA status info parameter  ${VOMSAUTH_SA_TOKEN}  free-space
+    Should not be equal  ${free_space_before}  ${free_space_after}
+    [Teardown]  Clear all credentials
+
+Check db size update after srmMkdir
+    [Tags]  info
+    Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+    ${dirname}  Get a unique name
+    ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}
+    ${free_space_1}  Get SA status info parameter  ${VOMSAUTH_SA_TOKEN}  free-space
+    Perform mkdir using clientSRM  ${surl}
+    ${free_space_2}  Get SA status info parameter  ${VOMSAUTH_SA_TOKEN}  free-space
+    Should not be equal  ${free_space_1}  ${free_space_2}
+    ${diff}  Diff  ${free_space_1}  ${free_space_2}
+    Should be equal as numbers  ${diff}  ${DIR_SIZE}
+    Perform rmdir using clientSRM  ${surl}
+    ${free_space_3}  Get SA status info parameter  ${VOMSAUTH_SA_TOKEN}  free-space
+    Should be equal as numbers  ${free_space_3}  ${free_space_1}
+    [Teardown]  Clear all credentials
+
+Check db size update after srmRmdir of an empty directory
+    [Tags]  info
+    Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+    ${dirname}  Get a unique name
+    ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}
+    ${free_space_1}  Get SA status info parameter  ${VOMSAUTH_SA_TOKEN}  free-space
+    Perform mkdir using clientSRM  ${surl}
+    ${free_space_2}  Get SA status info parameter  ${VOMSAUTH_SA_TOKEN}  free-space
+    Perform rmdir using clientSRM  ${surl}
+    ${free_space_3}  Get SA status info parameter  ${VOMSAUTH_SA_TOKEN}  free-space
+    Should not be equal  ${free_space_1}  ${free_space_2}
+    Should be equal as numbers  ${free_space_3}  ${free_space_1}
+    ${diff}  Diff  ${free_space_3}  ${free_space_2}
+    Should be equal as numbers  ${diff}  ${DIR_SIZE}
+    [Teardown]  Clear all credentials
+
+Check db size update after a recursive srmRmdir
+    [Tags]  info
+    Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+    ${dirname}  Get a unique name
+    ${dsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}
+    ${free_space_1}  Get SA status info parameter  ${VOMSAUTH_SA_TOKEN}  free-space
+    Perform mkdir using clientSRM  ${dsurl}
+    ${free_space_2}  Get SA status info parameter  ${VOMSAUTH_SA_TOKEN}  free-space
+    ${filename}  Create local file
+    ${fsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}/${filename}
+    Check file does not exists using lcg-utils  ${fsurl}
+    Copy-out file using lcg-utils  ${filename}  ${fsurl}
+    Check file exists using lcg-utils  ${fsurl}
+    ${free_space_3}  Get SA status info parameter  ${VOMSAUTH_SA_TOKEN}  free-space
+    Perform rmdir using clientSRM  ${dsurl}  -r
+    ${free_space_4}  Get SA status info parameter  ${VOMSAUTH_SA_TOKEN}  free-space
+    Should not be equal  ${free_space_1}  ${free_space_2}
+    Should not be equal  ${free_space_2}  ${free_space_3}
+    Should not be equal  ${free_space_3}  ${free_space_4}
+    Should be equal as numbers  ${free_space_1}  ${free_space_4}
+    ${diff}  Diff  ${free_space_2}  ${free_space_3}
+    Should be equal as numbers  ${diff}  1048576
+    [Teardown]  Clear all credentials
+
+Check db size update after a ptp with automatic directory creation enabled
+    [Tags]  info
+    Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+    ${dirname1}  Get a unique name
+    ${dirname2}  Get a unique name
+    ${dirname3}  Get a unique name
+    ${filename}  Get a unique name
+    ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname1}/${dirname2}/${dirname3}/${filename}
+    ${free_space_1}  Get SA status info parameter  ${VOMSAUTH_SA_TOKEN}  free-space
+    ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
+    Should Contain  ${output}  SRM_SPACE_AVAILABLE
+    ${output}  Perform pd using clientSRM  ${surl}  ${token}
+    Should Contain  ${output}  SRM_SUCCESS
+    ${free_space_2}  Get SA status info parameter  ${VOMSAUTH_SA_TOKEN}  free-space
+    ${output}  Perform rm using clientSRM  ${surl}
+    Should Contain  ${output}  SRM_SUCCESS
+    ${free_space_3}  Get SA status info parameter  ${VOMSAUTH_SA_TOKEN}  free-space
+    Should not be equal  ${free_space_1}  ${free_space_3}
+    ${diff}  Diff  ${free_space_1}  ${free_space_3}
+    ${estimatedSize}=  Evaluate  4096 * 3
+    Should be equal as numbers  ${diff}  ${estimatedSize}
+    [Teardown]  Clear all credentials
+
+*** Keywords ***
+
+Setup Suite And Connections
+    Setup suite if needed
+    Open Connection And Log In
+
+Teardown Suite And Connections
+    Teardown suite if needed
+    Close All Connections
+
+Open Connection And Log In
+    Open Connection  ${HOST}
+    Login  ${USERNAME}  ${PASSWORD}
+
+Get From REST endpoint  [Arguments]  ${relativePath}
+    Create Http Context  ${REST_ENDPOINT}
+    GET  ${url}
+    ${status}=  Get Response Status
+    Should Start With  ${status}  200
+    ${result}=  Get Response Body
+    Log Json  ${result}
+    ${result}=   Parse Json  ${result}
+    Log  ${result}
+    [Return]  ${result}
+
+Get VFS list
+    ${url}  Set Variable  /configuration/1.3/VirtualFSList
+    ${result}  Get From REST endpoint  ${url}
+    [Return]  ${result}
+
+Get SA status info  [Arguments]  ${SA}
+    ${url}  Set Variable  /info/status/${SA}
+    ${result}  Get From REST endpoint  ${url}
+    [Return]  ${result}
+
+Get SA status info parameter  [Arguments]  ${SA_TOKEN}  ${PARAM_NAME}
+    ${SA_STATUS}  Get SA status info  ${SA_TOKEN}
+    ${SA_STATUS}  Get From Dictionary  ${SA_STATUS}  sa-status
+    ${PARAM_VALUE}  Get From Dictionary  ${SA_STATUS}  ${PARAM_NAME}
+    Log  ${PARAM_VALUE}
+    [Return]  ${PARAM_VALUE}
+
+Get SA du total  [Arguments]  ${saRootDir}
+    ${command}  Set Variable  du -sb ${saRootDir} | awk '{ print $1 }'
+    Log  ${command}
+    ${output}=  Execute Command  whoami
+    Log  ${output}
+    ${output}=  Execute Command  hostname -f
+    Log  ${output}
+    ${output}=  Execute Command  ${command}
+    Log  ${output}
+    [Return]  ${output}
+
+Check SA real sizes vs database sizes  [Arguments]  ${SA_token}  ${SA_rootDir}
+    ${busy_space}  Get SA status info parameter  ${SA_token}  busy-space
+    Log  ${busy_space}
+    ${result2}  Get SA du total  ${SA_rootDir}
+    ${result2}  Convert To Integer  ${result2}
+    Log  ${result2}
+    Should Be Equal  ${result2}  ${busy_space}
+
+Sum  [Arguments]  ${e1}  ${e2}
+    ${result}=  Evaluate  ${e1} + ${e2}
+    [Return]  ${result}
+
+Diff  [Arguments]  ${e1}  ${e2}
+    ${result}=  Evaluate  ${e1} - ${e2}
+    [Return]  ${result}
