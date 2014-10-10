@@ -9,6 +9,21 @@ Suite Setup       Setup suite if needed
 Suite Teardown    Teardown suite if needed
 
 *** Test Cases ***
+A user cannot abort the request of another user
+  [Tags]  storm-client  ptg
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  ${filename}  Get a unique name
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  Put without really putting using clientSRM  ${surl}
+  ${output}  ${token}  Perform ptg using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_REQUEST_QUEUED
+  ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -t ${token} -p
+  Should Contain  ${output}  SRM_FILE_PINNED
+  Use certificate   test1
+  Create voms proxy
+  ${output}  Perform abort request using clientSRM  ${token}
+  Should Contain  ${output}   SRM_AUTHORIZATION_FAILURE
+  [Teardown]  Clear all credentials
 
 Abort of a prepare to get done on an existent file
   [Tags]  storm-client  abort
