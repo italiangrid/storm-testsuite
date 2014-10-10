@@ -19,7 +19,7 @@ A user cannot abort the request of another user
   Should Contain  ${output}  SRM_REQUEST_QUEUED
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -t ${token} -p
   Should Contain  ${output}  SRM_FILE_PINNED
-  Use certificate   test1
+  Use certificate and proxy   test1  ${DEFAULT_X509_USER_PROXY}
   Create voms proxy
   ${output}  Perform abort request using clientSRM  ${token}
   Should Contain  ${output}   SRM_AUTHORIZATION_FAILURE
