@@ -28,6 +28,7 @@ Set global variables
   Set Variable If It Does Not Exist  \${VOMSAUTH_SA_PROXY}  /tmp/${TESTDIR}/testersvomsproxy
   Set Variable If It Does Not Exist  \${NESTED_SA_PROXY}  /tmp/${TESTDIR}/testersvomsproxy
   Set Variable If It Does Not Exist  \${ALIASED_SA_PROXY}  /tmp/${TESTDIR}/testersvomsproxy
+  Set Variable If It Does Not Exist  \${TAPE_SA_PROXY}  /tmp/${TESTDIR}/testersvomsproxy
   Set Variable If It Does Not Exist  \${DEFAULT_X509_USER_PROXY}  /tmp/x509up_u${uid}
   Log  ${TESTDIR}
   Log  ${X509AUTH_SA_PROXY}
