@@ -18,6 +18,10 @@ Execute clientSRM Command on Surl with Token  [Arguments]  ${cmd}  ${surl}  ${to
   ${output}  ${stderr}  Execute and Check Success  clientSRM ${cmd} ${options} -e ${srmEndpoint} -s ${surl} -t ${token}
   [Return]  ${output}
 
+Execute clientSRM Command with Token  [Arguments]  ${cmd}  ${token}  ${options}=${EMPTY}
+  ${output}  ${stderr}  Execute and Check Success  clientSRM ${cmd} ${options} -e ${srmEndpoint} -t ${token}
+  [Return]  ${output}
+
 Perform mkdir using clientSRM  [Arguments]  ${surl}  ${options}=${EMPTY}
   ${output}  Execute clientSRM Command on Surl  mkdir  ${surl}  ${options}
   [Return]  ${output}
@@ -62,6 +66,10 @@ Perform rf using clientSRM  [Arguments]  ${surl}  ${token}  ${options}=${EMPTY}
 
 Perform rf using clientSRM without token  [Arguments]  ${surl}  ${options}=${EMPTY}
   ${output}  Execute clientSRM Command on Surl  rf  ${surl}  ${options}
+  [Return]  ${output}
+
+Perform rf using clientSRM without surl  [Arguments]  ${token}  ${options}=${EMPTY}
+  ${output}  Execute clientSRM Command with Token  rf  ${token}  ${options}
   [Return]  ${output}
 
 Perform abort request using clientSRM  [Arguments]  ${token}  ${options}=${EMPTY}
