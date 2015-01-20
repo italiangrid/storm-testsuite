@@ -125,11 +125,9 @@ Release multiple ptg requests specifying only SURL
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${surl}  Get random simple SURL
   Create remote file  ${surl}
-  ${token}  Do PTG  ${surl}
-  ${token2}  Do PTG  ${surl}
+  Do PTG  ${surl}
+  Do PTG  ${surl}
   Release file with SURL  ${surl}
-  Invalid release file with TOKEN  ${token}
-  Invalid release file with TOKEN  ${token2}
   Remove remote file  ${surl}
   [Teardown]  Clear all credentials
 
@@ -139,11 +137,9 @@ Release multiple ptg requests specifying only SURL in query form
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${surl}  Get random query SURL
   Create remote file  ${surl}
-  ${token}  Do PTG  ${surl}
-  ${token2}  Do PTG  ${surl}
+  Do PTG  ${surl}
+  Do PTG  ${surl}
   Release file with SURL  ${surl}
-  Invalid release file with TOKEN  ${token}
-  Invalid release file with TOKEN  ${token2}
   Remove remote file  ${surl}
   [Teardown]  Clear all credentials
 
@@ -154,7 +150,7 @@ Release multiple files specifying only TOKEN
   Create remote file  ${surl}
   ${surl2}  Get random simple SURL
   Create remote file  ${surl2}
-  ${token}  Do PTG  ${surl} -s ${surl2}
+  ${token}  Do PTG  ${surl} ${surl2}
   Release file with TOKEN  ${token}
   Remove remote file  ${surl}
   Remove remote file  ${surl2}
