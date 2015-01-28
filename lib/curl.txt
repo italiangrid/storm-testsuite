@@ -22,7 +22,7 @@ Set body  [Arguments]  ${value}
   [Return]  ${output}
 
 Curl  [Arguments]  ${method}  ${url}  ${options}=${EMPTY}
-  ${output}  ${stderr}  Execute and Check Success  curl ${options} ${url} -X ${method} -s
+  ${output}  ${stderr}  Execute and Check Success  curl ${options} ${url} -X ${method} -s -L
   [Return]  ${output}
 
 Get x509 options for Curl

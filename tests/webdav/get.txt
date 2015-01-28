@@ -138,7 +138,7 @@ WebDAV GET busy file with VOMS proxy
   [Teardown]  Clear all credentials
 
 WebDAV GET existent file with VOMS proxy on an anonymous readable storage area
-  [Tags]  webdav  get  vomsproxy
+  [Tags]  webdav  get  vomsproxy  anonymous
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${filename}  Upload file  ${davEndpoint}  ${ANONYMOUS_SA}  ${EMPTY}  ${TESTDIR}  test123456789
   ${vomsproxy}  Get VOMS proxy options for Curl
@@ -194,7 +194,7 @@ WebDAV GET busy file with plain proxy
   [Teardown]  Clear all credentials
 
 WebDAV GET existent file with plain proxy on an anonymous readable storage area
-  [Tags]  webdav  get  plainproxy
+  [Tags]  webdav  get  plainproxy  anonymous
   [Setup]  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
   ${filename}  Upload file  ${davEndpoint}  ${ANONYMOUS_SA}  ${EMPTY}  ${TESTDIR}  test123456789
   ${plainproxy}  Get x509 options for Curl

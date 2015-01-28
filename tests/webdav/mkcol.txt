@@ -87,7 +87,7 @@ WebDAV MKCOL on existent resource with VOMS proxy
   [Teardown]  Clear all credentials
 
 WebDAV MKCOL with VOMS proxy on an anonymous writeable storage area
-  [Tags]  webdav  mkcol  vomsproxy
+  [Tags]  webdav  mkcol  vomsproxy  anonymous
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV MKCOL on unexistent resource  ${davSecureEndpoint}  ${ANONYMOUS_SA}  ${vomsproxy}
