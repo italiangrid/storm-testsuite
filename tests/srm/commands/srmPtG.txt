@@ -10,79 +10,112 @@ Resource   lib/setup.txt
 Suite Setup       Setup suite if needed
 Suite Teardown    Teardown suite if needed
 
-*** Test Cases ***
+*** Keywords ***
 
-Prepare to get an existent file
-  [Tags]  storm-client  ptg
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+getRandomSURL  [Arguments]  ${sa}
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  ${surl}  Build surl  ${sa}  ${TESTDIR}/${filename}
+  [Return]  ${surl}
+
+createRemoteFile  [Arguments]  ${surl}
   Put without really putting using clientSRM  ${surl}
-  ${output}  ${token}  Perform ptg using clientSRM  ${surl}
-  Should Contain  ${output}  SRM_REQUEST_QUEUED
-  ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -t ${token} -p
+
+srmPtG  [Arguments]  ${surl}
+  ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
+  [Return]  ${output}  ${token}
+
+srmRf  [Arguments]  ${surl}  ${token}
+  ${output}  Perform rf using clientSRM  ${surl}  ${token}
+  [Return]  ${output}
+
+check srmPtG success  [Arguments]  ${output}
   Should Contain  ${output}  SRM_FILE_PINNED
-  ${output}  Perform rf using clientSRM  ${surl}  ${token}  -p
+  Should Not Contain  ${output}  SRM_FAILURE
+
+check srmPtG failure with  [Arguments]  ${output}  ${status}
+  Should Contain  ${output}  ${status}
+  Should Contain  ${output}  SRM_FAILURE
+  Should Not Contain  ${output}  SRM_FILE_PINNED
+
+check srmRf success  [Arguments]  ${output}
   Should Contain  ${output}  SRM_SUCCESS
   Should Not Contain  ${output}  SRM_RELEASED
   Should Not Contain  ${output}  SRM_FAILURE
+
+deleteRemoteFile  [Arguments]  ${surl}
   ${output}  Perform rm using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
-  [Teardown]  Clear all credentials
 
-Prepare to get an unexistent file
+get TURL from output  [Arguments]  ${output}
+  ${result}  ${turl}=  Should Match Regexp  ${output}  transferURL=(\".+\")
+  [Return]  ${turl}
+
+*** Test Cases ***
+
+srmPtG on an existent file
   [Tags]  storm-client  ptg
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
-  ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
-  ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
-  Should Contain  ${output}  SRM_INVALID_PATH
+  ${surl}  getRandomSURL  ${VOMSAUTH_SA}
+  createRemoteFile  ${surl}
+  ${outputPtG}  ${token}  srmPtG  ${surl}
+  Log  ${outputPtG}
+  check srmPtG success  ${outputPtG}
+  ${outputRf}  srmRf  ${surl}  ${token}
+  Log  ${outputRf}
+  check srmRf success  ${outputRf}
+  deleteRemoteFile  ${surl}
   [Teardown]  Clear all credentials
 
-Check double PtG on a file
+srmPtG on a non-existent file
+  [Tags]  storm-client  ptg
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  ${surl}  getRandomSURL  ${VOMSAUTH_SA}
+  ${outputPtG}  ${token}  srmPtG  ${surl}
+  Log  ${outputPtG}
+  check srmPtG failure with  ${outputPtG}  SRM_INVALID_PATH
+  [Teardown]  Clear all credentials
+
+Multiple srmPtG on a file
   [Tags]  regression  ptg
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
-  ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
-  Put without really putting using clientSRM  ${surl}
-  ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
-  Should Contain  ${output}  SRM_FILE_PINNED
-  ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
-  Should Contain  ${output}  SRM_FILE_PINNED
-  Perform rm using clientSRM  ${surl}
+  ${surl}  getRandomSURL  ${VOMSAUTH_SA}
+  createRemoteFile  ${surl}
+  ${outputPtG}  ${token1}  srmPtG  ${surl}
+  Log  ${outputPtG}
+  check srmPtG success  ${outputPtG}
+  ${outputPtG}  ${token2}  srmPtG  ${surl}
+  Log  ${outputPtG}
+  check srmPtG success  ${outputPtG}
+  ${outputRf}  srmRf  ${surl}  ${token1}
+  Log  ${outputRf}
+  check srmRf success  ${outputRf}
+  ${outputRf}  srmRf  ${surl}  ${token2}
+  Log  ${outputRf}
+  check srmRf success  ${outputRf}
+  deleteRemoteFile  ${surl}
   [Teardown]  Clear all credentials
 
-Prepare to get multiple existent file
+MultiSURL srmPtG
   [Tags]  storm-client  ptg
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
-  ${dirname}  Get a unique name
-  ${dirsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}
-  ${output}  Perform mkdir using clientSRM  ${dirsurl}
-  Should Contain  ${output}  SRM_SUCCESS
-  ${filename}  Create local file
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}/${filename}_1
-  Copy-out file using lcg-utils  ${filename}  ${surl}
+  ${surl}  getRandomSURL  ${VOMSAUTH_SA}
+  createRemoteFile  ${surl}
   ${surllist} =  Set Variable  ${surl}
   :FOR  ${index}  IN RANGE  2  10
-  \		${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}/${filename}_${index}
-  \		Copy-out file using lcg-utils  ${filename}  ${surl}
+  \		${surl}  getRandomSURL  ${VOMSAUTH_SA}
+  \		createRemoteFile  ${surl}
   \		${surllist}  Catenate  ${surllist}  ${surl}
   Log  ${surllist}
-  ${output}  ${token}  Perform ptg using clientSRM  ${surllist}  -p
-  Log  ${output}
-  Should Contain  ${output}  SRM_FILE_PINNED
-  Should Not Contain  ${output}  SRM_FAILURE
-  ${output}  Perform rf using clientSRM without token  ${surllist}
-  Log  ${output}
-  Should Contain  ${output}  SRM_SUCCESS
-  Should Not Contain  ${output}  SRM_RELEASED
-  Should Not Contain  ${output}  SRM_FAILURE
-  ${output}  Perform rmdir using clientSRM  ${dirsurl}  -r
-  Should Contain  ${output}  SRM_SUCCESS
-  Remove local file  ${filename}
+  ${outputPtG}  ${token}  srmPtG  ${surllist}
+  Log  ${outputPtG}
+  check srmPtG success  ${outputPtG}
+  ${outputRf}  srmRf  ${surl}  ${token}
+  Log  ${outputRf}
+  check srmRf success  ${outputRf}
+  deleteRemoteFile  ${surllist}
   [Teardown]  Clear all credentials
 
-Prepare to get large file
+srmPtG on a large file
   [Documentation]  Regression test for https://issues.infn.it/jira/browse/STOR-331
   [Tags]  storm-client  ptg  to-be-fixed
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
@@ -103,20 +136,28 @@ Prepare to get large file
   Should Contain  ${output}  SRM_SUCCESS
   [Teardown]  Clear all credentials
 
-Unauthorized prepare to get on another storage-area's file
-  [Tags]  storm-client  ls
+srmPtG on another storage-area's file
+  [Tags]  storm-client  ptg
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
-  ${filename}  Create local file
+  ${filename}  Get a unique name
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ../${VOMSAUTH_SA2}/${TESTDIR}/${filename}
+  ${outputPtG}  ${token}  srmPtG  ${surl}
+  Log  ${outputPtG}
+  check srmPtG failure with  ${outputPtG}  SRM_AUTHORIZATION_FAILURE
+  [Teardown]  Clear all credentials
+
+srmPtG with xroot transfer protocol
+  [Tags]  storm-client  ptg
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  ${filename}  Get a unique name
   ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
-  Copy-out file using lcg-utils  ${filename}  ${surl}
-  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
-  ${surl}  Build surl  ${X509AUTH_SA}  ../${VOMSAUTH_SA}/${TESTDIR}/${filename}
-  ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
-  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
-  Log  ${output}
-  Clear all credentials
-  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
-  ${output}  Perform rm using clientSRM  ${surl}
-  Should Contain  ${output}  SRM_SUCCESS
-  Remove local file  ${filename}
+  createRemoteFile  ${surl}
+  ${outputPtG}  ${token}  srmPtG  ${surl} -T -P xroot
+  Log  ${outputPtG}
+  check srmPtG success  ${outputPtG}
+  ${turl}  get TURL from output  ${outputPtG}
+  Should Contain  ${outputPtG}  root://${backEndHost}${storageAreaRoot}/${VOMSAUTH_SA}/${TESTDIR}/${filename}
+  ${outputRf}  srmRf  ${surl}  ${token}
+  check srmRf success  ${outputRf}
+  deleteRemoteFile  ${surl}
   [Teardown]  Clear all credentials
