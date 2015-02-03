@@ -55,7 +55,7 @@ WebDAV COPY file on existent target with overwrite F  [Arguments]  ${srcEndpoint
   ${output}  WebDAV COPY  ${srcEndpoint}  ${srcStorageArea}  ${TESTDIR}/${srcFilename}  ${destEndpoint}  ${destStorageArea}  ${TESTDIR}/${destFilename}  F  ${credentials}
   Should Contain  ${output}  412 Precondition Failed
 
-WebDAV COPY unexistent file  [Arguments]  ${srcEndpoint}  ${srcStorageArea}  ${destEndpoint}  ${destStorageArea}  ${credentials}=${EMPTY}
+WebDAV COPY non existent file  [Arguments]  ${srcEndpoint}  ${srcStorageArea}  ${destEndpoint}  ${destStorageArea}  ${credentials}=${EMPTY}
   ${srcFilename}  Get a unique name
   ${destFilename}  Get a unique name
   ${output}  WebDAV COPY  ${srcEndpoint}  ${srcStorageArea}  ${TESTDIR}/${srcFilename}  ${destEndpoint}  ${destStorageArea}  ${TESTDIR}/${destFilename}  T  ${credentials}
@@ -64,7 +64,7 @@ WebDAV COPY unexistent file  [Arguments]  ${srcEndpoint}  ${srcStorageArea}  ${d
 WebDAV COPY with destination equals to source  [Arguments]  ${srcEndpoint}  ${srcStorageArea}  ${credentials}=${EMPTY}
   ${srcFilename}  Upload file  ${srcEndpoint}  ${srcStorageArea}  ${credentials}
   ${output}  WebDAV COPY  ${srcEndpoint}  ${srcStorageArea}  ${TESTDIR}/${srcFilename}  ${srcEndpoint}  ${srcStorageArea}  ${TESTDIR}/${srcFilename}  T  ${credentials}
-  Should Contain  ${output}  412
+  Should Contain  ${output}  403
 
 WebDAV COPY unauthorized  [Arguments]  ${srcEndpoint}  ${srcStorageArea}  ${destEndpoint}  ${destStorageArea}  ${credentials}=${EMPTY}
   ${srcFilename}  Upload file  ${srcEndpoint}  ${srcStorageArea}  ${credentials}
@@ -96,10 +96,10 @@ WebDAV COPY file on existent target with overwrite F as anonymous
   [Setup]  Clear all credentials
   WebDAV COPY file on existent target with overwrite F  ${davEndpoint}  ${ANONYMOUS_SA}  ${davEndpoint}  ${ANONYMOUS_SA}
 
-WebDAV COPY unexistent file as anonymous
+WebDAV COPY non existent file as anonymous
   [Tags]  webdav  copy  anonymous  to-be-fixed
   [Setup]  Clear all credentials
-  WebDAV COPY unexistent file  ${davEndpoint}  ${ANONYMOUS_SA}  ${davEndpoint}  ${ANONYMOUS_SA}
+  WebDAV COPY non existent file  ${davEndpoint}  ${ANONYMOUS_SA}  ${davEndpoint}  ${ANONYMOUS_SA}
 
 WebDAV COPY with destination equals to source as anonymous
   [Tags]  webdav  copy  anonymous
@@ -136,11 +136,11 @@ WebDAV COPY file on existent target with overwrite F with VOMS proxy
   WebDAV COPY file on existent target with overwrite F  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
-WebDAV COPY unexistent file with VOMS proxy
+WebDAV COPY non existent file with VOMS proxy
   [Tags]  webdav  copy  vomsproxy  to-be-fixed
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
-  WebDAV COPY unexistent file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  WebDAV COPY non existent file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV COPY with destination equals to source with VOMS proxy
@@ -180,11 +180,11 @@ WebDAV COPY file on existent target with overwrite F with plain proxy
   WebDAV COPY file on existent target with overwrite F  ${davSecureEndpoint}  ${X509AUTH_SA}  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
   [Teardown]  Clear all credentials
 
-WebDAV COPY unexistent file with plain proxy
+WebDAV COPY non existent file with plain proxy
   [Tags]  webdav  copy  plainproxy  to-be-fixed
   [Setup]  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
   ${plainproxy}  Get x509 options for Curl
-  WebDAV COPY unexistent file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
+  WebDAV COPY non existent file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
   [Teardown]  Clear all credentials
 
 WebDAV COPY with destination equals to source with plain proxy
