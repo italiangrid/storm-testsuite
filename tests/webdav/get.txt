@@ -24,7 +24,7 @@ WebDAV GET existent file  [Arguments]  ${endpoint}  ${storageArea}  ${credential
   Should Contain  ${output}  200 OK
   Should Contain  ${output}  test123456789
 
-WebDAV GET unexistent resource  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=${EMPTY}
+WebDAV GET non existent resource  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=${EMPTY}
   ${filename}  Get a unique name
   ${output}  WebDAV GET  ${endpoint}  ${storageArea}  ${TESTDIR}/${filename}  ${credentials}
   Log  ${output}
@@ -57,6 +57,15 @@ WebDAV GET busy file  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=$
   Should Contain  ${output}  SRM_SUCCESS
   Clear all credentials
 
+WebDAV partial GET  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=${EMPTY}
+  ${filename}  Upload file  ${endpoint}  ${storageArea}  ${credentials}  ${TESTDIR}  test123456789
+  ${output}  WebDAV GET with range  ${endpoint}  ${storageArea}  ${TESTDIR}/${filename}  0  3  ${credentials}
+  Log  ${output}
+  Should Contain  ${output}  206 Partial Content
+  Should Contain  ${output}  test
+  Should Contain  ${output}  Content-Length: 4
+  Should Not Contain  ${output}  test1
+
 *** Test Cases ***
 
 ######### ANONYMOUS ##########
@@ -72,10 +81,10 @@ WebDAV GET existent file as anonymous
   [Setup]  Clear all credentials
   WebDAV GET existent file  ${davEndpoint}  ${ANONYMOUS_SA}
 
-WebDAV GET unexistent resource as anonymous
+WebDAV GET non existent resource as anonymous
   [Tags]  webdav  get  anonymous
   [Setup]  Clear all credentials
-  WebDAV GET unexistent resource  ${davEndpoint}  ${ANONYMOUS_SA}
+  WebDAV GET non existent resource  ${davEndpoint}  ${ANONYMOUS_SA}
 
 WebDAV GET existent directory as anonymous
   [Tags]  webdav  get  anonymous
@@ -109,11 +118,11 @@ WebDAV GET existent file with VOMS proxy
   WebDAV GET existent file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
-WebDAV GET unexistent resource with VOMS proxy
+WebDAV GET non existent resource with VOMS proxy
   [Tags]  webdav  get  vomsproxy
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
-  WebDAV GET unexistent resource  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  WebDAV GET non existent resource  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV GET existent directory with VOMS proxy
@@ -148,6 +157,13 @@ WebDAV GET existent file with VOMS proxy on an anonymous readable storage area
   Should Contain  ${output}  test123456789
   [Teardown]  Clear all credentials
 
+WebDAV partial GET on existent file
+  [Tags]  webdav  get  vomsproxy
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  ${vomsproxy}  Get VOMS proxy options for Curl
+  WebDAV partial GET  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
+  [Teardown]  Clear all credentials
+
 ######### PLAIN PROXY ##########
 
 WebDAV GET root directory with plain proxy
@@ -165,11 +181,11 @@ WebDAV GET existent file with plain proxy
   WebDAV GET existent file  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
   [Teardown]  Clear all credentials
 
-WebDAV GET unexistent resource with plain proxy
+WebDAV GET non existent resource with plain proxy
   [Tags]  webdav  get  plainproxy
   [Setup]  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
   ${plainproxy}  Get x509 options for Curl
-  WebDAV GET unexistent resource  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
+  WebDAV GET non existent resource  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
   [Teardown]  Clear all credentials
 
 WebDAV GET existent directory with plain proxy
@@ -221,11 +237,11 @@ WebDAV GET nested storage area existent file with VOMS proxy
   WebDAV GET existent file  ${davSecureEndpoint}  ${NESTED_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
-WebDAV GET nested storage area unexistent resource with VOMS proxy
+WebDAV GET nested storage area non existent resource with VOMS proxy
   [Tags]  webdav  get  vomsproxy  nested
   [Setup]  Use certificate and proxy  test0  ${NESTED_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
-  WebDAV GET unexistent resource  ${davSecureEndpoint}  ${NESTED_SA}  ${vomsproxy}
+  WebDAV GET non existent resource  ${davSecureEndpoint}  ${NESTED_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV GET nested storage area existent directory with VOMS proxy
@@ -259,11 +275,11 @@ WebDAV GET aliased storage area existent file with VOMS proxy
   WebDAV GET existent file  ${davSecureEndpoint}  ${ALIASED_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
-WebDAV GET aliased storage area unexistent resource with VOMS proxy
+WebDAV GET aliased storage area non existent resource with VOMS proxy
   [Tags]  webdav  get  vomsproxy  aliased
   [Setup]  Use certificate and proxy  test0  ${ALIASED_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
-  WebDAV GET unexistent resource  ${davSecureEndpoint}  ${ALIASED_SA}  ${vomsproxy}
+  WebDAV GET non existent resource  ${davSecureEndpoint}  ${ALIASED_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV GET aliased storage area existent directory with VOMS proxy

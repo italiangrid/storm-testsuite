@@ -24,6 +24,11 @@ WebDAV GET  [Arguments]  ${endpoint}  ${storageArea}  ${relativePath}  ${credent
   ${output}  Curl  GET  ${url}  ${credentials} -iv
   [Return]  ${output}
 
+WebDAV GET with range  [Arguments]  ${endpoint}  ${storageArea}  ${relativePath}  ${rangeStart}  ${rangeEnd}  ${credentials}=${EMPTY}
+  ${url}  Build webdav URL  ${endpoint}  ${storageArea}/${relativePath}
+  ${output}  Curl  GET  ${url}  ${credentials} -iv --header "Range: bytes=${rangeStart}-${rangeEnd}"
+  [Return]  ${output}
+
 WebDAV PUT file  [Arguments]  ${endpoint}  ${storageArea}  ${relativePath}  ${localFilePath}  ${overwrite}  ${credentials}=${EMPTY}
   ${overwriteheader}  Get header  Overwrite  ${overwrite}
   ${url}  Build webdav URL  ${endpoint}  ${storageArea}/${relativePath}
