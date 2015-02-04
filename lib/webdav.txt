@@ -29,17 +29,15 @@ WebDAV GET with range  [Arguments]  ${endpoint}  ${storageArea}  ${relativePath}
   ${output}  Curl  GET  ${url}  ${credentials} -iv --header "Range: bytes=${rangeStart}-${rangeEnd}"
   [Return]  ${output}
 
-WebDAV PUT file  [Arguments]  ${endpoint}  ${storageArea}  ${relativePath}  ${localFilePath}  ${overwrite}  ${credentials}=${EMPTY}
-  ${overwriteheader}  Get header  Overwrite  ${overwrite}
+WebDAV PUT file  [Arguments]  ${endpoint}  ${storageArea}  ${relativePath}  ${localFilePath}  ${credentials}=${EMPTY}
   ${url}  Build webdav URL  ${endpoint}  ${storageArea}/${relativePath}
-  ${output}  Curl  PUT  ${url}  -T ${localFilePath} -iv ${overwriteheader} ${credentials}
+  ${output}  Curl  PUT  ${url}  -T ${localFilePath} -iv ${credentials}
   [Return]  ${output}
 
-WebDAV PUT data  [Arguments]  ${endpoint}  ${storageArea}  ${relativePath}  ${data}  ${overwrite}  ${credentials}=${EMPTY}
-  ${overwriteheader}  Get header  Overwrite  ${overwrite}
+WebDAV PUT data  [Arguments]  ${endpoint}  ${storageArea}  ${relativePath}  ${data}  ${credentials}=${EMPTY}
   ${body}  Set body  ${data}
   ${url}  Build webdav URL  ${endpoint}  ${storageArea}/${relativePath}
-  ${output}  Curl  PUT  ${url}  ${body} -iv ${overwriteheader} ${credentials}
+  ${output}  Curl  PUT  ${url}  ${body} -iv ${credentials}
   [Return]  ${output}
 
 WebDAV MKCOL  [Arguments]  ${endpoint}  ${storageArea}  ${relativePath}  ${credentials}=${EMPTY}
@@ -105,7 +103,7 @@ WebDAV MOVE  [Arguments]  ${srcEndpoint}  ${srcStorageArea}  ${srcRelativePath} 
 
 Upload file  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=${EMPTY}  ${remotedirectory}=${TESTDIR}  ${filecontent}=file di testo di prova
   ${filename}  Get a unique name
-  ${output}  WebDAV PUT data  ${endpoint}  ${storageArea}  ${remotedirectory}/${filename}  ${filecontent}  T  ${credentials}
+  ${output}  WebDAV PUT data  ${endpoint}  ${storageArea}  ${remotedirectory}/${filename}  ${filecontent}  ${credentials}
   ${output}  WebDAV HEAD  ${endpoint}  ${storageArea}  ${remotedirectory}/${filename}  ${credentials}
   Should Contain  ${output}  200 OK
   [Return]  ${filename}

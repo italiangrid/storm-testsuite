@@ -133,7 +133,7 @@ WebDAV PUT file into VOMS proxy storage area as anonymous
   [Tags]  webdav  forbidden  put  anonymous
   [Setup]  Clear all credentials
   ${filename}  Get a unique name
-  ${output}  WebDAV PUT data  ${davEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}  test  T
+  ${output}  WebDAV PUT data  ${davEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}  test
   Log  ${output}
   Should Contain  ${output}  403
 
@@ -141,7 +141,7 @@ WebDAV PUT file into plain proxy storage area as anonymous
   [Tags]  webdav  forbidden  put  anonymous
   [Setup]  Clear all credentials
   ${filename}  Get a unique name
-  ${output}  WebDAV PUT data  ${davEndpoint}  ${X509AUTH_SA}  ${TESTDIR}/${filename}  test  T
+  ${output}  WebDAV PUT data  ${davEndpoint}  ${X509AUTH_SA}  ${TESTDIR}/${filename}  test
   Log  ${output}
   Should Contain  ${output}  403
 
@@ -150,7 +150,7 @@ WebDAV PUT file into VOMS proxy storage area with plain proxy
   ${filename}  Get a unique name
   Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
   ${plainproxy}  Get x509 options for Curl
-  ${output}  WebDAV PUT data  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}  test  T  ${plainproxy}
+  ${output}  WebDAV PUT data  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}  test  ${plainproxy}
   Log  ${output}
   Should Contain  ${output}  403
   [Teardown]  Clear all credentials
