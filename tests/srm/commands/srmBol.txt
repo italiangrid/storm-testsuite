@@ -14,7 +14,7 @@ Suite Teardown    Teardown suite if needed
 
 Get random simple SURL
   ${filename}  Get a unique name
-  ${surl}  Build simple surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  ${surl}  Build simple surl  ${TAPE_SA}  ${TESTDIR}/${filename}
   [Return]  ${surl}
 
 *** Test Cases ***
