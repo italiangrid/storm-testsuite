@@ -88,42 +88,42 @@ WebDAV PUT file by data with non existent anchestor as anonymous
 ####### VOMS PROXY #########
 
 WebDAV PUT local file with VOMS proxy
-  [Tags]  webdav  put  vomsproxy
+  [Tags]  webdav  put  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV PUT local file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV PUT overwrite local file with VOMS proxy
-  [Tags]  webdav  put  vomsproxy
+  [Tags]  webdav  put  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV PUT overwrite local file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV PUT local file with non existent anchestor with VOMS proxy
-  [Tags]  webdav  put  vomsproxy
+  [Tags]  webdav  put  vomsproxy  storm-webdav  storm-webdav-to-be-fixed
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV PUT local file with non existent anchestor  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV PUT file by data with VOMS proxy
-  [Tags]  webdav  put  vomsproxy
+  [Tags]  webdav  put  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV PUT file by data  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV PUT overwrite data with VOMS proxy
-  [Tags]  webdav  put  vomsproxy
+  [Tags]  webdav  put  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV PUT file by data with overwrite  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV PUT file by data with non existent anchestor with VOMS proxy
-  [Tags]  webdav  put  vomsproxy
+  [Tags]  webdav  put  vomsproxy  storm-webdav  storm-webdav-to-be-fixed
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV PUT file by data with non existent anchestor  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}

@@ -87,14 +87,14 @@ WebDAV PROPFIND prop on file as anonymous
 ######### VOMS PROXY ##########
 
 WebDAV PROPFIND allprop on file with VOMS proxy
-  [Tags]  webdav  propfind  vomsproxy
+  [Tags]  webdav  propfind  vomsproxy  storm-webdav  storm-webdav-to-be-fixed
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV PROPFIND allprop on file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV PROPFIND allprop on non empty directory with VOMS proxy
-  [Tags]  webdav  propfind  vomsproxy
+  [Tags]  webdav  propfind  vomsproxy  storm-webdav  storm-webdav-to-be-fixed
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV PROPFIND allprop on non empty directory  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}

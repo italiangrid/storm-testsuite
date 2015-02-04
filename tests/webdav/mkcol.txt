@@ -66,21 +66,21 @@ WebDAV MKCOL on existent resource as anonymous
 ####### VOMS PROXY #########
 
 WebDAV MKCOL with VOMS proxy
-  [Tags]  webdav  mkcol  vomsproxy
+  [Tags]  webdav  mkcol  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV MKCOL on unexistent resource  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV MKCOL with missing anchestor with VOMS proxy
-  [Tags]  webdav  mkcol  vomsproxy
+  [Tags]  webdav  mkcol  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV MKCOL with missing anchestor  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV MKCOL on existent resource with VOMS proxy
-  [Tags]  webdav  mkcol  vomsproxy
+  [Tags]  webdav  mkcol  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV MKCOL on existent resource  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}

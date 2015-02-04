@@ -59,12 +59,45 @@ WebDAV GET busy file  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=$
 
 WebDAV partial GET  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=${EMPTY}
   ${filename}  Upload file  ${endpoint}  ${storageArea}  ${credentials}  ${TESTDIR}  test123456789
-  ${output}  WebDAV GET with range  ${endpoint}  ${storageArea}  ${TESTDIR}/${filename}  0  3  ${credentials}
+  ${output}  WebDAV GET with range  ${endpoint}  ${storageArea}  ${TESTDIR}/${filename}  0-3  ${credentials}
   Log  ${output}
   Should Contain  ${output}  206 Partial Content
   Should Contain  ${output}  test
   Should Contain  ${output}  Content-Length: 4
   Should Not Contain  ${output}  test1
+  ${output}  WebDAV GET with range  ${endpoint}  ${storageArea}  ${TESTDIR}/${filename}  4-7  ${credentials}
+  Log  ${output}
+  Should Contain  ${output}  206 Partial Content
+  Should Contain  ${output}  1234
+  Should Contain  ${output}  Content-Length: 4
+  ${output}  WebDAV GET with range  ${endpoint}  ${storageArea}  ${TESTDIR}/${filename}  9-12  ${credentials}
+  Log  ${output}
+  Should Contain  ${output}  206 Partial Content
+  Should Contain  ${output}  6789
+  Should Contain  ${output}  Content-Length: 4
+  ${output}  WebDAV GET with range  ${endpoint}  ${storageArea}  ${TESTDIR}/${filename}  1-3,5-7,10-11  ${credentials}
+  Log  ${output}
+  Should Contain  ${output}  206 Partial Content
+  Should Contain  ${output}  Content-Range: bytes 1-3/13
+  Should Contain  ${output}  est
+  Should Contain  ${output}  Content-Range: bytes 5-7/13
+  Should Contain  ${output}  234
+  Should Contain  ${output}  Content-Range: bytes 10-11/13
+  Should Contain  ${output}  78
+  ${output}  WebDAV GET with range  ${endpoint}  ${storageArea}  ${TESTDIR}/${filename}  11-13  ${credentials}
+  Log  ${output}
+  Should Contain  ${output}  206 Partial Content
+  Should Contain  ${output}  89
+  Should Contain  ${output}  Content-Range: bytes 11-12/13
+  Should Contain  ${output}  Content-Length: 2
+  ${output}  WebDAV GET with range  ${endpoint}  ${storageArea}  ${TESTDIR}/${filename}  20-24  ${credentials}
+  Log  ${output}
+  Should Contain  ${output}  416 Requested Range Not Satisfiable
+  ${output}  WebDAV GET with range  ${endpoint}  ${storageArea}  ${TESTDIR}/${filename}  1-3,20-24  ${credentials}
+  Log  ${output}
+  Should Contain  ${output}  206 Partial Content
+  Should Contain  ${output}  Content-Range: bytes 1-3/13
+  Should Contain  ${output}  est
 
 *** Test Cases ***
 
@@ -104,7 +137,7 @@ WebDAV GET busy file as anonymous
 ####### VOMS PROXY #########
 
 WebDAV GET root directory with VOMS proxy
-  [Tags]  webdav  get  vomsproxy
+  [Tags]  webdav  get  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   ${output}  WebDAV GET root directory  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
@@ -112,28 +145,28 @@ WebDAV GET root directory with VOMS proxy
   [Teardown]  Clear all credentials
 
 WebDAV GET existent file with VOMS proxy
-  [Tags]  webdav  get  vomsproxy
+  [Tags]  webdav  get  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV GET existent file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV GET non existent resource with VOMS proxy
-  [Tags]  webdav  get  vomsproxy
+  [Tags]  webdav  get  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV GET non existent resource  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV GET existent directory with VOMS proxy
-  [Tags]  webdav  get  vomsproxy
+  [Tags]  webdav  get  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV GET existent directory  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV GET resource with missing parent with VOMS proxy
-  [Tags]  webdav  get  vomsproxy
+  [Tags]  webdav  get  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV GET resource with missing parent  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
@@ -158,7 +191,7 @@ WebDAV GET existent file with VOMS proxy on an anonymous readable storage area
   [Teardown]  Clear all credentials
 
 WebDAV partial GET on existent file
-  [Tags]  webdav  get  vomsproxy
+  [Tags]  webdav  get  vomsproxy  to-be-fixed  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV partial GET  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}

@@ -109,42 +109,42 @@ WebDAV MOVE with destination equals to source as anonymous
 ######### VOMS PROXY ##########
 
 WebDAV MOVE file with VOMS proxy
-  [Tags]  webdav  move  vomsproxy
+  [Tags]  webdav  move  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV MOVE file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV MOVE non empty directory with VOMS proxy
-  [Tags]  webdav  move  vomsproxy
+  [Tags]  webdav  move  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV MOVE non empty directory  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV MOVE file on existent target with overwrite T with VOMS proxy
-  [Tags]  webdav  move  vomsproxy
+  [Tags]  webdav  move  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV MOVE file on existent target with overwrite T  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV MOVE file on existent target with overwrite F with VOMS proxy
-  [Tags]  webdav  move  vomsproxy
+  [Tags]  webdav  move  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV MOVE file on existent target with overwrite F  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV MOVE non existent file with VOMS proxy
-  [Tags]  webdav  move  vomsproxy  to-be-fixed
+  [Tags]  webdav  move  vomsproxy  to-be-fixed  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV MOVE non existent file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV MOVE with destination equals to source with VOMS proxy
-  [Tags]  webdav  move  vomsproxy
+  [Tags]  webdav  move  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV MOVE with destination equals to source  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}

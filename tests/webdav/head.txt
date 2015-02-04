@@ -91,42 +91,42 @@ WebDAV HEAD busy file as anonymous
 ####### VOMS PROXY #########
 
 WebDAV HEAD root directory with VOMS proxy
-  [Tags]  webdav  head  vomsproxy
+  [Tags]  webdav  head  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   ${output}  WebDAV HEAD root directory  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV HEAD existent file with VOMS proxy
-  [Tags]  webdav  head  vomsproxy
+  [Tags]  webdav  head  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV HEAD existent file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV HEAD unexistent resource with VOMS proxy
-  [Tags]  webdav  head  vomsproxy
+  [Tags]  webdav  head  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV HEAD unexistent resource  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV HEAD existent directory with VOMS proxy
-  [Tags]  webdav  head  vomsproxy
+  [Tags]  webdav  head  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV HEAD existent directory  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV HEAD resource with missing parent with VOMS proxy
-  [Tags]  webdav  head  vomsproxy
+  [Tags]  webdav  head  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV HEAD resource with missing parent  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV HEAD busy file with VOMS proxy
-  [Tags]  webdav  head  vomsproxy
+  [Tags]  webdav  head  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV HEAD busy file  test0  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${VOMSAUTH_SA_PROXY}  ${vomsproxy}

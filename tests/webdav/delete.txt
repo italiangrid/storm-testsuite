@@ -61,21 +61,21 @@ WebDAV DELETE unexistent resource as anonymous
 ####### VOMS PROXY #########
 
 WebDAV DELETE file with VOMS proxy
-  [Tags]  webdav  delete  vomsproxy
+  [Tags]  webdav  delete  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV DELETE file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV DELETE directory with VOMS proxy
-  [Tags]  webdav  delete  vomsproxy
+  [Tags]  webdav  delete  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV DELETE directory  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV DELETE unexistent resource with VOMS proxy
-  [Tags]  webdav  delete  vomsproxy  to-be-fixed
+  [Tags]  webdav  delete  vomsproxy  to-be-fixed  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV DELETE unexistent resource  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}

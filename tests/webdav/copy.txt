@@ -109,42 +109,42 @@ WebDAV COPY with destination equals to source as anonymous
 ######### VOMS PROXY ##########
 
 WebDAV COPY file with VOMS proxy
-  [Tags]  webdav  copy  vomsproxy
+  [Tags]  webdav  copy  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV COPY file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV COPY non empty directory with VOMS proxy
-  [Tags]  webdav  copy  vomsproxy
+  [Tags]  webdav  copy  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV COPY non empty directory  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV COPY file on existent target with overwrite T with VOMS proxy
-  [Tags]  webdav  copy  vomsproxy
+  [Tags]  webdav  copy  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV COPY file on existent target with overwrite T  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV COPY file on existent target with overwrite F with VOMS proxy
-  [Tags]  webdav  copy  vomsproxy
+  [Tags]  webdav  copy  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV COPY file on existent target with overwrite F  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV COPY non existent file with VOMS proxy
-  [Tags]  webdav  copy  vomsproxy  to-be-fixed
+  [Tags]  webdav  copy  vomsproxy  to-be-fixed  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV COPY non existent file  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
   [Teardown]  Clear all credentials
 
 WebDAV COPY with destination equals to source with VOMS proxy
-  [Tags]  webdav  copy  vomsproxy
+  [Tags]  webdav  copy  vomsproxy  storm-webdav
   [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
   ${vomsproxy}  Get VOMS proxy options for Curl
   WebDAV COPY with destination equals to source  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
