@@ -58,6 +58,7 @@ Init remote working directories
   Create remote working directory  ${VOMSAUTH_SA}
   Create remote working directory  ${NESTED_SA}
   Create remote working directory  ${ANONYMOUS_SA}
+  Create remote working directory  ${TAPE_SA}
   Use proxy  ${X509AUTH_SA_PROXY}
   Create remote working directory  ${X509AUTH_SA}
   Clear all credentials
@@ -79,6 +80,7 @@ Clear all directories
   Clear remote working directory  ${VOMSAUTH_SA}
   Clear remote working directory  ${ANONYMOUS_SA}
   Clear remote working directory  ${NESTED_SA}
+  Clear remote working directory  ${TAPE_SA}
   Use proxy  ${X509AUTH_SA_PROXY}
   Clear remote working directory  ${X509AUTH_SA}
   Clear all credentials
