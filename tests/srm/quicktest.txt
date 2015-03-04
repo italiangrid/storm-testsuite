@@ -148,3 +148,8 @@ Quick test on ALIASED VO
   [Setup]  Use certificate and proxy  test0  ${ALIASED_SA_PROXY}
   Quick test  ${ALIASED_SA}  nested
   [Teardown]  Clear all credentials
+
+Quick test on TESTVO VO
+  [Setup]  Use certificate and proxy  apostrofe  ${TESTVO_SA_PROXY}
+  Quick test  ${TESTVO_SA}  ${TESTVO_SA}
+  [Teardown]  Clear all credentials

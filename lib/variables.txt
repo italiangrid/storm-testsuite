@@ -48,6 +48,7 @@ ${baseDNGlue2}  GLUE2GroupID=resource,o=glue
 
 ${VO1}  testers.eu-emi.eu
 ${VO2}  dteam
+${VO3}  test.vo
 
 ##### STORAGE AREAS #####
 
@@ -60,6 +61,9 @@ ${X509AUTH_SA}  igi
 ${VOMSAUTH_SA}  testers.eu-emi.eu
 ${VOMSAUTH_SA_VONAME}  ${VO1}
 ${VOMSAUTH_SA_TOKEN}  TESTERSEUEMIEU_TOKEN
+
+${TESTVO_SA}  test.vo
+${TESTVO_SA_VONAME}  ${VO3}
 
 ${VOMSAUTH_SA2}  dteam
 ${VOMSAUTH_SA2_VONAME}  ${VO2}
