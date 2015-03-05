@@ -21,12 +21,9 @@ Get random simple SURL
 
 Bol online file
   [Tags]  storm-client  bol
-  [Setup]  Use certificate and proxy  test0  ${TAPE_SA_PROXY}
+  [Setup]  Use certificate and proxy  apostrofe  ${TESTVO_SA_PROXY}
   ${surl}  Get random simple SURL
   Put without really putting using clientSRM  ${surl}
-  ${output}  ${token}  Perform bol using clientSRM  ${surl}  -p
-  Should Contain  ${output}  SRM_SUCCESS
-  Use certificate and proxy  apostrofe  ${TESTVO_SA_PROXY}
   ${output}  ${token}  Perform bol using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_SUCCESS
   ${output}  Perform rm using clientSRM  ${surl}
@@ -35,7 +32,7 @@ Bol online file
 
 Bol with invalid SURL
   [Tags]  storm-client  bol
-  [Setup]  Use certificate and proxy  test0  ${TAPE_SA_PROXY}
+  [Setup]  Use certificate and proxy  apostrofe  ${TESTVO_SA_PROXY}
   ${surl}  Get random simple SURL
   ${output}  ${token}  Perform bol using clientSRM  ${surl}  -p
   Should Not Contain  ${output}  SRM_SUCCESS
@@ -44,7 +41,7 @@ Bol with invalid SURL
 
 Bol multiple invalid SURLs
   [Tags]  storm-client  bol
-  [Setup]  Use certificate and proxy  test0  ${TAPE_SA_PROXY}
+  [Setup]  Use certificate and proxy  apostrofe  ${TESTVO_SA_PROXY}
   ${surl}  Get random simple SURL
   ${surl2}  Get random simple SURL
   ${output}  ${token}  Perform bol using clientSRM  ${surl} ${surl2}  -p
@@ -53,7 +50,7 @@ Bol multiple invalid SURLs
 
 Bol multiple online files
   [Tags]  storm-client  bol
-  [Setup]  Use certificate and proxy  test0  ${TAPE_SA_PROXY}
+  [Setup]  Use certificate and proxy  apostrofe  ${TESTVO_SA_PROXY}
   ${surl}  Get random simple SURL
   ${surl2}  Get random simple SURL
   Put without really putting using clientSRM  ${surl}
@@ -68,7 +65,7 @@ Bol multiple online files
 
 Bol multiple mixed files
   [Tags]  storm-client  bol
-  [Setup]  Use certificate and proxy  test0  ${TAPE_SA_PROXY}
+  [Setup]  Use certificate and proxy  apostrofe  ${TESTVO_SA_PROXY}
   ${surl}  Get random simple SURL
   ${surl2}  Get random simple SURL
   Put without really putting using clientSRM  ${surl}
