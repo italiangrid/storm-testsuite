@@ -26,6 +26,7 @@ Set global variables
   Set Variable If It Does Not Exist  \${TESTDIR}  storm-testsuite_${timestamp.strip()}
   Set Variable If It Does Not Exist  \${X509AUTH_SA_PROXY}  /tmp/${TESTDIR}/testersgridproxy
   Set Variable If It Does Not Exist  \${VOMSAUTH_SA_PROXY}  /tmp/${TESTDIR}/testersvomsproxy
+  Set Variable If It Does Not Exist  \${TESTVO_SA_PROXY}  /tmp/${TESTDIR}/testvovomsproxy
   Set Variable If It Does Not Exist  \${NESTED_SA_PROXY}  /tmp/${TESTDIR}/testersvomsproxy
   Set Variable If It Does Not Exist  \${ALIASED_SA_PROXY}  /tmp/${TESTDIR}/testersvomsproxy
   Set Variable If It Does Not Exist  \${TAPE_SA_PROXY}  /tmp/${TESTDIR}/testersvomsproxy
@@ -34,6 +35,7 @@ Set global variables
   Log  ${X509AUTH_SA_PROXY}
   Log  ${VOMSAUTH_SA_PROXY}
   Log  ${DEFAULT_X509_USER_PROXY}
+  Log  ${TESTVO_SA_PROXY}
 
 Create main local directory
   ${rc}  ${output}=  Run and Return RC And Output  mkdir /tmp/${TESTDIR}
@@ -49,6 +51,9 @@ Init local working directory
   Execute and Check Success  cp ${x509up} ${VOMSAUTH_SA_PROXY}
   Create plain proxy
   Execute and Check Success  cp ${x509up} ${X509AUTH_SA_PROXY}
+  Use certificate  apostrofe
+  Create voms proxy  ${TESTVO_SA_VONAME}
+  Execute and Check Success  cp ${x509up} ${TESTVO_SA_PROXY}
   Clear all credentials
 
 Init remote working directories
@@ -61,6 +66,8 @@ Init remote working directories
   Create remote working directory  ${TAPE_SA}
   Use proxy  ${X509AUTH_SA_PROXY}
   Create remote working directory  ${X509AUTH_SA}
+  Use proxy  ${TESTVO_SA_PROXY}
+  Create remote working directory  ${TESTVO_SA}
   Clear all credentials
 
 Create remote working directory  [Arguments]  ${storageArea}
@@ -78,6 +85,7 @@ Clear all directories
   Use certificate  test0
   Use proxy  ${VOMSAUTH_SA_PROXY}
   Clear remote working directory  ${VOMSAUTH_SA}
+  Clear remote working directory  ${TESTVO_SA}
   Clear remote working directory  ${ANONYMOUS_SA}
   Clear remote working directory  ${NESTED_SA}
   Clear remote working directory  ${TAPE_SA}
