@@ -84,3 +84,20 @@ Unauthorized remove on another VO's file
   Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
   Log  ${output}
   [Teardown]  Clear all credentials
+
+
+srmRm properly cleans up ongoing PtPs
+  [Tags]  storm-client  rm  ptp  stor-779
+  [Documentation]   Regression test for https://issues.infn.it/jira/browse/STOR-779
+  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  ${filename}  Get a unique name
+  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
+  Should Not Contain  ${output}  SRM_FAILURE
+  Should Contain  ${output}  SRM_SPACE_AVAILABLE
+  ${output}   Perform rm using clientSRM   ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
+  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
+  Should Not Contain  ${output}  SRM_FAILURE
+  Should Contain  ${output}  SRM_SPACE_AVAILABLE
+  [Teardown]   Clear all credentials
