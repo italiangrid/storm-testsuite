@@ -22,11 +22,6 @@ ${DAVContextPath}  /webdav
 ${DAVEndpoint}  http://${DAVHost}:${DAVPort}${DAVContextPath}
 ${DAVSecureEndpoint}  https://${DAVHost}:${DAVSecurePort}${DAVContextPath}
 
-${ftContextPath}  /fileTransfer
-
-${filetransferEndpoint}  http://${DAVHost}:${DAVPort}${ftContextPath}
-${filetransferSecureEndpoint}  https://${DAVHost}:${DAVSecurePort}${ftContextPath}
-
 ${ldapEndpoint}  ${backEndHost}:2170
 
 ##### CREDENTIALS #####
@@ -35,10 +30,6 @@ ${DEFAULT_USER}  test0
 
 ${certsDir}   /usr/share/igi-test-ca
 ${privateKeyPassword}   pass
-
-${usercert}  $HOME/.globus/usercert.pem
-${userkey}  $HOME/.globus/userkey.pem
-${userproxy}  $X509_USER_PROXY
 ${trustdir}  /etc/grid-security/certificates
 
 ##### GLUE #####
