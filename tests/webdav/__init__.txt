@@ -4,3 +4,4 @@ Resource   lib/setup.txt
 
 Suite Setup       Setup suite if needed
 Suite Teardown    Teardown suite if needed
+

@@ -1,7 +1,6 @@
 *** Settings ***
 Resource   lib/stormlib.txt
 Resource   lib/clientSRM.txt
-Resource   lib/credentials.txt
 Resource   lib/lcg_util.txt
 Resource   lib/globus_util.txt
 
@@ -12,7 +11,7 @@ Suite Teardown    Teardown suite if needed
 
 *** Keywords ***
 
-getRandomSURL  [Arguments]  ${sa}
+getRandomSURL  [Arguments]  ${sa}=${DEFAULT_SA}
   ${filename}  Get a unique name
   ${surl}  Build surl  ${sa}  ${TESTDIR}/${filename}
   [Return]  ${surl}
@@ -54,8 +53,8 @@ get TURL from output  [Arguments]  ${output}
 
 srmPtG on an existent file
   [Tags]  storm-client  ptg
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
-  ${surl}  getRandomSURL  ${VOMSAUTH_SA}
+  [Setup]  Use default voms proxy
+  ${surl}  getRandomSURL
   createRemoteFile  ${surl}
   ${outputPtG}  ${token}  srmPtG  ${surl}
   Log  ${outputPtG}
@@ -68,8 +67,8 @@ srmPtG on an existent file
 
 srmPtG on a non-existent file
   [Tags]  storm-client  ptg
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
-  ${surl}  getRandomSURL  ${VOMSAUTH_SA}
+  [Setup]  Use default voms proxy
+  ${surl}  getRandomSURL
   ${outputPtG}  ${token}  srmPtG  ${surl}
   Log  ${outputPtG}
   check srmPtG failure with  ${outputPtG}  SRM_INVALID_PATH
@@ -77,8 +76,8 @@ srmPtG on a non-existent file
 
 Multiple srmPtG on a file
   [Tags]  regression  ptg
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
-  ${surl}  getRandomSURL  ${VOMSAUTH_SA}
+  [Setup]  Use default voms proxy
+  ${surl}  getRandomSURL
   createRemoteFile  ${surl}
   ${outputPtG}  ${token1}  srmPtG  ${surl}
   Log  ${outputPtG}
@@ -97,12 +96,12 @@ Multiple srmPtG on a file
 
 MultiSURL srmPtG
   [Tags]  storm-client  ptg
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
-  ${surl}  getRandomSURL  ${VOMSAUTH_SA}
+  [Setup]  Use default voms proxy
+  ${surl}  getRandomSURL
   createRemoteFile  ${surl}
   ${surllist} =  Set Variable  ${surl}
   :FOR  ${index}  IN RANGE  2  10
-  \		${surl}  getRandomSURL  ${VOMSAUTH_SA}
+  \		${surl}  getRandomSURL  ${defaultVO}
   \		createRemoteFile  ${surl}
   \		${surllist}  Catenate  ${surllist}  ${surl}
   Log  ${surllist}
@@ -118,9 +117,9 @@ MultiSURL srmPtG
 srmPtG on a large file
   [Documentation]  Regression test for https://issues.infn.it/jira/browse/STOR-331
   [Tags]  storm-client  ptg  to-be-fixed
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${filename}  Create local file with fake size  2049
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
   Copy-out file using globus-utils  ${filename}  ${surl}
@@ -138,9 +137,9 @@ srmPtG on a large file
 
 srmPtG on another storage-area's file
   [Tags]  storm-client  ptg
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ../${VOMSAUTH_SA2}/${TESTDIR}/${filename}
+  ${surl}  Build surl  ${DEFAULT_SA}  ../${SA.2}/${TESTDIR}/${filename}
   ${outputPtG}  ${token}  srmPtG  ${surl}
   Log  ${outputPtG}
   check srmPtG failure with  ${outputPtG}  SRM_AUTHORIZATION_FAILURE
@@ -148,15 +147,15 @@ srmPtG on another storage-area's file
 
 srmPtG with xroot transfer protocol
   [Tags]  storm-client  ptg
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
   createRemoteFile  ${surl}
   ${outputPtG}  ${token}  srmPtG  ${surl} -T -P xroot
   Log  ${outputPtG}
   check srmPtG success  ${outputPtG}
   ${turl}  get TURL from output  ${outputPtG}
-  Should Contain  ${outputPtG}  root://${backEndHost}${storageAreaRoot}/${VOMSAUTH_SA}/${TESTDIR}/${filename}
+  Should Contain  ${outputPtG}  root://${backEndHost}${storageAreaRoot}/${DEFAULT_SA}/${TESTDIR}/${filename}
   ${outputRf}  srmRf  ${surl}  ${token}
   check srmRf success  ${outputRf}
   deleteRemoteFile  ${surl}

@@ -3,7 +3,6 @@ Resource   lib/stormlib.txt
 Resource   lib/clientSRM.txt
 Resource   lib/lcg_util.txt
 Resource   lib/globus_util.txt
-Resource   lib/credentials.txt
 
 Resource   lib/setup.txt
 
@@ -20,7 +19,7 @@ Is SRM_FILE_PINNED  [Arguments]  ${surl}  ${token}
   ${output}  Perform sptg using clientSRM  ${surl}  ${token}
   Should Contain  ${output}  SRM_FILE_PINNED
 
-Create directory  [Arguments]  ${surl}
+Create remote directory  [Arguments]  ${surl}
   ${output}  Perform mkdir using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
 
@@ -87,7 +86,7 @@ Remove file  [Arguments]  ${surl}
   ${output}  Perform rm using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
 
-Quick test  [Arguments]  ${storageArea}  ${storageAreaRealRoot}
+Mixed tests  [Arguments]  ${storageArea}  ${storageAreaRealRoot}
   ${dirname}  Get a unique name
   ${filename}  Create local file
   ${surlDir}  Build surl  ${storageArea}  ${TESTDIR}/${dirname}
@@ -97,7 +96,7 @@ Quick test  [Arguments]  ${storageArea}  ${storageAreaRealRoot}
   ${surlFile4}  Build surl  ${storageArea}  ${TESTDIR}/${dirname}/${filename}_4
   ${surlFile5}  Build surl  ${storageArea}  ${TESTDIR}/${dirname}/${filename}_5
   ${turlFile3}  Build gsiftp TURL  ${storageAreaRealRoot}  ${TESTDIR}/${dirname}/${filename}_3
-  Create directory  ${surlDir}
+  Create remote directory  ${surlDir}
   Create file with synch ptp and pd  ${surlFile1}
   Upload file with lcg utils  ${filename}  ${surlFile2}
   Upload file with asynch ptp and globus file transfer  ${surlFile3}  ${filename}  ${turlFile3}
@@ -124,32 +123,27 @@ Quick test  [Arguments]  ${storageArea}  ${storageAreaRealRoot}
 
 *** Test Cases ***
 
-Quick test on VOMSAUTH VO
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
-  Quick test  ${VOMSAUTH_SA}  ${VOMSAUTH_SA}
+Mixed tests on DEFAULT SA
+  [Setup]  Use default voms proxy
+  Mixed tests  ${DEFAULT_SA}  ${DEFAULT_SA}
   [Teardown]  Clear all credentials
 
-Quick test on X509AUTH VO
-  [Setup]  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
-  Quick test  ${X509AUTH_SA}  ${X509AUTH_SA}
+Mixed tests on igi SA
+  [Setup]  Use default voms proxy
+  Mixed tests  ${SA.7}  ${SA.7}
   [Teardown]  Clear all credentials
 
-Quick test on Anonymous VO
-  [Setup]  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
-  Quick test  ${ANONYMOUS_SA}  noauth
+Mixed tests on noauth SA
+  [Setup]  Use default voms proxy
+  Mixed tests  ${SA.9}  ${SA.9}
   [Teardown]  Clear all credentials
 
-Quick test on NESTED VO
-  [Setup]  Use certificate and proxy  test0  ${NESTED_SA_PROXY}
-  Quick test  ${NESTED_SA}  nested
+Mixed tests on NESTED SA
+  [Setup]  Use voms proxy  ${DEFAULT_USER}  ${VO.2}
+  Mixed tests  ${SA.4}  nested
   [Teardown]  Clear all credentials
 
-Quick test on ALIASED VO
-  [Setup]  Use certificate and proxy  test0  ${ALIASED_SA_PROXY}
-  Quick test  ${ALIASED_SA}  nested
-  [Teardown]  Clear all credentials
-
-Quick test on TESTVO VO
-  [Setup]  Use certificate and proxy  apostrofe  ${TESTVO_SA_PROXY}
-  Quick test  ${TESTVO_SA}  ${TESTVO_SA}
+Mixed tests on ALIASED SA
+  [Setup]  Use voms proxy  ${DEFAULT_USER}  ${VO.2}
+  Mixed tests  ${SA.5}  nested
   [Teardown]  Clear all credentials

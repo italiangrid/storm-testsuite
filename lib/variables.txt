@@ -7,29 +7,31 @@ ${backEndHost}  omii005-vm03.cnaf.infn.it
 ${frontEndHost}  ${backEndHost}
 ${frontEndPort}  8444
 
-${gridHTTPsHost}  ${backEndHost}
-${gridHTTPsPort}  8085
-${gridHTTPsSecurePort}  8443
-
 ${gridFTPHost}  ${frontEndHost}
 
 ${srmEndpoint}  ${frontEndHost}:${frontEndPort}
 ${globusEndpoint}  ${frontEndHost}:2811
 ${recallEndpoint}  ${backEndHost}:9998
 
-${davContextPath}  /webdav
+${DAVHost}  ${backEndHost}
+${DAVPort}  8085
+${DAVSecurePort}  8443
 
-${davEndpoint}  http://${gridHTTPsHost}:${gridHTTPsPort}${davContextPath}
-${davSecureEndpoint}  https://${gridHTTPsHost}:${gridHTTPsSecurePort}${davContextPath}
+${DAVContextPath}  /webdav
+
+${DAVEndpoint}  http://${DAVHost}:${DAVPort}${DAVContextPath}
+${DAVSecureEndpoint}  https://${DAVHost}:${DAVSecurePort}${DAVContextPath}
 
 ${ftContextPath}  /fileTransfer
 
-${filetransferEndpoint}  http://${gridHTTPsHost}:${gridHTTPsPort}${ftContextPath}
-${filetransferSecureEndpoint}  https://${gridHTTPsHost}:${gridHTTPsSecurePort}${ftContextPath}
+${filetransferEndpoint}  http://${DAVHost}:${DAVPort}${ftContextPath}
+${filetransferSecureEndpoint}  https://${DAVHost}:${DAVSecurePort}${ftContextPath}
 
 ${ldapEndpoint}  ${backEndHost}:2170
 
 ##### CREDENTIALS #####
+
+${DEFAULT_USER}  test0
 
 ${certsDir}   /usr/share/igi-test-ca
 ${privateKeyPassword}   pass
@@ -46,43 +48,38 @@ ${baseDNGlue2}  GLUE2GroupID=resource,o=glue
 
 ##### VOs ######
 
-${VO1}  testers.eu-emi.eu
-${VO2}  dteam
-${VO3}  test.vo
+${VO.1}  test.vo
+${VO.2}  testers.eu-emi.eu
+${VO.3}  dteam
+
+${DEFAULT_VO}  ${VO.1}
 
 ##### STORAGE AREAS #####
 
 ${storageAreaRoot}  /storage
 
-${ANONYMOUS_SA}  noauth
+${SA.1}  test.vo
+${SA.2}  testers.eu-emi.eu
+${SA.3}  dteam
+${SA.4}  testers.eu-emi.eu/nested
+${SA.5}  alias
+${SA.6}  tape
+${SA.7}  igi
+${SA.8}  test.vo.bis
+${SA.9}  noauth
 
-${X509AUTH_SA}  igi
+${DEFAULT_SA}  ${SA.1}
+${DEFAULT_SA_VONAME}  ${VO.1}
 
-${VOMSAUTH_SA}  test.vo
-${VOMSAUTH_SA_VONAME}  ${VO3}
-${VOMSAUTH_SA_TOKEN}  TESTVO_TOKEN
+${TAPE_SA}  ${SA.6}
+${TAPE_SA_VONAME}  ${VO.2}
 
-${TESTVO_SA}  test.vo
-${TESTVO_SA_VONAME}  ${VO3}
+${NESTED_SA}  ${SA.4}
+${NESTED_SA_VONAME}  ${VO.2}
 
-${VOMSAUTH_SA2}  dteam
-${VOMSAUTH_SA2_VONAME}  ${VO2}
-
-${NESTED_SA}  testers.eu-emi.eu/nested
-${NESTED_SA_VONAME}  ${VO1}
-
-${ALIASED_SA}  alias
-${ALIASED_SA_VONAME}  ${VO1}
-${ALIASED_SA_REF}  ${NESTED_SA}
-
-${TAPE_SA}  tape
-${TAPE_SA_VONAME}  ${VO1}
-
-${GPFS_SA}  ${VOMSAUTH_SA}
-${GPFS_SA_VONAME}  ${VO1}
+${ALIASED_SA}  ${SA.5}
+${ALIASED_SA_VONAME}  ${VO.2}
 
 ##### LINKS
 
-${ANONYMOUS_TO_VOMS}  testvo
-${VOMS_TO_ANONYMOUS}  noauth_sa
-${VOMS_TO_VOMS}  dteam
+${SYMLINK.1}  testvo_to_testerseuemieu

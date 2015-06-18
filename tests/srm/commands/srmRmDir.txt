@@ -1,7 +1,6 @@
 *** Settings ***
 Resource   lib/stormlib.txt
 Resource   lib/clientSRM.txt
-Resource   lib/credentials.txt
 
 Resource   lib/setup.txt
 
@@ -12,9 +11,9 @@ Suite Teardown    Teardown suite if needed
 
 Remove existent empty directory
   [Tags]  storm-client  rmdir
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${dirname}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}
+  ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}
   ${output}  Perform mkdir using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
   ${output}  Perform rmdir using clientSRM  ${surl}
@@ -23,9 +22,9 @@ Remove existent empty directory
 
 Remove a non existent directory
   [Tags]  storm-client  rmdir
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${dirname}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}
+  ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}
   ${output}  Perform rmdir using clientSRM  ${surl}
   Should Contain  ${output}  SRM_INVALID_PATH
   Should Contain  ${output}  Directory does not exists
@@ -33,11 +32,11 @@ Remove a non existent directory
 
 Remove existent non empty directory without recursion
   [Tags]  storm-client  rmdir
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${dirname}  Get a unique name
   ${filename}  Get a unique name
-  ${surlDir}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}
-  ${surlFile}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}/${filename}
+  ${surlDir}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}
+  ${surlFile}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}/${filename}
   ${output}  Perform mkdir using clientSRM  ${surlDir}
   Should Contain  ${output}  SRM_SUCCESS
   Put without really putting using clientSRM  ${surlFile}
@@ -49,11 +48,11 @@ Remove existent non empty directory without recursion
 
 Remove existent non empty directory with recursion
   [Tags]  storm-client  rmdir
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${dirname}  Get a unique name
   ${filename}  Get a unique name
-  ${surlDir}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}
-  ${surlFile}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}/${filename}
+  ${surlDir}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}
+  ${surlFile}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}/${filename}
   ${output}  Perform mkdir using clientSRM  ${surlDir}
   Should Contain  ${output}  SRM_SUCCESS
   Put without really putting using clientSRM  ${surlFile}
@@ -63,23 +62,23 @@ Remove existent non empty directory with recursion
 
 Remove invalid path
   [Tags]  storm-client  rmdir
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${dirname}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}
+  ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}
   ${output}  Perform rmdir using clientSRM  ${surl}
   Should Contain  ${output}  SRM_INVALID_PATH
   [Teardown]  Clear all credentials
 
 Removing unauthorized directory
   [Tags]  storm-client  rmdir
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${dirname}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}
+  ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}
   ${output}  Perform mkdir using clientSRM  ${surl}
-  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
+  Use default grid proxy
   ${output}  Perform rmdir using clientSRM  ${surl}
   Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
-  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  Use default voms proxy
   ${output}  Perform rmdir using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
   [Teardown]  Clear all credentials

@@ -1,7 +1,6 @@
 *** Settings ***
 Resource   lib/stormlib.txt
 Resource   lib/clientSRM.txt
-Resource   lib/credentials.txt
 Resource   lib/lcg_util.txt
 
 Resource   lib/setup.txt
@@ -13,9 +12,9 @@ Suite Teardown    Teardown suite if needed
 
 Remove existent file
   [Tags]  storm-client  rm
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
   Put without really putting using clientSRM  ${surl}
   ${output}  Perform rm using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
@@ -23,9 +22,9 @@ Remove existent file
 
 Remove unexistent file
   [Tags]  storm-client  rm
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
   ${output}  Perform rm using clientSRM  ${surl}
   Should Contain  ${output}  SRM_INVALID_PATH
   Should Contain  ${output}  File does not exist
@@ -33,25 +32,25 @@ Remove unexistent file
 
 Removing unauthorized file
   [Tags]  storm-client  rm
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
   Put without really putting using clientSRM  ${surl}
-  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
+  Use default grid proxy
   ${output}  Perform rm using clientSRM  ${surl}
   Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
-  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  Use default voms proxy
   ${output}  Perform rm using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
   [Teardown]  Clear all credentials
 
 Partial success on removing multiple files
   [Tags]  storm-client  rm
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${filename}  Get a unique name
   ${filename2}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
-  ${surl2}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename2}
+  ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
+  ${surl2}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename2}
   Put without really putting using clientSRM  ${surl}
   Put without really putting using clientSRM  ${surl2}
   ${output}  Perform rm using clientSRM  ${surl}
@@ -62,9 +61,9 @@ Partial success on removing multiple files
 
 Remove a pinned file must set aborted the ptg request
   [Tags]  storm-client  rm  ptg
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
   Put without really putting using clientSRM  ${surl}
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_FILE_PINNED
@@ -77,9 +76,9 @@ Remove a pinned file must set aborted the ptg request
 
 Unauthorized remove on another VO's file
   [Tags]  storm-client  ls
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ../${VOMSAUTH_SA2}/${TESTDIR}/${filename}
+  ${surl}  Build surl  ${DEFAULT_SA}  ../${SA.2}/${TESTDIR}/${filename}
   ${output}  Perform rm using clientSRM  ${surl}
   Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
   Log  ${output}
@@ -89,9 +88,9 @@ Unauthorized remove on another VO's file
 srmRm properly cleans up ongoing PtPs
   [Tags]  storm-client  rm  ptp  stor-779
   [Documentation]   Regression test for https://issues.infn.it/jira/browse/STOR-779
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Not Contain  ${output}  SRM_FAILURE
   Should Contain  ${output}  SRM_SPACE_AVAILABLE

@@ -1,7 +1,6 @@
 ** Settings ***
 
 Library   OperatingSystem
-Resource   lib/credentials.txt
 Resource   variables.txt
 
 *** Keywords ***
@@ -43,6 +42,12 @@ Perform ptp using clientSRM  [Arguments]  ${surl}  ${options}=${EMPTY}
   ${result}  ${token}=  Should Match Regexp  ${output}  requestToken=(\".+\")
   [Return]  ${output}  ${token}
 
+Perform ptp with transfer protocol using clientSRM  [Arguments]  ${surl}  ${protocol}  ${options}=${EMPTY}
+  ${output}  Execute clientSRM Command on Surl  ptp  ${surl}  -T -P ${protocol} ${options}
+  ${result}  ${token}=  Should Match Regexp  ${output}  requestToken=(\".+\")
+  ${result}  ${turl}=  Should Match Regexp  ${output}  TURL=(\".+\")
+  [Return]  ${output}  ${token}  ${turl}
+
 Perform sptp using clientSRM  [Arguments]  ${surl}  ${token}  ${options}=${EMPTY}
   ${output}  Execute clientSRM Command on Surl with token  sptp  ${surl}  ${token}  ${options}
   [Return]  ${output}
@@ -55,6 +60,12 @@ Perform ptg using clientSRM  [Arguments]  ${surl}  ${options}=${EMPTY}
   ${output}  Execute clientSRM Command on Surl  ptg  ${surl}  ${options}
   ${result}  ${token}=  Should Match Regexp  ${output}  requestToken=(\".+\")
   [Return]  ${output}  ${token}
+
+Perform ptg with transfer protocol using clientSRM  [Arguments]  ${surl}  ${protocol}  ${options}=${EMPTY}
+  ${output}  Execute clientSRM Command on Surl  ptg  ${surl}  -T -P ${protocol} ${options}
+  ${result}  ${token}=  Should Match Regexp  ${output}  requestToken=(\".+\")
+  ${result}  ${turl}=  Should Match Regexp  ${output}  transferURL=(\".+\")
+  [Return]  ${output}  ${token}  ${turl}
 
 Perform bol using clientSRM  [Arguments]  ${surl}  ${options}=${EMPTY}
   ${output}  Execute clientSRM Command on Surl  bol  ${surl}  ${options}

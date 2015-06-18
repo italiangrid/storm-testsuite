@@ -1,52 +1,45 @@
 *** Settings ***
 
-Resource   lib/webdav.txt
-Resource   lib/clientSRM.txt
-Resource   lib/credentials.txt
-
 Resource   lib/setup.txt
+Resource   lib/webdav.txt
+Resource   lib/webdav_util.txt
 
 Suite Setup       Setup suite if needed
 Suite Teardown    Teardown suite if needed
 
 *** Keywords ***
 
-File renaming  [Arguments]  ${endpoint}  ${storageArea}  ${credentials}=${EMPTY}
-  ${filename}  Upload file  ${endpoint}  ${storageArea}  ${credentials}
+Setup Renaming on particular SA and VO  [Arguments]  ${endpoint}=${DAVSecureEndpoint}  ${sa}=${DEFAULT_SA}  ${user}=${defaultUser}  ${voname}=${DEFAULT_VO}
+  Use voms proxy  ${user}  ${voname}
+  ${options}  Get CURL VOMS proxy options  ${user}  ${voname}
   ${destL1dir}  Get a unique name
   ${destL2dir}  Get a unique name
-  ${output}  WebDAV HEAD  ${endpoint}  ${storageArea}  ${TESTDIR}/${filename}  ${credentials}
-  Should Contain  ${output}  200 OK
-  ${output}  WebDAV HEAD  ${endpoint}  ${storageArea}  ${TESTDIR}/${destL1dir}/${destL2dir}/${filename}  ${credentials}
-  Should Contain  ${output}  404 Not Found
-  ${output}  WebDAV HEAD  ${endpoint}  ${storageArea}  ${TESTDIR}/${destL1dir}/${destL2dir}  ${credentials}
-  Should Contain  ${output}  404 Not Found
-  ${output}  WebDAV HEAD  ${endpoint}  ${storageArea}  ${TESTDIR}/${destL1dir}  ${credentials}
-  Should Contain  ${output}  404 Not Found
-  ${output}  WebDAV MKCOL  ${endpoint}  ${storageArea}  ${TESTDIR}/${destL1dir}  ${credentials}
-  Should Contain  ${output}  201 Created
-  ${output}  WebDAV MKCOL  ${endpoint}  ${storageArea}  ${TESTDIR}/${destL1dir}/${destL2dir}  ${credentials}
-  Should Contain  ${output}  201 Created
-  ${output}  WebDAV MOVE  ${endpoint}  ${storageArea}  ${TESTDIR}/${filename}  ${endpoint}  ${storageArea}  ${TESTDIR}/${destL1dir}/${destL2dir}/${filename}  T  ${credentials}
-  Should Contain  ${output}  201 Created
+  Set Test Variable  ${TEST_CURL_OPTIONS}  ${options}
+  Set Test Variable  ${TEST_REMOTE_DIR1}  ${destL1dir}
+  Set Test Variable  ${TEST_REMOTE_DIR2}  ${destL2dir}
+  Set Test Variable  ${TEST_SA}  ${sa}
+  Set Test Variable  ${TEST_ENDPOINT}  ${endpoint}
+  ${url}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}
+  ${filename}  Upload file with CURL  ${url}  ${TEST_CURL_OPTIONS}
+  Set Test Variable  ${TEST_FILENAME}  ${filename}
 
 *** Test Cases ***
 
-File renaming as anonymous
-  [Tags]  webdav  renaming  anonymous
-  [Setup]  Clear all credentials
-  File renaming  ${davEndpoint}  ${ANONYMOUS_SA}
-
-File renaming with VOMS proxy
-  [Tags]  webdav  renaming  vomsproxy  storm-webdav
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
-  ${vomsproxy}  Get VOMS proxy options for Curl
-  File renaming  ${davSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
-  [Teardown]  Clear all credentials
-
-File renaming with plain proxy
-  [Tags]  webdav  renaming  plainproxy
-  [Setup]  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
-  ${plainproxy}  Get x509 options for Curl
-  File renaming  ${davSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
-  [Teardown]  Clear all credentials
+File renaming
+  [Tags]  webdav  renaming
+  [Setup]  Setup Renaming on particular SA and VO
+  ${srcURL}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_FILENAME}
+  Do CURL HEAD and check success  ${srcURL}  ${TEST_CURL_OPTIONS}
+  ${destURL}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIR1}/${TEST_REMOTE_DIR2}/${TEST_FILENAME}
+  ${stdout}  ${stderr}  Do CURL HEAD  ${destURL}  ${TEST_CURL_OPTIONS}
+  Should Contain  ${stdout}  404 Not Found
+  ${l2URL}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIR1}/${TEST_REMOTE_DIR2}
+  ${stdout}  ${stderr}  Do CURL HEAD  ${l2URL}  ${TEST_CURL_OPTIONS}
+  Should Contain  ${stdout}  404 Not Found
+  ${l1URL}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIR1}
+  ${stdout}  ${stderr}  Do CURL HEAD  ${l1URL}  ${TEST_CURL_OPTIONS}
+  Should Contain  ${stdout}  404 Not Found
+  Do CURL MKCOL and check success  ${l1URL}  ${TEST_CURL_OPTIONS}
+  Do CURL MKCOL and check success  ${l2URL}  ${TEST_CURL_OPTIONS}
+  Do CURL MOVE and check success  ${srcURL}  ${destURL}  ${TEST_CURL_OPTIONS}
+  [Teardown]  Teardown default SA

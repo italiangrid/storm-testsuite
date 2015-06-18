@@ -1,7 +1,6 @@
 *** Settings ***
 Resource   lib/stormlib.txt
 Resource   lib/clientSRM.txt
-Resource   lib/credentials.txt
 Resource   lib/lcg_util.txt
 Resource   lib/globus_util.txt
 
@@ -21,7 +20,7 @@ Get random simple SURL
 
 Bol online file
   [Tags]  storm-client  bol
-  [Setup]  Use certificate and proxy  apostrofe  ${TESTVO_SA_PROXY}
+  [Setup]  Use voms proxy  ${defaultUser}  ${TAPE_SA_VONAME}
   ${surl}  Get random simple SURL
   Put without really putting using clientSRM  ${surl}
   ${output}  ${token}  Perform bol using clientSRM  ${surl}  -p
@@ -32,7 +31,7 @@ Bol online file
 
 Bol with invalid SURL
   [Tags]  storm-client  bol
-  [Setup]  Use certificate and proxy  apostrofe  ${TESTVO_SA_PROXY}
+  [Setup]  Use voms proxy  ${defaultUser}  ${TAPE_SA_VONAME}
   ${surl}  Get random simple SURL
   ${output}  ${token}  Perform bol using clientSRM  ${surl}  -p
   Should Not Contain  ${output}  SRM_SUCCESS
@@ -41,7 +40,7 @@ Bol with invalid SURL
 
 Bol multiple invalid SURLs
   [Tags]  storm-client  bol
-  [Setup]  Use certificate and proxy  apostrofe  ${TESTVO_SA_PROXY}
+  [Setup]  Use voms proxy  ${defaultUser}  ${TAPE_SA_VONAME}
   ${surl}  Get random simple SURL
   ${surl2}  Get random simple SURL
   ${output}  ${token}  Perform bol using clientSRM  ${surl} ${surl2}  -p
@@ -50,7 +49,7 @@ Bol multiple invalid SURLs
 
 Bol multiple online files
   [Tags]  storm-client  bol
-  [Setup]  Use certificate and proxy  apostrofe  ${TESTVO_SA_PROXY}
+  [Setup]  Use voms proxy  ${defaultUser}  ${TAPE_SA_VONAME}
   ${surl}  Get random simple SURL
   ${surl2}  Get random simple SURL
   Put without really putting using clientSRM  ${surl}
@@ -65,7 +64,7 @@ Bol multiple online files
 
 Bol multiple mixed files
   [Tags]  storm-client  bol
-  [Setup]  Use certificate and proxy  apostrofe  ${TESTVO_SA_PROXY}
+  [Setup]  Use voms proxy  ${defaultUser}  ${TAPE_SA_VONAME}
   ${surl}  Get random simple SURL
   ${surl2}  Get random simple SURL
   Put without really putting using clientSRM  ${surl}
