@@ -1,10 +1,8 @@
 *** Settings ***
-Resource   lib/stormlib.txt
-Resource   lib/clientSRM.txt
-Resource   lib/credentials.txt
-Resource   lib/curl.txt
-Resource   lib/filetransfer.txt
 
+Resource   lib/clientSRM.txt
+Resource   lib/webdav.txt
+Resource   lib/webdav_util.txt
 Resource   lib/setup.txt
 
 Suite Setup       Setup suite if needed
@@ -12,63 +10,36 @@ Suite Teardown    Teardown suite if needed
 
 *** Keywords ***
 
-Do a prepareToPut  [Arguments]  ${user}  ${vo}  ${surl}
-  Use certificate and proxy  ${user}  ${vo}
-  ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
+Do a prepareToPut  [Arguments]  ${surl}  ${tprotocol}
+  ${output}  ${token}  Perform ptp with transfer protocol using clientSRM  ${surl}  ${tprotocol}  -p
   Should contain  ${output}  SRM_SPACE_AVAILABLE
-  Clear all credentials
   [Return]  ${token}
 
-Do a putDone  [Arguments]  ${user}  ${vo}  ${surl}  ${token}
-  Use certificate and proxy  ${user}  ${vo}
+Do a putDone  [Arguments]  ${surl}  ${token}
   ${output}  Perform pd using clientSRM  ${surl}  ${token}
   Should contain  ${output}  SRM_SUCCESS
-  Clear all credentials
-
-File-Transfer PUT  [Arguments]  ${user}  ${proxy}  ${ftEndpoint}  ${storageArea}  ${credentials}=${EMPTY}
-  ${filename}  Get a unique name
-  ${surl}  Build surl  ${storageArea}  ${TESTDIR}/${filename}
-  ${token}  Do a prepareToPut  ${user}  ${proxy}  ${surl}
-  Use certificate and proxy  ${user}  ${proxy}
-  ${output}  FileTransfer PUT data  ${ftEndpoint}  ${storageArea}  ${TESTDIR}/${filename}  test  ${credentials}
-  Clear all credentials
-  Should Contain  ${output}  204 No Content
-  Do a putDone  ${user}  ${proxy}  ${surl}  ${token}
-
-File-Transfer PUT without PtP  [Arguments]  ${user}  ${proxy}  ${ftEndpoint}  ${storageArea}  ${credentials}=${EMPTY}
-  ${filename}  Get a unique name
-  ${surl}  Build surl  ${storageArea}  ${TESTDIR}/${filename}
-  Use certificate and proxy  ${user}  ${proxy}
-  ${output}  FileTransfer PUT data  ${ftEndpoint}  ${storageArea}  ${TESTDIR}/${filename}  test  ${credentials}
-  Clear all credentials
-  Should Not Contain  ${output}  204 No Content
 
 *** Test Cases ***
 
-File-Transfer upload file as anonymous
-  [Tags]  filetransfer  put  anonymous
-  File-Transfer PUT  test0  ${X509AUTH_SA_PROXY}  ${filetransferEndpoint}  ${ANONYMOUS_SA}
+File-Transfer put VO file with proxy
+  [Tags]  filetransfer  put
+  [Setup]  Setup default SA
+  Create empty working directory
+  ${surl}  Build surl  ${TEST_SA}  ${TESTDIR}/${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
+  ${token}  ${turl}  Do a prepareToPut  ${surl}  https
+  ${out}  ${err}  Do CURL PUT  ${turl}  ${TEST_LOCAL_FILEPATH}  ${TEST_CURL_OPTIONS}
+  Should Contain  ${out}  204 No Content
+  Do a putDone  ${surl}  ${token}
+  [Teardown]  Clear all credentials
 
-File-Transfer upload file with voms proxy
-  [Tags]  filetransfer  put  vomsproxy
-  ${vomsproxy}  Get VOMS proxy options for Curl
-  File-Transfer PUT  test0  ${VOMSAUTH_SA_PROXY}  ${filetransferSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
-
-File-Transfer upload file with plain proxy
-  [Tags]  filetransfer  put  plainproxy
-  ${plainproxy}  Get x509 options for Curl
-  File-Transfer PUT  test0  ${X509AUTH_SA_PROXY}  ${filetransferSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
-
-File-Transfer upload file without ptp as anonymous
-  [Tags]  filetransfer  put  anonymous
-  File-Transfer PUT without PtP  test0  ${X509AUTH_SA_PROXY}  ${filetransferEndpoint}  ${ANONYMOUS_SA}
-
-File-Transfer upload file without ptp with voms proxy
-  [Tags]  filetransfer  put  vomsproxy
-  ${vomsproxy}  Get VOMS proxy options for Curl
-  File-Transfer PUT without PtP  test0  ${VOMSAUTH_SA_PROXY}  ${filetransferSecureEndpoint}  ${VOMSAUTH_SA}  ${vomsproxy}
-
-File-Transfer upload file without ptp with plain proxy
-  [Tags]  filetransfer  put  plainproxy
-  ${plainproxy}  Get x509 options for Curl
-  File-Transfer PUT without PtP  test0  ${X509AUTH_SA_PROXY}  ${filetransferSecureEndpoint}  ${X509AUTH_SA}  ${plainproxy}
+File-Transfer PUT VO file as anonymous
+  [Tags]  filetransfer  put
+  [Setup]  Setup default SA
+  Create empty working directory
+  ${surl}  Build surl  ${TEST_SA}  ${TESTDIR}/${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
+  ${token}  ${turl}  Do a prepareToPut  ${surl}  http
+  ${out}  ${err}  Do CURL PUT  ${turl}  ${TEST_LOCAL_FILEPATH}
+  Should Not Contain  ${out}  200 OK
+  Should Contain  ${out}  403
+  Do a putDone  ${surl}  ${token}
+  [Teardown]  Clear all credentials

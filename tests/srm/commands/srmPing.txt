@@ -1,7 +1,6 @@
 *** Settings ***
 Resource   lib/stormlib.txt
 Resource   lib/clientSRM.txt
-Resource   lib/credentials.txt
 
 Resource   lib/setup.txt
 
@@ -12,14 +11,14 @@ Suite Teardown    Teardown suite if needed
 
 Ping using clientSRM
   [Tags]  ping  storm-client
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${output}  Perform ping using clientSRM
   Should contain  ${output}  SRM server successfully contacted
   [Teardown]  Clear all credentials
 
 Ping returns a wrong backend age
   [Tags]  ping  storm-client
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${output}  Perform ping using clientSRM
   ${matched}  Should Match Regexp  ${output}  <BE:.+>
   Should Not Contain  ${matched}  age
@@ -28,9 +27,9 @@ Ping returns a wrong backend age
 Verify asynch request with non-ascii characters
   [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/137. Given a StoRM endpoint, verify that an SRM asynchronous call providing a string parameter containing non ASCII characters does not put StoRM Frontend offline.
   [Tags]  storm-client  ping  regression
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}_ииии
+  ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}_пїЅпїЅпїЅпїЅ
   ${output}  Perform ls using clientSRM  ${surl}  -c 1
   Should Not Contain  ${output}  SRM_SUCCESS
   ${output}  Perform ping using clientSRM

@@ -1,7 +1,6 @@
 *** Settings ***
 Resource   lib/stormlib.txt
 Resource   lib/clientSRM.txt
-Resource   lib/credentials.txt
 Resource   lib/lcg_util.txt
 
 Resource   lib/setup.txt
@@ -13,10 +12,10 @@ Suite Teardown    Teardown suite if needed
 
 Move file
   [Tags]  storm-client  mv
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${filename}  Create local file
-  ${srcsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
-  ${destsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}.moved
+  ${srcsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
+  ${destsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}.moved
   Copy-out file using lcg-utils  ${filename}  ${srcsurl}
   ${output}  Perform mv using clientSRM  ${srcsurl}  ${destsurl}
   Should Contain  ${output}  SRM_SUCCESS
@@ -31,10 +30,10 @@ Move file
 
 Move file to a destination surl that already exists
   [Tags]  storm-client  mv
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${filename}  Create local file
-  ${srcsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
-  ${destsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}.moved
+  ${srcsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
+  ${destsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}.moved
   Copy-out file using lcg-utils  ${filename}  ${srcsurl}
   Copy-out file using lcg-utils  ${filename}  ${destsurl}
   ${output}  Perform mv using clientSRM  ${srcsurl}  ${destsurl}
@@ -48,12 +47,12 @@ Move file to a destination surl that already exists
 
 Move file into directory
   [Tags]  storm-client  mv
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${filename}  Create local file
   ${dstdirname}  Get a unique name
-  ${srcfilesurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
-  ${destdirsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dstdirname}
-  ${destfilesurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dstdirname}/${filename}
+  ${srcfilesurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
+  ${destdirsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dstdirname}
+  ${destfilesurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dstdirname}/${filename}
   Copy-out file using lcg-utils  ${filename}  ${srcfilesurl}
   ${output}  Perform mkdir using clientSRM  ${destdirsurl}
   Should Contain  ${output}  SRM_SUCCESS
@@ -68,12 +67,12 @@ Move file into directory
 
 Move not empty directory on unexistent surl
   [Tags]  storm-client  mv
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${dirname}  Get a unique name
   ${filename}  Create local file
-  ${dirsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}
-  ${filesurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}/${filename}
-  ${destdirsurl}  Build surl  ${VOMSAUTH_SA}  ${dirname}.moved
+  ${dirsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}
+  ${filesurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}/${filename}
+  ${destdirsurl}  Build surl  ${DEFAULT_SA}  ${dirname}.moved
   ${output}  Perform mkdir using clientSRM  ${dirsurl}
   Should Contain  ${output}  SRM_SUCCESS
   Copy-out file using lcg-utils  ${filename}  ${filesurl}
@@ -86,13 +85,13 @@ Move not empty directory on unexistent surl
 
 Move not empty directory on a existent empty directory
   [Tags]  storm-client  mv
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${dirname}  Get a unique name
   ${filename}  Create local file
-  ${dirsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}
-  ${filesurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}/${filename}
-  ${destdirsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}.moved
-  ${destfilesurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}.moved/${dirname}/${filename}
+  ${dirsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}
+  ${filesurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}/${filename}
+  ${destdirsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}.moved
+  ${destfilesurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}.moved/${dirname}/${filename}
   ${output}  Perform mkdir using clientSRM  ${dirsurl}
   Should Contain  ${output}  SRM_SUCCESS  
   Copy-out file using lcg-utils  ${filename}  ${filesurl}
@@ -109,12 +108,12 @@ Move not empty directory on a existent empty directory
 
 Move not empty directory on a existent surl
   [Tags]  storm-client  mv
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${dirname}  Get a unique name
   ${filename}  Create local file
-  ${dirsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}
-  ${filesurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}/${filename}
-  ${destsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}.copied
+  ${dirsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}
+  ${filesurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}/${filename}
+  ${destsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}.copied
   ${output}  Perform mkdir using clientSRM  ${dirsurl}
   Should Contain  ${output}  SRM_SUCCESS
   Copy-out file using lcg-utils  ${filename}  ${filesurl}
@@ -130,13 +129,13 @@ Move not empty directory on a existent surl
 
 Move not empty directory on a existent not empty directory that contains an existent directory with same source name
   [Tags]  storm-client  mv
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${dirname}  Get a unique name
   ${filename}  Create local file
-  ${dirsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}
-  ${filesurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}/${filename}
-  ${destdirsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}.moved
-  ${destsubdirsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}.moved/${dirname}
+  ${dirsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}
+  ${filesurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}/${filename}
+  ${destdirsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}.moved
+  ${destsubdirsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}.moved/${dirname}
   ${output}  Perform mkdir using clientSRM  ${dirsurl}
   Should Contain  ${output}  SRM_SUCCESS  
   Copy-out file using lcg-utils  ${filename}  ${filesurl}
@@ -155,10 +154,10 @@ Move not empty directory on a existent not empty directory that contains an exis
 
 Move file over itself
   [Tags]  storm-client  mv
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${filename}  Create local file
-  ${srcsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
-  ${destsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  ${srcsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
+  ${destsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
   Copy-out file using lcg-utils  ${filename}  ${srcsurl}
   ${output}  Perform mv using clientSRM  ${srcsurl}  ${destsurl}
   Should Contain  ${output}  SRM_SUCCESS
@@ -169,10 +168,10 @@ Move file over itself
 
 Move file with active ptg
   [Tags]  storm-client  mv
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${filename}  Create local file
-  ${srcsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
-  ${destsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}.moved
+  ${srcsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
+  ${destsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}.moved
   Copy-out file using lcg-utils  ${filename}  ${srcsurl}
   ${output}  ${token}  Perform ptg using clientSRM  ${srcsurl}  -p
   Should Contain  ${output}  SRM_FILE_PINNED
@@ -187,10 +186,10 @@ Move file with active ptg
 
 Move file with active ptp
   [Tags]  storm-client  mv
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${filename}  Get a unique name
-  ${srcsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
-  ${destsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}.moved
+  ${srcsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
+  ${destsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}.moved
   ${output}  ${token}  Perform ptp using clientSRM  ${srcsurl}  -p
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
   ${output}  Perform mv using clientSRM  ${srcsurl}  ${destsurl}
@@ -203,15 +202,15 @@ Move file with active ptp
 
 Move file on an unauthorized destination
   [Tags]  storm-client  mv
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${filename}  Create local file
-  ${srcsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
-  ${destsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  ${srcsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
+  ${destsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
   Copy-out file using lcg-utils  ${filename}  ${srcsurl}
-  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
+  Use default grid proxy
   ${output}  Perform mv using clientSRM  ${srcsurl}  ${destsurl}
   Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
-  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  Use default voms proxy
   ${output}  Perform rm using clientSRM  ${srcsurl}
   Should Contain  ${output}  SRM_SUCCESS
   Remove local file  ${filename}
@@ -219,14 +218,14 @@ Move file on an unauthorized destination
 
 Check unauthorized file move on a different VO
   [Tags]  storm-client  ls
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${filename}  Create local file
-  ${srcsurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
-  ${destsurl}  Build surl  ${VOMSAUTH_SA}  ../${VOMSAUTH_SA2}/${TESTDIR}/${filename}
+  ${srcsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
+  ${destsurl}  Build surl  ${DEFAULT_SA}  ../${SA.2}/${TESTDIR}/${filename}
   Copy-out file using lcg-utils  ${filename}  ${srcsurl}
   ${output}  Perform mv using clientSRM  ${srcsurl}  ${destsurl}
   Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
-  ${destsurl}  Build surl  ${VOMSAUTH_SA2}  ../${VOMSAUTH_SA}/${TESTDIR}/${filename}_2
+  ${destsurl}  Build surl  ${SA.2}  ../${DEFAULT_SA}/${TESTDIR}/${filename}_2
   ${output}  Perform mv using clientSRM  ${srcsurl}  ${destsurl}
   Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
   ${output}  Perform rm using clientSRM  ${srcsurl}

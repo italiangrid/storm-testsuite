@@ -1,7 +1,6 @@
 *** Settings ***
 Resource   lib/stormlib.txt
 Resource   lib/clientSRM.txt
-Resource   lib/credentials.txt
 
 Resource   lib/setup.txt
 
@@ -12,9 +11,9 @@ Suite Teardown    Teardown suite if needed
 
 Create new empty directory
   [Tags]  storm-client  mkdir
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${dirname}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}
+  ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}
   ${output}  Perform mkdir using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
   ${output}  Perform rmdir using clientSRM  ${surl}
@@ -23,7 +22,7 @@ Create new empty directory
 
 Create directory with invalid path
   [Tags]  storm-client  mkdir
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${dirname}  Get a unique name
   ${surl}  Build surl  fakeVO  ${dirname}
   ${output}  Perform mkdir using clientSRM  ${surl}
@@ -32,9 +31,9 @@ Create directory with invalid path
 
 Create directory that already exists
   [Tags]  storm-client  mkdir
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${dirname}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}
+  ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}
   ${output}  Perform mkdir using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
   ${output}  Perform mkdir using clientSRM  ${surl}
@@ -46,24 +45,21 @@ Create directory that already exists
 
 Create directory with unauthorized credentials
   [Tags]  storm-client  mkdir
-  [Setup]  Use certificate and proxy  test0  ${X509AUTH_SA_PROXY}
+  [Setup]  Use default grid proxy
   ${dirname}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}
+  ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}
   ${output}  Perform mkdir using clientSRM  ${surl}
   Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
   [Teardown]  Clear all credentials
 
 Check directory creation on a different VO
   [Tags]  storm-client  ls
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${dirname}  Get a unique name
-  ${qsurl}  Build surl  ${VOMSAUTH_SA2}  ../${VOMSAUTH_SA}/${TESTDIR}/${dirname}
+  ${qsurl}  Build surl  ${SA.2}  ../${DEFAULT_SA}/${TESTDIR}/${dirname}
   ${output}  Perform mkdir using clientSRM  ${qsurl}
   Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
-  ${qsurl}  Build surl  ${VOMSAUTH_SA}  ../${VOMSAUTH_SA2}/${TESTDIR}/${dirname}
+  ${qsurl}  Build surl  ${DEFAULT_SA}  ../${SA.2}/${TESTDIR}/${dirname}
   ${output}  Perform mkdir using clientSRM  ${qsurl}
   Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
-  ${qsurl}  Build surl  ${VOMSAUTH_SA}  ../${X509AUTH_SA}/${TESTDIR}/${dirname}
-  ${output}  Perform mkdir using clientSRM  ${qsurl}
-  Should Contain  ${output}  SRM_SUCCESS
   [Teardown]  Clear all credentials

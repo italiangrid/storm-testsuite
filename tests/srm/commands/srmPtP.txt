@@ -2,7 +2,6 @@
 Resource   lib/stormlib.txt
 Resource   lib/clientSRM.txt
 Resource   lib/globus_util.txt
-Resource   lib/credentials.txt
 
 Resource   lib/setup.txt
 
@@ -11,7 +10,7 @@ Suite Teardown    Teardown suite if needed
 
 *** Keywords ***
 
-getRandomSURL  [Arguments]  ${sa}
+getRandomSURL  [Arguments]  ${sa}=${DEFAULT_SA}
   ${filename}  Get a unique name
   ${surl}  Build surl  ${sa}  ${TESTDIR}/${filename}
   [Return]  ${surl}
@@ -67,8 +66,8 @@ get TURL from output  [Arguments]  ${output}
 
 srmPtP of a non-existent file
   [Tags]  storm-client  ptp
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
-  ${surl}  getRandomSURL  ${VOMSAUTH_SA}
+  [Setup]  Use default voms proxy
+  ${surl}  getRandomSURL
   ${outputPtP}  ${token}  srmPtP  ${surl}  -p
   check srmPtP success  ${outputPtP}
   ${outputPd}  srmPd  ${surl}  ${token}
@@ -78,8 +77,8 @@ srmPtP of a non-existent file
 
 srmPtP of an existent file with no overwrite
   [Tags]  storm-client  ptp  regression
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
-  ${surl}  getRandomSURL  ${VOMSAUTH_SA}
+  [Setup]  Use default voms proxy
+  ${surl}  getRandomSURL
   createRemoteFile  ${surl}
   ${outputPtP}  ${token}  srmPtP  ${surl}  -p
   check srmPtP failure with  ${outputPtP}  SRM_DUPLICATION_ERROR
@@ -88,8 +87,8 @@ srmPtP of an existent file with no overwrite
 
 srmPtP of an existent file with overwrite
   [Tags]  storm-client  ptp
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
-  ${surl}  getRandomSURL  ${VOMSAUTH_SA}
+  [Setup]  Use default voms proxy
+  ${surl}  getRandomSURL
   createRemoteFile  ${surl}
   ${outputPtP}  ${token}  srmPtP  ${surl}  -p -w 1
   check srmPtP success  ${outputPtP}
@@ -101,8 +100,8 @@ srmPtP of an existent file with overwrite
 srmPtP with unsupported transfer protocol
   [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/127
   [Tags]  storm-client  ptp  regression
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
-  ${surl}  getRandomSURL  ${VOMSAUTH_SA}
+  [Setup]  Use default voms proxy
+  ${surl}  getRandomSURL
   ${outputPtP}  ${token}  srmPtP  ${surl}  -p -T -P unknownprotocol
   check srmPtP failure with  ${outputPtP}  SRM_NOT_SUPPORTED
   [Teardown]  Clear all credentials
@@ -110,8 +109,8 @@ srmPtP with unsupported transfer protocol
 srmPtP using a non existent space token
   [Tags]  storm-client  ptp  regression
   [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/282. StoRM used to return the wrong error (SRM_SPACE_LIFETIME_EXPIRED instead of SRM_INVALID_REQUEST) for a sptp when a ptp was given a non existent space token.
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
-  ${surl}  getRandomSURL  ${VOMSAUTH_SA}
+  [Setup]  Use default voms proxy
+  ${surl}  getRandomSURL
   ${outputPtP}  ${token}  srmPtP  ${surl}  -p -t whatever
   check srmPtP failure with  ${outputPtP}  SRM_INVALID_REQUEST
   ${outputSPtP}  srmSPtP  ${surl}  ${token}
@@ -122,9 +121,10 @@ srmPtP using a non existent space token
 srmPtP with sa token as space token
   [Tags]  storm-client  regression  ptp
   [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/354 A call of the srmPrepareToPut command providing the space token parameter of a storage area fails.
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
-  ${sp_token}  Get space token using clientSRM  ${VOMSAUTH_SA_TOKEN}
-  ${surl}  getRandomSURL  ${VOMSAUTH_SA}
+  [Setup]  Use default voms proxy
+  ${sa_token}  Get SA Token  ${defaultVO}
+  ${sp_token}  Get space token using clientSRM  ${sa_token}
+  ${surl}  getRandomSURL
   ${outputPtP}  ${token}  srmPtP  ${surl}  -p -t ${sp_token}
   check srmPtP success  ${outputPtP}
   ${outputPd}  srmPd  ${surl}  ${token}
@@ -135,8 +135,8 @@ srmPtP with sa token as space token
 srmPtP with expectedFileSize not empty
   [Tags]  storm-client  regression  ptp
   [Documentation]  Regression test for https://issues.infn.it/jira/browse/STOR-306 StoRM returns NULL fileSize for ptp with expected size
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
-  ${surl}  getRandomSURL  ${VOMSAUTH_SA}
+  [Setup]  Use default voms proxy
+  ${surl}  getRandomSURL
   ${surl_with_size}  Catenate  SEPARATOR=,  ${surl}  12345
   ${outputPtP}  ${token}  srmPtP  ${surl_with_size}  -p
   check srmPtP success  ${outputPtP}
@@ -148,11 +148,11 @@ srmPtP with expectedFileSize not empty
 
 srmPtP with multiple surls
   [Tags]  storm-client  ptp
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
-  ${surl}  getRandomSURL  ${VOMSAUTH_SA}
+  [Setup]  Use default voms proxy
+  ${surl}  getRandomSURL
   ${surllist} =  Set Variable  ${surl}
   :FOR  ${index}  IN RANGE  2  10
-  \		${surl}  getRandomSURL  ${VOMSAUTH_SA}
+  \		${surl}  getRandomSURL  ${defaultVO}
   \		${surllist}  Catenate  ${surllist}  ${surl}
   Log  ${surllist}
   ${outputPtP}  ${token}  srmPtP  ${surllist}  -p
@@ -166,8 +166,8 @@ srmPtP with multiple surls
 
 srmPtP on a busy file
   [Tags]  storm-client  ptp  regression
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
-  ${surl}  getRandomSURL  ${VOMSAUTH_SA}
+  [Setup]  Use default voms proxy
+  ${surl}  getRandomSURL
   ${outputPtP}  ${token}  srmPtP  ${surl}  -p
   check srmPtP success  ${outputPtP}
   ${outputPtP}  ${token2}  srmPtP  ${surl}  -p
@@ -179,14 +179,14 @@ srmPtP on a busy file
 
 srmPtP with xroot transfer protocol
   [Tags]  storm-client  ptg
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  ${surl}  Build surl  ${defaultVO}  ${TESTDIR}/${filename}
   ${outputPtP}  ${token}  srmPtP  ${surl}  -p -T -P xroot
   Log  ${outputPtP}
   check srmPtP success  ${outputPtP}
   ${turl}  get TURL from output  ${outputPtP}
-  Should Contain  ${outputPtP}  root://${backEndHost}${storageAreaRoot}/${VOMSAUTH_SA}/${TESTDIR}/${filename}
+  Should Contain  ${outputPtP}  root://${backEndHost}${storageAreaRoot}/${defaultVO}/${TESTDIR}/${filename}
   ${outputPd}  srmPd  ${surl}  ${token}
   check srmPd success  ${outputPd}
   deleteRemoteFile  ${surl}

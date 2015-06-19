@@ -2,7 +2,6 @@
 Resource   lib/stormlib.txt
 Resource   lib/lcg_util.txt
 Resource   lib/clientSRM.txt
-Resource   lib/credentials.txt
 
 Resource   lib/setup.txt
 
@@ -13,11 +12,11 @@ Suite Teardown    Teardown suite if needed
 
 List files in an existing directory with lcg-utils
   [Tags]  lcg-utils  ls
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${dirname}  Get a unique name
   ${filename}  Create local file
-  ${surlDir}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}
-  ${surlFile}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${dirname}/${filename}
+  ${surlDir}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}
+  ${surlFile}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}/${filename}
   ${output}  Perform mkdir using clientSRM  ${surlDir}
   Should Contain  ${output}  SRM_SUCCESS
   Copy-out file using lcg-utils  ${filename}  ${surlFile}
@@ -29,9 +28,9 @@ List files in an existing directory with lcg-utils
 
 Check if a lcg-ls on an existent surl works
   [Tags]  lcg-utils  ls
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${filename}  Create local file
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   Check file exists using lcg-utils  ${surl}
   ${output}  Perform rm using clientSRM  ${surl}
@@ -41,20 +40,20 @@ Check if a lcg-ls on an existent surl works
 
 Check if a lcg-ls on a non-existent surl fails
   [Tags]  lcg-utils  ls
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
   Check file does not exists using lcg-utils  ${surl}
   [Teardown]  Clear all credentials
 
 Check lcg-cp computed checksum in case it starts with zero
   [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/108. Given a file with ADLER32 checksum that starts with '0' and a SURL pointing to a non existent file in an existent folder, verify that after transfering the file on the SURL the checksum value computed for the file matches as string with the one of the local file.
   [Tags]  lcg-utils  regression  cp
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${srcFileName}  Create local file with checksum that starts with zero
   ${destFileName}  Get a unique name
-  ${srcSurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${srcFileName}
-  ${destSurl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${destFileName}
+  ${srcSurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${srcFileName}
+  ${destSurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${destFileName}
   Copy-out file using lcg-utils  ${srcFileName}  ${srcSurl}
   ${output}  Detailed ls using clientSRM  ${srcSurl}
   ${result}  ${b_checksum}=  Should Match Regexp  ${output}  checkSumValue=(\".+\")
@@ -68,17 +67,17 @@ Check lcg-cp computed checksum in case it starts with zero
 
 Test lcg-cp out
   [Tags]  lcg-utils  cp
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${filename}  Create local file
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   [Teardown]  Clear all credentials
 
 Copy out a file using lcg-utils
   [Tags]  lcg-utils
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${filename}  Create local file
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
   Check file does not exists using lcg-utils  ${surl}
   Copy-out file using lcg-utils  ${filename}  ${surl}
   Copy-in file using lcg-utils  ${surl}  ${filename}_copied

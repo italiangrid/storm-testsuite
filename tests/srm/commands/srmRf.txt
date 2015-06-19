@@ -1,7 +1,6 @@
 *** Settings ***
 Resource   lib/stormlib.txt
 Resource   lib/clientSRM.txt
-Resource   lib/credentials.txt
 
 Resource   lib/setup.txt
 
@@ -12,12 +11,12 @@ Suite Teardown    Teardown suite if needed
 
 Get random simple SURL
   ${filename}  Get a unique name
-  ${surl}  Build simple surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  ${surl}  Build simple surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
   [Return]  ${surl}
 
 Get random query SURL
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
   [Return]  ${surl}
 
 Create remote file  [Arguments]  ${surl}
@@ -61,7 +60,7 @@ Invalid release file with TOKEN  [Arguments]  ${token}
 
 Release file using SURL and TOKEN
   [Tags]  storm-client  rf
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${surl}  Get random simple SURL
   Create remote file  ${surl}
   ${token}  Do PTG  ${surl}
@@ -71,7 +70,7 @@ Release file using SURL and TOKEN
 
 Release file using only SURL
   [Tags]  storm-client  rf
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${surl}  Get random simple SURL
   Create remote file  ${surl}
   Do PTG  ${surl}
@@ -81,7 +80,7 @@ Release file using only SURL
 
 Release file using only TOKEN
   [Tags]  storm-client  rf
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${surl}  Get random simple SURL
   Create remote file  ${surl}
   ${token}  Do PTG  ${surl}
@@ -91,7 +90,7 @@ Release file using only TOKEN
 
 Release file using SURL and TOKEN with SURL in query form
   [Tags]  storm-client  rf
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${surl}  Get random query SURL
   Create remote file  ${surl}
   ${token}  Do PTG  ${surl}
@@ -101,7 +100,7 @@ Release file using SURL and TOKEN with SURL in query form
 
 Release file using only SURL with SURL in query form
   [Tags]  storm-client  rf
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${surl}  Get random query SURL
   Create remote file  ${surl}
   Do PTG  ${surl}
@@ -111,7 +110,7 @@ Release file using only SURL with SURL in query form
 
 Release file using only TOKEN with SURL in query form
   [Tags]  storm-client  rf
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${surl}  Get random query SURL
   Create remote file  ${surl}
   ${token}  Do PTG  ${surl}
@@ -122,7 +121,7 @@ Release file using only TOKEN with SURL in query form
 Release multiple ptg requests specifying only SURL
   [Tags]  storm-client  rf
   [Documentation]  Regression test for https://issues.infn.it/jira/browse/STOR-305 srmReleaseFiles doesn't release multiple files at once.
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${surl}  Get random simple SURL
   Create remote file  ${surl}
   Do PTG  ${surl}
@@ -134,7 +133,7 @@ Release multiple ptg requests specifying only SURL
 Release multiple ptg requests specifying only SURL in query form
   [Tags]  storm-client  rf
   [Documentation]  Regression test for https://issues.infn.it/jira/browse/STOR-305 srmReleaseFiles doesn't release multiple files at once.
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${surl}  Get random query SURL
   Create remote file  ${surl}
   Do PTG  ${surl}
@@ -145,7 +144,7 @@ Release multiple ptg requests specifying only SURL in query form
 
 Release multiple files specifying only TOKEN
   [Tags]  storm-client  rf
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${surl}  Get random simple SURL
   Create remote file  ${surl}
   ${surl2}  Get random simple SURL

@@ -2,7 +2,6 @@
 Resource   lib/stormlib.txt
 Resource   lib/lcg_util.txt
 Resource   lib/clientSRM.txt
-Resource   lib/credentials.txt
 
 Resource   lib/setup.txt
 
@@ -14,13 +13,15 @@ Suite Teardown    Teardown suite if needed
 Space token used space is update
   [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/109. Given a Space Token ST and a SURL that resides on ST pointing to a not existent file, verify that inspecting the unused space of the ST before and after a non-empty file has been stored on the SURL, the ST used space value is updated accordingly to the size of the new file.
   [Tags]  storm-client  lcg-utils  gst  regression
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
-  ${size_before}  Get unused size using clientSRM  ${VOMSAUTH_SA_TOKEN}
+  [Setup]  Use default voms proxy
+  ${token}  Get SA Token
+  Log  ${token}
+  ${size_before}  Get unused size using clientSRM  ${token}
   Log  ${size_before}
   ${filename}  Create local file
-  ${surl}  Build surl  ${VOMSAUTH_SA}  ${TESTDIR}/${filename}
+  ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
   Copy-out file using lcg-utils  ${filename}  ${surl}
-  ${size_after}  Get unused size using clientSRM  ${VOMSAUTH_SA_TOKEN}
+  ${size_after}  Get unused size using clientSRM  ${token}
   Log  ${size_after}
   ${diff_size}  Run  echo `expr ${size_before} - ${size_after}`
   ${file_size}  Run  ls -l /tmp/${TESTDIR}/${filename} | awk {'print $5'}
@@ -31,7 +32,7 @@ Space token used space is update
 Check a srmGetSpaceMetadata call succedes when a valid Space Token not associated to a Storage Area is given
   [Tags]  storm-client  gsm  regression
   [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/277 Storm failed with "SRM_INTERNAL_ERROR" and "Storage Space not initialized yet" as explaination. It must succede since it does not needs to be initialized.
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
+  [Setup]  Use default voms proxy
   ${token}  Reserve space using clientSRM
   ${output}  Get space metadata using clientSRM  ${token}
   Should Contain  ${output}  SRM_SUCCESS  
@@ -42,8 +43,10 @@ Check a srmGetSpaceMetadata call succedes when a valid Space Token not associate
 Check a GetSpaceMetadata succedes when using a proxy without voms extensions
   [Tags]  storm-client  gsm  regression
   [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/189
-  [Setup]  Use certificate and proxy  test0  ${VOMSAUTH_SA_PROXY}
-  ${token}  Get space token using clientSRM  ${VOMSAUTH_SA_TOKEN}
-  ${output}  Get space metadata using clientSRM  ${token}
+  [Setup]  Use default voms proxy
+  ${token}  Get SA Token
+  Log  ${token}
+  ${spacetoken}  Get space token using clientSRM  ${token}
+  ${output}  Get space metadata using clientSRM  ${spacetoken}
   Should Contain  ${output}  SRM_SUCCESS
   [Teardown]  Clear all credentials
