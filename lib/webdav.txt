@@ -13,7 +13,7 @@ Do CURL HEAD  [Arguments]  ${url}  ${options}=${EMPTY}
   [Return]  ${output}  ${stderr}
 
 Do CURL HEAD and check success  [Arguments]  ${url}  ${options}=${EMPTY}
-  ${output}  ${stderr}  Do CURL HEAD  ${url}  --head ${options}
+  ${output}  ${stderr}  Do CURL HEAD  ${url}  ${options}
   Should Contain  ${output}  200 OK
   [Return]  ${output}  ${stderr}
 
