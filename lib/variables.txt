@@ -41,7 +41,6 @@ ${baseDNGlue2}  GLUE2GroupID=resource,o=glue
 
 ${VO.1}  test.vo
 ${VO.2}  testers.eu-emi.eu
-${VO.3}  dteam
 
 ${DEFAULT_VO}  ${VO.1}
 
@@ -51,7 +50,6 @@ ${storageAreaRoot}  /storage
 
 ${SA.1}  test.vo
 ${SA.2}  testers.eu-emi.eu
-${SA.3}  dteam
 ${SA.4}  testers.eu-emi.eu/nested
 ${SA.5}  alias
 ${SA.6}  tape

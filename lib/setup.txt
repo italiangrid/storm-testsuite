@@ -72,7 +72,6 @@ Setup local working directory
   Create directory  /tmp/${TESTDIR}/certificates
   Create directory  /tmp/${TESTDIR}/proxies/${VO.1}
   Create directory  /tmp/${TESTDIR}/proxies/${VO.2}
-  Create directory  /tmp/${TESTDIR}/proxies/${VO.3}
   Create directory  /tmp/${TESTDIR}/proxies/grid
   Add user  test0
   Add user  test1
