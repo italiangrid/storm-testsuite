@@ -79,7 +79,7 @@ Upload file with CURL  [Arguments]  ${urlDir}  ${credentials}=${EMPTY}
 ##### URL BUILDING
 
 Build URL  [Arguments]  ${endpoint}=${DAVSecureEndpoint}  ${storagearea}=${DEFAULT_SA}  ${path}=${EMPTY}
-  ${output}  Set variable  ${endpoint}/${storagearea}/${TESTDIR}/${path}
+  ${output}  Run Keyword If  '${path}'=='${EMPTY}'  Set Variable  ${endpoint}/${storagearea}/${TESTDIR}  ELSE  Set variable  ${endpoint}/${storagearea}/${TESTDIR}/${path}
   [Return]  ${output}
 
 ##### PROPFIND UTILS
