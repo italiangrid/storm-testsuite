@@ -10,7 +10,7 @@ Suite Teardown    Teardown suite if needed
 *** Test cases ***
 
 WebDAV PROPFIND allprop on file
-  [Tags]  webdav  propfind
+  [Tags]  webdav  propfind  no-gridhttps
   [Setup]  Setup default SA
   Create working directory
   ${body}  Get PROPFIND ALLPROP body
@@ -24,7 +24,7 @@ WebDAV PROPFIND allprop on file
   [Teardown]  Teardown default SA
 
 WebDAV PROPFIND allprop on non empty directory
-  [Tags]  webdav  propfind
+  [Tags]  webdav  propfind  no-gridhttps
   [Setup]  Setup default SA
   Create working directory
   ${body}  Get PROPFIND ALLPROP body

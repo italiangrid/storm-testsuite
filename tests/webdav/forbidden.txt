@@ -32,7 +32,7 @@ WebDAV GET/HEAD VO file as anonymous user and anonymous http read enabled
   [Teardown]  Teardown SA and VO
 
 WebDAV GET/HEAD VO file as authenticated user when authenticated http read is disabled
-  [Tags]  webdav  forbidden  get  head
+  [Tags]  webdav  forbidden  get  head  no-gridhttps
   [Setup]  Setup default SA
   Create working directory
   ${url}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}

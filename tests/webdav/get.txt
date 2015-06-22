@@ -51,7 +51,7 @@ WebDAV GET resource with missing parent
   [Teardown]  Teardown default SA
 
 WebDAV partial GET
-  [Tags]  webdav  get
+  [Tags]  webdav  get  no-gridhttps
   [Setup]  Setup default SA
   Create working directory
   ${url}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}

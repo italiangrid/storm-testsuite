@@ -26,7 +26,7 @@ WebDAV DELETE directory
   [Teardown]  Teardown default SA
 
 WebDAV DELETE non existent resource
-  [Tags]  webdav  delete
+  [Tags]  webdav  delete  no-gridhttps
   [Setup]  Setup default SA
   ${url}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}
   ${stdout}  ${stderr}  Do CURL DELETE  ${url}  ${TEST_CURL_OPTIONS}

@@ -54,7 +54,7 @@ WebDAV COPY file not allowed overwrite
   [Teardown]  Teardown default SA
 
 WebDAV COPY not existent file
-  [Tags]  webdav  copy
+  [Tags]  webdav  copy  no-gridttps
   [Setup]  Setup default SA
   Create empty working directory
   ${srcURL}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
