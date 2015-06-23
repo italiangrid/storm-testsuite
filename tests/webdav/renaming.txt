@@ -4,9 +4,6 @@ Resource   lib/setup.txt
 Resource   lib/webdav.txt
 Resource   lib/webdav_util.txt
 
-Suite Setup       Setup suite if needed
-Suite Teardown    Teardown suite if needed
-
 *** Keywords ***
 
 Setup Renaming on particular SA and VO  [Arguments]  ${endpoint}=${DAVSecureEndpoint}  ${sa}=${DEFAULT_SA}  ${user}=${defaultUser}  ${voname}=${DEFAULT_VO}

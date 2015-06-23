@@ -61,29 +61,6 @@ Create grid proxy   [Arguments]   ${user}
   ${output}  ${stderr}  Execute and Check Success   echo ${userpass}|voms-proxy-init -pwstdin --cert ${usercert} --out ${proxy}
   Log  ${output}
   Log  ${stderr}
-
-Setup local working directory
-  ${timestamp}  Get timestamp
-  ${uid}  Get uid
-  Set Variable If It Does Not Exist  \${TESTDIR}  storm-testsuite_${timestamp.strip()}
-  Set Variable If It Does Not Exist  \${DEFAULT_X509_USER_PROXY}  /tmp/x509up_u${uid}
-  Create directory  /tmp/${TESTDIR}
-  Create directory  /tmp/${TESTDIR}/proxies
-  Create directory  /tmp/${TESTDIR}/certificates
-  Create directory  /tmp/${TESTDIR}/proxies/${VO.1}
-  Create directory  /tmp/${TESTDIR}/proxies/${VO.2}
-  Create directory  /tmp/${TESTDIR}/proxies/grid
-  Add user  test0
-  Add user  test1
-  Add user  apostrofe
-  Create voms proxy  test0  test.vo
-  Create voms proxy  test1  test.vo
-  Create voms proxy  test0  testers.eu-emi.eu
-  Create voms proxy  apostrofe  test.vo
-  Create grid proxy  test0
-
-Teardown local working directory
-  Remove directory  /tmp/${TESTDIR}
   
 Use default voms proxy
   ${proxy}  Get user voms proxy path  ${DEFAULT_USER}  ${DEFAULT_VO}
@@ -116,6 +93,26 @@ Clear remote working directory  [Arguments]  ${storageArea}
   Log  ${output}
   Should Contain  ${output}  SRM_SUCCESS
 
+Setup local working directory
+  ${timestamp}  Get timestamp
+  ${uid}  Get uid
+  Set Variable If It Does Not Exist  \${TESTDIR}  storm-testsuite_${timestamp.strip()}
+  Set Variable If It Does Not Exist  \${DEFAULT_X509_USER_PROXY}  /tmp/x509up_u${uid}
+  Create directory  /tmp/${TESTDIR}
+  Create directory  /tmp/${TESTDIR}/proxies
+  Create directory  /tmp/${TESTDIR}/certificates
+  Create directory  /tmp/${TESTDIR}/proxies/${VO.1}
+  Create directory  /tmp/${TESTDIR}/proxies/${VO.2}
+  Create directory  /tmp/${TESTDIR}/proxies/grid
+  Add user  test0
+  Add user  test1
+  Add user  apostrofe
+  Create voms proxy  test0  test.vo
+  Create voms proxy  test1  test.vo
+  Create voms proxy  test0  testers.eu-emi.eu
+  Create voms proxy  apostrofe  test.vo
+  Create grid proxy  test0
+
 Setup remote working directories
   Use voms proxy  test0  test.vo
   Create remote working directory  test.vo
@@ -127,6 +124,9 @@ Setup remote working directories
   Create remote working directory  test.vo.bis
   Create remote working directory  tape
   Clear all credentials
+
+Teardown local working directory
+  Remove directory  /tmp/${TESTDIR}
 
 Teardown remote working directories
   Use voms proxy  test0  test.vo
@@ -143,20 +143,7 @@ Teardown remote working directories
 Setup suite
   Setup local working directory
   Setup remote working directories
-  Set Global Variable  ${STARTED}  true
-
-Do setup
-  Setup suite
-  Set Suite Variable  ${DOTEARDOWN}  true
-
-Setup suite if needed
-  ${status}  ${message} =  Run Keyword And Ignore Error  Variable Should Exist  ${STARTED}
-  Run Keyword If  "${status}" == "FAIL"  Do setup
 
 Teardown suite
   Teardown remote working directories
   Teardown local working directory  
-
-Teardown suite if needed
-  ${status}  ${message} =  Run Keyword And Ignore Error  Variable Should Exist  ${DOTEARDOWN}
-  Run Keyword If  "${status}" == "PASS"  Teardown suite

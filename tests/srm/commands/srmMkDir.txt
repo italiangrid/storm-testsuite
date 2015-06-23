@@ -1,11 +1,8 @@
 *** Settings ***
+
 Resource   lib/stormlib.txt
 Resource   lib/clientSRM.txt
-
 Resource   lib/setup.txt
-
-Suite Setup       Setup suite if needed
-Suite Teardown    Teardown suite if needed
 
 *** Test Cases ***
 

@@ -4,9 +4,6 @@ Resource   lib/setup.txt
 Resource   lib/webdav.txt
 Resource   lib/webdav_util.txt
 
-Suite Setup       Setup suite if needed
-Suite Teardown    Teardown suite if needed
-
 *** Test Cases ***
 
 STOR-795 Storage area matching fails with COPY/MOVE
