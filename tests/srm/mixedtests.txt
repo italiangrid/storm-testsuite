@@ -27,7 +27,7 @@ Create file with synch ptp and pd  [Arguments]  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
 
 Upload file with lcg utils  [Arguments]  ${localfilename}  ${surl}
-  Copy-out file using lcg-utils  ${filename}  ${surl}
+  Copy-out file using lcg-utils  ${localfilename}  ${surl}
 
 Upload file with asynch ptp and globus file transfer  [Arguments]  ${surl}  ${localfilename}  ${turl}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}
