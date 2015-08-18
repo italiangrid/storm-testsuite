@@ -81,7 +81,7 @@ Check that GLUE2StorageServiceCapacityTotalSize for the online capacity type is 
   ${output}  Get attribute value using ldapsearch  ${lurl}  ${baseDNGlue2}  ${filterGlue2StorageServiceCapacity}  GLUE2StorageServiceCapacityTotalSize
   ${lines}  Get Lines Containing String  ${output}  GLUE2StorageServiceCapacityTotalSize 
   :FOR  ${line}  in  ${lines}
-  \  ${first}  ${others}  Split String  ${lines}  :${SPACE}
+  \  ${first}  ${others}=  Split String  ${line}  :${SPACE}
   \  ${val}  Get From List  ${others}  1
   \  Should Not Be Equal  '${val}'  '0'
 
