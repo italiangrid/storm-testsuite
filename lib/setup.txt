@@ -87,11 +87,23 @@ Create remote working directory  [Arguments]  ${storageArea}
   Log  ${output}
   Should Contain  ${output}  SRM_SUCCESS
 
+Create webdav remote working directory  [Arguments]  ${storageArea}
+  ${url}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
+  ${output}  Do CURL MKCOL  ${url}
+  Log  ${output}
+  Should Contain  ${output}  201 Created
+
 Clear remote working directory  [Arguments]  ${storageArea}
   ${surl}  Build surl  ${storageArea}  ${TESTDIR}
   ${output}  Perform rmdir using clientSRM  ${surl}  -r
   Log  ${output}
   Should Contain  ${output}  SRM_SUCCESS
+
+Clear webdav remote working directory  [Arguments]  ${storageArea}
+  ${url}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
+  ${output}  Do CURL DELETE  ${url}
+  Log  ${output}
+  Should Contain  ${output}  204 No Content
 
 Setup local working directory
   ${timestamp}  Get timestamp
@@ -124,6 +136,18 @@ Setup remote working directories
   Create remote working directory  test.vo.bis
   Create remote working directory  tape
   Clear all credentials
+  
+Setup webdav remote working directories
+  Use voms proxy  test0  test.vo
+  Create webdav remote working directory  test.vo
+  Create webdav remote working directory  igi
+  Create webdav remote working directory  noauth 
+  Use voms proxy  test0  testers.eu-emi.eu
+  Create webdav remote working directory  testers.eu-emi.eu
+  Create webdav remote working directory  alias
+  Create webdav remote working directory  test.vo.bis
+  Create webdav remote working directory  tape
+  Clear all credentials
 
 Teardown local working directory
   Remove directory  /tmp/${TESTDIR}
@@ -139,11 +163,31 @@ Teardown remote working directories
   Clear remote working directory  alias
   Clear remote working directory  tape
   Clear all credentials
+  
+Teardown webdav remote working directories
+  Use voms proxy  test0  test.vo
+  Clear webdav remote working directory  test.vo
+  Clear webdav remote working directory  igi
+  Clear webdav remote working directory  noauth 
+  Use voms proxy  test0  testers.eu-emi.eu
+  Clear webdav remote working directory  testers.eu-emi.eu
+  Clear webdav remote working directory  test.vo.bis
+  Clear webdav remote working directory  alias
+  Clear webdav remote working directory  tape
+  Clear all credentials
 
 Setup suite
   Setup local working directory
   Setup remote working directories
 
+Setup suite webdav
+  Setup local working directory
+  Setup webdav remote working directories
+
 Teardown suite
   Teardown remote working directories
-  Teardown local working directory  
+  Teardown local working directory
+
+Teardown suite webdav
+  Teardown webdav remote working directories
+  Teardown local working directory
