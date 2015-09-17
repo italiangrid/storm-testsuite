@@ -5,6 +5,7 @@ Resource   lib/config.txt
 Resource   lib/stormlib.txt
 Resource   lib/clientSRM.txt
 Resource   lib/webdav.txt
+Resource   lib/webdav_util.txt
 
 *** Keywords ***
 
