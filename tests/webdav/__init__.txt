@@ -1,0 +1,19 @@
+*** Settings ***
+
+Resource   lib/setup.txt
+
+Suite Setup       Setup suite
+Suite Teardown    Teardown suite
+
+*** Keywords override***
+Create remote working directory  [Arguments]  ${storageArea}
+  ${url}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
+  ${output}  Do CURL MKCOL  ${url}
+  Log  ${output}
+  Should Contain  ${output}  201 Created
+  
+Clear remote working directory  [Arguments]  ${storageArea}
+  ${url}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
+  ${output}  Do CURL DELETE  ${url}
+  Log  ${output}
+  Should Contain  ${output}  204 No Content
