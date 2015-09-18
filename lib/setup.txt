@@ -141,15 +141,15 @@ Setup remote working directories
 Setup webdav remote working directories
   Use voms proxy  test0  test.vo
   ${options}  Get CURL VOMS proxy options  test0  test.vo
-  Create webdav remote working directory  test.vo
-  Create webdav remote working directory  igi
-  Create webdav remote working directory  noauth
+  Create webdav remote working directory  test.vo  ${options}
+  Create webdav remote working directory  igi  ${options}
+  Create webdav remote working directory  noauth  ${options}
   Use voms proxy  test0  testers.eu-emi.eu
   ${options}  Get CURL VOMS proxy options  test0  testers.eu-emi.eu
-  Create webdav remote working directory  testers.eu-emi.eu
-  Create webdav remote working directory  alias
-  Create webdav remote working directory  test.vo.bis
-  Create webdav remote working directory  tape
+  Create webdav remote working directory  testers.eu-emi.eu  ${options}
+  Create webdav remote working directory  alias  ${options}
+  Create webdav remote working directory  test.vo.bis  ${options}
+  Create webdav remote working directory  tape  ${options}
   Clear all credentials
 
 Teardown local working directory
@@ -170,15 +170,15 @@ Teardown remote working directories
 Teardown webdav remote working directories
   Use voms proxy  test0  test.vo
   ${options}  Get CURL VOMS proxy options  test0  test.vo
-  Clear webdav remote working directory  test.vo
-  Clear webdav remote working directory  igi
-  Clear webdav remote working directory  noauth 
+  Clear webdav remote working directory  test.vo  ${options}
+  Clear webdav remote working directory  igi  ${options}
+  Clear webdav remote working directory  noauth  ${options}
   Use voms proxy  test0  testers.eu-emi.eu
   ${options}  Get CURL VOMS proxy options  test0  testers.eu-emi.eu
-  Clear webdav remote working directory  testers.eu-emi.eu
-  Clear webdav remote working directory  test.vo.bis
-  Clear webdav remote working directory  alias
-  Clear webdav remote working directory  tape
+  Clear webdav remote working directory  testers.eu-emi.eu  ${options}
+  Clear webdav remote working directory  test.vo.bis  ${options}
+  Clear webdav remote working directory  alias  ${options}
+  Clear webdav remote working directory  tape  ${options}
   Clear all credentials
 
 Setup suite
