@@ -89,7 +89,7 @@ Create remote working directory  [Arguments]  ${storageArea}
   Should Contain  ${output}  SRM_SUCCESS
 
 Create webdav remote working directory  [Arguments]  ${storageArea}
-  ${url}  Build URL  ${backEndHost}  ${storageArea}  ${TESTDIR}
+  ${url}  Build URL  ${DAVEndpoint}  ${storageArea}  ${TESTDIR}
   ${output}  Do CURL MKCOL  ${url}
   Log  ${output}
   Should Contain  ${output}  201 Created
@@ -101,7 +101,7 @@ Clear remote working directory  [Arguments]  ${storageArea}
   Should Contain  ${output}  SRM_SUCCESS
 
 Clear webdav remote working directory  [Arguments]  ${storageArea}
-  ${url}  Build URL  ${backEndHost}  ${storageArea}  ${TESTDIR}
+  ${url}  Build URL  ${DAVEndpoint}  ${storageArea}  ${TESTDIR}
   ${output}  Do CURL DELETE  ${url}
   Log  ${output}
   Should Contain  ${output}  204 No Content
