@@ -88,9 +88,9 @@ Create remote working directory  [Arguments]  ${storageArea}
   Log  ${output}
   Should Contain  ${output}  SRM_SUCCESS
 
-Create webdav remote working directory  [Arguments]  ${storageArea}
+Create webdav remote working directory  [Arguments]  ${storageArea}  ${options}
   ${url}  Build URL  ${DAVSecureEndpoint}  ${storageArea}  ${TESTDIR}
-  ${output}  Do CURL MKCOL  ${url}
+  ${output}  Do CURL MKCOL  ${url}  ${options}
   Log  ${output}
   Should Contain  ${output}  201 Created
 
@@ -100,9 +100,9 @@ Clear remote working directory  [Arguments]  ${storageArea}
   Log  ${output}
   Should Contain  ${output}  SRM_SUCCESS
 
-Clear webdav remote working directory  [Arguments]  ${storageArea}
+Clear webdav remote working directory  [Arguments]  ${storageArea}  ${options}
   ${url}  Build URL  ${DAVSecureEndpoint}  ${storageArea}  ${TESTDIR}
-  ${output}  Do CURL DELETE  ${url}
+  ${output}  Do CURL DELETE  ${url}  ${options}
   Log  ${output}
   Should Contain  ${output}  204 No Content
 
@@ -140,10 +140,12 @@ Setup remote working directories
   
 Setup webdav remote working directories
   Use voms proxy  test0  test.vo
+  ${options}  Get CURL VOMS proxy options  test0  test.vo
   Create webdav remote working directory  test.vo
   Create webdav remote working directory  igi
-  Create webdav remote working directory  noauth 
+  Create webdav remote working directory  noauth
   Use voms proxy  test0  testers.eu-emi.eu
+  ${options}  Get CURL VOMS proxy options  test0  testers.eu-emi.eu
   Create webdav remote working directory  testers.eu-emi.eu
   Create webdav remote working directory  alias
   Create webdav remote working directory  test.vo.bis
@@ -167,10 +169,12 @@ Teardown remote working directories
   
 Teardown webdav remote working directories
   Use voms proxy  test0  test.vo
+  ${options}  Get CURL VOMS proxy options  test0  test.vo
   Clear webdav remote working directory  test.vo
   Clear webdav remote working directory  igi
   Clear webdav remote working directory  noauth 
   Use voms proxy  test0  testers.eu-emi.eu
+  ${options}  Get CURL VOMS proxy options  test0  testers.eu-emi.eu
   Clear webdav remote working directory  testers.eu-emi.eu
   Clear webdav remote working directory  test.vo.bis
   Clear webdav remote working directory  alias
