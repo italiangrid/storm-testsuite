@@ -90,7 +90,7 @@ Create remote working directory  [Arguments]  ${storageArea}
 
 Create webdav remote working directory  [Arguments]  ${storageArea}  ${options}
   ${url}  Build URL  ${DAVSecureEndpoint}  ${storageArea}
-  ${output}  Do CURL MKCOL  ${url}  ${options}
+  ${output}  ${stderr}  Do CURL MKCOL  ${url}  ${options}
   Log  ${output}
   Should Contain  ${output}  201 Created
 
@@ -102,7 +102,7 @@ Clear remote working directory  [Arguments]  ${storageArea}
 
 Clear webdav remote working directory  [Arguments]  ${storageArea}  ${options}
   ${url}  Build URL  ${DAVSecureEndpoint}  ${storageArea}
-  ${output}  Do CURL DELETE  ${url}  ${options}
+  ${output}  ${stderr}  Do CURL DELETE  ${url}  ${options}
   Log  ${output}
   Should Contain  ${output}  204 No Content
 
