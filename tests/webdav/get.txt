@@ -13,6 +13,7 @@ WebDAV GET file
   ${url}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
   ${stdout}  ${stderr}  Do CURL GET and check success  ${url}  ${TEST_CURL_OPTIONS}
   Should Contain  ${stdout}  test123456789
+  Should Contain  ${stdout}  Digest: adler32=1d3b039e
   [Teardown]  Teardown default SA
 
 WebDAV GET directory
