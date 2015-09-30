@@ -1,0 +1,6 @@
+*** Settings ***
+
+Resource   lib/setup.txt
+
+Suite Setup       Setup suite webdav
+Suite Teardown    Teardown suite webdav
