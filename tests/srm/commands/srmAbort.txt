@@ -6,7 +6,7 @@ Resource   lib/setup.txt
 
 *** Test Cases ***
 A user cannot abort the request of another user
-  [Tags]  storm-client  ptg
+  [Tags]  storm-client  abort
   [Setup]  Use default voms proxy
   ${filename}  Get a unique name
   ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
@@ -53,7 +53,7 @@ Duplicated ptg abort
   [Teardown]  Clear all credentials
 
 Abort multiple files
-  [Tags]  storm-client  ptp
+  [Tags]  storm-client  abort
   [Setup]  Use default voms proxy
   ${dirname}  Get a unique name
   ${filename}  Get a unique name
@@ -79,7 +79,6 @@ Abort multiple files
 
 Abort request with non existent fake token
   [Tags]  storm-client  abort
-  [Documentation]  Regression test for https://issues.infn.it/jira/browse/STOR-234. Storm BE does not manage correctly abort requests of expired tokens.
   [Setup]  Use default voms proxy
   ${output}  Perform abort request using clientSRM  fake_token
   Should Contain  ${output}  SRM_INVALID_REQUEST
@@ -87,7 +86,7 @@ Abort request with non existent fake token
   [Teardown]  Clear all credentials
 
 Abort request with non existent well-formed token
-  [Tags]  storm-client  abort  to-be-fixed
+  [Tags]  storm-client  abort
   [Documentation]  Regression test for https://issues.infn.it/jira/browse/STOR-234. Storm BE does not manage correctly abort requests of expired tokens.
   [Setup]  Use default voms proxy
   ${output}  Perform abort request using clientSRM  992a7ecc-65df-4902-ae00-06a9691ad816
