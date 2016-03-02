@@ -1,102 +1,56 @@
 *** Settings ***
-Resource   lib/stormlib.txt
-Resource   lib/clientSRM.txt
-Resource   lib/credentials.txt
-Resource   lib/lcg_util.txt
 
-*** Test Cases ***
+Resource   lib/setup.txt
+Resource   lib/webdav.txt
+Resource   lib/webdav_util.txt
 
-WebDAV HEAD anonymous on root directory
-  [Tags]  webdav  head  anonymous
-  ${options}  Set variable  --verbose --head
-  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}
-  ${output}  Execute Curl with options  ${url}  ${options}
-  Should Contain  ${output}  200 OK
+*** Test cases ***
 
-WebDAV HEAD anonymous on existent file
-  [Tags]  webdav  head  anonymous
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Create local file
-  ${surl}  Build surl  ${anonymousRWStorageArea}  ${filename}
-  Copy-out file using lcg-utils  ${filename}  ${surl}
-  ${options}  Set variable  --verbose --head
-  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${filename}
-  ${output}  Execute Curl with options  ${url}  ${options}
-  Should Contain  ${output}  200 OK
-  Remove file using clientSRM  ${anonymousRWStorageArea}  ${filename}
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
-WebDAV HEAD anonymous on unexistent file
-  [Tags]  webdav  head  anonymous
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Get a unique name
-  ${options}  Set variable  --verbose --head
-  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${filename}
-  ${output}  Execute Curl with options  ${url}  ${options}
-  Log  ${output}
-  Should Contain  ${output}  404 Not Found
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
-
-WebDAV HEAD anonymous on existent directory
-  [Tags]  webdav  head  anonymous
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${dirname}  Get a unique name
-  ${surl}  Build surl  ${anonymousRWStorageArea}  ${dirname}
-  ${output}  Perform mkdir using clientSRM  ${surl}
-  ${options}  Set variable  --verbose --head
-  ${url}  Build webdav unsecure URL  ${anonymousRWStorageArea}  ${dirname}
-  ${output}  Execute Curl with options  ${url}  ${options}
-  Should Contain  ${output}  200 OK
-  Remove empty directory using clientSRM  ${anonymousRWStorageArea}  ${dirname}
-  Remove local directory  ${dirname}
-  [Teardown]  Clear all credentials
-
-WebDAV HEAD with VOMS proxy on root directory
+WebDAV HEAD file
   [Tags]  webdav  head
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${options}  Set variable  --verbose --head
-  ${url}  Build webdav secure URL  ${vomsproxyRWStorageArea}/
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  200 OK
-  [Teardown]  Clear all credentials
+  [Setup]  Setup default SA
+  Create working directory
+  ${url}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
+  ${stdout}  ${stderr}  Do CURL HEAD and check success  ${url}  ${TEST_CURL_OPTIONS}
+  [Teardown]  Teardown default SA
 
-WebDAV HEAD with VOMS proxy on existent file
-  [Tags]  webdav  head  vomsproxy
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Create local file
-  ${surl}  Build surl  ${vomsproxyRWStorageArea}  ${filename}
-  Copy-out file using lcg-utils  ${filename}  ${surl}
-  ${options}  Set variable  --verbose --head
-  ${url}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${filename}
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  200 OK
-  Remove file using clientSRM  ${vomsproxyRWStorageArea}  ${filename}
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
+WebDAV HEAD file and verify checksum
+  [Tags]  webdav  head  no-gridhttps
+  [Setup]  Setup default SA
+  Create working directory
+  ${url}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
+  ${stdout}  ${stderr}  Do CURL HEAD and check success  ${url}  ${TEST_CURL_OPTIONS}
+  Should Contain  ${stdout}  Digest: adler32=1d3b039e
+  [Teardown]  Teardown default SA
 
-WebDAV HEAD with VOMS proxy on unexistent file
-  [Tags]  webdav  head  vomsproxy
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${filename}  Create local file
-  ${options}  Set variable  --verbose --head
-  ${url}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${filename}
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  404 Not Found
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials
+WebDAV HEAD directory
+  [Tags]  webdav  head
+  [Setup]  Setup default SA
+  Create empty working directory
+  ${url}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}
+  Do CURL HEAD and check success  ${url}  ${TEST_CURL_OPTIONS}
+  [Teardown]  Teardown default SA
 
-WebDAV HEAD with VOMS proxy on existent directory
-  [Tags]  webdav  head  vomsproxy
-  [Setup]  Init certificate and voms proxy  test0  ${vo}
-  ${dirname}  Get a unique name
-  ${surl}  Build surl  ${vomsproxyRWStorageArea}  ${dirname}
-  ${output}  Perform mkdir using clientSRM  ${surl}
-  ${options}  Set variable  --verbose --head
-  ${url}  Build webdav secure URL  ${vomsproxyRWStorageArea}  ${dirname}
-  ${output}  Execute Curl with proxy and options  ${url}  ${options}
-  Should Contain  ${output}  200 OK
-  Remove empty directory using clientSRM  ${vomsproxyRWStorageArea}  ${dirname}
-  Remove local directory  ${dirname}
-  [Teardown]  Clear all credentials
+WebDAV HEAD root directory
+  [Tags]  webdav  head
+  [Setup]  Setup default SA
+  ${url}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}
+  Do CURL HEAD and check success  ${url}  ${TEST_CURL_OPTIONS}
+  [Teardown]  Teardown default SA
+
+WebDAV HEAD non existent resource
+  [Tags]  webdav  head
+  [Setup]  Setup default SA
+  Create empty working directory
+  ${url}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
+  ${stdout}  ${stderr}  Do CURL HEAD  ${url}  ${TEST_CURL_OPTIONS}
+  Should Contain  ${stdout}  404 Not Found
+  [Teardown]  Teardown default SA
+
+WebDAV HEAD resource with missing parent
+  [Tags]  webdav  head
+  [Setup]  Setup default SA
+  ${url}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
+  ${stdout}  ${stderr}  Do CURL HEAD  ${url}  ${TEST_CURL_OPTIONS}
+  Should Contain  ${stdout}  404 Not Found
+  [Teardown]  Teardown default SA

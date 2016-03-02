@@ -7,57 +7,56 @@ Resource   variables.txt
 
 Execute and Check Success  [Arguments]  ${cmd}
   ${rc}  ${output}=  Run and Return RC And Output  ${cmd}
-  Should Be Equal As Integers  ${rc}  0  ${output}  False
-  [Return]  ${output}
+  Should Be Equal As Integers  ${rc}  0  ${cmd} failed with ${output}  False
+  [Return]  ${output}  ${EMPTY}
 
 Execute and Check Failure   [Arguments]   ${cmd}
   ${rc}   ${output}=   Run and Return RC And Output  ${cmd}
-  Should Not Be Equal As Integers  ${rc}  0  ${output}
+  Should Not Be Equal As Integers  ${rc}  0  ${cmd} failed with ${output}
   [Return]  ${output}
 
 Get a unique name
-  ${name}  Execute and Check Success  basename `mktemp`
+  ${name}  ${stderr}  Execute and Check Success  basename `mktemp`
+  Execute and Check Success  rm -f /tmp/${name}
   [Return]  ${name}
 
 Create local file
   ${name}  Get a unique name
-  Execute and Check Success  dd if=/dev/urandom of=/tmp/${name} bs=1M count=1
+  Execute and Check Success  dd if=/dev/urandom of=/tmp/${TESTDIR}/${name} bs=1M count=1
   [Return]  ${name}
+
+Create local file with text  [Arguments]  ${fileContent}=File di testo di prova
+  ${name}  Get a unique name
+  ${path}  Get local file path from name  ${name}
+  Execute and Check Success  echo -n "${fileContent}" > ${path}
+  [Return]  ${name}
+
+Get local file path from name  [Arguments]  ${name}
+  [Return]  /tmp/${TESTDIR}/${name}
 
 Create local file with fake size  [Arguments]  ${megabytes}
   ${name}  Get a unique name
-  Execute and Check Success  dd if=/dev/null of=/tmp/${name} bs=1M count=1 seek=${megabytes}
+  Execute and Check Success  dd if=/dev/null of=/tmp/${TESTDIR}/${name} bs=1M count=1 seek=${megabytes}
   [Return]  ${name}
 
 Create local empty file
   ${name}  Get a unique name
-  Execute and Check Success  touch /tmp/${name}
+  Execute and Check Success  touch /tmp/${TESTDIR}/${name}
   [Return]  ${name}
-
-Remove local file  [Arguments]  ${filename}
-  Execute and Check Success  rm -f /tmp/${filename}
-
-Remove local directory  [Arguments]  ${dirname}
-  Execute and Check Success  rm -rf /tmp/${dirname}
 
 Create local file with checksum that starts with zero
   ${name}  Get a unique name
-  Execute and Check Success  echo "a" > /tmp/${name}
+  Execute and Check Success  echo "a" > /tmp/${TESTDIR}/${name}
   [Return]  ${name}
 
-Execute Curl with proxy and options  [Arguments]  ${url}  ${options}=${EMPTY}
-  [Documentation]  This keyword should be used when invoking CURL with a proxy certificate
-  ${output}  Execute and Check Success  curl --cert ${userproxy} --cacert ${usercert} --capath ${trustdir} ${options} ${url} -L
-  [Return]  ${output}
+Create local directory  [Arguments]  ${dirname}
+  Execute and Check Success  mkdir /tmp/${dirname}
 
-Execute Curl with certificate and options  [Arguments]  ${url}  ${options}=${EMPTY}
-  [Documentation]  This keyword should be used when invoking CURL with an EEC
-  ${output}  Execute and Check Success  curl --cert ${usercert} --key ${userkey} --capath ${trustdir} ${options} ${url} -L
-  [Return]  ${output}
+Remove local file  [Arguments]  ${filename}
+  Execute and Check Success  rm -f /tmp/${TESTDIR}/${filename}
 
-Execute Curl with options   [Arguments]  ${url}  ${options}=${EMPTY}
-  ${output}  Execute and Check Success  curl ${options} ${url} -L
-  [Return]   ${output} 
+Remove local directory  [Arguments]  ${dirname}
+  Execute and Check Success  rm -rf /tmp/${dirname}
 
 Build surl  [Arguments]  ${storageArea}  ${relativePath}
   ${output}  Set variable  srm://${srmEndpoint}/srm/managerv2?SFN=/${storageArea}/${relativePath}
@@ -67,18 +66,10 @@ Build simple surl  [Arguments]  ${storageArea}  ${relativePath}
   ${output}  Set variable  srm://${srmEndpoint}/${storageArea}/${relativePath}
   [Return]  ${output}
 
-Build file transfer TURL  [Arguments]  ${storageArea}  ${relativePath}
-  ${output}  Set variable  http://${filetransferEndpoint}/fileTransfer/${storageArea}/${relativePath}
+Build gsiftp TURL  [Arguments]  ${storageArea}  ${relativePath}
+  ${output}  Set variable  gsiftp://${globusEndpoint}/${storageAreaRoot}/${storageArea}/${relativePath}
   [Return]  ${output}
 
-Build file transfer secure TURL  [Arguments]  ${storageArea}  ${relativePath}
-  ${output}  Set variable  https://${filetransferSecureEndpoint}/fileTransfer/${storageArea}/${relativePath}
-  [Return]  ${output}
-
-Build webdav secure URL  [Arguments]  ${storageArea}  ${relativePath}=${EMPTY}
-  ${output}  Set variable  https://${davSecureEndpoint}${davContextPath}/${storageArea}/${relativePath}
-  [Return]  ${output}
-
-Build webdav unsecure URL  [Arguments]  ${storageArea}  ${relativePath}=${EMPTY}
-  ${output}  Set variable  http://${davEndpoint}${davContextPath}/${storageArea}/${relativePath}
-  [Return]  ${output}
+Get SA Token  [Arguments]  ${saname}=${DEFAULT_SA}
+  ${output}  ${error}  Execute and Check Success  echo "${saname}" | sed "s/[^A-Za-z0-99]//g"
+  [Return]  ${output.upper()}_TOKEN

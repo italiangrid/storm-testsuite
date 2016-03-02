@@ -1,21 +1,24 @@
 ** Settings ***
 
 Library   OperatingSystem
-Resource   lib/credentials.txt
 Resource   variables.txt
 
 *** Keywords ***
 
 Execute clientSRM Command  [Arguments]  ${cmd}  ${options}=${EMPTY}
-  ${output}  Execute and Check Success  clientSRM ${cmd} ${options} -e ${srmEndpoint}
+  ${output}  ${stderr}  Execute and Check Success  clientSRM ${cmd} ${options} -e ${srmEndpoint}
   [Return]  ${output}
 
 Execute clientSRM Command on Surl  [Arguments]  ${cmd}  ${surl}  ${options}=${EMPTY}
-  ${output}  Execute and Check Success  clientSRM ${cmd} ${options} -e ${srmEndpoint} -s ${surl}
+  ${output}  ${stderr}  Execute and Check Success  clientSRM ${cmd} ${options} -e ${srmEndpoint} -s ${surl}
   [Return]  ${output}
 
 Execute clientSRM Command on Surl with Token  [Arguments]  ${cmd}  ${surl}  ${token}  ${options}=${EMPTY}
-  ${output}  Execute and Check Success  clientSRM ${cmd} ${options} -e ${srmEndpoint} -s ${surl} -t ${token}
+  ${output}  ${stderr}  Execute and Check Success  clientSRM ${cmd} ${options} -e ${srmEndpoint} -s ${surl} -t ${token}
+  [Return]  ${output}
+
+Execute clientSRM Command with Token  [Arguments]  ${cmd}  ${token}  ${options}=${EMPTY}
+  ${output}  ${stderr}  Execute and Check Success  clientSRM ${cmd} ${options} -e ${srmEndpoint} -t ${token}
   [Return]  ${output}
 
 Perform mkdir using clientSRM  [Arguments]  ${surl}  ${options}=${EMPTY}
@@ -31,13 +34,19 @@ Perform rmdir using clientSRM  [Arguments]  ${surl}  ${options}=${EMPTY}
   [Return]  ${output}
 
 Perform ping using clientSRM
-  ${output}  Execute clientSRM Command on Surl  ping  -e ${srmEndpoint}
+  ${output}  Execute clientSRM Command  ping  -e ${srmEndpoint}
   [Return]  ${output}
 
 Perform ptp using clientSRM  [Arguments]  ${surl}  ${options}=${EMPTY}
   ${output}  Execute clientSRM Command on Surl  ptp  ${surl}  ${options}
   ${result}  ${token}=  Should Match Regexp  ${output}  requestToken=(\".+\")
   [Return]  ${output}  ${token}
+
+Perform ptp with transfer protocol using clientSRM  [Arguments]  ${surl}  ${protocol}  ${options}=${EMPTY}
+  ${output}  Execute clientSRM Command on Surl  ptp  ${surl}  -T -P ${protocol} ${options}
+  ${result}  ${token}=  Should Match Regexp  ${output}  requestToken=(\".+\")
+  ${result}  ${turl}=  Should Match Regexp  ${output}  TURL=(\".+\")
+  [Return]  ${output}  ${token}  ${turl}
 
 Perform sptp using clientSRM  [Arguments]  ${surl}  ${token}  ${options}=${EMPTY}
   ${output}  Execute clientSRM Command on Surl with token  sptp  ${surl}  ${token}  ${options}
@@ -52,6 +61,17 @@ Perform ptg using clientSRM  [Arguments]  ${surl}  ${options}=${EMPTY}
   ${result}  ${token}=  Should Match Regexp  ${output}  requestToken=(\".+\")
   [Return]  ${output}  ${token}
 
+Perform ptg with transfer protocol using clientSRM  [Arguments]  ${surl}  ${protocol}  ${options}=${EMPTY}
+  ${output}  Execute clientSRM Command on Surl  ptg  ${surl}  -T -P ${protocol} ${options}
+  ${result}  ${token}=  Should Match Regexp  ${output}  requestToken=(\".+\")
+  ${result}  ${turl}=  Should Match Regexp  ${output}  transferURL=(\".+\")
+  [Return]  ${output}  ${token}  ${turl}
+
+Perform bol using clientSRM  [Arguments]  ${surl}  ${options}=${EMPTY}
+  ${output}  Execute clientSRM Command on Surl  bol  ${surl}  ${options}
+  ${result}  ${token}=  Should Match Regexp  ${output}  requestToken=(\".+\")
+  [Return]  ${output}  ${token}
+
 Perform sptg using clientSRM  [Arguments]  ${surl}  ${token}  ${options}=${EMPTY}
   ${output}  Execute clientSRM Command on Surl with token  sptg  ${surl}  ${token}  ${options}
   [Return]  ${output}
@@ -62,6 +82,10 @@ Perform rf using clientSRM  [Arguments]  ${surl}  ${token}  ${options}=${EMPTY}
 
 Perform rf using clientSRM without token  [Arguments]  ${surl}  ${options}=${EMPTY}
   ${output}  Execute clientSRM Command on Surl  rf  ${surl}  ${options}
+  [Return]  ${output}
+
+Perform rf using clientSRM without surl  [Arguments]  ${token}  ${options}=${EMPTY}
+  ${output}  Execute clientSRM Command with Token  rf  ${token}  ${options}
   [Return]  ${output}
 
 Perform abort request using clientSRM  [Arguments]  ${token}  ${options}=${EMPTY}
@@ -91,8 +115,8 @@ Get unused size using clientSRM  [Arguments]  ${storageAreaToken}
   ${result}  ${unusedSize}=  Should Match Regexp  ${output}  unusedSize=(.+)
   [Return]  ${unusedSize}
 
-Get space metadata using clientSRM  [Arguments]  ${token}
-  ${output}  Execute clientSRM Command  gsm  -e httpg://${srmEndpoint}/ -s ${token}
+Get space metadata using clientSRM  [Arguments]  ${storageAreaToken}
+  ${output}  Execute clientSRM Command  gsm  -e httpg://${srmEndpoint}/ -s ${storageAreaToken}
   [Return]  ${output}
 
 Get request summary using clientSRM  [Arguments]  ${token}
@@ -136,8 +160,7 @@ Remove file using clientSRM  [Arguments]  ${storageArea}  ${path}
   ${output}  Perform rm using clientSRM  ${surl}
   [Return]  ${output}
 
-Put without really putting using clientSRM  [Arguments]  ${storageArea}  ${path}
-  ${surl}  Build Surl  ${storageArea}  ${path}
+Put without really putting using clientSRM  [Arguments]  ${surl}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
   ${output}  Perform pd using clientSRM  ${surl}  ${token}  -p
@@ -149,25 +172,11 @@ List files in directory using clientSRM  [Arguments]  ${storageArea}  ${path}
   ${output}  Perform ls using clientSRM  ${surl}
   [Return]  ${output}
 
-Get space token using clientSRM  [Arguments]  ${token}=${storageAreaToken}
+Get space token using clientSRM  [Arguments]  ${token}
   ${output}  Execute clientSRM Command  gst -v ES -e httpg://${srmEndpoint} -d ${token}
   ${result}  ${token}=  Should Match Regexp  ${output}  (\".+-.+-.+-.+-.+\")
   [Return]  ${token}
 
-Get space token output using clientSRM  [Arguments]  ${token}=${storageAreaToken}
+Get space token output using clientSRM  [Arguments]  ${token}
   ${output}  Execute clientSRM Command  gst -v ES -e httpg://${srmEndpoint} -d ${token}
   [Return]  ${output}
-
-Init certificate and voms proxy  [Arguments]  ${certificate}  ${vo}
-  Use certificate  ${certificate}
-  Create proxy  --voms ${vo}
-
-Init certificate and plain proxy  [Arguments]  ${certificate}
-  Use certificate  ${certificate}
-  Create plain proxy
-
-Init certificate with unencrypted key  [Arguments]  ${certificate}
-  Use certificate with unencrypted key  ${certificate}
-
-Clear all credentials
-  Stop using certificate

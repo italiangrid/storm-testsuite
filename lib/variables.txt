@@ -1,56 +1,74 @@
 *** Variables ***
 
+##### ENDPOINTS #####
+
 ${backEndHost}  omii005-vm03.cnaf.infn.it
 
 ${frontEndHost}  ${backEndHost}
 ${frontEndPort}  8444
-
-${gridHTTPsHost}  ${backEndHost}
-${gridHTTPsPort}  8085
-${gridHTTPsSecurePort}  8443
 
 ${gridFTPHost}  ${frontEndHost}
 
 ${srmEndpoint}  ${frontEndHost}:${frontEndPort}
 ${globusEndpoint}  ${frontEndHost}:2811
 ${recallEndpoint}  ${backEndHost}:9998
-${davEndpoint}  ${gridHTTPsHost}:${gridHTTPsPort}
-${davSecureEndpoint}  ${gridHTTPsHost}:${gridHTTPsSecurePort}
 
-${davContextPath}  /webdav
+${DAVHost}  ${backEndHost}
+${DAVPort}  8085
+${DAVSecurePort}  8443
 
-${filetransferEndpoint}  ${gridHTTPsHost}:${gridHTTPsPort}
-${filetransferSecureEndpoint}  ${gridHTTPsHost}:${gridHTTPsSecurePort}
+${DAVContextPath}  /webdav
 
-${storageAreaRoot}  /storage
+${DAVEndpoint}  http://${DAVHost}:${DAVPort}${DAVContextPath}
+${DAVSecureEndpoint}  https://${DAVHost}:${DAVSecurePort}${DAVContextPath}
 
-${vo}   testers.eu-emi.eu
+${ldapEndpoint}  ${backEndHost}:2170
 
-${storageAreaToken}  TESTERSEUEMIEU_TOKEN
+##### CREDENTIALS #####
+
+${DEFAULT_USER}  test0
 
 ${certsDir}   /usr/share/igi-test-ca
 ${privateKeyPassword}   pass
-
-${usercert}  $HOME/.globus/usercert.pem
-${userkey}  $HOME/.globus/userkey.pem
-${userproxy}  $X509_USER_PROXY
 ${trustdir}  /etc/grid-security/certificates
 
-${anonymousRWStorageArea}  noauth
-${anonymousBisRWStorageArea}  noauth
-${vomsproxyRWStorageArea}  testers.eu-emi.eu
-${vomsproxyBisRWStorageArea}  testers.eu-emi.eu
-${gridproxyRWStorageArea}  igi
-${gridproxyBisRWStorageArea}  igi
-${personalcertRWStorageArea}  igi
-${personalcertBisRWStorageArea}  igi
-${tapeStorageArea}  ${vomsproxyRWStorageArea}
-
-${ldapEndpoint}  ${backEndHost}:2170
+##### GLUE #####
 
 ${baseDNGlue}  mds-vo-name=resource,o=grid
 ${baseDNGlue2}  GLUE2GroupID=resource,o=glue
 
-${symlinkSURL}  srm://${srmEndpoint}/${gridproxyRWStorageArea}/${vomsproxyRWStorageArea}
-${symlinkSURL2}  srm://${srmEndpoint}/${gridproxyRWStorageArea}/grid-security
-${symlinkSURL3}  srm://${srmEndpoint}/${gridproxyRWStorageArea}/storm
+##### VOs ######
+
+${VO.1}  test.vo
+${VO.2}  testers.eu-emi.eu
+
+${DEFAULT_VO}  ${VO.1}
+
+##### STORAGE AREAS #####
+
+${storageAreaRoot}  /storage
+
+${SA.1}  test.vo
+${SA.2}  testers.eu-emi.eu
+${SA.4}  testers.eu-emi.eu/nested
+${SA.5}  alias
+${SA.6}  tape
+${SA.7}  igi
+${SA.8}  test.vo.bis
+${SA.9}  noauth
+
+${DEFAULT_SA}  ${SA.1}
+${DEFAULT_SA_VONAME}  ${VO.1}
+
+${TAPE_SA}  ${SA.6}
+${TAPE_SA_VONAME}  ${VO.2}
+
+${NESTED_SA}  ${SA.4}
+${NESTED_SA_VONAME}  ${VO.2}
+
+${ALIASED_SA}  ${SA.5}
+${ALIASED_SA_VONAME}  ${VO.2}
+
+##### LINKS
+
+${SYMLINK.1}  testvo_to_testerseuemieu
