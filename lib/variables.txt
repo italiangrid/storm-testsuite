@@ -26,7 +26,11 @@ ${ldapEndpoint}  ${backEndHost}:2170
 
 ##### CREDENTIALS #####
 
-${DEFAULT_USER}  test0
+${USER.1}  test0
+${USER.2}  test1
+${USER.3}  apostrofe
+
+${DEFAULT_USER}  ${USER.1}
 
 ${certsDir}   /usr/share/igi-test-ca
 ${privateKeyPassword}   pass
@@ -40,7 +44,7 @@ ${baseDNGlue2}  GLUE2GroupID=resource,o=glue
 ##### VOs ######
 
 ${VO.1}  test.vo
-${VO.2}  testers.eu-emi.eu
+${VO.2}  test.vo.2
 
 ${DEFAULT_VO}  ${VO.1}
 
@@ -49,8 +53,8 @@ ${DEFAULT_VO}  ${VO.1}
 ${storageAreaRoot}  /storage
 
 ${SA.1}  test.vo
-${SA.2}  testers.eu-emi.eu
-${SA.4}  testers.eu-emi.eu/nested
+${SA.2}  test.vo.2
+${SA.4}  test.vo.2/nested
 ${SA.5}  alias
 ${SA.6}  tape
 ${SA.7}  igi
@@ -71,4 +75,4 @@ ${ALIASED_SA_VONAME}  ${VO.2}
 
 ##### LINKS
 
-${SYMLINK.1}  testvo_to_testerseuemieu
+${SYMLINK.1}  testvo_to_testvo2
