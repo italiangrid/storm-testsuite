@@ -117,68 +117,68 @@ Setup local working directory
   Create directory  /tmp/${TESTDIR}/proxies/${VO.1}
   Create directory  /tmp/${TESTDIR}/proxies/${VO.2}
   Create directory  /tmp/${TESTDIR}/proxies/grid
-  Add user  test0
-  Add user  test1
-  Add user  apostrofe
-  Create voms proxy  test0  test.vo
-  Create voms proxy  test1  test.vo
-  Create voms proxy  test0  testers.eu-emi.eu
-  Create voms proxy  apostrofe  test.vo
-  Create grid proxy  test0
+  Add user  ${USER.1}
+  Add user  ${USER.2}
+  Add user  ${USER.3}
+  Create voms proxy  ${USER.1}  ${VO.1}
+  Create voms proxy  ${USER.2}  ${VO.1}
+  Create voms proxy  ${USER.1}  ${VO.2}
+  Create voms proxy  ${USER.3}  ${VO.1}
+  Create grid proxy  ${USER.1}
 
 Setup remote working directories
-  Use voms proxy  test0  test.vo
-  Create remote working directory  test.vo
-  Create remote working directory  igi
-  Create remote working directory  noauth 
-  Use voms proxy  test0  testers.eu-emi.eu
-  Create remote working directory  testers.eu-emi.eu
-  Create remote working directory  alias
-  Create remote working directory  test.vo.bis
-  Create remote working directory  tape
+  Use voms proxy  ${DEFAULT_USER}  ${VO.1}
+  Create remote working directory  ${SA.1}
+  Create remote working directory  ${SA.7}
+  Create remote working directory  ${SA.9} 
+  Use voms proxy  ${DEFAULT_USER}  ${VO.2}
+  Create remote working directory  ${SA.2}
+  Create remote working directory  ${SA.5}
+  Create remote working directory  ${SA.6}
+  Create remote working directory  ${SA.8}
   Clear all credentials
   
 Setup webdav remote working directories
-  Use voms proxy  test0  test.vo
-  ${options}  Get CURL VOMS proxy options  test0  test.vo
-  Create webdav remote working directory  test.vo  ${options}
-  Create webdav remote working directory  igi  ${options}
-  Create webdav remote working directory  noauth  ${options}
-  Use voms proxy  test0  testers.eu-emi.eu
-  ${options}  Get CURL VOMS proxy options  test0  testers.eu-emi.eu
-  Create webdav remote working directory  testers.eu-emi.eu  ${options}
-  Create webdav remote working directory  alias  ${options}
-  Create webdav remote working directory  test.vo.bis  ${options}
-  Create webdav remote working directory  tape  ${options}
+  Use voms proxy  ${DEFAULT_USER}  ${DEFAULT_VO}
+  ${options}  Get CURL VOMS proxy options  ${DEFAULT_USER}  ${DEFAULT_VO}
+  Create webdav remote working directory  ${DEFAULT_SA}  ${options}
+  Create webdav remote working directory  ${SA.7}  ${options}
+  Create webdav remote working directory  ${SA.9}  ${options}
+  Use voms proxy  ${DEFAULT_USER}  ${VO.2}
+  ${options}  Get CURL VOMS proxy options  ${DEFAULT_USER}  ${VO.2}
+  Create webdav remote working directory  ${SA.2}  ${options}
+  Create webdav remote working directory  ${SA.5}  ${options}
+  Create webdav remote working directory  ${SA.8}  ${options}
+  Create webdav remote working directory  ${SA.6}  ${options}
   Clear all credentials
 
 Teardown local working directory
   Remove directory  /tmp/${TESTDIR}
 
 Teardown remote working directories
-  Use voms proxy  test0  test.vo
-  Clear remote working directory  test.vo
-  Clear remote working directory  igi
-  Clear remote working directory  noauth 
-  Use voms proxy  test0  testers.eu-emi.eu
-  Clear remote working directory  testers.eu-emi.eu
-  Clear remote working directory  test.vo.bis
-  Clear remote working directory  alias
-  Clear remote working directory  tape
+  Use voms proxy  ${DEFAULT_USER}  ${VO.1}
+  Clear remote working directory  ${SA.1}
+  Clear remote working directory  ${SA.7}
+  Clear remote working directory  ${SA.9} 
+  Use voms proxy  ${DEFAULT_USER}  ${VO.2}
+  Clear remote working directory  ${SA.2}
+  Clear remote working directory  ${SA.5}
+  Clear remote working directory  ${SA.6}
+  Clear remote working directory  ${SA.8}
   Clear all credentials
   
 Teardown webdav remote working directories
-  Use voms proxy  test0  test.vo
-  ${options}  Get CURL VOMS proxy options  test0  test.vo
-  Clear webdav remote working directory  test.vo  ${options}
-  Clear webdav remote working directory  igi  ${options}
-  Clear webdav remote working directory  noauth  ${options}
-  Use voms proxy  test0  testers.eu-emi.eu
-  ${options}  Get CURL VOMS proxy options  test0  testers.eu-emi.eu
-  Clear webdav remote working directory  testers.eu-emi.eu  ${options}
-  Clear webdav remote working directory  test.vo.bis  ${options}
-  Clear webdav remote working directory  alias  ${options}
-  Clear webdav remote working directory  tape  ${options}
+  Use voms proxy  ${DEFAULT_USER}  ${DEFAULT_VO}
+  ${options}  Get CURL VOMS proxy options  ${DEFAULT_USER}  ${DEFAULT_VO}
+  Clear webdav remote working directory  ${DEFAULT_SA}  ${options}
+  Clear webdav remote working directory  ${SA.7}  ${options}
+  Clear webdav remote working directory  ${SA.9}  ${options}
+  Use voms proxy  ${DEFAULT_USER}  ${VO.2}
+  ${options}  Get CURL VOMS proxy options  ${DEFAULT_USER}  ${VO.2}
+  Clear webdav remote working directory  ${SA.2}  ${options}
+  Clear webdav remote working directory  ${SA.5}  ${options}
+  Clear webdav remote working directory  ${SA.8}  ${options}
+  Clear webdav remote working directory  ${SA.6}  ${options}
   Clear all credentials
 
 Setup suite
