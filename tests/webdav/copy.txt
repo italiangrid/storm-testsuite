@@ -72,7 +72,7 @@ WebDAV COPY with destination equals to source
   [Teardown]  Teardown default SA
 
 WebDAV COPY unauthorized
-  [Tags]  webdav  copy
+  [Tags]  webdav  copy  no-gridhttps
   [Setup]  Setup default SA
   Create working directory
   ${srcURL}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}

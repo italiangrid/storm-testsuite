@@ -70,7 +70,7 @@ WebDAV MOVE with destination equals to source
   [Teardown]  Teardown default SA
 
 WebDAV MOVE unauthorized
-  [Tags]  webdav  move
+  [Tags]  webdav  move  no-gridhttps
   [Setup]  Setup default SA
   Create working directory
   ${srcURL}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}

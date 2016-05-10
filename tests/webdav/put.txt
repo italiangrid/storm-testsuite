@@ -40,7 +40,7 @@ WebDAV PUT over collection
   [Teardown]  Teardown default SA
 
 WebDAV PUT unauthorized
-  [Tags]  webdav  put
+  [Tags]  webdav  put  no-gridhttps
   [Setup]  Setup default SA
   Create empty working directory
   ${url}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}

@@ -31,7 +31,7 @@ WebDAV MKCOL on existent resource
   [Teardown]  Teardown default SA
 
 WebDAV MKCOL unauthorized
-  [Tags]  webdav  mkcol
+  [Tags]  webdav  mkcol  no-gridhttps
   [Setup]  Setup default SA
   ${url}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}
   ${TEST_CURL_OPTIONS}  Get CURL VOMS proxy options  ${defaultUser}  ${VO.2}

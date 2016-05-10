@@ -73,7 +73,7 @@ WebDAV PUT VO file as authenticated but not authorized user
   [Teardown]  Teardown default SA
 
 WebDAV PUT VO file with the wrong proxy
-  [Tags]  webdav  forbidden  put
+  [Tags]  webdav  forbidden  put  no-gridhttps
   [Setup]  Setup default SA
   Create empty working directory
   ${TEST_CURL_OPTIONS}  Get CURL VOMS proxy options  ${DEFAULT_USER}  ${SA.2}
@@ -104,7 +104,7 @@ WebDAV DELETE VO file as authenticated but not authorized user
   [Teardown]  Teardown default SA
 
 WebDAV DELETE VO file with the wrong proxy
-  [Tags]  webdav  forbidden  delete
+  [Tags]  webdav  forbidden  delete  no-gridhttps
   [Setup]  Setup default SA
   Create working directory
   ${TEST_CURL_OPTIONS}  Get CURL VOMS proxy options  ${DEFAULT_USER}  ${SA.2}
@@ -135,7 +135,7 @@ WebDAV MKCOL VO directory as authenticated but not authorized user
   [Teardown]  Teardown default SA
 
 WebDAV MKCOL VO directory with the wrong proxy
-  [Tags]  webdav  forbidden  mkcol
+  [Tags]  webdav  forbidden  mkcol  no-gridhttps
   [Setup]  Setup default SA
   Create empty working directory
   ${TEST_CURL_OPTIONS}  Get CURL VOMS proxy options  ${DEFAULT_USER}  ${SA.2}
@@ -168,7 +168,7 @@ WebDAV PROPFIND allprop VO file as authenticated but not authorized user
   [Teardown]  Teardown default SA
 
 WebDAV PROPFIND allprop VO file with the wrong proxy
-  [Tags]  webdav  forbidden  propfind
+  [Tags]  webdav  forbidden  propfind  no-gridhttps
   [Setup]  Setup default SA
   Create working directory
   ${body}  Get PROPFIND ALLPROP body
