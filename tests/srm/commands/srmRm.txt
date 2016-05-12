@@ -72,7 +72,7 @@ Remove a pinned file must set aborted the ptg request
   [Teardown]  Clear all credentials
 
 Unauthorized remove on another VO's file
-  [Tags]  storm-client  ls
+  [Tags]  storm-client  ls  STOR-898
   [Setup]  Use default voms proxy
   ${filename}  Get a unique name
   ${surl}  Build surl  ${DEFAULT_SA}  ../${SA.2}/${TESTDIR}/${filename}

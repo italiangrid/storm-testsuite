@@ -214,7 +214,7 @@ Move file on an unauthorized destination
   [Teardown]  Clear all credentials
 
 Check unauthorized file move on a different VO
-  [Tags]  storm-client  ls
+  [Tags]  storm-client  ls  STOR-898
   [Setup]  Use default voms proxy
   ${filename}  Create local file
   ${srcsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}

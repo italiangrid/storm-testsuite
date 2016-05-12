@@ -7,7 +7,7 @@ Resource   lib/webdav_util.txt
 *** Test Cases ***
 
 WebDAV GET dotted path to another SA with unauthorized credentials
-  [Tags]  webdav  symlink
+  [Tags]  webdav  symlink  no-gridhttps
   [Setup]  Setup default SA
   ${url}  Set Variable  ${TEST_ENDPOINT}/${TEST_SA}/../${SA.2}
   Log  ${url}

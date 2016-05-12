@@ -220,7 +220,7 @@ Ls on a surl that points to a reserved area
   [Teardown]  Clear all credentials
 
 Ls on some symlinks that point to other storage-areas
-  [Tags]  storm-client  ls  symlink
+  [Tags]  storm-client  ls  symlink  STOR-898
   [Setup]  Use default voms proxy
   ${symlinkSURL}  Build surl  ${DEFAULT_SA}  ${SYMLINK.1}
   ${output}  Perform ls using clientSRM  ${symlinkSURL}

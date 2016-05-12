@@ -50,7 +50,7 @@ Create directory with unauthorized credentials
   [Teardown]  Clear all credentials
 
 Check directory creation on a different VO
-  [Tags]  storm-client  ls
+  [Tags]  storm-client  ls  STOR-898
   [Setup]  Use default voms proxy
   ${dirname}  Get a unique name
   ${qsurl}  Build surl  ${SA.2}  ../${DEFAULT_SA}/${TESTDIR}/${dirname}
