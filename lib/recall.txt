@@ -10,17 +10,17 @@ Resource   lib/curl.txt
 
 
 Get recall requests in progress  [Arguments]  ${maxResults}
-  ${output}  ${stderr}  Curl  GET  http://${recallEndpoint}/recalltable/task?maxResults=${maxResults}  -i
+  ${output}  ${stderr}  Curl  GET  http://${recallEndpoint}/recalltable/task?maxResults=${maxResults}  -i -H "Token:${xmlrpcToken}"
   [Return]  ${output}
 
 Get and update to progress recall tasks ready for being taken over  [Arguments]  ${maxResults}
-  ${output}  ${stderr}  Curl  PUT  http://${recallEndpoint}/recalltable/tasks  -i -s -S -H "Content-Type:text/plain" -d first=${maxResults}
+  ${output}  ${stderr}  Curl  PUT  http://${recallEndpoint}/recalltable/tasks  -i -s -S -H "Content-Type:text/plain" -H "Token:${xmlrpcToken}" -d first=${maxResults}
   [Return]  ${output}
 
 Update a recall task status using a groupTaskId  [Arguments]  ${groupTaskId}  ${status}
-  ${output}  ${stderr}  Curl  PUT  http://${recallEndpoint}/recalltable/task/${groupTaskId}  -i -s -S -H "Content-Type:text/plain" -d status=${status}
+  ${output}  ${stderr}  Curl  PUT  http://${recallEndpoint}/recalltable/task/${groupTaskId}  -i -s -S -H "Content-Type:text/plain" -H "Token:${xmlrpcToken}" -d status=${status}
   [Return]  ${output}
 
 Check for a completed recall task  [Arguments]  ${requestToken}  ${fileName}
-  ${output}  ${stderr}  Curl  PUT  http://${recallEndpoint}/recalltable/task  -i -H "Content-Type:text/plain" -d $'requestToken=${requestToken}\nsurl=srm://${srmEndpoint}/srm/managerv2?SFN=/${TAPE_SA}/${fileName}'
+  ${output}  ${stderr}  Curl  PUT  http://${recallEndpoint}/recalltable/task  -i -H "Content-Type:text/plain" -H "Token:${xmlrpcToken}" -d $'requestToken=${requestToken}\nsurl=srm://${srmEndpoint}/srm/managerv2?SFN=/${TAPE_SA}/${fileName}'
   [Return]  ${output}

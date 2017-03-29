@@ -36,6 +36,8 @@ ${certsDir}   /usr/share/igi-test-ca
 ${privateKeyPassword}   pass
 ${trustdir}  /etc/grid-security/certificates
 
+${xmlrpcToken}   YOUR_TOKEN
+
 ##### GLUE #####
 
 ${baseDNGlue}  mds-vo-name=resource,o=grid
