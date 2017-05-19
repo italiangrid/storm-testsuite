@@ -36,7 +36,7 @@ ${certsDir}   /usr/share/igi-test-ca
 ${privateKeyPassword}   pass
 ${trustdir}  /etc/grid-security/certificates
 
-${xmlrpcToken}   YOUR_TOKEN
+${xmlrpcToken}   NS4kYAZuR65XJCq
 
 ##### GLUE #####
 
