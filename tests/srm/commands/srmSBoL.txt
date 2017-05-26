@@ -10,7 +10,7 @@ Resource   lib/recall.txt
 Status of bring online of a migrated and not already recalled file
   [Tags]  sbol
   [Setup]  Use voms proxy  ${defaultUser}  ${TAPE_SA_VONAME}
-  ${surl}  Build surl  ${TAPE_SA}  nearline.txt
+  ${surl}  Build surl  ${TAPE_SA}  test_metadata/tapeonly.txt
   ${output}  ${token}  Perform a BoL with polling  ${surl}
   ${data}  Get first recall task
   ${taskId} =  Get Substring  ${data}  1  37
