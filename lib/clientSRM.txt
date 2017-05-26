@@ -76,6 +76,10 @@ Perform bol using clientSRM  [Arguments]  ${surl}  ${options}=${EMPTY}
   ${result}  ${token}=  Should Match Regexp  ${output}  requestToken=(\".+\")
   [Return]  ${output}  ${token}
 
+Perform sbol using clientSRM  [Arguments]  ${surl}  ${token}  ${options}=${EMPTY}
+  ${output}  Execute clientSRM Command on Surl with token  sbol  ${surl}  ${token}  ${options}
+  [Return]  ${output}
+
 Perform sptg using clientSRM  [Arguments]  ${surl}  ${token}  ${options}=${EMPTY}
   ${output}  Execute clientSRM Command on Surl with token  sptg  ${surl}  ${token}  ${options}
   [Return]  ${output}
