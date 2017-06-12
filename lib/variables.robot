@@ -23,6 +23,15 @@ ${DAVEndpoint}  http://${DAVHost}:${DAVPort}${DAVContextPath}
 ${DAVSecureEndpoint}  https://${DAVHost}:${DAVSecurePort}${DAVContextPath}
 
 ${ldapEndpoint}  ${backEndHost}:2170
+${cdmiEndpoint}  cdmi-storm.cnaf.infn.it:8888
+${cdmiAdminUser}  restadmin
+${cdmiAdminPassword}  restadmin
+${iamUserName}  storm_robot_user
+${iamUserPassword}  secret
+${cdmiClientId}  cdmiId
+${cdmiClientSecret}  secret
+
+${iamEndpoint}  https://iam-test.indigo-datacloud.eu
 
 ##### CREDENTIALS #####
 
