@@ -28,7 +28,7 @@ ${cdmiAdminUser}  restadmin
 ${cdmiAdminPassword}  restadmin
 ${iamUserName}  storm_robot_user
 ${iamUserPassword}  secret
-${cdmiClientId}  cdmiId
+${cdmiClientId}  838129a5-84ca-4dc4-bfd8-421ee317aabd
 ${cdmiClientSecret}  secret
 
 ${iamEndpoint}  https://iam-test.indigo-datacloud.eu

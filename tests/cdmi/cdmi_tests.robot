@@ -29,10 +29,10 @@ Get CDMI Container DiskOnly Capability as restadmin user
   ${data}  Get CDMI Capability  container/DiskOnly/  -u ${cdmiAdminUser}:${cdmiAdminPassword}
   Check Container DiskOnly Capability  ${data}
 
-#Get CDMI Container DiskOnly Capability as a client with read scope
-#  ${accessToken}  Get Access Token With Read Scope  user-to-define  passw-to-define
-#  ${data}  Get CDMI Capability  container/DiskOnly/  -H "Authorization: Bearer ${accessToken}"
-#  Check Container DiskOnly Capability  ${data}
+Get CDMI Container DiskOnly Capability as a user with read scope
+  ${accessToken}  Get Access Token With Read Scope  ${iamUserName}  ${iamUserPassword}
+  ${data}  Get CDMI Capability  container/DiskOnly/  -H "Authorization: Bearer ${accessToken}"
+  Check Container DiskOnly Capability  ${data}
 
 Get CDMI Dataobject DiskOnly Capability as restadmin user
   ${data}  Get CDMI Capability  dataobject/DiskOnly/  -u ${cdmiAdminUser}:${cdmiAdminPassword}
