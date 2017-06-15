@@ -5,6 +5,7 @@ Resource   lib/import.robot
 *** Test Cases ***
 
 Get CDMI Capabilities as restadmin user
+  [Tags]  cdmi
   ${data}  Get CDMI Capabilities  -u ${cdmiAdminUser}:${cdmiAdminPassword}
   Should Contain  ${data["children"]}  container
   Should Contain  ${data["children"]}  dataobject
@@ -12,12 +13,14 @@ Get CDMI Capabilities as restadmin user
   Should Be Equal  ${data["objectType"]}  application/cdmi-capability
 
 Get CDMI Container Capabilities as restadmin user
+  [Tags]  cdmi
   ${data}  Get CDMI Capability  container/  -u ${cdmiAdminUser}:${cdmiAdminPassword}
   Should Contain  ${data["children"]}  DiskOnly
   Should Be Equal  ${data["objectName"]}  container
   Should Be Equal  ${data["objectType"]}  application/cdmi-capability
 
 Get CDMI Dataobject Capabilities as restadmin user
+  [Tags]  cdmi
   ${data}  Get CDMI Capability  dataobject/  -u ${cdmiAdminUser}:${cdmiAdminPassword}
   Should Contain  ${data["children"]}  DiskOnly
   Should Contain  ${data["children"]}  DiskAndTape
@@ -26,23 +29,28 @@ Get CDMI Dataobject Capabilities as restadmin user
   Should Be Equal  ${data["objectType"]}  application/cdmi-capability
 
 Get CDMI Container DiskOnly Capability as restadmin user
+  [Tags]  cdmi
   ${data}  Get CDMI Capability  container/DiskOnly/  -u ${cdmiAdminUser}:${cdmiAdminPassword}
   Check Container DiskOnly Capability  ${data}
 
 Get CDMI Container DiskOnly Capability as a user with read scope
+  [Tags]  cdmi
   ${accessToken}  Get Access Token With Read Scope  ${iamUserName}  ${iamUserPassword}
   ${data}  Get CDMI Capability  container/DiskOnly/  -H "Authorization: Bearer ${accessToken}"
   Check Container DiskOnly Capability  ${data}
 
 Get CDMI Dataobject DiskOnly Capability as restadmin user
+  [Tags]  cdmi
   ${data}  Get CDMI Capability  dataobject/DiskOnly/  -u ${cdmiAdminUser}:${cdmiAdminPassword}
   Check Dataobject DiskOnly Capability  ${data}
 
 Get CDMI Dataobject DiskAndTape Capability as restadmin user
+  [Tags]  cdmi
   ${data}  Get CDMI Capability  dataobject/DiskAndTape/  -u ${cdmiAdminUser}:${cdmiAdminPassword}
   Check Dataobject DiskAndTape Capability  ${data}
 
 Get CDMI Dataobject TapeOnly Capability as restadmin user
+  [Tags]  cdmi
   ${data}  Get CDMI Capability  dataobject/TapeOnly/  -u ${cdmiAdminUser}:${cdmiAdminPassword}
   Check Dataobject TapeOnly Capability  ${data}
 
