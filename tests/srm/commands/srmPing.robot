@@ -26,7 +26,8 @@ Verify asynch request with non-ascii characters
   [Tags]  storm-client  ping  regression
   [Setup]  Use default voms proxy
   ${filename}  Get a unique name
-  ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}_àààà
+  ${bytes}  Encode String To Bytes  ${TESTDIR}/${filename}_òàòà  UTF-8
+  ${surl}  Build surl  ${DEFAULT_SA}  ${bytes}
   ${output}  Perform ls using clientSRM  ${surl}  -c 1
   Should Not Contain  ${output}  SRM_SUCCESS
   ${output}  Perform ping using clientSRM
