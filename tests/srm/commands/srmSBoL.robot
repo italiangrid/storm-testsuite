@@ -9,6 +9,7 @@ Status of bring online of a migrated and not already recalled file
   [Setup]  Use voms proxy  ${defaultUser}  ${TAPE_SA_VONAME}
   ${surl}  Build surl  ${TAPE_SA}  test_metadata/tapeonly.txt
   ${output}  ${token}  Perform a BoL with polling  ${surl}
+  Sleep	 10s  Assured task is inserted
   ${data}  Get first recall task
   ${taskId} =  Get Substring  ${data}  1  37
   Log  ${taskId}
