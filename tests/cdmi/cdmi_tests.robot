@@ -44,14 +44,32 @@ Get CDMI Dataobject DiskOnly Capability as restadmin user
   ${data}  Get CDMI Capability  dataobject/DiskOnly/  -u ${cdmiAdminUser}:${cdmiAdminPassword}
   Check Dataobject DiskOnly Capability  ${data}
 
+Get CDMI Dataobject DiskOnly Capability as a user with read scope
+  [Tags]  cdmi
+  ${accessToken}  Get Access Token With Read Scope  ${iamUserName}  ${iamUserPassword}
+  ${data}  Get CDMI Capability  dataobject/DiskOnly/  -H "Authorization: Bearer ${accessToken}"
+  Check Dataobject DiskOnly Capability  ${data}
+
 Get CDMI Dataobject DiskAndTape Capability as restadmin user
   [Tags]  cdmi
   ${data}  Get CDMI Capability  dataobject/DiskAndTape/  -u ${cdmiAdminUser}:${cdmiAdminPassword}
   Check Dataobject DiskAndTape Capability  ${data}
 
+Get CDMI Dataobject DiskAndTape Capability as a user with read scope
+  [Tags]  cdmi
+  ${accessToken}  Get Access Token With Read Scope  ${iamUserName}  ${iamUserPassword}
+  ${data}  Get CDMI Capability  dataobject/DiskAndTape/  -H "Authorization: Bearer ${accessToken}"
+  Check Dataobject DiskAndTape Capability  ${data}
+
 Get CDMI Dataobject TapeOnly Capability as restadmin user
   [Tags]  cdmi
   ${data}  Get CDMI Capability  dataobject/TapeOnly/  -u ${cdmiAdminUser}:${cdmiAdminPassword}
+  Check Dataobject TapeOnly Capability  ${data}
+
+Get CDMI Dataobject TapeOnly Capability as a user with read scope
+  [Tags]  cdmi
+  ${accessToken}  Get Access Token With Read Scope  ${iamUserName}  ${iamUserPassword}
+  ${data}  Get CDMI Capability  dataobject/TapeOnly/  -H "Authorization: Bearer ${accessToken}"
   Check Dataobject TapeOnly Capability  ${data}
 
 *** Keywords ***
@@ -108,7 +126,6 @@ Check Dataobject TapeOnly Capability  [Arguments]  ${data}
   Should Be Equal  ${data["metadata"]["cdmi_latency"]}  10000
   Should Be Equal  ${data["metadata"]["cdmi_throughput"]}  4194304
   Should Be Equal  ${data["metadata"]["cdmi_data_storage_lifetime"]}  P20Y
-#  Should Be Equal  ${data["metadata"]["cdmi_recommended_polling_interval"]}  50000
   Should Be Equal  ${data["metadata"]["cdmi_durability"]}  99.999
   Should Contain  ${data["metadata"]["cdmi_capabilities_allowed"]}  /cdmi_capabilities/dataobject/DiskAndTape
   Should Contain  ${data["metadata"]["cdmi_geographic_placement"]}  IT
