@@ -24,6 +24,10 @@ Get CDMI Capability  [Arguments]  ${path}  ${credentials}
   ${data}  Get Json Data  http://${cdmiEndpoint}/cdmi_capabilities/${path}  -i ${credentials}
   [Return]  ${data}
 
+Get CDMI Status  [Arguments]  ${path}  ${credentials}
+  ${data}  Get Json Data  http://${cdmiEndpoint}/${path}  -i ${credentials}
+  [Return]  ${data}
+
 Get Json Data  [Arguments]  ${url}  ${options}
   ${output}  ${stderr}  Curl  GET  ${url}  ${options}
   ${jsonData} =  Get Line  ${output}  -1
