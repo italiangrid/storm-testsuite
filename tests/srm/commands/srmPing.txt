@@ -1,5 +1,6 @@
 *** Settings ***
 
+Library    String
 Resource   lib/stormlib.txt
 Resource   lib/clientSRM.txt
 Resource   lib/setup.txt
