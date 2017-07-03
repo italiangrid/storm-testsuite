@@ -11,16 +11,17 @@ ${AUTH} =  ${EMPTY}
 Get CDMI Capabilities as restadmin user
   [Tags]  cdmi
   [Setup]  Use restadmin user
-  ${data}  Get CDMI Capabilities  ${AUTH}
-  Should Contain  ${data["children"]}  container
-  Should Contain  ${data["children"]}  dataobject
-  Should Be Equal  ${data["objectName"]}  cdmi_capabilities
-  Should Be Equal  ${data["objectType"]}  application/cdmi-capability
+  Get CDMI Capabilities
+
+Get CDMI Capabilities as a user with read scope
+  [Tags]  cdmi
+  [Setup]  Use access token of authorized iam user
+  Get CDMI Capabilities
 
 Get CDMI Container Capabilities as restadmin user
   [Tags]  cdmi
   [Setup]  Use restadmin user
-  ${data}  Get CDMI Capability  container/  ${AUTH}
+  ${data}  Get CDMI Capability Path As  container/  ${AUTH}
   Should Contain  ${data["children"]}  DiskOnly
   Should Be Equal  ${data["objectName"]}  container
   Should Be Equal  ${data["objectType"]}  application/cdmi-capability
@@ -28,7 +29,7 @@ Get CDMI Container Capabilities as restadmin user
 Get CDMI Dataobject Capabilities as restadmin user
   [Tags]  cdmi
   [Setup]  Use restadmin user
-  ${data}  Get CDMI Capability  dataobject/  ${AUTH}
+  ${data}  Get CDMI Capability Path As  dataobject/  ${AUTH}
   Should Contain  ${data["children"]}  DiskOnly
   Should Contain  ${data["children"]}  DiskAndTape
   Should Contain  ${data["children"]}  TapeOnly
@@ -38,49 +39,49 @@ Get CDMI Dataobject Capabilities as restadmin user
 Get CDMI Container DiskOnly Capability as restadmin user
   [Tags]  cdmi
   [Setup]  Use restadmin user
-  ${data}  Get CDMI Capability  container/DiskOnly/  ${AUTH}
+  ${data}  Get CDMI Capability Path As  container/DiskOnly/  ${AUTH}
   Check Container DiskOnly Capability  ${data}
 
 Get CDMI Container DiskOnly Capability as a user with read scope
   [Tags]  cdmi
   [Setup]  Use access token of authorized iam user
-  ${data}  Get CDMI Capability  container/DiskOnly/  ${AUTH}
+  ${data}  Get CDMI Capability Path As  container/DiskOnly/  ${AUTH}
   Check Container DiskOnly Capability  ${data}
 
 Get CDMI Dataobject DiskOnly Capability as restadmin user
   [Tags]  cdmi
   [Setup]  Use restadmin user
-  ${data}  Get CDMI Capability  dataobject/DiskOnly/  ${AUTH}
+  ${data}  Get CDMI Capability Path As  dataobject/DiskOnly/  ${AUTH}
   Check Dataobject DiskOnly Capability  ${data}
 
 Get CDMI Dataobject DiskOnly Capability as a user with read scope
   [Tags]  cdmi
   [Setup]  Use access token of authorized iam user
-  ${data}  Get CDMI Capability  dataobject/DiskOnly/  ${AUTH}
+  ${data}  Get CDMI Capability Path As  dataobject/DiskOnly/  ${AUTH}
   Check Dataobject DiskOnly Capability  ${data}
 
 Get CDMI Dataobject DiskAndTape Capability as restadmin user
   [Tags]  cdmi
   [Setup]  Use restadmin user
-  ${data}  Get CDMI Capability  dataobject/DiskAndTape/  ${AUTH}
+  ${data}  Get CDMI Capability Path As  dataobject/DiskAndTape/  ${AUTH}
   Check Dataobject DiskAndTape Capability  ${data}
 
 Get CDMI Dataobject DiskAndTape Capability as a user with read scope
   [Tags]  cdmi
   [Setup]  Use access token of authorized iam user
-  ${data}  Get CDMI Capability  dataobject/DiskAndTape/  ${AUTH}
+  ${data}  Get CDMI Capability Path As  dataobject/DiskAndTape/  ${AUTH}
   Check Dataobject DiskAndTape Capability  ${data}
 
 Get CDMI Dataobject TapeOnly Capability as restadmin user
   [Tags]  cdmi
   [Setup]  Use restadmin user
-  ${data}  Get CDMI Capability  dataobject/TapeOnly/  ${AUTH}
+  ${data}  Get CDMI Capability Path As  dataobject/TapeOnly/  ${AUTH}
   Check Dataobject TapeOnly Capability  ${data}
 
 Get CDMI Dataobject TapeOnly Capability as a user with read scope
   [Tags]  cdmi
   [Setup]  Use access token of authorized iam user
-  ${data}  Get CDMI Capability  dataobject/TapeOnly/  ${AUTH}
+  ${data}  Get CDMI Capability Path As  dataobject/TapeOnly/  ${AUTH}
   Check Dataobject TapeOnly Capability  ${data}
 
 Get CDMI Dataobject DiskOnly Status as a user with read scope
@@ -103,6 +104,13 @@ Get CDMI Dataobject TapeOnly Status as a user with read scope
 
 
 *** Keywords ***
+
+Get CDMI Capabilities
+  ${data}  Get CDMI Capabilities As  ${AUTH}
+  Should Contain  ${data["children"]}  container
+  Should Contain  ${data["children"]}  dataobject
+  Should Be Equal  ${data["objectName"]}  cdmi_capabilities
+  Should Be Equal  ${data["objectType"]}  application/cdmi-capability
 
 Use restadmin user
   Set Test Variable  ${AUTH}  -u ${cdmiAdminUser}:${cdmiAdminPassword}

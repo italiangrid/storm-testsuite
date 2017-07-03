@@ -16,11 +16,11 @@ Get Access Token As User  [Arguments]  ${scopes}
   ${token}  Get Access Token As Client  ${cdmiClientId}  ${cdmiClientSecret}  ${scopes}
   [Return]  ${token}
 
-Get CDMI Capabilities  [Arguments]  ${credentials}
+Get CDMI Capabilities As  [Arguments]  ${credentials}
   ${data}  Get Json Data  http://${cdmiEndpoint}/cdmi_capabilities/  -i ${credentials}
   [Return]  ${data}
 
-Get CDMI Capability  [Arguments]  ${path}  ${credentials}
+Get CDMI Capability Path As  [Arguments]  ${path}  ${credentials}
   ${data}  Get Json Data  http://${cdmiEndpoint}/cdmi_capabilities/${path}  -i ${credentials}
   [Return]  ${data}
 
