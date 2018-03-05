@@ -40,6 +40,7 @@ Add user  [Arguments]  ${user}
 
 Create voms fake proxy   [Arguments]  ${fakevo}
   Run Keyword If  '${VOMS_FAKE}' == 'true'  Log  Test with voms fake
+  ${userpass}  Set Variable  pass
   ${output}  ${stderr}  Execute and Check Success   echo ${userpass}|VOMS_CLIENTS_JAVA_OPTIONS="-Dvoms.fake.vo=${fakevo} -Dvoms.fake=${VOMS_FAKE} -Dvoms.fake.aaCert=${VOMS_FAKE_AACERT} -Dvoms.fake.aaKey=${VOMS_FAKE_AAKEY} -Dvoms.fake.fqans=${VOMS_FAKE_FQANS}" voms-proxy-init -voms ${fakevo}
   Log  ${output}
   Log  ${stderr}
