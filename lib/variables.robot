@@ -84,6 +84,15 @@ ${NESTED_SA_VONAME}  ${VO.2}
 ${ALIASED_SA}  ${SA.5}
 ${ALIASED_SA_VONAME}  ${VO.2}
 
-##### LINKS
+##### LINKS #####
 
 ${SYMLINK.1}  testvo_to_testvo2
+
+##### VOMS FAKE OPTIONS #####
+
+# voms.fake.vo=test.vo
+# test.vo is set in VOs
+${VOMS_FAKE_VO}  ${VO.1}
+${VOMS_FAKE_AACERT}  /etc/grid-security/hostcert.pem
+${VOMS_FAKE_AAKEY}   /etc/grid-security/hostkey.pem
+${VOMS_FAKE_FQANS}   /ciccio,/paglia

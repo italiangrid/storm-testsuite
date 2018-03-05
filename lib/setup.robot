@@ -38,11 +38,14 @@ Add user  [Arguments]  ${user}
   Execute and Check Success   cp ${certsDir}/${user}.key.pem ${keyPath}
   Execute and Check Success   chmod 400 ${keyPath}
 
+
+
+
 Create voms proxy   [Arguments]   ${user}  ${vo}
   ${usercert}  Get user x509 p12 path  ${user}
   ${userpass}  Set Variable  pass
   ${proxy}  Get user voms proxy path  ${user}  ${vo}
-  ${output}  ${stderr}  Execute and Check Success   echo ${userpass}|voms-proxy-init -pwstdin --voms ${vo} --cert ${usercert} --out ${proxy}
+  ${output}  ${stderr}  Execute and Check Success   echo ${userpass}|if ${VOMS_FAKE} == 'true'; then VOMS_CLIENTS_JAVA_OPTIONS="-Dvoms.fake.vo=${VOMS_FAKE_VO} -Dvoms.fake=${VOMS_FAKE} -Dvoms.fake.aaCert=${VOMS_FAKE_AACERT} -Dvoms.fake.aaKey=${VOMS_FAKE_AAKEY} -Dvoms.fake.fqans=${VOMS_FAKE_FQANS}" voms-proxy-init -voms ${VOMS_FAKE_VO};voms-proxy-init -pwstdin --voms ${vo} --cert ${usercert} --out ${proxy}
   Log  ${output}
   Log  ${stderr}
 
@@ -100,6 +103,7 @@ Clear webdav remote working directory  [Arguments]  ${storageArea}  ${options}
 Setup local working directory
   ${timestamp}  Get timestamp
   ${uid}  Get uid
+  Set Variable If It Does Not Exist  \${VOMS_FAKE}  true
   Set Variable If It Does Not Exist  \${TESTDIR}  storm-testsuite_${timestamp.strip()}
   Set Variable If It Does Not Exist  \${DEFAULT_X509_USER_PROXY}  /tmp/x509up_u${uid}
   Create directory  /tmp/${TESTDIR}
