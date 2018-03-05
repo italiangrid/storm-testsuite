@@ -119,7 +119,7 @@ Setup local working directory
   Add user  ${USER.1}
   Add user  ${USER.2}
   Add user  ${USER.3}
-  Create voms fake proxy ${VOMS_FAKE_VO}
+  Create voms fake proxy  ${VOMS_FAKE_VO}
   Create voms proxy  ${USER.1}  ${VO.1}
   Create voms proxy  ${USER.2}  ${VO.1}
   Create voms proxy  ${USER.1}  ${VO.2}
