@@ -42,7 +42,7 @@ Create voms fake proxy   [Arguments]  ${user}  ${fakevo}
   Run Keyword If  '${VOMS_FAKE}' == 'true'  Log  Test with voms fake
   ${usercert}  Get user x509 p12 path  ${user}
   ${userpass}  Set Variable  pass
-  ${fakeproxy}  Get user voms proxy path  ${user}  ${fakevo}
+  ${fakeproxy}  Get user voms fake proxy path  ${user}  ${fakevo}
   ${output}  ${stderr}  Execute and Check Success   echo ${userpass}|VOMS_CLIENTS_JAVA_OPTIONS="-Dvoms.fake.vo=${fakevo} -Dvoms.fake=${VOMS_FAKE} -Dvoms.fake.aaCert=${VOMS_FAKE_AACERT} -Dvoms.fake.aaKey=${VOMS_FAKE_AAKEY} -Dvoms.fake.fqans=${VOMS_FAKE_FQANS}" voms-proxy-init -pwstdin --voms ${fakevo} --cert ${usercert} --out ${fakeproxy} 
   Log  ${output}
   Log  ${stderr}
