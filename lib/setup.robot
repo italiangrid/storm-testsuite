@@ -38,17 +38,15 @@ Add user  [Arguments]  ${user}
   Execute and Check Success   cp ${certsDir}/${user}.key.pem ${keyPath}
   Execute and Check Success   chmod 400 ${keyPath}
 
-Create voms fake proxy   [Arguments]  ${user}  ${vo}
-  #Run Keyword If  '${VOMS_FAKE}' == 'true'  Log  Test with voms fake
+Create voms fake proxy   [Arguments]  ${user}  ${vo}  ${fqan}
   ${usercert}  Get user x509 p12 path  ${user}
   ${userpass}  Set Variable  pass
   ${proxy}  Get user voms proxy path  ${user}  ${vo}
-  ${output}  ${stderr}  Run Keyword If  "${VOMS_FAKE}" == "true"  Execute and Check Success   echo ${userpass}|VOMS_CLIENTS_JAVA_OPTIONS="-Dvoms.fake.vo=${vo} -Dvoms.fake=${VOMS_FAKE} -Dvoms.fake.aaCert=${VOMS_FAKE_AACERT} -Dvoms.fake.aaKey=${VOMS_FAKE_AAKEY} -Dvoms.fake.fqans=${VOMS_FAKE_FQANS}" voms-proxy-init -pwstdin --debug --voms ${vo} --cert ${usercert} --out ${proxy} 
+  ${output}  ${stderr}  Run Keyword If  "${VOMS_FAKE}" == "true"  Execute and Check Success   echo ${userpass}|VOMS_CLIENTS_JAVA_OPTIONS="-Dvoms.fake.vo=${vo} -Dvoms.fake=${VOMS_FAKE} -Dvoms.fake.aaCert=${VOMS_FAKE_AACERT} -Dvoms.fake.aaKey=${VOMS_FAKE_AAKEY} -Dvoms.fake.fqans=${fqan}" voms-proxy-init -pwstdin --debug --voms ${vo} --cert ${usercert} --out ${proxy} 
   Log  ${output}
   Log  ${stderr}
 
 Create voms proxy   [Arguments]   ${user}  ${vo}
-  #Run Keyword If  '${VOMS_FAKE}' == 'false'  Log  Test with true voms
   ${usercert}  Get user x509 p12 path  ${user}
   ${userpass}  Set Variable  pass
   ${proxy}  Get user voms proxy path  ${user}  ${vo}
@@ -122,9 +120,10 @@ Setup local working directory
   Add user  ${USER.1}
   Add user  ${USER.2}
   Add user  ${USER.3}
-  Create voms fake proxy  ${USER.1}  ${VO.1}
-  Create voms fake proxy  ${USER.2}  ${VO.1}
-  Create voms fake proxy  ${USER.3}  ${VO.1}
+  Create voms fake proxy  ${USER.1}  ${VO.1}  ${VOMS_FAKE_FQANS.1}
+  Create voms fake proxy  ${USER.2}  ${VO.1}  ${VOMS_FAKE_FQANS.1}
+  Create voms fake proxy  ${USER.3}  ${VO.1}  ${VOMS_FAKE_FQANS.1}
+  Create voms fake proxy  ${USER.1}  ${VO.2}  ${VOMS_FAKE_FQANS.2}
   Create voms proxy  ${USER.1}  ${VO.1}
   Create voms proxy  ${USER.2}  ${VO.1}
   Create voms proxy  ${USER.1}  ${VO.2}
@@ -136,11 +135,11 @@ Setup remote working directories
   Create remote working directory  ${SA.1}
   Create remote working directory  ${SA.7}
   Create remote working directory  ${SA.9} 
-  #Use voms proxy  ${DEFAULT_USER}  ${VO.2}
-  #Create remote working directory  ${SA.2}
-  #Create remote working directory  ${SA.5}
-  #Create remote working directory  ${SA.6}
-  #Create remote working directory  ${SA.8}
+  Use voms proxy  ${DEFAULT_USER}  ${VO.2}
+  Create remote working directory  ${SA.2}
+  Create remote working directory  ${SA.5}
+  Create remote working directory  ${SA.6}
+  Create remote working directory  ${SA.8}
   Clear all credentials
   
 Setup webdav remote working directories
