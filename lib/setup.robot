@@ -125,7 +125,6 @@ Setup local working directory
   Create voms fake proxy  ${USER.1}  ${VO.1}
   Create voms fake proxy  ${USER.2}  ${VO.1}
   Create voms fake proxy  ${USER.3}  ${VO.1}
-  Create voms fake proxy  ${USER.1}  ${VO.2}
   Create voms proxy  ${USER.1}  ${VO.1}
   Create voms proxy  ${USER.2}  ${VO.1}
   Create voms proxy  ${USER.1}  ${VO.2}
@@ -137,11 +136,11 @@ Setup remote working directories
   Create remote working directory  ${SA.1}
   Create remote working directory  ${SA.7}
   Create remote working directory  ${SA.9} 
-  Use voms proxy  ${DEFAULT_USER}  ${VO.2}
-  Create remote working directory  ${SA.2}
-  Create remote working directory  ${SA.5}
-  Create remote working directory  ${SA.6}
-  Create remote working directory  ${SA.8}
+  #Use voms proxy  ${DEFAULT_USER}  ${VO.2}
+  #Create remote working directory  ${SA.2}
+  #Create remote working directory  ${SA.5}
+  #Create remote working directory  ${SA.6}
+  #Create remote working directory  ${SA.8}
   Clear all credentials
   
 Setup webdav remote working directories
