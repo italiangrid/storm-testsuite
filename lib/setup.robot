@@ -39,20 +39,20 @@ Add user  [Arguments]  ${user}
   Execute and Check Success   chmod 400 ${keyPath}
 
 Create voms fake proxy   [Arguments]  ${user}  ${vo}
-  Run Keyword If  '${VOMS_FAKE}' == 'true'  Log  Test with voms fake
+  #Run Keyword If  '${VOMS_FAKE}' == 'true'  Log  Test with voms fake
   ${usercert}  Get user x509 p12 path  ${user}
   ${userpass}  Set Variable  pass
   ${proxy}  Get user voms proxy path  ${user}  ${vo}
-  ${output}  ${stderr}  Execute and Check Success   echo ${userpass}|VOMS_CLIENTS_JAVA_OPTIONS="-Dvoms.fake.vo=${vo} -Dvoms.fake=${VOMS_FAKE} -Dvoms.fake.aaCert=${VOMS_FAKE_AACERT} -Dvoms.fake.aaKey=${VOMS_FAKE_AAKEY} -Dvoms.fake.fqans=${VOMS_FAKE_FQANS}" voms-proxy-init -pwstdin --debug --voms ${vo} --cert ${usercert} --out ${proxy} 
+  ${output}  ${stderr}  Run Keyword If  "${VOMS_FAKE}" == "true"  Execute and Check Success   echo ${userpass}|VOMS_CLIENTS_JAVA_OPTIONS="-Dvoms.fake.vo=${vo} -Dvoms.fake=${VOMS_FAKE} -Dvoms.fake.aaCert=${VOMS_FAKE_AACERT} -Dvoms.fake.aaKey=${VOMS_FAKE_AAKEY} -Dvoms.fake.fqans=${VOMS_FAKE_FQANS}" voms-proxy-init -pwstdin --debug --voms ${vo} --cert ${usercert} --out ${proxy} 
   Log  ${output}
   Log  ${stderr}
 
 Create voms proxy   [Arguments]   ${user}  ${vo}
-  Run Keyword If  '${VOMS_FAKE}' == 'false'  Log  Test with true voms
+  #Run Keyword If  '${VOMS_FAKE}' == 'false'  Log  Test with true voms
   ${usercert}  Get user x509 p12 path  ${user}
   ${userpass}  Set Variable  pass
   ${proxy}  Get user voms proxy path  ${user}  ${vo}
-  ${output}  ${stderr}  Execute and Check Success   echo ${userpass}|voms-proxy-init -pwstdin --voms ${vo} --cert ${usercert} --out ${proxy}
+  ${output}  ${stderr}  Run Keyword If  "${VOMS_FAKE}" == "false"  Execute and Check Success   echo ${userpass}|voms-proxy-init -pwstdin --voms ${vo} --cert ${usercert} --out ${proxy}
   Log  ${output}
   Log  ${stderr}
 
