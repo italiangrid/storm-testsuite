@@ -90,6 +90,6 @@ ${SYMLINK.1}  testvo_to_testvo2
 
 ##### VOMS FAKE OPTIONS #####
 
-${VOMS_FAKE_AACERT}  /voms-fake/voms_example.cert.pem
-${VOMS_FAKE_AAKEY}   /voms-fake/voms_example.key.pem
+${VOMS_FAKE_AACERT}  /home/tester/voms-fake/voms_example.cert.pem
+${VOMS_FAKE_AAKEY}   /home/tester/voms-fake/voms_example.key.pem
 ${VOMS_FAKE_FQANS}   /ciccio,/paglia
