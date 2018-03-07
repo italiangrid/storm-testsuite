@@ -38,12 +38,12 @@ Add user  [Arguments]  ${user}
   Execute and Check Success   cp ${certsDir}/${user}.key.pem ${keyPath}
   Execute and Check Success   chmod 400 ${keyPath}
 
-Create voms fake proxy   [Arguments]  ${user}  ${vo}  ${fqan}
+Create voms fake proxy   [Arguments]  ${user}  ${vo}  ${fqans}
   ${usercert}  Get user x509 p12 path  ${user}
   ${userpass}  Set Variable  pass
   ${proxy}  Get user voms proxy path  ${user}  ${vo}
   #${output}  ${stderr}  Run Keyword If  "${vomsFake}" == "true"  Execute and Check Success   echo ${userpass}|VOMS_CLIENTS_JAVA_OPTIONS="-Dvoms.fake.vo=${vo} -Dvoms.fake=${VOMS_FAKE} -Dvoms.fake.aaCert=${VOMS_FAKE_AACERT} -Dvoms.fake.aaKey=${VOMS_FAKE_AAKEY} -Dvoms.fake.fqans=${fqan}" voms-proxy-init -pwstdin --debug --voms ${vo} --cert ${usercert} --out ${proxy}
-  ${options}  Set variable  -Dvoms.fake.vo=${vo} -Dvoms.fake=${vomsFake} -Dvoms.fake.aaCert=${vomsFakeCert} -Dvoms.fake.aaKey=${vomsFakeKey} -Dvoms.fake.fqans=${vomsFakeFqans}
+  ${options}  Set variable  -Dvoms.fake.vo=${vo} -Dvoms.fake=${vomsFake} -Dvoms.fake.aaCert=${vomsFakeCert} -Dvoms.fake.aaKey=${vomsFakeKey} -Dvoms.fake.fqans=${fqans}
   ${output}  ${stderr}  Execute and Check Success   echo ${userpass}|VOMS_CLIENTS_JAVA_OPTIONS="${options}" voms-proxy-init -pwstdin --voms ${vo} --cert ${usercert} --out ${proxy}
   Log  ${output}
   Log  ${stderr}
@@ -109,10 +109,10 @@ Clear webdav remote working directory  [Arguments]  ${storageArea}  ${options}
   Should Contain  ${output}  204 No Content
 
 List of voms fake proxy creation
-  Create voms fake proxy  ${USER.1}  ${VO.1}  ${VOMS_FAKE_FQANS.1}
-  Create voms fake proxy  ${USER.2}  ${VO.1}  ${VOMS_FAKE_FQANS.1}
-  Create voms fake proxy  ${USER.3}  ${VO.1}  ${VOMS_FAKE_FQANS.1}
-  Create voms fake proxy  ${USER.1}  ${VO.2}  ${VOMS_FAKE_FQANS.2}
+  Create voms fake proxy  ${USER.1}  ${VO.1}  ${vomsFakeFqans.1}
+  Create voms fake proxy  ${USER.2}  ${VO.1}  ${vomsFakeFqans.1}
+  Create voms fake proxy  ${USER.3}  ${VO.1}  ${vomsFakeFqans.1}
+  Create voms fake proxy  ${USER.1}  ${VO.2}  ${vomsFakeFqans.2}
 
 List of voms proxy creation
   Create voms proxy  ${USER.1}  ${VO.1}
