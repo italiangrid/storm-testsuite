@@ -42,7 +42,9 @@ Create voms fake proxy   [Arguments]  ${user}  ${vo}  ${fqan}
   ${usercert}  Get user x509 p12 path  ${user}
   ${userpass}  Set Variable  pass
   ${proxy}  Get user voms proxy path  ${user}  ${vo}
-  ${output}  ${stderr}  Run Keyword If  "${vomsFake}" == "true"  Execute and Check Success   echo ${userpass}|VOMS_CLIENTS_JAVA_OPTIONS="-Dvoms.fake.vo=${vo} -Dvoms.fake=${VOMS_FAKE} -Dvoms.fake.aaCert=${VOMS_FAKE_AACERT} -Dvoms.fake.aaKey=${VOMS_FAKE_AAKEY} -Dvoms.fake.fqans=${fqan}" voms-proxy-init -pwstdin --debug --voms ${vo} --cert ${usercert} --out ${proxy} 
+  #${output}  ${stderr}  Run Keyword If  "${vomsFake}" == "true"  Execute and Check Success   echo ${userpass}|VOMS_CLIENTS_JAVA_OPTIONS="-Dvoms.fake.vo=${vo} -Dvoms.fake=${VOMS_FAKE} -Dvoms.fake.aaCert=${VOMS_FAKE_AACERT} -Dvoms.fake.aaKey=${VOMS_FAKE_AAKEY} -Dvoms.fake.fqans=${fqan}" voms-proxy-init -pwstdin --debug --voms ${vo} --cert ${usercert} --out ${proxy}
+  ${options}  Set variable  -Dvoms.fake.vo=${vo} -Dvoms.fake=${vomsFake} -Dvoms.fake.aaCert=${vomsFakeCert} -Dvoms.fake.aaKey=${vomsFakeKey} -Dvoms.fake.fqans=${vomsFakeFqans}
+  ${output}  ${stderr}  Execute and Check Success   echo ${userpass}|VOMS_CLIENTS_JAVA_OPTIONS="${options}" voms-proxy-init -pwstdin --voms ${vo} --cert ${usercert} --out ${proxy}
   Log  ${output}
   Log  ${stderr}
 
@@ -50,7 +52,8 @@ Create voms proxy   [Arguments]   ${user}  ${vo}
   ${usercert}  Get user x509 p12 path  ${user}
   ${userpass}  Set Variable  pass
   ${proxy}  Get user voms proxy path  ${user}  ${vo}
-  ${output}  ${stderr}  Run Keyword If  "${vomsFake}" == "false"  Execute and Check Success   echo ${userpass}|voms-proxy-init -pwstdin --voms ${vo} --cert ${usercert} --out ${proxy}
+  #${output}  ${stderr}  Run Keyword If  "${vomsFake}" == "false"  Execute and Check Success   echo ${userpass}|voms-proxy-init -pwstdin --voms ${vo} --cert ${usercert} --out ${proxy}
+  ${output}  ${stderr}  Execute and Check Success   echo ${userpass}|voms-proxy-init -pwstdin --voms ${vo} --cert ${usercert} --out ${proxy}
   Log  ${output}
   Log  ${stderr}
 
@@ -105,6 +108,19 @@ Clear webdav remote working directory  [Arguments]  ${storageArea}  ${options}
   Log  ${output}
   Should Contain  ${output}  204 No Content
 
+List of voms fake proxy creation
+  Create voms fake proxy  ${USER.1}  ${VO.1}  ${VOMS_FAKE_FQANS.1}
+  Create voms fake proxy  ${USER.2}  ${VO.1}  ${VOMS_FAKE_FQANS.1}
+  Create voms fake proxy  ${USER.3}  ${VO.1}  ${VOMS_FAKE_FQANS.1}
+  Create voms fake proxy  ${USER.1}  ${VO.2}  ${VOMS_FAKE_FQANS.2}
+
+List of voms proxy creation
+  Create voms proxy  ${USER.1}  ${VO.1}
+  Create voms proxy  ${USER.2}  ${VO.1}
+  Create voms proxy  ${USER.1}  ${VO.2}
+  Create voms proxy  ${USER.3}  ${VO.1}
+
+
 Setup local working directory
   ${timestamp}  Get timestamp
   ${uid}  Get uid
@@ -119,14 +135,16 @@ Setup local working directory
   Add user  ${USER.1}
   Add user  ${USER.2}
   Add user  ${USER.3}
-  Create voms fake proxy  ${USER.1}  ${VO.1}  ${VOMS_FAKE_FQANS.1}
-  Create voms fake proxy  ${USER.2}  ${VO.1}  ${VOMS_FAKE_FQANS.1}
-  Create voms fake proxy  ${USER.3}  ${VO.1}  ${VOMS_FAKE_FQANS.1}
-  Create voms fake proxy  ${USER.1}  ${VO.2}  ${VOMS_FAKE_FQANS.2}
-  Create voms proxy  ${USER.1}  ${VO.1}
-  Create voms proxy  ${USER.2}  ${VO.1}
-  Create voms proxy  ${USER.1}  ${VO.2}
-  Create voms proxy  ${USER.3}  ${VO.1}
+  Run keyword if   "${vomsFake}" == "true"  List of voms fake proxy creation
+  Run keyword if   "${vomsFake}" == "false" List of voms proxy creation
+  #Create voms fake proxy  ${USER.1}  ${VO.1}  ${VOMS_FAKE_FQANS.1}
+  #Create voms fake proxy  ${USER.2}  ${VO.1}  ${VOMS_FAKE_FQANS.1}
+  #Create voms fake proxy  ${USER.3}  ${VO.1}  ${VOMS_FAKE_FQANS.1}
+  #Create voms fake proxy  ${USER.1}  ${VO.2}  ${VOMS_FAKE_FQANS.2}
+  #Create voms proxy  ${USER.1}  ${VO.1}
+  #Create voms proxy  ${USER.2}  ${VO.1}
+  #Create voms proxy  ${USER.1}  ${VO.2}
+  #Create voms proxy  ${USER.3}  ${VO.1}
   Create grid proxy  ${USER.1}
 
 Setup remote working directories
