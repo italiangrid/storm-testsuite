@@ -136,7 +136,7 @@ Setup local working directory
   Add user  ${USER.2}
   Add user  ${USER.3}
   Run keyword if   "${vomsFake}" == "true"  List of voms fake proxy creation
-  Run keyword if   "${vomsFake}" == "false" List of voms proxy creation
+  Run keyword if   "${vomsFake}" == "false"  List of voms proxy creation
   #Create voms fake proxy  ${USER.1}  ${VO.1}  ${VOMS_FAKE_FQANS.1}
   #Create voms fake proxy  ${USER.2}  ${VO.1}  ${VOMS_FAKE_FQANS.1}
   #Create voms fake proxy  ${USER.3}  ${VO.1}  ${VOMS_FAKE_FQANS.1}
