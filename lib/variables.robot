@@ -84,6 +84,14 @@ ${NESTED_SA_VONAME}  ${VO.2}
 ${ALIASED_SA}  ${SA.5}
 ${ALIASED_SA_VONAME}  ${VO.2}
 
-##### LINKS
+##### LINKS #####
 
 ${SYMLINK.1}  testvo_to_testvo2
+
+##### VOMS FAKE OPTIONS #####
+
+${vomsFake}  true
+${vomsFakeCert}  /home/tester/voms-fake/voms_example.cert.pem
+${vomsFakeKey}   /home/tester/voms-fake/voms_example.key.pem
+${vomsFakeFqans.1}   /test.vo/Role=NULL/Capability=NULL,/test.vo/G1/Role=NULL/Capability=NULL,/test.vo/G2/Role=NULL/Capability=NULL,/test.vo/G2/G3/Role=NULL/Capability=NULL
+${vomsFakeFqans.2}   /test.vo.2/Role=NULL/Capability=NULL,/test.vo.2/G1/Role=NULL/Capability=NULL,/test.vo.2/G2/Role=NULL/Capability=NULL,/test.vo.2/G2/G3/Role=NULL/Capability=NULL
