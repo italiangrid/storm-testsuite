@@ -17,7 +17,7 @@ ${DAVHost}  ${backEndHost}
 ${DAVPort}  8085
 ${DAVSecurePort}  8443
 
-${DAVContextPath}  /webdav
+${DAVContextPath}  /
 
 ${DAVEndpoint}  http://${DAVHost}:${DAVPort}${DAVContextPath}
 ${DAVSecureEndpoint}  https://${DAVHost}:${DAVSecurePort}${DAVContextPath}
@@ -90,7 +90,7 @@ ${SYMLINK.1}  testvo_to_testvo2
 
 ##### VOMS FAKE OPTIONS #####
 
-${vomsFake}  true
+${vomsFake}  false
 ${vomsFakeCert}  /home/tester/voms-fake/voms_example.cert.pem
 ${vomsFakeKey}   /home/tester/voms-fake/voms_example.key.pem
 ${vomsFakeFqans.1}   /test.vo/Role=NULL/Capability=NULL,/test.vo/G1/Role=NULL/Capability=NULL,/test.vo/G2/Role=NULL/Capability=NULL,/test.vo/G2/G3/Role=NULL/Capability=NULL
