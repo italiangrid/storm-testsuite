@@ -17,10 +17,8 @@ ${DAVHost}  ${backEndHost}
 ${DAVPort}  8085
 ${DAVSecurePort}  8443
 
-${DAVContextPath}  /
-
-${DAVEndpoint}  http://${DAVHost}:${DAVPort}${DAVContextPath}
-${DAVSecureEndpoint}  https://${DAVHost}:${DAVSecurePort}${DAVContextPath}
+${DAVEndpoint}  http://${DAVHost}:${DAVPort}
+${DAVSecureEndpoint}  https://${DAVHost}:${DAVSecurePort}
 
 ${ldapEndpoint}  ${backEndHost}:2170
 ${cdmiEndpoint}  cdmi-storm.cnaf.infn.it:8888
