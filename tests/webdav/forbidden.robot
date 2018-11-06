@@ -12,9 +12,9 @@ WebDAV GET/HEAD VO file as anonymous user and anonymous http read disabled
   Create working directory
   ${url}  Build URL  ${DAVEndpoint}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
   ${stdout}  ${stderr}  Do CURL GET  ${url}
-  Should Contain  ${stdout}  403
+  Should Match Regexp  ${stdout}  (403|401 Unauthorized)
   ${stdout}  ${stderr}  Do CURL HEAD  ${url}
-  Should Contain  ${stdout}  403
+  Should Match Regexp  ${stdout}  (403|401 Unauthorized)
   [Teardown]  Teardown default SA
 
 WebDAV GET/HEAD VO file as anonymous user and anonymous http read enabled
@@ -44,9 +44,9 @@ WebDAV GET/HEAD VO file as anonymous user when anonymous http read is disabled
   Create working directory
   ${url}  Build URL  ${DAVEndpoint}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
   ${stdout}  ${stderr}  Do CURL GET  ${url}
-  Should Contain  ${stdout}  403
+  Should Match Regexp  ${stdout}  (403|401 Unauthorized)
   ${stdout}  ${stderr}  Do CURL HEAD  ${url}
-  Should Contain  ${stdout}  403
+  Should Match Regexp  ${stdout}  (403|401 Unauthorized)
   [Teardown]  Teardown default SA
 
 ######## PUT #########
@@ -57,7 +57,7 @@ WebDAV PUT VO file as anonymous
   Create empty working directory
   ${url}  Build URL  ${DAVEndpoint}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
   ${stdout}  ${stderr}  Do CURL PUT  ${url}  ${TEST_LOCAL_FILEPATH}
-  Should Contain  ${stdout}  403
+  Should Match Regexp  ${stdout}  (403|401 Unauthorized)
   [Teardown]  Teardown default SA
 
 WebDAV PUT VO file as authenticated but not authorized user
@@ -88,7 +88,7 @@ WebDAV DELETE VO file as anonymous
   Create working directory
   ${url}  Build URL  ${DAVEndpoint}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
   ${stdout}  ${stderr}  Do CURL DELETE  ${url}
-  Should Contain  ${stdout}  403
+  Should Match Regexp  ${stdout}  (403|401 Unauthorized)
   [Teardown]  Teardown default SA
 
 WebDAV DELETE VO file as authenticated but not authorized user
@@ -119,7 +119,7 @@ WebDAV MKCOL VO directory as anonymous
   Create empty working directory
   ${url}  Build URL  ${DAVEndpoint}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_REMOTE_DIRNAME}
   ${stdout}  ${stderr}  Do CURL MKCOL  ${url}
-  Should Contain  ${stdout}  403
+  Should Match Regexp  ${stdout}  (403|401 Unauthorized)
   [Teardown]  Teardown default SA
 
 WebDAV MKCOL VO directory as authenticated but not authorized user
@@ -151,7 +151,7 @@ WebDAV PROPFIND allprop VO file as anonymous
   ${body}  Get PROPFIND ALLPROP body
   ${url}  Build URL  ${DAVEndpoint}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
   ${stdout}  ${stderr}  Do CURL PROPFIND  ${url}  ${body}  ${TEST_LOCAL_FILEPATH}
-  Should Contain  ${stdout}  403
+  Should Match Regexp  ${stdout}  (403|401 Unauthorized)
   [Teardown]  Teardown default SA
 
 WebDAV PROPFIND allprop VO file as authenticated but not authorized user
@@ -185,7 +185,7 @@ WebDAV COPY VO file as anonymous
   ${srcURL}  Build URL  ${DAVEndpoint}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
   ${dstURL}  Build URL  ${DAVEndpoint}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}_2
   ${stdout}  ${stderr}  Do CURL COPY  ${srcURL}  ${dstURL}
-  Should Contain  ${stdout}  403
+  Should Match Regexp  ${stdout}  (403|401 Unauthorized)
   [Teardown]  Teardown default SA
 
 WebDAV COPY VO file to another VO SA with the wrong proxy
@@ -217,7 +217,7 @@ WebDAV MOVE VO file as anonymous
   ${srcURL}  Build URL  ${DAVEndpoint}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
   ${dstURL}  Build URL  ${DAVEndpoint}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}_2
   ${stdout}  ${stderr}  Do CURL MOVE  ${srcURL}  ${dstURL}
-  Should Contain  ${stdout}  403
+  Should Match Regexp  ${stdout}  (403|401 Unauthorized)
   [Teardown]  Teardown default SA
 
 WebDAV MOVE VO file to another VO SA with the wrong proxy

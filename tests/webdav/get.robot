@@ -82,7 +82,7 @@ WebDAV partial GET
   Should Contain  ${stdout}  Content-Range: bytes 11-12/13
   Should Contain  ${stdout}  Content-Length: 2
   ${stdout}  ${stderr}  Do CURL partial GET  ${url}  20-24  ${TEST_CURL_OPTIONS}
-  Should Contain  ${stdout}  416 Requested Range Not Satisfiable
+  Should Match Regexp  ${stdout}  (416 Requested Range Not Satisfiable|416 Range Not Satisfiable)
   ${stdout}  ${stderr}  Do CURL partial GET and check success  ${url}  1-3,20-24  ${TEST_CURL_OPTIONS}
   Should Contain  ${stdout}  Content-Range: bytes 1-3/13
   Should Contain  ${stdout}  est

@@ -22,9 +22,6 @@ Do a releaseFile  [Arguments]  ${surl}  ${token}
   ${output}  Perform rf using clientSRM  ${surl}  ${token}
   Should contain  ${output}  SRM_SUCCESS
 
-Get OR pattern  [Arguments]  ${first}  ${second}
-  [Return]  /(${first}|${second})/
-
 *** Test Cases ***
 
 File-Transfer get VO file with proxy
@@ -55,6 +52,5 @@ File-Transfer get VO file as anonymous with anonymous http read disabled
   ${token}  ${turl}  Do a prepareToGet  ${surl}  http
   ${out}  ${err}  Do CURL GET  ${turl}
   Should Not Contain  ${out}  200 OK
-  ${pattern}  Get OR pattern  403  401 Unauthorized
-  Should Match Regexp  ${out}  ${pattern}
+  Should Match Regexp  ${out}  (403|401 Unauthorized)
   [Teardown]  Clear all credentials

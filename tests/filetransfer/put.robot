@@ -34,6 +34,6 @@ File-Transfer PUT VO file as anonymous
   ${token}  ${turl}  Do a prepareToPut  ${surl}  http
   ${out}  ${err}  Do CURL PUT  ${turl}  ${TEST_LOCAL_FILEPATH}
   Should Not Contain  ${out}  200 OK
-  Should Contain  ${out}  403
+  Should Match Regexp  ${out}  (403|401 Unauthorized)
   Do a putDone  ${surl}  ${token}
   [Teardown]  Clear all credentials
