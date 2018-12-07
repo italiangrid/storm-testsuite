@@ -31,7 +31,7 @@ pipeline {
                             usernamePassword(credentialsId: 'a5ca708a-eca8-4fc0-83cd-eb3695f083a1', passwordVariable: 'IAM_USER_PASSWORD', usernameVariable: 'IAM_USER_NAME')
                         ]) {
 
-                            def image = "${env.DOCKER_REGISTRY_HOST}/italiangrid/storm-testsuite:latest"
+                            def image = "italiangrid/storm-testsuite:latest"
                             echo "image: ${image}"
 
                             sh "docker pull ${image}"
