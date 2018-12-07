@@ -14,7 +14,6 @@ pipeline {
     }
 
     parameters {
-        choice(choices: 'develop\nmaster\nrelease/1.11.15', description: '', name: 'TESTSUITE_BRANCH')
         string(defaultValue: "omii006-vm03.cnaf.infn.it", description: '', name: 'STORM_BE_HOST')
         string(defaultValue: "omii003-vm01.cnaf.infn.it:8888", description: '', name: 'CDMI_ENDPOINT')
         string(defaultValue: "to-be-fixed", description: '', name: 'TESTSUITE_EXCLUDE')
@@ -41,7 +40,7 @@ pipeline {
                             echo "name: ${name}"
 
                             def variables = []
-                            variables.add("-e TESTSUITE_BRANCH=${params.TESTSUITE_BRANCH}")
+                            variables.add("-e TESTSUITE_BRANCH=${env.BRANCH_NAME}")
                             variables.add("-e STORM_BE_HOST=${params.STORM_BE_HOST}")
                             variables.add("-e CDMI_ENDPOINT=${params.CDMI_ENDPOINT}")
                             variables.add("-e TESTSUITE_EXCLUDE=${params.TESTSUITE_EXCLUDE}")
