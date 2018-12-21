@@ -14,10 +14,10 @@ Check db size update after srmPutDone
   [Setup]  Use default voms proxy
   ${filename}  Create local file
   ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
-  Check file does not exists using lcg-utils  ${surl}
+  Check surl does not exists using gfal-utils  ${surl}
   ${token}  Get SA Token
   ${free_space_before}  Get SA status info parameter  ${token}  free-space
-  Copy-out file using lcg-utils  ${filename}  ${surl}
+  Copy-out file using gfal-utils  ${filename}  ${surl}
   ${free_space_after}  Get SA status info parameter  ${token}  free-space
   Should not be equal  ${free_space_before}  ${free_space_after}
   ${output}  Perform rm using clientSRM  ${surl}
@@ -32,10 +32,10 @@ Check db size update after srmRm
   [Setup]  Use default voms proxy
   ${filename}  Create local file
   ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
-  Check file does not exists using lcg-utils  ${surl}
+  Check surl does not exists using gfal-utils  ${surl}
   ${token}  Get SA Token
   ${free_space}  Get SA status info parameter  ${token}  free-space
-  Copy-out file using lcg-utils  ${filename}  ${surl}
+  Copy-out file using gfal-utils  ${filename}  ${surl}
   ${free_space_before}  Get SA status info parameter  ${token}  free-space
   ${output}  Perform rm using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
@@ -75,9 +75,9 @@ Check db size update after a recursive srmRmdir
   ${free_space_2}  Get SA status info parameter  ${token}  free-space
   ${filename}  Create local file
   ${fsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}/${filename}
-  Check file does not exists using lcg-utils  ${fsurl}
-  Copy-out file using lcg-utils  ${filename}  ${fsurl}
-  Check file exists using lcg-utils  ${fsurl}
+  Check surl does not exists using gfal-utils  ${fsurl}
+  Copy-out file using gfal-utils  ${filename}  ${fsurl}
+  Check surl exists using gfal-utils  ${fsurl}
   ${free_space_3}  Get SA status info parameter  ${token}  free-space
   ${output}  Perform rmdir using clientSRM  ${dsurl}  -r
   ${free_space_4}  Get SA status info parameter  ${token}  free-space

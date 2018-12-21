@@ -22,8 +22,8 @@ Create file with synch ptp and pd  [Arguments]  ${surl}
   ${output}  Perform pd using clientSRM  ${surl}  ${token}
   Should Contain  ${output}  SRM_SUCCESS
 
-Upload file with lcg utils  [Arguments]  ${localfilename}  ${surl}
-  Copy-out file using lcg-utils  ${localfilename}  ${surl}
+Upload file with gfal utils  [Arguments]  ${localfilename}  ${surl}
+  Copy-out file using gfal-utils  ${localfilename}  ${surl}
 
 Upload file with asynch ptp and globus file transfer  [Arguments]  ${surl}  ${localfilename}  ${turl}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}
@@ -64,7 +64,7 @@ Release file  [Arguments]  ${surl}  ${token}
   Should Contain  ${output}  SRM_SUCCESS
 
 Copy file  [Arguments]  ${srcsurl}  ${destsurl}
-  Copy file using lcg-utils  ${srcSurl}  ${destSurl}
+  Copy file using gfal-utils  ${srcSurl}  ${destSurl}
 
 Move file  [Arguments]  ${srcsurl}  ${destsurl}
   ${output}  Perform mv using clientSRM  ${srcsurl}  ${destsurl}
@@ -91,7 +91,7 @@ Mixed tests  [Arguments]  ${storageArea}  ${storageAreaRealRoot}
   ${turlFile3}  Build gsiftp TURL  ${storageAreaRealRoot}  ${TESTDIR}/${dirname}/${filename}_3
   Create remote directory  ${surlDir}
   Create file with synch ptp and pd  ${surlFile1}
-  Upload file with lcg utils  ${filename}  ${surlFile2}
+  Upload file with gfal utils  ${filename}  ${surlFile2}
   Upload file with asynch ptp and globus file transfer  ${surlFile3}  ${filename}  ${turlFile3}
   Get file with synch ptg and globus file transfer  ${surlFile3}  ${turlFile3}
   Get file with asynch ptg and globus file transfer  ${surlFile3}  ${turlFile3}

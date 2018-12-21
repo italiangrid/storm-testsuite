@@ -10,7 +10,7 @@ Move file
   ${filename}  Create local file
   ${srcsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
   ${destsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}.moved
-  Copy-out file using lcg-utils  ${filename}  ${srcsurl}
+  Copy-out file using gfal-utils  ${filename}  ${srcsurl}
   ${output}  Perform mv using clientSRM  ${srcsurl}  ${destsurl}
   Should Contain  ${output}  SRM_SUCCESS
   ${output}  Perform ls using clientSRM  ${srcsurl}
@@ -28,8 +28,8 @@ Move file to a destination surl that already exists
   ${filename}  Create local file
   ${srcsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
   ${destsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}.moved
-  Copy-out file using lcg-utils  ${filename}  ${srcsurl}
-  Copy-out file using lcg-utils  ${filename}  ${destsurl}
+  Copy-out file using gfal-utils  ${filename}  ${srcsurl}
+  Copy-out file using gfal-utils  ${filename}  ${destsurl}
   ${output}  Perform mv using clientSRM  ${srcsurl}  ${destsurl}
   Should Contain  ${output}  SRM_DUPLICATION_ERROR
   ${output}  Perform rm using clientSRM  ${srcsurl}
@@ -47,7 +47,7 @@ Move file into directory
   ${srcfilesurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
   ${destdirsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dstdirname}
   ${destfilesurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dstdirname}/${filename}
-  Copy-out file using lcg-utils  ${filename}  ${srcfilesurl}
+  Copy-out file using gfal-utils  ${filename}  ${srcfilesurl}
   ${output}  Perform mkdir using clientSRM  ${destdirsurl}
   Should Contain  ${output}  SRM_SUCCESS
   ${output}  Perform mv using clientSRM  ${srcfilesurl}  ${destdirsurl}
@@ -69,7 +69,7 @@ Move not empty directory on unexistent surl
   ${destdirsurl}  Build surl  ${DEFAULT_SA}  ${dirname}.moved
   ${output}  Perform mkdir using clientSRM  ${dirsurl}
   Should Contain  ${output}  SRM_SUCCESS
-  Copy-out file using lcg-utils  ${filename}  ${filesurl}
+  Copy-out file using gfal-utils  ${filename}  ${filesurl}
   ${output}  Perform mv using clientSRM  ${dirsurl}  ${destdirsurl}
   Should Contain  ${output}  SRM_SUCCESS
   ${output}  Perform rmdir using clientSRM  ${destdirsurl}  -r
@@ -88,7 +88,7 @@ Move not empty directory on a existent empty directory
   ${destfilesurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}.moved/${dirname}/${filename}
   ${output}  Perform mkdir using clientSRM  ${dirsurl}
   Should Contain  ${output}  SRM_SUCCESS  
-  Copy-out file using lcg-utils  ${filename}  ${filesurl}
+  Copy-out file using gfal-utils  ${filename}  ${filesurl}
   ${output}  Perform mkdir using clientSRM  ${destdirsurl}
   Should Contain  ${output}  SRM_SUCCESS
   ${output}  Perform mv using clientSRM  ${dirsurl}  ${destdirsurl}
@@ -110,8 +110,8 @@ Move not empty directory on a existent surl
   ${destsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}.copied
   ${output}  Perform mkdir using clientSRM  ${dirsurl}
   Should Contain  ${output}  SRM_SUCCESS
-  Copy-out file using lcg-utils  ${filename}  ${filesurl}
-  Copy-out file using lcg-utils  ${filename}  ${destsurl}
+  Copy-out file using gfal-utils  ${filename}  ${filesurl}
+  Copy-out file using gfal-utils  ${filename}  ${destsurl}
   ${output}  Perform mv using clientSRM  ${dirsurl}  ${destsurl}
   Should Contain  ${output}  SRM_DUPLICATION_ERROR
   ${output}  Perform rmdir using clientSRM  ${dirsurl}  -r
@@ -132,7 +132,7 @@ Move not empty directory on a existent not empty directory that contains an exis
   ${destsubdirsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}.moved/${dirname}
   ${output}  Perform mkdir using clientSRM  ${dirsurl}
   Should Contain  ${output}  SRM_SUCCESS  
-  Copy-out file using lcg-utils  ${filename}  ${filesurl}
+  Copy-out file using gfal-utils  ${filename}  ${filesurl}
   ${output}  Perform mkdir using clientSRM  ${destdirsurl}
   Should Contain  ${output}  SRM_SUCCESS
   ${output}  Perform mkdir using clientSRM  ${destsubdirsurl}
@@ -152,7 +152,7 @@ Move file over itself
   ${filename}  Create local file
   ${srcsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
   ${destsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
-  Copy-out file using lcg-utils  ${filename}  ${srcsurl}
+  Copy-out file using gfal-utils  ${filename}  ${srcsurl}
   ${output}  Perform mv using clientSRM  ${srcsurl}  ${destsurl}
   Should Contain  ${output}  SRM_SUCCESS
   ${output}  Perform rm using clientSRM  ${srcsurl}
@@ -166,7 +166,7 @@ Move file with active ptg
   ${filename}  Create local file
   ${srcsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
   ${destsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}.moved
-  Copy-out file using lcg-utils  ${filename}  ${srcsurl}
+  Copy-out file using gfal-utils  ${filename}  ${srcsurl}
   ${output}  ${token}  Perform ptg using clientSRM  ${srcsurl}  -p
   Should Contain  ${output}  SRM_FILE_PINNED
   ${output}  Perform mv using clientSRM  ${srcsurl}  ${destsurl}
@@ -200,7 +200,7 @@ Move file on an unauthorized destination
   ${filename}  Create local file
   ${srcsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
   ${destsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
-  Copy-out file using lcg-utils  ${filename}  ${srcsurl}
+  Copy-out file using gfal-utils  ${filename}  ${srcsurl}
   Use default grid proxy
   ${output}  Perform mv using clientSRM  ${srcsurl}  ${destsurl}
   Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
@@ -216,7 +216,7 @@ Check unauthorized file move on a different VO
   ${filename}  Create local file
   ${srcsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
   ${destsurl}  Build surl  ${DEFAULT_SA}  ../${SA.2}/${TESTDIR}/${filename}
-  Copy-out file using lcg-utils  ${filename}  ${srcsurl}
+  Copy-out file using gfal-utils  ${filename}  ${srcsurl}
   ${output}  Perform mv using clientSRM  ${srcsurl}  ${destsurl}
   Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
   ${destsurl}  Build surl  ${SA.2}  ../${DEFAULT_SA}/${TESTDIR}/${filename}_2

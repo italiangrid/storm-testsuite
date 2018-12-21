@@ -15,7 +15,7 @@ Resource   dcache.robot
 Resource   filetransfer.robot
 Resource   globus_util.robot
 Resource   infosystem.robot
-Resource   lcg_util.robot
+Resource   gfal_util.robot
 Resource   metadata.robot
 Resource   oidc.robot
 Resource   recall.robot

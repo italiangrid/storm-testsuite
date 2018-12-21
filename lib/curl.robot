@@ -3,10 +3,10 @@
 ### COMMAND ###
 
 Curl  [Arguments]  ${method}  ${url}  ${options}=${EMPTY}
-  ${output}  ${stderr}  Execute and Check Success  curl ${options} ${url} -X ${method} -s -L -iv
+  ${rc}  ${output}  Run And Return Rc And Output  curl ${options} ${url} -X ${method} -s -L -iv
   Log  ${output}
-  Log  ${stderr}
-  [Return]  ${output}  ${stderr}
+  Log  ${rc}
+  [Return]  ${output}  ${rc}
 
 ### OPTIONS ###
 
