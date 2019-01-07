@@ -29,7 +29,8 @@ Get CDMI Status  [Arguments]  ${path}  ${credentials}
   [Return]  ${data}
 
 Get Json Data  [Arguments]  ${url}  ${options}
-  ${output}  ${stderr}  Curl  GET  ${url}  ${options}
+  ${output}  ${rc}  Curl  GET  ${url}  ${options}
+  Should Be Equal As Integers  ${rc}  0
   ${jsonData} =  Get Line  ${output}  -1
   ${parsedData}  Parse Json  ${jsonData}
   [Return]  ${parsedData}

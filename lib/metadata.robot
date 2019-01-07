@@ -6,11 +6,13 @@ Get metadata of  [Arguments]  ${sa}  ${path}
   [Return]  ${data}
 
 Request Metadata For  [Arguments]  ${sa}  ${path}
-  ${output}  ${stderr}  Curl  GET  http://${recallEndpoint}/metadata/${sa}/${path}  -H "Token:${xmlrpcToken}"
+  ${output}  ${rc}  Curl  GET  http://${recallEndpoint}/metadata/${sa}/${path}  -H "Token:${xmlrpcToken}"
+  Should Be Equal As Integers  ${rc}  0
   [Return]  ${output}
 
 Unauthorized Request Metadata For  [Arguments]  ${sa}  ${path}
-  ${output}  ${stderr}  Curl  GET  http://${recallEndpoint}/metadata/${sa}/${path}
+  ${output}  ${rc}  Curl  GET  http://${recallEndpoint}/metadata/${sa}/${path}
+  Should Be Equal As Integers  ${rc}  0
   [Return]  ${output}
 
 Parse Metadata  [Arguments]  ${httpRepsonse}

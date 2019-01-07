@@ -52,7 +52,7 @@ List existent file
   [Setup]  Use default voms proxy
   ${filename}  Create local file
   ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
-  Copy-out file using lcg-utils  ${filename}  ${surl}
+  Copy-out file using gfal-utils  ${filename}  ${surl}
   ${output}  Perform ls using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
   Should Contain  ${output}  path="/${DEFAULT_SA}/${TESTDIR}/${filename}"
@@ -100,7 +100,7 @@ Full detailed list of existent file
   [Setup]  Use default voms proxy
   ${filename}  Create local file
   ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
-  Copy-out file using lcg-utils  ${filename}  ${surl}
+  Copy-out file using gfal-utils  ${filename}  ${surl}
   ${output}  Perform ls using clientSRM  ${surl}  -l 1 -n 0
   Should Contain  ${output}  SRM_SUCCESS
   Should Contain  ${output}  path="/${DEFAULT_SA}/${TESTDIR}/${filename}"
@@ -131,8 +131,8 @@ Full detailed and recursive list of existent files and directories
   Should Contain  ${output}  SRM_SUCCESS
   ${output}  Perform mkdir using clientSRM  ${subdirsurl}
   Should Contain  ${output}  SRM_SUCCESS
-  Copy-out file using lcg-utils  ${filename}  ${filesurl}
-  Copy-out file using lcg-utils  ${filename}  ${subdirfilesurl}
+  Copy-out file using gfal-utils  ${filename}  ${filesurl}
+  Copy-out file using gfal-utils  ${filename}  ${subdirfilesurl}
   ${output}  Perform ls using clientSRM  ${dirsurl}  -r -l 1
   Should Contain  ${output}  SRM_SUCCESS
   Should Contain  ${output}  path="/${DEFAULT_SA}/${TESTDIR}/${dirname}"
@@ -228,7 +228,7 @@ Ls on some symlinks that point to other storage-areas
   [Teardown]  Clear all credentials
 
 Check approached VFS with nested accesspoints
-  [Tags]  ls  lcg-utils  nested  storm-client
+  [Tags]  ls  nested  storm-client
   [Setup]  Use voms proxy  ${defaultUser}  ${NESTED_SA_VONAME}
   ${dirname}  Get a unique name
   ${filename}  Create local file
@@ -236,7 +236,7 @@ Check approached VFS with nested accesspoints
   ${surlFile}  Build surl  ${NESTED_SA}  ${TESTDIR}/${dirname}/${filename}
   ${output}  Perform mkdir using clientSRM  ${surlDir}
   Should Contain  ${output}  SRM_SUCCESS
-  Copy-out file using lcg-utils  ${filename}  ${surlFile}
+  Copy-out file using gfal-utils  ${filename}  ${surlFile}
   ${output}  Perform ls using clientSRM  ${surlDir}
   Should Contain  ${output}  SRM_SUCCESS
   Should Contain  ${output}  ${NESTED_SA}/${TESTDIR}/${dirname}

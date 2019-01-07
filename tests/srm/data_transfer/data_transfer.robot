@@ -37,14 +37,14 @@ Test that the SRM service is able to transfer a file from the SRM endpoint
   [Setup]  Use default voms proxy
   ${filename}  Create local file
   ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
-  Copy-out file using lcg-utils  ${filename}  ${surl}
+  Copy-out file using gfal-utils  ${filename}  ${surl}
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p -T -P gsiftp
   ${result}  ${turl}=  Should Match Regexp  ${output}  transferURL=(\".+\")
   Copy-in file using gsiftp protocol  ${turl}  ${filename}
   [Teardown]  Clear all credentials
 
 Check checksum of copied file
-  [Tags]  lcg-utils 
+  [Tags]  checksum  gridftp
   [Documentation]  StoRM BE must be configured with GRIDFTP_WITH_DSI="yes" to pass this test
   [Setup]  Use default voms proxy
   ${filename}  Create local file
@@ -54,7 +54,10 @@ Check checksum of copied file
   Copy-out file using globus-utils  ${filename}  ${turl}
   ${output}  Perform pd using clientSRM  ${srcsurl}  ${token}  -p
   ${destsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}_copied
-  ${output}  Copy file using lcg-utils  ${srcsurl}  ${destsurl}  --checksum
-  Log  ${output}
-  Should Contain  ${output}  Source and destination checksums are matching
+  ${output}  Copy file using gfal-utils  ${srcsurl}  ${destsurl}
+  ${checksum1}  Get checksum of remote file using gfal-utils  ${srcsurl}
+  ${checksum2}  Get checksum of remote file using gfal-utils  ${destsurl}
+  Log  ${checksum1}
+  Log  ${checksum2}
+  Should Be Equal As Strings  ${checksum1}  ${checksum2}
   [Teardown]  Clear all credentials

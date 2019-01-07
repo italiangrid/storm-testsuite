@@ -6,7 +6,7 @@ Resource   lib/import.robot
 
 Space token used space is update
   [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/109. Given a Space Token ST and a SURL that resides on ST pointing to a not existent file, verify that inspecting the unused space of the ST before and after a non-empty file has been stored on the SURL, the ST used space value is updated accordingly to the size of the new file.
-  [Tags]  storm-client  lcg-utils  gst  regression
+  [Tags]  storm-client  gfal-utils  gst  regression
   [Setup]  Use default voms proxy
   ${token}  Get SA Token
   Log  ${token}
@@ -14,7 +14,7 @@ Space token used space is update
   Log  ${size_before}
   ${filename}  Create local file
   ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
-  Copy-out file using lcg-utils  ${filename}  ${surl}
+  Copy-out file using gfal-utils  ${filename}  ${surl}
   ${size_after}  Get unused size using clientSRM  ${token}
   Log  ${size_after}
   ${diff_size}  Run  echo `expr ${size_before} - ${size_after}`
