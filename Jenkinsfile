@@ -19,6 +19,7 @@ pipeline {
         string(defaultValue: "to-be-fixed", description: '', name: 'TESTSUITE_EXCLUDE')
         string(defaultValue: "tests", description: '', name: 'TESTSUITE_SUITE')
         string(defaultValue: "/storage", description: '', name: 'STORM_STORAGE_ROOT_DIR')
+        string(defaultValue: "${env.DOCKER_REGISTRY_HOST}/italiangrid/storm-testsuite:centos7", description: '', name: 'STORM_TESTSUITE_IMAGE')
     }
 
     stages {
@@ -31,7 +32,7 @@ pipeline {
                             usernamePassword(credentialsId: 'a5ca708a-eca8-4fc0-83cd-eb3695f083a1', passwordVariable: 'IAM_USER_PASSWORD', usernameVariable: 'IAM_USER_NAME')
                         ]) {
 
-                            def image = "${env.DOCKER_REGISTRY_HOST}/italiangrid/storm-testsuite:centos7"
+                            def image = "${params.STORM_TESTSUITE_IMAGE}"
                             echo "image: ${image}"
 
                             sh "docker pull ${image}"
