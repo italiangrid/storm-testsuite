@@ -30,7 +30,7 @@ Create a directory that already exists using the dCache client
   Should Contain  ${output}  SRM_SUCCESS
   ${output}  Try to create directory using dCache client  ${surl}
   Should Contain  ${output}  SRM_DUPLICATION_ERROR
-  Should Contain  ${output}  Directory specified exists!
+  Should Contain  ${output}  Path exists and it's a directory.
   ${output}  Perform rmdir using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
   [Teardown]  Clear all credentials
