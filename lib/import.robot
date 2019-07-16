@@ -23,3 +23,4 @@ Resource   setup.robot
 Resource   stormlib.robot
 Resource   webdav_util.robot
 Resource   webdav.robot
+Resource   utils.robot
