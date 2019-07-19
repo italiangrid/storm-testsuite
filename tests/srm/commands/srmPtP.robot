@@ -100,11 +100,11 @@ check file content after a srmPtP with overwrite
   ${output}  Copy-out file using gfal-utils  ${name}  ${surl}
   ${outputPtP}  ${token}  srmPtP  ${surl}  -p -w 1
   check srmPtP success  ${outputPtP}
+  ${outputPd}  srmPd  ${surl}  ${token}
+  check srmPd success  ${outputPd}
   Copy-in file using gfal-utils  ${surl}  ${name}_2
   ${output}  Cat local file  ${name}_2
   Should Contain  ${output}  Hello World
-  ${outputPd}  srmPd  ${surl}  ${token}
-  check srmPd success  ${outputPd}
   deleteRemoteFile  ${surl}
   [Teardown]  Clear all credentials
 
