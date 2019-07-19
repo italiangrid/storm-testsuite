@@ -106,6 +106,8 @@ check file content after a srmPtP with overwrite
   ${output}  Cat local file  ${name}_2
   Should Contain  ${output}  Hello World
   deleteRemoteFile  ${surl}
+  Remove local file  ${name}
+  Remove local file  ${name}_2
   [Teardown]  Clear all credentials
 
 srmPtP with unsupported transfer protocol
