@@ -91,6 +91,25 @@ srmPtP of an existent file with overwrite
   deleteRemoteFile  ${surl}
   [Teardown]  Clear all credentials
 
+check file content after a srmPtP with overwrite
+  [Documentation]  Test introduced for https://issues.infn.it/jira/browse/STOR-1102
+  [Tags]  storm-client  ptp  gfal
+  [Setup]  Use default voms proxy
+  ${surl}  getRandomSURL
+  ${name}  Create local file with text  Hello World
+  ${output}  Copy-out file using gfal-utils  ${name}  ${surl}
+  ${outputPtP}  ${token}  srmPtP  ${surl}  -p -w 1
+  check srmPtP success  ${outputPtP}
+  ${outputPd}  srmPd  ${surl}  ${token}
+  check srmPd success  ${outputPd}
+  Copy-in file using gfal-utils  ${surl}  ${name}_2
+  ${output}  Cat local file  ${name}_2
+  Should Contain  ${output}  Hello World
+  deleteRemoteFile  ${surl}
+  Remove local file  ${name}
+  Remove local file  ${name}_2
+  [Teardown]  Clear all credentials
+
 srmPtP with unsupported transfer protocol
   [Documentation]  Regression test for https://storm.cnaf.infn.it:8443/redmine/issues/127
   [Tags]  storm-client  ptp  regression
