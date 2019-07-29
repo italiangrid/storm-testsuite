@@ -52,6 +52,22 @@ Create directory that has no parent
   Should Contain  ${output}  SRM_SUCCESS
   [Teardown]  Clear all credentials
 
+Create directory with parent as a file
+  [Tags]  storm-client  mkdir
+  [Setup]  Use default voms proxy
+  ${dirname}  Get a unique name
+  ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}
+  ${output}  Perform mkdir using clientSRM  ${surl}
+  Put without really putting using clientSRM  ${surl}/a
+  ${output}  Perform mkdir using clientSRM  ${surl}/a/b
+  Should Contain  ${output}  SRM_INVALID_PATH
+  Should Contain  ${output}  Parent directory is not a directory.
+  ${output}  Perform rm using clientSRM  ${surl}/a
+  Should Contain  ${output}  SRM_SUCCESS
+  ${output}  Perform rmdir using clientSRM  ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
+  [Teardown]  Clear all credentials
+
 Create directory over a file
   [Tags]  storm-client  mkdir
   [Setup]  Use default voms proxy
