@@ -94,3 +94,23 @@ srmRm properly cleans up ongoing PtPs
   Should Not Contain  ${output}  SRM_FAILURE
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
   [Teardown]   Clear all credentials
+
+srmRm properly cleans up ongoing requests from another user
+  [Tags]  storm-client  rm
+  [Documentation]   Regression test for https://issues.infn.it/jira/browse/STOR-984
+  Use voms proxy  ${USER.1}  ${VO.1}
+  ${filename}  Get a unique name
+  ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
+  Put without really putting using clientSRM  ${surl}
+  ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
+  Should Not Contain  ${output}  SRM_FAILURE
+  Should Contain  ${output}  SRM_FILE_PINNED
+  Use voms proxy  ${USER.2}  ${VO.1}
+  ${output}   Perform rm using clientSRM   ${surl}
+  Should Contain  ${output}  SRM_SUCCESS
+  Use voms proxy  ${USER.1}  ${VO.1}
+  ${output}  ${token}  Perform sptg using clientSRM  ${surl}  ${token}
+  Should Not Contain  ${output}  SRM_FILE_PINNED
+  Should Contain  ${output}  SRM_ABORTED
+  Should Contain  ${output}  File has been removed
+  [Teardown]   Clear all credentials
