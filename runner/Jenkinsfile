@@ -1,0 +1,78 @@
+pipeline {
+
+  agent { label 'docker' }
+
+  options {
+    timeout(time: 1, unit: 'HOURS')
+    buildDiscarder(logRotator(numToKeepStr: '5'))
+  }
+
+  parameters {
+    string(defaultValue: "omii006-vm03.cnaf.infn.it", description: '', name: 'STORM_BE_HOST')
+    string(defaultValue: "omii003-vm01.cnaf.infn.it:8888", description: '', name: 'CDMI_ENDPOINT')
+    string(defaultValue: "to-be-fixed", description: '', name: 'TESTSUITE_EXCLUDE')
+    string(defaultValue: "tests", description: '', name: 'TESTSUITE_SUITE')
+    string(defaultValue: "/storage", description: '', name: 'STORM_STORAGE_ROOT_DIR')
+  }
+
+  environment {
+    TESTSUITE_BRANCH = "${env.BRANCH_NAME}"
+    COMPOSE_PROJECT_NAME = "storm-testsuite-runner-${BUILD_TAG}"
+    TTY_OPTS = "-T"
+  }
+  stages {
+    stage('run') {
+      steps {
+        script {
+          withCredentials([
+            usernamePassword(credentialsId: 'a5ca708a-eca8-4fc0-83cd-eb3695f083a1', passwordVariable: 'CDMI_CLIENT_SECRET', usernameVariable: 'CDMI_CLIENT_ID'),
+            usernamePassword(credentialsId: 'fa43a013-7c86-410f-8a8f-600b92706989', passwordVariable: 'IAM_USER_PASSWORD', usernameVariable: 'IAM_USER_NAME')
+          ]) {
+            echo "TESTSUITE_BRANCH=${env.TESTSUITE_BRANCH}"
+            echo "TTY_OPTS=${env.TTY_OPTS}"
+            dir("runner") {
+              sh "bash ./run.sh"
+            }
+
+            archive 'reports/**'
+
+            step([$class: 'RobotPublisher',
+              disableArchiveOutput: false,
+              logFileName: 'log.html',
+              otherFiles: '*.png',
+              outputFileName: 'output.xml',
+              outputPath: "reports",
+              passThreshold: 100,
+              reportFileName: 'report.html',
+              unstableThreshold: 90])
+          }
+        }
+      }
+    }
+  }
+
+  post {
+    always {
+      archiveArtifacts 'runner/output/**'
+      step([$class: 'RobotPublisher',
+        disableArchiveOutput: false,
+        logFileName: 'log.html',
+        otherFiles: '*.png',
+        outputFileName: 'output.xml',
+        outputPath: "runner/output/reports",
+        passThreshold: 100,
+        reportFileName: 'report.html',
+        unstableThreshold: 90])
+    }
+    failure {
+      slackSend channel: '#ci-cloud', color: 'danger', message: "${env.JOB_NAME} - #${env.BUILD_ID} Failure (<${env.BUILD_URL}|Open>)"
+    }
+    changed {
+      script {
+        if ('SUCCESS'.equals(currentBuild.result)) {
+          slackSend channel: '#ci-cloud', color: 'good', message: "${env.JOB_NAME} - #${env.BUILD_ID} Back to normal (<${env.BUILD_URL}|Open>)"
+        }
+      }
+    }
+  }
+}

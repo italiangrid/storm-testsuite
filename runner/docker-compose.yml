@@ -1,0 +1,36 @@
+version: '3.5'
+
+volumes:
+  trustanchors:
+
+services:
+
+  trust:
+    container_name: trust
+    image: indigoiam/trustanchors
+    environment:
+      - FORCE_TRUST_ANCHORS_UPDATE=1
+    volumes:
+      - trustanchors:/etc/grid-security/certificates
+
+  storm-testsuite:
+    image: italiangrid/storm-testsuite:${TESTSUITE_BRANCH}
+    entrypoint: sh /assets/run_testsuite.sh
+    container_name: testsuite
+    environment:
+      - TESTSUITE_BRANCH
+      - TESTSUITE_EXCLUDE
+      - TESTSUITE_SUITE
+      - STORM_STORAGE_ROOT_DIR
+      - CDMI_CLIENT_SECRET
+      - IAM_USER_PASSWORD
+      - DAV_HOST
+      - GFTP_HOST
+      - STORM_BE_HOST
+      - CDMI_ENDPOINT
+      - VOMS_FAKE
+    depends_on:
+      - trust
+    volumes:
+      - trustanchors:/etc/grid-security/certificates
+      - ./assets:/assets
