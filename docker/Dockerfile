@@ -5,3 +5,5 @@ RUN sh /setup/setup.sh
 
 USER tester
 WORKDIR /home/tester
+
+VOLUME /assets
