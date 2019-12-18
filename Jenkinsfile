@@ -45,7 +45,10 @@ pipeline {
             envvars = variables.join(' ')
             echo "env-vars: ${envvars}"
 
-            sh returnStatus: true, script: "docker run --name ${name} ${envvars} ${image}"
+            def volumes = "-v ${env.WORKSPACE}/docker/assets:/assets"
+            def entrypoint = "--entrypoint \"sh /assets/run_testsuite.sh\""
+
+            sh returnStatus: true, script: "docker run --name ${name} ${envvars} ${volumes} ${entrypoint} ${image}"
 
             sh "docker cp ${name}:/home/tester/storm-testsuite/reports ."
             archive 'reports/**'
