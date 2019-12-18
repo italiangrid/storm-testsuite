@@ -13,7 +13,6 @@ pipeline {
     string(defaultValue: "to-be-fixed", description: '', name: 'TESTSUITE_EXCLUDE')
     string(defaultValue: "tests", description: '', name: 'TESTSUITE_SUITE')
     string(defaultValue: "/storage", description: '', name: 'STORM_STORAGE_ROOT_DIR')
-    string(defaultValue: "italiangrid/storm-testsuite", description: '', name: 'STORM_TESTSUITE_IMAGE')
   }
 
   stages {
@@ -24,7 +23,7 @@ pipeline {
             usernamePassword(credentialsId: 'a5ca708a-eca8-4fc0-83cd-eb3695f083a1', passwordVariable: 'CDMI_CLIENT_SECRET', usernameVariable: 'CDMI_CLIENT_ID'),
             usernamePassword(credentialsId: 'fa43a013-7c86-410f-8a8f-600b92706989', passwordVariable: 'IAM_USER_PASSWORD', usernameVariable: 'IAM_USER_NAME')
           ]) {
-            def image = "${params.STORM_TESTSUITE_IMAGE}"
+            def image = "italiangrid/storm-testsuite:${env.BRANCH_NAME}"
             echo "image: ${image}"
 
             sh "docker pull ${image}"
