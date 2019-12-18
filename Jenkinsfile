@@ -23,7 +23,7 @@ pipeline {
     string(defaultValue: "to-be-fixed", description: '', name: 'TESTSUITE_EXCLUDE')
     string(defaultValue: "tests", description: '', name: 'TESTSUITE_SUITE')
     string(defaultValue: "/storage", description: '', name: 'STORM_STORAGE_ROOT_DIR')
-    string(defaultValue: "italiangrid/storm-testsuite:centos7", description: '', name: 'STORM_TESTSUITE_IMAGE')
+    string(defaultValue: "italiangrid/storm-testsuite", description: '', name: 'STORM_TESTSUITE_IMAGE')
   }
 
   stages {
