@@ -8,7 +8,9 @@ pipeline {
   }
 
   parameters {
-    string(defaultValue: "omii006-vm03.cnaf.infn.it", description: '', name: 'STORM_BE_HOST')
+    string(defaultValue: "omii006-vm03.cnaf.infn.it", description: '', name: 'STORM_BACKEND_HOSTNAME')
+    string(defaultValue: "omii006-vm03.cnaf.infn.it", description: '', name: 'STORM_WEBDAV_HOSTNAME')
+    string(defaultValue: "omii006-vm03.cnaf.infn.it", description: '', name: 'STORM_GRIDFTP_HOSTNAME')
     string(defaultValue: "omii003-vm01.cnaf.infn.it:8888", description: '', name: 'CDMI_ENDPOINT')
     string(defaultValue: "to-be-fixed", description: '', name: 'TESTSUITE_EXCLUDE')
     string(defaultValue: "tests", description: '', name: 'TESTSUITE_SUITE')
@@ -16,10 +18,19 @@ pipeline {
   }
 
   environment {
+    STORM_TESTSUITE_CONTAINER_NAME = "storm-testsuite-${BUILD_TAG}"
     TESTSUITE_BRANCH = "${env.BRANCH_NAME}"
-    COMPOSE_PROJECT_NAME = "storm-testsuite-runner-${BUILD_TAG}"
+    TESTSUITE_SUITE = "${params.TESTSUITE_SUITE}"
+    TESTSUITE_EXCLUDE = "${params.TESTSUITE_EXCLUDE}"
+    STORM_STORAGE_ROOT_DIR = "${params.STORM_STORAGE_ROOT_DIR}"
+    STORM_BE_HOST = "${params.STORM_BACKEND_HOSTNAME}"
+    DAV_HOST = "${params.STORM_WEBDAV_HOSTNAME}"
+    GFTP_HOST = "${params.STORM_GRIDFTP_HOSTNAME}"
+    CDMI_ENDPOINT = "${params.CDMI_ENDPOINT}"
     TTY_OPTS = "-T"
+    OUTPUT_DIRECTORY = "reports-${BUILD_TAG}"
   }
+
   stages {
     stage('run') {
       steps {
@@ -33,36 +44,29 @@ pipeline {
             dir("runner") {
               sh "bash ./run.sh"
             }
-
-            archive 'reports/**'
-
-            step([$class: 'RobotPublisher',
-              disableArchiveOutput: false,
-              logFileName: 'log.html',
-              otherFiles: '*.png',
-              outputFileName: 'output.xml',
-              outputPath: "reports",
-              passThreshold: 100,
-              reportFileName: 'report.html',
-              unstableThreshold: 90])
+            archiveArtifacts "runner/${OUTPUT_DIRECTORY}/reports/**"
           }
         }
+      }
+    }
+    stage('publish') {
+      steps {
+        step([$class: 'RobotPublisher',
+          disableArchiveOutput: false,
+          logFileName: 'log.html',
+          otherFiles: '*.png',
+          outputFileName: 'output.xml',
+          outputPath: "runner/${OUTPUT_DIRECTORY}/reports",
+          passThreshold: 100,
+          reportFileName: 'report.html',
+          unstableThreshold: 90])
       }
     }
   }
 
   post {
     always {
-      archiveArtifacts 'runner/output/**'
-      step([$class: 'RobotPublisher',
-        disableArchiveOutput: false,
-        logFileName: 'log.html',
-        otherFiles: '*.png',
-        outputFileName: 'output.xml',
-        outputPath: "runner/output/reports",
-        passThreshold: 100,
-        reportFileName: 'report.html',
-        unstableThreshold: 90])
+      cleanWs()
     }
     failure {
       slackSend channel: '#ci-cloud', color: 'danger', message: "${env.JOB_NAME} - #${env.BUILD_ID} Failure (<${env.BUILD_URL}|Open>)"

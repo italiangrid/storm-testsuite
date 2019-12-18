@@ -6,7 +6,6 @@ volumes:
 services:
 
   trust:
-    container_name: trust
     image: indigoiam/trustanchors
     environment:
       - FORCE_TRUST_ANCHORS_UPDATE=1
@@ -15,8 +14,8 @@ services:
 
   storm-testsuite:
     image: italiangrid/storm-testsuite:${TESTSUITE_BRANCH}
+    container_name: ${STORM_TESTSUITE_CONTAINER_NAME}
     entrypoint: sh /assets/run_testsuite.sh
-    container_name: testsuite
     environment:
       - TESTSUITE_BRANCH
       - TESTSUITE_EXCLUDE
@@ -29,6 +28,7 @@ services:
       - STORM_BE_HOST
       - CDMI_ENDPOINT
       - VOMS_FAKE
+      - OUTPUT_DIRECTORY
     depends_on:
       - trust
     volumes:

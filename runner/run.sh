@@ -1,16 +1,10 @@
 #!/bin/bash
 set -ex
 
-outputDir="./output"
-
+outputDir="reports"
 COMPOSE_OPTS="--no-ansi"
+STORM_TESTSUITE_CONTAINER_NAME="${STORM_TESTSUITE_CONTAINER_NAME:-storm-testsuite}"
 TTY_OPTS="${TTY_OPTS:-}"
-
-# Clear output directory
-rm -rf ${outputDir}
-
-# Create output directory
-mkdir -p ${outputDir}/compose-logs
 
 # Stop if compose is running
 docker-compose ${COMPOSE_OPTS} down
@@ -18,20 +12,10 @@ docker-compose ${COMPOSE_OPTS} down
 docker-compose ${COMPOSE_OPTS} pull
 
 # Run testsuite
-set +e
 docker-compose ${COMPOSE_OPTS} up --no-color storm-testsuite
 
-kill %1 #kill the first background progress: tail
+# Copy Reports
+mkdir ${OUTPUT_DIRECTORY}
+docker cp ${STORM_TESTSUITE_CONTAINER_NAME}:/home/tester/storm-testsuite/reports ${OUTPUT_DIRECTORY}/
 
-# Save logs
-docker-compose ${COMPOSE_OPTS} logs --no-color storm-testsuite >${outputDir}/compose-logs/storm-testsuite.log
-
-docker cp testsuite:/home/tester/storm-testsuite/reports ${outputDir}
-
-# Exit Code
-ts_ec=$(docker inspect testsuite -f '{{.State.ExitCode}}')
-
-set -e
-docker-compose ${COMPOSE_OPTS} rm -f -s storm-testsuite
-
-exit ${ts_ec}
+docker-compose ${COMPOSE_OPTS} rm -f -s trust storm-testsuite
