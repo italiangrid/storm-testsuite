@@ -9,6 +9,7 @@ pipeline {
 
   parameters {
     string(defaultValue: "omii006-vm03.cnaf.infn.it", description: '', name: 'STORM_BACKEND_HOSTNAME')
+    string(defaultValue: "omii006-vm03.cnaf.infn.it", description: '', name: 'STORM_FRONTEND_HOSTNAME')
     string(defaultValue: "omii006-vm03.cnaf.infn.it", description: '', name: 'STORM_WEBDAV_HOSTNAME')
     string(defaultValue: "omii006-vm03.cnaf.infn.it", description: '', name: 'STORM_GRIDFTP_HOSTNAME')
     string(defaultValue: "omii003-vm01.cnaf.infn.it:8888", description: '', name: 'CDMI_ENDPOINT')
@@ -27,6 +28,7 @@ pipeline {
     DAV_HOST = "${params.STORM_WEBDAV_HOSTNAME}"
     GFTP_HOST = "${params.STORM_GRIDFTP_HOSTNAME}"
     CDMI_ENDPOINT = "${params.CDMI_ENDPOINT}"
+    SRM_ENDPOINT = "${params.STORM_FRONTEND_HOSTNAME}"
     TTY_OPTS = "-T"
     OUTPUT_DIRECTORY = "reports-${BUILD_TAG}"
   }

@@ -25,6 +25,8 @@ DAV_HOST=${DAV_HOST:-storm-alias.example}
 GFTP_HOST=${GFTP_HOST:-storm-alias.example}
 GFTP_PORT=${GFTP_PORT:-2811}
 
+SRM_ENDPOINT=${SRM_ENDPOINT:-${STORM_BE_HOST}}
+
 # Mandatory parameters
 if [ -z ${CDMI_CLIENT_SECRET+x} ]; then
     echo "CDMI_CLIENT_SECRET is unset";
@@ -46,6 +48,7 @@ VARIABLES="$VARIABLES --variable vomsFake:$VOMS_FAKE"
 VARIABLES="$VARIABLES --variable storageAreaRoot:$STORM_STORAGE_ROOT_DIR"
 VARIABLES="$VARIABLES --variable DAVHost:$DAV_HOST"
 VARIABLES="$VARIABLES --variable globusEndpoint:$GFTP_HOST:$GFTP_PORT"
+VARIABLES="$VARIABLES --variable srmEndpoint:$SRM_ENDPOINT"
 
 # Build exclude clause
 if [ -z "$TESTSUITE_EXCLUDE" ]; then
