@@ -62,7 +62,7 @@ WAIT_TIMEOUT=${WAIT_TIMEOUT:-600}
 
 chmod +x /assets/scripts/wait-for-it.sh
 /assets/scripts/wait-for-it.sh ${DAV_HOST}:8085 --timeout=${WAIT_TIMEOUT}
-/assets/scripts/wait-for-it.sh ${STORM_BE_HOST}:8444 --timeout=${WAIT_TIMEOUT}
+/assets/scripts/wait-for-it.sh ${STORM_FE_HOST}:8444 --timeout=${WAIT_TIMEOUT}
 
 cd /home/tester/
 
