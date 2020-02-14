@@ -15,8 +15,8 @@ services:
   storm-testsuite:
     image: italiangrid/storm-testsuite:${TESTSUITE_BRANCH}
     container_name: ${STORM_TESTSUITE_CONTAINER_NAME}
-    entrypoint: sleep infinity
-    #entrypoint: sh /assets/run_testsuite.sh
+    #entrypoint: sleep infinity
+    entrypoint: sh /assets/run_testsuite.sh
     environment:
       - TESTSUITE_BRANCH
       - TESTSUITE_EXCLUDE
