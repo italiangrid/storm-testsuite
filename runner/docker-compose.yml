@@ -27,10 +27,10 @@ services:
       - DAV_HOST
       - GFTP_HOST
       - STORM_BE_HOST
+      - STORM_FE_HOST
       - CDMI_ENDPOINT
       - VOMS_FAKE
       - OUTPUT_DIRECTORY
-      - SRM_ENDPOINT
     depends_on:
       - trust
     volumes:
