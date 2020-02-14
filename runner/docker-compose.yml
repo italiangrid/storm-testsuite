@@ -15,7 +15,8 @@ services:
   storm-testsuite:
     image: italiangrid/storm-testsuite:${TESTSUITE_BRANCH}
     container_name: ${STORM_TESTSUITE_CONTAINER_NAME}
-    entrypoint: sh /assets/run_testsuite.sh
+    entrypoint: sleep infinity
+    #entrypoint: sh /assets/run_testsuite.sh
     environment:
       - TESTSUITE_BRANCH
       - TESTSUITE_EXCLUDE
@@ -29,6 +30,7 @@ services:
       - CDMI_ENDPOINT
       - VOMS_FAKE
       - OUTPUT_DIRECTORY
+      - SRM_ENDPOINT
     depends_on:
       - trust
     volumes:
