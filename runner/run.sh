@@ -19,3 +19,5 @@ mkdir ${OUTPUT_DIRECTORY}
 docker cp ${STORM_TESTSUITE_CONTAINER_NAME}:/home/tester/storm-testsuite/reports ${OUTPUT_DIRECTORY}/
 
 docker-compose ${COMPOSE_OPTS} rm -f -s trust storm-testsuite
+
+docker-compose down
