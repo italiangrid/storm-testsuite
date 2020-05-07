@@ -93,10 +93,11 @@ MultiSURL srmPtG
   ${surl}  getRandomSURL
   createRemoteFile  ${surl}
   ${surllist} =  Set Variable  ${surl}
-  :FOR  ${index}  IN RANGE  2  10
-  \		${surl}  getRandomSURL  ${defaultVO}
-  \		createRemoteFile  ${surl}
-  \		${surllist}  Catenate  ${surllist}  ${surl}
+  FOR  ${index}  IN RANGE  2  10
+  	${surl}  getRandomSURL  ${defaultVO}
+  	createRemoteFile  ${surl}
+  	${surllist}  Catenate  ${surllist}  ${surl}
+  END
   Log  ${surllist}
   ${outputPtG}  ${token}  srmPtG  ${surllist}
   Log  ${outputPtG}

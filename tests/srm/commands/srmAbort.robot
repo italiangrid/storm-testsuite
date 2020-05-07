@@ -61,9 +61,10 @@ Abort multiple files
   ${output}  Perform mkdir using clientSRM  ${surlDir}
   Should Contain  ${output}  SRM_SUCCESS
   ${surlFileList} =  Set Variable  ${surlFile}
-  :FOR  ${index}  IN RANGE  2  10
-  \		${current}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}/${filename}_${index}
-  \		${surlFileList}  Catenate  ${surlFileList}  ${current}
+  FOR  ${index}  IN RANGE  2  10
+  	${current}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}/${filename}_${index}
+  	${surlFileList}  Catenate  ${surlFileList}  ${current}
+  END
   Log  ${surlFileList}
   ${output}  ${token}  Perform ptp using clientSRM  ${surlFileList}  -p
   Log  ${output}

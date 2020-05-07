@@ -31,12 +31,15 @@ Status of bring online using a non existent token
 Perform a BoL with polling  [Arguments]  ${surl}
   ${output}  ${token}  Perform bol using clientSRM  ${surl}
   Should Contain  ${output}  SRM_REQUEST_QUEUED
-  :FOR  ${i}  IN RANGE  1  100
-    \    ${output}  Perform sbol using clientSRM  ${surl}  ${token}
-    \    Log  ${output}
-    \    ${status}  ${value}=  Run keyword and ignore error  Should Contain  ${output}  SRM_REQUEST_QUEUED
-    \    Log  ${status}
-    \    Log  ${value}
-    \    Run Keyword If    '${status}' == 'FAIL'    Exit For Loop
+  FOR  ${i}  IN RANGE  1  100
+    ${output}  Perform sbol using clientSRM  ${surl}  ${token}
+    Log  ${output}
+    ${status}  ${value}=  Run keyword and ignore error  Should Contain  ${output}  SRM_REQUEST_QUEUED
+    Log  ${status}
+    Log  ${value}
+    Run Keyword If    '${status}' == 'FAIL'    Exit For Loop
+  END
   Should Contain  ${output}  SRM_REQUEST_INPROGRESS
+  ${output}  Perform abort request using clientSRM  ${token}
+  Should Contain  ${output}  SRM_SUCCESS
   [Return]  ${output}  ${token}

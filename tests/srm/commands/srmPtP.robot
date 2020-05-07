@@ -164,9 +164,10 @@ srmPtP with multiple surls
   [Setup]  Use default voms proxy
   ${surl}  getRandomSURL
   ${surllist} =  Set Variable  ${surl}
-  :FOR  ${index}  IN RANGE  2  10
-  \		${surl}  getRandomSURL  ${defaultVO}
-  \		${surllist}  Catenate  ${surllist}  ${surl}
+  FOR  ${index}  IN RANGE  2  10
+  	${surl}  getRandomSURL  ${defaultVO}
+  	${surllist}  Catenate  ${surllist}  ${surl}
+  END
   Log  ${surllist}
   ${outputPtP}  ${token}  srmPtP  ${surllist}  -p
   check srmPtP success  ${outputPtP}

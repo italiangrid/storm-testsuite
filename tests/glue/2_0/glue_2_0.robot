@@ -80,9 +80,10 @@ Check that GLUE2StorageServiceCapacityTotalSize for the online capacity type is 
   ${filterGlue2StorageServiceCapacity}  Define filter to get GLUE2StorageServiceCapacity size  online
   ${output}  Get attribute value using ldapsearch  ${lurl}  ${baseDNGlue2}  ${filterGlue2StorageServiceCapacity}  GLUE2StorageServiceCapacityTotalSize
   ${lines}  Get Lines Containing String  ${output}  GLUE2StorageServiceCapacityTotalSize: 
-  :FOR  ${line}  IN  ${lines}
-  \  ${others}  ${last}=  Split String From Right  ${line}
-  \  Should Not Be Equal  '${last}'  '0'
+  FOR  ${line}  IN  ${lines}
+    ${others}  ${last}=  Split String From Right  ${line}
+    Should Not Be Equal  '${last}'  '0'
+  END
 
 Check that GLUE2EndpointServingState does not contain emi.storm.backend
   [Tags]  information-system
