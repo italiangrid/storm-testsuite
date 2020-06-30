@@ -61,7 +61,7 @@ Create directory with parent as a file
   Put without really putting using clientSRM  ${surl}/a
   ${output}  Perform mkdir using clientSRM  ${surl}/a/b
   Should Contain  ${output}  SRM_INVALID_PATH
-  Should Contain  ${output}  Parent directory is not a directory.
+  Should Contain  ${output}  Path specified exists as a file.
   ${output}  Perform rm using clientSRM  ${surl}/a
   Should Contain  ${output}  SRM_SUCCESS
   ${output}  Perform rmdir using clientSRM  ${surl}
