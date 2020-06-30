@@ -40,6 +40,4 @@ Perform a BoL with polling  [Arguments]  ${surl}
     Run Keyword If    '${status}' == 'FAIL'    Exit For Loop
   END
   Should Contain  ${output}  SRM_REQUEST_INPROGRESS
-  ${output}  Perform abort request using clientSRM  ${token}
-  Should Contain  ${output}  SRM_SUCCESS
   [Return]  ${output}  ${token}
