@@ -34,16 +34,6 @@ File-Transfer get VO file with proxy
   Do a releaseFile  ${surl}  ${token}
   [Teardown]  Clear all credentials
 
-File-Transfer get VO file as anonymous with anonymous http read enabled
-  [Tags]  filetransfer  get
-  [Setup]  Setup SA and VO  ${DAVSecureEndpoint}  ${SA.9}  ${DEFAULT_USER}  ${VO.1}
-  Create working directory
-  ${surl}  Build surl  ${TEST_SA}  ${TESTDIR}/${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
-  ${token}  ${turl}  Do a prepareToGet  ${surl}  http
-  Do CURL GET and check success  ${turl}
-  Do a releaseFile  ${surl}  ${token}
-  [Teardown]  Clear all credentials
-
 File-Transfer get VO file as anonymous with anonymous http read disabled
   [Tags]  filetransfer  get
   [Setup]  Setup default SA

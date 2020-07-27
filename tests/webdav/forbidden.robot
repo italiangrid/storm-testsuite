@@ -17,15 +17,6 @@ WebDAV GET/HEAD VO file as anonymous user and anonymous http read disabled
   Should Match Regexp  ${stdout}  (403|401 Unauthorized)
   [Teardown]  Teardown default SA
 
-WebDAV GET/HEAD VO file as anonymous user and anonymous http read enabled
-  [Tags]  webdav  forbidden  get  head
-  [Setup]  Setup SA and VO  ${DAVSecureEndpoint}  ${SA.9}  ${DEFAULT_USER}  ${VO.1}
-  Create working directory
-  ${url}  Build URL  ${DAVEndpoint}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
-  Do CURL GET and check success  ${url}
-  Do CURL HEAD and check success  ${url}
-  [Teardown]  Teardown SA and VO
-
 WebDAV GET/HEAD VO file as authenticated user when authenticated http read is disabled
   [Tags]  webdav  forbidden  get  head  no-gridhttps
   [Setup]  Setup default SA
@@ -188,26 +179,6 @@ WebDAV COPY VO file as anonymous
   Should Match Regexp  ${stdout}  (403|401 Unauthorized)
   [Teardown]  Teardown default SA
 
-WebDAV COPY VO file to another VO SA with the wrong proxy
-  [Tags]  webdav  forbidden  copy
-  [Setup]  Setup default SA
-  Create working directory
-  ${srcURL}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
-  ${dstURL}  Build URL  ${TEST_ENDPOINT}  ${SA.2}  ${TEST_FILENAME}
-  ${stdout}  ${stderr}  Do CURL COPY  ${srcURL}  ${dstURL}  ${TEST_CURL_OPTIONS}
-  Should Contain  ${stdout}  403
-  [Teardown]  Teardown default SA
-
-WebDAV COPY VO file to another VO SA with the right proxy
-  [Tags]  webdav  forbidden  copy
-  [Setup]  Setup SA and VO  ${DAVSecureEndpoint}  ${SA.7}  ${DEFAULT_USER}  ${VO.1}
-  Create working directory
-  ${srcURL}  Build URL  ${TEST_ENDPOINT}  ${SA.7}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
-  ${dstURL}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_FILENAME}
-  ${TEST_CURL_OPTIONS}  Get CURL default VOMS proxy options
-  Do CURL COPY and check success  ${srcURL}  ${dstURL}  ${TEST_CURL_OPTIONS}
-  [Teardown]  Teardown default SA
-
 ########## MOVE ###########
 
 WebDAV MOVE VO file as anonymous
@@ -218,24 +189,4 @@ WebDAV MOVE VO file as anonymous
   ${dstURL}  Build URL  ${DAVEndpoint}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}_2
   ${stdout}  ${stderr}  Do CURL MOVE  ${srcURL}  ${dstURL}
   Should Match Regexp  ${stdout}  (403|401 Unauthorized)
-  [Teardown]  Teardown default SA
-
-WebDAV MOVE VO file to another VO SA with the wrong proxy
-  [Tags]  webdav  forbidden  move
-  [Setup]  Setup default SA
-  Create working directory
-  ${srcURL}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
-  ${dstURL}  Build URL  ${TEST_ENDPOINT}  ${SA.2}  ${TEST_FILENAME}
-  ${stdout}  ${stderr}  Do CURL MOVE  ${srcURL}  ${dstURL}  ${TEST_CURL_OPTIONS}
-  Should Contain  ${stdout}  403
-  [Teardown]  Teardown default SA
-
-WebDAV MOVE VO file to another VO SA with the right proxy
-  [Tags]  webdav  forbidden  move
-  [Setup]  Setup SA and VO  ${DAVSecureEndpoint}  ${SA.7}  ${DEFAULT_USER}  ${VO.1}
-  Create working directory
-  ${srcURL}  Build URL  ${TEST_ENDPOINT}  ${SA.7}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
-  ${dstURL}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_FILENAME}
-  ${TEST_CURL_OPTIONS}  Get CURL default VOMS proxy options
-  Do CURL MOVE and check success  ${srcURL}  ${dstURL}  ${TEST_CURL_OPTIONS}
   [Teardown]  Teardown default SA

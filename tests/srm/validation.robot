@@ -238,24 +238,6 @@ Check a malformed token format does not work when pushed to the FE
   Should Contain  ${output}  invalid token
   [Teardown]  Clear all credentials
 
-Check failure when trying to get a completed task to recall using an malformed filename
-  [Tags]  regression  recall
-  [Setup]  Clear all credentials
-  ${filename}  Get a unique name
-  ${output}  Check for a completed recall task  "fakeToken or 1=1-- "  ${filename}%20or%201=1--
-  Log  ${output}
-  Should Not Contain  ${output}  200 OK
-  Should Contain  ${output}  400 Bad Request
-
-Check failure when trying to get a completed task to recall using an non-existent filename
-  [Tags]  regression  recall
-  [Setup]  Clear all credentials
-  ${filename}  Get a unique name
-  ${output}  Check for a completed recall task  "fakeToken or 1=1-- "  ${filename}
-  Log  ${output}
-  Should Not Contain  ${output}  200 OK
-  Should Contain  ${output}  400 Bad Request
-
 Check failure when getting the number of recall requests in progress using wrong input
   [Tags]  regression  recall
   [Setup]  Clear all credentials
