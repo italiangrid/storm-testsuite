@@ -7,6 +7,8 @@ TESTSUITE_BRANCH="${TESTSUITE_BRANCH:-nightly}"
 TESTSUITE_EXCLUDE="${TESTSUITE_EXCLUDE:-to-be-fixed}"
 TESTSUITE_SUITE="${TESTSUITE_SUITE:-tests}"
 
+EXTRA_WAIT="${EXTRA_WAIT:-120}"
+
 VOMS_FAKE="${VOMS_FAKE:-false}"
 
 STORM_BE_SYNC_PORT="${STORM_BE_SYNC_PORT:-8444}"
@@ -63,6 +65,8 @@ WAIT_TIMEOUT=${WAIT_TIMEOUT:-600}
 chmod +x /assets/scripts/wait-for-it.sh
 /assets/scripts/wait-for-it.sh ${DAV_HOST}:8085 --timeout=${WAIT_TIMEOUT}
 /assets/scripts/wait-for-it.sh ${STORM_FE_HOST}:8444 --timeout=${WAIT_TIMEOUT}
+
+sleep ${EXTRA_WAIT}
 
 cd /home/tester/
 
