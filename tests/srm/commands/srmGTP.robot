@@ -12,7 +12,6 @@ Verify gtp operation by using the StoRM client
   Should Contain  ${output}  transferProtocol="gsiftp"
   Should Contain  ${output}  transferProtocol="http"
   Should Contain  ${output}  transferProtocol="https"
-  Should Contain  ${output}  transferProtocol="rfio"
   Should Contain  ${output}  transferProtocol="root"
   Should Contain  ${output}  transferProtocol="xroot"
   [Teardown]  Clear all credentials

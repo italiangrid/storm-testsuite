@@ -140,27 +140,12 @@ Setup local working directory
 Setup remote working directories
   Use voms proxy  ${DEFAULT_USER}  ${VO.1}
   Create remote working directory  ${SA.1}
-  Create remote working directory  ${SA.7}
-  Create remote working directory  ${SA.9} 
-  Use voms proxy  ${DEFAULT_USER}  ${VO.2}
-  Create remote working directory  ${SA.2}
-  Create remote working directory  ${SA.5}
-  Create remote working directory  ${SA.6}
-  Create remote working directory  ${SA.8}
   Clear all credentials
   
 Setup webdav remote working directories
   Use voms proxy  ${DEFAULT_USER}  ${DEFAULT_VO}
   ${options}  Get CURL VOMS proxy options  ${DEFAULT_USER}  ${DEFAULT_VO}
   Create webdav remote working directory  ${DEFAULT_SA}  ${options}
-  Create webdav remote working directory  ${SA.7}  ${options}
-  Create webdav remote working directory  ${SA.9}  ${options}
-  Use voms proxy  ${DEFAULT_USER}  ${VO.2}
-  ${options}  Get CURL VOMS proxy options  ${DEFAULT_USER}  ${VO.2}
-  Create webdav remote working directory  ${SA.2}  ${options}
-  Create webdav remote working directory  ${SA.5}  ${options}
-  Create webdav remote working directory  ${SA.8}  ${options}
-  Create webdav remote working directory  ${SA.6}  ${options}
   Clear all credentials
 
 Teardown local working directory
@@ -169,27 +154,12 @@ Teardown local working directory
 Teardown remote working directories
   Use voms proxy  ${DEFAULT_USER}  ${VO.1}
   Clear remote working directory  ${SA.1}
-  Clear remote working directory  ${SA.7}
-  Clear remote working directory  ${SA.9} 
-  Use voms proxy  ${DEFAULT_USER}  ${VO.2}
-  Clear remote working directory  ${SA.2}
-  Clear remote working directory  ${SA.5}
-  Clear remote working directory  ${SA.6}
-  Clear remote working directory  ${SA.8}
   Clear all credentials
   
 Teardown webdav remote working directories
   Use voms proxy  ${DEFAULT_USER}  ${DEFAULT_VO}
   ${options}  Get CURL VOMS proxy options  ${DEFAULT_USER}  ${DEFAULT_VO}
   Clear webdav remote working directory  ${DEFAULT_SA}  ${options}
-  Clear webdav remote working directory  ${SA.7}  ${options}
-  Clear webdav remote working directory  ${SA.9}  ${options}
-  Use voms proxy  ${DEFAULT_USER}  ${VO.2}
-  ${options}  Get CURL VOMS proxy options  ${DEFAULT_USER}  ${VO.2}
-  Clear webdav remote working directory  ${SA.2}  ${options}
-  Clear webdav remote working directory  ${SA.5}  ${options}
-  Clear webdav remote working directory  ${SA.8}  ${options}
-  Clear webdav remote working directory  ${SA.6}  ${options}
   Clear all credentials
 
 Setup suite

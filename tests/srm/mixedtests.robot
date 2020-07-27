@@ -120,23 +120,3 @@ Mixed tests on DEFAULT SA
   [Setup]  Use default voms proxy
   Mixed tests  ${DEFAULT_SA}  ${DEFAULT_SA}
   [Teardown]  Clear all credentials
-
-Mixed tests on igi SA
-  [Setup]  Use default voms proxy
-  Mixed tests  ${SA.7}  ${SA.7}
-  [Teardown]  Clear all credentials
-
-Mixed tests on noauth SA
-  [Setup]  Use default voms proxy
-  Mixed tests  ${SA.9}  ${SA.9}
-  [Teardown]  Clear all credentials
-
-Mixed tests on NESTED SA
-  [Setup]  Use voms proxy  ${DEFAULT_USER}  ${VO.2}
-  Mixed tests  ${SA.4}  nested
-  [Teardown]  Clear all credentials
-
-Mixed tests on ALIASED SA
-  [Setup]  Use voms proxy  ${DEFAULT_USER}  ${VO.2}
-  Mixed tests  ${SA.5}  nested
-  [Teardown]  Clear all credentials

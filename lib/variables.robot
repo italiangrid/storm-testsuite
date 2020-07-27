@@ -63,28 +63,9 @@ ${storageAreaRoot}  /storage
 
 ${SA.1}  test.vo
 ${SA.2}  test.vo.2
-${SA.4}  test.vo.2/nested
-${SA.5}  alias
-${SA.6}  tape
-${SA.7}  igi
-${SA.8}  test.vo.bis
-${SA.9}  noauth
 
 ${DEFAULT_SA}  ${SA.1}
 ${DEFAULT_SA_VONAME}  ${VO.1}
-
-${TAPE_SA}  ${SA.6}
-${TAPE_SA_VONAME}  ${VO.2}
-
-${NESTED_SA}  ${SA.4}
-${NESTED_SA_VONAME}  ${VO.2}
-
-${ALIASED_SA}  ${SA.5}
-${ALIASED_SA_VONAME}  ${VO.2}
-
-##### LINKS #####
-
-${SYMLINK.1}  testvo_to_testvo2
 
 ##### VOMS FAKE OPTIONS #####
 
