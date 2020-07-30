@@ -152,17 +152,6 @@ Full detailed and recursive list of existent files and directories
   Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
-Ls on a surl that points to another storage area
-  [Tags]  storm-client  ls
-  [Setup]  Use default voms proxy
-  ${qsurl}  Build surl  ${VO.2}  ../${DEFAULT_SA}
-  ${ssurl}  Build simple surl  ${VO.2}  ../${DEFAULT_SA}
-  ${output}  Perform ls using clientSRM  ${qsurl}
-  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
-  ${output}  Perform ls using clientSRM  ${ssurl}
-  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
-  [Teardown]  Clear all credentials
-
 Ls on a surl with a valid dots segment
   [Tags]  storm-client  ls
   [Setup]  Use default voms proxy

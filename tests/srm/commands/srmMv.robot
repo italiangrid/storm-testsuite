@@ -209,20 +209,3 @@ Move file on an unauthorized destination
   Should Contain  ${output}  SRM_SUCCESS
   Remove local file  ${filename}
   [Teardown]  Clear all credentials
-
-Check unauthorized file move on a different VO
-  [Tags]  storm-client  ls  STOR-898
-  [Setup]  Use default voms proxy
-  ${filename}  Create local file
-  ${srcsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
-  ${destsurl}  Build surl  ${DEFAULT_SA}  ../${SA.2}/${TESTDIR}/${filename}
-  Copy-out file using gfal-utils  ${filename}  ${srcsurl}
-  ${output}  Perform mv using clientSRM  ${srcsurl}  ${destsurl}
-  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
-  ${destsurl}  Build surl  ${SA.2}  ../${DEFAULT_SA}/${TESTDIR}/${filename}_2
-  ${output}  Perform mv using clientSRM  ${srcsurl}  ${destsurl}
-  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
-  ${output}  Perform rm using clientSRM  ${srcsurl}
-  Should Contain  ${output}  SRM_SUCCESS
-  Remove local file  ${filename}
-  [Teardown]  Clear all credentials

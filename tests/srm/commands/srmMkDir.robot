@@ -93,15 +93,3 @@ Create directory with unauthorized credentials
   ${output}  Perform mkdir using clientSRM  ${surl}
   Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
   [Teardown]  Clear all credentials
-
-Check directory creation on a different VO
-  [Tags]  storm-client  ls  STOR-898
-  [Setup]  Use default voms proxy
-  ${dirname}  Get a unique name
-  ${qsurl}  Build surl  ${SA.2}  ../${DEFAULT_SA}/${TESTDIR}/${dirname}
-  ${output}  Perform mkdir using clientSRM  ${qsurl}
-  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
-  ${qsurl}  Build surl  ${DEFAULT_SA}  ../${SA.2}/${TESTDIR}/${dirname}
-  ${output}  Perform mkdir using clientSRM  ${qsurl}
-  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
-  [Teardown]  Clear all credentials

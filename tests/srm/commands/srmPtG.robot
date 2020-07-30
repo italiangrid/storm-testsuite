@@ -129,16 +129,6 @@ srmPtG on a large file
   Should Contain  ${output}  SRM_SUCCESS
   [Teardown]  Clear all credentials
 
-srmPtG on another storage-area's file
-  [Tags]  storm-client  ptg  STOR-898
-  [Setup]  Use default voms proxy
-  ${filename}  Get a unique name
-  ${surl}  Build surl  ${DEFAULT_SA}  ../${SA.2}/${TESTDIR}/${filename}
-  ${outputPtG}  ${token}  srmPtG  ${surl}
-  Log  ${outputPtG}
-  check srmPtG failure with  ${outputPtG}  SRM_AUTHORIZATION_FAILURE
-  [Teardown]  Clear all credentials
-
 srmPtG with xroot transfer protocol
   [Tags]  storm-client  ptg
   [Setup]  Use default voms proxy

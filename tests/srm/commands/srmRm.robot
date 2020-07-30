@@ -68,17 +68,6 @@ Remove a pinned file must set aborted the ptg request
   Should Contain  ${output}  SRM_ABORTED
   [Teardown]  Clear all credentials
 
-Unauthorized remove on another VO's file
-  [Tags]  storm-client  ls  STOR-898
-  [Setup]  Use default voms proxy
-  ${filename}  Get a unique name
-  ${surl}  Build surl  ${DEFAULT_SA}  ../${SA.2}/${TESTDIR}/${filename}
-  ${output}  Perform rm using clientSRM  ${surl}
-  Should Contain  ${output}  SRM_AUTHORIZATION_FAILURE
-  Log  ${output}
-  [Teardown]  Clear all credentials
-
-
 srmRm properly cleans up ongoing PtPs
   [Tags]  storm-client  rm  ptp  stor-779
   [Documentation]   Regression test for https://issues.infn.it/jira/browse/STOR-779
