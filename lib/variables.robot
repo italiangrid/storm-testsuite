@@ -35,7 +35,6 @@ ${iamEndpoint}  https://iam-test.indigo-datacloud.eu
 
 ${USER.1}  test0
 ${USER.2}  test1
-${USER.3}  apostrofe
 
 ${DEFAULT_USER}  ${USER.1}
 
