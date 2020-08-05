@@ -13,7 +13,7 @@ services:
       - trustanchors:/etc/grid-security/certificates
 
   storm-testsuite:
-    image: italiangrid/storm-testsuite:${TESTSUITE_BRANCH}
+    image: italiangrid/storm-testsuite:nightly
     container_name: ${STORM_TESTSUITE_CONTAINER_NAME}
     #entrypoint: sleep infinity
     entrypoint: sh /assets/run_testsuite.sh

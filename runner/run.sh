@@ -12,6 +12,7 @@ docker-compose ${COMPOSE_OPTS} down
 docker-compose ${COMPOSE_OPTS} pull
 
 # Run testsuite
+docker-compose ${COMPOSE_OPTS} up --no-color trust
 docker-compose ${COMPOSE_OPTS} up --no-color storm-testsuite
 
 # Copy Reports

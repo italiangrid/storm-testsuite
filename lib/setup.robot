@@ -115,7 +115,6 @@ List of voms fake proxy creation
 List of voms proxy creation
   Create voms proxy  ${USER.1}  ${VO.1}
   Create voms proxy  ${USER.2}  ${VO.1}
-  Create voms proxy  ${USER.1}  ${VO.2}
   Create voms proxy  ${USER.3}  ${VO.1}
 
 
@@ -128,7 +127,6 @@ Setup local working directory
   Create directory  /tmp/${TESTDIR}/proxies
   Create directory  /tmp/${TESTDIR}/certificates
   Create directory  /tmp/${TESTDIR}/proxies/${VO.1}
-  Create directory  /tmp/${TESTDIR}/proxies/${VO.2}
   Create directory  /tmp/${TESTDIR}/proxies/grid
   Add user  ${USER.1}
   Add user  ${USER.2}
