@@ -199,13 +199,15 @@ WebDAV COPY VO file to another VO SA with the wrong proxy
   [Teardown]  Teardown default SA
 
 WebDAV COPY VO file to another VO SA with the right proxy
+  [Documentation]  Forbidden since v1.11.18
   [Tags]  webdav  forbidden  copy
   [Setup]  Setup SA and VO  ${DAVSecureEndpoint}  ${SA.7}  ${DEFAULT_USER}  ${VO.1}
   Create working directory
   ${srcURL}  Build URL  ${TEST_ENDPOINT}  ${SA.7}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
   ${dstURL}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_FILENAME}
   ${TEST_CURL_OPTIONS}  Get CURL default VOMS proxy options
-  Do CURL COPY and check success  ${srcURL}  ${dstURL}  ${TEST_CURL_OPTIONS}
+  ${stdout}  ${stderr}  Do CURL COPY  ${srcURL}  ${dstURL}  ${TEST_CURL_OPTIONS}
+  Should Contain  ${stdout}  403 Forbidden
   [Teardown]  Teardown default SA
 
 ########## MOVE ###########
@@ -231,11 +233,13 @@ WebDAV MOVE VO file to another VO SA with the wrong proxy
   [Teardown]  Teardown default SA
 
 WebDAV MOVE VO file to another VO SA with the right proxy
+  [Documentation]  Forbidden since v1.11.18
   [Tags]  webdav  forbidden  move
   [Setup]  Setup SA and VO  ${DAVSecureEndpoint}  ${SA.7}  ${DEFAULT_USER}  ${VO.1}
   Create working directory
   ${srcURL}  Build URL  ${TEST_ENDPOINT}  ${SA.7}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
   ${dstURL}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_FILENAME}
   ${TEST_CURL_OPTIONS}  Get CURL default VOMS proxy options
-  Do CURL MOVE and check success  ${srcURL}  ${dstURL}  ${TEST_CURL_OPTIONS}
+  ${stdout}  ${stderr}  Do CURL COPY  ${srcURL}  ${dstURL}  ${TEST_CURL_OPTIONS}
+  Should Contain  ${stdout}  403 Forbidden
   [Teardown]  Teardown default SA
