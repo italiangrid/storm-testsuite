@@ -149,7 +149,7 @@ srmPtG with xroot transfer protocol
   Log  ${outputPtG}
   check srmPtG success  ${outputPtG}
   ${turl}  get TURL from output  ${outputPtG}
-  Should Contain  ${outputPtG}  root://${backEndHost}${storageAreaRoot}/${DEFAULT_SA}/${TESTDIR}/${filename}
+  Should Contain  ${outputPtG}  root://${backEndHost}:1094${storageAreaRoot}/${DEFAULT_SA}/${TESTDIR}/${filename}
   ${outputRf}  srmRf  ${surl}  ${token}
   check srmRf success  ${outputRf}
   deleteRemoteFile  ${surl}
