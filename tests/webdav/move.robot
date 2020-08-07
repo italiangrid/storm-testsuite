@@ -40,7 +40,7 @@ WebDAV MOVE file not allowed overwrite
   Create working directory
   ${srcURL}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
   ${dstURL}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}_2
-  Do CURL COPY and check success  ${srcURL}  ${dstURL}  ${TEST_CURL_OPTIONS}
+  Do CURL PUT and check success  ${dstURL}  ${TEST_LOCAL_FILEPATH}  ${TEST_CURL_OPTIONS}
   ${overwriteHeader}  Get CURL header  Overwrite  F
   ${stdout}  ${stderr}  Do CURL MOVE  ${srcURL}  ${dstURL}  ${overwriteHeader} ${TEST_CURL_OPTIONS}
   Should Contain  ${stdout}  412 Precondition Failed
