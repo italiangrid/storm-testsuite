@@ -189,25 +189,25 @@ WebDAV COPY VO file as anonymous
   [Teardown]  Teardown default SA
 
 WebDAV COPY VO file to another VO SA with the wrong proxy
+  [Documentation]  400 Bad Request since v1.11.18
   [Tags]  webdav  forbidden  copy
   [Setup]  Setup default SA
   Create working directory
   ${srcURL}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
   ${dstURL}  Build URL  ${TEST_ENDPOINT}  ${SA.2}  ${TEST_FILENAME}
   ${stdout}  ${stderr}  Do CURL COPY  ${srcURL}  ${dstURL}  ${TEST_CURL_OPTIONS}
-  Should Contain  ${stdout}  403 status code: 403, reason phrase: Forbidden
+  Should Contain  ${stdout}  400 Bad Request
+  Should Contain  ${stdout}  Local copy across storage areas is not supported
   [Teardown]  Teardown default SA
 
 WebDAV COPY VO file to another VO SA with the right proxy
-  [Documentation]  403 since v1.11.18
   [Tags]  webdav  forbidden  copy
   [Setup]  Setup SA and VO  ${DAVSecureEndpoint}  ${SA.7}  ${DEFAULT_USER}  ${VO.1}
   Create working directory
   ${srcURL}  Build URL  ${TEST_ENDPOINT}  ${SA.7}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
   ${dstURL}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_FILENAME}
   ${TEST_CURL_OPTIONS}  Get CURL default VOMS proxy options
-  ${stdout}  ${stderr}  Do CURL COPY  ${srcURL}  ${dstURL}  ${TEST_CURL_OPTIONS}
-  Should Contain  ${stdout}  403 status code: 403, reason phrase: Forbidden
+  Do CURL COPY and check success  ${srcURL}  ${dstURL}  ${TEST_CURL_OPTIONS}
   [Teardown]  Teardown default SA
 
 ########## MOVE ###########
@@ -223,26 +223,23 @@ WebDAV MOVE VO file as anonymous
   [Teardown]  Teardown default SA
 
 WebDAV MOVE VO file to another VO SA with the wrong proxy
-  [Documentation]  400 instead of 403 since v1.11.18
+  [Documentation]  400 Bad Request since v1.11.18
   [Tags]  webdav  forbidden  move
   [Setup]  Setup default SA
   Create working directory
   ${srcURL}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
   ${dstURL}  Build URL  ${TEST_ENDPOINT}  ${SA.2}  ${TEST_FILENAME}
   ${stdout}  ${stderr}  Do CURL MOVE  ${srcURL}  ${dstURL}  ${TEST_CURL_OPTIONS}
-  Should Contain  ${stdout}  400
+  Should Contain  ${stdout}  400 Bad Request
   Should Contain  ${stdout}  Move across storage areas is not supported
   [Teardown]  Teardown default SA
 
 WebDAV MOVE VO file to another VO SA with the right proxy
-  [Documentation]  400 since v1.11.18
   [Tags]  webdav  forbidden  move
   [Setup]  Setup SA and VO  ${DAVSecureEndpoint}  ${SA.7}  ${DEFAULT_USER}  ${VO.1}
   Create working directory
   ${srcURL}  Build URL  ${TEST_ENDPOINT}  ${SA.7}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
   ${dstURL}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_FILENAME}
   ${TEST_CURL_OPTIONS}  Get CURL default VOMS proxy options
-  ${stdout}  ${stderr}  Do CURL MOVE  ${srcURL}  ${dstURL}  ${TEST_CURL_OPTIONS}
-  Should Contain  ${stdout}  400
-  Should Contain  ${stdout}  Move across storage areas is not supported
+  Do CURL MOVE and check success  ${srcURL}  ${dstURL}  ${TEST_CURL_OPTIONS}
   [Teardown]  Teardown default SA
