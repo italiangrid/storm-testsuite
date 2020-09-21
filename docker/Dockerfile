@@ -23,6 +23,7 @@ RUN puppet --version
 RUN puppet module install puppet-epel && \
     puppet module install puppet-fetchcrl && \
     puppet module install puppet-python && \
+    puppet module install puppetlabs-java && \
     puppet module install cnafsd-testvos && \
     puppet module install cnafsd-testca && \
     puppet module install cnafsd-umd4 && \
@@ -30,7 +31,10 @@ RUN puppet module install puppet-epel && \
 
 RUN sh /setup/setup.sh
 
+RUN usermod -aG wheel tester
+
 USER tester
+
 WORKDIR /home/tester
 
 VOLUME /assets
