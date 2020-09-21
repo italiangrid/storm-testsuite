@@ -40,10 +40,14 @@ package { 'robotframework-httplibrary':
   provider => 'pip',
 }
 
+class { 'java' :
+  package => 'java-1.8.0-openjdk-devel',
+}
 
 Class['epel']
 -> Class['umd4']
 -> Class['python']
+-> Class['java']
 -> Class['testvos']
 -> Class['testca']
 -> Class['storm::repo']
