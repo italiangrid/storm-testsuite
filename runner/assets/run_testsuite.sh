@@ -20,6 +20,8 @@ GFTP_PORT=${GFTP_PORT:-2811}
 
 STORM_FE_HOST=${STORM_FE_HOST:-${STORM_BE_HOST}}
 
+STORM_XMLRPC_TOKEN=${STORM_XMLRPC_TOKEN:-NS4kYAZuR65XJCq}
+
 # Mandatory parameters
 if [ -z ${CDMI_CLIENT_SECRET+x} ]; then
     echo "CDMI_CLIENT_SECRET is unset";
@@ -35,6 +37,7 @@ VARIABLES="$VARIABLES --variable storageAreaRoot:$STORM_STORAGE_ROOT_DIR"
 VARIABLES="$VARIABLES --variable DAVHost:$DAV_HOST"
 VARIABLES="$VARIABLES --variable globusEndpoint:$GFTP_HOST:$GFTP_PORT"
 VARIABLES="$VARIABLES --variable frontEndHost:$STORM_FE_HOST"
+VARIABLES="$VARIABLES --variable xmlrpcToken:$STORM_XMLRPC_TOKEN"
 
 # Build exclude clause
 if [ -z "$TESTSUITE_EXCLUDE" ]; then
