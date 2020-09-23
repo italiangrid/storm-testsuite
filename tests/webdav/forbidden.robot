@@ -68,7 +68,7 @@ WebDAV PUT VO file with the wrong proxy
   ${TEST_CURL_OPTIONS}  Get CURL VOMS proxy options  ${DEFAULT_USER}  ${SA.2}
   ${url}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
   ${stdout}  ${stderr}  Do CURL PUT  ${url}  ${TEST_LOCAL_FILEPATH}  ${TEST_CURL_OPTIONS}
-  Should Contain  ${stdout}  403
+  Should Contain  ${stdout}  401 Unauthorized
   [Teardown]  Teardown default SA
 
 ######## DELETE #########
@@ -99,7 +99,7 @@ WebDAV DELETE VO file with the wrong proxy
   ${TEST_CURL_OPTIONS}  Get CURL VOMS proxy options  ${DEFAULT_USER}  ${SA.2}
   ${url}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
   ${stdout}  ${stderr}  Do CURL DELETE  ${url}  ${TEST_CURL_OPTIONS}
-  Should Contain  ${stdout}  403
+  Should Contain  ${stdout}  401 Unauthorized
   [Teardown]  Teardown default SA
 
 ######## MKCOL #########
@@ -130,7 +130,7 @@ WebDAV MKCOL VO directory with the wrong proxy
   ${TEST_CURL_OPTIONS}  Get CURL VOMS proxy options  ${DEFAULT_USER}  ${SA.2}
   ${url}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_REMOTE_DIRNAME}
   ${stdout}  ${stderr}  Do CURL MKCOL  ${url}  ${TEST_CURL_OPTIONS}
-  Should Contain  ${stdout}  403
+  Should Contain  ${stdout}  401 Unauthorized
   [Teardown]  Teardown default SA
 
 ######## PROPFIND ##########
@@ -164,7 +164,7 @@ WebDAV PROPFIND allprop VO file with the wrong proxy
   ${TEST_CURL_OPTIONS}  Get CURL VOMS proxy options  ${DEFAULT_USER}  ${SA.2}
   ${url}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
   ${stdout}  ${stderr}  Do CURL PROPFIND  ${url}  ${body}  ${TEST_CURL_OPTIONS}
-  Should Contain  ${stdout}  403
+  Should Contain  ${stdout}  401 Unauthorized
   [Teardown]  Teardown default SA
 
 ########## COPY ###########
