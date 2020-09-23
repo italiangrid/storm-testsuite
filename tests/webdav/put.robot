@@ -44,5 +44,5 @@ WebDAV PUT unauthorized
   ${url}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
   ${TEST_CURL_OPTIONS}  Get CURL VOMS proxy options  ${DEFAULT_USER}  ${VO.2}
   ${stdout}  ${stderr}  Do CURL PUT  ${url}  ${TEST_LOCAL_FILEPATH}  ${TEST_CURL_OPTIONS}
-  Should Contain  ${stdout}  403 
+  Should Contain  ${stdout}  401 Unauthorized 
   [Teardown]  Teardown default SA

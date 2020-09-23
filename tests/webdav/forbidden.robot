@@ -77,7 +77,7 @@ WebDAV PUT VO file with the wrong proxy
   ${TEST_CURL_OPTIONS}  Get CURL VOMS proxy options  ${DEFAULT_USER}  ${SA.2}
   ${url}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
   ${stdout}  ${stderr}  Do CURL PUT  ${url}  ${TEST_LOCAL_FILEPATH}  ${TEST_CURL_OPTIONS}
-  Should Contain  ${stdout}  403
+  Should Contain  ${stdout}  401 Unauthorized
   [Teardown]  Teardown default SA
 
 ######## DELETE #########
@@ -108,7 +108,7 @@ WebDAV DELETE VO file with the wrong proxy
   ${TEST_CURL_OPTIONS}  Get CURL VOMS proxy options  ${DEFAULT_USER}  ${SA.2}
   ${url}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
   ${stdout}  ${stderr}  Do CURL DELETE  ${url}  ${TEST_CURL_OPTIONS}
-  Should Contain  ${stdout}  403
+  Should Contain  ${stdout}  401 Unauthorized
   [Teardown]  Teardown default SA
 
 ######## MKCOL #########
@@ -139,7 +139,7 @@ WebDAV MKCOL VO directory with the wrong proxy
   ${TEST_CURL_OPTIONS}  Get CURL VOMS proxy options  ${DEFAULT_USER}  ${SA.2}
   ${url}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_REMOTE_DIRNAME}
   ${stdout}  ${stderr}  Do CURL MKCOL  ${url}  ${TEST_CURL_OPTIONS}
-  Should Contain  ${stdout}  403
+  Should Contain  ${stdout}  401 Unauthorized
   [Teardown]  Teardown default SA
 
 ######## PROPFIND ##########
@@ -173,7 +173,7 @@ WebDAV PROPFIND allprop VO file with the wrong proxy
   ${TEST_CURL_OPTIONS}  Get CURL VOMS proxy options  ${DEFAULT_USER}  ${SA.2}
   ${url}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
   ${stdout}  ${stderr}  Do CURL PROPFIND  ${url}  ${body}  ${TEST_CURL_OPTIONS}
-  Should Contain  ${stdout}  403
+  Should Contain  ${stdout}  401 Unauthorized
   [Teardown]  Teardown default SA
 
 ########## COPY ###########
@@ -220,26 +220,4 @@ WebDAV MOVE VO file as anonymous
   ${dstURL}  Build URL  ${DAVEndpoint}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}_2
   ${stdout}  ${stderr}  Do CURL MOVE  ${srcURL}  ${dstURL}
   Should Match Regexp  ${stdout}  (403|401 Unauthorized)
-  [Teardown]  Teardown default SA
-
-WebDAV MOVE VO file to another VO SA with the wrong proxy
-  [Documentation]  400 Bad Request since v1.11.18
-  [Tags]  webdav  forbidden  move
-  [Setup]  Setup default SA
-  Create working directory
-  ${srcURL}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
-  ${dstURL}  Build URL  ${TEST_ENDPOINT}  ${SA.2}  ${TEST_FILENAME}
-  ${stdout}  ${stderr}  Do CURL MOVE  ${srcURL}  ${dstURL}  ${TEST_CURL_OPTIONS}
-  Should Contain  ${stdout}  400 Bad Request
-  Should Contain  ${stdout}  Move across storage areas is not supported
-  [Teardown]  Teardown default SA
-
-WebDAV MOVE VO file to another VO SA with the right proxy
-  [Tags]  webdav  forbidden  move
-  [Setup]  Setup SA and VO  ${DAVSecureEndpoint}  ${SA.7}  ${DEFAULT_USER}  ${VO.1}
-  Create working directory
-  ${srcURL}  Build URL  ${TEST_ENDPOINT}  ${SA.7}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
-  ${dstURL}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_FILENAME}
-  ${TEST_CURL_OPTIONS}  Get CURL default VOMS proxy options
-  Do CURL MOVE and check success  ${srcURL}  ${dstURL}  ${TEST_CURL_OPTIONS}
   [Teardown]  Teardown default SA
