@@ -60,9 +60,9 @@ Remove an existent file using dCache client
   [Setup]  Use default voms proxy
   ${filename}  Create local file
   ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
-  Check surl does not exists using gfal-utils  ${surl}
+  Check not exists using gfal-utils  ${surl}
   Copy-out file using gfal-utils  ${filename}  ${surl}
-  Check surl exists using gfal-utils  ${surl}
+  Check exists using gfal-utils  ${surl}
   Remove file using dCache client  ${surl}
   Remove local file  ${fileName}
   [Teardown]  Clear all credentials
@@ -86,7 +86,7 @@ Check file copy in/out using gfal-utils, use dcache-client to create/remove dir 
   ${dirName}  Get a unique name
   ${surlDir}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirName}
   ${surlFile}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirName}/${filename}
-  Check surl does not exists using gfal-utils  ${surlDir}
+  Check not exists using gfal-utils  ${surlDir}
   Create directory using dCache client  ${surlDir}
   ${output}  Try to create directory using dCache client  ${surlDir}
   Should Contain  ${output}  SRM_DUPLICATION_ERROR
@@ -111,7 +111,7 @@ Check a file is correctly transferred out, the calculate checksum is correct and
   [Setup]  Use default voms proxy
   ${filename}  Create local file
   ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
-  Check surl does not exists using gfal-utils  ${surl}
+  Check not exists using gfal-utils  ${surl}
   List files in directory using gfal-utils  ${surl}  2  SRM_INVALID_PATH
   Copy-out file using gfal-utils  ${filename}  ${surl}
   ${checksum}  Get checksum of remote file using gfal-utils  ${surl}  ADLER32
@@ -126,7 +126,7 @@ Check the correct backend behaviour when a user specifies a DB PWD in the def fi
   [Setup]  Use default voms proxy
   ${filename}  Create local file
   ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
-  Check surl does not exists using gfal-utils  ${surl}
+  Check not exists using gfal-utils  ${surl}
   List files in directory using gfal-utils  ${surl}  2  SRM_INVALID_PATH  
   Copy-out file using gfal-utils  ${filename}  ${surl}
   Remove file using dCache client  ${surl}

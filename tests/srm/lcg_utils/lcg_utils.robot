@@ -26,7 +26,7 @@ Check if a gfal-ls on an existent surl works
   ${filename}  Create local file
   ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
   Copy-out file using gfal-utils  ${filename}  ${surl}
-  Check surl exists using gfal-utils  ${surl}
+  Check exists using gfal-utils  ${surl}
   ${output}  Perform rm using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
   Remove local file  ${filename}
@@ -37,7 +37,7 @@ Check if a gfal-ls on a non-existent surl fails
   [Setup]  Use default voms proxy
   ${filename}  Get a unique name
   ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
-  Check surl does not exists using gfal-utils  ${surl}
+  Check not exists using gfal-utils  ${surl}
   [Teardown]  Clear all credentials
 
 Check gfal-copy computed checksum in case it starts with zero
@@ -72,7 +72,7 @@ Copy out a file using gfal-utils
   [Setup]  Use default voms proxy
   ${filename}  Create local file
   ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
-  Check surl does not exists using gfal-utils  ${surl}
+  Check not exists using gfal-utils  ${surl}
   Copy-out file using gfal-utils  ${filename}  ${surl}
   Copy-in file using gfal-utils  ${surl}  ${filename}_copied
   Execute and check success  diff /tmp/${TESTDIR}/${filename} /tmp/${TESTDIR}/${filename}_copied

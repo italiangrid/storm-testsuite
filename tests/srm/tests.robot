@@ -9,14 +9,14 @@ Check if StoRM publishes correctly values for used and free space on the BDII
   [Setup]  Use default voms proxy
   ${filename}  Create local file
   ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
-  Check surl does not exists using gfal-utils  ${surl}
+  Check not exists using gfal-utils  ${surl}
   Copy-out file using gfal-utils  ${filename}  ${surl}
   ${saToken}  Get SA Token
   ${size_before}  Get unused size using clientSRM  ${saToken}
   Log  ${size_before}
-  Check surl exists using gfal-utils  ${surl}
+  Check exists using gfal-utils  ${surl}
   Perform rm using clientSRM  ${surl}
-  Check surl does not exists using gfal-utils  ${surl}
+  Check not exists using gfal-utils  ${surl}
   ${size_after}  Get unused size using clientSRM  ${saToken}
   Log  ${size_after}
   ${diff_size}  Run  echo `expr ${size_after} - ${size_before}`
