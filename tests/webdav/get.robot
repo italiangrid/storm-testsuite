@@ -88,13 +88,3 @@ WebDAV partial GET
   Should Contain  ${stdout}  est
   Should Contain  ${stdout}  Content-Length: 3
   [Teardown]  Teardown default SA
-
-WebDAV GET unauthorized
-  [Tags]  webdav  get  no-gridhttps
-  [Setup]  Setup default SA
-  Create working directory
-  ${url}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
-  ${TEST_CURL_OPTIONS}  Get CURL VOMS proxy options  ${DEFAULT_USER}  ${VO.2}
-  ${stdout}  ${stderr}  Do CURL GET  ${url}  ${TEST_CURL_OPTIONS}
-  Should Contain  ${stdout}  401 Unauthorized
-  [Teardown]  Teardown default SA

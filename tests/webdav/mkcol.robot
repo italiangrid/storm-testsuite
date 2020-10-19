@@ -27,12 +27,3 @@ WebDAV MKCOL on existent resource
   ${stdout}  ${stderr}  Do CURL MKCOL  ${url}  ${TEST_CURL_OPTIONS}
   Should Contain  ${stdout}  405 Method Not Allowed
   [Teardown]  Teardown default SA
-
-WebDAV MKCOL unauthorized
-  [Tags]  webdav  mkcol  no-gridhttps
-  [Setup]  Setup default SA
-  ${url}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}
-  ${TEST_CURL_OPTIONS}  Get CURL VOMS proxy options  ${defaultUser}  ${VO.2}
-  ${stdout}  ${stderr}  Do CURL MKCOL  ${url}  ${TEST_CURL_OPTIONS}
-  Should Contain  ${stdout}  401 Unauthorized
-  [Teardown]  Teardown default SA

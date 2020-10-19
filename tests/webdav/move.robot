@@ -66,14 +66,3 @@ WebDAV MOVE with destination equals to source
   ${stdout}  ${stderr}  Do CURL MOVE  ${srcURL}  ${dstURL}  ${overwriteHeader} ${TEST_CURL_OPTIONS}
   Should Contain  ${stdout}  403
   [Teardown]  Teardown default SA
-
-WebDAV MOVE unauthorized
-  [Tags]  webdav  move  no-gridhttps
-  [Setup]  Setup default SA
-  Create working directory
-  ${srcURL}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
-  ${dstURL}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}_2
-  ${TEST_CURL_OPTIONS}  Get CURL VOMS proxy options  ${DEFAULT_USER}  ${VO.2}
-  ${stdout}  ${stderr}  Do CURL MOVE  ${srcURL}  ${dstURL}  ${TEST_CURL_OPTIONS}
-  Should Contain  ${stdout}  401 Unauthorized
-  [Teardown]  Teardown default SA
