@@ -21,8 +21,8 @@ WebDAV DELETE non empty directory
   ${stdout}  ${stderr}  Do CURL DELETE  ${urlDirectory}  ${TEST_CURL_OPTIONS}
   Should Contain  ${stdout}  412 Precondition Failed
   ${urlFile}  Build URL  ${TEST_ENDPOINT}  ${TEST_SA}  ${TEST_REMOTE_DIRNAME}/${TEST_FILENAME}
-  Do CURL DELETE and check success  ${urlFile}
-  Do CURL DELETE and check success  ${urlDirectory}
+  Do CURL DELETE and check success  ${urlFile}  ${TEST_CURL_OPTIONS}
+  Do CURL DELETE and check success  ${urlDirectory}  ${TEST_CURL_OPTIONS}
   [Teardown]  Teardown default SA
 
 WebDAV DELETE non existent resource
