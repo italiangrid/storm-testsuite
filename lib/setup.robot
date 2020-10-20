@@ -88,11 +88,21 @@ Create remote working directory  [Arguments]  ${storageArea}
   Log  ${output}
   Should Contain  ${output}  SRM_SUCCESS
 
+Create webdav remote working directory  [Arguments]  ${storageArea}  ${options}
+  ${url}  Build URL  ${DAVSecureEndpoint}  ${storageArea}
+  ${output}  ${stderr}  Do CURL MKCOL  ${url}  ${options}
+  Log  ${output}
+  Should Contain  ${output}  201 Created
+
 Clear remote working directory  [Arguments]  ${storageArea}
   ${surl}  Build surl  ${storageArea}  ${TESTDIR}
   ${output}  Perform rmdir using clientSRM  ${surl}  -r
   Log  ${output}
   Should Contain  ${output}  SRM_SUCCESS
+
+Clear webdav remote working directory  [Arguments]  ${storageArea}  ${options}
+  ${url}  Build URL  ${DAVSecureEndpoint}  ${storageArea}
+  Run gfal-rm on  ${url}  -r
 
 List of voms fake proxy creation
   Create voms fake proxy  ${USER.1}  ${VO.1}  ${vomsFakeFqans.1}
@@ -136,6 +146,20 @@ Setup remote working directories
   Create remote working directory  ${SA.8}
   Clear all credentials
   
+Setup webdav remote working directories
+  Use voms proxy  ${DEFAULT_USER}  ${DEFAULT_VO}
+  ${options}  Get CURL VOMS proxy options  ${DEFAULT_USER}  ${DEFAULT_VO}
+  Create webdav remote working directory  ${DEFAULT_SA}  ${options}
+  Create webdav remote working directory  ${SA.7}  ${options}
+  Create webdav remote working directory  ${SA.9}  ${options}
+  Use voms proxy  ${DEFAULT_USER}  ${VO.2}
+  ${options}  Get CURL VOMS proxy options  ${DEFAULT_USER}  ${VO.2}
+  Create webdav remote working directory  ${SA.2}  ${options}
+  Create webdav remote working directory  ${SA.5}  ${options}
+  Create webdav remote working directory  ${SA.8}  ${options}
+  Create webdav remote working directory  ${SA.6}  ${options}
+  Clear all credentials
+
 Teardown local working directory
   Remove directory  /tmp/${TESTDIR}
 
@@ -151,18 +175,32 @@ Teardown remote working directories
   Clear remote working directory  ${SA.8}
   Clear all credentials
 
+Teardown webdav remote working directories
+  Use voms proxy  ${DEFAULT_USER}  ${DEFAULT_VO}
+  ${options}  Get CURL VOMS proxy options  ${DEFAULT_USER}  ${DEFAULT_VO}
+  Clear webdav remote working directory  ${DEFAULT_SA}  ${options}
+  Clear webdav remote working directory  ${SA.7}  ${options}
+  Clear webdav remote working directory  ${SA.9}  ${options}
+  Use voms proxy  ${DEFAULT_USER}  ${VO.2}
+  ${options}  Get CURL VOMS proxy options  ${DEFAULT_USER}  ${VO.2}
+  Clear webdav remote working directory  ${SA.2}  ${options}
+  Clear webdav remote working directory  ${SA.5}  ${options}
+  Clear webdav remote working directory  ${SA.8}  ${options}
+  Clear webdav remote working directory  ${SA.6}  ${options}
+  Clear all credentials
+
 Setup suite
   Setup local working directory
   Setup remote working directories
 
 Setup suite webdav
   Setup local working directory
-  Setup remote working directories
+  Setup webdav remote working directories
 
 Teardown suite
   Teardown remote working directories
   Teardown local working directory
 
 Teardown suite webdav
-  Teardown remote working directories
+  Teardown webdav remote working directories
   Teardown local working directory

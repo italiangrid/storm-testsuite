@@ -60,9 +60,10 @@ Remove an existent file using dCache client
   [Setup]  Use default voms proxy
   ${filename}  Create local file
   ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
-  Check not exists using gfal-utils  ${surl}
+  ${output}  Run gfal-stat on  url=${surl}  expectedRc=2
+  Should Contain  ${output}  No such file or directory
   Copy-out file using gfal-utils  ${filename}  ${surl}
-  Check exists using gfal-utils  ${surl}
+  Run gfal-stat on  url=${surl}
   Remove file using dCache client  ${surl}
   Remove local file  ${fileName}
   [Teardown]  Clear all credentials
@@ -86,14 +87,15 @@ Check file copy in/out using gfal-utils, use dcache-client to create/remove dir 
   ${dirName}  Get a unique name
   ${surlDir}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirName}
   ${surlFile}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirName}/${filename}
-  Check not exists using gfal-utils  ${surlDir}
+  ${output}  Run gfal-stat on  url=${surlDir}  expectedRc=2
+  Should Contain  ${output}  No such file or directory
   Create directory using dCache client  ${surlDir}
   ${output}  Try to create directory using dCache client  ${surlDir}
   Should Contain  ${output}  SRM_DUPLICATION_ERROR
-  ${output}  List files in directory using gfal-utils  ${surlDir}
+  ${output}  Run gfal-ls on  url=${surlDir}
   Should Not Contain  ${output}  SRM_INVALID_PATH
   Copy-out file using gfal-utils  ${filename}  ${surlFile}
-  ${output}  List files in directory using gfal-utils  ${surlDir}
+  ${output}  Run gfal-ls on  url=${surlDir}
   Should Not Contain  ${output}  SRM_INVALID_PATH
   Remove local file  ${filename}
   Copy-in file using gfal-utils  ${surlFile}  ${filename}
@@ -111,8 +113,10 @@ Check a file is correctly transferred out, the calculate checksum is correct and
   [Setup]  Use default voms proxy
   ${filename}  Create local file
   ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
-  Check not exists using gfal-utils  ${surl}
-  List files in directory using gfal-utils  ${surl}  2  SRM_INVALID_PATH
+  ${output}  Run gfal-stat on  url=${surl}  expectedRc=2
+  Should Contain  ${output}  No such file or directory
+  ${output}  Run gfal-ls on  url=${surlDir}  expectedRc=2
+  Should Contain  ${output}  SRM_INVALID_PATH
   Copy-out file using gfal-utils  ${filename}  ${surl}
   ${checksum}  Get checksum of remote file using gfal-utils  ${surl}  ADLER32
   Should Not Be Empty  ${checksum}  Checksum value should not be empty
@@ -126,8 +130,10 @@ Check the correct backend behaviour when a user specifies a DB PWD in the def fi
   [Setup]  Use default voms proxy
   ${filename}  Create local file
   ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
-  Check not exists using gfal-utils  ${surl}
-  List files in directory using gfal-utils  ${surl}  2  SRM_INVALID_PATH  
+  ${output}  Run gfal-stat on  url=${surl}  expectedRc=2
+  Should Contain  ${output}  No such file or directory
+  ${output}  Run gfal-ls on  url=${surlDir}  expectedRc=2
+  Should Contain  ${output}  SRM_INVALID_PATH
   Copy-out file using gfal-utils  ${filename}  ${surl}
   Remove file using dCache client  ${surl}
   Remove local file  ${filename}

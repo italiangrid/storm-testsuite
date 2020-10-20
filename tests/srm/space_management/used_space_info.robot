@@ -14,7 +14,8 @@ Check db size update after srmPutDone
   [Setup]  Use default voms proxy
   ${filename}  Create local file
   ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
-  Check not exists using gfal-utils  ${surl}
+  ${output}  Run gfal-stat on  url=${surl}  expectedRc=2
+  Should Contain  ${output}  No such file or directory
   ${token}  Get SA Token
   ${free_space_before}  Get SA status info parameter  ${token}  free-space
   Copy-out file using gfal-utils  ${filename}  ${surl}
@@ -32,7 +33,8 @@ Check db size update after srmRm
   [Setup]  Use default voms proxy
   ${filename}  Create local file
   ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
-  Check not exists using gfal-utils  ${surl}
+  ${output}  Run gfal-stat on  url=${surl}  expectedRc=2
+  Should Contain  ${output}  No such file or directory
   ${token}  Get SA Token
   ${free_space}  Get SA status info parameter  ${token}  free-space
   Copy-out file using gfal-utils  ${filename}  ${surl}
@@ -75,9 +77,10 @@ Check db size update after a recursive srmRmdir
   ${free_space_2}  Get SA status info parameter  ${token}  free-space
   ${filename}  Create local file
   ${fsurl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${dirname}/${filename}
-  Check not exists using gfal-utils  ${fsurl}
+  ${output}  Run gfal-stat on  url=${fsurl}  expectedRc=2
+  Should Contain  ${output}  No such file or directory
   Copy-out file using gfal-utils  ${filename}  ${fsurl}
-  Check exists using gfal-utils  ${fsurl}
+  Run gfal-stat on  url=${fsurl}
   ${free_space_3}  Get SA status info parameter  ${token}  free-space
   ${output}  Perform rmdir using clientSRM  ${dsurl}  -r
   ${free_space_4}  Get SA status info parameter  ${token}  free-space

@@ -14,7 +14,7 @@ List files in an existing directory with gfal-utils
   ${output}  Perform mkdir using clientSRM  ${surlDir}
   Should Contain  ${output}  SRM_SUCCESS
   Copy-out file using gfal-utils  ${filename}  ${surlFile}
-  ${output}  List files in directory using gfal-utils  ${surlDir}
+  ${output}  Run gfal-ls on  url=${surlDir}
   Should Contain  ${output}  ${filename}
   ${output}  Perform rmdir using clientSRM  ${surlDir}  -r
   Should Contain  ${output}  SRM_SUCCESS
@@ -26,7 +26,7 @@ Check if a gfal-ls on an existent surl works
   ${filename}  Create local file
   ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
   Copy-out file using gfal-utils  ${filename}  ${surl}
-  Check exists using gfal-utils  ${surl}
+  Run gfal-stat on  url=${surl}
   ${output}  Perform rm using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
   Remove local file  ${filename}
@@ -37,7 +37,8 @@ Check if a gfal-ls on a non-existent surl fails
   [Setup]  Use default voms proxy
   ${filename}  Get a unique name
   ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
-  Check not exists using gfal-utils  ${surl}
+  ${output}  Run gfal-stat on  url=${surl}  expectedRc=2
+  Should Contain  ${output}  No such file or directory
   [Teardown]  Clear all credentials
 
 Check gfal-copy computed checksum in case it starts with zero
@@ -72,7 +73,8 @@ Copy out a file using gfal-utils
   [Setup]  Use default voms proxy
   ${filename}  Create local file
   ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
-  Check not exists using gfal-utils  ${surl}
+  ${output}  Run gfal-stat on  url=${surl}  expectedRc=2
+  Should Contain  ${output}  No such file or directory
   Copy-out file using gfal-utils  ${filename}  ${surl}
   Copy-in file using gfal-utils  ${surl}  ${filename}_copied
   Execute and check success  diff /tmp/${TESTDIR}/${filename} /tmp/${TESTDIR}/${filename}_copied
