@@ -108,14 +108,14 @@ Check file copy in/out using gfal-utils, use dcache-client to create/remove dir 
   Remove local file  ${filename}
   [Teardown]  Clear all credentials
 
-Check a file is correctly transferred out, the calculate checksum is correct and delete with dcache client
+Check a file is correctly transferred out, then calculate checksum is correct and delete with dcache client
   [Tags]  gfal-utils  dcache-client
   [Setup]  Use default voms proxy
   ${filename}  Create local file
   ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
   ${output}  Run gfal-stat on  url=${surl}  expectedRc=2
   Should Contain  ${output}  No such file or directory
-  ${output}  Run gfal-ls on  url=${surlDir}  expectedRc=2
+  ${output}  Run gfal-ls on  url=${surl}  expectedRc=2
   Should Contain  ${output}  SRM_INVALID_PATH
   Copy-out file using gfal-utils  ${filename}  ${surl}
   ${checksum}  Get checksum of remote file using gfal-utils  ${surl}  ADLER32
@@ -132,7 +132,7 @@ Check the correct backend behaviour when a user specifies a DB PWD in the def fi
   ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
   ${output}  Run gfal-stat on  url=${surl}  expectedRc=2
   Should Contain  ${output}  No such file or directory
-  ${output}  Run gfal-ls on  url=${surlDir}  expectedRc=2
+  ${output}  Run gfal-ls on  url=${surl}  expectedRc=2
   Should Contain  ${output}  SRM_INVALID_PATH
   Copy-out file using gfal-utils  ${filename}  ${surl}
   Remove file using dCache client  ${surl}
