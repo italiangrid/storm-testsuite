@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 echo 'export X509_USER_PROXY="/tmp/x509up_u$(id -u)"'>/etc/profile.d/x509_user_proxy.sh
 
