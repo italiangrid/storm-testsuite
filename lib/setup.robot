@@ -164,12 +164,12 @@ Setup suite
 
 Setup suite webdav
   Setup local working directory
-  Setup webdav remote working directories
+  Setup remote working directories
 
 Teardown suite
   Teardown remote working directories
   Teardown local working directory
 
 Teardown suite webdav
-  Teardown webdav remote working directories
+  Teardown remote working directories
   Teardown local working directory
