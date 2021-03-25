@@ -8,7 +8,7 @@ if $exit_status == 4 || $exit_status == 6; then
   echo "Puppet apply exited with $exit_status"
   exit 1
 else
-
+  echo "Puppet apply exited with $exit_status"
 fi
 
 # Add tester user
