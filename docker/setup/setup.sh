@@ -3,10 +3,9 @@ set -e
 
 echo 'export X509_USER_PROXY="/tmp/x509up_u$(id -u)"'>/etc/profile.d/x509_user_proxy.sh
 
-puppet apply --detailed-exitcodes /setup/manifest.pp
-ec=$?
-if $ec == 4 || $ec == 6; then
-  echo "Puppet apply exited with $ec"
+puppet apply --detailed-exitcodes /setup/manifest.pp && exit_status=$? || exit_status=$?
+if $exit_status == 4 || $exit_status == 6; then
+  echo "Puppet apply exited with $exit_status"
   exit 1
 else
 
