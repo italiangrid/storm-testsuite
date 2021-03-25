@@ -19,6 +19,9 @@ RUN rpm -Uvh https://yum.puppetlabs.com/puppet5/el/7/x86_64/puppet5-release-5.0.
 
 RUN puppet --version
 
+# Install specific version of puppetlabs-stdlib because latest v7 is not support by lots of modules
+RUN puppet module install --force puppetlabs-stdlib --version 6.6.0
+
 # Install Puppet modules
 RUN puppet module install puppet-epel && \
     puppet module install puppet-fetchcrl && \
