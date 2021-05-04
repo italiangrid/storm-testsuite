@@ -2,6 +2,7 @@ include epel
 include umd4
 include testvos
 include testca
+include sdds_users
 
 class { 'storm::repo':
   enabled     => ['stable'],
@@ -44,13 +45,23 @@ class { 'java' :
   package => 'java-1.8.0-openjdk-devel',
 }
 
+user { 'tester':
+  ensure     => present,
+  name       => $title,
+  password   => Sensitive('password'),
+  managehome => true,
+  groups     => ['wheel'],
+}
+
 Class['epel']
 -> Class['umd4']
 -> Class['python']
 -> Class['java']
+-> Class['sdds_users']
 -> Class['testvos']
 -> Class['testca']
 -> Class['storm::repo']
 -> Package[$packages]
 -> Package['voms-clients']
 -> Package['robotframework']
+-> User['tester']
