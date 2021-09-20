@@ -192,7 +192,7 @@ srmPtP on a busy file
   [Teardown]  Clear all credentials
 
 srmPtP with xroot transfer protocol
-  [Tags]  storm-client  ptg
+  [Tags]  storm-client  ptg  xroot
   [Setup]  Use default voms proxy
   ${filename}  Get a unique name
   ${surl}  Build surl  ${defaultVO}  ${TESTDIR}/${filename}

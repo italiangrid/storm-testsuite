@@ -130,7 +130,7 @@ srmPtG on a large file
   [Teardown]  Clear all credentials
 
 srmPtG with xroot transfer protocol
-  [Tags]  storm-client  ptg
+  [Tags]  storm-client  ptg  xroot
   [Setup]  Use default voms proxy
   ${filename}  Get a unique name
   ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
