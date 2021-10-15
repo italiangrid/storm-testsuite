@@ -9,12 +9,12 @@ pipeline {
   }
 
   parameters {
-    string(defaultValue: "omii006-vm03.cnaf.infn.it", description: '', name: 'STORM_BACKEND_HOSTNAME')
-    string(defaultValue: "omii006-vm03.cnaf.infn.it", description: '', name: 'STORM_FRONTEND_HOSTNAME')
-    string(defaultValue: "omii006-vm03.cnaf.infn.it", description: '', name: 'STORM_WEBDAV_HOSTNAME')
-    string(defaultValue: "omii006-vm03.cnaf.infn.it", description: '', name: 'STORM_GRIDFTP_HOSTNAME')
+    string(defaultValue: "omii005-vm03.cnaf.infn.it", description: '', name: 'STORM_BACKEND_HOSTNAME')
+    string(defaultValue: "omii005-vm03.cnaf.infn.it", description: '', name: 'STORM_FRONTEND_HOSTNAME')
+    string(defaultValue: "omii005-vm03.cnaf.infn.it", description: '', name: 'STORM_WEBDAV_HOSTNAME')
+    string(defaultValue: "omii005-vm03.cnaf.infn.it", description: '', name: 'STORM_GRIDFTP_HOSTNAME')
     string(defaultValue: "omii003-vm01.cnaf.infn.it:8888", description: '', name: 'CDMI_ENDPOINT')
-    string(defaultValue: "to-be-fixed", description: '', name: 'TESTSUITE_EXCLUDE')
+    string(defaultValue: "to-be-fixedORcdmi", description: '', name: 'TESTSUITE_EXCLUDE')
     string(defaultValue: "tests", description: '', name: 'TESTSUITE_SUITE')
     string(defaultValue: "/storage", description: '', name: 'STORM_STORAGE_ROOT_DIR')
   }
@@ -42,8 +42,6 @@ pipeline {
             usernamePassword(credentialsId: 'a5ca708a-eca8-4fc0-83cd-eb3695f083a1', passwordVariable: 'CDMI_CLIENT_SECRET', usernameVariable: 'CDMI_CLIENT_ID'),
             usernamePassword(credentialsId: 'fa43a013-7c86-410f-8a8f-600b92706989', passwordVariable: 'IAM_USER_PASSWORD', usernameVariable: 'IAM_USER_NAME')
           ]) {
-            echo "TESTSUITE_BRANCH=${env.TESTSUITE_BRANCH}"
-            echo "TTY_OPTS=${env.TTY_OPTS}"
             dir("runner") {
               sh "bash ./run.sh"
             }
