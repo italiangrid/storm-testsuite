@@ -1,7 +1,8 @@
 #!/bin/bash
 set -ex
 
-outputDir="reports"
+. .env
+
 COMPOSE_OPTS="--ansi never"
 TTY_OPTS="${TTY_OPTS:-}"
 STORM_TESTSUITE_CONTAINER_NAME="${STORM_TESTSUITE_CONTAINER_NAME:-storm-testsuite}"
