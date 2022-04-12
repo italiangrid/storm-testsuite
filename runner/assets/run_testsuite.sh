@@ -2,7 +2,7 @@
 set -x
 
 # Optional parameters
-TESTSUITE="${TESTSUITE:-git://github.com/italiangrid/storm-testsuite.git}"
+TESTSUITE="${TESTSUITE:-https://github.com/italiangrid/storm-testsuite.git}"
 TESTSUITE_BRANCH="${TESTSUITE_BRANCH:-nightly}"
 TESTSUITE_EXCLUDE="${TESTSUITE_EXCLUDE:-to-be-fixed}"
 TESTSUITE_SUITE="${TESTSUITE_SUITE:-tests}"
