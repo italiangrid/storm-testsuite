@@ -8,4 +8,4 @@ else
   echo "BRANCH_NAME is set to '$BRANCH_NAME'"
 fi
 
-docker build -t italiangrid/storm-testsuite:${BRANCH_NAME} .
+docker build --no-cache -t italiangrid/storm-testsuite:${BRANCH_NAME} .
