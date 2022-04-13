@@ -22,9 +22,11 @@ RUN puppet --version
 # Install specific version of puppetlabs-stdlib because latest v7 is not support by lots of modules
 RUN puppet module install --force puppetlabs-stdlib --version 6.6.0
 
+# Install specific version of puppet-epel because latest v4.x is not supported by puppet-python
+RUN puppet module install --force puppet-epel --version 3.1.0
+
 # Install Puppet modules
-RUN puppet module install puppet-epel && \
-    puppet module install puppet-fetchcrl && \
+RUN puppet module install puppet-fetchcrl && \
     puppet module install puppet-python && \
     puppet module install puppetlabs-java && \
     puppet module install cnafsd-sdds_users && \
