@@ -23,21 +23,32 @@ package { $packages:
   ensure => 'latest',
 }
 
-package { 'voms-clients':
-  ensure => 'installed',
-  source => 'https://ci.cloud.cnaf.infn.it/view/voms/job/pkg.voms/job/release_sep_19/lastSuccessfulBuild/artifact/repo/centos6/voms-clients3-3.3.1-0.el6.centos.noarch.rpm',
+yumrepo { 'voms-0621-01':
+  ensure   => present,
+  descr    => 'voms unreleased rpms',
+  baseurl  => 'https://ci.cloud.cnaf.infn.it/view/voms/job/pkg.voms/job/v0621.01/lastSuccessfulBuild/artifact/artifacts/stage-area/centos7',
+  enabled  => 1,
+  protect  => 1,
+  priority => 1,
+  gpgcheck => 0,
 }
 
-include python
+package { 'voms-clients':
+  ensure => 'installed',
+}
+
+class { 'python':
+  pip => 'present',
+}
 
 package { 'robotframework':
   ensure   => installed,
-  require  => Package['pip'],
+  require  => Class['python'],
   provider => 'pip',
 }
 package { 'robotframework-httplibrary':
   ensure   => installed,
-  require  => [Package['pip'], Package['robotframework']],
+  require  => [Class['python'], Package['robotframework']],
   provider => 'pip',
 }
 
