@@ -1,4 +1,3 @@
-include ntp
 include epel
 include umd4
 include testca
