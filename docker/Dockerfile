@@ -11,7 +11,7 @@ RUN \
 ENV PATH="/opt/puppetlabs/bin:${PATH}"
 
 # Install utils
-RUN yum install -y wget git tar nc hostname jq cronie
+RUN yum install -y wget git tar nc hostname jq cronie ntp
 
 # Install Puppet
 RUN rpm -Uvh https://yum.puppetlabs.com/puppet5/el/7/x86_64/puppet5-release-5.0.0-6.el7.noarch.rpm && \
