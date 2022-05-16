@@ -27,10 +27,11 @@ RUN puppet module install --force puppet-epel --version 3.1.0
 
 # Install Puppet modules
 RUN puppet module install puppet-fetchcrl && \
+    puppet module install puppetlabs-ntp && \
     puppet module install puppet-python && \
     puppet module install puppetlabs-java && \
     puppet module install cnafsd-sdds_users && \
-    puppet module install cnafsd-testvos && \
+    puppet module install cnafsd-voms && \
     puppet module install cnafsd-testca && \
     puppet module install cnafsd-umd4 && \
     puppet module install cnafsd-storm

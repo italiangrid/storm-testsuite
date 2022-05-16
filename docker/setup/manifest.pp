@@ -1,8 +1,12 @@
+include ntp
 include epel
 include umd4
-include testvos
 include testca
 include sdds_users
+
+include voms::dteam
+include voms::testvo
+include voms::testvo2
 
 class { 'storm::repo':
   enabled     => ['stable'],
@@ -17,6 +21,8 @@ $packages = [
   'storm-srm-client',
   'davix',
   'myproxy',
+  'voms-clients',
+  'voms-clients-java',
 ]
 
 package { $packages:
@@ -31,10 +37,6 @@ yumrepo { 'voms-0621-01':
   protect  => 1,
   priority => 1,
   gpgcheck => 0,
-}
-
-package { 'voms-clients':
-  ensure => 'installed',
 }
 
 class { 'python':
@@ -64,15 +66,18 @@ user { 'tester':
   groups     => ['wheel'],
 }
 
-Class['epel']
+Class['ntp']
+-> Class['epel']
 -> Class['umd4']
 -> Class['python']
 -> Class['java']
 -> Class['sdds_users']
--> Class['testvos']
+-> Class['voms::dteam']
+-> Class['voms::testvo']
+-> Class['voms::testvo2']
 -> Class['testca']
 -> Class['storm::repo']
+-> Yumrepo['voms-0621-01']
 -> Package[$packages]
--> Package['voms-clients']
 -> Package['robotframework']
 -> User['tester']
