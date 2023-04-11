@@ -2,9 +2,10 @@
 
 Library    OperatingSystem
 Library    String
-Library    HttpLibrary.HTTP
 Library    Collections
 Library    base64
+Library    JSONLibrary
+Library    RequestsLibrary
 
 Resource   variables.robot
 Resource   cdmi.robot

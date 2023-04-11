@@ -115,15 +115,9 @@ Check db size update after srmRmdir of an empty directory
 *** Keywords ***
 
 Get From REST endpoint  [Arguments]  ${url}
-    Create Http Context  ${REST_ENDPOINT}
-    GET  ${url}
-    ${status}=  Get Response Status
-    Should Start With  ${status}  200
-    ${result}=  Get Response Body
-    Log Json  ${result}
-    ${result}=   Parse Json  ${result}
-    Log  ${result}
-    [Return]  ${result}
+    ${response}  GET  http://${REST_ENDPOINT}${url}  expected_status=200
+    Log  ${response}
+    [Return]  ${response.json()}
 
 Get VFS list
     ${url}  Set Variable  /configuration/1.3/VirtualFSList

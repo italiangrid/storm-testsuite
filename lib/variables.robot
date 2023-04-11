@@ -21,21 +21,15 @@ ${DAVEndpoint}  http://${DAVHost}:${DAVPort}
 ${DAVSecureEndpoint}  https://${DAVHost}:${DAVSecurePort}
 
 ${ldapEndpoint}  ${backEndHost}:2170
-${cdmiEndpoint}  cdmi-storm.cnaf.infn.it:8888
-${cdmiAdminUser}  restadmin
-${cdmiAdminPassword}  restadmin
-${iamUserName}  storm_robot_user
-${iamUserPassword}  secret
-${cdmiClientId}  838129a5-84ca-4dc4-bfd8-421ee317aabd
-${cdmiClientSecret}  secret
-
-${iamEndpoint}  https://iam-test.indigo-datacloud.eu
 
 ##### CREDENTIALS #####
 
 ${USER.1}  test0
+${PASS.1}  pass
 ${USER.2}  test1
+${PASS.2}  pass123
 ${USER.3}  apostrofe
+${PASS.3}  pass123
 
 ${DEFAULT_USER}  ${USER.1}
 
@@ -85,11 +79,3 @@ ${ALIASED_SA_VONAME}  ${VO.2}
 ##### LINKS #####
 
 ${SYMLINK.1}  testvo_to_testvo2
-
-##### VOMS FAKE OPTIONS #####
-
-${vomsFake}  false
-${vomsFakeCert}  /home/tester/voms-fake/voms_example.cert.pem
-${vomsFakeKey}   /home/tester/voms-fake/voms_example.key.pem
-${vomsFakeFqans.1}   /test.vo/Role=NULL/Capability=NULL,/test.vo/G1/Role=NULL/Capability=NULL,/test.vo/G2/Role=NULL/Capability=NULL,/test.vo/G2/G3/Role=NULL/Capability=NULL
-${vomsFakeFqans.2}   /test.vo.2/Role=NULL/Capability=NULL,/test.vo.2/G1/Role=NULL/Capability=NULL,/test.vo.2/G2/Role=NULL/Capability=NULL,/test.vo.2/G2/G3/Role=NULL/Capability=NULL

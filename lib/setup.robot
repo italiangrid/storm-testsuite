@@ -38,26 +38,17 @@ Add user  [Arguments]  ${user}
   Execute and Check Success   cp ${certsDir}/${user}.key.pem ${keyPath}
   Execute and Check Success   chmod 400 ${keyPath}
 
-Create voms fake proxy   [Arguments]  ${user}  ${vo}  ${fqans}
+Create voms proxy   [Arguments]   ${user}  ${pass}  ${vo}
   ${usercert}  Get user x509 p12 path  ${user}
-  ${userpass}  Set Variable  pass
-  ${proxy}  Get user voms proxy path  ${user}  ${vo}
-  ${options}  Set variable  -Dvoms.fake.vo=${vo} -Dvoms.fake=${vomsFake} -Dvoms.fake.aaCert=${vomsFakeCert} -Dvoms.fake.aaKey=${vomsFakeKey} -Dvoms.fake.fqans=${fqans}
-  ${output}  ${stderr}  Execute and Check Success   echo ${userpass}|VOMS_CLIENTS_JAVA_OPTIONS="${options}" voms-proxy-init -pwstdin --voms ${vo} --cert ${usercert} --out ${proxy}
-  Log  ${output}
-  Log  ${stderr}
-
-Create voms proxy   [Arguments]   ${user}  ${vo}
-  ${usercert}  Get user x509 p12 path  ${user}
-  ${userpass}  Set Variable  pass
+  ${userpass}  Set Variable  ${pass}
   ${proxy}  Get user voms proxy path  ${user}  ${vo}
   ${output}  ${stderr}  Execute and Check Success   echo ${userpass}|voms-proxy-init -pwstdin --voms ${vo} --cert ${usercert} --out ${proxy}
   Log  ${output}
   Log  ${stderr}
 
-Create grid proxy   [Arguments]   ${user}
+Create grid proxy   [Arguments]   ${user}  ${pass}
   ${usercert}  Get user x509 p12 path  ${user}
-  ${userpass}  Set Variable  pass
+  ${userpass}  Set Variable  ${pass}
   ${proxy}  Get user grid proxy path  ${user}
   ${output}  ${stderr}  Execute and Check Success   echo ${userpass}|voms-proxy-init -pwstdin --cert ${usercert} --out ${proxy}
   Log  ${output}
@@ -94,17 +85,11 @@ Clear remote working directory  [Arguments]  ${storageArea}
   Log  ${output}
   Should Contain  ${output}  SRM_SUCCESS
 
-List of voms fake proxy creation
-  Create voms fake proxy  ${USER.1}  ${VO.1}  ${vomsFakeFqans.1}
-  Create voms fake proxy  ${USER.2}  ${VO.1}  ${vomsFakeFqans.1}
-  Create voms fake proxy  ${USER.3}  ${VO.1}  ${vomsFakeFqans.1}
-  Create voms fake proxy  ${USER.1}  ${VO.2}  ${vomsFakeFqans.2}
-
 List of voms proxy creation
-  Create voms proxy  ${USER.1}  ${VO.1}
-  Create voms proxy  ${USER.2}  ${VO.1}
-  Create voms proxy  ${USER.1}  ${VO.2}
-  Create voms proxy  ${USER.3}  ${VO.1}
+  Create voms proxy  ${USER.1}  ${PASS.1}  ${VO.1}
+  Create voms proxy  ${USER.2}  ${PASS.2}  ${VO.1}
+  Create voms proxy  ${USER.1}  ${PASS.1}  ${VO.2}
+  Create voms proxy  ${USER.3}  ${PASS.3}  ${VO.1}
 
 Setup local working directory
   ${timestamp}  Get timestamp
@@ -120,9 +105,8 @@ Setup local working directory
   Add user  ${USER.1}
   Add user  ${USER.2}
   Add user  ${USER.3}
-  Run keyword if   "${vomsFake}" == "true"  List of voms fake proxy creation
-  Run keyword if   "${vomsFake}" == "false"  List of voms proxy creation
-  Create grid proxy  ${USER.1}
+  List of voms proxy creation
+  Create grid proxy  ${USER.1}  ${PASS.1}
 
 Setup remote working directories
   Use voms proxy  ${DEFAULT_USER}  ${VO.1}

@@ -13,7 +13,7 @@ services:
       - trustanchors:/etc/grid-security/certificates
 
   storm-testsuite:
-    image: italiangrid/storm-testsuite:${TESTSUITE_BRANCH}
+    image: italiangrid/storm-testsuite:latest
     container_name: ${STORM_TESTSUITE_CONTAINER_NAME}
     #entrypoint: sleep infinity
     entrypoint: sh /assets/run_testsuite.sh
@@ -22,14 +22,10 @@ services:
       - TESTSUITE_EXCLUDE
       - TESTSUITE_SUITE
       - STORM_STORAGE_ROOT_DIR
-      - CDMI_CLIENT_SECRET
-      - IAM_USER_PASSWORD
-      - DAV_HOST
-      - GFTP_HOST
-      - STORM_BE_HOST
-      - STORM_FE_HOST
-      - CDMI_ENDPOINT
-      - VOMS_FAKE
+      - STORM_GRIDFTP_HOSTNAME
+      - STORM_BACKEND_HOSTNAME
+      - STORM_WEBDAV_HOSTNAME
+      - STORM_FRONTEND_HOSTNAME
       - OUTPUT_DIRECTORY
     depends_on:
       - trust

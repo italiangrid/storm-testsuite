@@ -13,8 +13,7 @@ pipeline {
     string(defaultValue: "omii005-vm03.cnaf.infn.it", description: '', name: 'STORM_FRONTEND_HOSTNAME')
     string(defaultValue: "omii005-vm03.cnaf.infn.it", description: '', name: 'STORM_WEBDAV_HOSTNAME')
     string(defaultValue: "omii005-vm03.cnaf.infn.it", description: '', name: 'STORM_GRIDFTP_HOSTNAME')
-    string(defaultValue: "omii003-vm01.cnaf.infn.it:8888", description: '', name: 'CDMI_ENDPOINT')
-    string(defaultValue: "to-be-fixedORcdmi", description: '', name: 'TESTSUITE_EXCLUDE')
+    string(defaultValue: "to-be-fixed", description: '', name: 'TESTSUITE_EXCLUDE')
     string(defaultValue: "tests", description: '', name: 'TESTSUITE_SUITE')
     string(defaultValue: "/storage", description: '', name: 'STORM_STORAGE_ROOT_DIR')
   }
@@ -25,11 +24,10 @@ pipeline {
     TESTSUITE_SUITE = "${params.TESTSUITE_SUITE}"
     TESTSUITE_EXCLUDE = "${params.TESTSUITE_EXCLUDE}"
     STORM_STORAGE_ROOT_DIR = "${params.STORM_STORAGE_ROOT_DIR}"
-    STORM_BE_HOST = "${params.STORM_BACKEND_HOSTNAME}"
-    DAV_HOST = "${params.STORM_WEBDAV_HOSTNAME}"
-    GFTP_HOST = "${params.STORM_GRIDFTP_HOSTNAME}"
-    CDMI_ENDPOINT = "${params.CDMI_ENDPOINT}"
-    STORM_FE_HOST = "${params.STORM_FRONTEND_HOSTNAME}"
+    STORM_BACKEND_HOSTNAME = "${params.STORM_BACKEND_HOSTNAME}"
+    STORM_WEBDAV_HOSTNAME = "${params.STORM_WEBDAV_HOSTNAME}"
+    STORM_GRIDFTP_HOSTNAME = "${params.STORM_GRIDFTP_HOSTNAME}"
+    STORM_FRONTEND_HOSTNAME = "${params.STORM_FRONTEND_HOSTNAME}"
     TTY_OPTS = "-T"
     OUTPUT_DIRECTORY = "reports-${BUILD_TAG}"
   }
@@ -38,15 +36,10 @@ pipeline {
     stage('run') {
       steps {
         script {
-          withCredentials([
-            usernamePassword(credentialsId: 'a5ca708a-eca8-4fc0-83cd-eb3695f083a1', passwordVariable: 'CDMI_CLIENT_SECRET', usernameVariable: 'CDMI_CLIENT_ID'),
-            usernamePassword(credentialsId: 'fa43a013-7c86-410f-8a8f-600b92706989', passwordVariable: 'IAM_USER_PASSWORD', usernameVariable: 'IAM_USER_NAME')
-          ]) {
-            dir("runner") {
-              sh "bash ./run.sh"
-            }
-            archiveArtifacts "runner/${OUTPUT_DIRECTORY}/reports/**"
+          dir("runner") {
+            sh "bash ./run.sh"
           }
+          archiveArtifacts "runner/${OUTPUT_DIRECTORY}/reports/**"
         }
       }
     }
