@@ -3,7 +3,7 @@
 ### COMMAND ###
 
 Curl  [Arguments]  ${method}  ${url}  ${options}=${EMPTY}
-  ${rc}  ${output}  Run And Return Rc And Output  curl ${options} ${url} -X ${method} -s -L -ifv
+  ${rc}  ${output}  Run And Return Rc And Output  curl ${options} ${url} -X ${method} -s -L -iv
   Log  ${output}
   Log  ${rc}
   [Return]  ${output}  ${rc}
