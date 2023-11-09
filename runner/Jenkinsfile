@@ -62,15 +62,5 @@ pipeline {
     always {
       cleanWs()
     }
-    failure {
-      slackSend channel: '#ci-cloud', color: 'danger', message: "${env.JOB_NAME} - #${env.BUILD_ID} Failure (<${env.BUILD_URL}|Open>)"
-    }
-    changed {
-      script {
-        if ('SUCCESS'.equals(currentBuild.result)) {
-          slackSend channel: '#ci-cloud', color: 'good', message: "${env.JOB_NAME} - #${env.BUILD_ID} Back to normal (<${env.BUILD_URL}|Open>)"
-        }
-      }
-    }
   }
 }
