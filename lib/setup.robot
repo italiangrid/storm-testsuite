@@ -75,15 +75,11 @@ Clear all credentials
 
 Create remote working directory  [Arguments]  ${storageArea}
   ${surl}  Build surl  ${storageArea}  ${TESTDIR}
-  ${output}  Perform mkdir using clientSRM  ${surl}
-  Log  ${output}
-  Should Contain  ${output}  SRM_SUCCESS
+  Run gfal-mkdir on  ${surl}
 
 Clear remote working directory  [Arguments]  ${storageArea}
   ${surl}  Build surl  ${storageArea}  ${TESTDIR}
-  ${output}  Perform rmdir using clientSRM  ${surl}  -r
-  Log  ${output}
-  Should Contain  ${output}  SRM_SUCCESS
+  Run gfal-rmdir on  ${surl}
 
 List of voms proxy creation
   Create voms proxy  ${USER.1}  ${PASS.1}  ${VO.1}

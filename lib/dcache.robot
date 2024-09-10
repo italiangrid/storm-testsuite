@@ -2,15 +2,15 @@
 
 Execute dCache srm command  [Arguments]  ${cmd}  ${url}
   ${output}  ${stderr}  Execute and Check Success  srm${cmd} -2 ${url}
-  [Return]  ${output}
+  RETURN  ${output}
 
 Execute dCache srm command and check failure  [Arguments]  ${cmd}  ${url}
   ${output}  Execute and Check Failure  srm${cmd} -2 ${url}
-  [Return]  ${output}
+  RETURN  ${output}
 
 Ping using dCache client
   ${output}  Execute dCache srm command  ping  srm://${srmEndpoint}
-  [Return]  ${output}
+  RETURN  ${output}
 
 Create directory using dCache client  [Arguments]  ${surl}
   ${output}  Execute dCache srm command  mkdir  ${surl}
@@ -18,7 +18,7 @@ Create directory using dCache client  [Arguments]  ${surl}
 
 Try to create directory using dCache client  [Arguments]  ${surl}
   ${output}  Execute dCache srm command and check failure  mkdir  ${surl}
-  [Return]  ${output}
+  RETURN  ${output}
 
 Remove directory using dCache client  [Arguments]  ${surl}
   ${output}  Execute dCache srm command  rmdir  ${surl}
@@ -26,7 +26,7 @@ Remove directory using dCache client  [Arguments]  ${surl}
 
 Try to remove directory using dCache client  [Arguments]  ${surl}
   ${output}  Execute dCache srm command and check failure  rmdir  ${surl}
-  [Return]  ${output}
+  RETURN  ${output}
 
 Remove file using dCache client  [Arguments]  ${surl}
   ${output}  Execute dCache srm command  rm  ${surl}
@@ -34,4 +34,4 @@ Remove file using dCache client  [Arguments]  ${surl}
 
 Try to remove file using dCache client  [Arguments]  ${surl}
   ${output}  Execute dCache srm command and check failure  rm  ${surl}
-  [Return]  ${output}
+  RETURN  ${output}

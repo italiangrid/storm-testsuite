@@ -5,7 +5,7 @@ Copy-out file using globus-utils  [Arguments]  ${localPath}  ${turl}
 
 Try to copy-out file using globus-utils  [Arguments]  ${localPath}  ${turl}
   ${output}  Execute and Check Failure  globus-url-copy file:///tmp/${TESTDIR}/${localPath} ${turl}
-   [Return]  ${output}
+   RETURN  ${output}
 
 Copy-in file using globus-utils  [Arguments]  ${turl}  ${localPath}
   Execute and Check Success  globus-url-copy ${turl} file:///tmp/${TESTDIR}/${localPath}

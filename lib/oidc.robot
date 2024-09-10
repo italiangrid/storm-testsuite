@@ -9,4 +9,4 @@ Get Access Token  [Arguments]  ${clientId}  ${clientSecret}  ${username}  ${pass
   Should Be Equal As Integers  ${rc}  0
   ${jsonData} =  Get Line  ${out}  -1
   ${parsedData}  Parse Json  ${jsonData}
-  [Return]  ${parsedData["access_token"]}
+  RETURN  ${parsedData["access_token"]}
