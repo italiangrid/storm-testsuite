@@ -7,12 +7,12 @@ Resource   lib/import.robot
 Get random simple SURL
   ${filename}  Get a unique name
   ${surl}  Build simple surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
-  [Return]  ${surl}
+  RETURN  ${surl}
 
 Get random query SURL
   ${filename}  Get a unique name
   ${surl}  Build surl  ${DEFAULT_SA}  ${TESTDIR}/${filename}
-  [Return]  ${surl}
+  RETURN  ${surl}
 
 Create remote file  [Arguments]  ${surl}
   Put without really putting using clientSRM  ${surl}
@@ -20,7 +20,7 @@ Create remote file  [Arguments]  ${surl}
 Do PTG  [Arguments]  ${surl}
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_FILE_PINNED
-  [Return]  ${token}
+  RETURN  ${token}
 
 Remove remote file  [Arguments]  ${surl}
   ${output}  Perform rm using clientSRM  ${surl}

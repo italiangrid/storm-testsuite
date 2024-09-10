@@ -53,7 +53,7 @@ Get file with asynch ptg and globus file transfer  [Arguments]  ${surl}  ${turl}
 Do a synch ptg on file  [Arguments]  ${surl}
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
   Should Contain  ${output}  SRM_FILE_PINNED
-  [Return]  ${token}
+  RETURN  ${token}
 
 Abort request  [Arguments]  ${token}
   ${output}  Perform abort request using clientSRM  ${token}
@@ -73,7 +73,7 @@ Move file  [Arguments]  ${srcsurl}  ${destsurl}
 List Directory  [Arguments]  ${surl}
   ${output}  Perform ls using clientSRM  ${surl}
   Should Contain  ${output}  SRM_SUCCESS
-  [Return]  ${output}
+  RETURN  ${output}
 
 Remove file  [Arguments]  ${surl}
   ${output}  Perform rm using clientSRM  ${surl}

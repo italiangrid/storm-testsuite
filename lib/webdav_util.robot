@@ -67,24 +67,24 @@ Upload file with CURL  [Arguments]  ${urlDir}  ${credentials}=${EMPTY}
   ${path}  Get local file path from name  ${filename}
   Do CURL PUT and check success  ${urlDir}/${filename}  ${path}  ${credentials}
   Do CURL HEAD and check success  ${urlDir}/${filename}  ${credentials}
-  [Return]  ${filename}
+  RETURN  ${filename}
 
 ##### URL BUILDING
 
 Build URL  [Arguments]  ${endpoint}=${DAVSecureEndpoint}  ${storagearea}=${DEFAULT_SA}  ${path}=${EMPTY}
   ${output}  Run Keyword If  '${path}'=='${EMPTY}'  Set Variable  ${endpoint}/${storagearea}/${TESTDIR}  ELSE  Set variable  ${endpoint}/${storagearea}/${TESTDIR}/${path}
-  [Return]  ${output}
+  RETURN  ${output}
 
 ##### PROPFIND UTILS
 
 Get PROPFIND ALLPROP body
   ${output}  Set variable  <?xml version='1.0' encoding='utf-8'?><propfind xmlns='DAV:'><allprop/></propfind>
-  [Return]  ${output}
+  RETURN  ${output}
 
 Get PROPFIND PROPNAME body
   ${output}  Set variable  <?xml version='1.0' encoding='utf-8'?><propfind xmlns='DAV:'><propname/></propfind>
-  [Return]  ${output}
+  RETURN  ${output}
 
 Get PROPFIND PROP body  [Arguments]  ${propname}
   ${output}  Set variable  <?xml version='1.0' encoding='utf-8'?><propfind xmlns='DAV:'><prop><${propname}/><prop/></propfind>
-  [Return]  ${output}
+  RETURN  ${output}

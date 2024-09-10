@@ -40,4 +40,4 @@ Perform a BoL with polling  [Arguments]  ${surl}
     Run Keyword If    '${status}' == 'FAIL'    Exit For Loop
   END
   Should Contain  ${output}  SRM_REQUEST_INPROGRESS
-  [Return]  ${output}  ${token}
+  RETURN  ${output}  ${token}

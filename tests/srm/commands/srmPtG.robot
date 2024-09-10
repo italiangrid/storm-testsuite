@@ -7,18 +7,18 @@ Resource   lib/import.robot
 getRandomSURL  [Arguments]  ${sa}=${DEFAULT_SA}
   ${filename}  Get a unique name
   ${surl}  Build surl  ${sa}  ${TESTDIR}/${filename}
-  [Return]  ${surl}
+  RETURN  ${surl}
 
 createRemoteFile  [Arguments]  ${surl}
   Put without really putting using clientSRM  ${surl}
 
 srmPtG  [Arguments]  ${surl}
   ${output}  ${token}  Perform ptg using clientSRM  ${surl}  -p
-  [Return]  ${output}  ${token}
+  RETURN  ${output}  ${token}
 
 srmRf  [Arguments]  ${surl}  ${token}
   ${output}  Perform rf using clientSRM  ${surl}  ${token}
-  [Return]  ${output}
+  RETURN  ${output}
 
 check srmPtG success  [Arguments]  ${output}
   Should Contain  ${output}  SRM_FILE_PINNED
@@ -40,7 +40,7 @@ deleteRemoteFile  [Arguments]  ${surl}
 
 get TURL from output  [Arguments]  ${output}
   ${result}  ${turl}=  Should Match Regexp  ${output}  transferURL=(\".+\")
-  [Return]  ${turl}
+  RETURN  ${turl}
 
 *** Test Cases ***
 

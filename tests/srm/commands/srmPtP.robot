@@ -7,7 +7,7 @@ Resource   lib/import.robot
 getRandomSURL  [Arguments]  ${sa}=${DEFAULT_SA}
   ${filename}  Get a unique name
   ${surl}  Build surl  ${sa}  ${TESTDIR}/${filename}
-  [Return]  ${surl}
+  RETURN  ${surl}
 
 createRemoteFile  [Arguments]  ${surl}
   Put without really putting using clientSRM  ${surl}
@@ -15,17 +15,17 @@ createRemoteFile  [Arguments]  ${surl}
 srmPtP  [Arguments]  ${surl}  ${options}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  ${options}
   Log  ${output}
-  [Return]  ${output}  ${token}
+  RETURN  ${output}  ${token}
 
 srmPd  [Arguments]  ${surl}  ${token}
   ${output}  Perform pd using clientSRM  ${surl}  ${token}
   Log  ${output}
-  [Return]  ${output}
+  RETURN  ${output}
 
 srmSPtP  [Arguments]  ${surl}  ${token}
   ${output}  Perform sptp using clientSRM  ${surl}  ${token}
   Log  ${output}
-  [Return]  ${output}
+  RETURN  ${output}
 
 check srmPtP success  [Arguments]  ${output}
   Should Contain  ${output}  SRM_SPACE_AVAILABLE
@@ -54,7 +54,7 @@ deleteRemoteFile  [Arguments]  ${surl}
 
 get TURL from output  [Arguments]  ${output}
   ${result}  ${turl}=  Should Match Regexp  ${output}  TURL=(\".+\")
-  [Return]  ${turl}
+  RETURN  ${turl}
 
 *** Test Cases ***
 

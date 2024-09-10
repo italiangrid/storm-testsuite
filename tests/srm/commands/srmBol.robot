@@ -7,7 +7,7 @@ Resource   lib/import.robot
 Get random simple SURL
   ${filename}  Get a unique name
   ${surl}  Build simple surl  ${TAPE_SA}  ${TESTDIR}/${filename}
-  [Return]  ${surl}
+  RETURN  ${surl}
 
 *** Test Cases ***
 

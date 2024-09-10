@@ -117,29 +117,29 @@ Check db size update after srmRmdir of an empty directory
 Get From REST endpoint  [Arguments]  ${url}
     ${response}  GET  http://${REST_ENDPOINT}${url}  expected_status=200
     Log  ${response}
-    [Return]  ${response.json()}
+    RETURN  ${response.json()}
 
 Get VFS list
     ${url}  Set Variable  /configuration/1.3/VirtualFSList
     ${result}  Get From REST endpoint  ${url}
-    [Return]  ${result}
+    RETURN  ${result}
 
 Get SA status info  [Arguments]  ${SA}
     ${url}  Set Variable  /info/status/${SA}
     ${result}  Get From REST endpoint  ${url}
-    [Return]  ${result}
+    RETURN  ${result}
 
 Get SA status info parameter  [Arguments]  ${SA_TOKEN}  ${PARAM_NAME}
     ${SA_STATUS}  Get SA status info  ${SA_TOKEN}
     ${SA_STATUS}  Get From Dictionary  ${SA_STATUS}  sa-status
     ${PARAM_VALUE}  Get From Dictionary  ${SA_STATUS}  ${PARAM_NAME}
     Log  ${PARAM_VALUE}
-    [Return]  ${PARAM_VALUE}
+    RETURN  ${PARAM_VALUE}
 
 Sum  [Arguments]  ${e1}  ${e2}
     ${result}=  Evaluate  ${e1} + ${e2}
-    [Return]  ${result}
+    RETURN  ${result}
 
 Diff  [Arguments]  ${e1}  ${e2}
     ${result}=  Evaluate  ${e1} - ${e2}
-    [Return]  ${result}
+    RETURN  ${result}
