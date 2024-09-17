@@ -7,7 +7,7 @@ Resource   lib/import.robot
 Do a prepareToPut  [Arguments]  ${surl}
   ${output}  ${token}  Perform ptp using clientSRM  ${surl}  -p
   Should contain  ${output}  SRM_SPACE_AVAILABLE
-  [Return]  ${token}
+  RETURN  ${token}
 
 Do a putDone  [Arguments]  ${surl}  ${token}
   ${output}  Perform pd using clientSRM  ${surl}  ${token}
@@ -16,7 +16,7 @@ Do a putDone  [Arguments]  ${surl}  ${token}
 Do a prepareToGet  [Arguments]  ${surl}  ${tprotocol}
   ${output}  ${token}  ${turl}  Perform ptg with transfer protocol using clientSRM  ${surl}  ${tprotocol}  -p
   Should contain  ${output}  SRM_FILE_PINNED
-  [Return]  ${token}  ${turl}
+  RETURN  ${token}  ${turl}
 
 Do a releaseFile  [Arguments]  ${surl}  ${token}
   ${output}  Perform rf using clientSRM  ${surl}  ${token}

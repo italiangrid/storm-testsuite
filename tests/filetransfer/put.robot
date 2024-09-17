@@ -7,7 +7,7 @@ Resource   lib/import.robot
 Do a prepareToPut  [Arguments]  ${surl}  ${tprotocol}
   ${output}  ${token}  ${turl}  Perform ptp with transfer protocol using clientSRM  ${surl}  ${tprotocol}  -p
   Should contain  ${output}  SRM_SPACE_AVAILABLE
-  [Return]  ${token}  ${turl}
+  RETURN  ${token}  ${turl}
 
 Do a putDone  [Arguments]  ${surl}  ${token}
   ${output}  Perform pd using clientSRM  ${surl}  ${token}

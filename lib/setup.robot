@@ -75,7 +75,7 @@ Clear all credentials
 
 Create remote working directory  [Arguments]  ${storageArea}
   ${surl}  Build surl  ${storageArea}  ${TESTDIR}
-  Run gfal-mkdir on  ${surl}
+  Run gfal-mkdir on  ${surl}  -p
 
 Clear remote working directory  [Arguments]  ${storageArea}
   ${surl}  Build surl  ${storageArea}  ${TESTDIR}
