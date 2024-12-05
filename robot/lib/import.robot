@@ -1,0 +1,25 @@
+** Settings ***
+
+Library    OperatingSystem
+Library    String
+Library    Collections
+Library    base64
+Library    JSONLibrary
+Library    RequestsLibrary
+
+Resource   variables.robot
+Resource   cdmi.robot
+Resource   clientSRM.robot
+Resource   config.robot
+Resource   curl.robot
+Resource   filetransfer.robot
+Resource   infosystem.robot
+Resource   gfal_util.robot
+Resource   metadata.robot
+Resource   oidc.robot
+Resource   recall.robot
+Resource   setup.robot
+Resource   stormlib.robot
+Resource   webdav_util.robot
+Resource   webdav.robot
+Resource   utils.robot

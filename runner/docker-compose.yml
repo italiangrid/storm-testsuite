@@ -3,12 +3,18 @@ version: '3.5'
 volumes:
   trustanchors:
 
+networks:
+  default:
+    name: test.example
+
 services:
 
   trust:
     image: indigoiam/egi-trustanchors:igi-test-ca
-    environment:
-      - FORCE_TRUST_ANCHORS_UPDATE=1
+    platform: linux/amd64
+    pull_policy: always
+    #environment:
+    #  - FORCE_TRUST_ANCHORS_UPDATE=1
     volumes:
       - trustanchors:/etc/grid-security/certificates
 
@@ -17,20 +23,29 @@ services:
     platform: linux/amd64
     pull_policy: always
     container_name: ${STORM_TESTSUITE_CONTAINER_NAME}
-    #entrypoint: sleep infinity
-    entrypoint: sh /assets/run_testsuite.sh
+    entrypoint: sleep infinity
+    #entrypoint: sh /assets/run_testsuite.sh
     environment:
-      - TESTSUITE_BRANCH
-      - TESTSUITE_EXCLUDE
-      - TESTSUITE_SUITE
-      - STORM_STORAGE_ROOT_DIR
-      - STORM_GRIDFTP_HOSTNAME
-      - STORM_BACKEND_HOSTNAME
-      - STORM_WEBDAV_HOSTNAME
-      - STORM_FRONTEND_HOSTNAME
-      - OUTPUT_DIRECTORY
+      TESTSUITE_EXCLUDE: "to-be-fixed"
+      TESTSUITE_SUITE: "tests"
+      STORM_STORAGE_ROOT_DIRECTORY: "/storage"
+      STORM_BACKEND_HOSTNAME: "storm-dev.cr.cnaf.infn.it"
+      STORM_WEBDAV_HOSTNAME: "storm-dev.cr.cnaf.infn.it"
+      STORM_WEBDAV_PORT: "8085"
+      STORM_WEBDAV_SECURE_PORT: "8443"
+      STORM_FRONTEND_HOSTNAME: "storm-dev.cr.cnaf.infn.it"
+      STORM_FRONTEND_PORT: "8444"
     depends_on:
-      - trust
+      trust:
+        condition: service_completed_successfully
     volumes:
       - trustanchors:/etc/grid-security/certificates
       - ./assets:/assets
+      - ./certificates/hostcert.pem:/etc/grid-security/hostcert.pem
+      - ./certificates/hostkey.pem:/etc/grid-security/hostkey.pem
+      - ../robot:/home/tester/robot
+    hostname: testsuite.test.example
+    networks:
+      default:
+        aliases:
+          - testsuite.test.example

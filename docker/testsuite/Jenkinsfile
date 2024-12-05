@@ -1,0 +1,66 @@
+pipeline {
+
+  agent { label 'docker' }
+
+  options {
+    timeout(time: 1, unit: 'HOURS')
+    buildDiscarder(logRotator(numToKeepStr: '5'))
+    disableConcurrentBuilds()
+  }
+
+  parameters {
+    string(defaultValue: "omii005-vm03.cnaf.infn.it", description: '', name: 'STORM_BACKEND_HOSTNAME')
+    string(defaultValue: "omii005-vm03.cnaf.infn.it", description: '', name: 'STORM_FRONTEND_HOSTNAME')
+    string(defaultValue: "omii005-vm03.cnaf.infn.it", description: '', name: 'STORM_WEBDAV_HOSTNAME')
+    string(defaultValue: "omii005-vm03.cnaf.infn.it", description: '', name: 'STORM_GRIDFTP_HOSTNAME')
+    string(defaultValue: "to-be-fixed", description: '', name: 'TESTSUITE_EXCLUDE')
+    string(defaultValue: "tests", description: '', name: 'TESTSUITE_SUITE')
+    string(defaultValue: "/storage", description: '', name: 'STORM_STORAGE_ROOT_DIR')
+  }
+
+  environment {
+    STORM_TESTSUITE_CONTAINER_NAME = "storm-testsuite-${BUILD_TAG}"
+    TESTSUITE_BRANCH = "${env.BRANCH_NAME}"
+    TESTSUITE_SUITE = "${params.TESTSUITE_SUITE}"
+    TESTSUITE_EXCLUDE = "${params.TESTSUITE_EXCLUDE}"
+    STORM_STORAGE_ROOT_DIR = "${params.STORM_STORAGE_ROOT_DIR}"
+    STORM_BACKEND_HOSTNAME = "${params.STORM_BACKEND_HOSTNAME}"
+    STORM_WEBDAV_HOSTNAME = "${params.STORM_WEBDAV_HOSTNAME}"
+    STORM_GRIDFTP_HOSTNAME = "${params.STORM_GRIDFTP_HOSTNAME}"
+    STORM_FRONTEND_HOSTNAME = "${params.STORM_FRONTEND_HOSTNAME}"
+    TTY_OPTS = "-T"
+    OUTPUT_DIRECTORY = "reports-${BUILD_TAG}"
+  }
+
+  stages {
+    stage('run') {
+      steps {
+        script {
+          dir("runner") {
+            sh "bash ./run.sh"
+          }
+          archiveArtifacts "runner/${OUTPUT_DIRECTORY}/reports/**"
+        }
+      }
+    }
+    stage('publish') {
+      steps {
+        step([$class: 'RobotPublisher',
+          disableArchiveOutput: false,
+          logFileName: 'log.html',
+          otherFiles: '*.png',
+          outputFileName: 'output.xml',
+          outputPath: "runner/${OUTPUT_DIRECTORY}/reports",
+          passThreshold: 100,
+          reportFileName: 'report.html',
+          unstableThreshold: 90])
+      }
+    }
+  }
+
+  post {
+    always {
+      cleanWs()
+    }
+  }
+}
