@@ -1,7 +1,7 @@
 include epel
 include testca
 include sdds_users::sd_users
-include umd::umd5
+# include umd::umd5
 
 include voms::dteam
 include voms::testvo
@@ -44,7 +44,7 @@ package { $packages:
 }
 
 class { 'java' :
-  package => 'java-1.8.0-openjdk-devel',
+  package => 'java-11-openjdk-devel',
 }
 
 class { 'python':
@@ -98,7 +98,7 @@ sudo::conf { 'tester':
 }
 
 Class['epel']
--> Class['umd::umd5']
+# -> Class['umd::umd5']
 -> Class['voms::repo']
 -> Yumrepo['carepo']
 -> Class['java']
